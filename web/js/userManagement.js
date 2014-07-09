@@ -423,7 +423,7 @@ $(function(){
 		 /* if (typeof(listBreadcrumbsView) !== 'undefined') { listBreadcrumbsView.remove(); }
 		  breadcrumbs = new lily.Breadcrumbs();
 		  breadcrumbs.url = "/breadcrumbs/null";*/
-		  listUser = new lily.listUser();
+		  listUser = new lily.ListUser();
 		  listUser.url = "/rest/null";
 		/*  breadcrumbs.fetch({
 			  success: function() {
