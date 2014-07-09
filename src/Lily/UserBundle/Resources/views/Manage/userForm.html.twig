@@ -1,5 +1,5 @@
 <div id="userFormContent">
-	{{ form_errors(form) }}
+	{{ form_widget(form) }}
 
 	{#% set fields = { 'lastname':'Nom', 'firstname':'Prénom', 'plainPassword' : 'Mot de passe', 'email':'Email', 'phone':'Téléphone', 'post':'Poste occupé', 'country':'Pays', 'allRoles':'Accès'} %}
 	{% set selectFields = ['allRoles'] %}
@@ -25,6 +25,6 @@
 				{% endif %}
 			{% endif %}
 		</div>
-	{% endfor %#}
-	{{ form_rest(form) }}
+	{% endfor %}
+	{{ form_rest(form) }#}
 </div>
