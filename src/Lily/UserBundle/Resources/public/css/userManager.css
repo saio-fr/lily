@@ -4,3 +4,8 @@
     padding-left: 20px;
     vertical-align: top;
 }
+
+#user-list .active {
+    background: none repeat scroll 0 0 #58cef6;
+    color: white !important;
+}
