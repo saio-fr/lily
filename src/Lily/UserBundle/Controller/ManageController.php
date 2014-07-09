@@ -88,7 +88,7 @@ class ManageController extends BaseController
 		$editForm = $this->createForm(new UserType, $userEdited);
         $editForm->handleRequest($request);
         if (!$editForm->isValid())
-            throw new Exception("Les données envoyées ne sont pas correctement formatées.");
+            throw new \Exception("Les données envoyées ne sont pas correctement formatées.");
 
         //$userManager->updateUser($userEdited);
     }
@@ -106,14 +106,14 @@ class ManageController extends BaseController
         $maxusers = $enterprise->getMaxusers();
         $users = $enterprise->getUsers();
         if($maxusers>=count($users))
-            throw new Exception("Limite d'utilisateur dépassée.");
+            throw new \Exception("Limite d'utilisateur dépassée.");
 		$userManager = $this->get('fos_user.user_manager');
 		$newUser=$userManager->createUser();
 	
 		$editForm = $this->createForm(new UserType, $newUser);
         $editForm->handleRequest($request);
         if (!$editForm->isValid())
-            throw new Exception("Les données envoyées ne sont pas correctement formatées.");
+            throw new \Exception("Les données envoyées ne sont pas correctement formatées.");
 
 		//$userManager->updateUser($newUser);
     }
