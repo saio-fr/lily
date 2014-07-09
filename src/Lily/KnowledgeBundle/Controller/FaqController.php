@@ -140,6 +140,8 @@ class FaqController extends BaseController
 		
 		$form = $this->createForm(new FaqType(), $faq, array('csrf_protection' => false));   
 		$form->bind($data);
+
+        var_dump($form.isValid());
 		
 		$faq->setPosition($position);
         
