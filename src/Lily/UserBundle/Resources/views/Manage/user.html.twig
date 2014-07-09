@@ -5,7 +5,7 @@
     <div class="user-info">
 	    <div class="user-name"><%=lastname %> <%=firstname %></div>
 	    <div class="user-role">
-	    	<% if ('ROLE_ADMIN' in roles) { %>
+	    	<% if (roles.contains('ROLE_ADMIN')) { %>
 	    		Administrateur
 	    	<% } %>
 	    </div>
