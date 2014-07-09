@@ -86,9 +86,9 @@ class ManageController extends BaseController
 		} 
 
 		$userForm = $this->createForm(new UserType, $userEdited, array('adminModif'=>true));
-     //   $userForm->handleRequest($request);
+        $userForm->handleRequest($request);
         if (!$userForm->isValid()) {
-            var_dump($userForm->getErrorsAsString());
+            return $this->render('LilyUserBundle:Manage:userForm.html.twig', array('form' => $userForm->createView()));
             throw new \Exception("Les données envoyées ne sont pas correctement formatées");
         }
 
