@@ -78,6 +78,25 @@
 	</div>
 {% endblock %}
 
+
+{% block templates %}
+	<!-- L'appel des différents scripts de vue -->
+		<script type="text/template" id="user">
+        {% include 'LilyUserBundle:Manage:user.html.twig' %}
+    </script>
+    <script type="text/template" id="userEdit">
+        {% include 'LilyUserBundle:Manage:user_edit.html.twig' %}
+    </script>
+{% endblock %}
+
+{% block bootstrap %}
+	{% autoescape false %}
+	<script type="text/javascript">
+	    var root = '{{ path('lily_faq') }}';
+	</script>
+	{% endautoescape %}
+{% endblock %}
+
 {% block javascripts %}
 
 {{ parent() }}

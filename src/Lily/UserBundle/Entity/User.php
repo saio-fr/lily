@@ -5,15 +5,21 @@ namespace Lily\UserBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
+<<<<<<< HEAD
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
 /**
  * User
  *
  * @ORM\Table()
  * @ORM\Table(name="User")
+<<<<<<< HEAD
  * @ExclusionPolicy("all")
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
  * @ORM\Entity(repositoryClass="Lily\UserBundle\Entity\UserRepository")
  */
 class User extends BaseUser
@@ -36,7 +42,10 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=30, nullable=true)
+<<<<<<< HEAD
      * @Expose
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
      */
     private $lastname;
     
@@ -44,7 +53,10 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=30, nullable=true)
+<<<<<<< HEAD
      * @Expose
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
      */
     private $firstname;
     
@@ -52,7 +64,10 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=20, nullable=true)
+<<<<<<< HEAD
      * @Expose
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
      */
     private $phone;
     
@@ -60,7 +75,10 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="post", type="string", length=50, nullable=true)
+<<<<<<< HEAD
      * @Expose
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
      */
     private $post;
     
@@ -68,7 +86,10 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=50, nullable=true)
+<<<<<<< HEAD
      * @Expose
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
      */
     private $country;
     
@@ -76,7 +97,10 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="avatar", type="string", length=150, nullable=true)
+<<<<<<< HEAD
      * @Expose
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
      */
     private $avatar;
     

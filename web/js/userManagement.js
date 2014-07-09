@@ -40,7 +40,7 @@ $(function(){
 	lily.UserView = Backbone.View.extend({
 	    tagName:  "li",
 	    className: "list-group-item hover",
-	    template: _.template($('#category').html()),
+	    template: _.template($('#user').html()),
 	    initialize: function() {
 	    	this.listenTo(this.model, 'select', this.select);
 			this.listenTo(this.model, 'change', this.render);
@@ -414,7 +414,7 @@ $(function(){
 		},
 		
 		initialize: function () {
-		  new lily.UserAppView;      
+		  new lily.UserManagementAppView;      
 		},
 		
 		home: function() {

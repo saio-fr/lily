@@ -195,12 +195,21 @@ Général
 		padding: 23px 20px 22px 20px;
 	}
 
+<<<<<<< HEAD
 	ul.link_nav {
 		position: relative;
 		top: 0px;
 		font-size : 0;
 		display: inline-block;
 		float: right;
+=======
+	.link_nav {
+		position: relative;
+		top: 0px;
+		float: right;
+		font-size : 0;
+		display: inline-block;
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
 	}
 
 	nav .active {

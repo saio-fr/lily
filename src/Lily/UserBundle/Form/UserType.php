@@ -14,6 +14,7 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+<<<<<<< HEAD
         if(isset($options['adminModif']) && $options['adminModif']===true) {
             $builder
                 ->add('firstname')
@@ -38,6 +39,14 @@ class UserType extends AbstractType
                 ->add('post')
                 ->add('country');
         }
+=======
+        $builder
+            ->add('email')
+            ->add('phone')
+            ->add('post')
+            ->add('country')
+        ;
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
     }
     
     /**
@@ -46,8 +55,12 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+<<<<<<< HEAD
             'data_class' => 'Lily\UserBundle\Entity\User',
             'adminModif'=>false
+=======
+            'data_class' => 'Lily\UserBundle\Entity\User'
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
         ));
     }
 

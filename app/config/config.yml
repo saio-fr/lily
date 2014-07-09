@@ -36,7 +36,11 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
+<<<<<<< HEAD
     bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle]
+=======
+    bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle]
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
     node: /usr/local/bin/node
     filters:
         cssrewrite: ~
@@ -318,6 +322,7 @@ mobile_detect:
     redirect:
         mobile: ~
         tablet: ~
+<<<<<<< HEAD
     switch_device_view: ~
 
 jms_serializer:
@@ -326,3 +331,6 @@ jms_serializer:
             FOSUB:
                 path: %kernel.root_dir%/Resources/FOSUserBundle/serializer
                 namespace_prefix: 'FOS\UserBundle'
+=======
+    switch_device_view: ~
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
