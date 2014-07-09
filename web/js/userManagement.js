@@ -90,8 +90,8 @@ $(function(){
 		close: function() {
 		
 			var value = this.input.val();
-			this.model.url = "/rest/"+this.model.id+"/position/"+this.model.get('position');
-			this.model.set({title: value});
+			this.model.url = "/rest/"+this.model.id;
+			this.model.set({username: value});
 			this.model.save();
 			this.$el.removeClass("editing");
 			
@@ -202,7 +202,7 @@ $(function(){
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); } 
 		  listUser = new lily.listUser();
 		  listUser.url = "/rest/" + this.id;
-	    },   		
+	    },
 	});
 	
 	// Let's rock
