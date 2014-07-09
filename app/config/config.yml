@@ -36,11 +36,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-<<<<<<< HEAD
     bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle]
-=======
-    bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle]
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
     node: /usr/local/bin/node
     filters:
         cssrewrite: ~
