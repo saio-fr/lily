@@ -85,8 +85,6 @@ class ManageController extends BaseController
             throw $this->createNotFoundException();
 		} 
 
-        parse_str(file_get_contents("php://input"),$post_vars);
-        print_r($post_vars);
 		$editForm = $this->createForm(new UserType, $userEdited);
         $editForm->handleRequest($request);
         if (!$editForm->isValid())
