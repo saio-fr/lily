@@ -55,12 +55,7 @@ $(function(){
 	    events: {
 	    
 	        'click .destroy': 'destroy',
-	        'click .icon-reorder' : 'navigate',
-	        'dblclick' : 'navigate',	
 	        'click .view'     : 'edit',
-	        'blur .edit'      : 'close',
-	        'keypress .edit'  : 'updateOnEnter',
-	        'dropped' : 'dropped',
 	        
 	    },
 		destroy: function () {
@@ -71,12 +66,7 @@ $(function(){
 			this.remove();
 			
 	    },
-	    navigate: function(){
-
-        	app.navigate("user/"+this.model.get('id'), {trigger: true});
-
-		},
-		edit: function(e) {
+	    edit: function(e) {
 			
 			if (typeof(contentEditView) !== 'undefined') { contentEditView.remove(); }
 		
@@ -87,27 +77,6 @@ $(function(){
 			this.$el.addClass('active');
 			
 		},
-		close: function() {
-		
-			var value = this.input.val();
-			this.model.url = "/rest/"+this.model.id;
-			this.model.set({username: value});
-			this.model.save();
-			this.$el.removeClass("editing");
-			
-		},
-		updateOnEnter: function(e) {
-		
-			if (e.keyCode == 13) this.close();
-			
-		},
-		dropped: function(event, index) {
-		
-			this.model.url = "/rest/"+this.model.id+"/position/"+index;
-			this.model.save();
-			
-		}, 
-		
 	});
 	
 	/*========================================
