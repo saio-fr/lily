@@ -1,0 +1,1 @@
+lily.Views.MessageUserSimple=lily.Views.MessageView.extend({className:"lily-msg-user lily-cst-msg-user",model:lily.Models.MessageUser,template:_.template($("#lily-message-user").html())});

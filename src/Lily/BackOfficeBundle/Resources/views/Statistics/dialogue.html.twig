@@ -1,0 +1,43 @@
+  <!-- Graphique Questions -->
+  <div class="col-md-12">
+    <section id="graph" class="panel"></section>
+  </div>
+  
+  <div class="col-md-6">
+	<section class="panel">
+	    <header class="panel-heading font-bold">Catégories les plus fréquentes</header>
+	    <div class="panel-body no-padder">
+	      <ul class="top-questions-list">
+	    	<li class="top-questions-item">
+	    	  <div class="top-questions-number">1</div>
+	    	  <h6 class="top-questions-title"><span>{% if categories[0].title is defined %}{{ categories[0].title }}{% else %}Vous n'avez pas assez de catégories{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">2</div>
+	    	  <h6 class="top-questions-title"><span>{% if categories[1].title is defined %}{{ categories[1].title }}{% else %}Vous n'avez pas assez de catégories{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">3</div>
+	    	  <h6 class="top-questions-title"><span>{% if categories[2].title is defined %}{{ categories[2].title }}{% else %}Vous n'avez pas assez de catégories{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">4</div>
+	    	  <h6 class="top-questions-title"><span>{% if categories[3].title is defined %}{{ categories[3].title }}{% else %}Vous n'avez pas assez de catégories{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">5</div>
+	    	  <h6 class="top-questions-title"><span>{% if categories[4].title is defined %}{{ categories[4].title }}{% else %}Vous n'avez pas assez de catégories{% endif %}</span></h6>
+	        </li>
+	   	  </ul>
+	    </div>
+	</section>                
+  </div>	
+
+  
+  <div class="col-md-6">
+    <!-- Graphique Supports -->
+    <section class="panel">
+      <header class="panel-heading font-bold">Taux de satisfaction</header>	
+	  <div id="satisfaction" style="position: relative;"></div>
+    </section>                
+  </div>

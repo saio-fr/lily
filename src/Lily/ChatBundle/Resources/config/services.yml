@@ -1,0 +1,46 @@
+parameters:
+    lily_chat.rpc_services: 
+        - { name: chat, service: lily_chat.rpc_chat_service }
+    lily_chat.topic_services:
+        - { name: visitor, service: lily_chat.topic_chat_visitor_services }
+        - { name: operator, service: lily_chat.topic_chat_operator_services }
+    
+
+services:
+    lily_chat.app:
+        class: Lily\ChatBundle\Server\App\Chat
+        arguments:    ["@lily_chat.handler_rpc", "@lily_chat.handler_topic", "@event_dispatcher"]
+        
+    lily_chat.handler_rpc: 
+        class: Lily\ChatBundle\Server\App\Handler\RPCHandler
+        calls: 
+            - [setContainer, [@service_container]]
+            - [setRPCServices, ['%lily_chat.rpc_services%']]
+            
+    lily_chat.handler_topic: 
+        class: Lily\ChatBundle\Server\App\Handler\TopicHandler
+        calls: 
+            - [setContainer, [@service_container]]
+            - [setTopicServices, ['%lily_chat.topic_services%']]
+    
+    lily_chat.client_event.listener: 
+        class: Lily\ChatBundle\Event\LilyClientEventListener
+        tags: 
+            - {name: kernel.event_listener, event: lily.client.connected, method: onClientConnect}
+            - {name: kernel.event_listener, event: lily.client.disconnected, method: onClientDisconnect}
+            - {name: kernel.event_listener, event: lily.client.error, method: onClientError}
+            
+    lily_chat.rpc_chat_service:
+        class: Lily\ChatBundle\RPC\ChatService
+        calls: 
+            - [setContainer, [@service_container]]
+
+    lily_chat.topic_chat_visitor_services:
+        class: Lily\ChatBundle\Topic\VisitorTopic
+        calls: 
+            - [setContainer, [@service_container]]
+
+    lily_chat.topic_chat_operator_services:
+        class: Lily\ChatBundle\Topic\OperatorTopic
+        calls: 
+            - [setContainer, [@service_container]]

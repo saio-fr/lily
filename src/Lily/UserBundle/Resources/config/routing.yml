@@ -1,0 +1,3 @@
+lily_profil:
+    pattern:  /profil
+    defaults: { _controller: LilyUserBundle:Profil:index }

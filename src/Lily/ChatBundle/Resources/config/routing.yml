@@ -1,0 +1,3 @@
+lily_chat:
+    pattern:  /
+    defaults: { _controller: LilyChatBundle:Operator:index }

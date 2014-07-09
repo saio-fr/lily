@@ -1,0 +1,135 @@
+              <section class="vbox">            
+                <section class="scrollable hover">              
+                  <a href="#" class="pull-right btn btn-danger btn-sm text m-t-sm m-r-sm bouton-annuler" >Annuler</a>              
+                  <a href="#" id="sauvegarder" class="pull-right btn btn-success btn-sm m-t-sm m-r-sm text" >Sauvegarder</a>              
+                  <div class="wrapper bg-dark b-b">                
+                    <h5 class="m-t-xxs m-b-xs3">Ajouter une question</h5>              
+                  </div>
+                  <section class="panel">                                                                                                                                                                                                                                                                                                                                       
+                    <header class="panel-heading bg-light">                                                                                                                                                                                                                                                                                                                           
+                      <ul class="nav nav-tabs">                                                                                                                                                                                                                                                                                                                                         
+                        <li class="active">
+                          <a href="#reponse" data-toggle="tab">Réponse</a>
+                        </li>                                                                                                                                                                                                                                                                                        
+                        <li class="">
+                          <a href="#categories" data-toggle="tab">Catégories</a>
+                        </li>                                                                                                                                                                                                                                                                                    
+                        <li class="">
+                          <a href="#humeur" data-toggle="tab">Humeur</a>
+                        </li>                                                                                                                                                                                                                                                                                                    
+                        <!--<li class=""><a href="#version" data-toggle="tab">Versions</a></li>-->                                                                                                                                                                                                                                                                                     
+                      </ul>                                                                                                                                                                                                                                                                                                                                                         
+                    </header>                                                                                                                                                                                                                                                                                                                                                       
+                    <div class="panel-body">                                                                                                                                                                                                                                                                                                                                          
+                      <div class="tab-content">                                                                                                                                                                                                                                                                                                                                         
+                        <div class="tab-pane active" id="reponse">
+                           <div class="text-sm ">                
+                    <div class="block clearfix v-middle m-b">                  
+                      <label class="m-t-xs font-semibold">Arbre de réponses
+                      </label>                  
+                     <!-- liste boutons -->
+                     <!--On écrit le boutons del a droite vers la gauche -->                  
+                       <button href="#" class="btn btn-sm bouton-supprimer pull-right">                    
+                                            
+                        <span class="text">Supprimer
+                        </span>                  
+                      </button> 
+                     
+                       <button href="#" class="btn btn-sm m-r pull-right bouton-reponse" id="bouton-reponse" >                     
+                        <i class="icon-plus"></i>                    
+                        <span class="">Réponse                                           
+                        </span>                  
+                      </button>   
+                       <button href="#" class="btn btn-sm btn-white m-r pull-right bouton-precisions">                    
+                        <i class="icon-plus text"></i>                    
+                        <span class="text">Précisions
+                        </span>                  
+                      </button>             
+                      <button href="#" class="btn btn-sm m-r pull-right bouton-action" >                    
+                        <i class="icon-plus text"></i><span class="text">Action</span>                  
+                      </button>  
+                      <!-- Fin liste boutons-->                    
+                    </div>                
+            
+<!-- NOUVELEL VERSION DU NEST
+<div id="jstree_demo_div"></div>
+
+-->
+
+
+
+		<div class="dd">				  
+                     <ol class="dd-list" id="contenant-questions-enfants">				    
+              
+                    <li class="dd-item dd3-item">		
+                         <div class="dd-handle dd3-handle">Drag</div>
+                          <div class="dd3-content">
+                         <input class="question-parent champ-stocker-titre" placeholder="titre question">
+		                                          </div>
+                          <ol class="dd-list contenant-precision contenant-reponse active" id="questions-enfants">				        
+                   				      
+                 </ol>      
+                      </li>			  
+                      </ol>			        
+                    </div>  
+                  </div>                                                                                                                                                                                                                                                                                                   	                     
+              
+<div id="contenu-edit">
+                    
+                    </div>			  
+                        </div>                                                                                                                                                                                                                                                                                                                                                          
+                        <div class="tab-pane" id="humeur">                                                                                                                                                                                                                                                                                                                                
+                          <ul class="humeur-list no-padder col-lg-3 col-md-3 col-sm-3 col-xs-12 clearfix">                                                                                                                                                                                                                                                                                  
+                            <li>                                                                                                                                                                                                                                                                                                                                                              
+                            <div class="logo-humeur-neutre"></div>
+                            <button class=" bouton-humeur btn btn-lg m-t btn-white humeur r humeur-neutre" onclick="choisirHumeur('neutre')">Neutre
+                            </button>                                                                                                                                                                                                                                                 
+                            </li>                                                                                                                                                                                                                                                                                                                                                           
+                            <li>                                  
+                            <div class="logo-humeur-content"></div>                                                                                                                                                                                                                                                                                                                            
+                            <button class="btn bouton-humeur btn-lg m-t btn-white humeur r humeur-content" onclick="choisirHumeur('content')">Content
+                            </button>                                                                                                                                                                                                                                               
+                            </li>                                                                                                                                                                                                                                                                                                                                                           
+                            <li>
+                            <div class="logo-humeur-sceptique"></div>                                                                                                                                                                                                                                                                                                                                     						  
+                            <button class="btn bouton-humeur btn-lg m-t btn-white humeur r humeur-sceptique" onclick="choisirHumeur('sceptique')" >Sceptique
+                              </button>                                                                                                                                                                                                                                                       
+                              </li>                                                                                                                                                                                                                                                                                                                                                           
+                              <li>                                   
+                              <div class="logo-humeur-triste"></div>                                                                                                                                                                                                                                                                                                                           
+                              <button class="btn bouton-humeur btn-lg m-t btn-white humeur r humeur-triste" onclick="choisirHumeur('triste')">Triste
+                              </button>                                                                                                                                                                                                                                                 
+                              </li>                                                                                                                                                                                                                                                                                                                                                           
+                              <li>                          
+                              <div class="logo-humeur-enerve"></div>                                                                                                                                                                                                                                                                                                                                    
+                              <button class="btn bouton-humeur btn-lg m-t btn-white humeur r humeur-enerve" onclick="choisirHumeur('enerve')">Enervé
+                              </button>                                                                                                                                                                                                                                                 
+                              </li>                                                                                                                                                                                                                                                                                                                                                         
+                          </ul>                                                                                                                                                                                                                                                                                                                                                           
+                          <div class="humeur-avatar">
+                          </div>                                                                                                                                                                                                                                                                                       
+                        </div>                                                                                                                                                                                                                                                                                                                                                         
+                        <div class="tab-pane" id="categories">             
+                              <div class="form-group">                                                                                                                                                                                                                                                                                                                                          
+                            <h6 class="font-semibold">Liste des catégories
+
+                 
+                            </h6> 
+                                                               
+                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                          
+                              <ul class=" listeQuestionsPanneauAjout " id="listeQuestionsPanneauAjout" >                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                <!-- Liste des Catégories pour le panneau Ajout de question-->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                              </ul>                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                
+                          </div>  
+                        </div>                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                     
+                      </div>                                                                                                                                                                                                                                                                                                                                                        
+                    </div>                                                                                                                                                                                                                                                                                                                                                        
+                  </section>                
+                              
+                                                                                                                                                                                                                                                                                                                                                                    
+                </section>          
+              </section>	

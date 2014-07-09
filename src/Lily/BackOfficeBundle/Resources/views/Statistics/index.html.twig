@@ -1,0 +1,116 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'js/daterangepicker/daterangepicker.css' filter='cssrewrite' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
+{% block body %} 
+
+<section class="hbox stretch">
+
+{% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+
+	{% block content %}
+	<!-- .vbox -->
+    <section id="statistiques">
+      <section class="hbox stretch">
+      <!-- .aside -->
+        <aside class="aside aside-md bg-dark">
+          <section class="vbox">
+            <header class="dk header">
+              <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs" data-toggle="class:show" data-target="#statistics-nav"><i class="icon-reorder"></i></button>
+              <p class="h4">Statitiques</p>
+            </header>
+            <section>
+              <section>
+                <section id="statistics-nav" class="hidden-xs">
+                  <ul class="nav nav-pills nav-stacked no-radius">
+                    <li class="usage-nav active">
+                      <a href="#usage"> 
+                        <i class="icon-book"></i>
+                        Utilisation
+                      </a>
+                    </li>
+                    <li class="dialogue-nav">
+                      <a href="#dialogue"> 
+                        <i class="icon-download-alt"></i>
+                        Dialogue
+                      </a>
+                    </li>
+                  </ul>
+                </section>
+              </section>
+            </section>         
+          </section>
+        </aside>
+        <!-- /.aside -->
+        <section>
+		  <section class="vbox">
+		    <section class="scrollable">
+			  <div class="header b-b bg-white-only"><p>Statistiques</p></div>
+			  <div class="wrapper">
+			    <div id="statistics-row" class="row">		      			      		      
+			    </div>
+			  </div>
+	          </div>
+		    </section>
+		  </section>
+		</section>
+
+      </section>
+    </section>   
+
+	{% endblock %}
+
+</section>
+
+	{% block templates %}
+	<!-- L'appel des différents scripts de vue -->
+	<script type="text/template" id="usage">
+        {% include 'LilyBackOfficeBundle:Statistics:usage.html.twig' %}
+    </script>
+	<script type="text/template" id="graph-usage">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-usage.html.twig' %}
+    </script>
+    <script type="text/template" id="graph-usage-footer">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-usage-footer.html.twig' %}
+    </script>
+	<script type="text/template" id="dialogue">
+        {% include 'LilyBackOfficeBundle:Statistics:dialogue.html.twig' with {'categories': categories} %}
+    </script>
+    <script type="text/template" id="graph-dialogue">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-dialogue.html.twig' %}
+    </script>
+    <script type="text/template" id="graph-dialogue-footer">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-dialogue-footer.html.twig' %}
+    </script>
+    {% endblock %}
+
+	{% block bootstrap %}
+	    {% autoescape false %}
+	    <script type="text/javascript">
+	        var root = '{{ path('lily_statistics') }}';
+	    </script>
+	    {% endautoescape %}
+	{% endblock %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/charts/morris/raphael-min.js' 'js/charts/morris/morris.min.js' 'js/vendor/moment.js' 'js/daterangepicker/daterangepicker.js' 'js/statistics.js' %}
+
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  
+{% endjavascripts %}
+
+{% endblock %}

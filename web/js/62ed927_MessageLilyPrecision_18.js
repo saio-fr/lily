@@ -1,0 +1,1 @@
+lily.Models.MessageLilyPrecision=Backbone.Model.extend({defaults:{questions:[{id:"",titre:""}],idparent:""}});

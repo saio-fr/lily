@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Lily Back Office{% endblock %}</title>
+  <meta name="description" content="lily, agent virtuel, back office" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+{% block stylesheets %}
+  
+{% stylesheets 'css/bootstrap.css' 'css/animate.css' 'css/font-awesome.min.css' 'css/font.css' 'css/plugin.css' 'css/app.css' filter='cssrewrite' %}
+  
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+  
+{% endstylesheets %}
+
+{% endblock %}
+  
+  <!--[if lt IE 9]>
+    <script src="{{ asset('js/ie/respond.js') }}" cache="false"></script>
+    <script src="{{ asset('js/ie/html5.js') }}" cache="false"></script>
+    <script src="{{ asset('js/ie/fix.js') }}" cache="false"></script>
+  <![endif]-->
+
+</head>
+<body class="login-bg">
+
+{% block body %}{% endblock %}
+
+{% block javascripts %}
+
+{% javascripts 'js/vendor/jquery.min.js' 'js/vendor/bootstrap.js' 'js/app.js' 'js/vendor/bootstrap.js'%}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endblock %}
+
+</body>
+</html>
