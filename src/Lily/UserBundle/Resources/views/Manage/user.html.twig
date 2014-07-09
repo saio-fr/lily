@@ -3,11 +3,11 @@
   <div class="userList-item">
     <img src="<%=avatar %>" alt="Avatar" width="70" height="70"/>
     <div class="user-info">
-	    <div class="user-name"><%=(lastname.toUpper()) %> <%=firstname %></div>
+	    <div class="user-name"><%=(lastname.toUpperCase()) %> <%=firstname %></div>
 	    <div class="user-role">
 	    	<% 
 	    	var role="";
-	    	if (roles.indexOf('ROLE_ADMIN')!==-1) 
+	    	if (roles.indexOf('ROLE_ADMIN')!==-1) {
 	    		role="Administrateur";
 	    	} else {
 	    	 	if (roles.indexOf('ROLE_CHAT_OPERATOR')!==-1) {
