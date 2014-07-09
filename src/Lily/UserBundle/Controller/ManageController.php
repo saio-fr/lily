@@ -32,7 +32,7 @@ class ManageController extends BaseController
      //   throw $this->createNotFoundException();
     }
 	/**
-     * @Get("/getUsers")
+     * @Get("/rest/")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getUsersAction()
@@ -43,7 +43,7 @@ class ManageController extends BaseController
     }
 
 	/**
-     * @Get("/getMaxusers")
+     * @Get("/rest/maxusers")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getMaxusersAction()
@@ -55,7 +55,7 @@ class ManageController extends BaseController
 
 
 	/**
-     * @Delete("/delete/{id}")
+     * @Delete("/rest/{id}")
      * @Secure(roles="ROLE_ADMIN")
      * @View(statusCode=204)
      */
@@ -72,7 +72,7 @@ class ManageController extends BaseController
     }
 
 	/**
-     * @Put("/edit/{id}")
+     * @Put("/rest/{id}")
      * @Secure(roles="ROLE_ADMIN")
      * @View(statusCode=204)
      */
@@ -96,7 +96,7 @@ class ManageController extends BaseController
 
 
 	/**
-     * @Post("/add/")
+     * @Post("/rest/")
      * @Secure(roles="ROLE_ADMIN")
      * @View(statusCode=204)
      */

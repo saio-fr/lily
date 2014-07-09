@@ -73,7 +73,7 @@ $(function(){
 	    },
 	    navigate: function(){
 
-        	app.navigate("category/"+this.model.get('id'), {trigger: true});
+        	app.navigate("user/"+this.model.get('id'), {trigger: true});
 
 		},
 		edit: function(e) {
@@ -135,7 +135,7 @@ $(function(){
 	    
 	    add: function (user) {      
 
-	     	var view = new lily.CategoryView({model: user});
+	     	var view = new lily.UserView({model: user});
 			this.$el.append(view.render().el);
 			
 	    },
@@ -181,7 +181,7 @@ $(function(){
 	
 		routes: {
 		  "" : "home",
-		  "category/:id" : "category",
+		  "user/:id" : "user",
 		},
 		
 		initialize: function () {
@@ -189,42 +189,15 @@ $(function(){
 		},
 		
 		home: function() {
-		  
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); }
-		 /* if (typeof(listBreadcrumbsView) !== 'undefined') { listBreadcrumbsView.remove(); }
-		  breadcrumbs = new lily.Breadcrumbs();
-		  breadcrumbs.url = "/breadcrumbs/null";*/
 		  listUser = new lily.ListUser();
-		  listUser.url = "/rest/null";
-		/*  breadcrumbs.fetch({
-			  success: function() {
-			  	  listBreadcrumbsView = new lily.ListBreadcrumbsView(breadcrumbs);	
-				  listUser.fetch({
-					  success: function() {
-					  listUserView = new lily.listUserView(listUser);		  
-					  }
-				  }); 				  
-			  }
-		  }); 	 */
+		  listUser.url = "/rest/";
 	    }, 
-	    category: function(id, transition, reverse) {
+	    user: function(id, transition, reverse) {
 		  this.id = id;
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); } 
-		//  if (typeof(listBreadcrumbsView) !== 'undefined') { listBreadcrumbsView.remove(); } 
 		  listUser = new lily.listUser();
-		//  breadcrumbs = new lily.Breadcrumbs();
 		  listUser.url = "/rest/" + this.id;
-		/*  breadcrumbs.url = "/breadcrumbs/" + this.id;
-		  breadcrumbs.fetch({
-			  success: function() {
-			  	  listBreadcrumbsView = new lily.ListBreadcrumbsView(breadcrumbs);	
-				  listUser.fetch({
-					  success: function() {
-					  listUserView = new lily.listUserView(listUser);		  
-					  }
-				  }); 				  
-			  }
-		  }); 	*/	    
 	    },   		
 	});
 	
