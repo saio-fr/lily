@@ -84,7 +84,7 @@ class ManageController extends BaseController
 		if($userEdited === null) {
             throw $this->createNotFoundException();
 		} 
-        var_dump($request);
+        var_dump($request->getMethod());
 
 		$editForm = $this->createForm(new UserType, $userEdited);
         $editForm->handleRequest($request);
