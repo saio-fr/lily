@@ -200,7 +200,7 @@ $(function(){
 	    user: function(id, transition, reverse) {
 		  this.id = id;
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); } 
-		  listUser = new lily.listUser();
+		  listUser = new lily.ListUser();
 		  listUser.url = "/rest/" + this.id;
 	    },
 	});
