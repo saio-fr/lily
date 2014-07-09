@@ -16,20 +16,23 @@ class UserType extends AbstractType
     {
         if(isset($options['adminModif']) && $options['adminModif']===true) {
             $builder
-                ->add('firstname')
-                ->add('lastname')
-                ->add('plainPassword', 'repeated', array(
+                ->add('id')
+                ->add('username')
+                /*->add('plainPassword', 'repeated', array(
                     'type' => 'password',
                     'options' => array('translation_domain' => 'FOSUserBundle'),
                     'first_options' => array('label' => 'form.new_password'),
                     'second_options' => array('label' => 'form.new_password_confirmation'),
                     'invalid_message' => 'fos_user.password.mismatch',
-                ))
+                ))*/
                 ->add('email')
+                ->add('roles')
+                ->add('lastname')
+                ->add('firstname')
                 ->add('phone')
                 ->add('post')
-                ->add('country', 'country', array('preferred_choices' => array('FR'), 'empty_value'=>'Choisissez un pays', 'required'=>false))
-                ->add('allRoles', 'choice', array('multiple'=>true, 'expanded'=>true, 'choices'=>Array('ROLE_CHAT_OPERATOR'=>'Chat','ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissance','ROLE_ADMIN'=>'Administration')))
+                ->add('country')
+                ->add('avatar')
                 ;
         } else {
             $builder

@@ -85,10 +85,9 @@ class ManageController extends BaseController
             throw $this->createNotFoundException();
 		} 
 
-		$editForm = $this->createForm(new UserType, $userEdited, Array('admin'=>true));
-        $editForm->handleRequest($request);
-        if (!$editForm->isValid()) {
-            var_dump($editForm->getErrorsAsString());
+		$userForm = $this->createForm(new UserType, $userEdited, Array('admin'=>true));
+        $userForm->handleRequest($request);
+        if (!$userForm->isValid()) {
             throw new \Exception("Les données envoyées ne sont pas correctement formatées");
         }
 
@@ -112,9 +111,9 @@ class ManageController extends BaseController
 		$userManager = $this->get('fos_user.user_manager');
 		$newUser=$userManager->createUser();
 	
-		$editForm = $this->createForm(new UserType, $newUser);
-        $editForm->handleRequest($request);
-        if (!$editForm->isValid())
+		$userForm = $this->createForm(new UserType, $newUser);
+        $userForm->handleRequest($request);
+        if (!$userForm->isValid())
             throw new \Exception("Les données envoyées ne sont pas correctement formatées.");
 
 		//$userManager->updateUser($newUser);
