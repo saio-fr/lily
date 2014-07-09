@@ -105,7 +105,7 @@ class ManageController extends BaseController
         $enterprise = $this->getUser()->getEnterprise();
         $maxusers = $enterprise->getMaxusers();
         $users = $enterprise->getUsers();
-        if($maxusers>=count($users))
+        if(count($users)>=$maxusers)
             throw new \Exception("Limite d'utilisateur dépassée.");
 		$userManager = $this->get('fos_user.user_manager');
 		$newUser=$userManager->createUser();
