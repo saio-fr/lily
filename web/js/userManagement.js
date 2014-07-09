@@ -55,12 +55,12 @@ $(function(){
 	    events: {
 	    
 	        'click .destroy': 'destroy',
-	        'click .icon-reorder' : 'navigate',
-	        'dblclick' : 'navigate',	
+//	        'click .icon-reorder' : 'navigate',
+//	        'dblclick' : 'navigate',	
 	        'click .view'     : 'edit',
-	        'blur .edit'      : 'close',
-	        'keypress .edit'  : 'updateOnEnter',
-	        'dropped' : 'dropped',
+//	        'blur .edit'      : 'close',
+//	        'keypress .edit'  : 'updateOnEnter',
+//	        'dropped' : 'dropped',
 	        
 	    },
 		destroy: function () {
@@ -71,12 +71,12 @@ $(function(){
 			this.remove();
 			
 	    },
-	    navigate: function(){
-console.log('navigate');
+/*	    navigate: function(){
+
         	app.navigate("user/"+this.model.get('id'), {trigger: true});
 
 		},
-		edit: function(e) {
+*/		edit: function(e) {
 			
 			if (typeof(contentEditView) !== 'undefined') { contentEditView.remove(); }
 		
@@ -87,8 +87,7 @@ console.log('navigate');
 			this.$el.addClass('active');
 			
 		},
-		close: function() {
-console.log('close');
+/*		close: function() {
 		
 			var value = this.input.val();
 			this.model.url = "/rest/"+this.model.id;
@@ -98,19 +97,17 @@ console.log('close');
 			
 		},
 		updateOnEnter: function(e) {
-console.log('updoe');
 		
 			if (e.keyCode == 13) this.close();
 			
 		},
 		dropped: function(event, index) {
-console.log('dropped');
 		
 			this.model.url = "/rest/"+this.model.id+"/position/"+index;
 			this.model.save();
 			
 		}, 
-		
+*/		
 	});
 	
 	/*========================================
