@@ -1,0 +1,34 @@
+# This file is auto-generated during the composer install
+parameters:
+    # Database
+    database_driver: pdo_mysql
+    database_host: 37.59.26.170
+    database_port: 3306
+    database_user: saio
+    database_password: gW74uw?6
+        
+    # DB Clients
+    database_name: lily
+    database_saio: saio
+    database_tem: tem
+    database_tsp: tsp
+    database_tbretagne: tbretagne
+    database_tparis: tparis
+    database_parisfr: parisfr
+    database_movinmotion: movinmotion
+    
+    # Mail
+    mailer_transport: smtp
+    mailer_host: 37.59.26.163
+    mailer_user: null
+    mailer_password: null
+    
+    # Var
+    locale: fr
+    secret: e63298c3f103b670cb57be1596080ed94
+        
+    # Session
+    session_host: 127.0.0.1  
+    session_port: 11211  
+    session_prefix: sess_  
+    session_lifetime: 86400

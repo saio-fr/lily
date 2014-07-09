@@ -1,0 +1,61 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'js/fuelux/fuelux.css' filter='cssrewrite' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
+{% block body %}
+
+<section class="hbox stretch">
+
+	{% include "LilyBackOfficeBundle::menu.html.twig" %}
+
+{% block content %} 	 	
+  <!-- .vbox -->      
+  <section id="administration">      
+      
+    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>    
+  </section>    
+  <!-- /.vbox -->
+  {% endblock %} 	
+  
+  {% block templates %} 		
+	<!-- L'appel des différents scripts de vue -->
+	<script type="text/template" id="parameters">
+        {% include 'LilyBackOfficeBundle:Administration:parameters.html.twig' %}
+    </script>
+	<script type="text/template" id="modal">
+        {% include 'LilyBackOfficeBundle:Administration:modal.html.twig' %}
+    </script>		 
+  {% endblock %}
+
+	{% block bootstrap %}
+	    {% autoescape false %}
+	    <script type="text/javascript">
+	        var root = '{{ path('lily_administration') }}';
+	    </script>
+	    {% endautoescape %}
+	{% endblock %}
+
+</section>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+{% javascripts 'js/fuelux/fuelux.js' 'js/parameters.js' %}
+
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  
+{% endjavascripts %}
+
+{% endblock %}

@@ -1,0 +1,7 @@
+parameters:
+#    lily_admin.example.class: Lily\AdminBundle\Example
+
+services:
+#    lily_admin.example:
+#        class: %lily_admin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

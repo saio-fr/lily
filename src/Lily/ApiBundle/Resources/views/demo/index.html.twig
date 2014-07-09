@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/api/demo.css') }}" type="text/css" />
+  
+  <!--[if lt IE 9]>
+    <script src="{{ asset('js/ie/respond.js') }}" cache="false"></script>
+    <script src="{{ asset('js/ie/html5.js') }}" cache="false"></script>
+    <script src="{{ asset('js/ie/fix.js') }}" cache="false"></script>
+  <![endif]-->
+
+{% endblock %}
+
+<script type="text/javascript">
+  var licence = '{{ licence }}';
+  (function() {
+    var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
+    lily.src = '{{ app.request.getSchemeAndHttpHost() }}/api/tracking/' + licence;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);
+ })();
+</script>
+  
+</head>
+<body>
+
+  <div class="wrapper-site">
+    <iframe src="http://{{ url }}"></iframe>
+  </div>
+  
+</body>
+</html>

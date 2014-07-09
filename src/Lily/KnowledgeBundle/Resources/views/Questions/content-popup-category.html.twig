@@ -1,0 +1,68 @@
+{%verbatim%}
+<div class="intitule-categorie">
+<p>
+<%if(typeof(title)=="undefined"){%>
+Nouvelle catégorie :
+<%}else {%>
+Intitulé de la catégorie :
+<%}%>
+</p>
+					<% if(typeof(title)=="undefined"){%>
+            <input placeholder="Titre de la catégorie"  class="valeur-categorie nouveau-titre">  	
+                    <% } else {%>
+                    <input value="<%=title%>"  class="valeur-categorie nouveau-titre">  	
+					<%}%>
+					</div>	
+                    
+             
+	                                     <!-- Liste des redirections-->
+      <div class="wrapper-redirections">            
+                    <div class="sous-titre">Redirection</div>
+        <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle contenant-redirection">
+<%if(typeof(redirection)!=='undefined'){%>       
+	   <%if(typeof(redirection.title)==='undefined'){%>
+		  <span class="dropdown-label choix-defaut-redirection" >TITRE REDIRECTION</span> 
+          <%} else {%>
+		  <span class="dropdown-label choix-defaut-redirection" ><%=redirection.title%></span> 
+		  <%}%>
+		  <%}%>
+		  <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-select contenant-redirection" >
+     
+        </ul>
+        </div>
+		<!--List Sub-categories -->
+		<!--   <div class="wrapper-sub-categories">            
+                    <div class="sous-titre">Sous-catégorie</div>
+				
+        <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle ">
+<%if(typeof(redirection)!=='undefined'){%>       
+	   <%if(typeof(redirection.title)==='undefined'){%>
+		  <span class="dropdown-label choix-defaut-redirection" >TITRE SOUS CATEGORIE</span> 
+          <%} else {%>
+		  <span class="dropdown-label choix-defaut-redirection" >Variable sous catégorie</span> 
+		  <%}%>
+		  <%}%>
+		  <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-select contenant-redirection" >
+     
+        </ul>
+        </div>-->
+                    <!--List squares colored -->
+       <ul id="list-squares-colored">Couleur de la catégorie
+                      <br/>		 	
+                    </ul>	
+
+
+<%if(typeof(title)=='undefined'){%>
+	<button class="button-popup saveCategory" data-target="#popup-categorie" data-toggle="class:show">Sauvegarder</button>
+	<%}else{%>
+	<button class="button-popup updateCategory" data-target="#popup-categorie" data-toggle="class:show">Sauvegarder</button>
+	<%}%>
+	<button class="button-popup cancelCategory" data-target="#popup-categorie" data-toggle="class:show">Annuler</button>
+
+</div>
+
+{%endverbatim%}

@@ -1,0 +1,20 @@
+lily_api_index:
+    pattern:  /api/{key}
+    defaults: { _controller: LilyApiBundle:Api:index }
+    
+lily_facebook_index:
+    pattern:  /facebook/{key}
+    defaults: { _controller: LilyApiBundle:Facebook:index }
+    
+lily_api_js_index:
+    pattern:  /api/tracking/{key}
+    defaults: { _controller: LilyApiBundle:Api:tracking }    
+    
+lily_api_rest:
+    resource: "@LilyApiBundle/Controller/ApiController.php"
+    type:     rest
+    prefix:   /api
+    
+lily_demo_index:
+    pattern:  /demo/{cname}/{url}
+    defaults: { _controller: LilyApiBundle:Demo:index }

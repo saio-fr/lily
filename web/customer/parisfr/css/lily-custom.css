@@ -1,0 +1,173 @@
+﻿/******************
+CUSTOM COLORS
+******************/
+
+/* Header */
+
+.lily-cst-toolbar {
+	background: #0061a1;
+	color: #fff;
+}
+
+.lily-cst-toolbar-icons{
+	background: #c7032c;
+}
+
+.lily-cst-toolbar-reduce{
+	color: #fff;
+}
+
+.lily-cst-toolbar-reduce:active{
+	opacity: 0.9;
+}
+
+.lily-cst-header{
+	background: #efefef;
+	color: #404040;
+}
+
+/* Menu */
+
+.lily-cts-menu{
+	background: #f7f7f7;
+	color: #404040;
+}
+
+.lily-cst-menu-separator {
+	background: #f2f2f2;
+}
+
+.lily-cst-menu-footer {
+	color: #929292;
+}
+
+/* Search */
+.lily-cst-search{
+	border-top: 1px solid #ebebeb;
+	color: #b1b3b4;
+}
+
+.lily-cst-search-input{
+	background: #fafafa;
+	color: #b1b3b4;
+}
+
+input.lily-cst-search-input::-webkit-input-placeholder {color: #b1b3b4;}
+input.lily-cst-search-input:-moz-placeholder {color: #b1b3b4;}
+input.lily-cst-search-input::-moz-placeholder {color: #b1b3b4;}
+input.lily-cst-search-input:ms-input-placeholder {color: #b1b3b4;}
+
+/* Message */
+
+.lily-cst-msg-avatar{
+	background: #0061a1;
+}
+
+.lily-avatar-bubble{
+	border-top: 10px solid #0061a1;
+}
+
+.lily-cst-msg-user{
+	background: #fff;
+	border: solid 1px #0061a1;
+	color: #595959;
+}
+
+.lily-cst-msg-user:before {
+	border-color: #0061a1 transparent;
+}
+
+#lily-box-messages .lily-cst-msg-reporting{
+	background: #fff;
+	border: solid 1px #0061a1;
+	color: #939393;
+}
+
+.lily-cst-msg-reporting:before {
+	border-color: #0061a1 transparent;
+}
+
+.lily-cst-redirection-mail, .lily-cst-redirection-tel{
+	background: #0061a1;
+	color: white;
+}
+
+/* Chat */
+
+.lily-cst-msg-chat-visitor {
+    background: #fff;
+	color: #595959;
+	border: solid 1px #3dacbb;
+}
+
+.lily-cst-msg-chat-visitor:before {
+	border-color: #3dacbb transparent;
+}
+
+.lily-cst-msg-chat-operator {
+	background: #3dacbb;
+}
+
+/*contact form*/
+
+.lily-cst-form-color label{
+	color: #777777;
+}
+
+.lily-cst-form-color input,
+.lily-cst-form-color textarea,
+.lily-cst-form-color select{
+	border: 1px solid #FFB23F;
+	color: #777777;
+}
+
+.lily-cst-form-color input:focus,
+.lily-cst-form-color textarea:focus,
+.lily-cst-form-color label:active + input,
+.lily-cst-form-color label:active + textarea {
+	outline: none;
+	border: 1px solid #FFB23F;
+}
+
+.lily-cst-form-color ::-webkit-input-placeholder {color: #777777;}
+.lily-cst-form-color :-moz-placeholder {color: #777777;}
+.lily-cst-form-color ::-moz-placeholder {color: #777777;}
+.lily-cst-form-color :-ms-input-placeholder {color: #777777;}
+
+input.lily-btn-submit-color{
+	background: #FDB06A;
+	color: #fff;
+	border: none;
+	display: inline-block;
+}
+
+input.lily-btn-submit-color:active{
+	background: #ffbd82;
+	border: none;
+}
+
+
+/* Faq */
+
+.lily-cst-faq-title-link {
+	background: #f6f6f6;
+	color: #9f9f9f;
+}
+
+.lily-cst-faq-link {
+	background: #fafafa;
+	color: #7a2357;
+}
+
+/* Avatar */
+.lily-cst-universe{
+	display: none;
+}
+
+@media screen and (max-width: 400px){
+	.lily-cst-universe{
+		display:block;
+		position: absolute;
+		bottom: -50px;		
+	}
+}	

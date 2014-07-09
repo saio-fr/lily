@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% block stylesheets %}
+  
+  <link rel="stylesheet" href="{{ asset('css/api/lily.css') }}" type="text/css" />
+  <link rel="stylesheet" href="{{ asset('customer/'~cname~'/css/lily-custom.css') }}" type="text/css" />
+  
+  <!--[if lt IE 9]>
+    <script src="{{ asset('js/ie/respond.js') }}" cache="false"></script>
+    <script src="{{ asset('js/ie/html5.js') }}" cache="false"></script>
+    <script src="{{ asset('js/ie/fix.js') }}" cache="false"></script>
+  <![endif]-->
+
+{% endblock %}
+  
+</head>
+<body>
+
+{% block body %}
+	<div id="lily-toolbar" class="lily-cst-toolbar">
+		<span id="lily-toolbar-name" class="lily-cst-toolbar-name">{{ aviName }}</span>
+		<div id="lily-toolbar-icons" class="lily-cst-toolbar-icons">
+		  <i class="lily-icon lily-icon-reduce"></i>		
+		</div>
+	</div>
+	<div id='lily-menu' class="snap-drawer snapdrawer-left scrollable lily-cts-menu"><!-- wrapper pour menu -->
+		<div class="lily-menu-body">
+			<ul>
+				{% if isAvi %}
+				<li><a href="#"><span class='lily-icon lily-icon-avatar'></span>Agent virtuel</a></li>			
+				{% endif %}
+				{% if isChat %}
+				<li><a href="#/chat" data-reverse="true"><span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller</a></li>
+				{% endif %}
+				{% if isRedirectionMail %}
+				<li><a href="#/mail" data-reverse="true"><span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail</a></li>
+				{% endif %}
+				{% if isRedirectionTel %}
+				<li><a href="tel:{{ phone }}"><span class='lily-icon lily-icon-phone'></span>Nous téléphoner</a></li>
+				{% endif %}
+				<div class="lily-menu-separator lily-cst-menu-separator"></div>
+				<li>
+					<ul class="lily-cst-menu-footer">
+					{% if isFaq %}
+					<li><a href="#/faq" data-reverse="true"><span class='lily-icon lily-icon-faq'></span>FAQ Dynamique</a></li>
+					{% endif %}
+					{% if isTopquestions %}
+					<li><a href="#/top-questions" data-reverse="true"><span class='lily-icon lily-icon-favorite'></span>TOP des questions</a></li>
+					{% endif %}
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<footer><p>Crée par <a href="http://www.saio.fr" target="_blank">SAIO</a></p></footer>
+	</div>
+	
+	<div id="lily-wrapper-page" class="snap-content"><!-- wrapper page pour menu -->
+			
+
+
+	{% block templates %}
+		<!-- L'appel des différents scripts de vue -->
+		<script type="text/template" id="lily-page-home-template">
+	        {% include 'LilyApiBundle:themes/lily/templates:home.html.twig' with {'isChat': isChat, 'cname': cname } %}
+	    </script>
+	    <script type="text/template" id="lily-page-chat-template">
+	        {% include 'LilyApiBundle:themes/lily/templates:chat.html.twig' with {'isAvi': isAvi, 'cname': cname } %}
+	    </script>
+	    <script type="text/template" id="lily-page-faq-template">
+	        {% include 'LilyApiBundle:themes/lily/templates:faq.html.twig' %}
+	    </script>
+	    <script type="text/template" id="lily-page-mail-template">
+	        {% include 'LilyApiBundle:themes/lily/templates:mail.html.twig' %}
+	    </script>
+	    <script type="text/template" id="lily-page-top-questions-template">
+	        {% include 'LilyApiBundle:themes/lily/templates:top_questions.html.twig' %}
+	    </script>
+		<script type="text/template" id="lily-page-content-template">
+	        {% include 'LilyApiBundle:themes/lily/templates:content.html.twig' %}
+	    </script>
+	    <script type="text/template" id="lily-message-user">
+	        {% include 'LilyApiBundle:themes/lily/templates:message_user.html.twig' %}
+	    </script>
+	    <script type="text/template" id="lily-message-simple">
+	        {% include 'LilyApiBundle:themes:lily/templates/message_simple.html.twig' %}
+	    </script>
+	    <script type="text/template" id="lily-message-precision">
+	        {% include 'LilyApiBundle:themes/lily/templates:message_precision.html.twig' %}
+	    </script>
+		<script type="text/template" id="lily-message-redirection">
+	        {% include 'LilyApiBundle:themes/lily/templates:message_redirection.html.twig' %}
+	    </script>
+		<script type="text/template" id="lily-message-notation">
+	        {% include 'LilyApiBundle:themes/lily/templates:message_notation.html.twig' %}
+	    </script>
+		<script type="text/template" id="lily-message-completion">
+	        {% include 'LilyApiBundle:themes/lily/templates:message_completion.html.twig' %}
+	    </script>
+	    <script type="text/template" id="chat-message-visitor">
+	        {% include 'LilyApiBundle:themes:lily/templates/message_chat_visitor.html.twig' %}
+	    </script>
+	    <script type="text/template" id="chat-message-operator">
+	        {% include 'LilyApiBundle:themes:lily/templates/message_chat_operator.html.twig' %}
+	    </script>
+	{% endblock %}
+
+	{% block bootstrap %}
+		{% autoescape false %}
+		<script type="text/javascript">
+		    var licence = "{{ key }}";
+		    var root = "{{ app.request.getSchemeAndHttpHost() }}/api/";
+		    var aviWelcomeMsg = "{{ aviWelcomeMsg }}";
+		</script>
+		{% endautoescape %}
+	{% endblock %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% javascripts 'js/vendor/jquery.min.js' 'js/vendor/underscore.min.js' 'js/vendor/backbone.min.js' 'js/vendor/autobahn-v1.min.js' 'js/api/libs/modernizr-custom.js' 'js/api/libs/snap.js' 'js/api/libs/fastclick.js' 'js/api/libs/jquery.placeholder.js' 'js/vendor/paper.min.js' 
+
+'js/api/main.js'
+'js/api/views/app.js'
+
+'js/api/models/faq.js' 
+'js/api/models/Content.js' 
+'js/api/models/Messages.js'
+'js/api/models/MessageUser.js' 
+'js/api/models/TopQuestions.js' 
+'js/api/models/MessageLilySimple.js' 'js/api/models/MessageLilyPrecision.js' 'js/api/models/MessageLilyRedirection.js' 'js/api/models/MessageLilyNotation.js' 'js/api/models/MessageLilyCompletion.js'
+'js/api/models/Mail.js'
+
+'js/api/views/MessageView.js' 
+'js/api/views/MessageChatView.js'
+'js/api/views/MessageChatVisitor.js'
+'js/api/views/MessageChatOperator.js'
+'js/api/views/MessageLilySimple.js' 
+'js/api/views/MessageUserSimple.js' 
+'js/api/views/MessageLilyPrecision.js'
+'js/api/views/MessageLilyRedirection.js'
+'js/api/views/MessageLilyNotation.js'
+'js/api/views/MessageLilyCompletion.js'
+'js/api/views/faq.js'
+'js/api/views/topQuestions.js'
+'js/api/views/content.js'
+'js/api/views/home.js'
+'js/api/views/chat.js'
+'js/api/views/mail.js'
+
+'js/api/routers/router.js' %}
+
+ <script type="text/javascript" src="{{ asset_url }}"></script>
+  
+{% endjavascripts %}
+
+{% endblock %}
+
+</body>
+</html>

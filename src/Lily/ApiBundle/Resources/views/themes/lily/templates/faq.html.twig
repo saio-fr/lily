@@ -1,0 +1,31 @@
+<div class="lily-page-cont"> <!--wrapper page les différentes pages--> 
+	<header id="lily-header" class="lily-cst-header">
+		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span><!--Icon du menu en haut à gauche -->
+	</header>
+	<section class="lily-main-content">
+				{%verbatim%}
+				<% if (( data.parent !== 'NULL' ) && ( data.title !== 'NULL' )) { %> {%endverbatim%}
+					<div class="lily-faq-link lily-cst-faq-title-link lily-back-link"><a href="#/faq/<%=data.parent%>" data-reverse="true"><%= data.title %><p><i class="lily-icon lily-icon-arrow-left"></i>Retour</p></a></div>
+				{%verbatim%}
+				<% } %>{%endverbatim%}
+		<ul>
+				{%verbatim%}
+				<% if (( data.parent == "NULL" ) && ( data.title == 'NULL' )) { 
+				_.each(data.faqs, function(faq) { %>{%endverbatim%}
+			<li class="lily-faq-link lily-cst-faq-link">
+				<a href="#faq/<%=faq.id%>"><%=faq.title%><span class="lily-icon lily-icon-arrow-right"></span></a>
+			</li>
+		{%verbatim%}
+					<% }); %>
+				<% }
+				else { 
+					_.each(data.faqs, function(faq) { %>{%endverbatim%}
+			<li class="lily-faq-link lily-cst-faq-link">
+				<a href="#faq/<%=faq.id%>"><%=faq.title%><span class="lily-icon lily-icon-arrow-right"></span></a>
+			</li>{%verbatim%}
+					<% }); %>
+				<% } %>
+				{%endverbatim%}
+		</ul>				
+	</section>
+</div>
