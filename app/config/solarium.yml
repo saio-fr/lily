@@ -1,0 +1,157 @@
+# Solarium    
+nelmio_solarium:
+    endpoints:
+        insults:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: insults
+            timeout: 30
+        saio:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: saio
+            timeout: 30
+        saio.personal:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: saio-personal
+            timeout: 30
+        saio.unanswered:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: saio-unanswered
+            timeout: 30
+        tem:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tem
+            timeout: 30
+        tem.personal:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tem-personal
+            timeout: 30
+        tem.unanswered:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tem-unanswered
+            timeout: 30
+        tsp:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tsp
+            timeout: 30
+        tsp.personal:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tsp-personal
+            timeout: 30
+        tsp.unanswered:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tsp-unanswered
+            timeout: 30
+        tbretagne:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tbretagne
+            timeout: 30
+        tbretagne.personal:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tbretagne-personal
+            timeout: 30
+        tbretagne.unanswered:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tbretagne-unanswered
+            timeout: 30
+        tparis:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tparis
+            timeout: 30
+        tparis.personal:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tparis-personal
+            timeout: 30
+        tparis.unanswered:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: tparis-unanswered
+            timeout: 30
+        movinmotion:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: movinmotion
+            timeout: 30
+        movinmotion.personal:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: movinmotion-personal
+            timeout: 30
+        movinmotion.unanswered:
+            host: 37.59.26.160  
+            port: 8983
+            path: /solr
+            core: movinmotion-unanswered
+            timeout: 30
+            
+    clients:
+        insults:
+            endpoints: [insults]
+        saio:
+            endpoints: [saio]
+        saio.personal:
+            endpoints: [saio.personal]
+        saio.unanswered:
+            endpoints: [saio.unanswered]
+        tem:
+            endpoints: [tem]
+        tem.personal:
+            endpoints: [tem.personal]
+        tem.unanswered:
+            endpoints: [tem.unanswered]
+        tsp:
+            endpoints: [tsp]
+        tsp.personal:
+            endpoints: [tsp.personal]
+        tsp.unanswered:
+            endpoints: [tsp.unanswered]
+        tbretagne:
+            endpoints: [tbretagne]
+        tbretagne.personal:
+            endpoints: [tbretagne.personal]
+        tbretagne.unanswered:
+            endpoints: [tbretagne.unanswered]
+        tparis:
+            endpoints: [tparis]
+        tparis.personal:
+            endpoints: [tparis.personal]
+        tparis.unanswered:
+            endpoints: [tparis.unanswered]      
+        movinmotion:
+            endpoints: [movinmotion]
+        movinmotion.personal:
+            endpoints: [movinmotion.personal]
+        movinmotion.unanswered:
+            endpoints: [movinmotion.unanswered] 

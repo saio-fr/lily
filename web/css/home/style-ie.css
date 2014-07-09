@@ -1,0 +1,358 @@
+/**************
+Général
+**************/
+
+.no-ie {
+	display: none;
+}
+
+
+/*Menu*/
+
+nav {
+	border-bottom: 1px solid #dadada;
+}
+
+
+/**************
+Home
+**************/
+
+/*Section Home*/
+
+.play {
+	height: 21px;
+}
+
+
+/*Section Solution*/
+
+#solution > div > a {
+	border-bottom: 1px solid #d1e6ed;
+}
+
+#solution > div > a:hover {
+	border-bottom: 1px solid #a0d5e5;
+}
+
+
+/*Section Références*/
+
+.quote-in {
+	height: 20px;
+}
+
+.quote-out {
+	height: 20px;
+}
+
+#references > div > a:hover {
+	border-bottom: 1px solid #4fb8d6;
+}
+
+
+/*Section Actualités*/
+
+.cadre > div > a:hover {
+	border-bottom: 1px solid #4fb8d6;
+}
+
+
+/*Section Fonctions*/
+#fonction .third-step .climb {
+	margin-left: 565px;
+}
+
+
+/*Section Reasons*/
+#reasons .content p {
+	border-bottom: 1px solid #d3d3d3;
+}
+
+
+/*Footer*/
+
+footer .last_last h3 {
+	margin-bottom: 21px
+}
+
+footer .button {
+	vertical-align: bottom
+}
+
+footer input {
+	padding: 0px 0px 0px 15px;
+	line-height: 36px;
+}
+
+
+/**************
+Responsive Home
+**************/
+
+@media screen and (max-width: 740px) {
+	
+	#actualites {
+		height: 570px;
+	}	
+
+}
+
+
+/**************
+Lily
+**************/
+
+/*Decisions*/
+
+#lily-decision {
+	height: 555px;
+}
+
+
+/*Actions*/
+
+#actions .links {
+	width: 340px;
+}
+
+#actions .content {
+	margin-left: 56px;
+}
+
+#actions .circle {
+	vertical-align: top;
+	margin-top: 76px;
+	margin-right: 36px;
+	z-index: 100;
+}
+
+#actions .icons li {
+	margin-top: -2px;
+}
+
+
+/*Recherche*/
+
+#lily-search {
+	height: 345px;
+}
+
+
+/**************
+Responsive Lily
+**************/
+
+@media screen and (max-width: 900px) {
+	
+	/*Decisions*/
+
+	#lily-decision {
+		height: 615px;
+	}
+
+	/*Multiplateforme*/
+
+	#lily-multiplateforme {
+		height: 1025px;
+	}
+
+}
+
+@media screen and (max-width: 740px) {
+	
+
+
+}
+
+
+/**************
+Actualités
+**************/
+
+#actus-actualites {
+	height: 880px;
+}
+
+#actus-actualites h2 {
+	font-size: 28px;
+}
+
+#actus-actualites p {
+	border-bottom: 1px solid #d3d3d3;
+}
+
+/**************
+Responsive Actualités
+**************/
+
+@media screen and (max-width: 900px) {
+	
+	#actus-actualites {
+		height: 820px;
+	}
+
+}
+
+@media screen and (max-width: 740px) {
+	
+	#actus-actualites {
+		height: 1490px;
+	}
+
+}
+
+
+/**************
+Equipe
+**************/
+
+/*Vision*/
+
+#vision .col_droite .lily {
+	margin-top: 40px;
+}
+
+/*Equipe*/
+
+#team {
+	height: 1220px;
+}
+
+
+/**************
+Responsive Equipe
+**************/
+
+@media screen and (max-width: 1150px) {
+	
+	/*Vision*/
+
+	#vision .col_droite .lily {
+		margin-top: 130px;
+	}
+
+	/*Equipe*/
+
+	#team {
+		height: 1220px;
+	}
+
+}
+
+
+@media screen and (max-width: 740px) {
+	
+	/*Vision*/
+
+	#vision {
+		height: 1430px;
+	}
+
+	/*Equipe*/
+
+	#team {
+		height: 1940px;
+	}
+
+}
+
+
+/**************
+Contact
+**************/
+
+#coordonnees #gmaps {
+	display: none;
+}
+
+#coordonnees input {
+	border: 1px solid #d3d3d3;
+	line-height: 34px;
+}
+
+#coordonnees .newsletter input {
+	width: 393px;
+}
+
+#coordonnees .contact-us .message {
+	border: 1px solid #d3d3d3;
+}
+
+#coordonnees .send .selector {
+	outline: #d3d3d3 solid 1px;
+}
+
+
+/**************
+Responsive CONTACT
+**************/
+
+@media screen and (max-width: 1150px) {
+	
+	#coordonnees .newsletter input {
+		width: 673px;
+	}
+
+}
+
+@media screen and (max-width: 900px) {
+	
+	#coordonnees .newsletter input {
+		width: 513px;
+	}
+
+}
+
+@media screen and (max-width: 740px) {
+	
+	#coordonnees .newsletter input {
+		width: 240px;
+	}
+
+}
+
+
+/**************
+ARTICLE
+**************/
+
+#article p > a {
+	border-bottom: 1px solid #d3d3d3;
+}
+
+#article p > a:hover {
+	border-bottom: 1px solid #a5a5a5;
+}
+
+#article .source {
+	border-bottom: 1px solid #d1e6ed;
+}
+
+#article .source:hover {
+	border-bottom: 1px solid #a0d5e5;
+}
+
+
+/**************
+IMAGES
+**************/
+
+#image_1 {
+	background-position-y: 0%;
+	zoom: 1;
+}
+
+/**************
+ANCHOR
+**************/
+
+#chiffres-cle > a {
+	top: 19px;
+}
+
+
+
+
+
+

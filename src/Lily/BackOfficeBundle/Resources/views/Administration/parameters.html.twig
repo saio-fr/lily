@@ -1,0 +1,168 @@
+
+  <header class="header bg-dark bg-gradient">
+    <a id="save" href="#" class="btn btn-success pull-right">Sauvegarder</a>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#overall" data-toggle="tab">Globaux</a></li>
+      <!-- show if enterprise.avi is enabled -->
+      {% if isAvi %}
+      <li class=""><a href="#avatar" data-toggle="tab">Avatar</a></li>
+      {% endif %}
+      <!-- show if enterprise.chat is enabled -->
+      {% if isChat %}
+      <li class=""><a href="#chat" data-toggle="tab">Live chat</a></li>
+	  {% endif %}
+    </ul>
+  </header>     
+  <section class="scrollable wrapper">
+    <div class="tab-content">
+    
+      <!-- OVERALL -->
+      <section class="tab-pane active" id="overall">          
+        <h5>Fonctionnalités</h5>
+        <div class="row">
+          <label class="switch">
+            <input name="maintenance" type="checkbox" <% if (!maintenance) { %> checked <% } %> >
+              <span></span>
+          </label>
+          <p>Afficher l'iframe</p>
+        </div>
+        
+        <!-- show if enterprise.chat is enabled -->
+        {% if isChat %}
+        <p class="administration-p">Choisissez votre canal de communication par défaut :</p>
+        <div class="row">
+        	<p>Avatar virtuel</p>
+        	<label class="switch no-color">
+            	<input name="defaultCommunicationChannel" type="checkbox" <% if (defaultCommunicationChannel == 'chat') { %> checked <% } %>>
+            	<span></span>
+            </label>
+            <p>Live chat</p>
+        </div>
+        {% endif %}
+        
+        <!-- show if enterprise.chat && enterprise.avi is enabled -->
+        {% if isChat and isAvi %}
+        <div class="checkbox">
+          <label class="checkbox-custom">
+            <input type="checkbox" name="aviIfNoOperator" <% if (aviIfNoOperator) { %> checked <% } %> >
+            <i class="icon-unchecked"></i>
+            Proposer directement l'AVI si aucun conseiller n'est disponible
+          </label>
+        </div>
+        {% endif %}
+        
+        <h5 class="m-t-xlg">Activer / Désactiver un service</h5>
+        <div class="row">
+        	
+        	<!-- show if enterprise.chat is enabled -->
+        	{% if isChat %}
+        	<div class="return">
+            	<label class="switch">
+                	<input type="checkbox" name="chat" <% if (chat) { %> checked <% } %>>
+                	<span></span>
+                </label>
+                <p>Live chat</p>
+            </div>
+            {% endif %}
+            
+            <!-- show if enterprise.faq is enabled -->
+            {% if isFaq %}
+            <div class="return">
+                <label class="switch">
+                	<input type="checkbox" name="faq" <% if (faq) { %> checked <% } %>>
+                	<span></span>
+                </label>
+                <p>FAQ dynamique</p>
+            </div>
+            {% endif %}
+            
+            <!-- show if enterprise.topquestions is enabled -->
+            {% if isTopquestions %}
+            <div class="return">
+                <label class="switch">
+                	<input type="checkbox" name="topquestions" <% if (topquestions) { %> checked <% } %>>
+                	<span></span>
+                </label>
+                <p>Top des questions</p>
+            </div>
+			{% endif %}
+			
+        </div>
+      </section>
+      
+      <!-- AVATAR -->
+      <section class="tab-pane" id="avatar">
+        <h5>Message d'accueil</h5>
+        <div class="col-sm-12">
+          <div id="editor" name="aviWelcomeMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= aviWelcomeMsg %></div>
+        </div>
+        <h5 class="m-t-lg">Redirections</h5>
+        <div class="row">
+        	<div class="return">
+            	<label class="switch">
+                	<input name="redirectionTel" type="checkbox" <% if (redirectionTel) { %> checked <% } %> >
+                	<span></span>
+                </label>
+                <p>Téléphone</p>
+            </div>
+            <div class="return">
+                <label class="switch">
+                	<input name="redirectionMail" type="checkbox" <% if (redirectionMail) { %> checked <% } %> >
+                	<span></span>
+                </label>
+                <p>Mail</p>
+            </div>
+            <div class="return">
+                <label class="switch">
+                	<input name="redirectionChat" type="checkbox" <% if (redirectionChat) { %> checked <% } %>>
+                	<span></span>
+                </label>
+                <p>Live chat</p>
+            </div>
+        </div>
+        <h5 class="m-t-lg">Animations</h5>
+        <div class="row">
+            <label class="switch">
+            	<input name="aviAnimations" type="checkbox" <% if (aviAnimations) { %> checked <% } %> >
+            	<span></span>
+            </label>
+            <p>Activer les animations</p>
+    	</div>
+      </section>
+      
+      <!-- CHAT -->
+      <section class="tab-pane" id="chat">
+      <h5>File d'attente</h5>
+		<div class="row">
+            <label class="switch">
+            	<input name="chatQueue" type="checkbox" <% if (chatQueue) { %> checked <% } %> >
+            	<span></span>
+            </label>
+            <p>Activer la file d'attente</p>
+    	</div>
+    	<div>
+        	<p class="administration-p">Limiter la file d'attente à</p>
+        	<input name="chatQueueLimit" type="text" class="form-control chatQueueLimit" value="<%= chatQueueLimit %>">
+        	<p class="administration-p">places par conseiller en production.</p>
+    	</div>
+    	<!--
+        <h5 class="m-t-lg">Discussion</h5>
+        <div class="row">
+            <label class="switch">
+            	<input type="checkbox">
+            	<span></span>
+            </label>
+            <p>Activer un message d'accueil</p>
+    	</div>
+		<div id="editor" class="form-control textarea" style="overflow:scroll;height:50px;max-height:150px;width: 600px;" contenteditable="true"></div>
+        <div class="row">
+            <label class="switch">
+            	<input type="checkbox">
+            	<span></span>
+            </label>
+            <p>Afficher un message de fin de discussion</p>
+    	</div>
+    	-->
+      </section>
+    </div>
+  </section>               

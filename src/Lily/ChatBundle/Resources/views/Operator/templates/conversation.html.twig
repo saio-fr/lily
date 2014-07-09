@@ -1,0 +1,31 @@
+
+    <header class="header conversation-header">
+      <i class="status icon-stop text-answered"></i>
+      <p><b>ID</b><%= name %></p>
+      <i class="icon-remove conversation-close"></i>
+      <i class="icon-minus conversation-minus"></i>
+      <div class="conversation-header-control pull-right m-t">
+        <span class="transfer">
+          <i class="icon-share"></i>
+          Transférer
+        </span>
+        <span class="ban">
+          <i class="icon-ban-circle m-l-xs"></i>
+          Bannir
+        </span>
+      </div>
+    </header>
+    <section class="scrollable conversation-section">
+      <ul class="conversation-section-list">
+      <!-- user message view -->
+      </ul>
+    </section>
+    <footer class="footer conversation-footer">
+      <span class="alert-writing"><i class="icon-pencil m-r-xs"></i>Votre interlocuteur est en train d'écrire</span>
+      <div class="conversation-editor-control">
+        <i class="icon-trash m-l-xs"></i>
+      </div>
+      <form id="conversation-form">
+        <input type="text" placeholder="Votre message" class="form-control conversation-editor"></input>
+      </form>
+    </footer>

@@ -1,0 +1,37 @@
+  <div class="vbox">
+    <section class="scrollable">
+      <div class="wrapper">
+        <div class="clearfix m-b">
+          <div class="clear">
+            <div class="h5 m-t-xs m-b-xs">Intitulé</div>
+            <small class="text-muted">Par exemple: Service commercial</small> 
+            <div class="form-group m-t-xs">
+              <input name="title" id="title" type="text" class="form-control input-sm" value="<%=title %>">
+            </div>
+          </div>
+          <div class="clear m-t-sm">
+            <div class="h5 m-t-xs m-b-xs">Redirection Téléphonique</div>
+            <small class="text-muted">Selon le format +33100000000</small> 
+            <div class="form-group m-t-xs">
+              <input name="phone" id="phone" type="text" class="form-control input-sm" value="<%=phone %>">
+            </div>
+          </div>
+          <div class="clear m-t-sm">
+            <div class="h5 m-t-xs m-b-xs">Redirection Mail</div>
+            <small class="text-muted">Selon le format contact@exemple.com</small>  
+            <div class="form-group m-t-xs">
+              <input name="mail" id="mail" type="email" class="form-control input-sm" value="<%=mail %>">
+            </div>
+            <small class="text-muted">Objet du mail</small> 
+			  <div class="form-group m-t-xs">
+        <input name="object" id="object" type="text" class="form-control input-sm" value="<%=object %>">
+      		</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="dk footer text-center">
+      <button class="btn btn-sm btn-success button-update">Sauvegarder</button>
+      <button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
+    </footer> 
+  </div> 

@@ -1,0 +1,12 @@
+lily_profil:
+    pattern:  /profil
+    defaults: { _controller: LilyUserBundle:Profil:index }
+
+lily_user:
+    pattern:  /users
+    defaults: { _controller: LilyUserBundle:Manage:index }
+
+lily_user_rest:
+    resource: "@LilyUserBundle/Controller/ManageController.php"
+    type:     rest
+    prefix:   /users

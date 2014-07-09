@@ -1,0 +1,63 @@
+{% extends "LilyHomePageBundle:Fr:layout.html.twig" %}
+
+{% block stylesheets %}
+
+<!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="{{ asset('js/home/html5shiv.js') }}"></script>
+      <![endif]-->
+      <link rel="stylesheet" href="{{ asset('css/home/reset.css') }}" type="text/css">
+      <link rel="stylesheet" href="{{ asset('css/home/style.css') }}" type="text/css">
+      <!--[if IE]>
+      <link type="text/css" rel="stylesheet" href="{{ asset('css/home/style-ie.css') }}" />
+      <![endif]-->
+      <link rel="stylesheet" href="{{ asset('css/home/article_saio.css') }}" type="text/css">
+
+{% endblock %}
+
+{% block title %}SAIO représentera la France lors de l'édition 2014 du VT KnowledgeWorks - SAIO{% endblock %}
+
+{% block content %}
+
+	<!--Article-->
+	<section id="article">
+		<div class="crop"><img src="{{ asset('images/home/vt_team.jpg') }}"></div>
+		<div class="wrapper">
+			<div class="article">
+				<div class="content">
+					<h1>SAIO représentera la France lors de l'édition 2014 du VT KnowledgeWorks</h1>
+					<p class="date">Publié le 12 juin 2014</p>
+					<div class="tag">SAIO</div>
+					<p class="chapo">C'est lors de la remise des prix de l'édition 2014 du Challenge Projets d'Entreprendre organisé par l'incubateur Télécom & Management Sudparis Entrepreneurs que SAIO a été sélectionnée pour participer au concours international organisé par l'université Virginia Tech.</p>
+					<p>Notre équipe a été sélectionnée parmi trois autres projets de l'incubateur à l'issue d'une série de présentations en anglais. Nous nous rendrons donc à partir du 18 août prochain sur le campus de Virginia Tech dans l'état de Virginie afin de tenter de succéder à <a href="http://www.auticiel.com" target="_blank">Auticiel</a>, autre entreprise de l'incubateur, qui avait remporté le premier prix s'élevant à 25 000$ de dotation.<br><br>Ce sera également l'occasion pour notre équipe d'assister à une semaine complète de conférences dédiées à l'entrepreunariat et aux conseils apportés aux start-up.<br><br>Pour plus d'informations n'hésitez pas vous rendre sur le <a href="http://www.vtkwglobal.com/student_track2014" target="_blank">site officiel du concours</a> (en anglais).</p>
+					<a href="http://orange.com/fr/accueil" target="_blank" class="source">Crédits Photo : L'équipe Orange</a>
+					<div class="share">
+						<p>Partagez cet article :</p>
+						<div class="links">
+							<a href="https://twitter.com/share" class="twitter-share-button" >Tweet</a>
+							<div class="fb-share-button" data-href="http://saio.fr/blog/articles/3" data-type="button_count"></div>
+							<div class="g-plus" data-action="share" data-annotation="bubble" data-height="24"></div>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="previous" style="display: none;">
+					<img src="{{ asset('images/icon-arrow-left.png') }}" class="arrow-left" alt="Icon arrow left">
+					<h2>Article précédent</h2>
+				</a>
+				<a href="#" class="next" style="display: none;">
+					<h2>Article suivant</h2>
+					<img src="{{ asset('images/icon-arrow-right.png') }}" class="arrow-right" alt="Icon arrow right">
+				</a>
+				<a href="#" class="mobile_previous" style="display: none;">
+					<img src="{{ asset('images/icon-arrow-left.png') }}" class="arrow-left" alt="Icon arrow left">
+					<h2>Précédent</h2>
+				</a>
+				<a href="#" class="mobile_next" style="display: none;">
+					<h2>Suivant</h2>
+					<img src="{{ asset('images/icon-arrow-right.png') }}" class="arrow-right" alt="Icon arrow right">
+				</a>
+			</div>
+		</div>
+	</section>
+
+{% endblock %}

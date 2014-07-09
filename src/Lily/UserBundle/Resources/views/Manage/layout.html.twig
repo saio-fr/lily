@@ -1,0 +1,93 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block body %}
+
+<section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+  {% stylesheets '@LilyUserBundle/Resources/public/css/userManager.css' %}
+      <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+  {% endstylesheets %}
+
+	{% block content %}
+    <!-- .vbox -->
+    <section id="userManagement">
+      <section class="hbox stretch">
+      <!-- .aside -->
+        <aside class="aside aside-md bg-dark">
+          <section class="vbox">
+            <header class="dk header">
+              <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs" data-toggle="class:show" data-target="#userManagement-nav"><i class="icon-reorder"></i></button>
+              <p class="h4">Utilisateurs</p>
+            </header>
+            <section>
+              <section>
+                <section id="userManagement-nav" class="hidden-xs">
+                  <ul class="nav nav-pills nav-stacked no-radius">
+                    <li class="active">
+                      <a href="{{ path('lily_user') }}"> 
+                        <i class="icon-group"></i>
+                         Vos comptes<br />
+                      </a>
+                    </li>
+                  <!--  <li>
+                      <a href="#"> 
+                        <i class="icon-download-alt"></i>
+                        Importer
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                      	<span class="badge bg-danger pull-right">721</span> 
+                        <i class="icon-share"></i>
+                        Exporter
+                      </a>
+                    </li>-->
+                  </ul>
+                </section>
+              </section>
+            </section>         
+          </section>
+        </aside>
+        <!-- /.aside -->
+        <aside class="bg-light lter">
+         <section id="users" class="vbox scrollable padder-b">
+           <header class="bg-light dker header clearfix padder-t b-b">
+             <ul class="breadcrumb m-n">
+               {% block userManagementTitle %}
+               {% endblock %}
+             </ul>
+           </header>
+           <section class="bg-light lter">
+            <section class="hbox stretch">          
+              <!-- .aside -->
+              <aside>
+                <section class="vbox">
+                  <section class="scrollable">
+                   {% block userManagementContent %}
+                   {% endblock %}
+                 </section>
+               </section>
+             </aside>
+             <!-- /.aside -->
+             <aside id="userManagement-detail" class="aside-userManagement bg-light lter b-l hide"></aside>
+             <!-- Affichage du panneau de modification-->
+           </section>
+         </section>
+       </section>
+     </aside>
+     <!-- /.aside --> 
+   </section>
+ </section>   
+
+	{% endblock %}
+
+
+	{% block templates %}
+
+	{% endblock %}
+
+
+</section>
+
+{% endblock %}

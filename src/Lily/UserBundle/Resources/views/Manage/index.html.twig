@@ -1,0 +1,91 @@
+{% extends "LilyUserBundle:Manage:layout.html.twig" %}
+
+{% block userManagementTitle %}Liste de vos comptes :{% endblock %}
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'js/wysiwyg/wysihtml5.css' filter='cssrewrite' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %}
+{% endblock %}
+
+
+{% block userManagementContent %}
+{% set userList=[] %}
+{% set maxusers=0 %}
+{% set rolesShowed=[] %}
+
+	<!-- faq list -->
+	<ul id="user-list" class="list-group list-group-sp sortable"></ul>
+	<a class="btn btn-sm btn-white new-content user-content pull-right-lg"><i class="icon-plus pull-left"></i>Ajouter un contenu</a>
+	<a class="btn btn-sm btn-white new-category pull-right-lg m-l-sm"><i class="icon-plus pull-left"></i>Ajouter une catégorie</a>
+<!--
+	<ul id="user-List">
+		<thead>
+			<tr>
+				<th>Identifiant</th>
+				<th>Nom</th>
+				<th>Prénom</th>
+				{% for roleLabel, role in rolesShowed %}
+					<th>{{ roleLabel }}</th>
+				{% endfor %}
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for userListed in userList %}
+			<tr>
+				<td>{{ userListed.username }}</td>
+				<td>{{ userListed.lastname }}</td>
+				<td>{{ userListed.firstname }}</td>
+				{% for roleLabel, role in rolesShowed %}
+					<td><div class="{{ (role in userListed.getAllRoles()) ? 'icon-ok yesIcon' : 'icon-remove noIcon' }}"></div></td>
+				{% endfor %}
+				<td>
+					<form {{ form_enctype(modifForms[loop.index0]) }}>
+						{{ form_widget(modifForms[loop.index0]) }}
+						<input type="submit" class="btn btn-primary" value="Modifier"/>
+					</form>
+				</td>
+				<td>
+					<form {{ form_enctype(delForms[loop.index0]) }}>
+						{{ form_widget(delForms[loop.index0]) }}
+						<input type="submit" class="btn btn-primary" value="Supprimer"/>
+					</form>
+				</td>
+			</tr>
+		{% else %}
+			<tr>
+				<td colspan="7">Pas d'utilisateur trouvé</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+-->
+	<div class="wrapper">
+		Vous avez actuellement {{ userList|length }} compte{{ userList|length < 2 ? '' : 's' }} sur les {{ maxusers }} disponible{{ maxusers<2 ? '' : 's' }}.<br />
+		<br />
+		{% if userList|length < maxusers %}
+			<a href="{{path('lily_userAdd') }}" class="btn btn-primary">Ajouter un compte</a><br />
+		{% else %}
+			Vous ne pouvez plus ajouter d'utilisateur<br />
+		{% endif %}
+
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+{% javascripts 'js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/userManagement.js' %}
+
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  
+{% endjavascripts %}
+
+{% endblock %}

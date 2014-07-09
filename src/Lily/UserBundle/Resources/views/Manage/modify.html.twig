@@ -1,0 +1,19 @@
+{% extends "LilyUserBundle:Manage:layout.html.twig" %}
+
+{% block userManagementTitle %}Modifier un compte{% endblock %}
+
+{% block userManagementContent %}
+	<div class="wrapper">
+		<h4>Compte modifié : {{ userModified.username }}</h4>
+
+		{% if 0<1 %}
+			<form method="post" {{ form_enctype(form) }} id="userForm">
+				{% include "LilyUserBundle:Manage:userForm.html.twig" %}
+				<a href="{{path('lily_userList') }}" class="btn btn-primary">Annuler</a>
+				<input type="submit" class="btn btn-primary" value="Modifier"/>
+			</form>
+		{% else %}
+			Vous n'avez pas les droits pour modifier cet utilisateur<br />
+		{% endif %}
+	</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "LilyUserBundle:Manage:layout.html.twig" %}
+
+{% block userManagementTitle %}Ajouter un compte{% endblock %}
+
+{% block userManagementContent %}
+	<div class="wrapper">
+		<h4>Nouveau compte :</h4>
+
+		{% if 0<1 %}
+
+			<form method="post" {{ form_enctype(form) }} id="userForm">
+				{% include "LilyUserBundle:Manage:userForm.html.twig" %}
+				<a href="{{path('lily_userList') }}" class="btn btn-primary">Annuler</a>
+				<input type="submit" class="btn btn-primary" value="Ajouter"/>
+			</form>
+		{% else %}
+			Vous ne pouvez plus ajouter d'utilisateur<br />
+		{% endif %}
+	</div>
+{% endblock %}
