@@ -6,21 +6,26 @@
 	    <div class="user-name"><%=(lastname.toUpperCase()) %> <%=firstname %></div>
 	    <div class="user-role">
 	    	<% 
-	    	var role="";
+	    	var role_human="";
 	    	if (roles.indexOf('ROLE_ADMIN')!==-1)
-	    		role="Administrateur";
+	    		role_human="Administrateur";
 	    	else {
 	    	 	if (roles.indexOf('ROLE_CHAT_OPERATOR')!==-1) {
-	    	 		role+="Opérateur Live chat";
+	    	 		role_human+="Opérateur Live chat";
 	    		}
 	    		if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR')!==-1) {
-	    			role+=(role==="") ? "Opérateur" : " et ";
-	    			role+="Base de connaissance";
+	    			role_human+=(role_human==="") ? "Opérateur" : " et ";
+	    			role_human+="Base de connaissance";
  				}
  			} %>
- 			<%=role %>
+ 			<%=role_human %>
 	    </div>
-	    <div class="user-lastLog"></div>
+	    <div class="user-lastLog">
+	    	<%
+	    		var d=newDate(lastLogin)
+	    		var date_human=d.getDate() + "/" + (d.getMonth()+1) +"/" + (d.getYear()-100);
+	    	%>
+	    	Dernière connexion le <%=date_human %></div>
     </div>
 
   </div>
