@@ -28,7 +28,7 @@ $(function(){
 
 	    },
 	    comparator: function(model) {
-        	return model.get('username');
+        	return model.get('id');
 		},
 
 	});
@@ -386,14 +386,13 @@ $(function(){
 		el: $('#user'),
 
 		events: {
-		  "click .new-category"   : "createCategory",
-		  "click .new-content"   : "createContent"
+		  "click .new-user"   : "createUser"
 		},
 		
 		initialize: function() {
 		},
 		
-		createCategory: function() {
+		createUser: function() {
 		
 		  user = listUser.create({"username":"Nouvel Utilisateur"},{wait:true});	
 		  user.trigger('edit');
