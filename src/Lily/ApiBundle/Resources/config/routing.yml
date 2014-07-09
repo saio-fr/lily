@@ -2,10 +2,13 @@ lily_api_index:
     pattern:  /api/{key}
     defaults: { _controller: LilyApiBundle:Api:index }
     
+<<<<<<< HEAD
 lily_facebook_index:
     pattern:  /facebook/{key}
     defaults: { _controller: LilyApiBundle:Facebook:index }
     
+=======
+>>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
 lily_api_js_index:
     pattern:  /api/tracking/{key}
     defaults: { _controller: LilyApiBundle:Api:tracking }    
