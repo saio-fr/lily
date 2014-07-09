@@ -195,7 +195,7 @@ $(function(){
 		  listUser.fetch({
 			  success: function() {
 			  listUserView = new lily.ListUserView(listUser);		  
-		  })
+		  }})
 	    }, 
 	    user: function(id, transition, reverse) {
 		  this.id = id;
