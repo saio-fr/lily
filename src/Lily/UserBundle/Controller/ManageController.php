@@ -85,9 +85,10 @@ class ManageController extends BaseController
             throw $this->createNotFoundException();
 		} 
 
-		$userForm = $this->createForm(new UserType, $userEdited, Array('admin'=>true));
+		$userForm = $this->createForm(new UserType, $userEdited, array('adminModif'=>true));
         $userForm->handleRequest($request);
         if (!$userForm->isValid()) {
+            var_dump($userForm->getErrorsAsString());
             throw new \Exception("Les données envoyées ne sont pas correctement formatées");
         }
 
