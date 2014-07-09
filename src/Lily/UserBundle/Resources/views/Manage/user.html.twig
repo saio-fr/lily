@@ -22,7 +22,7 @@
 	    </div>
 	    <div class="user-lastLog">
 	    	<%
-	    		var d=newDate(lastLogin)
+	    		var d=new Date(lastLogin)
 	    		var date_human=d.getDate() + "/" + (d.getMonth()+1) +"/" + (d.getYear()-100);
 	    	%>
 	    	Dernière connexion le <%=date_human %></div>
