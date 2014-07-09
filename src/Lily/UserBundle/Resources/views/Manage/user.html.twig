@@ -3,11 +3,22 @@
   <div class="userList-item">
     <img src="<%=avatar %>" alt="Avatar" width="70" height="70"/>
     <div class="user-info">
-	    <div class="user-name"><%=lastname %> <%=firstname %></div>
+	    <div class="user-name"><%=lastname.toUpper() %> <%=firstname %></div>
 	    <div class="user-role">
-	    	<% if (roles.indexOf('ROLE_ADMIN')!==-1) { %>
-	    		Administrateur
-	    	<% } %>
+	    	<% 
+	    	var role="";
+	    	if (roles.indexOf('ROLE_ADMIN')!==-1) 
+	    		role="Administrateur";
+	    	} else {
+	    	 	if (roles.indexOf('ROLE_CHAT_OPERATOR')!==-1) {
+	    	 		role+="Opérateur Live chat";
+	    		}
+	    		if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR')!==-1) {
+	    			role+=(role==="") ? "Opérateur" ? " et ";
+	    			role+="Base de connaissance";
+ 				}
+ 			} %>
+ 			<%=role %>
 	    </div>
 	    <div class="user-lastLog"></div>
     </div>

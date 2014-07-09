@@ -1,7 +1,7 @@
 .userList-item .user-info {
     display: inline-block;
-    font-size: 20px;
     padding-left: 20px;
+    font-size: 16px;
     vertical-align: top;
 }
 
