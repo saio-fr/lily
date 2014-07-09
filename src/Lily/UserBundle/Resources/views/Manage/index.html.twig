@@ -1,98 +1,177 @@
-{% extends "LilyUserBundle:Manage:layout.html.twig" %}
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block userManagementTitle %}Liste de vos comptes :{% endblock %}
+{% block stylesheets %}      
+{{ parent() }}     
 
-{% block stylesheets %} 	   
-
-{{ parent() }} 	   
-
-{% stylesheets 'js/wysiwyg/wysihtml5.css' filter='cssrewrite' %}      
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
-
-{% endstylesheets %}
+{% stylesheets 'js/wysiwyg/wysihtml5.css' '@LilyUserBundle/Resources/public/css/userManager.css' filter='cssrewrite' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+{% endstylesheets %}   
 {% endblock %}
 
 
-{% block userManagementContent %}
-{% set userList=[] %}
-{% set maxusers=0 %}
-{% set rolesShowed=[] %}
 
-	<!-- faq list -->
-	<ul id="user-list" class="list-group list-group-sp sortable"></ul>
-	<a class="btn btn-sm btn-white new-user pull-right-lg m-l-sm"><i class="icon-plus pull-left"></i>Ajouter un utilisateur</a>
-<!--
-	<ul id="user-List">
-		<thead>
-			<tr>
-				<th>Identifiant</th>
-				<th>Nom</th>
-				<th>Prénom</th>
-				{% for roleLabel, role in rolesShowed %}
-					<th>{{ roleLabel }}</th>
-				{% endfor %}
-				<th></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for userListed in userList %}
-			<tr>
-				<td>{{ userListed.username }}</td>
-				<td>{{ userListed.lastname }}</td>
-				<td>{{ userListed.firstname }}</td>
-				{% for roleLabel, role in rolesShowed %}
-					<td><div class="{{ (role in userListed.getAllRoles()) ? 'icon-ok yesIcon' : 'icon-remove noIcon' }}"></div></td>
-				{% endfor %}
-				<td>
-					<form {{ form_enctype(modifForms[loop.index0]) }}>
-						{{ form_widget(modifForms[loop.index0]) }}
-						<input type="submit" class="btn btn-primary" value="Modifier"/>
-					</form>
-				</td>
-				<td>
-					<form {{ form_enctype(delForms[loop.index0]) }}>
-						{{ form_widget(delForms[loop.index0]) }}
-						<input type="submit" class="btn btn-primary" value="Supprimer"/>
-					</form>
-				</td>
-			</tr>
-		{% else %}
-			<tr>
-				<td colspan="7">Pas d'utilisateur trouvé</td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
--->
-	<div class="wrapper">
-		Vous avez actuellement {{ userList|length }} compte{{ userList|length < 2 ? '' : 's' }} sur les {{ maxusers }} disponible{{ maxusers<2 ? '' : 's' }}.<br />
-		<br />
-		{% if userList|length < maxusers %}
-			<a href="{{path('lily_userAdd') }}" class="btn btn-primary">Ajouter un compte</a><br />
-		{% else %}
-			Vous ne pouvez plus ajouter d'utilisateur<br />
-		{% endif %}
-	</div>
-{% endblock %}
+{% block body %}
+
+<section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+
+	{% block content %}
+    <!-- .vbox -->
+    <section id="userManagement">
+      <section class="hbox stretch">
+      <!-- .aside -->
+        <aside class="aside aside-md bg-dark">
+          <section class="vbox">
+            <header class="dk header">
+              <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs" data-toggle="class:show" data-target="#userManagement-nav"><i class="icon-reorder"></i></button>
+              <p class="h4">Utilisateurs</p>
+            </header>
+            <section>
+              <section>
+                <section id="userManagement-nav" class="hidden-xs">
+                  <ul class="nav nav-pills nav-stacked no-radius">
+                    <li class="active">
+                      <a href="{{ path('lily_user') }}"> 
+                        <i class="icon-group"></i>
+                         Vos comptes<br />
+                      </a>
+                    </li>
+                  <!--  <li>
+                      <a href="#"> 
+                        <i class="icon-download-alt"></i>
+                        Importer
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                      	<span class="badge bg-danger pull-right">721</span> 
+                        <i class="icon-share"></i>
+                        Exporter
+                      </a>
+                    </li>-->
+                  </ul>
+                </section>
+              </section>
+            </section>         
+          </section>
+        </aside>
+        <!-- /.aside -->
+        <aside class="bg-light lter">
+         <section id="users" class="vbox scrollable padder-b">
+           <header class="bg-light dker header clearfix padder-t b-b">
+             <ul class="breadcrumb m-n">
+               Vos comptes :
+             </ul>
+           </header>
+           <section class="bg-light lter">
+            <section class="hbox stretch">          
+              <!-- .aside -->
+              <aside>
+                <section class="vbox">
+                  <section class="scrollable">
+                    {% set userList=[] %}
+                    {% set maxusers=0 %}
+                    {% set rolesShowed=[] %}
+
+                    <!-- faq list -->
+                    <ul id="user-list" class="list-group list-group-sp sortable"></ul>
+                    <a class="btn btn-sm btn-white new-user pull-right-lg m-l-sm"><i class="icon-plus pull-left"></i>Ajouter un utilisateur</a>
+                  <!--
+                    <ul id="user-List">
+                      <thead>
+                        <tr>
+                          <th>Identifiant</th>
+                          <th>Nom</th>
+                          <th>Prénom</th>
+                          {% for roleLabel, role in rolesShowed %}
+                            <th>{{ roleLabel }}</th>
+                          {% endfor %}
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for userListed in userList %}
+                        <tr>
+                          <td>{{ userListed.username }}</td>
+                          <td>{{ userListed.lastname }}</td>
+                          <td>{{ userListed.firstname }}</td>
+                          {% for roleLabel, role in rolesShowed %}
+                            <td><div class="{{ (role in userListed.getAllRoles()) ? 'icon-ok yesIcon' : 'icon-remove noIcon' }}"></div></td>
+                          {% endfor %}
+                          <td>
+                            <form {{ form_enctype(modifForms[loop.index0]) }}>
+                              {{ form_widget(modifForms[loop.index0]) }}
+                              <input type="submit" class="btn btn-primary" value="Modifier"/>
+                            </form>
+                          </td>
+                          <td>
+                            <form {{ form_enctype(delForms[loop.index0]) }}>
+                              {{ form_widget(delForms[loop.index0]) }}
+                              <input type="submit" class="btn btn-primary" value="Supprimer"/>
+                            </form>
+                          </td>
+                        </tr>
+                      {% else %}
+                        <tr>
+                          <td colspan="7">Pas d'utilisateur trouvé</td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  -->
+                  <div class="wrapper">
+                    Vous avez actuellement {{ userList|length }} compte{{ userList|length < 2 ? '' : 's' }} sur les {{ maxusers }} disponible{{ maxusers<2 ? '' : 's' }}.<br />
+                    <br />
+                    {% if userList|length < maxusers %}
+                    <a href="{{path('lily_userAdd') }}" class="btn btn-primary">Ajouter un compte</a><br />
+                    {% else %}
+                    Vous ne pouvez plus ajouter d'utilisateur<br />
+                    {% endif %}
+                  </div>
+                </section>
+              </section>
+            </aside>
+            <!-- /.aside -->
+            <aside id="userManagement-detail" class="aside-userManagement bg-light lter b-l hide"></aside>
+            <!-- Affichage du panneau de modification-->
+          </section>
+        </section>
+      </section>
+    </aside>
+     <!-- /.aside --> 
+   </section>
+ </section>   
+
+	{% endblock %}
 
 
-{% block templates %}
-	<!-- L'appel des différents scripts de vue -->
-		<script type="text/template" id="user">
-        {% include 'LilyUserBundle:Manage:user.html.twig' %}
+	
+
+  {% block templates %}
+    <!-- L'appel des différents scripts de vue -->
+      <script type="text/template" id="user">
+          {% include 'LilyUserBundle:Manage:user.html.twig' %}
+      </script>
+      <script type="text/template" id="userEdit">
+          {% include 'LilyUserBundle:Manage:user_edit.html.twig' %}
+      </script>
+  {% endblock %}
+
+  {% block bootstrap %}
+    {% autoescape false %}
+    <script type="text/javascript">
+        var root = '{{ path('lily_faq') }}';
     </script>
-    <script type="text/template" id="userEdit">
-        {% include 'LilyUserBundle:Manage:user_edit.html.twig' %}
-    </script>
-{% endblock %}
+    {% endautoescape %}
+  {% endblock %}
 
-{% block bootstrap %}
-	{% autoescape false %}
-	<script type="text/javascript">
-	    var root = '{{ path('lily_faq') }}';
-	</script>
-	{% endautoescape %}
+
+
+</section>
+
 {% endblock %}
 
 {% block javascripts %}
