@@ -420,12 +420,12 @@ $(function(){
 		home: function() {
 		  
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); }
-		  if (typeof(listBreadcrumbsView) !== 'undefined') { listBreadcrumbsView.remove(); }
+		 /* if (typeof(listBreadcrumbsView) !== 'undefined') { listBreadcrumbsView.remove(); }
 		  breadcrumbs = new lily.Breadcrumbs();
-		  breadcrumbs.url = "/breadcrumbs/null";
+		  breadcrumbs.url = "/breadcrumbs/null";*/
 		  listUser = new lily.listUser();
 		  listUser.url = "/rest/null";
-		  breadcrumbs.fetch({
+		/*  breadcrumbs.fetch({
 			  success: function() {
 			  	  listBreadcrumbsView = new lily.ListBreadcrumbsView(breadcrumbs);	
 				  listUser.fetch({
@@ -434,16 +434,16 @@ $(function(){
 					  }
 				  }); 				  
 			  }
-		  }); 	 
+		  }); 	 */
 	    }, 
 	    category: function(id, transition, reverse) {
 		  this.id = id;
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); } 
-		  if (typeof(listBreadcrumbsView) !== 'undefined') { listBreadcrumbsView.remove(); } 
+		//  if (typeof(listBreadcrumbsView) !== 'undefined') { listBreadcrumbsView.remove(); } 
 		  listUser = new lily.listUser();
-		  breadcrumbs = new lily.Breadcrumbs();
+		//  breadcrumbs = new lily.Breadcrumbs();
 		  listUser.url = "/rest/" + this.id;
-		  breadcrumbs.url = "/breadcrumbs/" + this.id;
+		/*  breadcrumbs.url = "/breadcrumbs/" + this.id;
 		  breadcrumbs.fetch({
 			  success: function() {
 			  	  listBreadcrumbsView = new lily.ListBreadcrumbsView(breadcrumbs);	
@@ -453,7 +453,7 @@ $(function(){
 					  }
 				  }); 				  
 			  }
-		  }); 		    
+		  }); 	*/	    
 	    },   		
 	});
 	
