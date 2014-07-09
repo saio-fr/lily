@@ -88,7 +88,7 @@ class ManageController extends BaseController
 		$editForm = $this->createForm(new UserType, $userEdited);
         $editForm->handleRequest($request);
         if (!$editForm->isValid())
-            throw new \Exception("Les données envoyées ne sont pas correctement formatées.");
+            throw new \Exception("Les données envoyées ne sont pas correctement formatées, données reçues : ." . var_dump($request->request));
 
         //$userManager->updateUser($userEdited);
     }
