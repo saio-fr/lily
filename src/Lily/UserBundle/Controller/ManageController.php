@@ -118,5 +118,3 @@ class ManageController extends BaseController
 		//$userManager->updateUser($newUser);
     }
 }
-
-    	        
