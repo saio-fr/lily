@@ -192,6 +192,10 @@ $(function(){
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); }
 		  listUser = new lily.ListUser();
 		  listUser.url = "/rest/";
+		  listUser.fetch({
+			  success: function() {
+			  listUserView = new lily.ListUserView(listUser);		  
+		  }
 	    }, 
 	    user: function(id, transition, reverse) {
 		  this.id = id;
