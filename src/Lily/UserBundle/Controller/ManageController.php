@@ -113,6 +113,10 @@ class ManageController extends BaseController
         //$userManager->updateUser($newUser);
     }
 
+    /**
+     * @Get("/rest/userForm")
+     * @Secure(roles="ROLE_ADMIN")
+     */
     public function getUserFormAction()
     {
         $userForm = $this->createForm(new UserType, null, array('adminModif'=>true));
