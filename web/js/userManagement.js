@@ -102,6 +102,7 @@ $(function(){
 	lily.UserEditView = Backbone.View.extend({
 
 		el: '#user-detail',
+		model: lily.User,
 	    template: _.template($('#userEdit').html()),
 	    initialize: function () {
 
@@ -213,8 +214,7 @@ $(function(){
 		   	if (typeof(userEditView) !== 'undefined')
 	   			userEditView.remove();
 
-			user = listUser.create({"lastname":"Nouvel Utilisateur"},{wait:true});	
-		   	userEditView = new lily.UserEditView({model: user});
+		   	userEditView = new lily.UserEditView();
 
 			$('#user-list .active').removeClass('active');
 		},
