@@ -1,31 +1,36 @@
-  <div class="vbox">
-    <section class="scrollable">
-      <div class="wrapper">
-        <div class="clearfix m-b">
-          <div class="clear">
-            <div class="h5 m-t-xs m-b-xs">Modifier un utilisateur</div> 
-            <form class="form-group m-t" id="user-editor">
-              <label for="lastname">Nom : </label><input type="text" name="lastname" class="form-control input-sm" value="<%= lastname %>" />
-              <label for="firstname">Prénom : </label><input type="text" name="firstname" class="form-control input-sm" value="<%/*= firstname */%>" />
-              <label for="username">Identifiant : </label><input type="text" name="username" class="form-control input-sm" value="<%= username %>" />
-              <label for="password">Mot de passe : </label><input type="password" name="password" class="form-control input-sm" />
-              <label for="passwordConfirm">Confirmer le mot de passe : </label><input type="password" name="passwordConfirm" class="form-control input-sm" />
-              <label for="email">Adresse mail : </label><input type="email" name="email" class="form-control input-sm" value="<%= email %>" />
-              <label for="phone">Téléphone : </label><input type="text" name="phone" class="form-control input-sm" value="<%= phone %>" />
-              <label for="post">Poste : </label><input type="text" name="post" class="form-control input-sm" value="<%= post %>" />
-              <label for="country">Pays : </label><input type="text" name="country" class="form-control input-sm" value="<%= country %>" />
-              <label for="avatar">Avatar : </label><input type="text" name="avatar" class="form-control input-sm" value="<%= avatar %>" />
-              Droits :<br />
-              <label for="ROLE_CHAT_OPERATOR"><input type="checkbox" id="ROLE_CHAT_OPERATOR" name="ROLE_CHAT_OPERATOR" /> Opérateur Live chat</label><br />
-              <label for="ROLE_KNOWLEDGE_OPERATOR"><input type="checkbox" id="ROLE_KNOWLEDGE_OPERATOR" name="ROLE_KNOWLEDGE_OPERATOR" /> Opérateur Base de connaissance</label><br />
-              <label for="ROLE_ADMIN"><input type="checkbox" id="ROLE_ADMIN" name="ROLE_ADMIN" /> Administrateur</label><br />
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-    <footer class="dk footer text-center">
-      <button class="btn btn-sm btn-success button-update">Sauvegarder</button>
-      <button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
-    </footer> 
-  </div>
+<div class="vbox">
+	<section class="scrollable">
+		<div class="wrapper">
+			<div class="clearfix m-b">
+				<div class="clear">
+					<div class="h5 m-t-xs m-b-xs">Modifier un utilisateur</div> 
+					<form class="form-group m-t" id="user-editor">
+						{% for field in form %}
+							{{ form_row(field, {'data':'<%=' ~ field.full_name ~ ' %>'}) }}
+						{% endfor %}
+					{#}
+						<label for="lastname">Nom : </label><input type="text" name="lastname" class="form-control input-sm" value="<%= lastname %>" />
+						<label for="firstname">Prénom : </label><input type="text" name="firstname" class="form-control input-sm" value="<%= firstname %>" />
+						<label for="username">Identifiant : </label><input type="text" name="username" class="form-control input-sm" value="<%= username %>" />
+						<label for="password">Mot de passe : </label><input type="password" name="password" class="form-control input-sm" />
+						<label for="passwordConfirm">Confirmer le mot de passe : </label><input type="password" name="passwordConfirm" class="form-control input-sm" />
+						<label for="email">Adresse mail : </label><input type="email" name="email" class="form-control input-sm" value="<%= email %>" />
+						<label for="phone">Téléphone : </label><input type="text" name="phone" class="form-control input-sm" value="<%= phone %>" />
+						<label for="post">Poste : </label><input type="text" name="post" class="form-control input-sm" value="<%= post %>" />
+						<label for="country">Pays : </label><input type="text" name="country" class="form-control input-sm" value="<%= country %>" />
+						<label for="avatar">Avatar : </label><input type="text" name="avatar" class="form-control input-sm" value="<%= avatar %>" />
+						Droits :<br />
+						<label for="ROLE_CHAT_OPERATOR"><input type="checkbox" id="ROLE_CHAT_OPERATOR" name="ROLE_CHAT_OPERATOR" /> Opérateur Live chat</label><br />
+						<label for="ROLE_KNOWLEDGE_OPERATOR"><input type="checkbox" id="ROLE_KNOWLEDGE_OPERATOR" name="ROLE_KNOWLEDGE_OPERATOR" /> Opérateur Base de connaissance</label><br />
+						<label for="ROLE_ADMIN"><input type="checkbox" id="ROLE_ADMIN" name="ROLE_ADMIN" /> Administrateur</label><br />
+						{#}
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer class="dk footer text-center">
+		<button class="btn btn-sm btn-success button-update">Sauvegarder</button>
+		<button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
+	</footer> 
+</div>

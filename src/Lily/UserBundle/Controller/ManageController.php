@@ -8,6 +8,7 @@ use Lily\BackOfficeBundle\Controller\BaseController;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
@@ -91,8 +92,6 @@ class ManageController extends BaseController
         //$userManager->updateUser($userEdited);
     }
 
-
-
 	/**
      * @Post("/rest/")
      * @Secure(roles="ROLE_ADMIN")
@@ -112,5 +111,11 @@ class ManageController extends BaseController
         $userForm->bind($request);
 
         //$userManager->updateUser($newUser);
+    }
+
+    public function getUserFormAction()
+    {
+        $userForm = $this->createForm(new UserType, null, array('adminModif'=>true));
+        return $this->render('user_edit.html.twig', array('form' => $userForm->createView());
     }
 }

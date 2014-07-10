@@ -155,7 +155,7 @@
           {% include 'LilyUserBundle:Manage:user.html.twig' %}
       </script>
       <script type="text/template" id="userEdit">
-          {% include 'LilyUserBundle:Manage:user_edit.html.twig' %}
+          {{ render(controller('LilyUserBundle:Manage:edit')) }}
       </script>
   {% endblock %}
 
