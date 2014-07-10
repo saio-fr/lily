@@ -7,28 +7,28 @@
 					<form class="form-group m-t" id="user-editor">
 						{{ form_errors(form) }}
 						 {% for field in form %}
-						 	{{ dump(field.vars.block_prefixes) }}
 						 	{% if field.vars.name!='_token' %}
 								{{ form_label(field) }}
 	    						{{ form_errors(field) }}
-								<input type="text" name="{{ field.vars.name }}" id="{{ field.vars.id }}" class="form-control input-sm"
-									value="<% if(typeof({{ field.vars.name }})!=='undefined') {{ '{' }} %><%-{{ field.vars.name }} %><% {{ '}' }} %>" />
+	    						{% set type = field.vars.block_prefixes[2] %}
+	    						{% if type in ['text', 'password', 'email'] %}
+									<input type="{{ type }}" name="{{ field.vars.name }}" id="{{ field.vars.id }}" class="form-control input-sm"
+										value="<% if(typeof({{ field.vars.name }})!=='undefined') {{ '{' }} %><%-{{ field.vars.name }} %><% {{ '}' }} %>" />
+								{% else %}
+									 <div class="btn-group m-r">
+			                          <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle">
+			                            <span class="dropdown-label" data-placeholder="Please select">Please select</span> 
+			                            <span class="caret"></span>
+			                          </button>
+			                          <ul class="dropdown-menu dropdown-select">
+			                              <li><a href="#"><input type="checkbox" name="d-s-c-2" checked>Live chat</a></li>
+			                              <li><a href="#"><input type="checkbox" name="d-s-c-3">Base de connaissances</a></li>
+			                              <li><a href="#"><input type="checkbox" name="d-s-c-1">Administrateur</a></li>
+			                          </ul>
+			                        </div>
+								{% endif %}
 							{% endif %}
 						{% endfor %}
-					{#}	<label for="firstname">Prénom : </label><input type="text" name="firstname" class="form-control input-sm" value="<%= firstname %>" />
-						<label for="username">Identifiant : </label><input type="text" name="username" class="form-control input-sm" value="<%= username %>" />
-						<label for="password">Mot de passe : </label><input type="password" name="password" class="form-control input-sm" />
-						<label for="passwordConfirm">Confirmer le mot de passe : </label><input type="password" name="passwordConfirm" class="form-control input-sm" />
-						<label for="email">Adresse mail : </label><input type="email" name="email" class="form-control input-sm" value="<%= email %>" />
-						<label for="phone">Téléphone : </label><input type="text" name="phone" class="form-control input-sm" value="<%= phone %>" />
-						<label for="post">Poste : </label><input type="text" name="post" class="form-control input-sm" value="<%= post %>" />
-						<label for="country">Pays : </label><input type="text" name="country" class="form-control input-sm" value="<%= country %>" />
-						<label for="avatar">Avatar : </label><input type="text" name="avatar" class="form-control input-sm" value="<%= avatar %>" />
-						Droits :<br />
-						<label for="ROLE_CHAT_OPERATOR"><input type="checkbox" id="ROLE_CHAT_OPERATOR" name="ROLE_CHAT_OPERATOR" /> Opérateur Live chat</label><br />
-						<label for="ROLE_KNOWLEDGE_OPERATOR"><input type="checkbox" id="ROLE_KNOWLEDGE_OPERATOR" name="ROLE_KNOWLEDGE_OPERATOR" /> Opérateur Base de connaissance</label><br />
-						<label for="ROLE_ADMIN"><input type="checkbox" id="ROLE_ADMIN" name="ROLE_ADMIN" /> Administrateur</label><br />
-						{#}
 					</form>
 				</div>
 			</div>
