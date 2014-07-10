@@ -59,7 +59,7 @@ $(function(){
 	    },
 		destroy: function () {
 		
-			this.model.url = "/rest/c/" + this.model.id;
+			this.model.url = "/rest/" + this.model.id;
 			listUser.remove(this.model); 
 			this.model.destroy();
 			this.remove();
@@ -236,7 +236,7 @@ $(function(){
 		home: function() {
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); }
 		  listUser = new lily.ListUser();
-		  listUser.url = "/rest/b/";
+		  listUser.url = "/rest/";
 		  listUser.fetch({
 			  success: function() {
 			  listUserView = new lily.ListUserView(listUser);		  
@@ -246,7 +246,7 @@ $(function(){
 		  this.id = id;
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); } 
 		  listUser = new lily.ListUser();
-		  listUser.url = "/rest/a/" + this.id;
+		  listUser.url = "/rest/" + this.id;
 	    },
 	});
 	
