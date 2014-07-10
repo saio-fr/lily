@@ -117,7 +117,7 @@ $(function(){
 		},
 		update: function () {
 
-			var inputs = $('form#userForm input');
+			var inputs = $('form#user-editor input');
 			var l = inputs.length;
 			for(var i=0; i<l; i++) {
 				console.log(i, inputs.eq(i).val());
