@@ -67,11 +67,14 @@ class CategoriesController extends BaseController
     }
     
     /**
-     * @Post("/create/{redirection}")
+     * @Post("/create/{redirection}/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function createAction($redirection, Request $request)
+    public function createAction($redirection, $parent, Request $request)
     {
+    	$parent = $this->getEntityManager()
+    				   ->getRepository('LilyKnowledgeBundle:Category')
+    				   ->find($parent);
     	
     	$category = $this->deserialize('Lily\KnowledgeBundle\Entity\Category', $request);
     	
@@ -84,7 +87,8 @@ class CategoriesController extends BaseController
 				  		    ->getRepository('LilyKnowledgeBundle:Redirection')
 				  		    ->findOneById($redirection); 
 				  		    
-		$category->setRedirection($redirection);		  		    	 
+		$category->setRedirection($redirection);
+		$category->setParent($parent);		  		    	 
         
         $em = $this->getEntityManager();
         $em->persist($category);
@@ -96,13 +100,17 @@ class CategoriesController extends BaseController
     }    
     
     /**
-     * @Put("/update/{id}/{redirection}")
+     * @Put("/update/{id}/{parent}/{redirection}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function updateAction($id, $redirection, Request $request)
+    public function updateAction($id, $parent, $redirection, Request $request)
     {
 
     	$data = json_decode($request->getContent(), true);
+    	
+    	$parent = $this->getEntityManager()
+			   		   ->getRepository('LilyKnowledgeBundle:Category')
+			   		   ->find($parent);
     	
     	$category = $this->getEntityManager()
     					 ->getRepository('LilyKnowledgeBundle:Category')
@@ -113,6 +121,7 @@ class CategoriesController extends BaseController
 							->findOneById($redirection); 
 							
 		$category->setRedirection($redirection);
+		$category->setParent($parent);
 		
 		$form = $this->createForm(new CategoryType(), $category, array('csrf_protection' => false));   
 		$form->bind($data);

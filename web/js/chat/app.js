@@ -5,13 +5,22 @@ chat.Views.App = Backbone.View.extend({
 	events: {
 		'click a[data="unavailable"]': 'setUnavailable',
 		'click a[data="available"]': 'setAvailable',
-		'click .windows ul li' : 'setMaxWindows'
+		'click .windows ul li' : 'setMaxWindows',
+		'click .icon-gear' : 'showParameters'
 	},
 	
 	initialize: function() {
 		
+		// Create the view to show who's connecting and start chatting
 		this.records = new chat.Records();
 		this.live = new chat.LiveView( this.records );
+		
+		// Create the dashboard view
+		this.dashboard = new chat.DashboardView( this.records );
+		
+		// Create the view to change parameters
+		this.parameters = new chat.Models.Parameters();
+		this.parametersView = new chat.ParametersView();
 		
 		// Variables
 		this.windows = [];
@@ -27,7 +36,7 @@ chat.Views.App = Backbone.View.extend({
 		// Connection to our WS Server
 		sess = new ab.connect(
 		
-			'ws://dev2.saio.fr:8080/chat/' + licence // The host 		    
+			'ws://' + window.location.hostname +':8080/chat/' + licence // The host 		    
 		    , function(session) {  // Once the connection has been established
 				
 				sess = session;
@@ -135,6 +144,7 @@ chat.Views.App = Backbone.View.extend({
 		this.$el.find('.status i').removeClass('unavailable').addClass('available');
 		this.$el.find('.status span').html('En ligne');
 		this.live.$el.removeClass('hide');
+		this.dashboard.$el.addClass('hide');
 		
 	},
 	
@@ -145,7 +155,8 @@ chat.Views.App = Backbone.View.extend({
 		
 		this.$el.find('.status span').html('Hors ligne');
 		this.$el.find('.status i').removeClass('available').addClass('unavailable');
-		this.live.$el.addClass('hide');	
+		this.live.$el.addClass('hide');
+		this.dashboard.$el.removeClass('hide');	
 		
 	},
 	
@@ -170,18 +181,31 @@ chat.Views.App = Backbone.View.extend({
 		
 			$('.conversations').children().addClass('multiple');
 			
-			if ( $( '.conversations' ).width() > 850 ) {
-				
-				$('.conversations').children().removeClass('full-width').addClass('half-width');
-				
-			} else {
-				
-				$('.conversations').children().removeClass('half-width').addClass('full-width');
-				
-			}
+			if ( $( '.conversations' ).width() > 850 ) {				
+				$('.conversations').children().removeClass('full-width').addClass('half-width');	
+			} else {				
+				$('.conversations').children().removeClass('half-width').addClass('full-width');				}
 			
 		} else {
 			$('.conversations').children().removeClass('multiple full-width half-width');
+		}
+		
+	},
+	
+	showParameters: function () {
+		
+		if ($('.icon-gear').hasClass('active')) {
+			
+			$('.icon-gear').removeClass('active');
+			this.parametersView.$el.addClass('hide');
+			this.live.$el.show();
+			
+		} else {
+			
+			$('.icon-gear').addClass('active');
+			this.live.$el.hide();
+			this.parametersView.$el.removeClass('hide');
+			
 		}
 		
 	}

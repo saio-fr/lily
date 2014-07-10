@@ -3,6 +3,7 @@
 namespace Lily\KnowledgeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Groups;
@@ -40,6 +41,7 @@ class Category
     
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="children")
+     * @Gedmo\Versioned
      **/
     protected $parent;
     
@@ -182,61 +184,5 @@ class Category
     public function getRedirection()
     {
         return $this->redirection;
-    }
-
-    /**
-     * Add children
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Category $children
-     * @return Category
-     */
-    public function addChildren(\Lily\KnowledgeBundle\Entity\Category $children)
-    {
-        $this->children[] = $children;
-    
-        return $this;
-    }
-
-    /**
-     * Remove children
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Category $children
-     */
-    public function removeChildren(\Lily\KnowledgeBundle\Entity\Category $children)
-    {
-        $this->children->removeElement($children);
-    }
-
-    /**
-     * Get children
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Category $parent
-     * @return Category
-     */
-    public function setParent(\Lily\KnowledgeBundle\Entity\Category $parent = null)
-    {
-        $this->parent = $parent;
-    
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return \Lily\KnowledgeBundle\Entity\Category 
-     */
-    public function getParent()
-    {
-        return $this->parent;
     }
 }

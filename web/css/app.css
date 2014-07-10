@@ -184,6 +184,7 @@ display:block;
 .list-group-item small {
   font-size: 90%;
   color: #c2c3c5;
+  display: inline;
 }
 
 .list-group-item:hover small {
@@ -1975,20 +1976,24 @@ LIVE CHAT
   display: inline-block;
 }
 
+#chat #dashboard-section .header h3, #chat #parameters-section .header h3 {
+  color: #79797a;
+}
+
 #chat .header-control {
   display: inline-block;
   padding: 10px 0;
 }
 
-#chat .header-control .icon-gear {
+#chat .header-control .icon-gear, #chat .header-control .icon-bar-chart {
   font-size: 20px;
   color: #f9f9f9;
   line-height: 30px;
 }
 
 #chat .header-control button {
-  background: #677cac;
-  box-shadow: 3px 3px 1px -2px #596b93;
+  background: #60677a;
+  box-shadow: 3px 3px 1px -2px #4f5565;
   outline: none;
 }
 
@@ -2411,6 +2416,29 @@ LIVE CHAT
   margin-left: 10px;
 }
 
+#chat .icon-gear.active, #chat .icon-bar-chart.active {
+  color: #546080;
+}
+
+#chat #dashboard-section .operators small {
+  margin-top: 0;
+}
+
+#chat #dashboard-section .operators h5 {
+  margin-bottom: 5px;
+  color: #427789;
+}
+
+
+#chat #dashboard-section .visitors small {
+  margin-top: 0;
+}
+
+#chat #dashboard-section .visitors h5 {
+  margin-bottom: 5px;
+  color: #427789;
+}
+
 
 
 /*=======================================================================================================
@@ -2426,6 +2454,7 @@ Dashboard
 ul.top-questions-list {
   padding: 0;
   margin: 0;
+  list-style-type: none;
 }
 .top-questions-item {
   width: 100%;
@@ -3154,7 +3183,7 @@ Partie Statistiques
   color: #979797;
 }
 .blue-header {
-  background-color: #6075a4;
+  background-color: #51586c;
 }
 .blue-header p {
   color: white;
@@ -3598,9 +3627,7 @@ background-color: #ffffff;
 }
 
 .panel-body h6 {
-	color: #8c8c8c;
-  margin-top: 51px;
-  margin-bottom: 24px;
+  color: #8c8c8c;
 }
 
 .panel-body #iframe ul li {
