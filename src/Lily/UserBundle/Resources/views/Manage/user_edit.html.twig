@@ -21,9 +21,9 @@
 			                            <span class="caret"></span>
 			                          </button>
 			                          <ul class="dropdown-menu dropdown-select">
-			                              <li><a href="#"><input type="checkbox" name="d-s-c-2" checked>Live chat</a></li>
-			                              <li><a href="#"><input type="checkbox" name="d-s-c-3">Base de connaissances</a></li>
-			                              <li><a href="#"><input type="checkbox" name="d-s-c-1">Administrateur</a></li>
+			                          	{% for choice in field.choices %}
+			                              <li><a href="#"><input type="checkbox" name="d-s-c-{{ loop.index }}" checked></a></li>
+			                            {% endfor %}
 			                          </ul>
 			                        </div>
 								{% endif %}

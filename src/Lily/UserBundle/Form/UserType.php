@@ -27,10 +27,13 @@ class UserType extends AbstractType
                     'invalid_message' => 'Les mots de passes ne sont pas les mêmes',
                 ))*/
                 ->add('email', 'email', Array('label' => 'Email'))
-                ->add('roles', 'text', Array('label' => 'Droits'))
+                ->add('roles', 'choices', Array('label' => 'Droits',
+                    'choices'=> array('ROLE_ADMIN'=>'Administrateur',
+                                        'ROLE_CHAT_OPERATOR'=>'Live chat',
+                                        'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances')))
                 ->add('phone', 'text', Array('label' => 'Téléphone'))
                 ->add('post', 'text', Array('label' => 'Poste'))
-                ->add('country', 'country', Array('label' => 'Pays'))
+                ->add('country', 'text', Array('label' => 'Pays'))
                 ->add('avatar', 'text', Array('label' => 'Avatar'))
                 ;
         } else {
