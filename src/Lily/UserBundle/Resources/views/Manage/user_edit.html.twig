@@ -11,7 +11,7 @@
 								{{ form_label(field) }}
 	    						{{ form_errors(field) }}
 	    						{{ 'e' }}
-	    						{{ ' <% if(' }}
+	    						{{ ' <' ~ '% if(' }}
 {#}								<input type="text" name="{{ field.vars.full_name }}" id="{{ field.vars.id }}" class="form-control input-sm" value="{{ '<% if(' }} {{ field.vars.name ~ ') { %> <%-' ~ field.vars.name ~ ' %> <% } %>' }}" />
 {#}							{% endif %}
 						{% endfor %}
