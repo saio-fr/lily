@@ -7,6 +7,7 @@
 					<form class="form-group m-t" id="user-editor">
 						{{ form_errors(form) }}
 						 {% for field in form %}
+						 	{{ dump(field.vars) }}
 						 	{% if field.vars.name!='_token' %}
 								{{ form_label(field) }}
 	    						{{ form_errors(field) }}

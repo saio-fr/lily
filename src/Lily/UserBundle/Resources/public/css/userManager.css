@@ -14,3 +14,7 @@
     background: none repeat scroll 0 0 #58cef6;
     color: white !important;
 }
+
+#addUserButton {
+	float:right;
+}
