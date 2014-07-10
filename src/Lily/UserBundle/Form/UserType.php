@@ -21,10 +21,10 @@ class UserType extends AbstractType
                 ->add('username', 'text', Array('label' => 'Login'))
                 /*->add('plainPassword', 'repeated', array(
                     'type' => 'password',
-                    'options' => array('translation_domain' => 'FOSUserBundle'),
-                    'first_options' => array('label' => 'form.new_password'),
-                    'second_options' => array('label' => 'form.new_password_confirmation'),
-                    'invalid_message' => 'fos_user.password.mismatch',
+                    'options' => array(
+                    'first_options' => array('label' => 'Mot de passe'),
+                    'second_options' => array('label' => 'Confirmer le mot de passe'),
+                    'invalid_message' => 'Les mots de passes ne sont pas les mêmes',
                 ))*/
                 ->add('email', 'email', Array('label' => 'Email'))
                 ->add('roles', 'text', Array('label' => 'Droits'))

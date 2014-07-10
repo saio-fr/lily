@@ -59,7 +59,7 @@ $(function(){
 	    },
 		destroy: function () {
 		
-			this.model.url = "/rest/" + this.model.id;
+			this.model.url = "/rest/c/" + this.model.id;
 			listUser.remove(this.model); 
 			this.model.destroy();
 			this.remove();
@@ -104,10 +104,10 @@ $(function(){
 		el: '#user-detail',
 	    template: _.template($('#userEdit').html()),
 	    initialize: function () {
-	    
+
 	        this.listenTo(this.model, 'destroy', this.remove);
 	        this.render();
-	               
+
 	    },
 	    events: {
 	    
@@ -236,7 +236,7 @@ $(function(){
 		home: function() {
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); }
 		  listUser = new lily.ListUser();
-		  listUser.url = "/rest/";
+		  listUser.url = "/rest/b/";
 		  listUser.fetch({
 			  success: function() {
 			  listUserView = new lily.ListUserView(listUser);		  
