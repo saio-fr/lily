@@ -54,7 +54,7 @@ $(function(){
 	    events: {
 	    
 	        'click .destroy': 'destroy',
-	        'click .view'     : 'edit',
+	        'click .edit'     : 'edit',
 	        
 	    },
 		destroy: function () {
