@@ -9,7 +9,7 @@
 						 {% for field in form %}
 							{{ form_label(form[field]) }}
     					{#}	{{ form_errors(form[field]) }}
-							<input type="text" name="{{ field.vars.full_name }}" id="{{ field.vars.id }}" class="form-control input-sm" value="<%={{ field.vars.name }} %>" />{##}
+							<input type="text" name="{{ form[field].vars.full_name }}" id="{{ form[field].vars.id }}" class="form-control input-sm" value="<%={{ form[field].vars.name }} %>" />{##}
 						{% endfor %} 
 					{#}	<label for="firstname">Prénom : </label><input type="text" name="firstname" class="form-control input-sm" value="<%= firstname %>" />
 						<label for="username">Identifiant : </label><input type="text" name="username" class="form-control input-sm" value="<%= username %>" />
