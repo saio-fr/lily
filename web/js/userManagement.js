@@ -55,12 +55,7 @@ $(function(){
 	    events: {
 	    
 	        'click .destroy': 'destroy',
-//	        'click .icon-reorder' : 'navigate',
-//	        'dblclick' : 'navigate',	
 	        'click .view'     : 'edit',
-//	        'blur .edit'      : 'close',
-//	        'keypress .edit'  : 'updateOnEnter',
-//	        'dropped' : 'dropped',
 	        
 	    },
 		destroy: function () {
@@ -71,43 +66,105 @@ $(function(){
 			this.remove();
 			
 	    },
-/*	    navigate: function(){
-
-        	app.navigate("user/"+this.model.get('id'), {trigger: true});
-
-		},
-*/		edit: function(e) {
-			
-			if (typeof(contentEditView) !== 'undefined') { contentEditView.remove(); }
-		
-			this.$el.addClass("editing");
-			this.input.focus();
+		edit: function(e) {
+	    
+	   	    e.preventDefault();
+	   		var id = $(e.currentTarget).data("id");	  		
+	   		
+		   	if (typeof(userEditView) !== 'undefined') {	
+		   		if (userEditView.model.get('id') !== id) { 
+		   		
+		   			userEditView.remove(); 
+		   			userEditView = new lily.UserEditView({model: this.model});
+			   		
+		   		} else {
+			   		userEditView.show();
+		   		}
+		   		
+		   	} else {
+			   	userEditView = new lily.UserEditView({model: this.model});
+		   	}
+		   		
+	   		
+	        
+	        this.$el.addClass('editing');
+	        this.input.focus();
 			
 			this.$el.parent().find('.active').removeClass('active');
 			this.$el.addClass('active');
-			
+	        			
 		},
-/*		close: function() {
+	});
+	
+	/*========================================
+	  Vue EDITION UTILISATEUR
+	=========================================*/
+	
+	lily.UserEditView = Backbone.View.extend({
+
+		el: '#user-detail',
+	    template: _.template($('#userEdit').html()),
+	    initialize: function () {
+	    
+	        this.listenTo(this.model, 'destroy', this.remove);
+	        this.render();
+	               
+	    },
+	    events: {
+	    
+	        'click .button-update': 'update',
+	        'click .button-cancel': 'cancel',
 		
-			var value = this.input.val();
-			this.model.url = "/rest/"+this.model.id;
-			this.model.set({username: value});
-			this.model.save();
-			this.$el.removeClass("editing");
-			
 		},
-		updateOnEnter: function(e) {
-		
-			if (e.keyCode == 13) this.close();
-			
+		update: function () {
+
+	        var username = $(this.$el).find('#user-editor').val();
+	        
+	        this.model.set({'username': username});     	           
+	        this.model.save();
+	        
+	        this.remove();
+	        $('#user-list .active').removeClass('active');
+
 		},
-		dropped: function(event, index) {
-		
-			this.model.url = "/rest/"+this.model.id+"/position/"+index;
-			this.model.save();
-			
-		}, 
-*/		
+		cancel: function () {
+
+	        this.remove();
+	        $('#user-list .active').removeClass('active');
+     		
+		},
+	    render: function () {
+	    	
+	    	this.$el.removeClass('hide');
+	        this.$el.html(this.template(this.model.toJSON()));
+
+	        $('#user-editor').wysihtml5({
+				"font-styles": false, 
+				"emphasis": true, 
+				"lists": false,
+				"html": false,
+				"link": true, 
+				"image": false,
+				"color": false 
+			});	
+
+	        return this;
+	        
+	    },
+	    
+	    show: function () {
+	    	
+	    	this.$el.removeClass('hide');
+	    },
+	    
+	    remove: function () {
+	    	
+	    	this.$el.addClass('hide');
+			this.$el.unbind();
+			return this;
+	   		
+	    }
+	
 	});
 	
 	/*========================================
