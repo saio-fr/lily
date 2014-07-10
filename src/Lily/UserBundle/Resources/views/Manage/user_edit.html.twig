@@ -5,7 +5,7 @@
 				<div class="clear">
 					<div class="h5 m-t-xs m-b-xs">Modifier un utilisateur</div> 
 					<form class="form-group m-t" id="user-editor">
-						{{ form_error(form) }}
+						{{ form_errors(form) }}
 						{% for field in form %}
 							{{ form_label(form[field]) }}
     						{{ form_errors(form[field]) }}
