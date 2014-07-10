@@ -102,7 +102,6 @@ $(function(){
 	lily.UserEditView = Backbone.View.extend({
 
 		el: '#user-detail',
-		model: lily.User,
 	    template: _.template($('#userEdit').html()),
 	    initialize: function () {
 
