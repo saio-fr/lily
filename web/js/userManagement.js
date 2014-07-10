@@ -171,7 +171,7 @@ $(function(){
 	    initialize: function (listUser) {
 	    	
 	    	this.collection = listUser;
-	    	//this.listenTo(listUser, 'add', this.add);
+	    	this.listenTo(listUser, 'add', this.add);
 			this.render();
 	    	
 	    },
