@@ -25,10 +25,11 @@
 	    		if(last_login!=null && last_login.toUpperCase()!='NULL') {
 		    		var d=new Date(last_login);
 		    		var date_human=(d.getDate()<10 ? '0' : '') + d.getDate() + "/" + (d.getMonth()<9 ? '0' : '') + (d.getMonth()+1) +"/" + (d.getYear()-100);
-		    	} else { %>
-		    		Jamais conecté
-		    	<% } %>
-	    	Dernière connexion le <%=date_human %></div>
+		    		%>
+			    	Dernière connexion le <%=date_human %>
+		    	<% } else { %>
+		    		Jamais connecté
+		    	<% } %></div>
     </div>
 
   </div>
