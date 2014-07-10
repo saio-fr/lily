@@ -16,7 +16,6 @@ class UserType extends AbstractType
     {
         if(isset($options['adminModif']) && $options['adminModif']===true) {
             $builder
-                ->add('id')
                 ->add('username')
                 /*->add('plainPassword', 'repeated', array(
                     'type' => 'password',
