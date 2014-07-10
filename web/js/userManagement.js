@@ -1,11 +1,9 @@
-var lily;
-
 $(function(){
 
 	$.ajaxPrefilter(function (options) {
 	    options.url = root + options.url;
 	});
-	lily = lily || {};
+	var lily = lily || {};
 		
 	/*================================
 	  Model Utilisateur
@@ -208,10 +206,15 @@ $(function(){
 		},
 		
 		createUser: function() {
-		
-		  user = listUser.create({"username":"Nouvel Utilisateur"},{wait:true});	
-		  user.trigger('edit');
+		   	if (typeof(userEditView) !== 'undefined') {
+	   			userEditView.remove(); 
 
+		   	userEditView = new lily.UserEditView({model: null});
+
+			$('#user-list .active').removeClass('active');
+
+//		  user = listUser.create({"username":"Nouvel Utilisateur"},{wait:true});	
+//		  user.trigger('edit');
 		},
 	
 	});
