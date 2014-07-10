@@ -7,8 +7,8 @@
 					<form class="form-group m-t" id="user-editor">
 						{{ form_errors(form) }}
 						 {% for field in form %}
-							{{ form_label(form[field]) }}
-    					{#}	{{ form_errors(form[field]) }}
+							{{ form_label(field) }}
+    					{#}	{{ form_errors(field) }}
 							<input type="text" name="{{ form[field].vars.full_name }}" id="{{ form[field].vars.id }}" class="form-control input-sm" value="<%={{ form[field].vars.name }} %>" />{##}
 						{% endfor %} 
 					{#}	<label for="firstname">Prénom : </label><input type="text" name="firstname" class="form-control input-sm" value="<%= firstname %>" />
