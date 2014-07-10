@@ -10,12 +10,11 @@
 						 	{% if field.vars.name!='_token' %}
 								{{ form_label(field) }}
 	    						{{ form_errors(field) }}
-	    						{% set type = field.vars.block_prefixes[2] %}
+	    						{% set type = field.vars.block_prefixes[1] %}
 	    						{% if type in ['text', 'password', 'email'] %}
 									<input type="{{ type }}" name="{{ field.vars.name }}" id="{{ field.vars.id }}" class="form-control input-sm"
 										value="<% if(typeof({{ field.vars.name }})!=='undefined') {{ '{' }} %><%-{{ field.vars.name }} %><% {{ '}' }} %>" />
 								{% else %}
-								ici{{ dump(field.vars.block_prefixes) }}ici
 									 <div class="btn-group m-r">
 			                          <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle">
 			                            <span class="dropdown-label" data-placeholder="Please select">Please select</span> 
