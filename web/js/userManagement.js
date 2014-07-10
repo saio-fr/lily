@@ -12,8 +12,10 @@ $(function(){
 	
 	lily.User = Backbone.Model.extend({
 	
-	    initialize: function () {
-		  listUser.url = "/";	    	
+
+		url = "/",	  
+
+	    initialize: function () {  	
 	    },
 		
 	});
