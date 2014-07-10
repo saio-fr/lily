@@ -15,7 +15,7 @@
 									<input type="{{ type }}" name="{{ field.vars.name }}" id="{{ field.vars.id }}" class="form-control input-sm"
 										value="<% if(typeof({{ field.vars.name }})!=='undefined') {{ '{' }} %><%-{{ field.vars.name }} %><% {{ '}' }} %>" />
 								{% else %}
-								ici{{ field.vars.block_prefixes }}ici
+								ici{{ dump(ield.vars.block_prefixes) }}ici
 									 <div class="btn-group m-r">
 			                          <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle">
 			                            <span class="dropdown-label" data-placeholder="Please select">Please select</span> 
