@@ -1,3 +1,24 @@
+{% block widget_attributes %}
+  {% spaceless %}
+      id="{{ id }}" name="{{ full_name }}"{% if read_only %} disabled="disabled"{% endif %}{% if required %} required="required"{% endif %}{% if max_length %} maxlength="{{ max_length }}"{% endif %}{% if pattern %} pattern="{{ pattern }}"{% endif %}
+
+      {% for attrname,attrvalue in attr %}
+        {# Attribute value can be defined as an array. ['data']: contains the actual value, ['escape']: boolean (true if the value HAS to be escaped)#}
+        {% if attrvalue.data is defined %}
+          {% if not attrvalue.escape %}
+            {{ attrname }}="{{ attrvalue.data|raw }}"
+          {% else %}
+            {{ attrname }}="{{ attrvalue.data|e }}"
+          {% endif %}
+        {% else %}
+          {{ attrname }}="{{ attrvalue }}"
+        {% endif %} 
+      {% endfor %}
+
+  {% endspaceless %}
+{% endblock widget_attributes %}
+
+
 <div class="vbox">
 	<section class="scrollable">
 		<div class="wrapper">
@@ -6,7 +27,9 @@
 					<div class="h5 m-t-xs m-b-xs">Modifier un utilisateur</div> 
 					<form class="form-group m-t" id="user-editor">
 						{% for field in form %}
-							{{ form_row(field, {'value':'<%=' ~ field.vars.name ~ ' %>', 'escape':false}) }}{##}
+
+							{{ form_row(field, {'value':'<%=' ~ field.vars.name ~ ' %>', 'escape':false}) }}
+
 						{% endfor %}
 					{#}
 						<label for="lastname">Nom : </label><input type="text" name="lastname" class="form-control input-sm" value="<%= lastname %>" />
