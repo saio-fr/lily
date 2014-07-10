@@ -10,7 +10,8 @@
 						 	{% if field.vars.name!='_token' %}
 								{{ form_label(field) }}
 	    						{{ form_errors(field) }}
-								<input type="text" name="{{ field.vars.full_name }}" id="{{ field.vars.id }}" class="form-control input-sm" value="<% if(typeof({{ field.vars.name }})!=='undefined') {{ '{' }} %> <%-{{ field.vars.name }} %> <% {{ '}' }} %>" />
+								<input type="text" name="{{ field.vars.full_name }}" id="{{ field.vars.id }}" class="form-control input-sm"
+									value="<% if(typeof({{ field.vars.name }})!=='undefined') {{ '{' }} %><%-{{ field.vars.name }} %><% {{ '}' }} %>" />
 							{% endif %}
 						{% endfor %}
 					{#}	<label for="firstname">Prénom : </label><input type="text" name="firstname" class="form-control input-sm" value="<%= firstname %>" />
