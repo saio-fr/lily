@@ -119,8 +119,10 @@ $(function(){
 
 			var inputs = $('form#userForm input');
 			var l = inputs.length;
-			for(var i=0; i<l; i++) 
+			for(var i=0; i<l; i++) {
+				console.log(i, inputs.eq(i).val());
 		       	this.model.set(inputs.eq(i).attr('name'), inputs.eq(i).val());   
+			}
 
 	        this.model.save();
 	        
