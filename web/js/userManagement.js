@@ -121,10 +121,6 @@ $(function(){
 	    	this.collection = listUser;
 	    	this.listenTo(listUser, 'add', this.add);
 			this.render();
-			
-			$('#user-list').sortable().bind('sortupdate', function(e, ui) {
-				ui.item.trigger('dropped', ui.item.index());
-			});
 	    	
 	    },
 	    render: function () {
