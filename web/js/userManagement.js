@@ -175,12 +175,12 @@ $(function(){
 	       
 	    },
 	    
-	    /*add: function (user) {      
+	    add: function (user) {      
 
 	     	var view = new lily.UserView({model: user});
 			this.$el.append(view.render().el);
 			
-	    },*/
+	    },
 	    remove: function () {
 	    	
 			this.$el.empty();
