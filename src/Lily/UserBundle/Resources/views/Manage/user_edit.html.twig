@@ -21,7 +21,7 @@
 			                            <span class="caret"></span>
 			                          </button>
 			                          <ul class="dropdown-menu dropdown-select">
-			                          {{ dump(field) }}
+			                          {{ dump(field.vars.choices) }}
 			                          	{#% for choice in field %}
 			                              <li><a href="#"><input type="checkbox" name="d-s-c-{{ loop.index }}" checked></a></li>
 			                            {% endfor %#}
