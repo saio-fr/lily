@@ -208,9 +208,9 @@ $(function(){
 		
 		createUser: function() {
 		   	if (typeof(userEditView) !== 'undefined')
-	   			userEditView.remove(); 
+	   			userEditView.remove();
 
-			user = listUser.create({"username":"Nouvel Utilisateur"},{wait:true});	
+			user = listUser.create({"lastname":"Nouvel Utilisateur"},{wait:true});	
 		   	userEditView = new lily.UserEditView({model: user});
 
 			$('#user-list .active').removeClass('active');
