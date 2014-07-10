@@ -165,7 +165,7 @@ $(function(){
 	    initialize: function (listUser) {
 	    	
 	    	this.collection = listUser;
-	    	this.listenTo(listUser, 'add', this.add);
+	    	//this.listenTo(listUser, 'add', this.add);
 			this.render();
 	    	
 	    },
@@ -175,18 +175,18 @@ $(function(){
 	       
 	    },
 	    
-	    add: function (user) {      
+	    /*add: function (user) {      
 
 	     	var view = new lily.UserView({model: user});
 			this.$el.append(view.render().el);
 			
-	    },
+	    },*/
 	    remove: function () {
 	    	
 			this.$el.empty();
 			this.stopListening();
 			return this;
-				   		
+
 	    },
 	});
 	
