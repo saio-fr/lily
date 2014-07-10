@@ -213,7 +213,8 @@ $(function(){
 		   	if (typeof(userEditView) !== 'undefined')
 	   			userEditView.remove();
 
-		   	userEditView = new lily.UserEditView();
+			user = new lily.User({"lastname":"Nouvel Utilisateur"});	
+		   	userEditView = new lily.UserEditView({model: user});
 
 			$('#user-list .active').removeClass('active');
 		},
