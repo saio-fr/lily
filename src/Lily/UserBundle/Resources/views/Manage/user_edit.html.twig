@@ -21,8 +21,9 @@
 			                            <span class="caret"></span>
 			                          </button>
 			                          <ul class="dropdown-menu dropdown-select">
-			                          	{% for choice in field.get('choices') %}
-			                              <li><a href="#"><input type="checkbox" name="d-s-c-{{ loop.index }}" checked></a></li>
+			                          	{% for choice in field %}
+			                          		{{ dump(choice) }}
+			                          		}
 			                            {% endfor %}
 			                          </ul>
 			                        </div>
