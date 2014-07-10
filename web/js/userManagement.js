@@ -206,7 +206,7 @@ $(function(){
 		},
 		
 		createUser: function() {
-		   	if (typeof(userEditView) !== 'undefined') {
+		   	if (typeof(userEditView) !== 'undefined')
 	   			userEditView.remove(); 
 
 		   	userEditView = new lily.UserEditView({model: null});
