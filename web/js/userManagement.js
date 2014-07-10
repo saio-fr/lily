@@ -117,9 +117,9 @@ $(function(){
 		},
 		update: function () {
 
-	        var username = $(this.$el).find('#user-editor').val();
+	        //var username = $(this.$el).find('#user-editor').val();
 	        
-	        this.model.set({'username': username});     	           
+	        //this.model.set({'username': username});     	           
 	        this.model.save();
 	        
 	        this.remove();
