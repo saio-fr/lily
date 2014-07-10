@@ -116,6 +116,6 @@ class ManageController extends BaseController
     public function getUserFormAction()
     {
         $userForm = $this->createForm(new UserType, null, array('adminModif'=>true));
-        return $this->render('user_edit.html.twig', array('form' => $userForm->createView());
+        return $this->render('user_edit.html.twig', array('form' => $userForm->createView()));
     }
 }
