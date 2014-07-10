@@ -117,9 +117,11 @@ $(function(){
 		},
 		update: function () {
 
-	        //var username = $(this.$el).find('#user-editor').val();
-	        
-	        //this.model.set({'username': username});     	           
+			var inputs = $('form#userForm input');
+			var l = input.length;
+			for(var i=0; i<l; i++) 
+		       	this.model.set({ input.eq(i).attr('name') : input.eq(i).val() });   
+		       	  	           
 	        this.model.save();
 	        
 	        this.remove();
