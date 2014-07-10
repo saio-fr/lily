@@ -31,6 +31,10 @@ class UserType extends AbstractType
                     'choices'=> array('ROLE_ADMIN'=>'Administrateur',
                                         'ROLE_CHAT_OPERATOR'=>'Live chat',
                                         'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances')))
+                ->add('service', 'choice', Array('label' => 'Droits',
+                    'choices'=> array('ROLE_ADMIN'=>'Administrateur',
+                                        'ROLE_CHAT_OPERATOR'=>'Live chat',
+                                        'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances')))
                 ->add('phone', 'text', Array('label' => 'Téléphone'))
                 ->add('post', 'text', Array('label' => 'Poste'))
                 ->add('country', 'text', Array('label' => 'Pays'))
