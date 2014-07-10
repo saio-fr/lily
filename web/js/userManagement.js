@@ -68,6 +68,7 @@ $(function(){
 	    },
 		edit: function(e) {
 	    
+			console.log("edit");
 	   	    e.preventDefault();
 	   		var id = $(e.currentTarget).data("id");	  		
 	   		
@@ -249,7 +250,7 @@ $(function(){
 			console.log("user");
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); } 
 		  listUser = new lily.ListUser();
-		  listUser.url = "/rest/" + this.id;
+		  listUser.url = "/rest/a/" + this.id;
 	    },
 	});
 	
