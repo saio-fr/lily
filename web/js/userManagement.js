@@ -137,17 +137,7 @@ $(function(){
 	    	
 	    	this.$el.removeClass('hide');
 	        this.$el.html(this.template(this.model.toJSON()));
-
-	        $('#user-editor').wysihtml5({
-				"font-styles": false, 
-				"emphasis": true, 
-				"lists": false,
-				"html": false,
-				"link": true, 
-				"image": false,
-				"color": false 
-			});	
-
+	        
 	        return this;
 	        
 	    },
