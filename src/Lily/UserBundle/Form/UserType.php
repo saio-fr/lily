@@ -27,7 +27,7 @@ class UserType extends AbstractType
                     'invalid_message' => 'Les mots de passes ne sont pas les mêmes',
                 ))*/
                 ->add('email', 'email', Array('label' => 'Email'))
-                ->add('roles', 'choices', Array('label' => 'Droits',
+                ->add('roles', 'choice', Array('label' => 'Droits',
                     'choices'=> array('ROLE_ADMIN'=>'Administrateur',
                                         'ROLE_CHAT_OPERATOR'=>'Live chat',
                                         'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances')))
