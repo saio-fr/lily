@@ -26,11 +26,11 @@ class UserType extends AbstractType
                     'second_options' => array('label' => 'form.new_password_confirmation'),
                     'invalid_message' => 'fos_user.password.mismatch',
                 ))*/
-                ->add('email', 'text', Array('label' => 'Email'))
+                ->add('email', 'email', Array('label' => 'Email'))
                 ->add('roles', 'text', Array('label' => 'Droits'))
                 ->add('phone', 'text', Array('label' => 'Téléphone'))
                 ->add('post', 'text', Array('label' => 'Poste'))
-                ->add('country', 'text', Array('label' => 'Pays'))
+                ->add('country', 'country', Array('label' => 'Pays'))
                 ->add('avatar', 'text', Array('label' => 'Avatar'))
                 ;
         } else {
