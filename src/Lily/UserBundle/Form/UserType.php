@@ -16,9 +16,9 @@ class UserType extends AbstractType
     {
         if(isset($options['adminModif']) && $options['adminModif']===true) {
             $builder
-                ->add('lastname', 'Nom')
-                ->add('firstname', 'Prénom')
-                ->add('username', 'Login')
+                ->add('lastname', 'text', Array('label' => 'Nom'))
+                ->add('firstname', 'text', Array('label' => 'Prénom'))
+                ->add('username', 'text', Array('label' => 'Login'))
                 /*->add('plainPassword', 'repeated', array(
                     'type' => 'password',
                     'options' => array('translation_domain' => 'FOSUserBundle'),
@@ -26,12 +26,12 @@ class UserType extends AbstractType
                     'second_options' => array('label' => 'form.new_password_confirmation'),
                     'invalid_message' => 'fos_user.password.mismatch',
                 ))*/
-                ->add('email', 'Email')
-                ->add('roles', 'Droits')
-                ->add('phone', 'Téléphone')
-                ->add('post', 'Poste')
-                ->add('country', 'Pays')
-                ->add('avatar', 'Avatar')
+                ->add('email', 'text', Array('label' => 'Email'))
+                ->add('roles', 'text', Array('label' => 'Droits'))
+                ->add('phone', 'text', Array('label' => 'Téléphone'))
+                ->add('post', 'text', Array('label' => 'Poste'))
+                ->add('country', 'text', Array('label' => 'Pays'))
+                ->add('avatar', 'text', Array('label' => 'Avatar'))
                 ;
         } else {
             $builder
