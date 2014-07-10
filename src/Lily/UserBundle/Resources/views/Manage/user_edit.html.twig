@@ -6,7 +6,7 @@
 					<div class="h5 m-t-xs m-b-xs">Modifier un utilisateur</div> 
 					<form class="form-group m-t" id="user-editor">
 						{% for field in form %}
-							{{ form_row(field, {'data':'<%=' ~ field.full_name ~ ' %>'}) }}
+							{{ form_row(field) }} {#}, {'data':'<%=' ~ field.full_name ~ ' %>'}) }}{#}
 						{% endfor %}
 					{#}
 						<label for="lastname">Nom : </label><input type="text" name="lastname" class="form-control input-sm" value="<%= lastname %>" />
