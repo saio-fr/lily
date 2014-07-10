@@ -37,7 +37,7 @@ assetic:
     debug:          %kernel.debug%
     use_controller: false
     bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle]
-    node: /usr/local/bin/node
+    #node: /usr/local/bin/node
     filters:
         cssrewrite: ~
         # java: "/usr/bin/java"
@@ -45,12 +45,12 @@ assetic:
             #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
         #yui_js:
             #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
-        uglifyjs2:
-            bin: /usr/local/bin/uglifyjs
-            apply_to: "\.js$"
-        uglifycss:
-            bin: /usr/local/bin/uglifycss
-            apply_to: "\.css$"
+     #   uglifyjs2:
+      #      bin: /usr/local/bin/uglifyjs
+       #     apply_to: "\.js$"
+        #uglifycss:
+         #   bin: /usr/local/bin/uglifycss
+          #  apply_to: "\.css$"
 
 # Doctrine Configuration
 doctrine:
