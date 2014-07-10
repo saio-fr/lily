@@ -25,3 +25,13 @@
     width: 49%;
 }
 
+#user-editor .btn-group {
+    display: block;
+}
+#user-editor .btn-group button {
+    text-align: left;
+    width: 100%;
+}
+#user-editor .caret {
+    float: right;
+}
