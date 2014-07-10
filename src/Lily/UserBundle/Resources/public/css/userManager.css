@@ -18,3 +18,9 @@
 #addUserButton {
 	float:right;
 }
+
+.userListInput {
+    display: inline-block;
+    padding-right: 10px;
+    width: 50%;
+}
