@@ -209,7 +209,7 @@ $(function(){
 		   	if (typeof(userEditView) !== 'undefined')
 	   			userEditView.remove(); 
 
-		   	userEditView = new lily.UserEditView({model: null});
+		   	userEditView = new lily.UserEditView();
 
 			$('#user-list .active').removeClass('active');
 
