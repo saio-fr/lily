@@ -13,7 +13,7 @@ $(function(){
 	lily.User = Backbone.Model.extend({
 	
 
-		url : "/",	  
+		url : "/rest/",	  
 
 	    initialize: function () {  	
 	    },
@@ -62,7 +62,7 @@ $(function(){
 	    },
 		destroy: function () {
 		
-			this.model.url = "/" + this.model.id;
+			this.model.url = "/rest/" + this.model.id;
 			listUser.remove(this.model); 
 			this.model.destroy();
 			this.remove();
@@ -242,7 +242,7 @@ $(function(){
 		home: function() {
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); }
 		  listUser = new lily.ListUser();
-		  listUser.url = "/";
+		  listUser.url = "/rest/";
 		  listUser.fetch({
 			  success: function() {
 			  listUserView = new lily.ListUserView(listUser);		  
@@ -252,7 +252,7 @@ $(function(){
 		  this.id = id;
 		  if (typeof(listUserView) !== 'undefined') { listUserView.remove(); } 
 		  listUser = new lily.ListUser();
-		  listUser.url = "/" + this.id;
+		  listUser.url = "/rest/" + this.id;
 	    },
 	});
 	
