@@ -195,21 +195,12 @@ Général
 		padding: 23px 20px 22px 20px;
 	}
 
-<<<<<<< HEAD
-	ul.link_nav {
-		position: relative;
-		top: 0px;
-		font-size : 0;
-		display: inline-block;
-		float: right;
-=======
 	.link_nav {
 		position: relative;
 		top: 0px;
 		float: right;
 		font-size : 0;
 		display: inline-block;
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
 	}
 
 	nav .active {
@@ -529,7 +520,8 @@ HOME
 
 	#reasons {
 		background-color: #fff;
-		padding-top: 54px
+		padding-top: 54px;
+		padding-bottom: 50px;
 	}
 
 	#reasons h1 {
@@ -545,8 +537,13 @@ HOME
 	}
 
 	#reasons .wrapper > p {
-		margin-top: 20px;
+		margin-top: 10px;
 		text-align: center;
+		width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+		font-weight: 600;
+		color: #808080;
 	}
 
 	#reasons > div > img {
@@ -576,12 +573,7 @@ HOME
 
 	#reasons .content p {
 		text-align: center;
-		line-height: 80px;
-		border-bottom: 1px solid rgba(89, 89, 89, .2);
-	}
-
-	#reasons .content .last {
-		border-bottom: none;
+		margin-top: 20px;
 	}
 
 	#reasons .content p:first-child {

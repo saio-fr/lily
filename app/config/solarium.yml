@@ -7,6 +7,24 @@ nelmio_solarium:
             path: /solr
             core: insults
             timeout: 30
+        dev:
+            host: 37.59.26.160  
+            port: 7574
+            path: /solr
+            core: dev
+            timeout: 30
+        dev.personal:
+            host: 37.59.26.160  
+            port: 7574
+            path: /solr
+            core: dev-personal
+            timeout: 30
+        dev.unanswered:
+            host: 37.59.26.160  
+            port: 7574
+            path: /solr
+            core: dev-unanswered
+            timeout: 30
         saio:
             host: 37.59.26.160  
             port: 8983
@@ -119,6 +137,12 @@ nelmio_solarium:
     clients:
         insults:
             endpoints: [insults]
+        dev:
+            endpoints: [dev]
+        dev.personal:
+            endpoints: [dev.personal]
+        dev.unanswered:
+            endpoints: [dev.unanswered]
         saio:
             endpoints: [saio]
         saio.personal:

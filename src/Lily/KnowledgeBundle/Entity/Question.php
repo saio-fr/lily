@@ -125,8 +125,8 @@ class Question
     /**
      * @var string
      *
-     * @ORM\Column(name="label", type="string", length=10)
-     * @Groups({"list"})
+     * @ORM\Column(name="label", type="string", length=255, nullable=true)
+     * @Groups({"unique", "list"})
      */
     protected $label;
   
@@ -475,6 +475,7 @@ class Question
     
         return $this;
     }
+
 
     /**
      * Set label

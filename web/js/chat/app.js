@@ -6,7 +6,7 @@ chat.Views.App = Backbone.View.extend({
 		'click a[data="unavailable"]': 'setUnavailable',
 		'click a[data="available"]': 'setAvailable',
 		'click .windows ul li' : 'setMaxWindows',
-		'click .icon-gear' : 'showParameters'
+		'click .icon-bar-chart' : 'showDashboard'
 	},
 	
 	initialize: function() {
@@ -14,13 +14,6 @@ chat.Views.App = Backbone.View.extend({
 		// Create the view to show who's connecting and start chatting
 		this.records = new chat.Records();
 		this.live = new chat.LiveView( this.records );
-		
-		// Create the dashboard view
-		this.dashboard = new chat.DashboardView( this.records );
-		
-		// Create the view to change parameters
-		this.parameters = new chat.Models.Parameters();
-		this.parametersView = new chat.ParametersView();
 		
 		// Variables
 		this.windows = [];
@@ -138,13 +131,17 @@ chat.Views.App = Backbone.View.extend({
 	
 	setAvailable: function() {
 		
-		// Set the operator available on the server and reload the records
+		// Set the operator available on the server
 		if (!this.available) {  sess.call('chat/available');  this.available = true; }
 		
 		this.$el.find('.status i').removeClass('unavailable').addClass('available');
 		this.$el.find('.status span').html('En ligne');
 		this.live.$el.removeClass('hide');
-		this.dashboard.$el.addClass('hide');
+
+		this.dashboard.remove();
+		
+		$('.header-control .active').removeClass('active');
+		$('.icon-comments-alt').addClass('active');
 		
 	},
 	
@@ -155,8 +152,12 @@ chat.Views.App = Backbone.View.extend({
 		
 		this.$el.find('.status span').html('Hors ligne');
 		this.$el.find('.status i').removeClass('available').addClass('unavailable');
+		
 		this.live.$el.addClass('hide');
-		this.dashboard.$el.removeClass('hide');	
+		this.dashboard = new chat.DashboardView( this.records );
+		
+		$('.header-control .active').removeClass('active');
+		$('.icon-bar-chart').addClass('active');
 		
 	},
 	
@@ -207,6 +208,19 @@ chat.Views.App = Backbone.View.extend({
 			this.parametersView.$el.removeClass('hide');
 			
 		}
+		
+	},
+	
+	showDashboard: function () {
+		
+		if (!$('.icon-bar-chart').hasClass('active')) {
+			
+			$('.header-control .active').removeClass('active');
+			$('.icon-bar-chart').addClass('active');
+			this.live.$el.hide();
+			this.parametersView.$el.removeClass('hide');
+			
+		} 
 		
 	}
 	

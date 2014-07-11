@@ -27,21 +27,21 @@ class Category
     protected $id;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="category")
-     * @Exclude
-     */
-    protected $questions;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Category", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", cascade={"remove"})
      * @Groups({"unique"})
      **/
     protected $children;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="children")
      **/
     protected $parent;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="category")
+     * @Exclude
+     */
+    protected $questions;
     
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Redirection", inversedBy="categories")
@@ -187,10 +187,10 @@ class Category
     /**
      * Add children
      *
-     * @param \Lily\KnowledgeBundle\Entity\Category $children
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
      * @return Category
      */
-    public function addChildren(\Lily\KnowledgeBundle\Entity\Category $children)
+    public function addChildren(\Lily\KnowledgeBundle\Entity\Question $children)
     {
         $this->children[] = $children;
     
@@ -200,9 +200,9 @@ class Category
     /**
      * Remove children
      *
-     * @param \Lily\KnowledgeBundle\Entity\Category $children
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
      */
-    public function removeChildren(\Lily\KnowledgeBundle\Entity\Category $children)
+    public function removeChildren(\Lily\KnowledgeBundle\Entity\Question $children)
     {
         $this->children->removeElement($children);
     }
@@ -220,10 +220,10 @@ class Category
     /**
      * Set parent
      *
-     * @param \Lily\KnowledgeBundle\Entity\Category $parent
+     * @param \Lily\KnowledgeBundle\Entity\Question $parent
      * @return Category
      */
-    public function setParent(\Lily\KnowledgeBundle\Entity\Category $parent = null)
+    public function setParent(\Lily\KnowledgeBundle\Entity\Question $parent = null)
     {
         $this->parent = $parent;
     
@@ -233,7 +233,7 @@ class Category
     /**
      * Get parent
      *
-     * @return \Lily\KnowledgeBundle\Entity\Category 
+     * @return \Lily\KnowledgeBundle\Entity\Question 
      */
     public function getParent()
     {

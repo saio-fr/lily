@@ -9,6 +9,7 @@ parameters:
         
     # DB Clients
     database_name: lily
+    database_dev: dev
     database_saio: saio
     database_tem: tem
     database_tsp: tsp

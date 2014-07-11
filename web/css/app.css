@@ -1985,7 +1985,7 @@ LIVE CHAT
   padding: 10px 0;
 }
 
-#chat .header-control .icon-gear, #chat .header-control .icon-bar-chart {
+#chat .header-control a i {
   font-size: 20px;
   color: #f9f9f9;
   line-height: 30px;
@@ -2041,7 +2041,7 @@ LIVE CHAT
 }
 
 #chat .status button .unavailable {
-  color: #f8ca12;
+  color: #ff6455;
 }
 
 #chat .header-current, #chat .header-waiting {
@@ -2219,7 +2219,7 @@ LIVE CHAT
   left: calc(50% - 250px) !important;
 }
 
-#chat .modal-close {
+#chat .modal-ban {
   margin: 0;
   position: absolute;
   width: 500px;
@@ -2416,8 +2416,8 @@ LIVE CHAT
   margin-left: 10px;
 }
 
-#chat .icon-gear.active, #chat .icon-bar-chart.active {
-  color: #546080;
+#chat .icon-gear.active, #chat .icon-bar-chart.active, #chat .icon-comments-alt.active {
+  color: #fcc44d;
 }
 
 #chat #dashboard-section .operators small {

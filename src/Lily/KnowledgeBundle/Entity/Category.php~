@@ -3,7 +3,6 @@
 namespace Lily\KnowledgeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Groups;
@@ -28,22 +27,21 @@ class Category
     protected $id;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="category")
-     * @Exclude
-     */
-    protected $questions;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Category", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", cascade={"remove"})
      * @Groups({"unique"})
      **/
     protected $children;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="children")
-     * @Gedmo\Versioned
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="children")
      **/
     protected $parent;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="category")
+     * @Exclude
+     */
+    protected $questions;
     
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Redirection", inversedBy="categories")

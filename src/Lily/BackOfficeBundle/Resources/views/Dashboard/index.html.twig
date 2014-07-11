@@ -52,7 +52,7 @@
 		      <div class="col-md-6">
 		        <section class="panel">
                   <div class="panel-body lily-iframe">
-                    <iframe src="http://saio.fr/api/{{ app.user.enterprise.key }}" width="100%" height="500" frameBorder="0"></iframe>
+                    <iframe src="{{ app.request.getSchemeAndHttpHost() }}/api/{{ app.user.enterprise.key }}" width="100%" height="500" frameBorder="0"></iframe>
                   </div>
 		        </section>	
 		      </div>
