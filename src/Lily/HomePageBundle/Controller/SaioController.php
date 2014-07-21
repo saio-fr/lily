@@ -6,38 +6,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SaioController extends Controller
 {
+
     public function indexAction()
     {
-        return $this->render('LilyHomePageBundle:Fr:index.html.twig');
+        return $this->render('LilyHomePageBundle:fr:index.html.twig');
     }
-    
+ 
     public function productsAction()
     {
-        return $this->render('LilyHomePageBundle:Fr:products.html.twig');
+        return $this->render('LilyHomePageBundle:fr:products.html.twig');
     }
     
     public function referencesAction()
     {
-        return $this->render('LilyHomePageBundle:Fr:references.html.twig');
+        return $this->render('LilyHomePageBundle:fr:references.html.twig');
     }
     
     public function caseStudiesAction()
     {
-        return $this->render('LilyHomePageBundle:Fr:case_studies.html.twig');
+        return $this->render('LilyHomePageBundle:fr:case_studies.html.twig');
     }
     
     public function teamAction()
     {
-        return $this->render('LilyHomePageBundle:Fr:team.html.twig');
+        return $this->render('LilyHomePageBundle:fr:team.html.twig');
     }
     
     public function blogAction()
     {
-        return $this->render('LilyHomePageBundle:Fr:blog.html.twig');
+        return $this->render('LilyHomePageBundle:fr:blog.html.twig');
     }
     
     public function articlesAction($id) {
-	    return $this->render('LilyHomePageBundle:Fr:articles/article'.$id.'.html.twig');
+	    return $this->render('LilyHomePageBundle:fr:articles/article'.$id.'.html.twig');
     }
     
     public function contactAction()
@@ -70,13 +71,18 @@ class SaioController extends Controller
 			return $this->redirect($this->generateUrl('home_contact'));
 		}
 
-        return $this->render('LilyHomePageBundle:Fr:contact.html.twig');
+        return $this->render('LilyHomePageBundle:fr:contact.html.twig');
         
     }
     
     public function disclaimerAction()
     {
-        return $this->render('LilyHomePageBundle:Fr:disclaimer.html.twig');
+        return $this->render('LilyHomePageBundle:fr:disclaimer.html.twig');
+    }
+
+    public function loginAction()
+    {
+        return $this->render('LilyHomePageBundle:fr:index.html.twig');
     }
     
 }

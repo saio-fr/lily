@@ -6,18 +6,18 @@
 			<div id="saio">
 				<h3>SAIO</h3>
 				<ul>
-					<li><a href="{{ path('home_team') }}">Société</a></li>
-					<li><a href="{{ path('home_blog') }}">Blog</a></li>
-					<li><a href="{{ path('home_disclaimer')}}">Mentions légales</a></li>
+					<li><a href="{{ path('home_team') }}">{{ 'Société'|trans }}</a></li>
+					<li><a href="{{ path('home_blog') }}">{{ 'Blog'|trans }}</a></li>
+					<li><a href="{{ path('home_disclaimer')}}">{{ 'Mentions légales'|trans }}</a></li>
 				</ul>
 			</div>
 			<div>
-				<h3>Contactez-nous</h3>
+				<h3>{{ 'Contactez-nous'|trans }}</h3>
 				<p>SAIO SAS<br>9, rue Charles Fourier 91 000 Evry<br>+33 1 60 76 69 71<br>contact@saio.fr</p>
 			</div>
 			<!--<div id="second">+33 1 60 76 69 71<br>contact@saio.fr</div>-->
 			<div class="last">
-				<h3>Social</h3>
+				<h3>{{ 'Social'|trans }}</h3>
 				<div>
 					<a href="https://twitter.com/SAIO_fr" target="_blank"><img src="{{ asset('images/home/icon-twitter.png') }}" alt="Twitter"></a>
 					<a href="https://www.facebook.com/saio.fr" target="_blank"><img src="{{ asset('images/home/icon-facebook.png') }}" alt="Facebook"></a>
@@ -37,9 +37,9 @@
 
 	<div class="copyright">
 		<div class="wrapper">
-			<p>Copyright © SAIO 2014, tous droits réservés</p>
+			<p>{{ 'Copyright © SAIO 2014, tous droits réservés'|trans }}</p>
 			<span>
-				Langues : <a class="lang_active">français</a><!-- / <a href="#">english</a> / <a href="#">español</a>-->
+				{{ 'Langues :'|trans }} <a href="{{ path(app.request.attributes.get('_route'), {_locale:'fr'}) }}" class="{% if app.request.attributes.get('_locale') == 'fr' %}lang_active{% endif %}">français</a> / <a href="{{ path(app.request.attributes.get('_route'), {_locale:'en'}) }}" class="{% if app.request.attributes.get('_locale') == 'en' %}lang_active{% endif %}">english</a><!-- / <a href="#">español</a>-->
 			</span>
 		</div>
 	</div>

@@ -449,6 +449,16 @@ HOME
 		margin-left: 360px;
 	}
 
+	#fonction .third-support {
+		margin-top: 158px;
+		margin-left: 598px;
+	}
+
+	#fonction .forth-support {
+		margin-top: 358px;
+		margin-left: 319px;
+	}
+
 	#fonction .auto {
 		margin-left: 140px;
 	}
@@ -467,16 +477,6 @@ HOME
 		margin-left: 323px;
 	}
 
-	#fonction .third-support {
-		margin-top: 158px;
-		margin-left: 598px;
-	}
-
-	#fonction .forth-support {
-		margin-top: 358px;
-		margin-left: 319px;
-	}
-
 	#fonction .second-step {
 		margin-top: 617px;
 	}
@@ -493,14 +493,32 @@ HOME
 		margin-left: 593px;
 	}
 
-	#fonction .third-step .supports {
-		margin-top: 275px;
-		margin-left: 159px;
-		display: block;
+	#fonction .canals span {
+		position: absolute;
+	}
+
+	#fonction .first-canal {
+		margin-top: 136px;
+		margin-left: 88px;
+	}
+
+	#fonction .second-canal {
+		margin-top: 236px;
+		margin-left: 212px;
+	}
+
+	#fonction .third-canal {
+		margin-top: 236px;
+		margin-left: 381px;
+	}
+
+	#fonction .forth-canal {
+		margin-top: 236px;
+		margin-left: 660px;
 	}
 
 	#fonction .third-step .bullets {
-		margin-top: 205px;
+		margin-top: 510px;
 		margin-left: 419px;
 	}
 
@@ -521,13 +539,13 @@ HOME
 	#reasons {
 		background-color: #fff;
 		padding-top: 54px;
-		padding-bottom: 50px;
+		padding-bottom: 60px;
 	}
 
 	#reasons h1 {
 		font-size: 30px;
 		text-align: center;
-		margin-bottom: 50px;
+		margin-bottom: 60px;
 	}
 
 	#reasons h2 {
@@ -536,15 +554,25 @@ HOME
 		margin-bottom: 10px;
 	}
 
-	#reasons .wrapper > p {
-		margin-top: 10px;
+	#reasons .final {
+		background-color: #f2f4f8;
+		padding: 25px;
+		margin-top: 15px;
+		box-shadow: 0px 1px 1px 0px rgba(108, 108, 108, 0.25);
+		-moz-box-shadow: 0px 1px 1px 0px rgba(108, 108, 108, 0.25);
+		-webkit-box-shadow: 0px 1px 1px 0px rgba(108, 108, 108, 0.25);
+	}
+
+	#reasons .final p {
+		font-weight: 300;
 		text-align: center;
-		width: 800px;
-		margin-left: auto;
-		margin-right: auto;
-		font-weight: 600;
 		color: #808080;
 	}
+
+	#reasons .final .last {
+		margin-top: 15px;
+		font-weight: 400;
+	}	
 
 	#reasons > div > img {
 		display: inline-block;
@@ -561,6 +589,7 @@ HOME
 
 	#reasons .content div {
 		display: inline-block;
+		vertical-align: top;
 		margin: 0 18px;
 		width: 320px;
 		margin-bottom: 33px;

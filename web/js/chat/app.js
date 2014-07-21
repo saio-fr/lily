@@ -6,7 +6,9 @@ chat.Views.App = Backbone.View.extend({
 		'click a[data="unavailable"]': 'setUnavailable',
 		'click a[data="available"]': 'setAvailable',
 		'click .windows ul li' : 'setMaxWindows',
-		'click .icon-bar-chart' : 'showDashboard'
+		'click .icon-gear' : 'showParameters',
+		'click .icon-bar-chart' : 'showDashboard',
+		'click .icon-comments-alt' : 'showLive'
 	},
 	
 	initialize: function() {
@@ -14,7 +16,7 @@ chat.Views.App = Backbone.View.extend({
 		// Create the view to show who's connecting and start chatting
 		this.records = new chat.Records();
 		this.live = new chat.LiveView( this.records );
-		
+
 		// Variables
 		this.windows = [];
 		this.maxWindows = 1;
@@ -24,6 +26,7 @@ chat.Views.App = Backbone.View.extend({
 		// Adjust windows on navigator resize
 		$(window).resize(function() {
 			chat.app.setWindows();
+			chat.app.setInformationsWidth();
 		});
 		
 		// Connection to our WS Server
@@ -99,7 +102,7 @@ chat.Views.App = Backbone.View.extend({
 				seconds = timer.seconds();
 				
 				if (record.model.get('messages').length > 0) {
-					// If the visitor waited over 2 minutes
+					// If the visitor waited over 2 minutes for an answer
 					if (timer.minutes() >= 2 && record.model.get('messages')[record.model.get('messages').length-1].from == 'visitor') {
 						record.model.trigger('urgent');
 					}
@@ -136,12 +139,14 @@ chat.Views.App = Backbone.View.extend({
 		
 		this.$el.find('.status i').removeClass('unavailable').addClass('available');
 		this.$el.find('.status span').html('En ligne');
-		this.live.$el.removeClass('hide');
-
-		this.dashboard.remove();
 		
 		$('.header-control .active').removeClass('active');
 		$('.icon-comments-alt').addClass('active');
+		$('.icon-comments-alt').removeClass('disable');
+		$('.header-control .badge').removeClass('hide');
+		
+		if (typeof(this.view) !== 'undefined') this.view.remove();	
+		this.live.$el.removeClass('hide');	
 		
 	},
 	
@@ -154,16 +159,18 @@ chat.Views.App = Backbone.View.extend({
 		this.$el.find('.status i').removeClass('available').addClass('unavailable');
 		
 		this.live.$el.addClass('hide');
-		this.dashboard = new chat.DashboardView( this.records );
+		this.view = new chat.DashboardView( this.records );
 		
 		$('.header-control .active').removeClass('active');
 		$('.icon-bar-chart').addClass('active');
+		$('.icon-comments-alt').addClass('disable');
+		$('.header-control .badge').addClass('hide');
 		
 	},
 	
 	setMaxWindows: function( ev ) {
-
-		this.maxWindows = $(ev.target).attr('data');
+		
+		if ( ev !== false ) { this.maxWindows = $(ev.target).attr('data'); }
 		
 		if ( this.maxWindows < this.windows.length ) {
 			
@@ -177,50 +184,93 @@ chat.Views.App = Backbone.View.extend({
 	},
 	
 	setWindows: function () {
-
-		if (this.windows.length > 1) {
+		
+		if ( $('.conversations').width() > 850 ) { $('.btn-group.windows').show(); } 
+		else { 
+		
+			$('.windows .dropdown-select li:first-child a').trigger( "click" );
+			this.$el.find('.btn-group.windows').hide(); 
+			$('.conversations').children().removeClass('multiple full-width half-width');
+			return; 
+		
+		}
+		
+		// If there is more 1 windows, add "multiple" class to show them all
+		if ( this.windows.length > 1 ) {
 		
 			$('.conversations').children().addClass('multiple');
+			$('.conversations').children().addClass('half-width');
 			
-			if ( $( '.conversations' ).width() > 850 ) {				
-				$('.conversations').children().removeClass('full-width').addClass('half-width');	
-			} else {				
-				$('.conversations').children().removeClass('half-width').addClass('full-width');				}
-			
-		} else {
-			$('.conversations').children().removeClass('multiple full-width half-width');
-		}
+		} 
+		
+	},	
+	
+	setInformationsWidth: function () {
+		
+		// Hide informations if the windows is too small
+		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) { this.live.informations.reduce(); }
+		else { $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} ); }
 		
 	},
 	
 	showParameters: function () {
 		
-		if ($('.icon-gear').hasClass('active')) {
+		if (!$('.icon-gear').hasClass('active')) {
 			
-			$('.icon-gear').removeClass('active');
-			this.parametersView.$el.addClass('hide');
-			this.live.$el.show();
-			
-		} else {
-			
+			$('.header-control .active').removeClass('active');
 			$('.icon-gear').addClass('active');
-			this.live.$el.hide();
-			this.parametersView.$el.removeClass('hide');
+			this.live.$el.addClass('hide');
+			if (typeof(this.view) !== 'undefined') this.view.remove();
+			this.view = new chat.ParametersView();
 			
 		}
 		
 	},
 	
 	showDashboard: function () {
+	
+		if (!$('.header-control .icon-bar-chart').hasClass('active')) {
 		
-		if (!$('.icon-bar-chart').hasClass('active')) {
-			
 			$('.header-control .active').removeClass('active');
 			$('.icon-bar-chart').addClass('active');
-			this.live.$el.hide();
-			this.parametersView.$el.removeClass('hide');
+			this.live.$el.addClass('hide');
+			if (typeof(this.view) !== 'undefined') this.view.remove();
+			this.view = new chat.DashboardView( this.records );
 			
-		} 
+		}
+		
+	},
+	
+	showLive: function () {
+	
+		if (!$('.header-control .icon-comments-alt').hasClass('active') && this.available) {
+		
+			$('.header-control .active').removeClass('active');
+			$('.icon-comments-alt').addClass('active');
+			if (typeof(this.view) !== 'undefined') this.view.remove();
+			this.live.$el.removeClass('hide');
+			
+		}
+		
+	},
+	
+	showParameters: function () {
+	
+		if (!$('.header-control .icon-gear').hasClass('active')) {
+		
+			$('.header-control .active').removeClass('active');
+			$('.icon-gear').addClass('active');
+			this.live.$el.addClass('hide');
+			if (typeof(this.view) !== 'undefined') this.view.remove();
+			this.view = new chat.ParametersView();
+			
+		}
+		
+	},
+	// Change the badge in the header-control to show how much persons are waiting a response
+	changeBadge: function () {
+
+		$('.header-control .badge').text( $('.list-current .unanswered').length );
 		
 	}
 	

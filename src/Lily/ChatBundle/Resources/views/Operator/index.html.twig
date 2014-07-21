@@ -34,7 +34,7 @@
 		      </div>
 		      <a href="#"><i class="icon-gear"></i></a> 
 		      <a href="#"><i class="icon-bar-chart active"></i></a>
-			  <a href="#"><b class="badge bg-warning pull-right">3</b><i class="icon-comments-alt"></i></a>   
+			  <a href="#"><b class="badge bg-warning pull-right hide">0</b><i class="icon-comments-alt"></i></a>   
 		    </div>
 		  </header>
 		<section id="chat-section">
@@ -100,7 +100,39 @@
 
 {{ parent() }}
 
-{% javascripts 'js/charts/sparkline/jquery.sparkline.min.js' 'js/charts/easypiechart/jquery.easy-pie-chart.js' 'js/vendor/autobahn-v1.min.js' 'js/chat/libs/modernizr-custom.js' 'js/vendor/moment.js' 'js/chat/main.js' 'js/chat/app.js' 'js/chat/models/MessageModel.js' 'js/chat/models/Messages.js' 'js/chat/models/RecordModel.js' 'js/chat/models/Records.js' 'js/chat/models/Parameters.js' 'js/chat/views/RecordCurrentView.js' 'js/chat/views/RecordWaitingView.js' 'js/chat/views/LiveView.js' 'js/chat/views/ConversationView.js' 'js/chat/views/InformationsView.js' 'js/chat/views/MessageView.js' 'js/chat/views/MessageOperatorView.js' 'js/chat/views/MessageVisitorView.js' 'js/chat/views/ModalCloseView.js' 'js/chat/views/ModalBanView.js' 'js/chat/views/ParametersView.js' 'js/chat/views/DashboardView.js' output='js/compiled/chat.js' %}
+{% javascripts 
+
+'js/charts/sparkline/jquery.sparkline.min.js' 
+'js/charts/easypiechart/jquery.easy-pie-chart.js'
+
+'js/wysiwyg/advanced_unwrap.js' 
+'js/wysiwyg/wysihtml5.js' 
+
+'js/vendor/autobahn-v1.min.js' 
+
+'js/chat/libs/modernizr-custom.js' 
+'js/vendor/moment.js' 'js/chat/main.js' 
+
+'js/chat/app.js' 
+
+'js/chat/models/MessageModel.js' 
+'js/chat/models/Messages.js' 
+'js/chat/models/RecordModel.js' 
+'js/chat/models/Records.js' 
+'js/chat/models/Parameters.js' 
+
+'js/chat/views/RecordCurrentView.js' 
+'js/chat/views/RecordWaitingView.js' 
+'js/chat/views/LiveView.js' 
+'js/chat/views/ConversationView.js' 
+'js/chat/views/InformationsView.js'
+'js/chat/views/MessageView.js' 
+'js/chat/views/MessageOperatorView.js'
+'js/chat/views/MessageVisitorView.js' 
+'js/chat/views/ModalCloseView.js' 
+'js/chat/views/ModalBanView.js' 
+'js/chat/views/ParametersView.js' 
+'js/chat/views/DashboardView.js' output='js/compiled/chat.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

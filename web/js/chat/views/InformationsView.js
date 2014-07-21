@@ -13,6 +13,7 @@ chat.Views.Informations = Backbone.View.extend({
 	
 	initialize: function() {	
 		this.render();
+		this.reduce();
 	},
 	
 	render: function () {
@@ -33,19 +34,24 @@ chat.Views.Informations = Backbone.View.extend({
 		this.$el.find('.informations-header .icon-angle-left').removeClass('hide');
 		this.$el.width('50');
 		
-		chat.app.setWindows();
-		
 	},
 	
 	extend: function() {
+		
+		// If the width of the windows is too small, do nothing
+		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) { 
+			
+			// We can't click anymore on the arrow
+			this.$el.find('.informations-header .icon-angle-left').css( {'cursor': 'default'} );
+			return; 
+		
+		}
 		
 		this.$el.find('.informations-header h5').show();
 		this.$el.find('.informations-section').show();
 		this.$el.find('.informations-header .icon-angle-right').removeClass('hide');
 		this.$el.find('.informations-header .icon-angle-left').addClass('hide');
 		this.$el.width('275');
-		
-		chat.app.setWindows();
 		
 	}
 	

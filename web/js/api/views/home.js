@@ -64,7 +64,7 @@ lily.Views.Home = lily.Extensions.View.extend({
 		
 		$.ajax({
 			type: 'POST',
-			url: root+licence+'/query',
+			url: root+'/query',
 			data: { query: q },
 			// dataType: 'jsonp',
 			success:  function( data, textStatus, request ) {
@@ -139,7 +139,7 @@ lily.Views.Home = lily.Extensions.View.extend({
 		var home = this;
 		
 		$.ajax({
-			url: root+licence+'/precision/'+id,
+			url: root+'/precision/'+id,
 			data: id,
 			//			dataType: 'jsonp',
 			success:  function( data, textStatus, request ) {
@@ -177,7 +177,7 @@ lily.Views.Home = lily.Extensions.View.extend({
 		$.ajax({
 			
 			type: 'POST',
-			url: root+licence+'/logredirection/'+id,
+			url: root+'/logredirection/'+id,
 			data: JSON.stringify({ canal: 'mail' }),
 			success:  function( data ) {console.log('Log sent')}
 			
@@ -190,7 +190,7 @@ lily.Views.Home = lily.Extensions.View.extend({
 		$.ajax({
 			
 			type: 'POST',
-			url: root+licence+'/logredirection/'+id,
+			url: root+'/logredirection/'+id,
 			data: JSON.stringify({ canal: 'tel' }),
 			success:  function( data ) {console.log('Log sent')}
 			
@@ -204,7 +204,7 @@ lily.Views.Home = lily.Extensions.View.extend({
 		$.ajax({
 			
 			type: 'POST',
-			url: root+licence+'/notation/'+id,
+			url: root+'/notation/'+id,
 			data: JSON.stringify({ satisfied: satisfied, reason: reason }),
 			// dataType: 'jsonp',
 			success:  function( data, textStatus, request ) {
@@ -307,7 +307,7 @@ lily.Views.Home = lily.Extensions.View.extend({
     	// On charge l'avatar du client
     	home = this;
     	setTimeout(function() {
-	    	$.getScript( root+licence+'/avatar', function( data ) {});
+	    	$.getScript( root+'/avatar', function( data ) {});
     	}, 500);
 
     }

@@ -63,7 +63,7 @@ lily.Router = Backbone.Router.extend({
 		
 		$.ajax({
 			
-			url: root+licence+'/faq/'+id,
+			url: root+'/faq/'+id,
 			
 			success:  function( data, textStatus, request ) {
 				// If there is no results we need to trigger a custom event to inform other objects.
@@ -104,7 +104,7 @@ lily.Router = Backbone.Router.extend({
 		
 		$.ajax({
 			
-			url: root+licence+'/faq/'+id,
+			url: root+'/faq/'+id,
 			
 			success:  function( data, textStatus, request ) {
 				// If there is no results we need to trigger a custom event to inform other objects.
@@ -121,7 +121,7 @@ lily.Router = Backbone.Router.extend({
 			
 					$.ajax({
 						
-						url: root+licence+'/faq/'+idParent,
+						url: root+'/faq/'+idParent,
 						
 						success:  function( data, textStatus, request ) {
 							// If there is no results we need to trigger a custom event to inform other objects.
@@ -162,7 +162,7 @@ lily.Router = Backbone.Router.extend({
 		
 			$.ajax({
 				
-				url: root+licence+'/top-questions/NULL',
+				url: root+'/top-questions/NULL',
 				
 				success:  function( data, textStatus, request ) {
 					// If there is no results we need to trigger a custom event to inform other objects.				
@@ -184,7 +184,7 @@ lily.Router = Backbone.Router.extend({
 
 			$.ajax({
 				
-				url: root+licence+'/top-questions/'+id,
+				url: root+'/top-questions/'+id,
 				
 				success:  function( data, textStatus, request ) {
 					// If there is no results we need to trigger a custom event to inform other objects.				

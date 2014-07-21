@@ -6,6 +6,7 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	
 	
 	events: {
+		'keyup #lily-search-form' : 'writing',
 		'submit #lily-search-form': 'doChat',
 		'click #lily-go': 'doChat'
 	},	
@@ -23,12 +24,13 @@ lily.Views.Chat = lily.Extensions.View.extend({
 		    , function(session) {  // Once the connection has been established
 		    	
 				// Get the session id
-				var sid = document.cookie.match('PHPSESSID=([^;]*)')[1];
+				sid = document.cookie.match('PHPSESSID=([^;]*)')[1];
 
 				sess = session;
 				sess.subscribe('visitor/'+sid, function (topic, payload) {
 
 					chat.messages.set(payload);
+					sess.call('chat/writing', { sid: sid, writing: false } );
 					
 				});
 			
@@ -45,6 +47,7 @@ lily.Views.Chat = lily.Extensions.View.extend({
 		);
 		
 		$(this.render().el).appendTo('#lily-wrapper-page');
+
 		
 	},
 	
@@ -54,15 +57,22 @@ lily.Views.Chat = lily.Extensions.View.extend({
 		this.$el.html(template());
 		this.trigger('render');
 		$('input, textarea').placeholder();
+		this.$input = this.$el.find('#lily-search-form input.lily-search-input');
 		
 		return lily.Extensions.View.prototype.render.apply(this, arguments);
+	},
+	
+	writing: function (e) {
+
+		if( this.$input.val() ) {sess.call('chat/writing', { sid: sid, writing: true } )}
+		else {sess.call('chat/writing', { sid: sid, writing: false } )}
+		
 	},
 	
 	doChat: function (e) {
 
 		e.preventDefault();
 		
-		this.$input = this.$el.find('#lily-search-form input.lily-search-input');
 		var message = this.$input.val();
 		
 		if ( $.trim(message).length > 0 ){/*On vérifie que le champ n'est pas vide ou contient uniquement des espaces*/

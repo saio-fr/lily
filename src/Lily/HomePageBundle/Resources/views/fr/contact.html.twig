@@ -1,6 +1,6 @@
-{% extends "LilyHomePageBundle:Fr:layout.html.twig" %}
+{% extends "LilyHomePageBundle:fr:layout.html.twig" %}
 
-{% block title %}Contact - SAIO{% endblock %}
+{% block title %}{{ 'Contact - SAIO'|trans }}{% endblock %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
 	<section id="contact" >
 
 		<div class="wrapper">
-			<h1>Notre solution vous intéresse ? Besoin d'informations supplémentaires ? N’hésitez pas à nous contacter, nous vous répondrons dans les plus brefs délais !</h1>
+			<h1>{{ 'Notre solution vous intéresse ? Besoin d\'informations supplémentaires ? N\’hésitez pas à nous contacter, nous vous répondrons dans les plus brefs délais !'|trans }}</h1>
 		</div>
 
 	</section>
@@ -19,24 +19,24 @@
 		<div class="wrapper" id="coordonnees-wrapper">
 			<iframe id="gmaps" src='http://a.tiles.mapbox.com/v3/nclsmitchell.he346077/attribution,zoompan,geocoder,share.html'></iframe>
 			<div class="content">
-				<h1>Nos coordonnées</h1>
+				<h1>{{ 'Nos coordonnées'|trans }}</h1>
 				<div class="adresse">
 					<img src="{{ asset('images/home/icon-adresse.png') }}" alt="Adresse postale">
-					<h2>Adresse postale :</h2>
+					<h2>{{ 'Adresse postale :'|trans }}</h2>
 					<p>SAIO SAS<br>9, rue Charles Fourier<br>91 000 Evry</p>
 				</div>
 				<div class="phone">
 					<img src="{{ asset('images/home/icon-phone.png') }}" alt="Téléphone">
-					<h2>Téléphone :</h2>
+					<h2>{{ 'Téléphone :'|trans }}</h2>
 					<p>+33 1 60 76 69 71</p>
 				</div>
 				<div class="mail">
 					<img src="{{ asset('images/home/icon-mail.png') }}" alt="Adresse mail">
-					<h2>Adresse mail :</h2>
+					<h2>{{ 'Adresse mail :'|trans }}</h2>
 					<p>contact@saio.fr</p>
 				</div>
 				<div class="social">
-					<h1>Social</h1>
+					<h1>{{ 'Social'|trans }}</h1>
 					<a href="https://twitter.com/SAIO_fr" target="_blank"><img src="{{ asset('images/home/icon-twitter.jpg') }}" alt="Twitter"></a>
 					<a href="https://www.facebook.com/saio.fr" target="_blank"><img src="{{ asset('images/home/icon-facebook.jpg') }}" alt="Facebook"></a>
 					<a href="https://plus.google.com/u/0/b/118034732981210342317/118034732981210342317/posts" target="_blank"><img src="{{ asset('images/home/icon-google+.jpg') }}" alt="Google +"></a>
@@ -46,22 +46,22 @@
 				</div>
 			</div>
 			<div class="newsletter">
-				<h1>Recevez notre newsletter</h1>
-				<input type="text" name="mail" placeholder="Votre adresse e-mail" size="30"/>
-				<a href="#" class="button">Inscription</a>
+				<h1>{{ 'Recevez notre newsletter'|trans }}</h1>
+				<input type="text" name="mail" placeholder="{{ 'Votre adresse e-mail'|trans }}" size="30"/>
+				<a href="#" class="button">{{ 'Inscription'|trans }}</a>
 			</div>
 			<form class="contact-us" method="post" action="">
-				<h1>Contactez-nous</h1>
-				<input type="text" name="name" placeholder="Votre nom" size="30"/>
-				<input type="text" name="surname" placeholder="Votre prénom" size="30" class="last"/>
-				<input type="text" name="mail" placeholder="Votre adresse e-mail" size="30"/>
-				<input type="text" name="enterprise" placeholder="Votre entreprise" size="30" class="last"/>
-				<input type="text" name="object" placeholder="Objet de votre message" size="30"/>
-				<textarea name="message" placeholder="Votre message" class="message last"></textarea>
+				<h1>{{ 'Contactez-nous'|trans }}</h1>
+				<input type="text" name="name" placeholder="{{ 'Votre nom'|trans }}" size="30"/>
+				<input type="text" name="surname" placeholder="{{ 'Votre prénom'|trans }}" size="30" class="last"/>
+				<input type="text" name="mail" placeholder="{{ 'Votre adresse e-mail'|trans }}" size="30"/>
+				<input type="text" name="enterprise" placeholder="{{ 'Votre entreprise'|trans }}" size="30" class="last"/>
+				<input type="text" name="object" placeholder="{{ 'Objet de votre message'|trans }}" size="30"/>
+				<textarea name="message" placeholder="{{ 'Votre message'|trans }}" class="message last"></textarea>
 				<div class="send">
 					<input class="selector activated" type="checkbox">
-					<p>Inscrivez-vous à notre newsletter pour recevoir nos offres et nos articles</p>
-					<input class="button" type="submit" value="Envoyer">
+					<p>{{ 'Inscrivez-vous à notre newsletter pour recevoir nos offres et nos articles'|trans }}</p>
+					<input class="button" type="submit" value="{{ 'Envoyer'|trans }}">
 				</div>
 			</form>
 		</div>

@@ -36,7 +36,7 @@ lily.Views.Mail = lily.Extensions.View.extend({
 		$.ajax({
 		
 			type: 'POST',
-			url: root+licence+'/send/mail',
+			url: root+'/send/mail',
 			data: { mail: that.from, object: that.object, msg: that.msg },
 			// dataType: 'jsonp',
 			success:  function( data, textStatus, request ) {				
