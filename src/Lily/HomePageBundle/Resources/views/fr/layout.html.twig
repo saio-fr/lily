@@ -53,9 +53,10 @@
 	<script type="text/javascript">
 	
 		var licence = '53982388c0bf0';
+		var locale = 'fr';
 		(function() {
 			var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
-			lily.src = '{{ app.request.getSchemeAndHttpHost() }}/api/tracking/' + licence;
+			lily.src = '{{ app.request.getSchemeAndHttpHost() }}/' + locale + '/api/tracking/' + licence;
 			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);
 			})();
 	

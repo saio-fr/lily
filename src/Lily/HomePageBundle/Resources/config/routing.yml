@@ -1,35 +1,35 @@
 home_index:
-    pattern:  /{_locale}
-    defaults: { _controller: LilyHomePageBundle:Saio:index, _locale: fr }
+    pattern:  /
+    defaults: { _controller: LilyHomePageBundle:Saio:index }
 
 home_lily:
-    pattern:  /{_locale}/products
-    defaults: { _controller: LilyHomePageBundle:Saio:products, _locale: fr }
+    pattern:  /products
+    defaults: { _controller: LilyHomePageBundle:Saio:products }
 
 home_references:
-    pattern:  /{_locale}/references
-    defaults: { _controller: LilyHomePageBundle:Saio:references, _locale: fr }
+    pattern:  /references
+    defaults: { _controller: LilyHomePageBundle:Saio:references }
 
 home_case_studies:
-    pattern:  /{_locale}/case-studies
-    defaults: { _controller: LilyHomePageBundle:Saio:caseStudies, _locale: fr }
+    pattern:  /case-studies
+    defaults: { _controller: LilyHomePageBundle:Saio:caseStudies }
 
 home_team:
-    pattern:  /{_locale}/team
-    defaults: { _controller: LilyHomePageBundle:Saio:team, _locale: fr }
+    pattern:  /team
+    defaults: { _controller: LilyHomePageBundle:Saio:team }
 
 home_blog:
-    pattern:  /{_locale}/blog
-    defaults: { _controller: LilyHomePageBundle:Saio:blog, _locale: fr }
+    pattern:  /blog
+    defaults: { _controller: LilyHomePageBundle:Saio:blog }
 
 home_articles:
-    pattern:  /{_locale}/articles/{id}
-    defaults: { _controller: LilyHomePageBundle:Saio:articles, _locale: fr }
+    pattern:  /articles/{id}
+    defaults: { _controller: LilyHomePageBundle:Saio:articles }
 
 home_contact:
-    pattern:  /{_locale}/contact
-    defaults: { _controller: LilyHomePageBundle:Saio:contact, _locale: fr }
+    pattern:  /contact
+    defaults: { _controller: LilyHomePageBundle:Saio:contact }
 
 home_disclaimer:
-    pattern:  /{_locale}/disclaimer
-    defaults: { _controller: LilyHomePageBundle:Saio:disclaimer, _locale: fr }
+    pattern:  /disclaimer
+    defaults: { _controller: LilyHomePageBundle:Saio:disclaimer }

@@ -22,7 +22,13 @@ framework:
     session:         
         handler_id:   session.handler.memcached
     fragments:       ~
-    http_method_override: true
+    http_method_override: true    
+
+# JMS Automatic routing
+jms_i18n_routing:
+    default_locale: fr
+    locales: [en, fr]
+    strategy: prefix_except_default
 
 # Twig Configuration
 twig:
@@ -348,6 +354,7 @@ mobile_detect:
         tablet: ~
     switch_device_view: ~
 
+# JMS serializer
 jms_serializer:
     metadata:
         directories:

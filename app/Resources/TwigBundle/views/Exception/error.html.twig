@@ -1,0 +1,30 @@
+{# app/Resources/TwigBundle/views/Exception/error.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<section id="content">
+    <div class="row m-n">
+      <div class="col-sm-4 col-sm-offset-4">
+        <div class="text-center m-b-lg">
+          <h1 class="h text-white animated bounceInDown">404</h1>
+          <h4 class="animated bounceInDown">La page que vous cherchez n'a pas été trouvé.</h4>
+        </div>
+        <div class="list-group m-b-sm bg-white m-b-lg">
+          <a href="{{ path('home_index') }}" class="list-group-item">
+            <i class="icon-chevron-right"></i>
+            <i class="icon-home"></i> Retourner sur la page d'accueil
+          </a>
+          <a href="{{ path('home_contact') }}" class="list-group-item">
+            <i class="icon-chevron-right"></i>
+            <i class="icon-question"></i> Nous envoyer un email
+          </a>
+          <a href="tel:+33160766971" class="list-group-item">
+            <i class="icon-chevron-right"></i>
+            <span class="badge">+33.1.60.76.69.71</span>
+            <i class="icon-phone"></i> Nous téléphoner
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

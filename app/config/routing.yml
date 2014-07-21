@@ -4,55 +4,43 @@ home:
 
 lily_chat:
     resource: "@LilyChatBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}/lily/chat
-    defaults: { _locale: fr }
+    prefix:   /lily/chat
 
 lily_knowledge:
     resource: "@LilyKnowledgeBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}/lily
-    defaults: { _locale: fr }
+    prefix:   /lily
 
 lily_api:
     resource: "@LilyApiBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}
-    defaults: { _locale: fr }
+    prefix:   /
 
 lily_admin:
     resource: "@LilyAdminBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}/admin
-    defaults: { _locale: fr }
+    prefix:   /admin
 
 lily_back_office:
     resource: "@LilyBackOfficeBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}/lily
-    defaults: { _locale: fr }
-
+    prefix:   /lily
 lily_user:
     resource: "@LilyUserBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}
-    defaults: { _locale: fr }
+    prefix:   /
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
-    prefix: /{_locale}
-    defaults: { _locale: fr }
+    prefix: /
  
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /{_locale}/profile
-    defaults: { _locale: fr }
+    prefix: /
  
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /{_locale}/register
-    defaults: { _locale: fr }
+    prefix: /
  
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /{_locale}/resetting
-    defaults: { _locale: fr }
+    prefix: /
  
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /{_locale}/profile
-    defaults: { _locale: fr }
+    prefix: /

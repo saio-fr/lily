@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Lily\KnowledgeBundle\LilyKnowledgeBundle(),
             new Lily\ChatBundle\LilyChatBundle(),
             new Lily\HomePageBundle\LilyHomePageBundle(),
+            new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

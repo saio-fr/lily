@@ -43,7 +43,7 @@ function __init() {
 		
 			var i = document.createElement('iframe');
 			i.setAttribute('id', 'lilyApp');
-			i.setAttribute('src', '{{ app.request.getSchemeAndHttpHost() }}/api/'+licence);
+			i.setAttribute('src', '{{ path("lily_api_index", { key: key }) }}');
 			i.setAttribute('frameborder', '0');
 			document.getElementById('lilyAppContainer').appendChild(i);
 			
@@ -57,13 +57,6 @@ function __init() {
 				if (!mobile.phone) {
 					
 					i.contentWindow.document.getElementsByClassName('lily-icon-reduce')[0].onclick = function() { c.style.opacity = 0; c.style.display = 'none'; w.style.opacity = 1; }
-					
-					/*i.contentWindow.document.getElementById('icon-iframe-fullscreen').onclick = function() {
-				
-						if (c.style.width == '100%') { c.style.width = '325px'; c.style.height = '500px'; }
-						else { c.style.width = '100%'; c.style.height = '100%'; }
-						
-					} */
 				
 				} 
 			
@@ -74,8 +67,8 @@ function __init() {
 		// Clicks events
 		w.onclick = function() { 
 		
-			if (mobile.phone) { window.open('{{ app.request.getSchemeAndHttpHost() }}/api/'+licence); }
-			else { c.style.opacity = 1; c.style.display = 'block'; w.style.opacizzty = 0; }
+			if (mobile.phone) { window.open('{{ path("lily_api_index", { key: key }) }}'); }
+			else { c.style.opacity = 1; c.style.display = 'block'; w.style.opacity = 0; }
 		
 		}
 		
