@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -16,30 +16,34 @@ class UserType extends AbstractType
     {
         if(isset($options['adminModif']) && $options['adminModif']===true) {
             $builder
+                ->add('avatar', 'text', Array('label' => 'Avatar'))
                 ->add('lastname', 'text', Array('label' => 'Nom'))
                 ->add('firstname', 'text', Array('label' => 'Prénom'))
-                ->add('username', 'text', Array('label' => 'Login'))
-                /*->add('plainPassword', 'repeated', array(
-                    'type' => 'password',
-                    'options' => array(
-                    'first_options' => array('label' => 'Mot de passe'),
-                    'second_options' => array('label' => 'Confirmer le mot de passe'),
-                    'invalid_message' => 'Les mots de passes ne sont pas les mêmes',
-                ))*/
-                ->add('email', 'email', Array('label' => 'Email'))
-                ->add('roles', 'choice', Array('label' => 'Permissions',
-                    'choices'=> array('ROLE_ADMIN'=>'Administrateur',
-                                        'ROLE_CHAT_OPERATOR'=>'Live chat',
-                                        'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances')))
-                ->add('service', 'choice', Array('label' => 'Service',
-                    'choices'=> array('ROLE_ADMIN'=>'Administrateur',
-                                        'ROLE_CHAT_OPERATOR'=>'Live chat',
-                                        'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances')))
-                ->add('phone', 'text', Array('label' => 'Téléphone'))
                 ->add('post', 'text', Array('label' => 'Poste'))
                 ->add('country', 'text', Array('label' => 'Pays'))
-                ->add('avatar', 'text', Array('label' => 'Avatar'))
+                ->add('roles', 'choice', Array('label' => 'Permissions',
+                                                'choices'=> array('ROLE_ADMIN'=>'Administrateur',
+                                                                    'ROLE_CHAT_OPERATOR'=>'Live chat',
+                                                                    'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances'),
+                                                'multiple'=>true))
+                ->add('services', 'entity', Array('label'=>'Services',
+                                                    'class'=>'LilyUserBundle:Service',
+                                                    'property'=>'nom',
+                                                    'multiple'=>true))
+                ->add('email', 'email', Array('label' => 'Adresse e-mail'))
+                ->add('phone', 'text', Array('label' => 'Téléphone'))
+                ->add('username', 'text', Array('label' => 'Login'))
+                ->add('plainPassword', 'repeated', array( 
+                    'type' => 'password',
+                    'first_options' => array('label' => 'Mot de passe', 'attr'=>array('autocomplete'=>'off')),
+                    'second_options' => array('label' => 'Confirmer le mot de passe', 'attr'=>array('autocomplete'=>'off')),
+                    'options' => array('invalid_message' => 'Les mots de passe ne sont pas les mêmes'),
+                ))
                 ;
+        } elseif(isset($options['avatarWidget']) && $options['avatarWidget']===true) {
+            $builder
+                ->add('avatar', 'hidden')
+                ->add('avatarFile', 'file');
         } else {
             $builder
                 ->add('email')
@@ -57,6 +61,7 @@ class UserType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Lily\UserBundle\Entity\User',
             'adminModif'=>false,
+            'avatarWidget'=>false,
         ));
     }
 

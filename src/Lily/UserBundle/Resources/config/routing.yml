@@ -5,6 +5,12 @@ lily_user:
     pattern:  /users
     defaults: { _controller: LilyUserBundle:Manage:index }
 
+lily_avatarWidget:
+    pattern:  /users/avatarWidget/{id}
+    defaults: { _controller: LilyUserBundle:Manage:avatarWidget, id: 0}
+    requirements:
+        id: \d*
+
 lily_user_rest:
     resource: "@LilyUserBundle/Controller/ManageController.php"
     type:     rest

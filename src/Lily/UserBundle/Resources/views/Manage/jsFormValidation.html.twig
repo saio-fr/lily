@@ -1,0 +1,15 @@
+{# Réécriture de cette fonction, replaçant document.onload() par $() (cf https://github.com/formapro/JsFormValidatorBundle/issues/43 ,  sans solution plus propre à ce jour ) #}
+<script>
+    FpJsFormValidator.addModel = function (model) {
+
+        var self = this;
+        if (!model) return;
+
+        $(function () {
+            self.forms[model.id] = self.initModel(model);
+        })
+    };
+<\/script>
+{# On escape les </script> car ce template se trouve dans une balise <script type="text" /> #}
+{{ js_validator_config()|replace({'</script':'<\\/script'})|raw }}
+{{ init_js_validation()|replace({'</script':'<\\/script'})|raw }}
