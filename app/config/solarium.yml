@@ -3,191 +3,133 @@ nelmio_solarium:
     endpoints:
         insults:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: insults
             timeout: 30
+        dev:
+            host: 37.59.26.160  
+            port: 7574
+            path: /solr
+            core: dev
+            timeout: 30
+        dev.personal:
+            host: 37.59.26.160  
+            port: 7574
+            path: /solr
+            core: dev-personal
+            timeout: 30
+        dev.unanswered:
+            host: 37.59.26.160  
+            port: 7574
+            path: /solr
+            core: dev-unanswered
+            timeout: 30
         saio:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: saio
             timeout: 30
         saio.personal:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: saio-personal
             timeout: 30
         saio.unanswered:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: saio-unanswered
             timeout: 30
         tem:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tem
             timeout: 30
         tem.personal:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tem-personal
             timeout: 30
         tem.unanswered:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tem-unanswered
             timeout: 30
         tsp:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tsp
             timeout: 30
         tsp.personal:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tsp-personal
             timeout: 30
         tsp.unanswered:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tsp-unanswered
             timeout: 30
         tbretagne:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tbretagne
             timeout: 30
         tbretagne.personal:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tbretagne-personal
             timeout: 30
         tbretagne.unanswered:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tbretagne-unanswered
             timeout: 30
         tparis:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tparis
             timeout: 30
         tparis.personal:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tparis-personal
             timeout: 30
         tparis.unanswered:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: tparis-unanswered
             timeout: 30
         movinmotion:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: movinmotion
             timeout: 30
         movinmotion.personal:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: movinmotion-personal
             timeout: 30
         movinmotion.unanswered:
             host: 37.59.26.160  
-<<<<<<< HEAD
             port: 8983
-=======
-            port: 8984
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
             path: /solr
             core: movinmotion-unanswered
             timeout: 30
@@ -195,6 +137,12 @@ nelmio_solarium:
     clients:
         insults:
             endpoints: [insults]
+        dev:
+            endpoints: [dev]
+        dev.personal:
+            endpoints: [dev.personal]
+        dev.unanswered:
+            endpoints: [dev.unanswered]
         saio:
             endpoints: [saio]
         saio.personal:

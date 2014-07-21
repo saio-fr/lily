@@ -184,6 +184,7 @@ display:block;
 .list-group-item small {
   font-size: 90%;
   color: #c2c3c5;
+  display: inline;
 }
 
 .list-group-item:hover small {
@@ -1975,24 +1976,28 @@ LIVE CHAT
   display: inline-block;
 }
 
+#chat #dashboard-section .header h3, #chat #parameters-section .header h3 {
+  color: #79797a;
+}
+
 #chat .header-control {
   display: inline-block;
   padding: 10px 0;
 }
 
-#chat .header-control .icon-gear {
+#chat .header-control a i {
   font-size: 20px;
   color: #f9f9f9;
   line-height: 30px;
 }
 
 #chat .header-control button {
-  background: #677cac;
-  box-shadow: 3px 3px 1px -2px #596b93;
+  background: #60677a;
+  box-shadow: 3px 3px 1px -2px #4f5565;
   outline: none;
 }
 
-#chat button {
+#chat .header-control button {
   color: #f9f9f9;
   font-size: 12px;
   margin-right: 5px;
@@ -2036,7 +2041,7 @@ LIVE CHAT
 }
 
 #chat .status button .unavailable {
-  color: #f8ca12;
+  color: #ff6455;
 }
 
 #chat .header-current, #chat .header-waiting {
@@ -2214,7 +2219,7 @@ LIVE CHAT
   left: calc(50% - 250px) !important;
 }
 
-#chat .modal-close {
+#chat .modal-ban {
   margin: 0;
   position: absolute;
   width: 500px;
@@ -2302,43 +2307,25 @@ LIVE CHAT
 }
 
 .conversation-footer  {
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .conversation-footer .alert-writing {
   position: absolute;
-  top: 25px;
-  left: 25px;
+  top: -25px;
+  right: 25px;
   font-size: 12px;
 }
 
-.conversation-footer input {
-  border: none;
-  border-radius: 3px;
-  height: 130px;
-  font-size: 12px;
-  padding: 25px 25px 10px 25px;
-  box-shadow: -1px 5px 5px -2px #e8ebef;
-}
-
-.conversation-editor-control {
-  position: absolute;
-  top: 25px;
-  right: 25px;	
-  font-size: 15px;
-}
-
-.conversation-editor-control i {
-  cursor: pointer;	
-}
-
-.conversation-editor-control i:hover {
-  color: #6075a4;
+.conversation-footer textarea {
+  width: 100%;
+  height: 85px;
+  resize: none;
 }
 
 .conversation-section {
   padding: 20px;
-  margin-bottom: 150px;
+  margin-bottom: 180px;
 }
 
 .conversation-section-list {
@@ -2349,31 +2336,39 @@ LIVE CHAT
   display: block;
 }
 
-.conversation-section-item p.msg-operator {
-  padding-left: 10px;
-  font-size: 12px;
+.conversation-section-item img.img-circle {
+  width: 35px;
+  height: 35px;
+  margin-left: 5px;
+  float: left;
 }
 
 .conversation-section-item p.msg-visitor {
-  padding-left: 10px;
+  padding-right: 15px;
+  text-align: right;
   font-size: 12px;
   font-weight: 600;
   color: #6075a4;
+  border-right: 2px solid #6075a4;
+  min-height: 35px;
 }
 
 .conversation-section-item p.msg-visitor .date {
   color: #d6d6d6;
-  border-right: 2px solid #6075a4;
-  padding-right: 10px; 
-  margin-right: 10px;
   font-weight: 300;
 }
 
-.conversation-section-item p.msg-operator .date {
+.conversation-section-item p.msg-operator {
+  border-left: 2px solid #6e7d83;
+  font-size: 12px;
+  min-height: 35px;
+  margin-left: 55px;
+  padding-left: 15px;
+}
+
+.conversation-section-item p span {
   color: #d6d6d6;
-  border-right: 2px solid #6e7d83;
-  padding-right: 10px; 
-  margin-right: 10px;
+  display: block;
 }
 
 .conversation-section p.conversation-date {
@@ -2411,7 +2406,53 @@ LIVE CHAT
   margin-left: 10px;
 }
 
+#chat .icon-gear.active, #chat .icon-bar-chart.active, #chat .icon-comments-alt.active {
+  color: #fcc44d;
+}
 
+#chat #dashboard-section .operators small {
+  margin-top: 0;
+}
+
+#chat #dashboard-section .operators h5 {
+  margin-bottom: 5px;
+  color: #427789;
+}
+
+
+#chat #dashboard-section .visitors small {
+  margin-top: 0;
+}
+
+#chat #dashboard-section .visitors h5 {
+  margin-bottom: 5px;
+  color: #427789;
+}
+
+#chat .header-control i.disable {
+  cursor: default;
+}
+
+#chat .wysihtml5-toolbar {
+  margin-right: 5px;
+  width: 100%;
+  max-width: 700px;
+  display: inline-block;
+}
+
+#chat .wysihtml5-toolbar a {
+  display: inline-block;
+}
+
+#chat .createLink {
+  position: absolute;
+  bottom: 31px;
+  margin-right: 30px;
+}
+
+#chat .dropdown-select .disabled {
+  color: #cbcbcb;
+}
 
 /*=======================================================================================================
 Dashboard
@@ -2426,6 +2467,7 @@ Dashboard
 ul.top-questions-list {
   padding: 0;
   margin: 0;
+  list-style-type: none;
 }
 .top-questions-item {
   width: 100%;
@@ -3154,7 +3196,7 @@ Partie Statistiques
   color: #979797;
 }
 .blue-header {
-  background-color: #6075a4;
+  background-color: #51586c;
 }
 .blue-header p {
   color: white;
@@ -3598,9 +3640,7 @@ background-color: #ffffff;
 }
 
 .panel-body h6 {
-	color: #8c8c8c;
-  margin-top: 51px;
-  margin-bottom: 24px;
+  color: #8c8c8c;
 }
 
 .panel-body #iframe ul li {
@@ -3700,6 +3740,27 @@ background-color: #ffffff;
 }
 .scroll-x {
   overflow-x: auto;
+}::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  display:none;
+}
+}::-webkit-scrollbar:hover {
+  display:block;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: rgba(50,50,50,0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(50,50,50,0.6);
+}
+::-webkit-scrollbar-track {
+  border-radius: 1em;
+  background-color: rgba(50,50,50,0.1);
+}
+::-webkit-scrollbar-track:hover {
+  background-color: rgba(50,50,50,0.2);
 }
 .no-touch .scroll-x,
 .no-touch .scroll-y {

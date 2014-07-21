@@ -21,6 +21,7 @@ class QuestionType extends AbstractType
             ->add('answer')
             ->add('position')
             ->add('mood')
+            -add('label')
         ;
     }
     

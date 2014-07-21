@@ -16,17 +16,8 @@
 		    <div class="row">
 		    
 		       <!-- Graphique Utilisation -->
-			  <div class="col-md-6">
+			  <div class="col-lg-6">
 			    <section id="graph" class="panel"></section>
-			  </div>
-			  
-			  <div class="col-md-6">
-		        <section class="panel">
-                  <header class="panel-heading font-bold">Vous avez économisé:<span class="saved">{{ saving }} €</span></header>
-		        </section>
-			  </div>
-			  
-			  <div class="col-md-6">
 			    <section class="panel">
 			    <header class="panel-heading font-bold">Activités</header>
 		          <div class="panel-body">
@@ -49,12 +40,19 @@
                     </ul> 
                     
 		          </div>
-		        </section>	        
-		      </div>
+		        </section>
+			  </div>
+			  
+			  <div class="col-lg-6">
+		        <section class="panel">
+                  <header class="panel-heading font-bold">Vous avez économisé:<span class="saved">{{ saving }} €</span></header>
+		        </section>
+			  </div>
 		      
 		      <div class="col-md-6">
 		        <section class="panel">
-                  <div class="panel-body">
+                  <div class="panel-body lily-iframe">
+                    <iframe src="{{ path('lily_api_index', {key: app.user.enterprise.key } ) }}" width="100%" height="500" frameBorder="0"></iframe>
                   </div>
 		        </section>	
 		      </div>
@@ -113,7 +111,7 @@
 
 {{ parent() }}
 
-{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/vendor/moment.js' 'js/dashboard.js' %}
+{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/vendor/moment.js' 'js/dashboard.js' output='js/compiled/dashboard.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

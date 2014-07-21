@@ -21,11 +21,29 @@
       </ul>
     </section>
     <footer class="footer conversation-footer">
-      <span class="alert-writing"><i class="icon-pencil m-r-xs"></i>Votre interlocuteur est en train d'écrire</span>
-      <div class="conversation-editor-control">
-        <i class="icon-trash m-l-xs"></i>
+      <span class="alert-writing animated fadeIn" style="display: none;"><i class="icon-pencil m-r-xs"></i>Votre interlocuteur est en train d'écrire</span>
+      <div class="conversation-form">
+		<section class="panel">
+          <form>
+            <textarea formtarget="_blank"  class="form-control no-border" rows="5" placeholder="Votre message..." style="margin: 0px -1px 0px 0px;"></textarea>
+          </form>
+          <footer class="panel-footer bg-light lter clearfix">
+            <button class="btn btn-info pull-right btn-sm send">ENVOYER</button>
+            <ul class="nav nav-pills nav-sm toolbar">
+              <li><a data-wysihtml5-command="bold" title="CTRL+B"><i class="icon-bold"></i></a></li>
+              <li><a data-wysihtml5-command="italic" title="CTRL+I"><i class="icon-italic"></i></a></li>
+		      <li><a data-wysihtml5-command="underline" title="CTRL+U"><i class="icon-underline"></i></a></li>
+		      <li><a href="#"><i class="icon-trash"></i></a></li>
+		      <li><a data-wysihtml5-command="createLink"><i class="icon-link"></i></a></li>
+		      <form data-wysihtml5-dialog="createLink" class="createLink input-group" style="display: none;">
+			      <input data-wysihtml5-dialog-field="href" class="form-control input-sm" value="http://" class="text">
+			      <div class="input-group-btn">
+			        <a class="btn btn-sm btn-danger" data-wysihtml5-dialog-action="cancel">Annuler</a>
+			        <a class="btn btn-sm btn-success" data-wysihtml5-dialog-action="save">Insérer</a>
+			      </div>
+			  </form>
+            </ul>
+          </footer>
+        </section>
       </div>
-      <form id="conversation-form">
-        <input type="text" placeholder="Votre message" class="form-control conversation-editor"></input>
-      </form>
     </footer>

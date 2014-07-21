@@ -22,7 +22,13 @@ framework:
     session:         
         handler_id:   session.handler.memcached
     fragments:       ~
-    http_method_override: true
+    http_method_override: true    
+
+# JMS Automatic routing
+jms_i18n_routing:
+    default_locale: fr
+    locales: [en, fr]
+    strategy: prefix_except_default
 
 # Twig Configuration
 twig:
@@ -36,11 +42,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-<<<<<<< HEAD
     bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle]
-=======
-    bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle]
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
     node: /usr/local/bin/node
     filters:
         cssrewrite: ~
@@ -67,6 +69,16 @@ doctrine:
                 host:     "%database_host%"
                 port:     "%database_port%"
                 dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # Dev
+            dev:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_dev%"
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
@@ -149,6 +161,20 @@ doctrine:
                 mappings:
                     LilyAdminBundle: ~
                     LilyUserBundle: ~
+                    
+            # Dev
+            dev:
+                connection:       dev
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
                     
             # Telecom EM
             tem:
@@ -286,6 +312,10 @@ sensio_framework_extra:
 stof_doctrine_extensions:
     default_locale: fr_FR
     orm:
+        dev: 
+            loggable: true
+            timestampable: true
+            sortable: true
         tem: 
             loggable: true
             timestampable: true
@@ -322,15 +352,12 @@ mobile_detect:
     redirect:
         mobile: ~
         tablet: ~
-<<<<<<< HEAD
     switch_device_view: ~
 
+# JMS serializer
 jms_serializer:
     metadata:
         directories:
             FOSUB:
                 path: %kernel.root_dir%/Resources/FOSUserBundle/serializer
                 namespace_prefix: 'FOS\UserBundle'
-=======
-    switch_device_view: ~
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b

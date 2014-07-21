@@ -17,11 +17,12 @@ chat.LiveView = Backbone.View.extend({
     	this.listenTo(this.collection, 'change:operator', this.add); 
     	this.listenTo(this.collection, 'change:closed', this.add); 
     	
-    	var informations = new chat.Views.Informations();
+    	this.informations = new chat.Views.Informations();
     	
     	this.counter = {};
 		this.counter.current = 0;
 		this.counter.waiting = 0;
+		this.counter.pendingAnswer = 0;
     	
     },
     

@@ -1,4 +1,4 @@
-lily_home:
+home:
     resource: "@LilyHomePageBundle/Resources/config/routing.yml"
     prefix:   /
 
@@ -12,6 +12,7 @@ lily_knowledge:
 
 lily_api:
     resource: "@LilyApiBundle/Resources/config/routing.yml"
+    prefix:   /
 
 lily_admin:
     resource: "@LilyAdminBundle/Resources/config/routing.yml"
@@ -20,26 +21,26 @@ lily_admin:
 lily_back_office:
     resource: "@LilyBackOfficeBundle/Resources/config/routing.yml"
     prefix:   /lily
-
 lily_user:
     resource: "@LilyUserBundle/Resources/config/routing.yml"
-    prefix:   /lily
+    prefix:   /
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    prefix: /
  
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
+    prefix: /
  
 fos_user_register:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /register
+    prefix: /
  
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
+    prefix: /
  
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
+    prefix: /

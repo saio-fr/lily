@@ -116,7 +116,7 @@
 		{% autoescape false %}
 		<script type="text/javascript">
 		    var licence = "{{ key }}";
-		    var root = "{{ app.request.getSchemeAndHttpHost() }}/api/";
+		    var root = "{{ path('lily_api_index', { key: key }) }}";
 		    var aviWelcomeMsg = "{{ aviWelcomeMsg }}";
 		</script>
 		{% endautoescape %}

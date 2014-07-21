@@ -119,4 +119,17 @@ class ChatService
 		return array('result' => $result);		
     }
     
+   /**
+    * Is we writing ?
+    */
+    public function writing(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $params['sid']) { 
+				$item->writing = $params['writing'];
+			}
+		}		
+		return array('result' => true);		
+    }
+    
 }

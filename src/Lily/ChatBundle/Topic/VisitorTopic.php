@@ -62,6 +62,7 @@ class VisitorTopic implements TopicInterface
         $visitor->closed = false;
         $visitor->startTime = $date->getTimestamp();
         $visitor->lastMsgTime = $date->getTimestamp();
+        $visitor->writing = false;
         $visitor->messages = array();
         // Questions asked to the avatar
         $visitor->questions = array();

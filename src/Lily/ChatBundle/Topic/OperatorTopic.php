@@ -48,6 +48,7 @@ class OperatorTopic implements TopicInterface
         $operator->messages = array();
         $operator->available = false;
         $operator->operator = null;
+        $operator->writing = false;
         
         $clients->attach($operator);
     }

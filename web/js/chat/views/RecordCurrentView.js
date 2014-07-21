@@ -12,6 +12,7 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		
 		// Get the messages list
 		this.listenTo(this.model, 'change:messages', this.status);
+		this.listenTo(this.model, 'change:messages', chat.app.changeBadge);
 		this.listenTo(this.model, 'change:operator', this.close);
 		this.listenTo(this.model, 'change:closed', this.remove);
 		this.listenTo(this.model, 'change:banned', this.remove);
@@ -41,7 +42,7 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 
 		// If the last message come from a visitor, set unanswered status
 		if ( this.model.get('messages')[this.model.get('messages').length-1].from == 'visitor' ) {
-			this.$el.find('.status').removeClass('answered').addClass('unanswered');			
+			this.$el.find('.status').removeClass('answered').addClass('unanswered');
 		} else {
 			this.$el.find('.status').removeClass('unanswered urgent').addClass('answered');
 		}

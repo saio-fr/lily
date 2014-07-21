@@ -1,0 +1,83 @@
+<header id="skrollr-body">
+    		<div class="metanav">
+    			<div class="wrapper">
+    				<ul id="metanav">
+    					<li id="selector">
+    						<a>{{ 'Français'|trans }}<i class="arrow"></i></a>
+    						<ul id="lang_select">
+    							<li><a href="{{ path(app.request.attributes.get('_route'), {_locale:'fr'}) }}">Français</a></li>
+    							<li><a href="{{ path(app.request.attributes.get('_route'), {_locale:'en'}) }}">English</a></li>
+    							<!--<li><a href="#">Español</a></li>-->
+    						</ul>
+    					</li>
+    					<li><a href="{{ path('fos_user_security_login') }}" target="_blank">{{ 'S\'identifier'|trans }}</a></li>
+    				</ul>
+    			</div>
+    		</div>
+    		<nav>
+    			<div class="wrapper">
+    				<ul class="link_nav">
+    					<li>
+    						<a href="{{ path('home_index') }}" class="{% if app.request.attributes.get('_route') == 'home_index' %}active{% endif %}">{{ 'Notre solution'|trans }}</a>
+    						<div class="roll"></div>
+    					</li>
+    					<li>
+    						<a href="{{ path('home_lily') }}" id="menu_produits" style="display: none;">{{ 'produits'|trans }}</a>
+    						<div class="roll"></div>
+    					</li>
+    					<li>
+    						<a href="{{ path('home_references') }}" id="menu_references" style="display: none;">{{ 'références'|trans }}</a>
+    						<div class="roll"></div>
+    						<ul id="roll_references">
+    							<li><a href="{{ path('home_references') }}">{{ 'Nos références'|trans }}</a></li>
+    							<li class="separation"></li>
+    							<li><a href="{{ path('home_case_studies') }}">{{ 'études de cas'|trans }}</a></li>
+    						</ul>
+    					</li>
+    					<li>
+    						<a href="{{ path('home_blog') }}" id="menu_actus" class="{% if app.request.attributes.get('_route') == 'home_blog' %}active{% endif %}">{{ 'blog'|trans }}</a>
+    						<div class="roll"></div>
+    					</li>
+    					<li>
+    						<a href="{{ path('home_team') }}" class="{% if app.request.attributes.get('_route') == 'home_team' %}active{% endif %}">{{ 'société'|trans }}</a>
+    						<div class="roll"></div>
+    					</li>
+    					<li>
+    						<a href="{{ path('home_contact') }} " class="{% if app.request.attributes.get('_route') == 'home_contact' %}active{% endif %}">{{ 'contact'|trans }}</a>
+    						<div class="roll"></div>
+    					</li>
+    					<li><a href="mailto:contact@saio.fr?Subject=Demande de test&amp;body=Bonjour,%0A%0AJe souhaiterais effectuer un test de votre solution sur mon site internet. Pourriez-vous me contacter afin que nous puissions échanger à ce sujet ?%0A%0AJe vous remercie par avance.%0A%0ACordialement,%0A%0A" class="button">{{ 'demande de test'|trans }}</a></li>
+    				</ul>
+                    <a href="{{ path('home_index') }}"><img src="{{ asset('images/home/logo-saio-black.png') }}" alt="logo SAIO" class="logo"></a>
+    			</div>
+    		</nav><!-- Fin de la navigation-->
+    	</header><!-- fin du header-->
+
+    	<div class="header_mobile">
+    		<div class="content">
+    			<img src="{{ asset('images/home/icon-menu.png') }}" alt="Menu" class="icon_menu">
+    			<a href="{{ path('home_index') }}"><img src="{{ asset('images/home/logo-saio-black.png') }}" alt="logo SAIO" class="logo"></a>
+    		</div>
+    		<div class="menu">
+    			<ul id="menu_select">
+    				<li class="first">
+    					<a href="{{ path('home_index') }}" class="{% if app.request.attributes.get('_route') == 'home_index' %}active{% endif %}">{{ 'Notre solution'|trans }}</a>
+    				</li>
+    				<li style="display: none;">
+    					<a href="{{ path('home_lily') }}">{{ 'produits'|trans }}</a>
+    				</li>
+    				<li style="display: none;">
+    					<a href="{{ path('home_references') }}">{{ 'références'|trans }}</a>
+    				</li>
+    				<li>
+    					<a href="{{ path('home_blog') }}" class="{% if app.request.attributes.get('_route') == 'home_blog' %}active{% endif %}">{{ 'blog'|trans }}</a>
+    				</li>
+    				<li>
+    					<a href="{{ path('home_team') }} " class="{% if app.request.attributes.get('_route') == 'home_team' %}active{% endif %}">{{ 'société'|trans }}</a>
+    				</li>
+    				<li>
+    					<a href="{{ path('home_contact') }}" class="{% if app.request.attributes.get('_route') == 'home_contact' %}active{% endif %}">{{ 'contact'|trans }}</a>
+    				</li>
+    			</ul>
+    		</div>
+    	</div>

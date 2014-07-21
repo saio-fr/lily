@@ -27,7 +27,8 @@
         "stof/doctrine-extensions-bundle": "~1.1@dev",
         "suncat/mobile-detect-bundle": "0.9.*",
         "cboden/Ratchet": "0.3.*",
-        "react/zmq": "0.2.*"
+        "react/zmq": "0.2.*",
+        "jms/i18n-routing-bundle": "dev-master"
 	    
     },
     "scripts": {

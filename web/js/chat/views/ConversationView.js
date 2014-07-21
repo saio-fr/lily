@@ -7,14 +7,16 @@ chat.Views.Conversation = Backbone.View.extend({
 	className: 'vbox animated fadeInRight',
 	
 	events: {
-		'submit #conversation-form': 'send',
-		'click #conversation-send': 'send',
 		'click .conversation-close': 'close',
 		'click .conversation-minus': 'minus',
-		'click .ban' : 'ban'
+		'click .ban' : 'ban',
+		'click .conversation-form button.send' : 'send',
+		'click .conversation-form .icon-trash' : 'clearInput'
 	},	
 	
 	initialize: function() {
+		
+		that = this;
 		
 		// Create a collection of this view messages
 		this.messages = new chat.Messages();
@@ -26,6 +28,7 @@ chat.Views.Conversation = Backbone.View.extend({
 		this.listenTo(this.model, 'urgent', this.urgent);
 		this.listenTo(this.model, 'change:banned', this.remove);
 		this.listenTo(this.model, 'change:closed', this.remove);
+		this.listenTo(this.model, 'change:writing', this.writing);
 		this.listenTo(this.model, 'render', this.active);
 		
 		// Add Active class to record view
@@ -34,8 +37,21 @@ chat.Views.Conversation = Backbone.View.extend({
 		// Render the view	
 		$(this.render().el).prependTo('.conversations');
 		
+		this.$input = this.$el.find('textarea');
+		
+		this.editor = new wysihtml5.Editor( that.$el.find('textarea').get(0) , { // id of textarea element
+			toolbar: that.$el.find('.toolbar').get(0) , // id of toolbar element
+			parserRules:    wysihtml5ParserRules,
+			useLineBreaks:  true
+		});
+
+		
+		
 		// Get the messages
-		this.getMessages();	
+		this.getMessages();
+		
+		// If the visitor is writing, show it
+	    this.$writing = this.$el.find('.alert-writing');	
 				
 	},
 	
@@ -55,20 +71,24 @@ chat.Views.Conversation = Backbone.View.extend({
 								
 	},
 	
-	send: function (e) {
+	sendOnEnter: function(e) {
+		
+		if (e.keyCode == 13 && !e.shiftKey) { this.send(); }
+		
+	},
+	
+	send: function () {
 
-		e.preventDefault();
-		
-		this.$input = this.$el.find('#conversation-form input.conversation-editor');
-		this.message = this.$input.val();
-		
-		if ( $.trim(this.message).length > 0 ){/*On vérifie que le champ n'est pas vide ou contient uniquement des espaces*/
+		this.message = this.editor.getValue();
+
+		if ( $.trim(this.message).length > 0 ){ /*On vérifie que le champ n'est pas vide ou contient uniquement des espaces*/
 			
 			sess.publish('visitor/'+this.model.id, this.message);
 			
 		}
 		// clear the search field
 		this.clearInput();
+
 	},
 	
 	addItem: function( message ) {
@@ -115,10 +135,7 @@ chat.Views.Conversation = Backbone.View.extend({
 	
 	clearInput: function() {
 		
-		if (isMobile.phone){
-			this.$input.val('').blur();
-		}
-		else {this.$input.val('').focus().select();}
+		this.editor.clear();
 		
 	},
 	
@@ -195,6 +212,18 @@ chat.Views.Conversation = Backbone.View.extend({
 		} else {
 			this.$el.find('.status').removeClass('text-unanswered').addClass('text-answered');
 		}
+	    
+    },
+    
+    writing: function () { 
+	    
+	    if ( this.model.get('writing') ) { 
+	    	this.$writing.removeClass('fadeOut').addClass('fadeIn');
+	    	this.$writing.show(); 
+	    } 
+	    else { 
+	    	this.$writing.removeClass('fadeIn').addClass('fadeOut'); 
+	    }
 	    
     }
 	

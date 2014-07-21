@@ -27,6 +27,17 @@ class Category
     protected $id;
     
     /**
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", cascade={"remove"})
+     * @Groups({"unique"})
+     **/
+    protected $children;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="children")
+     **/
+    protected $parent;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="category")
      * @Exclude
      */
@@ -171,5 +182,61 @@ class Category
     public function getRedirection()
     {
         return $this->redirection;
+    }
+
+    /**
+     * Add children
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
+     * @return Category
+     */
+    public function addChildren(\Lily\KnowledgeBundle\Entity\Question $children)
+    {
+        $this->children[] = $children;
+    
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
+     */
+    public function removeChildren(\Lily\KnowledgeBundle\Entity\Question $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $parent
+     * @return Category
+     */
+    public function setParent(\Lily\KnowledgeBundle\Entity\Question $parent = null)
+    {
+        $this->parent = $parent;
+    
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Lily\KnowledgeBundle\Entity\Question 
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

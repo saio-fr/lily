@@ -5,7 +5,7 @@ home_index:
 home_lily:
     pattern:  /products
     defaults: { _controller: LilyHomePageBundle:Saio:products }
-    
+
 home_references:
     pattern:  /references
     defaults: { _controller: LilyHomePageBundle:Saio:references }
@@ -17,7 +17,7 @@ home_case_studies:
 home_team:
     pattern:  /team
     defaults: { _controller: LilyHomePageBundle:Saio:team }
-    
+
 home_blog:
     pattern:  /blog
     defaults: { _controller: LilyHomePageBundle:Saio:blog }
@@ -29,7 +29,7 @@ home_articles:
 home_contact:
     pattern:  /contact
     defaults: { _controller: LilyHomePageBundle:Saio:contact }
-    
+
 home_disclaimer:
     pattern:  /disclaimer
     defaults: { _controller: LilyHomePageBundle:Saio:disclaimer }

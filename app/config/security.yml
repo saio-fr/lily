@@ -17,32 +17,25 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
+                check_path: fos_user_security_check
                 csrf_provider: form.csrf_provider
                 csrf_parameter: _csrf_token
                 always_use_default_target_path: false
-                default_target_path:            /lily/dashboard
+                default_target_path:            lily_dashboard
                 target_path_parameter:          _target_path
                 use_referer:                    false              
             logout:
                 path: fos_user_security_logout
-                target: http://saio.fr
+                target: home_index
             anonymous:    true
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: ROLE_SUPER_ADMIN }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, role: ROLE_SUPER_ADMIN }
-        - { path: ^/lily, role: ROLE_USER }
-        - { path: ^/lily/questions, role: ROLE_KNOWLEDGE_OPERATOR }
-        - { path: ^/lily/faq, role: ROLE_KNOWLEDGE_OPERATOR }
-<<<<<<< HEAD
-        - { path: ^/lily/livechat, role: ROLE_CHAT_OPERATOR }
-        - { path: ^/lily/users, role: ROLE_ADMIN }
-=======
-        - { path: ^/lily/livechat, role: ROLE_CHAT_OPERATOR }
->>>>>>> 6d8921e0dc39e704f68ae64b2a215c463843931b
+        - { path: ^/[^/]+/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[^/]+/register, role: ROLE_SUPER_ADMIN }
+        - { path: ^/[^/]+/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[^/]+/admin, role: ROLE_SUPER_ADMIN }
+        - { path: ^/[^/]+/lily, role: ROLE_USER }
+        - { path: ^/[^/]+/lily/questions, role: ROLE_KNOWLEDGE_OPERATOR }
+        - { path: ^/[^/]+/lily/faq, role: ROLE_KNOWLEDGE_OPERATOR }
+        - { path: ^/[^/]+/lily/livechat, role: ROLE_CHAT_OPERATOR }
+        - { path: ^/[^/]+/lily/users, role: ROLE_ADMIN }

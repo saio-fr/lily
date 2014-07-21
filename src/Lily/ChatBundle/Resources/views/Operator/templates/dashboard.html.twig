@@ -1,0 +1,143 @@
+<header class="header bg-light lter">
+  <h3>Dashboard</h3>
+</header>
+
+<section class="row wrapper-lg scrollable">
+
+  <!-- Operators info -->
+  <div class="col-lg-6">
+  
+	<section class="panel bg-info lter no-borders operators">
+      <div class="panel-body">
+        <span class="h4">Opérateurs en ligne</span>
+        <div class="text-center padder m-t">
+          <span class="h1">4</span>
+        </div>
+        <div class="text-center m-b-n-sm">
+          <div class="sparkline inline" data-type="bar" data-resize="true" data-height="45" data-bar-width="6" data-bar-spacing="10" data-bar-color="#68c8e8" data-data="[220,210,200,325,250,320,345,250,250,250,400,380]"><canvas width="400" height="75" style="display: inline-block; width: 400px; height: 75px; vertical-align: top;"></canvas></div>
+        </div>
+      </div>
+      <footer class="panel-footer lt">
+        <div class="row">
+          <div class="col-xs-4 text-center ">
+            <h5 class="font-semibold block"><i class="icon-male"></i>4</h5>
+            <small class="text-muted block">Conversations simultanées</small>
+          </div>
+          <div class="col-xs-4 text-center">
+            <h5 class="font-semibold block"><i class="icon-time"></i>3 min 12</h5>
+            <small class="text-muted block">Durée par conversation</small>
+          </div>
+          <div class="col-xs-4 text-center">
+            <h5 class="font-semibold block"><i class="icon-comments"></i>12</h5>
+            <small class="text-muted block">Messages par conversation</small>
+          </div>
+        </div>
+      </footer>
+    </section>
+    
+    <section class="panel portlet-item">
+      <header class="panel-heading">
+        Connectés
+      </header>
+      <ul class="list-group alt">
+        <li class="list-group-item">
+          <div class="media">
+            <span class="pull-left thumb-sm"><img src="{{ app.user.avatar }}" alt="John said" class="img-circle"></span>
+            <div class="pull-right text-success m-t-sm">
+              <i class="icon-circle"></i>
+            </div>
+            <div class="media-body">
+              <div><a href="#">Marina Lostan</a></div>
+              <small class="text-muted">Service commercial</small>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="media">
+            <span class="pull-left thumb-sm"><img src="{{ app.user.avatar }}" alt="John said" class="img-circle"></span>
+            <div class="pull-right text-success m-t-sm">
+              <i class="icon-circle"></i>
+            </div>
+            <div class="media-body">
+              <div><a href="#">Marina Lostan</a></div>
+              <small class="text-muted">Service technique</small>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="media">
+            <span class="pull-left thumb-sm"><img src="{{ app.user.avatar }}" alt="John said" class="img-circle"></span>
+            <div class="pull-right text-warning m-t-sm">
+              <i class="icon-circle"></i>
+            </div>
+            <div class="media-body">
+              <div><a href="#">Marina Lostan</a></div>
+              <small class="text-muted">Service avant vente</small>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="media">
+            <span class="pull-left thumb-sm"><img src="{{ app.user.avatar }}" alt="John said" class="img-circle"></span>
+            <div class="pull-right text-success m-t-sm">
+              <i class="icon-circle"></i>
+            </div>
+            <div class="media-body">
+              <div><a href="#">Marina Lostan</a></div>
+              <small class="text-muted">Service commercial</small>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    
+  </div>
+  
+  <!-- Visitors info -->
+  <div class="col-lg-6">
+  
+	<section class="panel bg-success lter no-borders operators">
+      <div class="panel-body">
+        <span class="h4">Visiteurs en ligne</span>
+        <div class="text-center padder m-t">
+          <span class="h1">60</span>
+        </div>
+        <div class="text-center m-b-n-sm">
+          <div class="sparkline inline" data-type="bar" data-resize="true" data-height="45" data-bar-width="6" data-bar-spacing="10" data-bar-color="#99ca6c" data-data="[220,210,200,325,250,320,345,250,250,250,400,380]"><canvas width="300" height="75" style="display: inline-block; width: 300px; height: 75px; vertical-align: top;"></canvas></div>
+        </div>
+      </div>
+      <footer class="panel-footer lt">
+        <div class="row">
+          <div class="col-xs-4 text-center ">
+            <h5 class="font-semibold block"><i class="icon-time"></i>3 min 12</h5>
+            <small class="text-muted block">Temps d'attente</small>
+          </div>
+          <div class="col-xs-4 text-center">
+            <h5 class="font-semibold block"><i class="icon-eye-open"></i>3</h5>
+            <small class="text-muted block">Pages vues</small>
+          </div>
+          <div class="col-xs-4 text-center">
+            <h5 class="font-semibold block"><i class="icon-thumbs-up"></i>75%</h5>
+            <small class="text-muted block">Satisfaction</small>
+          </div>
+        </div>
+      </footer>
+    </section> 
+    
+    <section class="panel">
+      <header class="panel-heading">
+        Taux de charge
+      </header>
+      <div class="panel-body text-center">
+        <div class="inline">
+          <div class="easypiechart easyPieChart" data-percent="5" data-line-width="16" data-loop="false" data-size="188" style="width: 188px; height: 188px; line-height: 188px;">
+            <span class="h2">0</span>%
+          <canvas width="376" height="376" style="width: 188px; height: 188px;"></canvas></div>
+        </div>                      
+      </div>
+      <div class="panel-footer"><small>Taux calculé en fonction du nombres de visiteurs et d'opérateurs.</small></div>
+    </section>
+    
+  </div>
+
+</section>

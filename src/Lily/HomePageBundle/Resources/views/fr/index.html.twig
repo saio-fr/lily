@@ -1,0 +1,157 @@
+{% extends "LilyHomePageBundle:fr:layout.html.twig" %}
+
+{% block title %}{{ 'Développez votre relation client digitale - SAIO'|trans }}{% endblock %}
+
+{% block content %}
+
+<!--Home-->
+<section id="home">
+
+	<div class="wrapper">
+		<div>
+			<h1>{{ 'Améliorez l\’accueil et l\’accompagnement'|trans }}<br>{{ 'de vos clients et prospects sur le web'|trans }}<br>{{ 'et en magasin'|trans }}</h1>
+			<p>{{ 'SAIO édite des solutions innovantes de Q-management vous permettant d\’améliorer votre satisfaction client et la productivité de vos ressources humaines tout en réduisant vos coûts de support.'|trans }}</p>
+			<!--<a href="#video" class="button no-ie"><img src="images/home/icon-play.svg" class="play" alt="play">Lire la vidéo</a>
+		<!--[if lt IE 9]>
+    <a href="#video" class="button" style="display: none;"><img src="images/home/icon-play.png" class="play" alt="play">Lire la vidéo</a>
+    <![endif]-->
+        </div>
+        <a href="#anchor-chiffres"><img src="{{ asset('images/home/arrow-down-home.png') }}" alt="arrow-down-home"></a>
+    </div>
+
+</section>
+
+<!--Chiffres clé-->
+<section id="chiffres-cle">
+
+	<a id="anchor-chiffres"></a>
+	<div class="wrapper parallax">
+		<a href="#discover"></a>
+		<div class="content">
+			<div>
+				<img src="{{ asset('images/home/icon-piggy.png') }}" alt="Réduisez vos coûts">
+				<p>{{ 'Réduisez vos coûts'|trans }}<br>{{ 'de support de 25%'|trans }}</p>	
+			</div>
+			<div>
+				<img src="{{ asset('images/home/icon-resources.png') }}" alt="Optimisez vos ressources">
+				<p>{{ 'Optimisez vos ressources'|trans }}<br>{{ 'internes de 30%'|trans }}</p>	
+			</div>
+			<div>
+				<img src="{{ asset('images/home/icon-optimize.png') }}" alt="Augmentez vos ventes">
+				<p>{{ 'Augmentez vos'|trans }}<br>{{ 'ventes de 15%'|trans }}</p>	
+			</div>
+			<div>
+				<img src="{{ asset('images/home/icon-lighthouse.png') }}" alt="Accompagnez vos clients">
+				<p>{{ 'Accompagnez vos'|trans }}<br>{{ 'clients 24/7'|trans }}</p>
+			</div>
+			<div>
+				<img src="{{ asset('images/home/icon-performance.png') }}" alt="Mesurez vos performances">
+				<p>{{ 'Mesurez'|trans }}<br>{{ 'vos performances'|trans }}</p>	
+			</div>
+			<div>
+				<img src="{{ asset('images/home/icon-human.png') }}" alt="Humaniser votre relation client">
+				<p>{{ 'Humanisez votre'|trans }}<br>{{ 'relation digitale'|trans }}</p>
+			</div>
+		</div>
+	</div>
+	<a href="#anchor-solution"><img src="{{ asset('images/home/arrow-down.jpg') }}" alt="arrow-down"></a>
+
+</section>
+
+<!--Solution-->
+<div id="image_1">
+</div>
+
+<section id="solution">
+
+	<a id="anchor-solution"></a>
+	<div class="wrapper">
+		<div class="content">
+			<h1>{{ 'Découvrez notre solution'|trans }}</h1>
+			<p>{{ 'Nous proposons une plateforme digitale qui connecte vos clients et votre équipe de support via une boîte de dialogue disponible sur tous vos médias : site internet, application mobile, page Facebook et borne physique en magasin. Un agent virtuel sert d\’intermédiaire. C\’est un guide pour les utilisateurs et un filtre pour votre entreprise.'|trans }}<br><br>{{ 'Grâce à un moteur de reconnaissance sémantique, l\’agent virtuel permet de capter les requêtes simples et redondantes et ainsi d\’automatiser le dialogue dans la mesure du possible.'|trans }}<br>{{ 'Quand le cas est complexe, il redirige l\’utilisateur vers le bon interlocuteur de votre équipe de support.'|trans }}<br><br>{{ 'L\’utilisateur reste libre dans le choix du canal de communication et peut escalader via live chat, mail, téléphone ou encore prendre directement rendez-vous.'|trans }}</p>
+		</div>
+		<a href="#anchor-fonction"><img src="{{ asset('images/home/arrow-down.jpg') }}" alt="arrow-down"></a>
+	</div>
+
+
+</section>
+
+<div id="image_2">
+</div>
+
+<section id="fonction">
+
+	<a id="anchor-fonction"></a>
+	<div class="wrapper">
+		<h1>{{ 'Comment ça marche ?'|trans }}</h1>
+		<div class="steps first-step">
+			<span class="number">1.</span>
+			<p>{{ 'Vos clients et prospects accèdent à la plateforme'|trans }}</p>
+		</div>
+		<div class="supports">
+			<span class="first-support">{{ 'Site internet'|trans }}</span>
+			<span class="second-support">{{ 'Application'|trans }}</span>
+			<span class="third-support">{{ 'Borne physique'|trans }}</span>
+			<span class="forth-support">{{ 'Page facebook'|trans }}</span>
+		</div>
+		<div class="steps second-step">
+			<span class="number">2.</span>
+			<p>{{ 'L\’agent virtuel accueille et répond aux questions simples et redondantes'|trans }}</p>
+		</div>
+		<div class="auto">
+			<span class="first-auto">{{ 'Réponses automatisées'|trans }}</span>
+			<span class="second-auto">{{ 'Enquêtes de satisfaction'|trans }}</span>
+		</div>
+		<div class="steps third-step">
+			<span class="number">3.</span>
+			<p>{{ 'Quand c’est nécessaire, l\’agent virtuel redirige vers vos équipes de support'|trans }}</p>
+			<span class="climb">{{ 'Escalade vers'|trans }}<br>{{ 'vos équipes de support'|trans }}</span>
+			<div class="canals">
+				<span class="first-canal">{{ 'Téléphone'|trans }}</span>
+				<span class="second-canal">{{ 'Live chat'|trans }}</span>
+				<span class="third-canal">{{ 'E-mail'|trans }}</span>
+				<span class="forth-canal">{{ 'Rendez-vous'|trans }}</span>
+			</div>
+			<p class="bullets">{{ 'Solution 100% clé en main'|trans }}<br>{{ 'Administration des différents canaux de communication'|trans }}<br>{{ 'Statistiques d\’utilisation'|trans }}<br>{{ 'Indicateurs de performance'|trans }}</p>
+			<span class="admin">{{ 'Admin'|trans }}</span>
+		</div>
+		<img src="{{ asset('images/home/schema-site.png') }}" alt="schema">
+		<a href="#anchor-reasons"><img src="{{ asset('images/home/arrow-down.jpg') }}" alt="arrow-down"></a>
+	</div>
+
+</section>
+
+<div id="image_3">
+</div>
+
+<!--Raisons-->
+<section id="reasons">
+
+	<a id="anchor-reasons"></a>
+	<div class="wrapper">
+		<h1>{{ 'Ce qui nous différencie...'|trans }}</h1>
+		<div class="content">
+			<div>
+				<img src="{{ asset('images/home/icon-swiss.png') }}" alt="Solution complète">
+				<h2>{{ 'Une solution complète'|trans }}</h2>
+				<p>{{ 'Notre solution est «tout-en-un» et vous permet d\’adopter une stratégie multi-canal et cross-canal en toute simplicité.'|trans }}</p>	
+			</div>
+			<div>
+				<img src="{{ asset('images/home/icon-multisupport.png') }}" alt="Solution multi-support">
+				<h2>{{ 'Une solution multi-support'|trans }}</h2>
+				<p>{{ 'Notre solution est disponible sur n’importe quel type de plateforme. Le seul prérequis est une connexion internet.'|trans }}</p>	
+			</div>
+			<div>
+				<img src="{{ asset('images/home/icon-stats.png') }}" alt="Outil statistiques">
+				<h2>{{ 'Un outil de statistiques'|trans }}</h2>
+				<p>{{ 'Vous accédez à des statistiques qui vous permettent de capter les attentes de vos clients et de contrôler l\’efficacité de votre service.'|trans }}</p>
+			</div>
+		</div>
+		<div class="final">
+			<p>{{ 'Mais notre solution c’est également une solution simple d\’installation, 100% clé en main, modulaire, interopérable, entièrement personnalisable...'|trans }}</p><p class="last">{{ 'Pour plus d’informations, n\’hésitez pas à nous contacter.'|trans }}</p>
+		</div>
+	</div>
+
+</section>
+
+{% endblock %}

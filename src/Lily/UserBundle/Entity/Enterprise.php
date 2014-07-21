@@ -146,39 +146,6 @@ class Enterprise
     public function __construct()
     {
     }
-    
-    /**
-     * Add employes
-     *
-     * @param \Lily\UserBundle\Entity\User $employes
-     * @return Entreprise
-     */
-    public function addEmploye(\Lily\UserBundle\Entity\User $employes)
-    {
-        $this->employes[] = $employes;
-    
-        return $this;
-    }
-
-    /**
-     * Remove employes
-     *
-     * @param \Lily\UserBundle\Entity\User $employes
-     */
-    public function removeEmploye(\Lily\UserBundle\Entity\User $employes)
-    {
-        $this->employes->removeElement($employes);
-    }
-
-    /**
-     * Get employes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEmployes()
-    {
-        return $this->employes;
-    }
 
     /**
      * Set logo

@@ -121,6 +121,14 @@ class Question
      * @Groups({"unique", "list"})
      */
     protected $date;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="label", type="string", length=255, nullable=true)
+     * @Groups({"unique", "list"})
+     */
+    protected $label;
   
     /**
      * Get id
@@ -466,5 +474,29 @@ class Question
         $this->category = $category;
     
         return $this;
+    }
+
+
+    /**
+     * Set label
+     *
+     * @param string $label
+     * @return Question
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+    
+        return $this;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string 
+     */
+    public function getLabel()
+    {
+        return $this->label;
     }
 }
