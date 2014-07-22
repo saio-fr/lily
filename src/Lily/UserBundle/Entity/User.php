@@ -10,7 +10,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+<<<<<<< HEAD
 
+=======
+>>>>>>> FETCH_HEAD
 /**
  * User
  *

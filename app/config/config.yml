@@ -57,6 +57,12 @@ assetic:
         #uglifycss:
             #bin: /usr/local/bin/uglifycss
             #apply_to: "\.css$"
+        #uglifyjs2:
+            #bin: /usr/local/bin/uglifyjs
+            #apply_to: "\.js$"
+        #uglifycss:
+            #bin: /usr/local/bin/uglifycss
+            #apply_to: "\.css$"
 
 # Doctrine Configuration
 doctrine:
