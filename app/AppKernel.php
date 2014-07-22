@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new Lily\ChatBundle\LilyChatBundle(),
             new Lily\HomePageBundle\LilyHomePageBundle(),
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
+            new Fp\JsFormValidatorBundle\FpJsFormValidatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

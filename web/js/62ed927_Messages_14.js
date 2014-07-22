@@ -1,1 +1,11 @@
-lily.Messages=Backbone.Collection.extend({initialize:function(){},defaults:{id:""}});
+lily.Messages = Backbone.Collection.extend({
+	
+    initialize: function () {
+
+    },
+    
+    defaults: {
+		id: ''
+	}
+
+});

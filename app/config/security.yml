@@ -39,3 +39,13 @@ security:
         - { path: ^/[^/]+/lily/faq, role: ROLE_KNOWLEDGE_OPERATOR }
         - { path: ^/[^/]+/lily/livechat, role: ROLE_CHAT_OPERATOR }
         - { path: ^/[^/]+/lily/users, role: ROLE_ADMIN }
+
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: ROLE_SUPER_ADMIN }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, role: ROLE_SUPER_ADMIN }
+        - { path: ^/lily, role: ROLE_USER }
+        - { path: ^/lily/questions, role: ROLE_KNOWLEDGE_OPERATOR }
+        - { path: ^/lily/faq, role: ROLE_KNOWLEDGE_OPERATOR }
+        - { path: ^/lily/livechat, role: ROLE_CHAT_OPERATOR }
+        - { path: ^/lily/users, role: ROLE_ADMIN }

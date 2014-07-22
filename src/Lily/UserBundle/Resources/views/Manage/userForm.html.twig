@@ -1,7 +1,6 @@
 <div id="userFormContent">
-	{{ form_errors(form) }}
 
-	{% set fields = { 'lastname':'Nom', 'firstname':'Prénom', 'plainPassword' : 'Mot de passe', 'email':'Email', 'phone':'Téléphone', 'post':'Poste occupé', 'country':'Pays', 'allRoles':'Accès'} %}
+	{#% set fields = { 'lastname':'Nom', 'firstname':'Prénom', 'plainPassword' : 'Mot de passe', 'email':'Email', 'phone':'Téléphone', 'post':'Poste occupé', 'country':'Pays', 'allRoles':'Accès'} %}
 	{% set selectFields = ['allRoles'] %}
 	{% set repeatedFields = {'plainPassword' : ['Mot de passe', 'Confirmation']} %}
 
@@ -26,5 +25,5 @@
 			{% endif %}
 		</div>
 	{% endfor %}
-	{{ form_rest(form) }}
+	{{ form_rest(form) }#}
 </div>

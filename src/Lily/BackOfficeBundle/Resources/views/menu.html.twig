@@ -102,6 +102,14 @@
                 </a>
               </li> 
               {% endif %}  
+              {% if is_granted('ROLE_ADMIN') %}
+              <li>
+                <a href="{{ path('lily_user') }}">
+                  <i class="icon-group"></i>
+                  <span>Utilisateurs</span>
+                </a>
+              </li> 
+              {% endif %}  
             </ul>    
           </nav>
           <!-- / nav -->

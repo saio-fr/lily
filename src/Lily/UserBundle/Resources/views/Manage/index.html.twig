@@ -1,109 +1,61 @@
-{% extends "LilyUserBundle:Manage:layout.html.twig" %}
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block userManagementTitle %}Liste de vos comptes :{% endblock %}
+{% block stylesheets %}      
+{{ parent() }}     
 
-{% block stylesheets %} 	   
-
-{{ parent() }} 	   
-
-{% stylesheets 'js/wysiwyg/wysihtml5.css' filter='cssrewrite' %}      
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
-
-{% endstylesheets %}
+{% stylesheets 'js/wysiwyg/wysihtml5.css' '@LilyUserBundle/Resources/public/css/userManager.css' filter='cssrewrite' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+{% endstylesheets %}   
 {% endblock %}
 
 
-{% block userManagementContent %}
-{% set userList=[] %}
-{% set maxusers=0 %}
-{% set rolesShowed=[] %}
+{% block body %}
 
-	<!-- faq list -->
-	<ul id="user-list" class="list-group list-group-sp sortable"></ul>
-	<a class="btn btn-sm btn-white new-content user-content pull-right-lg"><i class="icon-plus pull-left"></i>Ajouter un contenu</a>
-	<a class="btn btn-sm btn-white new-category pull-right-lg m-l-sm"><i class="icon-plus pull-left"></i>Ajouter une catégorie</a>
-<!--
-	<ul id="user-List">
-		<thead>
-			<tr>
-				<th>Identifiant</th>
-				<th>Nom</th>
-				<th>Prénom</th>
-				{% for roleLabel, role in rolesShowed %}
-					<th>{{ roleLabel }}</th>
-				{% endfor %}
-				<th></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for userListed in userList %}
-			<tr>
-				<td>{{ userListed.username }}</td>
-				<td>{{ userListed.lastname }}</td>
-				<td>{{ userListed.firstname }}</td>
-				{% for roleLabel, role in rolesShowed %}
-					<td><div class="{{ (role in userListed.getAllRoles()) ? 'icon-ok yesIcon' : 'icon-remove noIcon' }}"></div></td>
-				{% endfor %}
-				<td>
-					<form {{ form_enctype(modifForms[loop.index0]) }}>
-						{{ form_widget(modifForms[loop.index0]) }}
-						<input type="submit" class="btn btn-primary" value="Modifier"/>
-					</form>
-				</td>
-				<td>
-					<form {{ form_enctype(delForms[loop.index0]) }}>
-						{{ form_widget(delForms[loop.index0]) }}
-						<input type="submit" class="btn btn-primary" value="Supprimer"/>
-					</form>
-				</td>
-			</tr>
-		{% else %}
-			<tr>
-				<td colspan="7">Pas d'utilisateur trouvé</td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
--->
-	<div class="wrapper">
-		Vous avez actuellement {{ userList|length }} compte{{ userList|length < 2 ? '' : 's' }} sur les {{ maxusers }} disponible{{ maxusers<2 ? '' : 's' }}.<br />
-		<br />
-		{% if userList|length < maxusers %}
-			<a href="{{path('lily_userAdd') }}" class="btn btn-primary">Ajouter un compte</a><br />
-		{% else %}
-			Vous ne pouvez plus ajouter d'utilisateur<br />
-		{% endif %}
+<section class="hbox stretch">
 
-	</div>
-{% endblock %}
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+
+	{% block content %}
+    <!-- .vbox -->
+          <section id="users" class="vbox scrollable padder-b">
+          </section>
+	{% endblock %}
 
 
-{% block templates %}
-	<!-- L'appel des différents scripts de vue -->
-		<script type="text/template" id="user">
-        {% include 'LilyUserBundle:Manage:user.html.twig' %}
+  {% block templates %}
+    <!-- L'appel des différents scripts de vue -->
+      <script type="text/template" id="user">
+          {% include 'LilyUserBundle:Manage:user.html.twig' %}
+      </script>
+      <script type="text/template" id="userEdit">
+          {{ render(controller('LilyUserBundle:Manage:getUserForm')) }}
+      </script>
+      <script type="text/template" id="userManagementAppViewTpl">
+          {% include 'LilyUserBundle:Manage:userManagementAppViewTpl.html.twig' %}
+      </script>
+      <script type="text/template" id="userStatsAppViewTpl">
+          {% include 'LilyUserBundle:Manage:userStatsAppViewTpl.html.twig' %}
+      </script>
+  {% endblock %}
+
+  {% block bootstrap %}
+    {% autoescape false %}
+    <script type="text/javascript">
+        var root = "{{ path('lily_user') }}";
     </script>
-    <script type="text/template" id="userEdit">
-        {% include 'LilyUserBundle:Manage:user_edit.html.twig' %}
-    </script>
-{% endblock %}
+    {% endautoescape %}
+  {% endblock %}
 
-{% block bootstrap %}
-	{% autoescape false %}
-	<script type="text/javascript">
-	    var root = '{{ path('lily_faq') }}';
-	</script>
-	{% endautoescape %}
+
+</section>
+
 {% endblock %}
 
 {% block javascripts %}
 
-{{ parent() }}
+{% javascripts 'js/vendor/jquery.min.js' 'js/vendor/bootstrap.js' 'js/app.js' 'js/vendor/bootstrap.js' 'js/app.plugin.js' 'js/vendor/underscore.min.js' 'js/vendor/backbone.min.js' 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js''js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/vendor/bootbox.js' 'bundles/fpjsformvalidator/js/fp_js_validator.js' 'js/userManagement.js' '@LilyUserBundle/Resources/public/js/userStats.js' %}
 
-{% javascripts 'js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/userManagement.js' %}
-
-  <script type="text/javascript" src="{{ asset_url }}"></script>
+<script type="text/javascript" src="{{ asset_url }}"></script>
   
 {% endjavascripts %}
 

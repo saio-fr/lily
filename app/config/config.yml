@@ -43,7 +43,7 @@ assetic:
     debug:          %kernel.debug%
     use_controller: false
     bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle]
-    node: /usr/local/bin/node
+    #node: /usr/local/bin/node
     filters:
         cssrewrite: ~
         # java: "/usr/bin/java"
@@ -51,12 +51,12 @@ assetic:
             #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
         #yui_js:
             #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
-        uglifyjs2:
-            bin: /usr/local/bin/uglifyjs
-            apply_to: "\.js$"
-        uglifycss:
-            bin: /usr/local/bin/uglifycss
-            apply_to: "\.css$"
+	    #uglifyjs2:
+            #bin: /usr/local/bin/uglifyjs
+            #apply_to: "\.js$"
+        #uglifycss:
+            #bin: /usr/local/bin/uglifycss
+            #apply_to: "\.css$"
 
 # Doctrine Configuration
 doctrine:
@@ -82,7 +82,7 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-                
+
             # Telecom EM
             tem:
                 driver:   "%database_driver%"
@@ -92,7 +92,7 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-                
+
             # Telecom Sud Paris
             tsp:
                 driver:   "%database_driver%"
@@ -102,7 +102,7 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-                
+
             # Telecom Bretagne
             tbretagne:
                 driver:   "%database_driver%"
@@ -112,7 +112,7 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-            
+
             # Telecom Paris
             tparis:
                 driver:   "%database_driver%"
@@ -142,7 +142,7 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-                
+
             # movinmotion.com
             movinmotion:
                 driver:   "%database_driver%"
@@ -175,7 +175,7 @@ doctrine:
                         prefix: Lily\BackOfficeBundle\Loggable\Entity
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
-                    
+
             # Telecom EM
             tem:
                 connection:       tem
@@ -189,7 +189,7 @@ doctrine:
                         prefix: Lily\BackOfficeBundle\Loggable\Entity
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
-                        
+
             # Telecom Sud Paris
             tsp:
                 connection:       tsp
@@ -203,7 +203,7 @@ doctrine:
                         prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
-                        
+
             # Telecom Bretagne
             tbretagne:
                 connection:       tbretagne
@@ -217,7 +217,7 @@ doctrine:
                         prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
-            
+
             # Telecom Paris            
             tparis:
                 connection:       tparis
@@ -231,7 +231,7 @@ doctrine:
                         prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
-                        
+
             # Paris.fr            
             parisfr:
                 connection:       parisfr
@@ -245,7 +245,7 @@ doctrine:
                         prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
-                        
+
             # saio.fr            
             saio:
                 connection:       saio
@@ -259,7 +259,7 @@ doctrine:
                         prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
-                        
+
             # movinmotion.com            
             movinmotion:
                 connection:       movinmotion
@@ -274,7 +274,7 @@ doctrine:
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
 
-                    
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: %mailer_transport%
@@ -292,7 +292,7 @@ fos_user:
     from_email:
         address:        jeanclaude.giron@saio.fr
         sender_name:    Jean Claude GIRON 
-      
+
 # Fos rest            
 fos_rest:
     param_fetcher_listener: true
@@ -346,7 +346,7 @@ stof_doctrine_extensions:
             sortable: true
     class:
         loggable: Lily\BackOfficeBundle\Loggable\LoggableListener
-        
+
 # Mobile Detect        
 mobile_detect:
     redirect:
