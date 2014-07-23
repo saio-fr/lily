@@ -12,4 +12,28 @@ use Doctrine\ORM\EntityRepository;
  */
 class QuestionRepository extends EntityRepository
 {
+	public function sortQuestions($data) {
+		
+		$qb = $this->createQueryBuilder('q');
+		
+		$qb->leftJoin('q.category', 'c')
+		   ->leftJoin('q.tag', 't')
+		   ->where($qb->expr()->in('c.id', ':cids'))
+		   ->setParameter('cids', $data->categories)
+		   ->andWhere($qb->expr()->in('t.id', ':tids'))
+		   ->setParameter('tids', $data->tags);
+		   
+		if (in_array(null, $data->categories)) $qb->orWhere('c.id is NULL');
+		if (in_array(null, $data->tags)) $qb->orWhere('t.id is NULL');
+		
+		if (isset($data->sortBy)) $qb->add('orderBy', 'q.' . $data->sortBy->name . ' ' . $data->sortBy->order);
+		   
+		$qb->setFirstResult( $data->page * $data->max )
+		   ->setMaxResults( $data->max );
+		   
+		return $qb->getQuery()
+				  ->getResult();
+		
+	}
+
 }

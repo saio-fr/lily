@@ -138,7 +138,7 @@ chat.Views.App = Backbone.View.extend({
 		if (!this.available) {  sess.call('chat/available');  this.available = true; }
 		
 		this.$el.find('.status i').removeClass('unavailable').addClass('available');
-		this.$el.find('.status span').html('En ligne');
+		this.$el.find('.status span').html('Disponible');
 		
 		$('.header-control .active').removeClass('active');
 		$('.icon-comments-alt').addClass('active');
@@ -155,7 +155,7 @@ chat.Views.App = Backbone.View.extend({
 		// Set the operator unavailable on the server
 		if (this.available) {  sess.call('chat/unavailable');  this.available = false; }
 		
-		this.$el.find('.status span').html('Hors ligne');
+		this.$el.find('.status span').html('Disponible');
 		this.$el.find('.status i').removeClass('available').addClass('unavailable');
 		
 		this.live.$el.addClass('hide');
@@ -208,8 +208,8 @@ chat.Views.App = Backbone.View.extend({
 	setInformationsWidth: function () {
 		
 		// Hide informations if the windows is too small
-		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) { this.live.informations.reduce(); }
-		else { $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} ); }
+		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) this.live.informations.reduce();
+		else $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} );
 		
 	},
 	

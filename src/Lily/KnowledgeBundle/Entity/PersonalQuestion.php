@@ -30,6 +30,14 @@ class PersonalQuestion
      */
     private $id;
     
+        
+    /**
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\PersonalCategory", inversedBy="questions", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @Expose
+     */
+    protected $category;
+    
     /**
      * @ORM\OneToMany(targetEntity="Lily\ApiBundle\Entity\LogRequest", mappedBy="question", cascade={"remove"})
      **/

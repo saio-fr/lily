@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-table#userList{background:none repeat scroll 0 0 white;margin-bottom:15px;text-align:center;width:100%}table#userList thead{border-bottom:1px solid #e0e4e8}table#userList thead th{padding-left:15px;color:#575757;font-size:90%;font-weight:normal}table#userList tbody tr td{padding:5px}table#userList tbody tr:nth-child(2n){background-color:rgba(249,250,252,0.72)}table#userList tbody tr td:hover{background-color:rgba(249,250,252,0.4)}form#userForm,form#deleteUserForm{text-align:center}div#userFormContent{margin-bottom:15px}form#userForm label{padding-left:5px;text-align:left;width:150px}form#userForm input[type="text"],form#userForm input[type="email"],form#userForm input[type="password"],form#userForm select{display:inline-block;margin-bottom:6px;margin-top:6px;width:250px}ul#infoMessage{background:none repeat scroll 0 0 rgba(137,137,137,0.21);border-radius:2px;color:rgba(76,85,102,0.76);font-weight:bold;margin:auto;max-width:400px;padding:5px;text-align:center}ul#infoMessage li{list-style:none}div.yesIcon,div.noIcon{border-radius:50%;color:white;display:block;font-size:13px;padding-bottom:2px;padding-top:2px;width:18px;margin:auto}div.yesIcon{background-color:green}div.noIcon{background-color:red}
-=======
 .userList-item .user-info {
     display: inline-block;
     font-size: 10px;
@@ -238,4 +235,3 @@ table#userList{background:none repeat scroll 0 0 white;margin-bottom:15px;text-a
     line-height: 25px;
 }
 
->>>>>>> FETCH_HEAD

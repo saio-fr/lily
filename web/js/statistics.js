@@ -643,8 +643,8 @@ $(function(){
 		
 		usage: function() {
 			
-		  $('#statistic-nav .active').removeClass('active');
-		  $('#statistic-nav .usage-nav').addClass('active');
+		  $('#statistics-nav .active').removeClass('active');
+		  $('#statistics-nav .usage-nav').addClass('active');
 		  
 		  var usage = new lily.UsageView();
 		  var usage_graph = new lily.UsageGraphView();	

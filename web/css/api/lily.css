@@ -31,6 +31,8 @@ FONTS
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+/*Avatar icons*/
 .lily-icon-search:before {
 	content: "\e601";
 	display: inline-block;
@@ -121,6 +123,40 @@ FONTS
 .lily-icon-thumb-up:before {
 	content: "\e60d";
 	font-size: 18px;
+}
+
+/*Back-office icons*/
+.lily-icon-spam:before {
+	content: "\e60f";
+	font-size: 14px;
+}
+.lily-icon-trash:before {
+	content: "\e610";
+	font-size: 14px;
+}
+.lily-icon-folder:before {
+	content: "\e611";
+	font-size: 14px;
+}
+.lily-icon-label:before {
+	content: "\e612";
+	font-size: 14px;
+}
+.lily-icon-browse-next:before {
+	content: "\e613";
+	font-size: 14px;
+}
+.lily-icon-browse-previous:before {
+	content: "\e614";
+	font-size: 14px;
+}
+.lily-icon-arrow-up:before {
+	content: "\e615";
+	font-size: 14px;
+}
+.lily-icon-arrow-down:before {
+	content: "\e616";
+	font-size: 14px;
 }
 
 /* ==========================================================================

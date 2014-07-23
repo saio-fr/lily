@@ -19,49 +19,20 @@
 
 	{% block content %}
 	<!-- .vbox -->
-    <section id="statistiques">
-      <section class="hbox stretch">
-      <!-- .aside -->
-        <aside class="aside aside-md bg-dark">
-          <section class="vbox">
-            <header class="dk header">
-              <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs" data-toggle="class:show" data-target="#statistics-nav"><i class="icon-reorder"></i></button>
-              <p class="h4">Statitiques</p>
-            </header>
-            <section>
-              <section>
-                <section id="statistics-nav" class="hidden-xs">
-                  <ul class="nav nav-pills nav-stacked no-radius">
-                    <li class="usage-nav active">
-                      <a href="#usage"> 
-                        <i class="icon-book"></i>
-                        Utilisation
-                      </a>
-                    </li>
-                    <li class="dialogue-nav">
-                      <a href="#dialogue"> 
-                        <i class="icon-download-alt"></i>
-                        Dialogue
-                      </a>
-                    </li>
-                  </ul>
-                </section>
-              </section>
-            </section>         
-          </section>
-        </aside>
-        <!-- /.aside -->
-        <section>
-		  <section class="vbox">
-		    <section class="scrollable">
-			  <div class="header b-b bg-white-only"><p>Statistiques</p></div>
-			  <div class="wrapper">
-			    <div id="statistics-row" class="row">		      			      		      
-			    </div>
-			  </div>
-	          </div>
-		    </section>
-		  </section>
+    <section id="statistics">
+      <section class="vbox">        
+        
+		<header class="header bg-dark bg-gradient">
+		  <ul id="statistics-nav" class="nav nav-tabs">
+		    <li class="usage-nav active"><a href="#usage">Utilisation</a></li>
+		    <li class="dialogue-nav"><a href="#dialogue">Dialogue</a></li>
+		  </ul>
+		</header>    
+        
+        <section class="scrollable">
+	  	  <div class="wrapper">
+			<div id="statistics-row" class="row"></div>
+	      </div>
 		</section>
 
       </section>

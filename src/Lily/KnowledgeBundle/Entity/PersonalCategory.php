@@ -9,12 +9,12 @@ use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Exclude;
 
 /**
- * Category
+ * PersonalCategory
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Lily\KnowledgeBundle\Entity\CategoryRepository")
+ * @ORM\Entity
  */
-class Category
+class PersonalCategory
 {
     /**
      * @var integer
@@ -38,15 +38,10 @@ class Category
     protected $parent;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\PersonalQuestion", mappedBy="category")
      * @Exclude
      */
     protected $questions;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Redirection", inversedBy="categories")
-     */
-    protected $redirection;
 	
     /**
      * @var string
@@ -162,25 +157,58 @@ class Category
     }
 
     /**
-     * Set redirection
+     * Add children
      *
-     * @param \Lily\KnowledgeBundle\Entity\Redirection $redirection
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
      * @return Category
      */
-    public function setRedirection(\Lily\KnowledgeBundle\Entity\Redirection $redirection = null)
+    public function addChildren(\Lily\KnowledgeBundle\Entity\Question $children)
     {
-        $this->redirection = $redirection;
+        $this->children[] = $children;
     
         return $this;
     }
 
     /**
-     * Get redirection
+     * Remove children
      *
-     * @return \Lily\KnowledgeBundle\Entity\Redirection 
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
      */
-    public function getRedirection()
+    public function removeChildren(\Lily\KnowledgeBundle\Entity\Question $children)
     {
-        return $this->redirection;
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $parent
+     * @return Category
+     */
+    public function setParent(\Lily\KnowledgeBundle\Entity\Question $parent = null)
+    {
+        $this->parent = $parent;
+    
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Lily\KnowledgeBundle\Entity\Question 
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

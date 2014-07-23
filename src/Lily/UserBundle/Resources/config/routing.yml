@@ -1,10 +1,7 @@
 lily_profil:
     pattern:  /profil
     defaults: { _controller: LilyUserBundle:Profil:index }
-<<<<<<< HEAD
-
-=======
->>>>>>> FETCH_HEAD
+    
 lily_user:
     pattern:  /users
     defaults: { _controller: LilyUserBundle:Manage:index }

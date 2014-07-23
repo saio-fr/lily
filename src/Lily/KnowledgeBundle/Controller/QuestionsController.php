@@ -37,16 +37,18 @@ class QuestionsController extends BaseController
     }
     
 	/**
-     * @Get("/get")
+     * @Post("/sort")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(serializerGroups={"list"})
      */
-    public function getQuestionsAction()
+    public function getQuestionsAction(Request $request)
     {    
    		
+   		$data = json_decode($request->getContent());
+
    		$questions = $this->getEntityManager()
-    					  ->getRepository('LilyKnowledgeBundle:Question')
-    					  ->findByParent(NULL);    					  
+        		   		  ->getRepository('LilyKnowledgeBundle:Question')
+        		   		  ->sortQuestions($data);
 
 		return $questions;
         		

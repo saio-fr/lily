@@ -16,7 +16,7 @@ chat.Views.Conversation = Backbone.View.extend({
 	
 	initialize: function() {
 		
-		that = this;
+		var that = this;
 		
 		// Create a collection of this view messages
 		this.messages = new chat.Messages();
@@ -44,8 +44,11 @@ chat.Views.Conversation = Backbone.View.extend({
 			parserRules:    wysihtml5ParserRules,
 			useLineBreaks:  true
 		});
-
 		
+		// If the operator type enter, send the message
+		this.$el.find('.wysihtml5-sandbox').contents().find('body').on("keydown",function(e) {
+			that.sendOnEnter(e);
+		});
 		
 		// Get the messages
 		this.getMessages();

@@ -21,9 +21,10 @@ lily_admin:
 lily_back_office:
     resource: "@LilyBackOfficeBundle/Resources/config/routing.yml"
     prefix:   /lily
+    
 lily_user:
     resource: "@LilyUserBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /lily
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

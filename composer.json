@@ -28,7 +28,8 @@
         "suncat/mobile-detect-bundle": "0.9.*",
         "cboden/Ratchet": "0.3.*",
         "react/zmq": "0.2.*",
-        "jms/i18n-routing-bundle": "dev-master"
+        "jms/i18n-routing-bundle": "dev-master",
+        "fp/jsformvalidator-bundle":"dev-master"
 	    
     },
     "scripts": {

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-lily.Views.Mail=lily.Extensions.View.extend({events:{"click a":"send"},model:lily.Models.Mail,template:_.template($("#lily-page-mail-template").html()),initialize:function(){$(this.render().el).appendTo("#lily-wrapper-page")},render:function(){this.$el.html(this.template());return lily.Extensions.View.prototype.render.apply(this,arguments)},send:function(){this.from=this.$el.find("#from").val();this.object=this.$el.find("#object").val();this.msg=this.$el.find("#msg").val();var that=this;$.ajax({type:"POST",url:root+"/send/mail",data:{mail:that.from,object:that.object,msg:that.msg},success:function(data,textStatus,request){}})}});
-=======
 //var lily = lily || {};
 
 /***********************
@@ -39,7 +36,7 @@ lily.Views.Mail = lily.Extensions.View.extend({
 		$.ajax({
 		
 			type: 'POST',
-			url: root+licence+'/send/mail',
+			url: root+'/send/mail',
 			data: { mail: that.from, object: that.object, msg: that.msg },
 			// dataType: 'jsonp',
 			success:  function( data, textStatus, request ) {				
@@ -51,4 +48,3 @@ lily.Views.Mail = lily.Extensions.View.extend({
 	}
 	
 });
->>>>>>> FETCH_HEAD
