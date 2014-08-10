@@ -17,7 +17,7 @@ role :app,        domain, :primary => true       # This may be the same as your 
 set  :keep_releases,  3
 set :shared_files,      ["app/config/parameters.yml"]
 set :shared_children,     ["vendor"]
-set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy.rb"]
+set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy.rb", "config/prod1.rb", "config/prod2.rb"]
 set :use_composer, true
 set :update_vendors, true
 

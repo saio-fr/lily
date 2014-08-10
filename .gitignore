@@ -1,7 +1,4 @@
-/web/bundles/
-/app/cache/*
-/app/logs/*
-/vendor/
-*.css
-
-*.css
+web/bundles/
+app/cache/*
+app/logs/*
+vendor/

@@ -1,0 +1,51 @@
+/*=======================================================================================================
+STATISTICS
+=======================================================================================================*/
+
+#reportrange {
+  margin-top: -6px;
+  margin-right: -10px;
+  border: 1px solid #efefef;
+  background: #f8f8f8;
+  padding: 5px;
+  cursor: pointer;
+}
+#statistics-row .questions {
+  color: #63a5e1;
+}
+#statistics-row .answered {
+  color: #92d050;
+}
+ul.top-questions-list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.top-questions-item {
+  width: 100%;
+  margin-top: 10px;
+  background: url('../images/top-questions-bg.png') repeat-x bottom !important;
+  border-bottom: 1px solid #f2f6fb;
+}
+.top-questions-number {
+  display: inline-block;
+  border-right: 1px solid #f2f6fb;
+  width: 70px;
+  height: 55px;
+  line-height: 50px;
+  text-align: center;
+  font-weight: bold;
+  color: #6eaee8;
+  font-size: 16px;
+  float: left;
+}
+.top-questions-title {
+  padding-left: 90px;
+  line-height: 55px;
+  margin: 0;
+}
+.top-questions-title span {
+  line-height: 1.2;
+  vertical-align:middle;
+  display:inline-block;
+}

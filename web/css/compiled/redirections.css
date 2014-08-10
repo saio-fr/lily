@@ -1,0 +1,17 @@
+/*=======================================================================================================
+REDIRECTION
+=======================================================================================================*/
+
+#redirections-list li {
+  border-right: 4px solid transparent;
+}
+#redirections-list .active {
+  border-right: 4px solid #63a5e1 !important;
+}
+.redirection-action {
+  font-size: 13px;
+  text-align: right;
+}
+.redirection-action .icon-check-sign.default, .redirection-action .icon-sign-blank:hover  {
+  color: #63a5e1;
+}
