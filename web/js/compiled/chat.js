@@ -17235,7 +17235,7 @@ chat.Views.App = Backbone.View.extend({
 		// Connection to our WS Server
 		sess = new ab.connect(
 		
-			'ws://' + window.location.hostname +':8080/chat/' + licence // The host 		    
+			'ws://dev.ws.saio.fr:8080/chat/' + licence // The host 		    
 		    , function(session) {  // Once the connection has been established
 				
 				sess = session;

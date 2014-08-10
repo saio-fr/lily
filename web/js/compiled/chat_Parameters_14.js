@@ -1,7 +1,1 @@
-chat.Models.Parameters = Backbone.Model.extend({
-	
-	defaults: {
-		id: ''
-	}
-	
-});
+chat.Models.Parameters=Backbone.Model.extend({defaults:{id:""}});

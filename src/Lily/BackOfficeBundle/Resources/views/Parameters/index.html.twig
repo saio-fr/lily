@@ -4,7 +4,7 @@
 
 {{ parent() }} 	   
 
-{% stylesheets 'css/backoffice/administration.css' 'js/fuelux/fuelux.css' filter='cssrewrite' output='css/compiled/administration.css' %}      
+{% stylesheets 'css/backoffice/config.css' 'js/fuelux/fuelux.css' filter='cssrewrite' output='css/compiled/config.css' %}      
 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
 {% endstylesheets %} 
@@ -38,7 +38,7 @@
 	{% block bootstrap %}
 	    {% autoescape false %}
 	    <script type="text/javascript">
-	        var root = '{{ path('lily_administration') }}';
+	        var root = '{{ path('lily_config') }}';
 	    </script>
 	    {% endautoescape %}
 	{% endblock %}
@@ -51,7 +51,7 @@
 
 {{ parent() }}
 
-{% javascripts 'js/fuelux/fuelux.js' 'js/backoffice/parameters.js' %}
+{% javascripts 'js/fuelux/fuelux.js' 'js/backoffice/config.js' output='js/compiled/config.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

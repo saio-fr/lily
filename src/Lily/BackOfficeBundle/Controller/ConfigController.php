@@ -23,7 +23,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Lily\BackOfficeBundle\Entity\Config;
 use Lily\BackOfficeBundle\Form\ConfigType;
 
-class AdministrationController extends BaseController
+class ConfigController extends BaseController
 {
     /**
      * @View()
