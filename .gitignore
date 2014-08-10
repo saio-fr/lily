@@ -1,7 +1,7 @@
-web/bundles/
-app/cache/*
-app/logs/*
-vendor/
-web/css/*
-web/images/*
-web/js/*
+/app/cache/*
+/app/logs/*
+/vendor/*
+/web/css/*
+/web/images/*
+/web/js/*
+/web/bundles/*
