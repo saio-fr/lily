@@ -95,9 +95,10 @@ class Config
     /**
      * @var boolean
      *
-     * @ORM\Column(name="topquestions", type="boolean")
+     * @JMS\SerializedName("topQuestions")
+     * @ORM\Column(name="topQuestions", type="boolean")
      */
-    private $topquestions;
+    private $topQuestions;
 
     /**
      * @var boolean
@@ -133,10 +134,10 @@ class Config
     /**
      * @var string
      *
-     * @JMS\SerializedName("defaultCommunicationChannel")
-     * @ORM\Column(name="defaultCommunicationChannel", type="string", length=10)
+     * @JMS\SerializedName("home")
+     * @ORM\Column(name="home", type="string", length=10)
      */
-    private $defaultCommunicationChannel;
+    private $home;
 
     /**
      * Get id
@@ -195,26 +196,26 @@ class Config
     }
 
     /**
-     * Set topquestions
+     * Set topQuestions
      *
-     * @param boolean $topquestions
+     * @param boolean $topQuestions
      * @return Config
      */
-    public function setTopquestions($topquestions)
+    public function setTopQuestions($topQuestions)
     {
-        $this->topquestions = $topquestions;
+        $this->topQuestions = $topQuestions;
     
         return $this;
     }
 
     /**
-     * Get topquestions
+     * Get topQuestions
      *
      * @return boolean 
      */
-    public function getTopquestions()
+    public function getTopQuestions()
     {
-        return $this->topquestions;
+        return $this->topQuestions;
     }
 
     /**
@@ -310,26 +311,26 @@ class Config
     }
 
     /**
-     * Set defaultCommunicationChannel
+     * Set home
      *
-     * @param string $defaultCommunicationChannel
+     * @param string $home
      * @return Config
      */
-    public function setDefaultCommunicationChannel($defaultCommunicationChannel)
+    public function setHome($home)
     {
-        $this->defaultCommunicationChannel = $defaultCommunicationChannel;
+        $this->home = $home;
     
         return $this;
     }
 
     /**
-     * Get defaultCommunicationChannel
+     * Get home
      *
      * @return string 
      */
-    public function getDefaultCommunicationChannel()
+    public function getHome()
     {
-        return $this->defaultCommunicationChannel;
+        return $this->home;
     }
 
 

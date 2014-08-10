@@ -7,35 +7,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
-use JMS\Serializer\Exception\RuntimeException;
-use JMS\SecurityExtraBundle\Annotation\Secure;
-
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Delete;
+use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\View\ViewHandler;
+
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\Exception\RuntimeException;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Lily\BackOfficeBundle\Entity\Config;
 use Lily\BackOfficeBundle\Form\ConfigType;
 
 class AdministrationController extends BaseController
 {
-	/**
-	 * 
-	 * @Template()
-	 */
+    /**
+     * @View()
+     * @Secure(roles="ROLE_ADMIN")
+     */
     public function indexAction()
     {    	 
-    	$isFaq = $this->getEnterprise()->getFaq();
-		$isChat = $this->getEnterprise()->getChat();
-		$isAvi = $this->getEnterprise()->getAvi();
-		$isTopquestions = $this->getEnterprise()->getTopquestions();
-		
-		return array('isFaq' => $isFaq, 'isChat' => $isChat, 'isAvi' => $isAvi, 'isTopquestions' => $isTopquestions);
-		
     }
-    
         
     /**
      * @Get("/config")

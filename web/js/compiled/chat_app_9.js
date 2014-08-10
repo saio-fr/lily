@@ -208,8 +208,8 @@ chat.Views.App = Backbone.View.extend({
 	setInformationsWidth: function () {
 		
 		// Hide informations if the windows is too small
-		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) { this.live.informations.reduce(); }
-		else { $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} ); }
+		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) this.live.informations.reduce();
+		else $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} );
 		
 	},
 	

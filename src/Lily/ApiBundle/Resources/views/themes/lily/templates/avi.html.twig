@@ -1,0 +1,27 @@
+<div id="lily-home" class="lily-page-cont"><!-- wrapper page les différentes pages -->
+	<header id="lily-header" class="lily-cst-header">
+		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
+		{% if config.chat %}
+		<a href="#/chat" class="lily-right"><p>Parler à un conseiller<i class="lily-icon lily-icon-chat"></i></p></a>
+		{% endif %}
+	</header>
+	<section class="lily-main-content">
+		<section class="lily-avatar-wrapper">
+			{% include '@customer/'~cname~'/templates/avatar-svg.html.twig' %}
+			<img src="{{asset('customer/'~cname~'/images/universe.png')}}" class="lily-cst-universe" class="lily-cst-universe" />
+			<canvas id="canvas" width="380" height="460"></canvas>
+		</section>
+		<div id="lily-box-messages" class="scrollable">
+		<!-- Here goes the bubbles-->
+		</div>		
+	</section>
+	<section class="lily-search lily-cst-search lily-search-open" id="lily-search">
+		<form id="lily-search-form">
+			<div class="lily-search-input-wrap">
+				<input class="lily-search-input lily-cst-search-input" placeholder="Quelle est votre question ?" type="text" value="" name="s" id="s">
+			</div>
+			<span class="lily-icon lily-icon-search"></span>
+			<input class="lily-search-submit" type="submit" id="lily-go" value="">
+		</form>
+	</section>		
+</div>

@@ -4,7 +4,7 @@
 
 {{ parent() }} 	   
 
-{% stylesheets 'js/fuelux/fuelux.css' filter='cssrewrite' %}      
+{% stylesheets 'css/backoffice/administration.css' 'js/fuelux/fuelux.css' filter='cssrewrite' output='css/compiled/administration.css' %}      
 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
 {% endstylesheets %} 
@@ -51,7 +51,7 @@
 
 {{ parent() }}
 
-{% javascripts 'js/fuelux/fuelux.js' 'js/parameters.js' %}
+{% javascripts 'js/fuelux/fuelux.js' 'js/backoffice/parameters.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

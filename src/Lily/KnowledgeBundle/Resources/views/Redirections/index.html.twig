@@ -1,5 +1,17 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/backoffice/redirection.css' filter='cssrewrite'  output='css/compiled/redirections.css' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
 {% block body %}
 
 <section class="hbox stretch">
@@ -94,7 +106,7 @@
 
 {{ parent() }}
 
-{% javascripts 'js/redirections.js' %}
+{% javascripts 'js/backoffice/redirections.js' output='js/compiled/redirections.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

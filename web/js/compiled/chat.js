@@ -17203,9 +17203,9 @@ chat.Views.App = Backbone.View.extend({
 		'click a[data="unavailable"]': 'setUnavailable',
 		'click a[data="available"]': 'setAvailable',
 		'click .windows ul li' : 'setMaxWindows',
-		'click .icon-gear' : 'showParameters',
-		'click .icon-bar-chart' : 'showDashboard',
-		'click .icon-comments-alt' : 'showLive'
+		'click .parameters-nav' : 'showParameters',
+		'click .dashboard-nav' : 'showDashboard',
+		'click .live-nav' : 'showLive'
 	},
 	
 	initialize: function() {
@@ -17226,6 +17226,12 @@ chat.Views.App = Backbone.View.extend({
 			chat.app.setInformationsWidth();
 		});
 		
+		$(window).on('beforeunload', function() {
+			if(this.available) {
+				return "Vous êtes toujours ";
+			}
+		});
+		
 		// Connection to our WS Server
 		sess = new ab.connect(
 		
@@ -17233,8 +17239,8 @@ chat.Views.App = Backbone.View.extend({
 		    , function(session) {  // Once the connection has been established
 				
 				sess = session;
-				sess.subscribe('operator', function (topic, payload) { chat.app.records.set(payload); });
-				
+				sess.subscribe('operator', function (topic, payload) { chat.app.records.set(payload);				console.log(payload); });
+
 				sess.call('chat/isAvailable').then(function(event) {
 					if (event.result) { 
 						chat.app.available = true;
@@ -17337,10 +17343,9 @@ chat.Views.App = Backbone.View.extend({
 		this.$el.find('.status i').removeClass('unavailable').addClass('available');
 		this.$el.find('.status span').html('Disponible');
 		
-		$('.header-control .active').removeClass('active');
-		$('.icon-comments-alt').addClass('active');
-		$('.icon-comments-alt').removeClass('disable');
-		$('.header-control .badge').removeClass('hide');
+		$('.nav-tabs .active').removeClass('active');
+		$('.live-nav').addClass('active');
+		$('.live-nav').removeClass('disable');
 		
 		if (typeof(this.view) !== 'undefined') this.view.remove();	
 		this.live.$el.removeClass('hide');	
@@ -17358,10 +17363,9 @@ chat.Views.App = Backbone.View.extend({
 		this.live.$el.addClass('hide');
 		this.view = new chat.DashboardView( this.records );
 		
-		$('.header-control .active').removeClass('active');
-		$('.icon-bar-chart').addClass('active');
-		$('.icon-comments-alt').addClass('disable');
-		$('.header-control .badge').addClass('hide');
+		$('.nav-tabs .active').removeClass('active');
+		$('.dashboard-nav').addClass('active');
+		$('.live-nav').addClass('disable');
 		
 	},
 	
@@ -17405,11 +17409,12 @@ chat.Views.App = Backbone.View.extend({
 	setInformationsWidth: function () {
 		
 		// Hide informations if the windows is too small
-		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) { this.live.informations.reduce(); }
-		else { $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} ); }
+		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) this.live.informations.reduce();
+		else $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} );
 		
 	},
 	
+/*
 	showParameters: function () {
 		
 		if (!$('.icon-gear').hasClass('active')) {
@@ -17423,13 +17428,14 @@ chat.Views.App = Backbone.View.extend({
 		}
 		
 	},
+*/
 	
 	showDashboard: function () {
 	
-		if (!$('.header-control .icon-bar-chart').hasClass('active')) {
+		if (!$('.dashboard-nav').hasClass('active')) {
 		
-			$('.header-control .active').removeClass('active');
-			$('.icon-bar-chart').addClass('active');
+			$('.nav-tabs .active').removeClass('active');
+			$('.dashboard-nav').addClass('active');
 			this.live.$el.addClass('hide');
 			if (typeof(this.view) !== 'undefined') this.view.remove();
 			this.view = new chat.DashboardView( this.records );
@@ -17440,10 +17446,10 @@ chat.Views.App = Backbone.View.extend({
 	
 	showLive: function () {
 	
-		if (!$('.header-control .icon-comments-alt').hasClass('active') && this.available) {
+		if (!$('.live-nav').hasClass('active') && this.available) {
 		
-			$('.header-control .active').removeClass('active');
-			$('.icon-comments-alt').addClass('active');
+			$('.nav-tabs .active').removeClass('active');
+			$('.live-nav').addClass('active');
 			if (typeof(this.view) !== 'undefined') this.view.remove();
 			this.live.$el.removeClass('hide');
 			
@@ -17451,19 +17457,6 @@ chat.Views.App = Backbone.View.extend({
 		
 	},
 	
-	showParameters: function () {
-	
-		if (!$('.header-control .icon-gear').hasClass('active')) {
-		
-			$('.header-control .active').removeClass('active');
-			$('.icon-gear').addClass('active');
-			this.live.$el.addClass('hide');
-			if (typeof(this.view) !== 'undefined') this.view.remove();
-			this.view = new chat.ParametersView();
-			
-		}
-		
-	},
 	// Change the badge in the header-control to show how much persons are waiting a response
 	changeBadge: function () {
 
@@ -17781,7 +17774,7 @@ chat.LiveView = Backbone.View.extend({
 		}
 		
 		if (record.get('operator') == null) {
-		console.log('2');
+
      		this.recordView = new chat.Views.RecordWaiting({model: record});	   	
 	 		this.recordView.render();
 	 		chat.app.live.counter.waiting +=1;
@@ -17817,7 +17810,7 @@ chat.Views.Conversation = Backbone.View.extend({
 	
 	initialize: function() {
 		
-		that = this;
+		var that = this;
 		
 		// Create a collection of this view messages
 		this.messages = new chat.Messages();
@@ -17845,8 +17838,11 @@ chat.Views.Conversation = Backbone.View.extend({
 			parserRules:    wysihtml5ParserRules,
 			useLineBreaks:  true
 		});
-
 		
+		// If the operator type enter, send the message
+		this.$el.find('.wysihtml5-sandbox').contents().find('body').on("keydown",function(e) {
+			that.sendOnEnter(e);
+		});
 		
 		// Get the messages
 		this.getMessages();
@@ -18197,37 +18193,18 @@ chat.DashboardView = Backbone.View.extend({
 			
     initialize: function (records) {
     	
-    	this.render(); 
+    	this.render();
     	
     	this.collection = records;
-    	this.listenTo(this.collection, 'add', this.change);
-    	this.listenTo(this.collection, 'change:operator', this.change); 
-    	this.listenTo(this.collection, 'change:closed', this.change); 
     	
-    	this.load();
-    	this.sparkline(false);
+    	this.visitors = {};
+    	this.operators = {};
+    	this.stats = {};
     	
-    	this.counter = {};
+    	this.listenTo(this.collection, 'add', this.update);
+    	this.listenTo(this.collection, 'change', this.update);
     	
-    },
-    
-    render: function () {
-    
-	    var template= _.template( $('#dashboard').html());
-	    this.$el.html( template() );
-		this.$el.appendTo( '#chat-section' );
-	    
-    },
-    
-    change: function () {      		
-		
-    },
-    
-    load: function () {
-	    
-	    // Show a graph representing the load of the chat, depending on numbers of visitors & operators
-	    	    
-		// easypie
+    	// Show a graph representing the load of the chat, depending on numbers of visitors & operators
 	    $('.easypiechart').each(function(){
 	    	var $barColor = $(this).data("barColor") || function($percent) {
 	            $percent /= 100;
@@ -18253,49 +18230,109 @@ chat.DashboardView = Backbone.View.extend({
 		    });
 		    
 		});
+		
+		this.update();
+    	
+    },
+    
+    render: function () {
+    
+	    var template= _.template( $('#dashboard').html());
+	    this.$el.html( template() );
+		this.$el.appendTo( '#chat-section' );
 	    
     },
     
-    sparkline: function ($re) {
+    update: function () {  
+		
+		// Variable initialisation
+		that = this;
+
+		this.visitors.all = this.collection.where({ type: 'visitor', closed: false, banned: false });
+		this.visitors.chatting = this.visitors.all.filter(function(model) {
+			var v = model.get('operator');
+			return ((typeof(v)!=='undefined') && (v!==null));
+		});		
+		this.operators.available = this.collection.where({ type: 'operator', available: true });	
+			
+		this.stats.duration = 0;
+		this.stats.messages = 0;
+		this.stats.chats = 0;
+		this.stats.waiting = 0;
+		this.stats.now = moment();
+		
+		// Calculs
+		if (this.operators.available.length > 0 && this.visitors.chatting.length > 0) {
+			
+			$.each(this.visitors.chatting, function(key, visitor) {
+				that.stats.messages += visitor.get('messages').length;
+				that.stats.waiting += visitor.get('startChatTime') - visitor.get('startTime');
+				that.stats.duration += that.stats.now.diff( moment(visitor.get('startChatTime')*1000) );			
+			});
+			
+			// Messages per chat
+			this.stats.messages = Math.round( this.stats.messages / this.visitors.chatting.length );
+			
+			// Waiting time for visitor before chat
+			this.stats.waiting = Math.round( this.stats.waiting / this.visitors.chatting.length * 1000 );
+			this.stats.waiting = moment( this.stats.waiting ).format('mm:ss');
+			
+			// Time spent by operators per chat
+			this.stats.duration = Math.round( this.stats.duration / this.visitors.chatting.length );
+			this.stats.duration = moment( this.stats.duration ).format('mm:ss');
+			
+			// Simultaneous chats per operator
+			this.stats.chats = Math.round( this.visitors.chatting.length / this.operators.available.length *10 ) / 10;
+							
+		} 
+		
+		// Operators
+		$('.operators .connected span').text( this.operators.available.length );
+		$('.operators .icon-male').text( this.stats.chats );
+		$('.operators .icon-time').text( this.stats.duration );
+		$('.operators .icon-comments').text( this.stats.messages );
+		
+		// Visitors
+		$('.visitors .connected span').text( this.visitors.all.length );
+		$('.visitors .icon-time').text( this.stats.waiting );
+		
+		// Pie Chart
+		this.updatePieChart();
+    	
+    },
+    
+    updatePieChart: function () {
+
+	    this.stats.load = ( this.visitors.all.length / this.operators.available.length ) * 10;
 	    
-		// chart js
-		$(".sparkline").each(function(){
-			var $data = $(this).data();
-			if($re && !$data.resize) return;
-			if($data.type == 'bar'){
-				!$data.barColor && ($data.barColor = "#3fcf7f");
-				!$data.barSpacing && ($data.barSpacing = 2);
-				$(this).next('.axis').find('li').css('width',$data.barWidth+'px').css('margin-right',$data.barSpacing+'px');
-			};
-			
-			($data.type == 'pie') && $data.sliceColors && ($data.sliceColors = eval($data.sliceColors));
-			($data.type == 'bar') && $data.stackedBarColor && ($data.stackedBarColor = eval($data.stackedBarColor));
-			
-			$data.fillColor && ($data.fillColor.indexOf("#") !== -1) && isRgbaSupport() && ($data.fillColor = toRgba($data.fillColor, 0.5));
+	    if (this.stats.load > 100) this.stats.load = 100;
+	    if (this.operators.length == 0) this.stats.load = 0;
 
-			$data.valueSpots = {'0:': $data.spotColor};
-			$data.minSpotColor = false;
-			$(this).sparkline( $data.data || "html", $data);
-
-			if($(this).data("compositeData")){
-				var $cdata = {};
-				$cdata = $(this).data("compositeConfig");
-				$cdata.composite = true;
-				$cdata.valueSpots = {'0:': $cdata.spotColor};
-				$cdata.fillColor && ($cdata.fillColor.indexOf("#") !== -1) && isRgbaSupport() && ($cdata.fillColor = toRgba($cdata.fillColor, 0.5));
-				$(this).sparkline($(this).data("compositeData"), $cdata);
-			};
-			if($data.type == 'line'){
-				$(this).next('.axis').addClass('axis-full');
-			};
-		});
+	    $('.easypiechart').data('easyPieChart').update( this.stats.load );
+	    
+    }
+    
+});
+/*========================================
+Dashboard Connected View
+=========================================*/
 	
-		var sparkResize;
-		var that = this;
-		$(window).resize(function(e) {
-			clearTimeout(sparkResize);
-			sparkResize = setTimeout(function(){that.sparkline(true)}, 500);
-		});
+chat.DashboardConnectedView = Backbone.View.extend({
+		
+	tagName: 'li',
+	className: 'list-group-item',
+			
+    initialize: function () {
+    
+    	this.render(); 
+    	
+    },
+    
+    render: function () {
+    
+	    var template= _.template( $('#dashboard_connected').html());
+	    this.$el.html( template() );
+		this.$el.prependTo( '.list-connected' );
 	    
     }
     

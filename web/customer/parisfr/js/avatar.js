@@ -948,68 +948,68 @@ paper.view.onFrame = function (event) {
 		blinkDone = true;
 	}
 
-	if ((home.mood != 'joy') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'joy')) {
+	if ((avi.mood != 'joy') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'joy')) {
 		toJoy();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'joy')) {
-		home.mood = 'joy';
+		avi.mood = 'joy';
 	}
 
-	if ((home.mood == 'joy') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
+	if ((avi.mood == 'joy') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
 		joyTo();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'neutral')) {
-		home.mood = 'neutral';
+		avi.mood = 'neutral';
 	}
 
-	if ((home.mood != 'angry') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'angry')) {
+	if ((avi.mood != 'angry') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'angry')) {
 		toAngry();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'angry')) {
-		home.mood = 'angry';
+		avi.mood = 'angry';
 	}
 
-	if ((home.mood == 'angry') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
+	if ((avi.mood == 'angry') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
 		angryTo();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'neutral')) {
-		home.mood = 'neutral';
+		avi.mood = 'neutral';
 	}
 
-	if ((home.mood != 'sceptical') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'sceptical')) {
+	if ((avi.mood != 'sceptical') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'sceptical')) {
 		toSceptical();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'sceptical')) {
-		home.mood = 'sceptical';
+		avi.mood = 'sceptical';
 	}
 
-	if ((home.mood == 'sceptical') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
+	if ((avi.mood == 'sceptical') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
 		scepticalTo();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'neutral')) {
-		home.mood = 'neutral';
+		avi.mood = 'neutral';
 	}
 
-	if ((home.mood != 'sad') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'sad')) {
+	if ((avi.mood != 'sad') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'sad')) {
 		toSad();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'sad')) {
-		home.mood = 'sad';
+		avi.mood = 'sad';
 	}
 
-	if ((home.mood == 'sad') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
+	if ((avi.mood == 'sad') && (Math.sin(event.time * Math.PI) != -1) && (moodTo == 'neutral')) {
 		sadTo();
 	}
 
 	if ((event.time - animationTime > freq) && (event.time > 0) && (moodTo == 'neutral')) {
-		home.mood = 'neutral';
+		avi.mood = 'neutral';
 	}
 
 }

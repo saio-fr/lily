@@ -2204,4 +2204,5 @@ Date.now = Date.now || function() { return +new Date; };
     $('.vbox > footer').prev('section').addClass('w-f');
 
   });
+  
 }(window.jQuery);

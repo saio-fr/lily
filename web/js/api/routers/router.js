@@ -15,18 +15,22 @@ lily.Router = Backbone.Router.extend({
 		'faq/:id': 'faq',
 		'faq/content/:id': 'content',
 		'': 'home',
-		'home': 'home',
+		'avi': 'avi',
 		'chat': 'chat',
 		'mail': 'mail',
 		'mail/sent': 'mailSent'
 	},
 	
 	home: function () {
+		if (config.home == 'avi' ) this.avi();
+		else this.chat();
+	},
+	
+	avi: function () {
 		if (typeof(view) !== 'undefined') {view.remove();}
-		var view = new lily.Views.Home();
+		var view = new lily.Views.Avi();
 		lily.instance.goTo(view);
-		
-		this.welcome = new lily.Models.MessageLilySimple({message_content: aviWelcomeMsg});
+		this.welcome = new lily.Models.MessageLilySimple({message_content: config.aviWelcomeMsg});
 		this.message = new lily.Views.MessageLilySimple ({model: this.welcome}).render();
 
 	},
@@ -34,7 +38,7 @@ lily.Router = Backbone.Router.extend({
 	mailSent: function () {
 	
 		if (typeof(view) !== 'undefined') {view.remove();}
-		var view = new lily.Views.Home();
+		var view = new lily.Views.Avi();
 		lily.instance.goTo(view);
 		
 		this.welcome = new lily.Models.MessageLilySimple({message_content: 'Votre message a bien été envoyé. Que puis-je faire pour vous ?'});
@@ -57,7 +61,7 @@ lily.Router = Backbone.Router.extend({
 	faq: function ( id ) {
 		
 		if (typeof(view) !== 'undefined') {view.remove();}
-		var home = this;
+		var avi = this;
 		
 		if (( id == '') || (id == undefined  ) || (id == '/' )) id = "NULL";
 		
@@ -100,7 +104,7 @@ lily.Router = Backbone.Router.extend({
 		var id = id;
 		
 		if (typeof(view) !== 'undefined') {view.remove();}
-		var home = this;
+		var avi = this;
 		
 		$.ajax({
 			
@@ -108,8 +112,7 @@ lily.Router = Backbone.Router.extend({
 			
 			success:  function( data, textStatus, request ) {
 				// If there is no results we need to trigger a custom event to inform other objects.
-				// This way other objects (views) can acts according to this event (display some kind of messages)
-				console.log(data);				
+				// This way other objects (views) can acts according to this event (display some kind of messages)			
 				
 				if ( !data ) {
 					
@@ -156,7 +159,7 @@ lily.Router = Backbone.Router.extend({
 	topQuestions: function ( id ) {
 		
 		if (typeof(view) !== 'undefined') {view.remove();}
-		var home = this;
+		var avi = this;
 		
 		if (( id == '') || (id == undefined  ) || (id == '/' )) { 
 		
@@ -194,7 +197,7 @@ lily.Router = Backbone.Router.extend({
 					}
 					if ( data !== '' ) {
 						
-						var view = new lily.Views.Home();
+						var view = new lily.Views.Avi();
 						lily.instance.goTo(view);
 						var question = new lily.Models.MessageUserSimple ({message_content: data.title});
 						var reponse = new lily.Models.MessageLilySimple ({message_content: data.answer});

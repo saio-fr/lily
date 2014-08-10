@@ -4,7 +4,7 @@
 
 {{ parent() }} 	   
 
-{% stylesheets 'js/wysiwyg/wysihtml5.css' filter='cssrewrite' %}      
+{% stylesheets 'css/backoffice/faq.css' 'js/wysiwyg/wysihtml5.css' filter='cssrewrite' output='css/compiled/faq.css' %}      
 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
 {% endstylesheets %} 
@@ -22,6 +22,7 @@
     <section id="faq">
       <section class="hbox stretch">
       <!-- .aside -->
+      <!--
         <aside class="aside aside-md bg-dark">
           <section class="vbox">
             <header class="dk header">
@@ -38,7 +39,7 @@
                         Recherche thématique
                       </a>
                     </li>
-                  <!--  <li>
+                   <li>
                       <a href="#"> 
                         <i class="icon-download-alt"></i>
                         Importer
@@ -50,13 +51,14 @@
                         <i class="icon-share"></i>
                         Exporter
                       </a>
-                    </li>-->
+                    </li>
                   </ul>
                 </section>
               </section>
             </section>         
           </section>
         </aside>
+        -->
         <!-- /.aside -->
         <aside class="bg-light lter">
 	      <section id="faqs" class="vbox scrollable padder-b">
@@ -125,7 +127,7 @@
 
 {{ parent() }}
 
-{% javascripts 'js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/faq.js' %}
+{% javascripts 'js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/backoffice/faq.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

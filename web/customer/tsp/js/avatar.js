@@ -453,70 +453,70 @@ paper.view.onFrame = function (event) {
 	}
 
 	//Test
-	if ((home.mood == '') || (home.mood == 'neutral')) {
+	if ((avi.mood == '') || (avi.mood == 'neutral')) {
 		animationTime = event.time;
 	};
 
-	if ((mood != 'neutral') && (home.mood == '')) {
+	if ((mood != 'neutral') && (avi.mood == '')) {
 		animationTimeNeutral = event.time;
 	};
 
 	//Animations
-	if ((mood == 'neutral') && (home.mood != 'neutral')) {
+	if ((mood == 'neutral') && (avi.mood != 'neutral')) {
 
-		if (home.mood == 'happy') {
+		if (avi.mood == 'happy') {
 			toHappy();
 		}
 
-		if ((event.time - animationTime > freq) && (event.time > 0) && (home.mood == 'happy')) {
-			home.mood = '';
+		if ((event.time - animationTime > freq) && (event.time > 0) && (avi.mood == 'happy')) {
+			avi.mood = '';
 			mood = 'happy';
 		}
 
-		if (home.mood == 'angry') {
+		if (avi.mood == 'angry') {
 			toAngry();
 		}
 
-		if ((event.time - animationTime > freq) && (event.time > 0) && (home.mood == 'angry')) {
-			home.mood = '';
+		if ((event.time - animationTime > freq) && (event.time > 0) && (avi.mood == 'angry')) {
+			avi.mood = '';
 			mood = 'angry';
 		}
 
-		if (home.mood == 'sceptical') {
+		if (avi.mood == 'sceptical') {
 			toSceptical();
 		}
 
-		if ((event.time - animationTime > freq) && (event.time > 0) && (home.mood == 'sceptical')) {
-			home.mood = '';
+		if ((event.time - animationTime > freq) && (event.time > 0) && (avi.mood == 'sceptical')) {
+			avi.mood = '';
 			mood = 'sceptical';
 		}
 
-		if (home.mood == 'sad') {
+		if (avi.mood == 'sad') {
 			toSad();
 		}
 
-		if ((event.time - animationTime > freq) && (event.time > 0) && (home.mood == 'sad')) {
-			home.mood = '';
+		if ((event.time - animationTime > freq) && (event.time > 0) && (avi.mood == 'sad')) {
+			avi.mood = '';
 			mood = 'sad';
 		}
 
 	}
 
-	if ((mood != 'neutral') && (home.mood != '')) {
+	if ((mood != 'neutral') && (avi.mood != '')) {
 
-		if ((mood == 'happy') && (mood != home.mood)) {
+		if ((mood == 'happy') && (mood != avi.mood)) {
 			happyTo();
 		}
 
-		if ((mood == 'angry') && (mood != home.mood)) {
+		if ((mood == 'angry') && (mood != avi.mood)) {
 			angryTo();
 		}
 
-		if ((mood == 'sceptical') && (mood != home.mood)) {
+		if ((mood == 'sceptical') && (mood != avi.mood)) {
 			scepticalTo();
 		}
 
-		if ((mood == 'sad') && (mood != home.mood)) {
+		if ((mood == 'sad') && (mood != avi.mood)) {
 			sadTo();
 		}
 
@@ -524,7 +524,7 @@ paper.view.onFrame = function (event) {
 			mood = 'neutral';
 		}
 
-		if (mood == home.mood) {
+		if (mood == avi.mood) {
 			return true;
 		}
 

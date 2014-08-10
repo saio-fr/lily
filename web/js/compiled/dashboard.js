@@ -3338,7 +3338,7 @@ lily.UsageVue = Backbone.View.extend({
             tickColor: "#f0f0f0",
             borderWidth: 0
         },
-        colors: ["#5dcff3"],
+        colors: ["#6eaee8"],
         xaxis: {
 			min: d1[d1.length - 1][0],
             max: d1[0][0],

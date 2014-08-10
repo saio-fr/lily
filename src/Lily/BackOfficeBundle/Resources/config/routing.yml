@@ -10,30 +10,24 @@ lily_statistiques_rest:
     resource: "@LilyBackOfficeBundle/Controller/StatisticsController.php"
     type:     rest
     prefix:   /statistics
-    
-lily_personnalisation:
-    pattern:  /personnalisation
-    defaults: { _controller: LilyBackOfficeBundle:Personnalisation:index }
-    
-lily_personnalisation_temp:
-    resource: "@LilyBackOfficeBundle/Controller/PersonnalisationController.php"
-    type:     annotation
-    
-lily_facturation:
-    pattern:  /facturation
-    defaults: { _controller: LilyBackOfficeBundle:Facturation:index }
 
+lily_administration:
+    pattern:  /administration
+    defaults: { _controller: LilyBackOfficeBundle:Administration:index }
     
 lily_administration_rest:
     resource: "@LilyBackOfficeBundle/Controller/AdministrationController.php"
     type:     rest
     prefix:   /administration
-
-lily_administration:
-    pattern:  /administration
-    defaults: { _controller: LilyBackOfficeBundle:Administration:index }
-
-lily_avatars_rest:
-    resource: "@LilyBackOfficeBundle/Controller/AvatarsController.php"
-    type:     rest
-    prefix:   /avatars
+    
+# lily_personnalisation:
+#     pattern:  /personnalisation
+#     defaults: { _controller: LilyBackOfficeBundle:Personnalisation:index }
+#     
+# lily_personnalisation_temp:
+#     resource: "@LilyBackOfficeBundle/Controller/PersonnalisationController.php"
+#     type:     annotation
+#     
+# lily_facturation:
+#     pattern:  /facturation
+#     defaults: { _controller: LilyBackOfficeBundle:Facturation:index }

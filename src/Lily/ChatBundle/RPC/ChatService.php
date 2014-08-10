@@ -31,7 +31,12 @@ class ChatService
     {	    	
         foreach ($clients as $item) {
 			if ($item->id === $params['sid']) { 
+				
+				$date = new \Datetime();
+				$timestamp = $date->getTimestamp();
+				
 				$item->operator = $conn->User->getId();
+				$item->startChatTime = $timestamp;
 			}
 		}
 		

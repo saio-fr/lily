@@ -32,8 +32,6 @@ lily.Views.MessageView = Backbone.View.extend({
 				scrollTop: $('#lily-box-messages').get(0).scrollHeight
 			}, 500);
 			
-			console.log('t');
-			
 		} );
 		
 	}

@@ -1,5 +1,16 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/backoffice/chat.css' filter='cssrewrite'  output='css/compiled/chat.css'%}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
 {% block body %}
 
 <section class="hbox stretch">
@@ -10,33 +21,33 @@
 	
 	<section>
 	  <section id="chat" class="vbox">
-		<header class="header blue-header">
-		    <h3>Live chat</h3>
-		    <div class="header-control pull-right">
-		      <div class="btn-group windows">
-			    <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
-			      <span class="dropdown-label">1 conversation</span>
-			    </button>
-			    <ul class="dropdown-menu dropdown-select">
-				  <li class="active"><a href="#" data="1"><input type="radio" name="d-s-r">1 conversation</a></li>
-				  <li><a href="#" data="2"><input type="radio" name="d-s-r">2 conversations</a></li>
-				  <li><a href="#" data="4"><input type="radio" name="d-s-r">4 conversations</a></li>
-			    </ul>
-		      </div>
-		      <div class="btn-group status">
-		        <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
-		          <i class="icon-stop"></i><span class="dropdown-label"></span>		        
-		        </button>
-		        <ul class="dropdown-menu dropdown-select">
-		          <li><a href="#" data="available"><input type="radio" name="d-s-r">Disponible</a></li>
-		          <li class="active"><a href="#" data="unavailable"><input type="radio" name="d-s-r">Indisponible</a></li>
-		        </ul>
-		      </div>
-		      <a href="#"><i class="icon-gear"></i></a> 
-		      <a href="#"><i class="icon-bar-chart active"></i></a>
-			  <a href="#"><b class="badge bg-warning pull-right hide">0</b><i class="icon-comments-alt"></i></a>   
+		<header class="header bg-dark bg-gradient">
+		  <div class="header-control pull-right">
+		    <div class="btn-group windows">
+			  <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+			    <span class="dropdown-label">1 conversation</span>
+			  </button>
+			  <ul class="dropdown-menu dropdown-select">
+				<li class="active"><a href="#" data="1"><input type="radio" name="d-s-r">1 conversation</a></li>
+				<li><a href="#" data="2"><input type="radio" name="d-s-r">2 conversations</a></li>
+				<li><a href="#" data="4"><input type="radio" name="d-s-r">4 conversations</a></li>
+			  </ul>
 		    </div>
-		  </header>
+		    <div class="btn-group status">
+		      <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+		        <i class="icon-stop"></i><span class="dropdown-label"></span>		        
+		      </button>
+		      <ul class="dropdown-menu dropdown-select">
+		        <li><a href="#" data="available"><input type="radio" name="d-s-r">Disponible</a></li>
+		        <li class="active"><a href="#" data="unavailable"><input type="radio" name="d-s-r">Indisponible</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		  <ul id="chat-nav" class="nav nav-tabs">
+		    <li class="dashboard-nav active"><a href="#dashboard">Dashboard</a></li>
+		    <li class="live-nav"><a href="#chat">Discussions<b class="badge bg-warning pull-right hide">0</b></a></li>
+		  </ul>
+        </header>
 		<section id="chat-section">
 		<!-- Live view -->
 		</section>
@@ -50,6 +61,9 @@
 		<!-- L'appel des différents scripts de vue -->
 		<script type="text/template" id="dashboard">
             {% include 'LilyChatBundle:Operator/templates:dashboard.html.twig' %}
+        </script>
+        <script type="text/template" id="dashboard_connected">
+            {% include 'LilyChatBundle:Operator/templates:dashboard_connected.html.twig' %}
         </script>
         <script type="text/template" id="parameters">
             {% include 'LilyChatBundle:Operator/templates:parameters.html.twig' %}
@@ -110,29 +124,31 @@
 
 'js/vendor/autobahn-v1.min.js' 
 
-'js/chat/libs/modernizr-custom.js' 
-'js/vendor/moment.js' 'js/chat/main.js' 
+'js/backoffice/chat/libs/modernizr-custom.js' 
+'js/vendor/moment.js' 
 
-'js/chat/app.js' 
+'js/backoffice/chat/main.js' 
+'js/backoffice/chat/app.js' 
 
-'js/chat/models/MessageModel.js' 
-'js/chat/models/Messages.js' 
-'js/chat/models/RecordModel.js' 
-'js/chat/models/Records.js' 
-'js/chat/models/Parameters.js' 
+'js/backoffice/chat/models/MessageModel.js' 
+'js/backoffice/chat/models/Messages.js' 
+'js/backoffice/chat/models/RecordModel.js' 
+'js/backoffice/chat/models/Records.js' 
+'js/backoffice/chat/models/Parameters.js' 
 
-'js/chat/views/RecordCurrentView.js' 
-'js/chat/views/RecordWaitingView.js' 
-'js/chat/views/LiveView.js' 
-'js/chat/views/ConversationView.js' 
-'js/chat/views/InformationsView.js'
-'js/chat/views/MessageView.js' 
-'js/chat/views/MessageOperatorView.js'
-'js/chat/views/MessageVisitorView.js' 
-'js/chat/views/ModalCloseView.js' 
-'js/chat/views/ModalBanView.js' 
-'js/chat/views/ParametersView.js' 
-'js/chat/views/DashboardView.js' output='js/compiled/chat.js' %}
+'js/backoffice/chat/views/RecordCurrentView.js' 
+'js/backoffice/chat/views/RecordWaitingView.js' 
+'js/backoffice/chat/views/LiveView.js' 
+'js/backoffice/chat/views/ConversationView.js' 
+'js/backoffice/chat/views/InformationsView.js'
+'js/backoffice/chat/views/MessageView.js' 
+'js/backoffice/chat/views/MessageOperatorView.js'
+'js/backoffice/chat/views/MessageVisitorView.js' 
+'js/backoffice/chat/views/ModalCloseView.js' 
+'js/backoffice/chat/views/ModalBanView.js' 
+'js/backoffice/chat/views/ParametersView.js' 
+'js/backoffice/chat/views/DashboardView.js'
+'js/backoffice/chat/views/DashboardConnectedView.js' output='js/compiled/chat.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

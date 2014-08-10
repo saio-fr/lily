@@ -24,12 +24,12 @@ class ConfigType extends AbstractType
             ->add('aviIfNoOperator')
             ->add('aviAnimations')
             ->add('faq')
-            ->add('topquestions')
+            ->add('topQuestions')
             ->add('maintenance')
             ->add('redirectionChat')
             ->add('redirectionMail')
             ->add('redirectionTel')
-            ->add('defaultCommunicationChannel')
+            ->add('home')
         ;
     }
     

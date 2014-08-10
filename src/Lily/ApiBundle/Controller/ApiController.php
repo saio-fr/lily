@@ -76,8 +76,10 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		$isChat = $this->getEnterprise($key)->getChat() && $config->getChat();
 		$isAvi = $this->getEnterprise($key)->getAvi() && $config->getAvi();
 		$isTopquestions = $this->getEnterprise($key)->getTopquestions() && $config->getTopquestions();
+		
 		$aviName = $config->getAviName();
 		$aviWelcomeMsg = $config->getAviWelcomeMsg();
+		$home = $config->getHome();
 		
 		$isRedirectionMail = $config->getRedirectionMail();	
 		$isRedirectionTel = $config->getRedirectionTel();
@@ -101,13 +103,13 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 			if ($mobileDetector->isMobile()) { $connection->setMedia('mobile'); }			
 			if ($mobileDetector->isTablet()) { $connection->setMedia('tablet'); }
 			if (!$mobileDetector->isMobile() && !$mobileDetector->isTablet()) { $connection->setMedia('pc'); }	
-			
+			@
 			$em->persist($connection);
 			$em->flush();			 
 
 		}
 				
-        return $this->render('LilyApiBundle:themes:'.$theme.'/index.html.twig', array('key' => $key, 'isFaq' => $isFaq, 'isChat' => $isChat, 'isAvi' => $isAvi, 'isTopquestions' => $isTopquestions, 'isRedirectionMail' => $isRedirectionMail, 'isRedirectionTel' => $isRedirectionTel, 'phone' => $phone, 'cname' => $cname, 'avatar' => $avi, 'aviName' => $aviName, 'aviWelcomeMsg' => $aviWelcomeMsg)); 
+        return $this->render('LilyApiBundle:themes:'.$theme.'/index.html.twig', array('key' => $key, 'config' => $config, 'phone' => $phone, 'cname' => $cname, 'avatar' => $avi)); 
         
     }
     

@@ -27,13 +27,13 @@ class Category
     protected $id;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Category", mappedBy="parent", cascade={"remove"})
      * @Groups({"unique"})
      **/
     protected $children;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="children")
      **/
     protected $parent;
     
@@ -220,10 +220,10 @@ class Category
     /**
      * Set parent
      *
-     * @param \Lily\KnowledgeBundle\Entity\Question $parent
+     * @param \Lily\KnowledgeBundle\Entity\Category $parent
      * @return Category
      */
-    public function setParent(\Lily\KnowledgeBundle\Entity\Question $parent = null)
+    public function setParent(\Lily\KnowledgeBundle\Entity\Category $parent = null)
     {
         $this->parent = $parent;
     
@@ -233,7 +233,7 @@ class Category
     /**
      * Get parent
      *
-     * @return \Lily\KnowledgeBundle\Entity\Question 
+     * @return \Lily\KnowledgeBundle\Entity\Category 
      */
     public function getParent()
     {

@@ -38,8 +38,8 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 
     //WampServer adds and removes subscribers to Topics automatically, this is for further optional events.
     public function onSubscribe(Conn $conn, $topic) {    
-    	
-    	if ($topic->getId() == 'operator') $this->operator = $topic;        
+    	if ($topic->getId() == 'operator') $this->operator = $topic;  
+    	$topic->autoDelete = true;      
         $this->topicHandler->onSubscribe($conn, $topic, $this->clients);
         $this->operator->broadcast($this->toArray($this->clients));
         
@@ -60,8 +60,9 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     }
 
     public function onClose(Conn $conn) {
+    	echo 'closed';
         $event = new ClientEvent($conn, ClientEvent::$disconnected);
-        $this->eventDispatcher->dispatch("lily.client.disconnected", $event);
+        $this->eventDispatcher->dispatch("lily.client.disconnected", $event);        
     }
 
     public function onError(Conn $conn, \Exception $e) {

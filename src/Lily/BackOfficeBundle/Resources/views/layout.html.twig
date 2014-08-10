@@ -8,7 +8,7 @@
 
 {% block stylesheets %}
   
-{% stylesheets 'css/bootstrap.css' 'css/animate.css' 'css/font-awesome.min.css' 'css/font.css' 'css/plugin.css' 'css/app.css' filter='cssrewrite' %}
+{% stylesheets 'css/vendor/bootstrap.css' 'css/vendor/animate.css' 'css/vendor/font-awesome.min.css' 'css/vendor/font.css' 'css/vendor/plugin.css' 'css/vendor/app.css' filter='cssrewrite' %}
   
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
   
@@ -29,7 +29,19 @@
 
 {% block javascripts %}
 
-{% javascripts 'js/vendor/jquery.min.js' 'js/vendor/bootstrap.js' 'js/app.js' 'js/vendor/bootstrap.js' 'js/app.plugin.js' 'js/vendor/underscore.min.js' 'js/vendor/backbone.min.js' %}
+{% javascripts 
+
+'js/vendor/jquery.min.js' 
+'js/vendor/bootstrap.js' 
+'js/vendor/bootstrap.js'  
+'js/vendor/underscore.min.js' 
+'js/vendor/backbone.min.js' 
+
+'js/app.js' 
+'js/app.plugin.js'
+
+%}
+
   <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 

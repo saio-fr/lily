@@ -4,7 +4,7 @@
 
 {{ parent() }} 	   
 
-{% stylesheets 'js/daterangepicker/daterangepicker.css' filter='cssrewrite' %}      
+{% stylesheets 'css/backoffice/statistics.css' 'js/daterangepicker/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}      
 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
 {% endstylesheets %} 
@@ -78,7 +78,7 @@
 
 {{ parent() }}
 
-{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/charts/morris/raphael-min.js' 'js/charts/morris/morris.min.js' 'js/vendor/moment.js' 'js/daterangepicker/daterangepicker.js' 'js/statistics.js' %}
+{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/charts/morris/raphael-min.js' 'js/charts/morris/morris.min.js' 'js/vendor/moment.js' 'js/daterangepicker/daterangepicker.js' 'js/backoffice/statistics.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

@@ -89,9 +89,9 @@ class Enterprise
     /**
      * @var boolean
      *
-     * @ORM\Column(name="topquestions", type="boolean")
+     * @ORM\Column(name="topQuestions", type="boolean")
      */
-    private $topquestions;
+    private $topQuestions;
     
     /**
      * @var integer
@@ -309,26 +309,26 @@ class Enterprise
     }
 
     /**
-     * Set topquestions
+     * Set topQuestions
      *
-     * @param boolean $topquestions
+     * @param boolean $topQuestions
      * @return Entreprise
      */
-    public function setTopquestions($topquestions)
+    public function setTopQuestions($topQuestions)
     {
-        $this->topquestions = $topquestions;
+        $this->topQuestions = $topQuestions;
     
         return $this;
     }
 
     /**
-     * Get topquestions
+     * Get topQuestions
      *
      * @return boolean 
      */
-    public function getTopquestions()
+    public function getTopQuestions()
     {
-        return $this->topquestions;
+        return $this->topQuestions;
     }
 
     /**

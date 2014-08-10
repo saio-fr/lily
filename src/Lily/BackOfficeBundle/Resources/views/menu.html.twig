@@ -44,14 +44,14 @@
                 </a>
               </li> -->
               <li>
-                <a href="{{ path('lily_dashboard') }}">
+                <a href="{{ path('lily_dashboard') }}" class="{% if app.request.attributes.get('_route') == 'lily_dashboard' %}active{% endif %}">
                   <i class="icon-dashboard"></i>
                   <span>Dashboard</span>
                 </a>
               </li> 
               {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
               <li>
-                <a href="{{ path('lily_questions') }}">
+                <a href="{{ path('lily_questions') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
                   <i class="icon-book"></i>
                   <span>Connaissances</span>
                 </a>
@@ -61,7 +61,7 @@
               {% if app.user.enterprise.faq %}
                 {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %} 
               <li>
-                <a href="{{ path('lily_faq') }}">
+                <a href="{{ path('lily_faq') }}" class="{% if app.request.attributes.get('_route') == 'lily_faq' %}active{% endif %}">
                   <i class="icon-sort-by-attributes-alt"></i>
                   <span>Faq</span>
                 </a>
@@ -72,7 +72,7 @@
               {% if app.user.enterprise.chat %}
                 {% if is_granted('ROLE_CHAT_OPERATOR') %}
               <li>
-                <a href="{{ path('lily_chat') }}">
+                <a href="{{ path('lily_chat') }}" class="{% if app.request.attributes.get('_route') == 'lily_chat' %}active{% endif %}">
                   <i class="icon-comments-alt"></i>
                   <span>Live chat</span>
                 </a>
@@ -82,21 +82,21 @@
               
               {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
               <li>
-                <a href="{{ path('lily_redirections') }}">
+                <a href="{{ path('lily_redirections') }}" class="{% if app.request.attributes.get('_route') == 'lily_redirections' %}active{% endif %}">
                   <i class="icon-share-alt"></i>
                   <span>Redirections</span>
                 </a>
               </li>  
               {% endif %}
               <li>
-                <a href="{{ path('lily_statistics') }}">
+                <a href="{{ path('lily_statistics') }}" class="{% if app.request.attributes.get('_route') == 'lily_statistics' %}active{% endif %}">
                   <i class="icon-bar-chart"></i>
                   <span>Statistiques</span>
                 </a>
               </li> 
               {% if is_granted('ROLE_ADMIN') %}
               <li>
-                <a href="{{ path('lily_administration') }}">
+                <a href="{{ path('lily_administration') }}" class="{% if app.request.attributes.get('_route') == 'lily_administration' %}active{% endif %}">
                   <i class="icon-gear"></i>
                   <span>Paramètres</span>
                 </a>
@@ -104,7 +104,7 @@
               {% endif %}  
               {% if is_granted('ROLE_ADMIN') %}
               <li>
-                <a href="{{ path('lily_user') }}">
+                <a href="{{ path('lily_user') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
                   <i class="icon-group"></i>
                   <span>Utilisateurs</span>
                 </a>

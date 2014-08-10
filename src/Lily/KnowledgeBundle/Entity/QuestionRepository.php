@@ -18,13 +18,15 @@ class QuestionRepository extends EntityRepository
 		
 		$qb->leftJoin('q.category', 'c')
 		   ->leftJoin('q.tag', 't')
-		   ->where($qb->expr()->in('c.id', ':cids'))
+		   ->andWhere($qb->expr()->in('c.id', ':cids'))
 		   ->setParameter('cids', $data->categories)
 		   ->andWhere($qb->expr()->in('t.id', ':tids'))
 		   ->setParameter('tids', $data->tags);
 		   
 		if (in_array(null, $data->categories)) $qb->orWhere('c.id is NULL');
 		if (in_array(null, $data->tags)) $qb->orWhere('t.id is NULL');
+		
+		$qb->andWhere('q.parent is NULL');
 		
 		if (isset($data->sortBy)) $qb->add('orderBy', 'q.' . $data->sortBy->name . ' ' . $data->sortBy->order);
 		   

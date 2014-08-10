@@ -26,7 +26,7 @@
 
 {% block body %}
 	<div id="lily-toolbar" class="lily-cst-toolbar">
-		<span id="lily-toolbar-name" class="lily-cst-toolbar-name">{{ aviName }}</span>
+		<span id="lily-toolbar-name" class="lily-cst-toolbar-name">{{ config.aviName }}</span>
 		<div id="lily-toolbar-icons" class="lily-cst-toolbar-icons">
 		  <i class="lily-icon lily-icon-reduce"></i>		
 		</div>
@@ -34,25 +34,25 @@
 	<div id='lily-menu' class="snap-drawer snapdrawer-left scrollable lily-cts-menu"><!-- wrapper pour menu -->
 		<div class="lily-menu-body">
 			<ul>
-				{% if isAvi %}
-				<li><a href="#"><span class='lily-icon lily-icon-avatar'></span>Agent virtuel</a></li>			
+				{% if config.avi and app.user.enterprise.avi %}
+				<li><a href="#/avi"><span class='lily-icon lily-icon-avatar'></span>Agent virtuel</a></li>			
 				{% endif %}
-				{% if isChat %}
+				{% if config.chat and app.user.enterprise.chat %}
 				<li><a href="#/chat" data-reverse="true"><span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller</a></li>
 				{% endif %}
-				{% if isRedirectionMail %}
+				{% if config.redirectionMail %}
 				<li><a href="#/mail" data-reverse="true"><span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail</a></li>
 				{% endif %}
-				{% if isRedirectionTel %}
+				{% if config.redirectionTel %}
 				<li><a href="tel:{{ phone }}"><span class='lily-icon lily-icon-phone'></span>Nous téléphoner</a></li>
 				{% endif %}
 				<div class="lily-menu-separator lily-cst-menu-separator"></div>
 				<li>
 					<ul class="lily-cst-menu-footer">
-					{% if isFaq %}
+					{% if config.faq and app.user.enterprise.faq %}
 					<li><a href="#/faq" data-reverse="true"><span class='lily-icon lily-icon-faq'></span>FAQ Dynamique</a></li>
 					{% endif %}
-					{% if isTopquestions %}
+					{% if config.topQuestions %}
 					<li><a href="#/top-questions" data-reverse="true"><span class='lily-icon lily-icon-favorite'></span>TOP des questions</a></li>
 					{% endif %}
 					</ul>
@@ -68,11 +68,11 @@
 
 	{% block templates %}
 		<!-- L'appel des différents scripts de vue -->
-		<script type="text/template" id="lily-page-home-template">
-	        {% include 'LilyApiBundle:themes/lily/templates:home.html.twig' with {'isChat': isChat, 'cname': cname } %}
+		<script type="text/template" id="lily-page-avi-template">
+	        {% include 'LilyApiBundle:themes/lily/templates:avi.html.twig' with {'config': config, 'cname': cname } %}
 	    </script>
 	    <script type="text/template" id="lily-page-chat-template">
-	        {% include 'LilyApiBundle:themes/lily/templates:chat.html.twig' with {'isAvi': isAvi, 'cname': cname } %}
+	        {% include 'LilyApiBundle:themes/lily/templates:chat.html.twig' with {'config': config, 'cname': cname } %}
 	    </script>
 	    <script type="text/template" id="lily-page-faq-template">
 	        {% include 'LilyApiBundle:themes/lily/templates:faq.html.twig' %}
@@ -117,7 +117,7 @@
 		<script type="text/javascript">
 		    var licence = "{{ key }}";
 		    var root = "{{ path('lily_api_index', { key: key }) }}";
-		    var aviWelcomeMsg = "{{ aviWelcomeMsg }}";
+		    var config = {{ config|serialize('json') }};
 		</script>
 		{% endautoescape %}
 	{% endblock %}
@@ -152,11 +152,11 @@
 'js/api/views/faq.js'
 'js/api/views/topQuestions.js'
 'js/api/views/content.js'
-'js/api/views/home.js'
+'js/api/views/avi.js'
 'js/api/views/chat.js'
 'js/api/views/mail.js'
 
-'js/api/routers/router.js' %}
+'js/api/routers/router.js' output='js/compiled/api.js' %}
 
  <script type="text/javascript" src="{{ asset_url }}"></script>
   

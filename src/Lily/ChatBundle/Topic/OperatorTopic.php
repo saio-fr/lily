@@ -47,8 +47,6 @@ class OperatorTopic implements TopicInterface
         $operator->type = 'operator';
         $operator->messages = array();
         $operator->available = false;
-        $operator->operator = null;
-        $operator->writing = false;
         
         $clients->attach($operator);
     }
@@ -63,8 +61,11 @@ class OperatorTopic implements TopicInterface
      */
     public function onUnSubscribe(Conn $conn, $topic, $clients)
     {
-    	$clients->detach($operator);
-        $topic->broadcast($conn->resourceId . " has left " . $topic->getId());
+    	foreach ($clients as $item) {
+			if ($item->id === $conn->User->getId() && $item->type === 'operator') {
+				$clients->detach($item);
+			}
+		}
     }
 
 

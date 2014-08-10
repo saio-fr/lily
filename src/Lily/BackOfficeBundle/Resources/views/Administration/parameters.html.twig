@@ -4,11 +4,11 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#overall" data-toggle="tab">Globaux</a></li>
       <!-- show if enterprise.avi is enabled -->
-      {% if isAvi %}
+      {% if app.user.enterprise.avi %}
       <li class=""><a href="#avatar" data-toggle="tab">Avatar</a></li>
       {% endif %}
       <!-- show if enterprise.chat is enabled -->
-      {% if isChat %}
+      {% if app.user.enterprise.chat %}
       <li class=""><a href="#chat" data-toggle="tab">Live chat</a></li>
 	  {% endif %}
     </ul>
@@ -28,12 +28,12 @@
         </div>
         
         <!-- show if enterprise.chat is enabled -->
-        {% if isChat %}
+        {% if app.user.enterprise.chat %}
         <p class="administration-p">Choisissez votre canal de communication par défaut :</p>
         <div class="row">
         	<p>Avatar virtuel</p>
         	<label class="switch no-color">
-            	<input name="defaultCommunicationChannel" type="checkbox" <% if (defaultCommunicationChannel == 'chat') { %> checked <% } %>>
+            	<input name="home" type="checkbox" <% if (home == 'chat') { %> checked <% } %>>
             	<span></span>
             </label>
             <p>Live chat</p>
@@ -41,7 +41,7 @@
         {% endif %}
         
         <!-- show if enterprise.chat && enterprise.avi is enabled -->
-        {% if isChat and isAvi %}
+        {% if app.user.enterprise.chat and app.user.enterprise.avi %}
         <div class="checkbox">
           <label class="checkbox-custom">
             <input type="checkbox" name="aviIfNoOperator" <% if (aviIfNoOperator) { %> checked <% } %> >
@@ -55,7 +55,7 @@
         <div class="row">
         	
         	<!-- show if enterprise.chat is enabled -->
-        	{% if isChat %}
+        	{% if app.user.enterprise.chat %}
         	<div class="return">
             	<label class="switch">
                 	<input type="checkbox" name="chat" <% if (chat) { %> checked <% } %>>
@@ -66,7 +66,7 @@
             {% endif %}
             
             <!-- show if enterprise.faq is enabled -->
-            {% if isFaq %}
+            {% if app.user.enterprise.faq %}
             <div class="return">
                 <label class="switch">
                 	<input type="checkbox" name="faq" <% if (faq) { %> checked <% } %>>
@@ -76,11 +76,11 @@
             </div>
             {% endif %}
             
-            <!-- show if enterprise.topquestions is enabled -->
-            {% if isTopquestions %}
+            <!-- show if enterprise.topQuestions is enabled -->
+            {% if app.user.enterprise.topQuestions %}
             <div class="return">
                 <label class="switch">
-                	<input type="checkbox" name="topquestions" <% if (topquestions) { %> checked <% } %>>
+                	<input type="checkbox" name="topQuestions" <% if (topQuestions) { %> checked <% } %>>
                 	<span></span>
                 </label>
                 <p>Top des questions</p>

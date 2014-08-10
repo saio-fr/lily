@@ -1,5 +1,16 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/backoffice/dashboard.css' filter='cssrewrite' output='css/compiled/dashboard.css' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
 {% block body %}
 
 <section class="hbox stretch">
@@ -15,8 +26,14 @@
 		  <div class="wrapper">
 		    <div class="row">
 		    
-		       <!-- Graphique Utilisation -->
-			  <div class="col-lg-6">
+		      <!-- Saving -->
+		      <div class="col-md-6">
+		      
+		        <section class="panel">
+                  <header class="panel-heading font-bold">Vous avez économisé: <span class="saved">{{ saving }} €</span></header>
+		        </section>
+			  
+		        <!-- Graphique Utilisation -->
 			    <section id="graph" class="panel"></section>
 			    <section class="panel">
 			    <header class="panel-heading font-bold">Activités</header>
@@ -26,7 +43,7 @@
                     {% if activities %}
                       {% for activity in activities %}
                       <li class="m-t">
-                        <span class="timeline-icon"><i class="time-icon bg-primary"></i></span>
+                        <span class="timeline-icon"><i class="time-icon bg-primary lt"></i></span>
                         <h6 class="m-n m-l-xlg"><b></b>{{ activity.username }} a {{ activity.action }} le {{ activity.loggedAt|date("d/m/Y") }} à {{ activity.loggedAt|date("H:i") }} la {{activity.type}} :</h6>
                         <small class="m-l-xlg">{{ activity.title }}</small>
                       </li>
@@ -41,46 +58,37 @@
                     
 		          </div>
 		        </section>
-			  </div>
-			  
-			  <div class="col-lg-6">
-		        <section class="panel">
-                  <header class="panel-heading font-bold">Vous avez économisé:<span class="saved">{{ saving }} €</span></header>
-		        </section>
-			  </div>
+		      </div>
 		      
 		      <div class="col-md-6">
+		      
 		        <section class="panel">
                   <div class="panel-body lily-iframe">
-                    <iframe src="{{ path('lily_api_index', {key: app.user.enterprise.key } ) }}" width="100%" height="500" frameBorder="0"></iframe>
+                    <iframe src="{{ path('lily_api_index', {key: app.user.enterprise.key } ) }}" width="100%" height="540" frameBorder="0"></iframe>
                   </div>
 		        </section>	
-		      </div>
-			  
-		      <div class="col-md-6">
-                  <section class="panel">
-                    <header class="panel-heading font-bold">Top des questions</header>
-                    <div class="panel-body no-padder">
-                      <ul class="top-questions-list">
-                    	<li class="top-questions-item">
-                    	  <div class="top-questions-number">1</div>
-                    	  <h6 class="top-questions-title"><span>{% if top_questions[0][0].question.title is defined %} {{ top_questions[0][0].question.title }} {% else %} Vous n'avez pas encore de top question {% endif %}</span></h6>
-                        </li>
-                        <li class="top-questions-item">
-                    	  <div class="top-questions-number">2</div>
-                    	  <h6 class="top-questions-title"><span>{% if top_questions[1][0].question.title is defined %} {{ top_questions[1][0].question.title }} {% else %} Vous n'avez pas encore de top 2 question {% endif %}</span></h6>
-                        </li>
-                        <li class="top-questions-item">
-                    	  <div class="top-questions-number">3</div>
-                    	  <h6 class="top-questions-title"><span>{% if top_questions[2][0].question.title is defined %} {{ top_questions[2][0].question.title }} {% else %} Vous n'avez pas encore de top 3 question {% endif %}</span></h6>
-                        </li>
-                   	  </ul>
-                    </div>
-		        </section>                
-		      </div>	
+		        
+                <section class="panel">
+                  <header class="panel-heading font-bold">Top des questions</header>
+                  <div class="panel-body no-padder">
+                    <ul class="top-questions-list">
+                      <li class="top-questions-item">
+                    	<div class="top-questions-number">1</div>
+                    	<h6 class="top-questions-title"><span>{% if top_questions[0][0].question.title is defined %} {{ top_questions[0][0].question.title }} {% else %} Vous n'avez pas encore de top question {% endif %}</span></h6>
+                      </li>
+                      <li class="top-questions-item">
+                    	<div class="top-questions-number">2</div>
+                    	<h6 class="top-questions-title"><span>{% if top_questions[1][0].question.title is defined %} {{ top_questions[1][0].question.title }} {% else %} Vous n'avez pas encore de top 2 question {% endif %}</span></h6>
+                      </li>
+                      <li class="top-questions-item">
+                    	<div class="top-questions-number">3</div>
+                    	<h6 class="top-questions-title"><span>{% if top_questions[2][0].question.title is defined %} {{ top_questions[2][0].question.title }} {% else %} Vous n'avez pas encore de top 3 question {% endif %}</span></h6>
+                      </li>
+                   	</ul>
+                  </div>
+		      </section>                	
 		      
 		    </div>
-		  </div>
           </div>
 	    </section>
 	  </section>
@@ -111,7 +119,7 @@
 
 {{ parent() }}
 
-{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/vendor/moment.js' 'js/dashboard.js' output='js/compiled/dashboard.js' %}
+{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/vendor/moment.js' 'js/backoffice/dashboard.js' output='js/compiled/dashboard.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   
