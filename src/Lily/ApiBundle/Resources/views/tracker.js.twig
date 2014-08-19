@@ -1,9 +1,4 @@
 function __init() {
-	
-	// Detect if maintenance is on
-	{% if maintenance %} 
-		return false; 
-	{% endif %}
 
 	// Detect if is ie < 10
 	if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) { 

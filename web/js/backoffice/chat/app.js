@@ -11,7 +11,11 @@ chat.Views.App = Backbone.View.extend({
 		'click .live-nav' : 'showLive'
 	},
 	
-	initialize: function() {
+	initialize: function() {	
+		
+		// Get a list of all enterprise' operators
+		this.operators = new chat.Operators();
+		this.operators.fetch();
 		
 		// Create the view to show who's connecting and start chatting
 		this.records = new chat.Records();
@@ -29,20 +33,14 @@ chat.Views.App = Backbone.View.extend({
 			chat.app.setInformationsWidth();
 		});
 		
-		$(window).on('beforeunload', function() {
-			if(this.available) {
-				return "Vous êtes toujours ";
-			}
-		});
-		
 		// Connection to our WS Server
 		sess = new ab.connect(
 		
-			'ws://dev.ws.saio.fr:8080/chat/' + licence // The host 		    
+			'ws://dev2.saio.fr:8080/chat/' + licence // The host 		    
 		    , function(session) {  // Once the connection has been established
 				
 				sess = session;
-				sess.subscribe('operator', function (topic, payload) { chat.app.records.set(payload);				console.log(payload); });
+				sess.subscribe('operator', function (topic, payload) { chat.app.records.set(payload);console.log(payload); });
 
 				sess.call('chat/isAvailable').then(function(event) {
 					if (event.result) { 
@@ -72,8 +70,8 @@ chat.Views.App = Backbone.View.extend({
 
 		// Setting up record variables
 		now = new moment();
-		start = record.model.get('startTime')*1000;
-		last = record.model.get('lastMsgTime')*1000;
+		start = record.model.get('startTime')*1000 - 1000;
+		last = record.model.get('lastMsgTime')*1000 -1000;
 		
 		switch ( type ) {
 			// Timer for chat			
@@ -189,31 +187,38 @@ chat.Views.App = Backbone.View.extend({
 	
 	setWindows: function () {
 		
-		if ( $('.conversations').width() > 850 ) { $('.btn-group.windows').show(); } 
-		else { 
-		
-			$('.windows .dropdown-select li:first-child a').trigger( "click" );
-			this.$el.find('.btn-group.windows').hide(); 
-			$('.conversations').children().removeClass('multiple full-width half-width');
-			return; 
-		
-		}
-		
+				
 		// If there is more 1 windows, add "multiple" class to show them all
 		if ( this.windows.length > 1 ) {
 		
 			$('.conversations').children().addClass('multiple');
 			$('.conversations').children().addClass('half-width');
+			chat.app.setInformationsWidth();
 			
-		} 
+		} else {
+			
+			$('.conversations').children().removeClass('multiple');
+			$('.conversations').children().removeClass('half-width');
+			chat.app.setInformationsWidth();
+			
+		}
+		
+		if ( $('#live').width() > 1090 ) { $('.btn-group.windows').show(); } 
+		else { 
+		
+			$('.windows .dropdown-select li:first-child a').trigger( "click" );
+			this.$el.find('.btn-group.windows').hide(); 
+			$('.conversations').children().removeClass('multiple full-width half-width');
+		
+		}
 		
 	},	
 	
 	setInformationsWidth: function () {
-		
-		// Hide informations if the windows is too small
-		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) this.live.informations.reduce();
-		else $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} );
+			
+		// Hide informations if the window is too small
+		if ($('#live').width() < 950 || ($('#live').width() < 1300 && $('.conversations').children().hasClass('multiple')) ) this.live.informations.$el.addClass('hide');
+		else this.live.informations.$el.removeClass('hide');
 		
 	},
 	

@@ -378,26 +378,26 @@ class Enterprise
     }
 
     /**
-     * Add users
+     * Add user
      *
-     * @param \Lily\UserBundle\Entity\User $users
+     * @param \Lily\UserBundle\Entity\User $user
      * @return Enterprise
      */
-    public function addUser(\Lily\UserBundle\Entity\User $users)
+    public function addUser(\Lily\UserBundle\Entity\User $user)
     {
-        $this->users[] = $users;
+        $this->users[] = $user;
     
         return $this;
     }
 
     /**
-     * Remove users
+     * Remove user
      *
-     * @param \Lily\UserBundle\Entity\User $users
+     * @param \Lily\UserBundle\Entity\User $user
      */
-    public function removeUser(\Lily\UserBundle\Entity\User $users)
+    public function removeUser(\Lily\UserBundle\Entity\User $user)
     {
-        $this->users->removeElement($users);
+        $this->users->removeElement($user);
     }
 
     /**

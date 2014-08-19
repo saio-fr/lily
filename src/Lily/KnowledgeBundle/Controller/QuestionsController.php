@@ -74,10 +74,10 @@ class QuestionsController extends BaseController
     }
     
     /**
-     * @Post("/create/{category}/{parent}")
+     * @Post("/create/{category}/{parent}/{tag}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function createAction($category, $parent, Request $request)
+    public function createAction($category, $parent, $tag, Request $request)
     {
 
     	$parent = $this->getEntityManager()
@@ -87,6 +87,10 @@ class QuestionsController extends BaseController
     	$category = $this->getEntityManager()
 			           	  ->getRepository('LilyKnowledgeBundle:Category')
 					   	  ->find($category);
+					   	  
+		$tag = $this->getEntityManager()
+			        ->getRepository('LilyKnowledgeBundle:Tag')
+					->find($tag);
     				   
     	$question = $this->deserialize('Lily\KnowledgeBundle\Entity\Question', $request);
     	
@@ -97,8 +101,12 @@ class QuestionsController extends BaseController
             	
     	$question->setParent($parent);
     	$question->setCategory($category);
+    	$question->setTag($tag);
     	$question->setSatisfaction('0');
     	$question->setRequests('0');
+    	
+    	$user = $this->getUser();
+    	$question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
         
         $em = $this->getEntityManager();
         $em->persist($question);
@@ -130,11 +138,11 @@ class QuestionsController extends BaseController
     }    
     
     /**
-     * @Put("/update/{id}/{parent}/{category}")
+     * @Put("/update/{id}/{parent}/{category}/{tag}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
-    public function updateAction($id, $parent, $category, Request $request)
+    public function updateAction($id, $parent, $category, $tag, Request $request)
     {
     	$em = $this->getEntityManager();
     	
@@ -147,6 +155,10 @@ class QuestionsController extends BaseController
     	$category = $this->getEntityManager()
 			              ->getRepository('LilyKnowledgeBundle:Category')
 						  ->find($category);
+						  
+		$tag = $this->getEntityManager()
+			        ->getRepository('LilyKnowledgeBundle:Category')
+					->find($tag);
     	
    		$question = $this->getEntityManager()
     					 ->getRepository('LilyKnowledgeBundle:Question')
@@ -159,6 +171,10 @@ class QuestionsController extends BaseController
 		
 		$question->setParent($parent);
     	$question->setCategory($category);
+    	$question->setTag($tag);
+    	
+    	$user = $this->getUser();
+    	$question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
         
         $em->persist($question);
         $em->flush();
@@ -229,7 +245,7 @@ class QuestionsController extends BaseController
     {    
     	
     	$versions = $this->getEntityManager()
-    					 ->getRepository('Gedmo\Loggable\Entity\LogEntry')
+    					 ->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry')
     					 ->findBy(array('objectId' => $id),array("loggedAt" => "DESC"));
     					 
     	$versions = array_slice($versions, 0, 5);    	
@@ -255,7 +271,7 @@ class QuestionsController extends BaseController
     	$question = $em->getRepository('LilyKnowledgeBundle:Question')
     				   ->find($id);
     	
-    	$em->getRepository('Gedmo\Loggable\Entity\LogEntry')
+    	$em->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry')
     	   ->revert($question, $version);
     	
     	$em->persist($question);

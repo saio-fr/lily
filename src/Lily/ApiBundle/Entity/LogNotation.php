@@ -22,7 +22,7 @@ class LogNotation
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question")
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="logNotations")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $question;

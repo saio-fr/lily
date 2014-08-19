@@ -22,11 +22,14 @@ lily.Router = Backbone.Router.extend({
 	},
 	
 	home: function () {
-		if (config.home == 'avi' ) this.avi();
-		else this.chat();
+		
+		if (config.chat && config.home == 'chat' && isOperatorAvailable ) this.chat();
+		else this.avi();
+		
 	},
 	
 	avi: function () {
+	
 		if (typeof(view) !== 'undefined') {view.remove();}
 		var view = new lily.Views.Avi();
 		lily.instance.goTo(view);

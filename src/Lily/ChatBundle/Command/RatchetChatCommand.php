@@ -8,6 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;  
 use Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
+use React\EventLoop\Factory as LoopFactory;
+
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\FlashPolicy;
@@ -34,22 +36,25 @@ class RatchetChatCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-    		 
+    	
 		// Setup services
 		$handler = $this->getContainer()->get('session.handler');
 		$chat = $this->getContainer()->get("lily_chat.app");
+		
+		$loop = LoopFactory::create();
+    	$loop->addPeriodicTimer(60, array($chat, 'timedCallback'));
 
         $WsServer = new WsServer(
 						                	 
-                    	new SessionProvider (
-                    		new FOSUserProvider(
-                    			new WampServer($chat), $this->getContainer()
-                    			)
-                    		, $handler
-                        )
-                );              
+            	new SessionProvider (
+            		new FOSUserProvider(
+            			new WampServer($chat), $this->getContainer()
+            			)
+            		, $handler
+                )
+        );    
  
-        $server = new App('dev.ws.saio.fr', 8080, '0.0.0.0');
+        $server = new App('dev2.saio.fr', 8080, '0.0.0.0', $loop);
         // Domain that are able to connect to our chat
         $server->route('/chat/{key}', $WsServer, array('dev2.saio.fr'));
         $server->run();

@@ -31,7 +31,7 @@ class Faq
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Faq")
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Faq", inversedBy="children")
      * @ORM\JoinColumn(nullable=true)
      **/
     private $parent;

@@ -53,7 +53,6 @@ lily.Extensions.View = Backbone.View.extend({
 		
 		view.$el.find("a").on("touch click",function(e) { /* On regarde data-transition et data-reverse sur le lien cliqué*/
 			view.setNextTransition(this);
-			console.log(this);
 		});
 		
 		return this;
@@ -144,3 +143,5 @@ button_callback = function() {
 	});
 }
 
+// Session id
+var sid = document.cookie.match('PHPSESSID=([^;]*)')[1];

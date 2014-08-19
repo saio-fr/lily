@@ -6,14 +6,27 @@ i {
   font-weight: bold !important;
 }
 
+.live-nav.active a {
+  background: #626b7b !important;
+  color: #f2f2f2 !important;
+}
+
+.aside-chat-left {
+  width: 275px;
+}
+
+.aside-chat-right {
+  width: 50px;
+}
+
 .chat-header {
   background: #6075a4;
 }
 
 .chat-message-show{
-	-webkit-animation: showFromBottom .3s ease both;
-	-moz-animation: showFromBottom .3s ease both;
-	animation: showFromBottom .3s ease both;
+  -webkit-animation: showFromBottom .3s ease both;
+  -moz-animation: showFromBottom .3s ease both;
+  animation: showFromBottom .3s ease both;
 }
 
 .conversation-header {
@@ -227,6 +240,12 @@ i {
   background: #f9fafb;
 }
 
+.multiple.selected {
+  -moz-box-shadow:    0px 0px 30px 0px #D5D5D5;
+  -webkit-box-shadow: 0px 0px 30px 0px #D5D5D5;
+  box-shadow:         0px 0px 30px 0px #D5D5D5;
+}
+
 .half-width {
   max-width: -moz-calc(50% - 40px);
   max-width: -webkit-calc(50% - 40px);
@@ -406,7 +425,6 @@ i {
   border-left: 2px solid #6e7d83;
   font-size: 12px;
   min-height: 35px;
-  margin-left: 55px;
   padding-left: 15px;
 }
 
@@ -446,8 +464,28 @@ i {
 }
 
 .informations-section {
-  margin-top: 20px;
-  margin-left: 10px;
+  padding: 20px 10px;
+}
+
+.informations-section p {
+  overflow: hidden;
+  -o-text-overflow: ellipsis; /* pour Opera 9 */
+  text-overflow: ellipsis;
+}
+
+.informations-form-control {
+  border: none;
+  outline: none;
+  color: #787878;
+}
+
+.informations-form-control:focus {
+  border-bottom: 1px solid #579ad7;
+}
+
+.informations-list {
+  list-style-type: none;
+  padding-left: 5px;
 }
 
 .icon-gear.active, .icon-bar-chart.active, .icon-comments-alt.active {

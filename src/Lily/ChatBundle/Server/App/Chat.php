@@ -38,14 +38,12 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 
     //WampServer adds and removes subscribers to Topics automatically, this is for further optional events.
     public function onSubscribe(Conn $conn, $topic) {    
-    	if ($topic->getId() == 'operator') $this->operator = $topic;  
-    	$topic->autoDelete = true;      
+    	if ($topic->getId() == 'operator') $this->operator = $topic;    
         $this->topicHandler->onSubscribe($conn, $topic, $this->clients);
         $this->operator->broadcast($this->toArray($this->clients));
         
     }
-    public function onUnSubscribe(Conn $conn, $topic) {
-    
+    public function onUnSubscribe(Conn $conn, $topic) {  
     	if ($topic->getId() == 'operator') $this->operator = $topic;    	
         $this->topicHandler->onUnSubscribe($conn, $topic, $this->clients);
         $this->operator->broadcast($this->toArray($this->clients));
@@ -81,5 +79,22 @@ class Chat implements WampServerInterface, MessageComponentInterface {
         foreach ($data as $key => $value) { $result[$key] = (array) $value; }
         return $result;
 	}
+	
+   /**
+    * Called every min
+    */
+	public function timedCallback() {
+
+        // Test if visitor is still connected
+		foreach ($this->clients as $item) {		
+			if ($item->type === 'visitor' && $item->lastConn < ( time() - 1800 )) { 
+				// Detach the client
+				$this->clients->detach($item);				
+			}			
+		}   
+		
+		$this->operator->broadcast($this->toArray($this->clients));
+		     
+    }
 
 }

@@ -37,21 +37,27 @@ class VisitorTopic implements TopicInterface
     {
     	// Session id
     	$sid = $conn->Session->getId();
+    	    			
+		// Delete the topic when the visitor leaves
+		$topic->autoDelete = true;  
     	
     	// Test if visitor is already connected
     	foreach ($clients as $item) {
 			if ($item->id === $sid && $item->type === 'visitor') { 
+				
+				$item->topic = $topic;
+				$item->lastConn = time();
+				
 				// We send back the logged messages list
 				$topic->broadcast($item->messages);
 				return;
 			}
 		}
-		
-		$date = new \Datetime();
-		
+
 		// Else we create a new visitor class
     	$visitor = new \StdClass;
         $visitor->id = $sid;
+        $visitor->topic = $topic;
         $visitor->name = substr($sid, 0, 9);
         $visitor->type = 'visitor';
         $visitor->firstname = null;
@@ -59,16 +65,18 @@ class VisitorTopic implements TopicInterface
         $visitor->email = null;
         $visitor->operator = null;
         $visitor->banned = false;
-        $visitor->closed = false;
-        $visitor->startTime = $date->getTimestamp();
-        $visitor->lastMsgTime = $date->getTimestamp();
+        $visitor->closed = true;
+        $visitor->startTime = time();
+        $visitor->lastConn = time();
+        $visitor->lastMsgTime = time();
+        // Is the visitor writing ?
         $visitor->writing = false;
+        // Messages sent
         $visitor->messages = array();
         // Questions asked to the avatar
         $visitor->questions = array();
         // Pages seen by the visitor
         $visitor->pages = array();
-        $visitor->topic = $topic;
         
         $clients->attach($visitor);
     }
@@ -82,9 +90,7 @@ class VisitorTopic implements TopicInterface
      * @return mixed|void
      */
     public function onUnSubscribe(Conn $conn, $topic, $clients)
-    {
-    	$clients->detach($visitor);
-        $topic->broadcast($conn->resourceId . " has left " . $topic->getId());
+    {    	
     }
 
 
@@ -107,12 +113,8 @@ class VisitorTopic implements TopicInterface
 		
 			if ($item->id === $visitorId) { 
 				
-				$date = new \Datetime();
-				$timestamp = $date->getTimestamp();
-				
-				$item->lastMsgTime = $timestamp;
-						
-				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'date' => $timestamp, 'msg' => $event);	
+				$item->lastMsgTime = time();						
+				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $conn->User->getId(), 'date' => time(), 'msg' => $event);	
 				
 				$messages = $item->messages;
 				$topic->broadcast($messages);			

@@ -19,12 +19,12 @@ lily.Views.Avi = lily.Extensions.View.extend({
 		
 		this.listenTo(this, 'render', this.avatar);
 		
-		lily.Events.on('precision', this.sendPrecision, this); /* On écoute l'evennement 'precision' d'une vue MessageLilyPrecision */
-		lily.Events.on('satisfied', this.sendNotation, this); /* On écoute l'evennement 'satisfied' d'une vue MessageLilyNotation */
-		lily.Events.on('notSatisfied', this.sendNotation, this); /* On écoute l'evennement 'notSatisfied' d'une vue MessageLilyNotation */
-		lily.Events.on('redirectionTel', this.sendRedirectionTel, this); /* On écoute l'evennement 'redirectionTel' d'une vue MessageLilyRedirection */
-		lily.Events.on('redirectionMail', this.sendRedirectionMail, this); /* On écoute l'evennement 'redirectionMail' d'une vue MessageLilyRedirection */
-		
+		lily.Events.on('precision', this.sendPrecision, this); 		
+		lily.Events.on('satisfied', this.sendNotation, this); 		
+		lily.Events.on('notSatisfied', this.sendNotation, this); 
+		lily.Events.on('redirectionTel', this.sendRedirectionTel, this); 
+		lily.Events.on('redirectionMail', this.sendRedirectionMail, this); 
+				
 		$(this.render().el).appendTo('#lily-wrapper-page');
 		
 	},
@@ -61,6 +61,8 @@ lily.Views.Avi = lily.Extensions.View.extend({
 	search: function ( q ) {
 		
 		var avi = this;		
+		
+		lily.ws.call('chat/newAviQuestion', {question: q});
 		
 		$.ajax({
 			type: 'POST',

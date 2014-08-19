@@ -22,7 +22,7 @@ class LogRequest
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question")
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="logRequests")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $question;

@@ -83,6 +83,9 @@
         <script type="text/template" id="message-operator">
             {% include 'LilyChatBundle:Operator/templates:message_operator.html.twig' %}
         </script>
+        <script type="text/template" id="messages-header">
+            {% include 'LilyChatBundle:Operator/templates:messages_header.html.twig' %}
+        </script>
         <script type="text/template" id="record">
             {% include 'LilyChatBundle:Operator/templates:record.html.twig' %}
         </script>
@@ -98,7 +101,7 @@
 	    {% autoescape false %}
 	    <script type="text/javascript">
 	        var root = '{{ path('lily_chat') }}';
-	        var licence = '{{ key }}';
+	        var licence = '{{ app.user.enterprise.key }}';
 	        var user = {
 	        	id: '{{ app.user.id }}',
 	        };
@@ -131,7 +134,9 @@
 'js/backoffice/chat/app.js' 
 
 'js/backoffice/chat/models/MessageModel.js' 
-'js/backoffice/chat/models/Messages.js' 
+'js/backoffice/chat/models/Messages.js'
+'js/backoffice/chat/models/OperatorModel.js' 
+'js/backoffice/chat/models/Operators.js' 
 'js/backoffice/chat/models/RecordModel.js' 
 'js/backoffice/chat/models/Records.js' 
 'js/backoffice/chat/models/Parameters.js' 
@@ -142,6 +147,7 @@
 'js/backoffice/chat/views/ConversationView.js' 
 'js/backoffice/chat/views/InformationsView.js'
 'js/backoffice/chat/views/MessageView.js' 
+'js/backoffice/chat/views/MessagesHeaderView.js'
 'js/backoffice/chat/views/MessageOperatorView.js'
 'js/backoffice/chat/views/MessageVisitorView.js' 
 'js/backoffice/chat/views/ModalCloseView.js' 

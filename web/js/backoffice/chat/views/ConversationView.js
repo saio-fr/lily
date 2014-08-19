@@ -7,6 +7,7 @@ chat.Views.Conversation = Backbone.View.extend({
 	className: 'vbox animated fadeInRight',
 	
 	events: {
+		'click' : 'selected',
 		'click .conversation-close': 'close',
 		'click .conversation-minus': 'minus',
 		'click .ban' : 'ban',
@@ -21,15 +22,19 @@ chat.Views.Conversation = Backbone.View.extend({
 		// Create a collection of this view messages
 		this.messages = new chat.Messages();
 		
+		// Create the informations view and select the window
+		this.selected();
+		
 		// Listen to new messages					
 		this.listenTo(this.model, 'change:messages', this.getMessages);
 		this.listenTo(this.messages, 'add', this.addItem);
 		this.listenTo(this.messages, 'add', this.status);
 		this.listenTo(this.model, 'urgent', this.urgent);
-		this.listenTo(this.model, 'change:banned', this.remove);
-		this.listenTo(this.model, 'change:closed', this.remove);
-		this.listenTo(this.model, 'change:writing', this.writing);
 		this.listenTo(this.model, 'render', this.active);
+		this.listenTo(this.model, 'minus', this.minus);
+		this.listenTo(this.model, 'change:writing', this.writing);
+		// After an half hour of inactivity, the model is removed on the server
+		this.listenTo(this.model, 'remove', this.remove);
 		
 		// Add Active class to record view
 		this.active();
@@ -43,6 +48,10 @@ chat.Views.Conversation = Backbone.View.extend({
 			toolbar: that.$el.find('.toolbar').get(0) , // id of toolbar element
 			parserRules:    wysihtml5ParserRules,
 			useLineBreaks:  true
+		});
+		
+		this.$el.find('.wysihtml5-sandbox').contents().find('body').on('click',function() {
+        	that.selected();
 		});
 		
 		// If the operator type enter, send the message
@@ -66,6 +75,26 @@ chat.Views.Conversation = Backbone.View.extend({
 		$('input, textarea').placeholder();
 		
 		return Backbone.View.prototype.render.apply(this, arguments);
+	},
+	
+	selected: function (e) {
+	
+		$('.conversations .selected').removeClass('selected');
+		this.$el.addClass('selected');
+
+		if (typeof(chat.app.live.informations) == 'undefined') {
+			chat.app.live.informations = new chat.Views.Informations({model: this.model});
+			return;
+		}
+		
+		if (chat.app.live.informations.model.get('id') !== this.model.get('id')) {
+		
+			chat.app.live.informations.remove(); 
+			chat.app.live.informations = new chat.Views.Informations({model: this.model});
+			chat.app.setInformationsWidth();
+			
+		}
+		
 	},
 	
 	getMessages: function() {
@@ -94,28 +123,29 @@ chat.Views.Conversation = Backbone.View.extend({
 
 	},
 	
-	addItem: function( message ) {
-	
-		// Display date
-		var index = this.messages.indexOf(message);
-		var messageAbove = this.messages.at(index-1);
-		
-		var date = new moment(message.date);
-
-		if (index >= 1) {
-		
-			var dateAbove = new moment(messageAbove.date);
-
-			if (date.month() !== dateAbove.month() || date.day() !== dateAbove.day()) {
+	addItem: function(message) {
 			
-				$('<p class="conversation-date">Conversation du ' + date.format('DD MMMM YYYY') + '</p>').appendTo( this.$el.find('.conversation-section-list') );
+		if (message.get('from') == 'operator') {
+		
+			// Display an header on messages with information about the operator
+			this.sentByOperators = this.messages.where({ from: 'operator' });
+			this.index = this.sentByOperators.indexOf(message);
+			
+			var date = moment(message.date).format('LL');
+	
+
+			// If the operator changed or it is the first message
+			if ( this.index < 1 || message.get('operator') !== this.sentByOperators[this.index-1].get('operator') ) {
+
+				this.operator = chat.app.operators.findWhere({id: message.get('operator')})
+				this.operator.set({'date': date});			
+				this.messagesHeader = new chat.Views.MessagesHeader({ model: this.operator });
+				this.messagesHeader.$el.appendTo( this.$el.find('.conversation-section-list') );
 				
 			}
-			
-		} else {
-			$('<p class="conversation-date">Conversation du ' + date.format('DD MMMM YYYY') + '</p>').appendTo( this.$el.find('.conversation-section-list') );
-		}
-		
+
+		}		
+	
 		// create an instance of the sub-view to render the single message item.
 		switch ( message.get('from') ) {
 			case 'operator':
@@ -132,8 +162,8 @@ chat.Views.Conversation = Backbone.View.extend({
 		}	
 		
 		// Scroll to bottom of chat
-		this.$el.find( '.conversation-section' ).scrollTop(10000);	
-		
+		this.$el.find( '.conversation-section' ).scrollTop(10000);
+			
 	},
 	
 	clearInput: function() {
@@ -141,40 +171,46 @@ chat.Views.Conversation = Backbone.View.extend({
 		this.editor.clear();
 		
 	},
-	
-	minus: function() {
-	
-		that = this;
-
-		this.$el.addClass('fadeOutDown');
+		    
+    minus: function(e) {
 		
-		// Delay remove to show animation
-		setTimeout(function() {
-			that.remove();
-		}, 200)
+		e.stopPropagation();
 		
-		this.model.trigger('minus');
+	  	var that = this;
 		
-		// search this view in chat.app.windows
-		chat.app.windows.splice( $.inArray(this, chat.app.windows), 1 );
-		chat.app.trigger('change:windows');
+		this.model.trigger('unactive');
 		
-	},
+		chat.app.windows.splice( $.inArray(that, chat.app.windows), 1 );
+	  	chat.app.trigger('change:windows');
+	  	
+	  	if (chat.app.live.informations.model.get('id') == this.model.get('id')) {
+	  		chat.app.live.informations.remove();
+	  		if (chat.app.windows.length == 1) {
+	  			chat.app.live.informations = new chat.Views.Informations({model: chat.app.windows[chat.app.windows.length-1].model}); 
+	  		}
+	  	}
+	  	
+		this.remove();
+		  
+    },
 	
 	close: function() {
-	
+		
+		var that = this;
+		
 		new chat.Views.ModalClose();
-		that = this;
 		
 		$('.modal-close-confirm').click(function() {
-		
+			
 			chat.app.windows.splice( $.inArray(that, chat.app.windows), 1 );
 			chat.app.trigger('change:windows');
 			sess.call('chat/close', { sid: that.model.get('id') } );
-
+			
 			// Change counter currents
 			chat.app.live.counter.current -=1;
 			$('.header-current span').html(chat.app.live.counter.current);
+			
+			that.minus();
 			
 		});
 		
@@ -182,8 +218,9 @@ chat.Views.Conversation = Backbone.View.extend({
 	
 	ban: function() {
 	
+		var that = this;
+		
 		new chat.Views.ModalBan();
-		that = this;
 		
 		$('.modal-ban-confirm').click(function() {
 	
@@ -193,7 +230,9 @@ chat.Views.Conversation = Backbone.View.extend({
 			
 			// Change counter currents
 			chat.app.live.counter.current -=1;
-			$('.header-current span').html(chat.app.live.counter.current);	
+			$('.header-current span').html(chat.app.live.counter.current);
+			
+			that.minus();
 		
 		});
 			

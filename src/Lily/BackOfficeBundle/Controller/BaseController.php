@@ -27,18 +27,16 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 	
 	
     protected function getEntityManager()
-    {
-        $cname = $this->getUser()
-   		     		  ->getEnterprise()
-   			 		  ->getCname();
+    {	
+    	$cname = $this->getEnterprise()
+			 		  ->getCname();    	  			  
    		     
         return $this->get('doctrine')->getManager($cname);
     }
     
     protected function getEnterprise()
     {
-        $enterprise = $this->getUser()->getEnterprise();
-   		     
+        $enterprise = $this->getUser()->getEnterprise();   		     
         return $enterprise;
     }
 

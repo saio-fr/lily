@@ -889,9 +889,6 @@ table th[class*="col-"] {
   .aside-xl {
     width: 350px;
   }
-  .aside-chat-left, .aside-chat-right {
-    width: 275px;
-  }
   .aside-redirection, .aside-faq, .aside-profil {
     width: 300px;
   }

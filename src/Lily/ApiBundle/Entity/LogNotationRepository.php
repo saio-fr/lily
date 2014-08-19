@@ -79,15 +79,4 @@ class LogNotationRepository extends EntityRepository
 		
 	}
 	
-	public function averageSatisfaction($from, $to) {
-		
-		$totalNotations = $this->totalNotations($from, $to);
-		
-		if ($totalNotations !== '0') { $satisfaction = ($this->totalSatisfied($from, $to) / $totalNotations) * 100; }
-		else { $satisfaction = '0'; }
-		
-		return $satisfaction;
-		
-	}
-	
 }

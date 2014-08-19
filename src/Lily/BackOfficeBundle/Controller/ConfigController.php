@@ -39,9 +39,18 @@ class ConfigController extends BaseController
      */
     public function getAction(Request $request) {
 	    
-	    $config = $this->getEntityManager()
-    				   ->getRepository('LilyBackOfficeBundle:Config')
-    				   ->findOneById(1);
+	    $cname = $this->getEnterprise()->getCname();	    
+	    $config = $this->get('memcache.default')->get('config_'.$cname);
+		
+		if (!$config) {
+		
+	    	$config = $this->getEntityManager()
+    				   	   ->getRepository('LilyBackOfficeBundle:Config')
+					   	   ->findOneById(1);    	  			  
+			
+			$this->get('memcache.default')->set('config_'.$cname, $config, 604800);
+		
+		}
     					  
         if (!$config) {
             throw $this->createNotFoundException();
@@ -70,6 +79,9 @@ class ConfigController extends BaseController
 	    $em = $this->getEntityManager();
         $em->persist($config);
         $em->flush();
+        
+        $cname = $this->getEnterprise()->getCname();
+        $this->get('memcache.default')->set('config_'.$cname, $config, 604800);
         
         $view = $this->view($config)->setFormat('json');
 		return $this->handleView($view);	

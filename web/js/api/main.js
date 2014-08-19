@@ -30,7 +30,33 @@ var	lily = {
 };
 
 $(function() {
-	lily.init();	
+	
+	// Connect to our ws serv
+	var sess = new ab.connect(
+			
+		'ws://dev2.saio.fr:8080/chat/'+licence // The host 
+				    
+	    , function(session) {  // Once the connection has been established
+	    	
+			// Get the session id
+			
+			lily.ws = session;
+			lily.ws.subscribe('visitor/'+sid, function (topic, payload) {});
+			lily.ws.call('chat/setCurrentPage', {'url':top.location.pathname});
+			lily.init();
+		
+		}
+	
+	    , function(code, reason, detail) { // When the connection is closed
+	    	console.warn('WebSocket connection closed');
+	    }
+	    , { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
+			'skipSubprotocolCheck': true,
+			'maxRetries': 60,
+			'retryDelay': 2000
+	      }
+	);
+	
 });
 
 var snapper = new Snap({

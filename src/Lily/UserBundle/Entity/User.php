@@ -114,6 +114,14 @@ class User extends BaseUser
      * @Expose
      */
     private $avatar;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="available", type="boolean", nullable=true)
+     * @Expose
+     */
+    private $available;
 
     /**
      * @Assert\Image
@@ -488,5 +496,28 @@ class User extends BaseUser
     public static function getTmpUploadRootDir($enterprise)
     {
         return __DIR__.'/../../../../web/' . User::getTmpUploadDir($enterprise);
+    }
+
+    /**
+     * Set available
+     *
+     * @param boolean $available
+     * @return User
+     */
+    public function setAvailable($available)
+    {
+        $this->available = $available;
+
+        return $this;
+    }
+
+    /**
+     * Get available
+     *
+     * @return boolean 
+     */
+    public function getAvailable()
+    {
+        return $this->available;
     }
 }

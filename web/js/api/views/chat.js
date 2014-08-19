@@ -12,40 +12,20 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	},	
 	
 	initialize: function() {
+		
 		chat = this;
 
 		this.messages = new lily.Messages();
 		this.listenTo(this.messages, 'add', this.addItem);
 		
-		sess = new ab.connect(
-		
-			'ws://dev2.saio.fr:8080/chat/'+licence // The host 
-					    
-		    , function(session) {  // Once the connection has been established
-		    	
-				// Get the session id
-				sid = document.cookie.match('PHPSESSID=([^;]*)')[1];
-
-				sess = session;
-				sess.subscribe('visitor/'+sid, function (topic, payload) {
-
-					chat.messages.set(payload);
-					sess.call('chat/writing', { sid: sid, writing: false } );
-					
-				});
+		lily.ws.subscribe('visitor/'+sid, function (topic, payload) {
 			
-			}
-
-		    , function(code, reason, detail) { // When the connection is closed
-		    	console.warn('WebSocket connection closed');
-		    }
-		    , { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
-				'skipSubprotocolCheck': true,
-				'maxRetries': 60,
-				'retryDelay': 2000
-		      }
-		);
+			chat.messages.set(payload);
+			
+		});
 		
+		lily.ws.call('chat/open');
+							
 		$(this.render().el).appendTo('#lily-wrapper-page');
 
 		
@@ -64,8 +44,8 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	
 	writing: function (e) {
 
-		if( this.$input.val() ) {sess.call('chat/writing', { sid: sid, writing: true } )}
-		else {sess.call('chat/writing', { sid: sid, writing: false } )}
+		if( this.$input.val() ) {lily.ws.call('chat/writing', { sid: sid, writing: true } )}
+		else {lily.ws.call('chat/writing', { sid: sid, writing: false } )}
 		
 	},
 	
@@ -86,7 +66,7 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	
 	send: function ( m ) {		
 
-		sess.publish('operator', m);
+		lily.ws.publish('operator', m);
 		
 	},
 	

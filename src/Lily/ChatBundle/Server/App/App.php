@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler; 
 use Lily\ChatBundle\Server\MessageLogger;
+use Lily\ChatBundle\Server\DatabaseConnector;
 use Lily\ChatBundle\Server\FOSUserProvider;
 
 /**
@@ -94,6 +95,7 @@ class App {
         } else {
             $flashSock->listen(8843);
         }
+        
     }
 
     /**

@@ -11,7 +11,10 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 	initialize: function() {
 		
 		this.listenTo(this.model, 'change:messages', this.status);
+		// The visitor has been waiting over 2 minutes without reply
 		this.listenTo(this.model, 'urgent', this.urgent);
+		// After an half hour of inactivity, the model is removed on the server
+		this.listenTo(this.model, 'remove', this.close);
 		this.render();
 		
 	},
@@ -53,6 +56,13 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 		this.$el.find('.status').addClass('urgent');
 	    
     },
+    
+    close: function () {
+	  	this.remove();
+  		// Change waiting counter
+  		chat.app.live.counter.waiting -=1;
+  		$('.header-waiting span').html(chat.app.live.counter.waiting);  
+    },
 	
 	doChat: function() {
 		
@@ -78,8 +88,6 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 		
 				// Delete the last conversation view
 				chat.app.windows[chat.app.windows.length-1].model.trigger('minus');
-				chat.app.windows[chat.app.windows.length-1].remove();
-				chat.app.windows.pop();
 				
 				// Create a new conversation view 
 				chat.app.windows.unshift( new chat.Views.Conversation({ model: that.model }) );

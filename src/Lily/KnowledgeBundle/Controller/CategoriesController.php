@@ -33,6 +33,7 @@ class CategoriesController extends BaseController
 	/**
      * @Get("/get")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
+     * @View(serializerGroups={"list"})
      */
     public function getCategoriesAction()
     {    

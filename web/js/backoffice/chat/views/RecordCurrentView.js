@@ -16,9 +16,11 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		this.listenTo(this.model, 'change:operator', this.close);
 		this.listenTo(this.model, 'change:closed', this.remove);
 		this.listenTo(this.model, 'change:banned', this.remove);
-		this.listenTo(this.model, 'minus', this.minus);
-		this.listenTo(this.model, 'urgent', this.urgent);
+		this.listenTo(this.model, 'unactive', this.unactive);
 		this.listenTo(this.model, 'active', this.active);
+		this.listenTo(this.model, 'urgent', this.urgent);
+		// After an half hour of inactivity, the model is removed on the server
+		this.listenTo(this.model, 'remove', this.close);
 		this.render();
 		
 	},
@@ -60,7 +62,7 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		this.$el.addClass('active');		
 	},
 	
-	minus: function() {
+	unactive: function() {
 		this.$el.removeClass('active');			
 	},
     
@@ -109,8 +111,6 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 	
 			// Delete the last conversation view
 			chat.app.windows[chat.app.windows.length-1].model.trigger('minus');
-			chat.app.windows[chat.app.windows.length-1].remove();
-			chat.app.windows.pop();
 			
 			// Create a new conversation view 
 			chat.app.windows.unshift( new chat.Views.Conversation({ model: this.model }) );

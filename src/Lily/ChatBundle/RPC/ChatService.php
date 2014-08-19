@@ -43,7 +43,7 @@ class ChatService
 		return array('result' => $params);		
     }
     
-    /**
+   /**
     * Ban an visitor for his session time
     */
     public function ban(Conn $conn, $params, $clients)
@@ -58,20 +58,78 @@ class ChatService
     }
     
    /**
+    * Set current page
+    */
+    public function setCurrentPage(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $conn->Session->getId()) { 
+				$item->pages[] = $params['url'];
+			}
+		}
+		
+		return array('result' => $url);		
+    }
+    
+   /**
+    * Set asked question to the avatar
+    */
+    public function newAviQuestion(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $conn->Session->getId()) { 
+				$item->questions[] = $params['question'];
+			}
+		}
+		
+		return array('result' => $oarams);		
+    }
+    
+   /**
+    * Update the personal informations of the visitior
+    */
+    public function updateInformations(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $params['sid']) { 
+				$item->firstname = $params['firstname'];
+				$item->lastname = $params['lastname'];
+				$item->email = $params['email'];
+			}
+		}
+		
+		return array('result' => $params);		
+    }
+    
+        
+   /**
+    * Open the conversation with the visitor
+    */
+    public function open(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $conn->Session->getId()) {
+				 
+				$item->closed = false;
+								
+			}
+		}
+		
+		return array('result' => $params);		
+    }
+    
+   /**
     * Close the conversation with the visitor
     */
     public function close(Conn $conn, $params, $clients)
     {	    	
         foreach ($clients as $item) {
 			if ($item->id === $params['sid']) {
-			
-				$date = new \Datetime();
-				$timestamp = $date->getTimestamp();
 				 
 				$item->operator = null;
-				$item->lastMsgTime = $timestamp;
-				$item->closed = true;	
-				
+				$item->lastMsgTime = time();
+				$item->closed = true;
+								
 			}
 		}
 		

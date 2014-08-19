@@ -83,14 +83,12 @@ class OperatorTopic implements TopicInterface
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $clients)
     {   
 		foreach ($clients as $item) {
+		
 			if ($item->id === $conn->Session->getId()) { 
-				
-				$date = new \Datetime();
-				$timestamp = $date->getTimestamp();
 				
 				$item->closed = false;
 				
-				$item->messages[] = array('id' => uniqid(), 'from' => 'visitor', 'date' => $timestamp, 'msg' => $event);
+				$item->messages[] = array('id' => uniqid(), 'from' => 'visitor', 'date' => time(), 'msg' => $event);
 				$item->topic->broadcast($item->messages);
 				
 			}

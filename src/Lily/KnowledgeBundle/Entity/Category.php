@@ -28,12 +28,13 @@ class Category
     
     /**
      * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Category", mappedBy="parent", cascade={"remove"})
-     * @Groups({"unique"})
+     * @Groups({"list", "unique"})
      **/
     protected $children;
     
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="children")
+     * @Exclude
      **/
     protected $parent;
     

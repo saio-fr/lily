@@ -43,5 +43,9 @@ var isAnimating = false,
 
 
 $(function() {
+	
+	$.ajaxPrefilter(function (options) {
+	    options.url = root + options.url;
+	});
 	chat.init();	
 });

@@ -61,7 +61,7 @@ class Question
      * @ORM\OneToMany(targetEntity="Lily\ApiBundle\Entity\LogNotation", mappedBy="question", cascade={"remove"})
      * @Exclude
      **/
-    protected $logNotation;
+    protected $logNotations;
 
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="children")
@@ -119,6 +119,15 @@ class Question
      * @Groups({"unique", "list"})
      */
     protected $satisfaction;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="modifiedBy", type="string", length=100, nullable=false)
+     * @Groups({"list"})
+     * @Gedmo\Versioned
+     */
+    protected $modifiedBy;
     
     /**
      * @var \DateTime
@@ -437,7 +446,7 @@ class Question
      */
     public function addLogNotation(\Lily\ApiBundle\Entity\LogNotation $logNotation)
     {
-        $this->logNotation[] = $logNotation;
+        $this->logNotations[] = $logNotation;
     
         return $this;
     }
@@ -449,17 +458,17 @@ class Question
      */
     public function removeLogNotation(\Lily\ApiBundle\Entity\LogNotation $logNotation)
     {
-        $this->logNotation->removeElement($logNotation);
+        $this->logNotations->removeElement($logNotation);
     }
 
     /**
-     * Get logNotation
+     * Get logNotations
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getLogNotation()
+    public function getLogNotations()
     {
-        return $this->logNotation;
+        return $this->logNotations;
     }
 
     /**
@@ -473,5 +482,84 @@ class Question
         $this->category = $category;
     
         return $this;
+    }
+
+    /**
+     * Set modifiedBy
+     *
+     * @param string $modifiedBy
+     * @return Question
+     */
+    public function setModifiedBy($modifiedBy)
+    {
+        $this->modifiedBy = $modifiedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get modifiedBy
+     *
+     * @return string 
+     */
+    public function getModifiedBy()
+    {
+        return $this->modifiedBy;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Tag $tag
+     * @return Question
+     */
+    public function addTag(\Lily\KnowledgeBundle\Entity\Tag $tag)
+    {
+        $this->tag[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Tag $tag
+     */
+    public function removeTag(\Lily\KnowledgeBundle\Entity\Tag $tag)
+    {
+        $this->tag->removeElement($tag);
+    }
+
+    /**
+     * Get tag
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * Add children
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
+     * @return Question
+     */
+    public function addChild(\Lily\KnowledgeBundle\Entity\Question $children)
+    {
+        $this->children[] = $children;
+
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $children
+     */
+    public function removeChild(\Lily\KnowledgeBundle\Entity\Question $children)
+    {
+        $this->children->removeElement($children);
     }
 }

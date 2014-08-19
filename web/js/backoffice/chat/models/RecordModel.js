@@ -1,7 +1,12 @@
 chat.Models.Record = Backbone.Model.extend({
 	
 	defaults: {
-		id: ''
+		id: '',
+		email: '',
+		firstname: '',
+		lastname: '',
+		questions: '',
+		pages: ''
 	}
 	
 });
