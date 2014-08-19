@@ -15,6 +15,11 @@ lily_categories_rest:
     type:     rest
     prefix:   /questions/categories
     
+lily_tags_rest:
+    resource: "@LilyKnowledgeBundle/Controller/TagsController.php"
+    type:     rest
+    prefix:   /questions/tags
+    
 lily_faq_rest:
     resource: "@LilyKnowledgeBundle/Controller/FaqController.php"
     type:     rest
