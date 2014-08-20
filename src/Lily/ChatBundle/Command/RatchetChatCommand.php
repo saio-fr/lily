@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
 use React\EventLoop\Factory as LoopFactory;
+use React\ZMQ\Context;
+use \ZMQ;
 
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
@@ -42,7 +44,17 @@ class RatchetChatCommand extends ContainerAwareCommand
 		$chat = $this->getContainer()->get("lily_chat.app");
 		
 		$loop = LoopFactory::create();
-    	$loop->addPeriodicTimer(60, array($chat, 'timedCallback'));
+    	$loop->addPeriodicTimer(60, array($chat, 'timedCallback'));    	        
+        
+        // Bind to our socket to communicate with our symfony app
+		$context = new Context($loop);
+		$pull = $context->getSocket(ZMQ::SOCKET_PULL);
+		$pull->bind('tcp://127.0.0.1:5555');
+		
+		$pull->on('message', function ($params) {
+			$params = json_decode($params, true);
+			$this->getContainer()->get('memcache.default')->set('chat_available_'.$params['key'], $params['available'], 3600);
+		});
 
         $WsServer = new WsServer(
 						                	 
@@ -58,6 +70,7 @@ class RatchetChatCommand extends ContainerAwareCommand
         // Domain that are able to connect to our chat
         $server->route('/chat/{key}', $WsServer, array('dev2.saio.fr'));
         $server->run();
+        
      
     }
 }

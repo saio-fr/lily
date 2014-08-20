@@ -32,11 +32,12 @@ class ChatService
         foreach ($clients as $item) {
 			if ($item->id === $params['sid']) { 
 				
-				$date = new \Datetime();
-				$timestamp = $date->getTimestamp();
-				
 				$item->operator = $conn->User->getId();
-				$item->startChatTime = $timestamp;
+				$item->startChatTime = time();
+			}
+			// Increase the operator' active chats
+			if ($item->id === $conn->User->getId()) {				
+				$item->chats += 1;
 			}
 		}
 		
@@ -51,6 +52,10 @@ class ChatService
         foreach ($clients as $item) {
 			if ($item->id === $params['sid']) { 
 				$item->banned = true;
+			}
+			// Decrease the operator' active chats
+			if ($item->id === $conn->User->getId()) {				
+				$item->chats -= 1;
 			}
 		}
 		
@@ -106,16 +111,32 @@ class ChatService
     * Open the conversation with the visitor
     */
     public function open(Conn $conn, $params, $clients)
-    {	    	
+    {	 
+        
         foreach ($clients as $item) {
-			if ($item->id === $conn->Session->getId()) {
-				 
-				$item->closed = false;
+			if ($item->type === 'operator' && $item->available) {
+				
+				$availables[] = $item;
 								
 			}
 		}
 		
-		return array('result' => $params);		
+		if (!empty($availables)) {
+        
+	        foreach ($clients as $item) {
+				if ($item->id === $conn->Session->getId()) {
+					
+					$operator = array_rand($availables, 1);
+					
+					$item->closed = false;
+					$item->operator = $operator->id;
+									
+				}
+			}
+			
+			return array('result' => true);	
+			
+		} else return array('result' => false);	
     }
     
    /**
@@ -124,12 +145,17 @@ class ChatService
     public function close(Conn $conn, $params, $clients)
     {	    	
         foreach ($clients as $item) {
+        	// Close the conversation
 			if ($item->id === $params['sid']) {
 				 
 				$item->operator = null;
 				$item->lastMsgTime = time();
 				$item->closed = true;
 								
+			}
+			// Decrease the operator' active chats
+			if ($item->id === $conn->User->getId()) {				
+				$item->chats -= 1;
 			}
 		}
 		
@@ -141,13 +167,20 @@ class ChatService
     * Set the operator as unavailable
     */
     public function unavailable(Conn $conn, $params, $clients)
-    {	    	
+    {	
+    	$chats = 0;
+    	
         foreach ($clients as $item) {
-			if ($item->id === $conn->User->getId()) { 
-				$item->available = false;	
-			}
 			if ($item->operator == $conn->User->getId()) {
 				$item->operator = null;
+				$chats += 1;
+			}
+		}
+		
+		foreach ($clients as $item) {
+			if ($item->id === $conn->User->getId()) { 
+				$item->available = false;
+				$item->chats -= $chats;
 			}
 		}
 		

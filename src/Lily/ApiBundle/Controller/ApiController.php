@@ -33,7 +33,8 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 {
     protected function getEnterprise($key)
     {
-		$enterprise = $this->get('memcache.default')->get('enterprise_'.$key);
+    	$memcache = $this->get('memcache.default');
+		$enterprise = $memcache->get('enterprise_'.$key);
 		
 		if (!$enterprise) {
 		
@@ -42,7 +43,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 				   			   ->getRepository('LilyUserBundle:Enterprise')
 				  			   ->findOneByKey($key);     	  			  
 			
-			$this->get('memcache.default')->set('enterprise_'.$key, $enterprise, 3600);
+			$memcache->set('enterprise_'.$key, $enterprise, 3600);
 		
 		}
 		
@@ -74,6 +75,8 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     	$enterprise = $this->getEnterprise($key);
 		$cname = $enterprise->getCname();
 		$theme = $enterprise->getTheme();
+		$memcache = $this->get('memcache.default');
+		$available = $memcache->get('chat_available_'.$key);
 		
 		$em = $this->get('doctrine')->getManager($cname);
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
@@ -81,16 +84,16 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		$avi = $this->get('kernel')->getRootDir() . '/../web/customer/'.$cname.'/js/avatar.js';
 		$avi = file_get_contents($avi);
 		
-		$config = $this->get('memcache.default')->get('config_'.$cname);
+		$config = $memcache->get('config_'.$cname);
 		
 		if (!$config) {
 			
 			$config = $em->getRepository('LilyBackOfficeBundle:Config')->findOneById(1);
-			$this->get('memcache.default')->set('config_'.$cname, $config, 3600);
+			$memcache->set('config_'.$cname, $config, 3600);
 		
 		}
 		
-		$phone = $this->get('memcache.default')->get('phone_'.$cname);
+		$phone = $memcache->get('phone_'.$cname);
 		
 		if (!$phone) {
 			
@@ -98,19 +101,9 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 						->findOneByBydefault(1)
 						->getPhone();	
 							
-			$this->get('memcache.default')->set('phone_'.$cname, $phone, 3600);
+			$memcache->set('phone_'.$cname, $phone, 3600);
 		
 		}
-		
-		// There is at least an operator available for chat ?
-		$users = $this->getDoctrine()->getRepository('LilyUserBundle:User')->findBy(array(
-			'enterprise' => $enterprise, 
-			'available' => true
-		));
-		if (!empty($users)) $isOperatorAvailable = true;
-		else $isOperatorAvailable = false;
-			
-		$this->container->get('logger')->info(json_encode($isOperatorAvailable));
 		
 		// Utilisateur
 		$session = $this->container->get('session');
@@ -133,40 +126,41 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 
 		}
 				
-        return $this->render('LilyApiBundle:themes:'.$theme.'/index.html.twig', array('key' => $key, 'config' => $config, 'phone' => $phone, 'enterprise' => $enterprise, 'avatar' => $avi, 'isOperatorAvailable' => $isOperatorAvailable)); 
+        return $this->render('LilyApiBundle:themes:'.$theme.'/index.html.twig', array('key' => $key, 'config' => $config, 'phone' => $phone, 'enterprise' => $enterprise, 'avatar' => $avi, 'available' => $available)); 
         
     }
     
     public function trackingAction($key)
     {
     	
+    	$memcache = $this->get('memcache.default');
+    	$enterprise = $memcache->get($key);
+		
+		if (!$enterprise) {
+			
+			$enterprise = $this->getEnterprise($key);
+			$memcache->set($key, $enterprise, 86400);
+		
+		}
+    	
     	// Services
-    	$enterprise = $this->getEnterprise($key);
 		$cname = $enterprise->getCname();
-		$theme = $enterprise->getTheme();
 		
 		$em = $this->get('doctrine')->getManager($cname);
 		$config = $em->getRepository('LilyBackOfficeBundle:Config')->findOneById(1);
 		
-		// There is at least an operator available for chat ?
-		$users = $this->getDoctrine()->getRepository('LilyUserBundle:User')->findBy(array(
-			'enterprise' => $enterprise, 
-			'available' => true
-		));
-		
-		if (!empty($users)) $isOperatorAvailable = true;
-		else $isOperatorAvailable = false;
+		$available = $memcache->get('chat_available_'.$key);
 		
 		if ( // Return if Maintenance is On or Avi is off and no operators available to chat
 		
 			$enterprise->getMaintenance() ||
 			$config->getMaintenance() || 
-			!($isOperatorAvailable || ($config->getAvi() && $enterprise->getAvi()) )
+			!($available || ($config->getAvi() && $enterprise->getAvi()) )
 		
 		) return new Response();
 				
 		$trackerJS = $this->renderView( 'LilyApiBundle::tracker.js.twig', 
-		array('key' => $key, 'cname' => $cname, 'theme' => $theme)
+		array('key' => $key, 'cname' => $cname)
 		);
 		
 		$response = new Response($trackerJS);

@@ -10,7 +10,7 @@ services:
     lily_chat.app:
         class: Lily\ChatBundle\Server\App\Chat
         arguments:    ["@lily_chat.handler_rpc", "@lily_chat.handler_topic", "@event_dispatcher"]
-        
+     
     lily_chat.handler_rpc: 
         class: Lily\ChatBundle\Server\App\Handler\RPCHandler
         calls: 

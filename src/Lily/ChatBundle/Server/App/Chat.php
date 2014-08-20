@@ -7,6 +7,9 @@ use Ratchet\Wamp\WampServerInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\Wamp\Topic;
 
+use \ZMQContext;
+use \ZMQ;
+
 use Lily\ChatBundle\Server\App\Handler\RPCHandlerInterface;
 use Lily\ChatBundle\Server\App\Handler\TopicHandlerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -15,15 +18,20 @@ use Lily\ChatBundle\Event\ClientErrorEvent;
 
 class Chat implements WampServerInterface, MessageComponentInterface {
 
-    protected $topicHandler, $rpcHandler, $eventDispatcher, $clients;
+    protected $topicHandler, $rpcHandler, $eventDispatcher, $clients, $available, $maxChats, $maxQueue;
 
     public function __construct(RPCHandlerInterface $rpcHandler, TopicHandlerInterface $topicHandler, EventDispatcherInterface $eventDispatcher)
     {
         $this->rpcHandler = $rpcHandler;
         $this->topicHandler = $topicHandler;
         $this->eventDispatcher = $eventDispatcher;
+
         $this->clients = new \SplObjectStorage;
         $this->operator = new Topic('operator');
+        $this->available = false;
+        $this->key = '';
+        $this->maxChats = 4;
+        $this->maxQueue = 5;
     }
 
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible) {
@@ -34,6 +42,7 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     public function onCall(Conn $conn, $id, $topic, array $params) {
         $this->rpcHandler->dispatch($conn, $id, $topic, $params, $this->clients);
         $this->operator->broadcast($this->toArray($this->clients));
+        $this->isAvailable();
     }
 
     //WampServer adds and removes subscribers to Topics automatically, this is for further optional events.
@@ -41,12 +50,14 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     	if ($topic->getId() == 'operator') $this->operator = $topic;    
         $this->topicHandler->onSubscribe($conn, $topic, $this->clients);
         $this->operator->broadcast($this->toArray($this->clients));
+        $this->isAvailable();
         
     }
     public function onUnSubscribe(Conn $conn, $topic) {  
     	if ($topic->getId() == 'operator') $this->operator = $topic;    	
         $this->topicHandler->onUnSubscribe($conn, $topic, $this->clients);
         $this->operator->broadcast($this->toArray($this->clients));
+        $this->isAvailable();
     }
 
     public function onOpen(Conn $conn) {   	
@@ -68,6 +79,43 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 
         $event->setException($e);
         $this->eventDispatcher->dispatch("lily.client.error", $event);
+    }
+    
+    public function isAvailable() {
+    	
+    	$this->context = new ZMQContext();
+		$this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+		$this->socket->connect("tcp://localhost:5555");
+    	
+    	$this->available = false;
+    	$operators = 0;	
+    	$queue = 0;
+    	
+    	foreach($this->clients as $item) {
+    		echo 'run';
+	    	if ($item->type == 'operator') {
+	    		$this->key = $item->enterprise;
+	    		if ($item->available) {
+		    		$operators +=1;
+		    		if ($item->chats <= $this->maxChats) {
+			    		$this->available = true;
+						break;
+		    		}
+	    		}
+	    	}
+	    	
+	    	if ($item->type == 'visitor' && $item->operator == null) {
+		    	$queue += 1;    	
+		    }
+    	}
+	    	    	var_dump($this->available);
+	    if (!$this->available && $operators > 0) {
+			if ($queue < $this->maxQueue * $operators) $this->available = true;
+			else $this->available = false;
+	    }
+	    	  	  	
+    	$this->socket->send(json_encode(array('key' => $this->key, 'available' => $this->available)));
+    	
     }
     
    /**

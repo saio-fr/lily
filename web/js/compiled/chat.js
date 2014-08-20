@@ -17665,9 +17665,8 @@ chat.Views.App = Backbone.View.extend({
 		'click .live-nav' : 'showLive'
 	},
 	
-	initialize: function() {
+	initialize: function() {	
 		
-				
 		// Get a list of all enterprise' operators
 		this.operators = new chat.Operators();
 		this.operators.fetch();
@@ -17842,31 +17841,38 @@ chat.Views.App = Backbone.View.extend({
 	
 	setWindows: function () {
 		
-		if ( $('.conversations').width() > 850 ) { $('.btn-group.windows').show(); } 
-		else { 
-		
-			$('.windows .dropdown-select li:first-child a').trigger( "click" );
-			this.$el.find('.btn-group.windows').hide(); 
-			$('.conversations').children().removeClass('multiple full-width half-width');
-			return; 
-		
-		}
-		
+				
 		// If there is more 1 windows, add "multiple" class to show them all
 		if ( this.windows.length > 1 ) {
 		
 			$('.conversations').children().addClass('multiple');
 			$('.conversations').children().addClass('half-width');
+			chat.app.setInformationsWidth();
 			
-		} 
+		} else {
+			
+			$('.conversations').children().removeClass('multiple');
+			$('.conversations').children().removeClass('half-width');
+			chat.app.setInformationsWidth();
+			
+		}
+		
+		if ( $('#live').width() > 1090 ) { $('.btn-group.windows').show(); } 
+		else { 
+		
+			$('.windows .dropdown-select li:first-child a').trigger( "click" );
+			this.$el.find('.btn-group.windows').hide(); 
+			$('.conversations').children().removeClass('multiple full-width half-width');
+		
+		}
 		
 	},	
 	
 	setInformationsWidth: function () {
-		
-		// Hide informations if the windows is too small
-		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) this.live.informations.reduce();
-		else $('.informations-header .icon-angle-left').css( {'cursor': 'pointer'} );
+			
+		// Hide informations if the window is too small
+		if ($('#live').width() < 950 || ($('#live').width() < 1300 && $('.conversations').children().hasClass('multiple')) ) this.live.informations.$el.addClass('hide');
+		else this.live.informations.$el.removeClass('hide');
 		
 	},
 	
@@ -18003,9 +18009,9 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		this.listenTo(this.model, 'change:operator', this.close);
 		this.listenTo(this.model, 'change:closed', this.remove);
 		this.listenTo(this.model, 'change:banned', this.remove);
-		this.listenTo(this.model, 'minus', this.minus);
-		this.listenTo(this.model, 'urgent', this.urgent);
+		this.listenTo(this.model, 'unactive', this.unactive);
 		this.listenTo(this.model, 'active', this.active);
+		this.listenTo(this.model, 'urgent', this.urgent);
 		// After an half hour of inactivity, the model is removed on the server
 		this.listenTo(this.model, 'remove', this.close);
 		this.render();
@@ -18049,7 +18055,7 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		this.$el.addClass('active');		
 	},
 	
-	minus: function() {
+	unactive: function() {
 		this.$el.removeClass('active');			
 	},
     
@@ -18098,8 +18104,6 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 	
 			// Delete the last conversation view
 			chat.app.windows[chat.app.windows.length-1].model.trigger('minus');
-			chat.app.windows[chat.app.windows.length-1].remove();
-			chat.app.windows.pop();
 			
 			// Create a new conversation view 
 			chat.app.windows.unshift( new chat.Views.Conversation({ model: this.model }) );
@@ -18199,8 +18203,6 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 		
 				// Delete the last conversation view
 				chat.app.windows[chat.app.windows.length-1].model.trigger('minus');
-				chat.app.windows[chat.app.windows.length-1].remove();
-				chat.app.windows.pop();
 				
 				// Create a new conversation view 
 				chat.app.windows.unshift( new chat.Views.Conversation({ model: that.model }) );
@@ -18229,10 +18231,6 @@ chat.LiveView = Backbone.View.extend({
     	
     	this.render(); 
     	
-    	// Empty informations sidebar
-    	this.record = new chat.Models.Record();
-    	this.informations = new chat.Views.Informations({model: this.record});
-    	
     	this.collection = records;
     	this.listenTo(this.collection, 'add', this.add);
     	this.listenTo(this.collection, 'change:operator', this.add); 
@@ -18241,7 +18239,8 @@ chat.LiveView = Backbone.View.extend({
     	this.counter = {};
 		this.counter.current = 0;
 		this.counter.waiting = 0;
-		this.counter.pendingAnswer = 0;
+	
+		this.showInformations = true;
     	
     },
     
@@ -18292,6 +18291,7 @@ chat.Views.Conversation = Backbone.View.extend({
 	className: 'vbox animated fadeInRight',
 	
 	events: {
+		'click' : 'selected',
 		'click .conversation-close': 'close',
 		'click .conversation-minus': 'minus',
 		'click .ban' : 'ban',
@@ -18301,20 +18301,22 @@ chat.Views.Conversation = Backbone.View.extend({
 	
 	initialize: function() {
 		
-		that = this;
+		var that = this;
 		
 		// Create a collection of this view messages
 		this.messages = new chat.Messages();
+		
+		// Create the informations view and select the window
+		this.selected();
 		
 		// Listen to new messages					
 		this.listenTo(this.model, 'change:messages', this.getMessages);
 		this.listenTo(this.messages, 'add', this.addItem);
 		this.listenTo(this.messages, 'add', this.status);
 		this.listenTo(this.model, 'urgent', this.urgent);
-		this.listenTo(this.model, 'change:banned', this.remove);
-		this.listenTo(this.model, 'change:closed', this.remove);
-		this.listenTo(this.model, 'change:writing', this.writing);
 		this.listenTo(this.model, 'render', this.active);
+		this.listenTo(this.model, 'minus', this.minus);
+		this.listenTo(this.model, 'change:writing', this.writing);
 		// After an half hour of inactivity, the model is removed on the server
 		this.listenTo(this.model, 'remove', this.remove);
 		
@@ -18332,6 +18334,10 @@ chat.Views.Conversation = Backbone.View.extend({
 			useLineBreaks:  true
 		});
 		
+		this.$el.find('.wysihtml5-sandbox').contents().find('body').on('click',function() {
+        	that.selected();
+		});
+		
 		// If the operator type enter, send the message
 		this.$el.find('.wysihtml5-sandbox').contents().find('body').on("keydown",function(e) {
 			that.sendOnEnter(e);
@@ -18339,13 +18345,6 @@ chat.Views.Conversation = Backbone.View.extend({
 		
 		// Get the messages
 		this.getMessages();
-		
-		// Change the informations view
-		chat.app.live.informations.remove();
-		chat.app.live.informations = new chat.Views.Informations({model: this.model});
-		if (this.$el.hasClass('multiple')) {
-			this.$el.addClass('selected');
-		}
 		
 		// If the visitor is writing, show it
 	    this.$writing = this.$el.find('.alert-writing');	
@@ -18360,6 +18359,26 @@ chat.Views.Conversation = Backbone.View.extend({
 		$('input, textarea').placeholder();
 		
 		return Backbone.View.prototype.render.apply(this, arguments);
+	},
+	
+	selected: function (e) {
+	
+		$('.conversations .selected').removeClass('selected');
+		this.$el.addClass('selected');
+
+		if (typeof(chat.app.live.informations) == 'undefined') {
+			chat.app.live.informations = new chat.Views.Informations({model: this.model});
+			return;
+		}
+		
+		if (chat.app.live.informations.model.get('id') !== this.model.get('id')) {
+		
+			chat.app.live.informations.remove(); 
+			chat.app.live.informations = new chat.Views.Informations({model: this.model});
+			chat.app.setInformationsWidth();
+			
+		}
+		
 	},
 	
 	getMessages: function() {
@@ -18436,37 +18455,46 @@ chat.Views.Conversation = Backbone.View.extend({
 		this.editor.clear();
 		
 	},
-	
-	minus: function() {
-
-		this.$el.addClass('fadeOutDown');
+		    
+    minus: function(e) {
 		
-		// Delay remove to show animation
-		setTimeout(function() {
-			that.remove();
-		}, 200)
+		e.stopPropagation();
 		
-		this.model.trigger('minus');
+	  	var that = this;
 		
-		// search this view in chat.app.windows
-		chat.app.windows.splice( $.inArray(this, chat.app.windows), 1 );
-		chat.app.trigger('change:windows');
+		this.model.trigger('unactive');
 		
-	},
+		chat.app.windows.splice( $.inArray(that, chat.app.windows), 1 );
+	  	chat.app.trigger('change:windows');
+	  	
+	  	if (chat.app.live.informations.model.get('id') == this.model.get('id')) {
+	  		chat.app.live.informations.remove();
+	  		if (chat.app.windows.length == 1) {
+	  			chat.app.live.informations = new chat.Views.Informations({model: chat.app.windows[chat.app.windows.length-1].model}); 
+	  		}
+	  	}
+	  	
+		this.remove();
+		  
+    },
 	
 	close: function() {
-	
+		
+		var that = this;
+		
 		new chat.Views.ModalClose();
 		
 		$('.modal-close-confirm').click(function() {
-		
+			
 			chat.app.windows.splice( $.inArray(that, chat.app.windows), 1 );
 			chat.app.trigger('change:windows');
 			sess.call('chat/close', { sid: that.model.get('id') } );
-
+			
 			// Change counter currents
 			chat.app.live.counter.current -=1;
 			$('.header-current span').html(chat.app.live.counter.current);
+			
+			that.minus();
 			
 		});
 		
@@ -18474,6 +18502,8 @@ chat.Views.Conversation = Backbone.View.extend({
 	
 	ban: function() {
 	
+		var that = this;
+		
 		new chat.Views.ModalBan();
 		
 		$('.modal-ban-confirm').click(function() {
@@ -18484,7 +18514,9 @@ chat.Views.Conversation = Backbone.View.extend({
 			
 			// Change counter currents
 			chat.app.live.counter.current -=1;
-			$('.header-current span').html(chat.app.live.counter.current);	
+			$('.header-current span').html(chat.app.live.counter.current);
+			
+			that.minus();
 		
 		});
 			
@@ -18519,17 +18551,6 @@ chat.Views.Conversation = Backbone.View.extend({
 	    	this.$writing.removeClass('fadeIn').addClass('fadeOut'); 
 	    }
 	    
-    },
-    
-    remove: function () {
-		
-		chat.app.windows.splice( $.inArray(that, chat.app.windows), 1 );
-		chat.app.trigger('change:windows');
-		
-		this.$el.empty();
-		this.stopListening();
-		return this;
-		
     }
 	
 });
@@ -18539,14 +18560,20 @@ INFORMATIONS VIEW
 chat.Views.Informations = Backbone.View.extend({
 	
 	tagName: 'aside',
-	className: 'vbox bg-white aside-chat-right',
+	className: 'vbox bg-white aside-chat-right animated fadeInRight',
 	
     events: {
 		'click .informations-header .icon-angle-right': 'reduce',
-		'click .informations-header .icon-angle-left': 'extend'
+		'click .informations-header .icon-angle-left': 'extend',
+		'focusout input': 'update'
 	},	
 	
-	initialize: function() {	
+	initialize: function() {
+		
+		// Change the informations view if pages or questions changed
+		this.listenTo(this.model, 'change:pages', this.render);
+		this.listenTo(this.model, 'change:questions', this.render);
+		
 		this.render();
 	},
 	
@@ -18557,35 +18584,43 @@ chat.Views.Informations = Backbone.View.extend({
 		
 		this.$el.appendTo( '#live' );
 		
+		if (chat.app.live.showInformations) this.extend();
+		else this.reduce();
+		
 		return Backbone.View.prototype.render.apply(this, arguments);
 	},
 	
 	reduce: function() {
 		
-		this.$el.find('.informations-header h5').hide();
-		this.$el.find('.informations-section').hide();
+		this.$el.find('.informations-header h5').addClass('hide');
+		this.$el.find('.informations-section').addClass('hide');
 		this.$el.find('.informations-header .icon-angle-right').addClass('hide');
 		this.$el.find('.informations-header .icon-angle-left').removeClass('hide');
 		this.$el.width('50');
+		
+		chat.app.live.showInformations = false;
 		
 	},
 	
 	extend: function() {
 		
-		// If the width of the windows is too small, do nothing
-		if ( ( $('.conversations').width() + $('.aside-chat-right').width() ) < 660 ) { 
-			
-			// We can't click anymore on the arrow
-			this.$el.find('.informations-header .icon-angle-left').css( {'cursor': 'default'} );
-			return; 
-		
-		}
-		
-		this.$el.find('.informations-header h5').show();
-		this.$el.find('.informations-section').show();
+		this.$el.find('.informations-header h5').removeClass('hide');
+		this.$el.find('.informations-section').removeClass('hide');
 		this.$el.find('.informations-header .icon-angle-right').removeClass('hide');
 		this.$el.find('.informations-header .icon-angle-left').addClass('hide');
 		this.$el.width('275');
+		
+		chat.app.live.showInformations = true;
+		
+	},
+	
+	update: function(e) {
+		
+		this.firstname = this.$el.find('input[name="firstname"]').val();
+		this.lastname = this.$el.find('input[name="lastname"]').val();
+		this.email = this.$el.find('input[name="email"]').val();
+		
+		sess.call('chat/updateInformations', {sid: this.model.get('id'), firstname: this.firstname, lastname: this.lastname, email: this.email});
 		
 	}
 	

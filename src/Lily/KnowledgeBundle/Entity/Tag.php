@@ -72,4 +72,44 @@ class Tag
     {
         return $this->title;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add questions
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $questions
+     * @return Tag
+     */
+    public function addQuestion(\Lily\KnowledgeBundle\Entity\Question $questions)
+    {
+        $this->questions[] = $questions;
+
+        return $this;
+    }
+
+    /**
+     * Remove questions
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $questions
+     */
+    public function removeQuestion(\Lily\KnowledgeBundle\Entity\Question $questions)
+    {
+        $this->questions->removeElement($questions);
+    }
+
+    /**
+     * Get questions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
 }

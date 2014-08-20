@@ -37,9 +37,7 @@ $(function() {
 		'ws://dev2.saio.fr:8080/chat/'+licence // The host 
 				    
 	    , function(session) {  // Once the connection has been established
-	    	
-			// Get the session id
-			
+	    				
 			lily.ws = session;
 			lily.ws.subscribe('visitor/'+sid, function (topic, payload) {});
 			lily.ws.call('chat/setCurrentPage', {'url':top.location.pathname});

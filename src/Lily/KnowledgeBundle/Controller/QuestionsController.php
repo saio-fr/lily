@@ -74,10 +74,10 @@ class QuestionsController extends BaseController
     }
     
     /**
-     * @Post("/create/{category}/{parent}/{tag}")
+     * @Post("/create/{category}/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function createAction($category, $parent, $tag, Request $request)
+    public function createAction($category, $parent, Request $request)
     {
 
     	$parent = $this->getEntityManager()
@@ -87,10 +87,6 @@ class QuestionsController extends BaseController
     	$category = $this->getEntityManager()
 			           	  ->getRepository('LilyKnowledgeBundle:Category')
 					   	  ->find($category);
-					   	  
-		$tag = $this->getEntityManager()
-			        ->getRepository('LilyKnowledgeBundle:Tag')
-					->find($tag);
     				   
     	$question = $this->deserialize('Lily\KnowledgeBundle\Entity\Question', $request);
     	
@@ -101,7 +97,6 @@ class QuestionsController extends BaseController
             	
     	$question->setParent($parent);
     	$question->setCategory($category);
-    	$question->setTag($tag);
     	$question->setSatisfaction('0');
     	$question->setRequests('0');
     	
@@ -138,11 +133,11 @@ class QuestionsController extends BaseController
     }    
     
     /**
-     * @Put("/update/{id}/{parent}/{category}/{tag}")
+     * @Put("/update/{id}/{parent}/{category}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
-    public function updateAction($id, $parent, $category, $tag, Request $request)
+    public function updateAction($id, $parent, $category, Request $request)
     {
     	$em = $this->getEntityManager();
     	
@@ -155,10 +150,6 @@ class QuestionsController extends BaseController
     	$category = $this->getEntityManager()
 			              ->getRepository('LilyKnowledgeBundle:Category')
 						  ->find($category);
-						  
-		$tag = $this->getEntityManager()
-			        ->getRepository('LilyKnowledgeBundle:Category')
-					->find($tag);
     	
    		$question = $this->getEntityManager()
     					 ->getRepository('LilyKnowledgeBundle:Question')
@@ -171,7 +162,6 @@ class QuestionsController extends BaseController
 		
 		$question->setParent($parent);
     	$question->setCategory($category);
-    	$question->setTag($tag);
     	
     	$user = $this->getUser();
     	$question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());

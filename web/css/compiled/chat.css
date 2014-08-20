@@ -6,14 +6,27 @@ i {
   font-weight: bold !important;
 }
 
+.live-nav.active a {
+  background: #626b7b !important;
+  color: #f2f2f2 !important;
+}
+
+.aside-chat-left {
+  width: 275px;
+}
+
+.aside-chat-right {
+  width: 50px;
+}
+
 .chat-header {
   background: #6075a4;
 }
 
 .chat-message-show{
-	-webkit-animation: showFromBottom .3s ease both;
-	-moz-animation: showFromBottom .3s ease both;
-	animation: showFromBottom .3s ease both;
+  -webkit-animation: showFromBottom .3s ease both;
+  -moz-animation: showFromBottom .3s ease both;
+  animation: showFromBottom .3s ease both;
 }
 
 .conversation-header {
@@ -225,6 +238,12 @@ i {
   margin: 20px;
   display: inline-block;
   background: #f9fafb;
+}
+
+.multiple.selected {
+  -moz-box-shadow:    0px 0px 30px 0px #D5D5D5;
+  -webkit-box-shadow: 0px 0px 30px 0px #D5D5D5;
+  box-shadow:         0px 0px 30px 0px #D5D5D5;
 }
 
 .half-width {
@@ -452,6 +471,16 @@ i {
   overflow: hidden;
   -o-text-overflow: ellipsis; /* pour Opera 9 */
   text-overflow: ellipsis;
+}
+
+.informations-form-control {
+  border: none;
+  outline: none;
+  color: #787878;
+}
+
+.informations-form-control:focus {
+  border-bottom: 1px solid #579ad7;
 }
 
 .informations-list {

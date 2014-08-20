@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2481ce3ab44497691efa9e12423cbd08",
+    "hash": "e8fcb703420bf454be7a23e7275d2216",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -725,12 +725,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/formapro/JsFormValidatorBundle.git",
-                "reference": "d9b62ddd5a431c48804f174f8a324f5bc8744555"
+                "reference": "4fb5752961b4a95c1bea46311b63ec35cd84f2d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/formapro/JsFormValidatorBundle/zipball/d9b62ddd5a431c48804f174f8a324f5bc8744555",
-                "reference": "d9b62ddd5a431c48804f174f8a324f5bc8744555",
+                "url": "https://api.github.com/repos/formapro/JsFormValidatorBundle/zipball/4fb5752961b4a95c1bea46311b63ec35cd84f2d9",
+                "reference": "4fb5752961b4a95c1bea46311b63ec35cd84f2d9",
                 "shasum": ""
             },
             "require": {
@@ -787,7 +787,7 @@
                 "symfony",
                 "validation"
             ],
-            "time": "2014-08-11 09:43:33"
+            "time": "2014-08-16 19:55:56"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1978,65 +1978,6 @@
                 "minification"
             ],
             "time": "2013-07-19 00:03:27"
-        },
-        {
-            "name": "leaseweb/api-caller-bundle",
-            "version": "v1.1.3",
-            "target-dir": "Lsw/ApiCallerBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/LeaseWeb/LswApiCallerBundle.git",
-                "reference": "9a5e020d262e460d065e1f71646e3b2eaa105c23"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/LeaseWeb/LswApiCallerBundle/zipball/9a5e020d262e460d065e1f71646e3b2eaa105c23",
-                "reference": "9a5e020d262e460d065e1f71646e3b2eaa105c23",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.1",
-                "symfony/security-bundle": ">=2.1"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "*",
-                "swiftmailer/swiftmailer": "*",
-                "symfony/validator": "2.1.*",
-                "symfony/yaml": "2.1.*",
-                "twig/twig": "*",
-                "willdurand/propel-typehintable-behavior": "dev-master"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Lsw\\ApiCallerBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Maurits van der Schee",
-                    "email": "m.vanderschee@leaseweb.com"
-                }
-            ],
-            "description": "cURL API call functionality with full Web Debug Toolbar integration",
-            "homepage": "http://www.leaseweblabs.com",
-            "keywords": [
-                "Symfony2",
-                "api",
-                "curl"
-            ],
-            "time": "2013-10-21 10:41:09"
         },
         {
             "name": "leaseweb/memcache-bundle",

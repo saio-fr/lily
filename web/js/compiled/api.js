@@ -1704,41 +1704,11 @@ var	lily = {
 	init: function () {
 		
 		_.extend(lily.Events = Backbone.Events);
-		this.instance = new lily.Views.App();
+		this.app = new lily.Views.App();
 		Backbone.history.start();
 		
 	}
 };
-
-$(function() {
-	
-	// Connect to our ws serv
-	var sess = new ab.connect(
-			
-		'ws://dev2.saio.fr:8080/chat/'+licence // The host 
-				    
-	    , function(session) {  // Once the connection has been established
-	    	
-			// Get the session id
-			
-			lily.ws = session;
-			lily.ws.subscribe('visitor/'+sid, function (topic, payload) {});
-			lily.ws.call('chat/setCurrentPage', {'url':top.location.pathname});
-			lily.init();
-		
-		}
-	
-	    , function(code, reason, detail) { // When the connection is closed
-	    	console.warn('WebSocket connection closed');
-	    }
-	    , { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
-			'skipSubprotocolCheck': true,
-			'maxRetries': 60,
-			'retryDelay': 2000
-	      }
-	);
-	
-});
 
 var snapper = new Snap({
 	element: document.getElementById('lily-wrapper-page'),
@@ -1797,6 +1767,10 @@ if (isMobile.phone) {
 	$('#icon-iframe-close').click(function(){ open("/", '_self').close(); });
 	$('#icon-iframe-fullscreen').css('display', 'none');
 }
+
+$(function() {
+	lily.init();	
+});
 var lily = lily || {};
 
 // The Page
@@ -2430,12 +2404,12 @@ lily.Views.Avi = lily.Extensions.View.extend({
 		
 		this.listenTo(this, 'render', this.avatar);
 		
-		lily.Events.on('precision', this.sendPrecision, this); /* On écoute l'evennement 'precision' d'une vue MessageLilyPrecision */
-		lily.Events.on('satisfied', this.sendNotation, this); /* On écoute l'evennement 'satisfied' d'une vue MessageLilyNotation */
-		lily.Events.on('notSatisfied', this.sendNotation, this); /* On écoute l'evennement 'notSatisfied' d'une vue MessageLilyNotation */
-		lily.Events.on('redirectionTel', this.sendRedirectionTel, this); /* On écoute l'evennement 'redirectionTel' d'une vue MessageLilyRedirection */
-		lily.Events.on('redirectionMail', this.sendRedirectionMail, this); /* On écoute l'evennement 'redirectionMail' d'une vue MessageLilyRedirection */
-		
+		lily.Events.on('precision', this.sendPrecision, this); 		
+		lily.Events.on('satisfied', this.sendNotation, this); 		
+		lily.Events.on('notSatisfied', this.sendNotation, this); 
+		lily.Events.on('redirectionTel', this.sendRedirectionTel, this); 
+		lily.Events.on('redirectionMail', this.sendRedirectionMail, this); 
+				
 		$(this.render().el).appendTo('#lily-wrapper-page');
 		
 	},
@@ -2472,6 +2446,8 @@ lily.Views.Avi = lily.Extensions.View.extend({
 	search: function ( q ) {
 		
 		var avi = this;		
+		
+		ws.sess.call('chat/newAviQuestion', {question: q});
 		
 		$.ajax({
 			type: 'POST',
@@ -2744,13 +2720,13 @@ lily.Views.Chat = lily.Extensions.View.extend({
 		this.messages = new lily.Messages();
 		this.listenTo(this.messages, 'add', this.addItem);
 		
-		lily.ws.subscribe('visitor/'+sid, function (topic, payload) {
+		ws.sess.subscribe('visitor/'+sid, function (topic, payload) {
 			
 			chat.messages.set(payload);
 			
 		});
 		
-		lily.ws.call('chat/open');
+		ws.sess.call('chat/open');
 							
 		$(this.render().el).appendTo('#lily-wrapper-page');
 
@@ -2770,8 +2746,8 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	
 	writing: function (e) {
 
-		if( this.$input.val() ) {lily.ws.call('chat/writing', { sid: sid, writing: true } )}
-		else {lily.ws.call('chat/writing', { sid: sid, writing: false } )}
+		if( this.$input.val() ) {ws.sess.call('chat/writing', { sid: sid, writing: true } )}
+		else {ws.sess.call('chat/writing', { sid: sid, writing: false } )}
 		
 	},
 	
@@ -2792,7 +2768,7 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	
 	send: function ( m ) {		
 
-		lily.ws.publish('operator', m);
+		ws.sess.publish('operator', m);
 		
 	},
 	

@@ -1,7 +1,7 @@
 <div id="lily-home" class="lily-page-cont"><!-- wrapper page les différentes pages -->
 	<header id="lily-header" class="lily-cst-header">
 		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
-		{% if enterprise.chat and config.chat and isOperatorAvailable %}
+		{% if enterprise.chat and config.chat and available %}
 		<a href="#/chat" class="lily-right"><p>Parler à un conseiller<i class="lily-icon lily-icon-chat"></i></p></a>
 		{% endif %}
 	</header>

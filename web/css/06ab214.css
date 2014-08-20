@@ -5308,10 +5308,21 @@ body { /* Addresses a small issue in webkit: http://bit.ly/NEdoDq */
 	-webkit-backface-visibility: hidden;
 }
 .animated {
-	-webkit-animation-duration: 0.75s;
-	   -moz-animation-duration: 0.75s;
-	     -o-animation-duration: 0.75s;
-	        animation-duration: 0.75s;
+	-webkit-animation-duration: 0.45s;
+	   -moz-animation-duration: 0.45s;
+	     -o-animation-duration: 0.45s;
+	        animation-duration: 0.45s;
+	-webkit-animation-fill-mode: both;
+	   -moz-animation-fill-mode: both;
+	     -o-animation-fill-mode: both;
+	        animation-fill-mode: both;
+}
+
+.animated.fast {
+	-webkit-animation-duration: 0.15s;
+	   -moz-animation-duration: 0.15s;
+	     -o-animation-duration: 0.15s;
+	        animation-duration: 0.15s;
 	-webkit-animation-fill-mode: both;
 	   -moz-animation-fill-mode: both;
 	     -o-animation-fill-mode: both;
@@ -10128,9 +10139,6 @@ table th[class*="col-"] {
   }
   .aside-xl {
     width: 350px;
-  }
-  .aside-chat-left, .aside-chat-right {
-    width: 275px;
   }
   .aside-redirection, .aside-faq, .aside-profil {
     width: 300px;

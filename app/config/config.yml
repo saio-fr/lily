@@ -35,7 +35,7 @@ lsw_memcache:
     clients:
         default:
             hosts:
-              - { dsn: localhost, port: 11211 }
+              - { dsn: 37.59.26.170, port: 11211 }
             options:
                 compression: true
                 serializer: json
