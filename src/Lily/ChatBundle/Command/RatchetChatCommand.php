@@ -68,7 +68,7 @@ class RatchetChatCommand extends ContainerAwareCommand
  
         $server = new App('dev2.saio.fr', 8080, '0.0.0.0', $loop);
         // Domain that are able to connect to our chat
-        $server->route('/chat/{key}', $WsServer, array('dev2.saio.fr'));
+        $server->route('/chat/{key}', $WsServer, array('dev2.saio.fr', 'prod1.saio.fr', 'prod2.saio.fr', 'saio.fr'));
         $server->run();
         
      
