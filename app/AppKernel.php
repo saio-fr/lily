@@ -50,4 +50,6 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
+    
+    error_reporting(E_ERROR | E_WARNING | E_PARSE);
 }
