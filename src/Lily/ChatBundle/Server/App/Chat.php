@@ -92,7 +92,6 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     	$queue = 0;
     	
     	foreach($this->clients as $item) {
-    		echo 'run';
 	    	if ($item->type == 'operator') {
 	    		$this->key = $item->enterprise;
 	    		if ($item->available) {
@@ -108,7 +107,7 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 		    	$queue += 1;    	
 		    }
     	}
-	    	    	var_dump($this->available);
+
 	    if (!$this->available && $operators > 0) {
 			if ($queue < $this->maxQueue * $operators) $this->available = true;
 			else $this->available = false;

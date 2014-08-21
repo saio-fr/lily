@@ -216,9 +216,13 @@ chat.Views.App = Backbone.View.extend({
 	
 	setInformationsWidth: function () {
 			
-		// Hide informations if the window is too small
-		if ($('#live').width() < 950 || ($('#live').width() < 1300 && $('.conversations').children().hasClass('multiple')) ) this.live.informations.$el.addClass('hide');
-		else this.live.informations.$el.removeClass('hide');
+		if (typeof(this.live.informations) !== 'undefined') {
+		
+			// Hide informations if the window is too small
+			if ($('#live').width() < 950 || ($('#live').width() < 1300 && $('.conversations').children().hasClass('multiple')) ) this.live.informations.$el.addClass('hide');
+			else this.live.informations.$el.removeClass('hide');
+			
+		}
 		
 	},
 	

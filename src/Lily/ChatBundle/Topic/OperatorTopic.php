@@ -45,6 +45,9 @@ class OperatorTopic implements TopicInterface
     	$operator = new \StdClass;
         $operator->id = $conn->User->getId();
         $operator->enterprise = $conn->User->getEnterprise()->getKey();
+        $operator->welcome = $conn->User->getWelcomeMsg();
+        $operator->avatar = $conn->User->getAvatar();
+        $operator->firstname = $conn->User->getFirstname();
         $operator->type = 'operator';
         $operator->messages = array();
         $operator->available = false;

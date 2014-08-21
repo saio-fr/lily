@@ -108,13 +108,14 @@ class VisitorTopic implements TopicInterface
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $clients)
     {   	
     	$visitorId = explode('/', $topic)[1];
+    	$operator = array('id' => $conn->User->getId(), 'firstname' => $conn->User->getFirstname(), 'avatar' => $conn->User->getAvatar());
     	
 		foreach ($clients as $item) {
 		
 			if ($item->id === $visitorId) { 
 				
 				$item->lastMsgTime = time();						
-				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $conn->User->getId(), 'date' => time(), 'msg' => $event);	
+				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $operator, 'date' => time(), 'msg' => $event);	
 				
 				$messages = $item->messages;
 				$topic->broadcast($messages);			

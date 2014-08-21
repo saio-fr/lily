@@ -114,29 +114,52 @@ class ChatService
     {	 
         
         foreach ($clients as $item) {
-			if ($item->type === 'operator' && $item->available) {
+			if ($item->type === 'operator' && $item->available && $item->chats <= 4) {
 				
 				$availables[] = $item;
 								
 			}
 		}
-		
-		if (!empty($availables)) {
         
-	        foreach ($clients as $item) {
-				if ($item->id === $conn->Session->getId()) {
+        foreach ($clients as $item) {
+
+			if ($item->id === $conn->Session->getId()) {
+
+				if ($item->operator !== null) return;
+
+				if (!empty($availables)) {
+
+					$key = array_rand($availables, 1);
+
+					$operator = array('id' => $availables[$key]->id, 
+									  'firstname' => $availables[$key]->firstname, 
+									  'avatar' => $availables[$key]->avatar);
+									  echo '3';
+					$item->operator = $availables[$key]->id;
 					
-					$operator = array_rand($availables, 1);
-					
-					$item->closed = false;
-					$item->operator = $operator->id;
+					$item->messages[] = array('id' => uniqid(), 
+											  'from' => 'operator', 
+											  'operator' => $operator, 
+											  'date' => time(), 
+											  'msg' => $availables[$key]->welcome);					  
 									
+				} else {
+				
+					$item->messages[] = array('id' => uniqid(), 
+											  'from' => 'operator', 
+											  'operator' => $operator, 
+											  'date' => time(), 
+											  'msg' => 'Veuillez patienter, un opérateur va vous répondre.');
 				}
-			}
-			
-			return array('result' => true);	
-			
-		} else return array('result' => false);	
+				
+				$item->topic->broadcast($item->messages);
+				$item->closed = false;
+																	
+			}			
+		}
+		
+		return array('result' => true);
+		
     }
     
    /**

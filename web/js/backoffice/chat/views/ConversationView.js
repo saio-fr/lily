@@ -135,9 +135,9 @@ chat.Views.Conversation = Backbone.View.extend({
 	
 
 			// If the operator changed or it is the first message
-			if ( this.index < 1 || message.get('operator') !== this.sentByOperators[this.index-1].get('operator') ) {
+			if ( this.index < 1 || message.get('operator')['id'] !== this.sentByOperators[this.index-1].get('operator')['id'] ) {
 
-				this.operator = chat.app.operators.findWhere({id: message.get('operator')})
+				this.operator = chat.app.operators.findWhere({id: message.get('operator')['id']})
 				this.operator.set({'date': date});			
 				this.messagesHeader = new chat.Views.MessagesHeader({ model: this.operator });
 				this.messagesHeader.$el.appendTo( this.$el.find('.conversation-section-list') );

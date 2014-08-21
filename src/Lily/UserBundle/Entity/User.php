@@ -90,6 +90,13 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @ORM\Column(name="welcomeMsg", type="string", length=200, nullable=true)
+     */
+    private $welcomeMsg;
+    
+    /**
+     * @var string
+     *
      * @ORM\ManyToMany(targetEntity="Lily\UserBundle\Entity\Service", cascade={"persist"})
      * @Expose
      */
@@ -114,14 +121,6 @@ class User extends BaseUser
      * @Expose
      */
     private $avatar;
-    
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="available", type="boolean", nullable=true)
-     * @Expose
-     */
-    private $available;
 
     /**
      * @Assert\Image
@@ -499,25 +498,25 @@ class User extends BaseUser
     }
 
     /**
-     * Set available
+     * Set welcomeMsg
      *
-     * @param boolean $available
+     * @param string $welcomeMsg
      * @return User
      */
-    public function setAvailable($available)
+    public function setWelcomeMsg($welcomeMsg)
     {
-        $this->available = $available;
+        $this->welcomeMsg = $welcomeMsg;
 
         return $this;
     }
 
     /**
-     * Get available
+     * Get welcomeMsg
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getAvailable()
+    public function getWelcomeMsg()
     {
-        return $this->available;
+        return $this->welcomeMsg;
     }
 }
