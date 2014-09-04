@@ -140,17 +140,20 @@ class TagsController extends BaseController
 		$em_question = $em->getRepository('LilyKnowledgeBundle:Question');
 		$em_tag = $em->getRepository('LilyKnowledgeBundle:Tag');
 		
-		$data = json_decode($request->getContent(), true);
+		$data = json_decode($request->getContent());
+
 		$tag = $em_tag->find($id);
 		
-		foreach($data as $item) {
+		foreach($data->id as $item) {
 			
-			$item = $em_question->find($item);
-			$tag->addQuestion($item);
+			$question = $em_question->find($item);
+			$tag->addQuestion($question);
+			$question->addTag($tag);
 			
 		}
 		
         $em->persist($tag);
+        $em->persist($question);
         $em->flush();
 			
         $view = $this->view($tag)->setFormat('json');
@@ -170,17 +173,19 @@ class TagsController extends BaseController
 		$em_question = $em->getRepository('LilyKnowledgeBundle:Question');
 		$em_tag = $em->getRepository('LilyKnowledgeBundle:Tag');
 		
-		$data = json_decode($request->getContent(), true);
+		$data = json_decode($request->getContent());
 		$tag = $em_tag->find($id);
 		
-		foreach($data as $item) {
+		foreach($data->id as $item) {
 			
-			$item = $em_question->find($item);
-			$tag->removeQuestion($item);
+			$question = $em_question->find($item);
+			$tag->removeQuestion($question);
+			$question->removeTag($tag);
 			
 		}
 		
         $em->persist($tag);
+        $em->persist($question);
         $em->flush();
 			
         $view = $this->view($tag)->setFormat('json');

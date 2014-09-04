@@ -132,7 +132,20 @@
       
       <!-- CHAT -->
       <section class="tab-pane" id="chat">
-      <h5>File d'attente</h5>
+      	<h5>Conversations</h5>
+		<div class="row">
+            <label class="switch">
+            	<input name="chatAutoSetOperator" type="checkbox" <% if (chatAutoSetOperator) { %> checked <% } %> >
+            	<span></span>
+            </label>
+            <p>Attribuer automatiquement un opérateur s'il est disponible</p>
+    	</div>
+    	
+	    <p class="administration-p">Limiter le nombre de conversations à</p>
+    	<input name="chatMax" type="text" class="form-control chatMax" value="<%= chatMax %>">
+    	<p class="administration-p">par opérateur disponible.</p>
+    	
+        <h5>File d'attente</h5>
 		<div class="row">
             <label class="switch">
             	<input name="chatQueue" type="checkbox" <% if (chatQueue) { %> checked <% } %> >
@@ -142,27 +155,9 @@
     	</div>
     	<div>
         	<p class="administration-p">Limiter la file d'attente à</p>
-        	<input name="chatQueueLimit" type="text" class="form-control chatQueueLimit" value="<%= chatQueueLimit %>">
+        	<input name="chatMaxQueue" type="text" class="form-control chatMaxQueue" value="<%= chatMaxQueue %>">
         	<p class="administration-p">places par conseiller en production.</p>
     	</div>
-    	<!--
-        <h5 class="m-t-lg">Discussion</h5>
-        <div class="row">
-            <label class="switch">
-            	<input type="checkbox">
-            	<span></span>
-            </label>
-            <p>Activer un message d'accueil</p>
-    	</div>
-		<div id="editor" class="form-control textarea" style="overflow:scroll;height:50px;max-height:150px;width: 600px;" contenteditable="true"></div>
-        <div class="row">
-            <label class="switch">
-            	<input type="checkbox">
-            	<span></span>
-            </label>
-            <p>Afficher un message de fin de discussion</p>
-    	</div>
-    	-->
       </section>
     </div>
   </section>               

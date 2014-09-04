@@ -64,6 +64,7 @@ class VisitorTopic implements TopicInterface
         $visitor->lastname = null;
         $visitor->email = null;
         $visitor->operator = null;
+        $visitor->satisfaction = null;
         $visitor->banned = false;
         $visitor->closed = true;
         $visitor->startTime = time();

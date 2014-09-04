@@ -23,6 +23,9 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Lily\BackOfficeBundle\Entity\Config;
 use Lily\BackOfficeBundle\Form\ConfigType;
 
+use \ZMQContext;
+use \ZMQ;
+
 class ConfigController extends BaseController
 {
     /**
@@ -34,13 +37,13 @@ class ConfigController extends BaseController
     }
         
     /**
-     * @Get("/config")
+     * @Get("/get")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getAction(Request $request) {
 	    
-	    $cname = $this->getEnterprise()->getCname();	    
-	    $config = $this->get('memcache.default')->get('config_'.$cname);
+	    $key = $this->getEnterprise()->getKey();	    
+	    $config = $this->get('memcache.default')->get('config_'.$key);
 		
 		if (!$config) {
 		
@@ -48,7 +51,7 @@ class ConfigController extends BaseController
     				   	   ->getRepository('LilyBackOfficeBundle:Config')
 					   	   ->findOneById(1);    	  			  
 			
-			$this->get('memcache.default')->set('config_'.$cname, $config, 604800);
+			$this->get('memcache.default')->set('config_'.$key, $config, 0);
 		
 		}
     					  
@@ -62,7 +65,7 @@ class ConfigController extends BaseController
     }
     
     /**
-     * @Put("/config/update")
+     * @Put("/update")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function updateAction(Request $request) {
@@ -80,11 +83,18 @@ class ConfigController extends BaseController
         $em->persist($config);
         $em->flush();
         
-        $cname = $this->getEnterprise()->getCname();
-        $this->get('memcache.default')->set('config_'.$cname, $config, 604800);
+        $key = $this->getEnterprise()->getKey();
+        $this->get('memcache.default')->set('config_'.$key, $config, 0);        
+        		
+		// Tell our chat app that config changed
+		$context = new ZMQContext();
+		$socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+		$socket->connect("tcp://localhost:5555");
+
+		$socket->send(json_encode(array('action' => 'config', 'key' => $key)));	
         
         $view = $this->view($config)->setFormat('json');
-		return $this->handleView($view);	
+		return $this->handleView($view);
 	    
     }
     

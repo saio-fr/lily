@@ -547,7 +547,8 @@ MESSAGES
 	height: 100%;
 	margin-top: 25px;
 	/*	padding-left: 5px;*/
-	padding-top: 80px;
+	margin-top: 30px;
+	padding-top: 100px;
 	padding-bottom: 250px;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -559,7 +560,7 @@ MESSAGES
 	overflow-y: auto;
 	/*	overflow-x: hidden;*/
 	-webkit-user-select: initial;
-	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.3)), color-stop(30%,rgba(255,255,255,1)));
+	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(19%,rgba(255,255,255,0.3)), color-stop(29%,rgba(255,255,255,1)));
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
@@ -590,6 +591,10 @@ MESSAGES
 	float: left;
 	margin-left: 70px;
 	margin-top: 15px;
+}
+
+#chat-box-messages .lily-msg-chat-wait {
+	margin-left: 5px;
 }
 
 #chat-box-messages .lily-msg-chat-operator-info {
@@ -715,6 +720,46 @@ MESSAGES
 	margin-bottom: 60px;
 }
 
+#lily-chat-notation-wrapper{
+	position: relative;
+	z-index: 4;
+	background: #fcfcfc;
+	width: 100%;
+	text-align: right;
+	margin-right: 15px;
+	height: 45px;
+}
+
+#lily-chat-notation-wrapper p{
+	display: inline-block;
+	color: #747172;
+	font-size: 11px;
+}
+
+.lily-chat-notation{
+	display: inline-block;
+	cursor: pointer;
+	font-style: normal;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	margin-top: 10px;
+	margin-left: 7px;
+}
+
+#lily-chat-notation-wrapper .lily-icon-thumb-up:before{
+	font-size: 16px !important;
+}
+.lily-icon-thumb-up.active {
+	color: #747474;
+}
+#lily-chat-notation-wrapper .lily-icon-thumb-down:before{
+	font-size: 16px !important;
+	margin-right: 12px !important;
+}
+.lily-icon-thumb-down.active {
+	color: #747474;
+}
 .lily-notation-list{
 	display: inline-block;
 	cursor: pointer;

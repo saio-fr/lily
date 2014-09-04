@@ -1,0 +1,167 @@
+<?php
+
+namespace Lily\BackOfficeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation AS JMS;
+
+/**
+ * Config
+ *
+ * @ORM\Table(name="LilyConfig")
+ * @ORM\Entity
+ */
+class Config
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="chat", type="boolean")
+     */
+    private $chat;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("chatQueue")
+     * @ORM\Column(name="chatQueue", type="boolean")
+     */
+    private $chatQueue;
+    
+    /**
+     * @var smalling
+     *
+     * @JMS\SerializedName("chatMax")
+     * @ORM\Column(name="chatMax", type="smallint")
+     */
+    private $chatMax;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("chatAutoSetOperator")
+     * @ORM\Column(name="chatAutoSetOperator", type="boolean")
+     */
+    private $chatAutoSetOperator;
+    
+    /**
+     * @var smallint
+     *
+     * @JMS\SerializedName("chatMaxQueue")
+     * @ORM\Column(name="chatMaxQueue", type="smallint")
+     */
+    private $chatMaxQueue;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="avi", type="boolean")
+     */
+    private $avi;
+    
+    /**
+     * @var string
+     *
+     * @JMS\SerializedName("aviName")
+     * @ORM\Column(name="aviName", type="string")
+     */
+    private $aviName;
+    
+    /**
+     * @var string
+     *
+     * @JMS\SerializedName("aviWelcomeMsg")
+     * @ORM\Column(name="aviWelcomeMsg", type="string")
+     */
+    private $aviWelcomeMsg;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("aviIfNoOperator")
+     * @ORM\Column(name="aviIfNoOperator", type="boolean")
+     */
+    private $aviIfNoOperator;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("aviAnimations")
+     * @ORM\Column(name="aviAnimations", type="boolean")
+     */
+    private $aviAnimations;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="faq", type="boolean")
+     */
+    private $faq;
+
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("topQuestions")
+     * @ORM\Column(name="topQuestions", type="boolean")
+     */
+    private $topQuestions;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="maintenance", type="boolean")
+     */
+    private $maintenance;
+
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("redirectionChat")
+     * @ORM\Column(name="redirectionChat", type="boolean")
+     */
+    private $redirectionChat;
+
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("redirectionMail")
+     * @ORM\Column(name="redirectionMail", type="boolean")
+     */
+    private $redirectionMail;
+
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("redirectionTel")
+     * @ORM\Column(name="redirectionTel", type="boolean")
+     */
+    private $redirectionTel;
+
+    /**
+     * @var string
+     *
+     * @JMS\SerializedName("home")
+     * @ORM\Column(name="home", type="string", length=10)
+     */
+    private $home;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

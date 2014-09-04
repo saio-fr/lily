@@ -84,16 +84,16 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		$avi = $this->get('kernel')->getRootDir() . '/../web/customer/'.$cname.'/js/avatar.js';
 		$avi = file_get_contents($avi);
 		
-		$config = $memcache->get('config_'.$cname);
+		$config = $memcache->get('config_'.$key);
 		
 		if (!$config) {
 			
 			$config = $em->getRepository('LilyBackOfficeBundle:Config')->findOneById(1);
-			$memcache->set('config_'.$cname, $config, 3600);
+			$memcache->set('config_'.$key, $config, 3600);
 		
 		}
 		
-		$phone = $memcache->get('phone_'.$cname);
+		$phone = $memcache->get('phone_'.$key);
 		
 		if (!$phone) {
 			
@@ -101,7 +101,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 						->findOneByBydefault(1)
 						->getPhone();	
 							
-			$memcache->set('phone_'.$cname, $phone, 3600);
+			$memcache->set('phone_'.$key, $phone, 3600);
 		
 		}
 		
@@ -139,7 +139,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		if (!$enterprise) {
 			
 			$enterprise = $this->getEnterprise($key);
-			$memcache->set($key, $enterprise, 86400);
+			$memcache->set($key, $enterprise, 0);
 		
 		}
     	

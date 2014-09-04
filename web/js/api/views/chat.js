@@ -7,8 +7,10 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	
 	events: {
 		'keyup #lily-search-form' : 'writing',
-		'submit #lily-search-form': 'doChat',
-		'click #lily-go': 'doChat'
+		'submit #lily-search-form' : 'doChat',
+		'click #lily-go' : 'doChat',
+		'click .lily-icon-thumb-up' : 'satisfaction',
+		'click .lily-icon-thumb-down' : 'satisfaction'
 	},	
 	
 	initialize: function() {
@@ -79,7 +81,8 @@ lily.Views.Chat = lily.Extensions.View.extend({
 					model: message,
 				}).render();
 				break;
-			case 'operator':	
+			case 'operator':
+				this.$el.find('.lily-msg-chat-wait').hide();	
 				var messageView = new lily.Views.MessageChatOperator({
 					model: message
 				}).render();
@@ -96,16 +99,22 @@ lily.Views.Chat = lily.Extensions.View.extend({
 		
 	},
 	
-    avatar: function() {
-    	
-    	// On charge l'avatar de l'opérateur
-		/*
-    	home = this;
-		$.getScript( root+licence+'/avatar', function( data ) {});
-		*/
+	satisfaction: function(e) {
 		
-		return this;
+		target = $(e.target);
+		this.$el.find('#lily-chat-notation-wrapper i').removeClass('active');
 		
-    }
+		if (target.hasClass('lily-icon-thumb-up')) {
+			s = true;
+			this.$el.find('.lily-icon-thumb-up').addClass('active');
+		}
+		else {
+			s = false;
+			this.$el.find('.lily-icon-thumb-down').addClass('active');
+		}
+		
+		lily.ws.call('chat/satisfaction', { sid: sid, satisfaction: s } );
+		
+	}
 	
 });

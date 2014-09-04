@@ -24,13 +24,13 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;     
 
 use Lily\ChatBundle\Server\App\App;
+use Lily\ChatBundle\Server\App\Config;
 use Lily\ChatBundle\Server\MessageLogger;
 use Lily\ChatBundle\Server\FOSUserProvider;
 
 
 class RatchetChatCommand extends ContainerAwareCommand
-{
-
+{	
     protected function configure(){
         $this->setName('ratchet:start')
              ->setDescription('Start ratchet server');
@@ -42,6 +42,7 @@ class RatchetChatCommand extends ContainerAwareCommand
 		// Setup services
 		$handler = $this->getContainer()->get('session.handler');
 		$chat = $this->getContainer()->get("lily_chat.app");
+		$config = new Config($chat, $this->getContainer());
 		
 		$loop = LoopFactory::create();
     	$loop->addPeriodicTimer(60, array($chat, 'timedCallback'));    	        
@@ -50,17 +51,33 @@ class RatchetChatCommand extends ContainerAwareCommand
 		$context = new Context($loop);
 		$pull = $context->getSocket(ZMQ::SOCKET_PULL);
 		$pull->bind('tcp://127.0.0.1:5555');
-		
-		$pull->on('message', function ($params) {
+					
+		$pull->on('message', function ($params) use ($config) {
+
 			$params = json_decode($params, true);
-			$this->getContainer()->get('memcache.default')->set('chat_available_'.$params['key'], $params['available'], 3600);
+			$memcache = $this->getContainer()->get('memcache.default');
+			
+			switch ($params['action']) {
+			
+				case 'available':
+					$memcache->set('chat_available_'.$params['key'], $params['available'], 3600);
+					break;
+					
+				case 'config':
+					$config->setConfig($params['key']);
+					break;
+					
+			}
+
 		});
 
         $WsServer = new WsServer(
 						                	 
             	new SessionProvider (
             		new FOSUserProvider(
-            			new WampServer($chat), $this->getContainer()
+            			new WampServer(
+            				$config
+            				), $this->getContainer()
             			)
             		, $handler
                 )
@@ -69,8 +86,7 @@ class RatchetChatCommand extends ContainerAwareCommand
         $server = new App('dev2.saio.fr', 8080, '0.0.0.0', $loop);
         // Domain that are able to connect to our chat
         $server->route('/chat/{key}', $WsServer, array('dev2.saio.fr', 'prod1.saio.fr', 'prod2.saio.fr', 'saio.fr'));
-        $server->run();
-        
+        $server->run();        
      
     }
 }

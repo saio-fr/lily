@@ -65,26 +65,43 @@ chat.DashboardView = Backbone.View.extend({
 		// Variable initialisation
 		that = this;
 
-		this.visitors.all = this.collection.where({ type: 'visitor', closed: false, banned: false });
-		this.visitors.chatting = this.visitors.all.filter(function(model) {
+		this.visitors = this.collection.where({ type: 'visitor', closed: false, banned: false });
+		this.visitors.chatting = this.visitors.filter(function(model) {
 			var v = model.get('operator');
 			return ((typeof(v)!=='undefined') && (v!==null));
 		});		
+	
 		this.operators.available = this.collection.where({ type: 'operator', available: true });	
 			
 		this.stats.duration = 0;
 		this.stats.messages = 0;
 		this.stats.chats = 0;
 		this.stats.waiting = 0;
+		this.stats.pages = 0;
+		this.stats.satisfactions = 0;
+		this.stats.satisfied = 0;
 		this.stats.now = moment();
 		
 		// Calculs
-		if (this.operators.available.length > 0 && this.visitors.chatting.length > 0) {
+		if (this.operators.available.length > 0 && this.visitors.length > 0) {
 			
-			$.each(this.visitors.chatting, function(key, visitor) {
-				that.stats.messages += visitor.get('messages').length;
-				that.stats.waiting += visitor.get('startChatTime') - visitor.get('startTime');
-				that.stats.duration += that.stats.now.diff( moment(visitor.get('startChatTime')*1000) );			
+			$.each(this.visitors, function(key, visitor) {
+				
+				v = visitor.get('operator');
+				if (typeof(v) !== 'undefined' && v!==null) {
+													
+					that.stats.messages += visitor.get('messages').length;
+					that.stats.waiting += visitor.get('startChatTime') - visitor.get('startTime');
+					that.stats.duration += that.stats.now.diff(moment(visitor.get('startChatTime')*1000));
+					if (visitor.get('satisfaction') !== null) that.stats.satisfactions += 1;
+					if (visitor.get('satisfaction')) that.stats.satisfied += 1;
+					
+				}
+				
+				$.each(visitor.get('pages'), function(key, page) {
+					that.stats.pages += 1;
+				});
+				
 			});
 			
 			// Messages per chat
@@ -100,6 +117,13 @@ chat.DashboardView = Backbone.View.extend({
 			
 			// Simultaneous chats per operator
 			this.stats.chats = Math.round( this.visitors.chatting.length / this.operators.available.length *10 ) / 10;
+			
+			// Pages seen by visitors
+			this.stats.pages = Math.round( this.stats.pages / this.visitors.length );
+			
+			// Visitors' satisfaction
+			if (this.stats.satisfactions !== 0) this.stats.satisfaction = Math.round( 100 * (this.stats.satisfied / this.stats.satisfactions) );
+			else this.stats.satisfaction = 100;
 							
 		} 
 		
@@ -110,8 +134,11 @@ chat.DashboardView = Backbone.View.extend({
 		$('.operators .icon-comments').text( this.stats.messages );
 		
 		// Visitors
-		$('.visitors .connected span').text( this.visitors.all.length );
+		$('.visitors .connected span').text( this.visitors.length );
 		$('.visitors .icon-time').text( this.stats.waiting );
+		$('.visitors .icon-eye-open').text( this.stats.pages );
+		$('.visitors .icon-thumbs-up').text( this.stats.satisfaction + '%' );
+		console.log(this.stats.satisfaction);
 		
 		// Pie Chart
 		this.updatePieChart();
@@ -120,7 +147,7 @@ chat.DashboardView = Backbone.View.extend({
     
     updatePieChart: function () {
 
-	    this.stats.load = ( this.visitors.all.length / this.operators.available.length ) * 10;
+	    this.stats.load = ( this.visitors.length / this.operators.available.length ) * 10;
 	    
 	    if (this.stats.load > 100) this.stats.load = 100;
 	    if (this.operators.length == 0) this.stats.load = 0;

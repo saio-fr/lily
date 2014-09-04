@@ -35,10 +35,27 @@ lsw_memcache:
     clients:
         default:
             hosts:
-              - { dsn: 37.59.26.170, port: 11211 }
+              - { dsn: 178.33.238.71 , port: 11211 }
             options:
                 compression: true
                 serializer: json
+                prefix_key: ""
+                hash: default
+                distribution: consistent
+                libketama_compatible: true
+                buffer_writes: true
+                binary_protocol: true
+                no_block: true
+                tcp_nodelay: false
+                socket_send_size: 4096
+                socket_recv_size: 4096
+                connect_timeout: 1000
+                retry_timeout: 0
+                send_timeout: 0
+                recv_timeout: 0
+                poll_timeout: 1000
+                cache_lookups: false
+                server_failure_limit: 0
     doctrine:
         metadata_cache:
             client: default

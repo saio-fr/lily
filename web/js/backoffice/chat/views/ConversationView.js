@@ -174,7 +174,7 @@ chat.Views.Conversation = Backbone.View.extend({
 		    
     minus: function(e) {
 		
-		e.stopPropagation();
+		if (typeof(e) !== 'undefined') e.stopPropagation();
 		
 	  	var that = this;
 		

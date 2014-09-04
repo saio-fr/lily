@@ -18,20 +18,22 @@ use Lily\ChatBundle\Event\ClientErrorEvent;
 
 class Chat implements WampServerInterface, MessageComponentInterface {
 
-    protected $topicHandler, $rpcHandler, $eventDispatcher, $clients, $available, $maxChats, $maxQueue;
+    protected $topicHandler, $rpcHandler, $eventDispatcher, $clients, $available;
 
     public function __construct(RPCHandlerInterface $rpcHandler, TopicHandlerInterface $topicHandler, EventDispatcherInterface $eventDispatcher)
     {
+    	$this->context = new ZMQContext();
+		$this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+		$this->socket->connect("tcp://localhost:5555");
+		
         $this->rpcHandler = $rpcHandler;
         $this->topicHandler = $topicHandler;
         $this->eventDispatcher = $eventDispatcher;
 
         $this->clients = new \SplObjectStorage;
+        
         $this->operator = new Topic('operator');
         $this->available = false;
-        $this->key = '';
-        $this->maxChats = 4;
-        $this->maxQueue = 5;
     }
 
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible) {
@@ -40,7 +42,7 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     }
 
     public function onCall(Conn $conn, $id, $topic, array $params) {
-        $this->rpcHandler->dispatch($conn, $id, $topic, $params, $this->clients);
+        $this->rpcHandler->dispatch($conn, $id, $topic, $params, $this->clients, $this->config);
         $this->operator->broadcast($this->toArray($this->clients));
         $this->isAvailable();
     }
@@ -53,14 +55,13 @@ class Chat implements WampServerInterface, MessageComponentInterface {
         $this->isAvailable();
         
     }
-    public function onUnSubscribe(Conn $conn, $topic) {  
-    	if ($topic->getId() == 'operator') $this->operator = $topic;    	
+    public function onUnSubscribe(Conn $conn, $topic) {     	
         $this->topicHandler->onUnSubscribe($conn, $topic, $this->clients);
         $this->operator->broadcast($this->toArray($this->clients));
         $this->isAvailable();
     }
 
-    public function onOpen(Conn $conn) {   	
+    public function onOpen(Conn $conn) {
         $event = new ClientEvent($conn, ClientEvent::$connected);             
         $this->eventDispatcher->dispatch("lily.client.connected", $event);  
     }
@@ -69,7 +70,6 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     }
 
     public function onClose(Conn $conn) {
-    	echo 'closed';
         $event = new ClientEvent($conn, ClientEvent::$disconnected);
         $this->eventDispatcher->dispatch("lily.client.disconnected", $event);        
     }
@@ -83,20 +83,16 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     
     public function isAvailable() {
     	
-    	$this->context = new ZMQContext();
-		$this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-		$this->socket->connect("tcp://localhost:5555");
-    	
     	$this->available = false;
     	$operators = 0;	
     	$queue = 0;
     	
     	foreach($this->clients as $item) {
 	    	if ($item->type == 'operator') {
-	    		$this->key = $item->enterprise;
+	    		
 	    		if ($item->available) {
 		    		$operators +=1;
-		    		if ($item->chats <= $this->maxChats) {
+		    		if ($item->chats <= $this->config->chatMax) {
 			    		$this->available = true;
 						break;
 		    		}
@@ -109,18 +105,18 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     	}
 
 	    if (!$this->available && $operators > 0) {
-			if ($queue < $this->maxQueue * $operators) $this->available = true;
+			if ($queue < $this->config->chatMaxQueue * $operators) $this->available = true;
 			else $this->available = false;
 	    }
 	    	  	  	
-    	$this->socket->send(json_encode(array('key' => $this->key, 'available' => $this->available)));
+    	$this->socket->send(json_encode(array('key' => $this->key, 'action' => 'available', 'available' => $this->available)));
     	
     }
     
    /**
     * Convert our clients to array
     */
-	function toArray($data)
+	public function toArray($data)
 	{
         $result = array();
         foreach ($data as $key => $value) { $result[$key] = (array) $value; }
@@ -143,5 +139,4 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 		$this->operator->broadcast($this->toArray($this->clients));
 		     
     }
-
 }

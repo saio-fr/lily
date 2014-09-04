@@ -11,7 +11,7 @@ $(function(){
 	
 	lily.Config = Backbone.Model.extend({
 		
-		url: "/config",
+		url: "/get",
 	    initialize: function () {	    	
 	    },
 		
@@ -100,13 +100,17 @@ $(function(){
 		    this.model.set({'redirectionChat': redirectionChat});
 		    
 		    // Chat
+		    chatAutoSetOperator = this.$el.find('input[name="chatAutoSetOperator"]').is(':checked');
+		    chatMax = this.$el.find('input[name="chatMax"]').val();
 		    chatQueue = this.$el.find('input[name="chatQueue"]').is(':checked');
-		    chatQueueLimit = this.$el.find('input[name="chatQueueLimit"]').val();
+		    chatMaxQueue = this.$el.find('input[name="chatMaxQueue"]').val();
 		    
+		    this.model.set({'chatAutoSetOperator': chatAutoSetOperator});
+		    this.model.set({'chatMax': chatMax});
 		    this.model.set({'chatQueue': chatQueue});
-		    this.model.set({'chatQueueLimit': chatQueueLimit});
+		    this.model.set({'chatMaxQueue': chatMaxQueue});
 		    
-		    this.model.url = '/config/update';
+		    this.model.url = '/update';
 		    
 		    // Save the parameters
 		    this.model.save(null, {

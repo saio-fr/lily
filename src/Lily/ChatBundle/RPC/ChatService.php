@@ -110,12 +110,13 @@ class ChatService
    /**
     * Open the conversation with the visitor
     */
-    public function open(Conn $conn, $params, $clients)
+    public function open(Conn $conn, $params, $clients, $config)
     {	 
-        
+
         foreach ($clients as $item) {
-			if ($item->type === 'operator' && $item->available && $item->chats <= 4) {
-				
+
+			if ($item->type === 'operator' && $item->available && ($item->chats < $config->chatMax)) {
+
 				$availables[] = $item;
 								
 			}
@@ -127,15 +128,17 @@ class ChatService
 
 				if ($item->operator !== null) return;
 
-				if (!empty($availables)) {
+				if (!empty($availables) && $config->chatAutoSetOperator) {
 
 					$key = array_rand($availables, 1);
-
+					$availables[$key]->chats += 1;
+					
 					$operator = array('id' => $availables[$key]->id, 
 									  'firstname' => $availables[$key]->firstname, 
 									  'avatar' => $availables[$key]->avatar);
-									  echo '3';
+									  
 					$item->operator = $availables[$key]->id;
+					$item->startChatTime = time();
 					
 					$item->messages[] = array('id' => uniqid(), 
 											  'from' => 'operator', 
@@ -143,13 +146,6 @@ class ChatService
 											  'date' => time(), 
 											  'msg' => $availables[$key]->welcome);					  
 									
-				} else {
-				
-					$item->messages[] = array('id' => uniqid(), 
-											  'from' => 'operator', 
-											  'operator' => $operator, 
-											  'date' => time(), 
-											  'msg' => 'Veuillez patienter, un opérateur va vous répondre.');
 				}
 				
 				$item->topic->broadcast($item->messages);
@@ -194,12 +190,14 @@ class ChatService
     	$chats = 0;
     	
         foreach ($clients as $item) {
-			if ($item->operator == $conn->User->getId()) {
+
+			if (isset($item->operator) && $item->operator == $conn->User->getId()) {
+
 				$item->operator = null;
 				$chats += 1;
 			}
 		}
-		
+
 		foreach ($clients as $item) {
 			if ($item->id === $conn->User->getId()) { 
 				$item->available = false;
@@ -248,6 +246,19 @@ class ChatService
 				$item->writing = $params['writing'];
 			}
 		}		
+		return array('result' => true);		
+    }
+    
+   /**
+    * Set chat satisfaction
+    */
+    public function satisfaction(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $params['sid']) { 
+				$item->satisfaction = $params['satisfaction'];
+			}
+		}	
 		return array('result' => true);		
     }
     

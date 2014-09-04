@@ -2,12 +2,20 @@
 	<header id="lily-header" class="lily-cst-header">
 		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
 		{% if enterprise.avi and config.avi %}
-		<a href="#/avi" class="lily-right"><p>Posez votre question à Lily<i class="lily-icon lily-icon-avatar"></i></p></a>
+		<a href="#/avi" class="lily-right"><p>Posez votre question à {{ config.aviName }}<i class="lily-icon lily-icon-avatar"></i></p></a>
 		{% endif %}
 	</header>
+	<section id="lily-chat-notation-wrapper">
+		<p>Etes-vous satisfait de la conversation ?</p>
+		<i class="lily-chat-notation lily-icon lily-icon-thumb-up lily-cst-icon-thumb-up"></i>
+		<i class="lily-chat-notation lily-icon lily-icon-thumb-down lily-cst-icon-thumb-down"></i>
+	</section>
 	<section class="lily-main-content">
 		<div id="chat-box-messages" class="chat-messages scrollable">
 		<!-- Here goes the bubbles-->
+		  <div class="lily-msg-chat-operator lily-cst-msg-chat-operator lily-msg-chat-wait">
+		    <p>Bonjour. Veuillez poser votre question, un opérateur va y répondre.</p>
+		  </div>
 		</div>		
 	</section>
 	<section class="lily-search lily-cst-search lily-search-open" id="lily-search">

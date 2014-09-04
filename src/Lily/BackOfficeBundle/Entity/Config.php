@@ -20,14 +20,14 @@ class Config
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    public $id;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="chat", type="boolean")
      */
-    private $chat;
+    public $chat;
     
     /**
      * @var boolean
@@ -35,22 +35,38 @@ class Config
      * @JMS\SerializedName("chatQueue")
      * @ORM\Column(name="chatQueue", type="boolean")
      */
-    private $chatQueue;
+    public $chatQueue;
+    
+    /**
+     * @var smalling
+     *
+     * @JMS\SerializedName("chatMax")
+     * @ORM\Column(name="chatMax", type="smallint")
+     */
+    public $chatMax;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("chatAutoSetOperator")
+     * @ORM\Column(name="chatAutoSetOperator", type="boolean")
+     */
+    public $chatAutoSetOperator;
     
     /**
      * @var smallint
      *
-     * @JMS\SerializedName("chatQueueLimit")
-     * @ORM\Column(name="chatQueueLimit", type="smallint")
+     * @JMS\SerializedName("chatMaxQueue")
+     * @ORM\Column(name="chatMaxQueue", type="smallint")
      */
-    private $chatQueueLimit;
+    public $chatMaxQueue;
     
     /**
      * @var boolean
      *
      * @ORM\Column(name="avi", type="boolean")
      */
-    private $avi;
+    public $avi;
     
     /**
      * @var string
@@ -58,7 +74,7 @@ class Config
      * @JMS\SerializedName("aviName")
      * @ORM\Column(name="aviName", type="string")
      */
-    private $aviName;
+    public $aviName;
     
     /**
      * @var string
@@ -66,7 +82,7 @@ class Config
      * @JMS\SerializedName("aviWelcomeMsg")
      * @ORM\Column(name="aviWelcomeMsg", type="string")
      */
-    private $aviWelcomeMsg;
+    public $aviWelcomeMsg;
     
     /**
      * @var boolean
@@ -74,7 +90,7 @@ class Config
      * @JMS\SerializedName("aviIfNoOperator")
      * @ORM\Column(name="aviIfNoOperator", type="boolean")
      */
-    private $aviIfNoOperator;
+    public $aviIfNoOperator;
     
     /**
      * @var boolean
@@ -82,7 +98,7 @@ class Config
      * @JMS\SerializedName("aviAnimations")
      * @ORM\Column(name="aviAnimations", type="boolean")
      */
-    private $aviAnimations;
+    public $aviAnimations;
 
 
     /**
@@ -90,7 +106,7 @@ class Config
      *
      * @ORM\Column(name="faq", type="boolean")
      */
-    private $faq;
+    public $faq;
 
     /**
      * @var boolean
@@ -98,14 +114,14 @@ class Config
      * @JMS\SerializedName("topQuestions")
      * @ORM\Column(name="topQuestions", type="boolean")
      */
-    private $topQuestions;
+    public $topQuestions;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="maintenance", type="boolean")
      */
-    private $maintenance;
+    public $maintenance;
 
     /**
      * @var boolean
@@ -113,7 +129,7 @@ class Config
      * @JMS\SerializedName("redirectionChat")
      * @ORM\Column(name="redirectionChat", type="boolean")
      */
-    private $redirectionChat;
+    public $redirectionChat;
 
     /**
      * @var boolean
@@ -121,7 +137,7 @@ class Config
      * @JMS\SerializedName("redirectionMail")
      * @ORM\Column(name="redirectionMail", type="boolean")
      */
-    private $redirectionMail;
+    public $redirectionMail;
 
     /**
      * @var boolean
@@ -129,7 +145,7 @@ class Config
      * @JMS\SerializedName("redirectionTel")
      * @ORM\Column(name="redirectionTel", type="boolean")
      */
-    private $redirectionTel;
+    public $redirectionTel;
 
     /**
      * @var string
@@ -137,7 +153,7 @@ class Config
      * @JMS\SerializedName("home")
      * @ORM\Column(name="home", type="string", length=10)
      */
-    private $home;
+    public $home;
 
     /**
      * Get id
@@ -158,7 +174,7 @@ class Config
     public function setChat($chat)
     {
         $this->chat = $chat;
-    
+
         return $this;
     }
 
@@ -173,166 +189,96 @@ class Config
     }
 
     /**
-     * Set faq
+     * Set chatQueue
      *
-     * @param boolean $faq
+     * @param boolean $chatQueue
      * @return Config
      */
-    public function setFaq($faq)
+    public function setChatQueue($chatQueue)
     {
-        $this->faq = $faq;
-    
+        $this->chatQueue = $chatQueue;
+
         return $this;
     }
 
     /**
-     * Get faq
+     * Get chatQueue
      *
      * @return boolean 
      */
-    public function getFaq()
+    public function getChatQueue()
     {
-        return $this->faq;
+        return $this->chatQueue;
     }
 
     /**
-     * Set topQuestions
+     * Set chatMax
      *
-     * @param boolean $topQuestions
+     * @param integer $chatMax
      * @return Config
      */
-    public function setTopQuestions($topQuestions)
+    public function setChatMax($chatMax)
     {
-        $this->topQuestions = $topQuestions;
-    
+        $this->chatMax = $chatMax;
+
         return $this;
     }
 
     /**
-     * Get topQuestions
+     * Get chatMax
+     *
+     * @return integer 
+     */
+    public function getChatMax()
+    {
+        return $this->chatMax;
+    }
+
+    /**
+     * Set chatAutoSetOperator
+     *
+     * @param boolean $chatAutoSetOperator
+     * @return Config
+     */
+    public function setChatAutoSetOperator($chatAutoSetOperator)
+    {
+        $this->chatAutoSetOperator = $chatAutoSetOperator;
+
+        return $this;
+    }
+
+    /**
+     * Get chatAutoSetOperator
      *
      * @return boolean 
      */
-    public function getTopQuestions()
+    public function getChatAutoSetOperator()
     {
-        return $this->topQuestions;
+        return $this->chatAutoSetOperator;
     }
 
     /**
-     * Set maintenance
+     * Set chatMaxQueue
      *
-     * @param boolean $maintenance
+     * @param integer $chatMaxQueue
      * @return Config
      */
-    public function setMaintenance($maintenance)
+    public function setChatMaxQueue($chatMaxQueue)
     {
-        $this->maintenance = $maintenance;
-    
+        $this->chatMaxQueue = $chatMaxQueue;
+
         return $this;
     }
 
     /**
-     * Get maintenance
+     * Get chatMaxQueue
      *
-     * @return boolean 
+     * @return integer 
      */
-    public function getMaintenance()
+    public function getChatMaxQueue()
     {
-        return $this->maintenance;
+        return $this->chatMaxQueue;
     }
-
-    /**
-     * Set redirectionChat
-     *
-     * @param boolean $redirectionChat
-     * @return Config
-     */
-    public function setRedirectionChat($redirectionChat)
-    {
-        $this->redirectionChat = $redirectionChat;
-    
-        return $this;
-    }
-
-    /**
-     * Get redirectionChat
-     *
-     * @return boolean 
-     */
-    public function getRedirectionChat()
-    {
-        return $this->redirectionChat;
-    }
-
-    /**
-     * Set redirectionMail
-     *
-     * @param boolean $redirectionMail
-     * @return Config
-     */
-    public function setRedirectionMail($redirectionMail)
-    {
-        $this->redirectionMail = $redirectionMail;
-    
-        return $this;
-    }
-
-    /**
-     * Get redirectionMail
-     *
-     * @return boolean 
-     */
-    public function getRedirectionMail()
-    {
-        return $this->redirectionMail;
-    }
-
-    /**
-     * Set redirectionTel
-     *
-     * @param boolean $redirectionTel
-     * @return Config
-     */
-    public function setRedirectionTel($redirectionTel)
-    {
-        $this->redirectionTel = $redirectionTel;
-    
-        return $this;
-    }
-
-    /**
-     * Get redirectionTel
-     *
-     * @return boolean 
-     */
-    public function getRedirectionTel()
-    {
-        return $this->redirectionTel;
-    }
-
-    /**
-     * Set home
-     *
-     * @param string $home
-     * @return Config
-     */
-    public function setHome($home)
-    {
-        $this->home = $home;
-    
-        return $this;
-    }
-
-    /**
-     * Get home
-     *
-     * @return string 
-     */
-    public function getHome()
-    {
-        return $this->home;
-    }
-
 
     /**
      * Set avi
@@ -343,7 +289,7 @@ class Config
     public function setAvi($avi)
     {
         $this->avi = $avi;
-    
+
         return $this;
     }
 
@@ -366,7 +312,7 @@ class Config
     public function setAviName($aviName)
     {
         $this->aviName = $aviName;
-    
+
         return $this;
     }
 
@@ -389,7 +335,7 @@ class Config
     public function setAviWelcomeMsg($aviWelcomeMsg)
     {
         $this->aviWelcomeMsg = $aviWelcomeMsg;
-    
+
         return $this;
     }
 
@@ -404,52 +350,6 @@ class Config
     }
 
     /**
-     * Set chatQueue
-     *
-     * @param boolean $chatQueue
-     * @return Config
-     */
-    public function setChatQueue($chatQueue)
-    {
-        $this->chatQueue = $chatQueue;
-    
-        return $this;
-    }
-
-    /**
-     * Get chatQueue
-     *
-     * @return boolean 
-     */
-    public function getChatQueue()
-    {
-        return $this->chatQueue;
-    }
-
-    /**
-     * Set chatQueueLimit
-     *
-     * @param integer $chatQueueLimit
-     * @return Config
-     */
-    public function setChatQueueLimit($chatQueueLimit)
-    {
-        $this->chatQueueLimit = $chatQueueLimit;
-    
-        return $this;
-    }
-
-    /**
-     * Get chatQueueLimit
-     *
-     * @return integer 
-     */
-    public function getChatQueueLimit()
-    {
-        return $this->chatQueueLimit;
-    }
-
-    /**
      * Set aviIfNoOperator
      *
      * @param boolean $aviIfNoOperator
@@ -458,7 +358,7 @@ class Config
     public function setAviIfNoOperator($aviIfNoOperator)
     {
         $this->aviIfNoOperator = $aviIfNoOperator;
-    
+
         return $this;
     }
 
@@ -481,7 +381,7 @@ class Config
     public function setAviAnimations($aviAnimations)
     {
         $this->aviAnimations = $aviAnimations;
-    
+
         return $this;
     }
 
@@ -493,5 +393,166 @@ class Config
     public function getAviAnimations()
     {
         return $this->aviAnimations;
+    }
+
+    /**
+     * Set faq
+     *
+     * @param boolean $faq
+     * @return Config
+     */
+    public function setFaq($faq)
+    {
+        $this->faq = $faq;
+
+        return $this;
+    }
+
+    /**
+     * Get faq
+     *
+     * @return boolean 
+     */
+    public function getFaq()
+    {
+        return $this->faq;
+    }
+
+    /**
+     * Set topQuestions
+     *
+     * @param boolean $topQuestions
+     * @return Config
+     */
+    public function setTopQuestions($topQuestions)
+    {
+        $this->topQuestions = $topQuestions;
+
+        return $this;
+    }
+
+    /**
+     * Get topQuestions
+     *
+     * @return boolean 
+     */
+    public function getTopQuestions()
+    {
+        return $this->topQuestions;
+    }
+
+    /**
+     * Set maintenance
+     *
+     * @param boolean $maintenance
+     * @return Config
+     */
+    public function setMaintenance($maintenance)
+    {
+        $this->maintenance = $maintenance;
+
+        return $this;
+    }
+
+    /**
+     * Get maintenance
+     *
+     * @return boolean 
+     */
+    public function getMaintenance()
+    {
+        return $this->maintenance;
+    }
+
+    /**
+     * Set redirectionChat
+     *
+     * @param boolean $redirectionChat
+     * @return Config
+     */
+    public function setRedirectionChat($redirectionChat)
+    {
+        $this->redirectionChat = $redirectionChat;
+
+        return $this;
+    }
+
+    /**
+     * Get redirectionChat
+     *
+     * @return boolean 
+     */
+    public function getRedirectionChat()
+    {
+        return $this->redirectionChat;
+    }
+
+    /**
+     * Set redirectionMail
+     *
+     * @param boolean $redirectionMail
+     * @return Config
+     */
+    public function setRedirectionMail($redirectionMail)
+    {
+        $this->redirectionMail = $redirectionMail;
+
+        return $this;
+    }
+
+    /**
+     * Get redirectionMail
+     *
+     * @return boolean 
+     */
+    public function getRedirectionMail()
+    {
+        return $this->redirectionMail;
+    }
+
+    /**
+     * Set redirectionTel
+     *
+     * @param boolean $redirectionTel
+     * @return Config
+     */
+    public function setRedirectionTel($redirectionTel)
+    {
+        $this->redirectionTel = $redirectionTel;
+
+        return $this;
+    }
+
+    /**
+     * Get redirectionTel
+     *
+     * @return boolean 
+     */
+    public function getRedirectionTel()
+    {
+        return $this->redirectionTel;
+    }
+
+    /**
+     * Set home
+     *
+     * @param string $home
+     * @return Config
+     */
+    public function setHome($home)
+    {
+        $this->home = $home;
+
+        return $this;
+    }
+
+    /**
+     * Get home
+     *
+     * @return string 
+     */
+    public function getHome()
+    {
+        return $this->home;
     }
 }

@@ -17,7 +17,9 @@ class ConfigType extends AbstractType
         $builder
             ->add('chat')
             ->add('chatQueue')
-            ->add('chatQueueLimit')
+            ->add('chatMax')
+            ->add('chatAutoSetOperator')
+            ->add('chatMaxQueue')
             ->add('avi')
             ->add('aviName')
             ->add('aviWelcomeMsg')

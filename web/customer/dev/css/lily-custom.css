@@ -63,12 +63,12 @@ input.lily-cst-search-input:ms-input-placeholder {color: #b1b3b4;}
 
 /* Message */
 
-.lily-cst-msg-avatar, #lily-box-messages .lily-cst-msg-redirection, #lily-box-messages .lily-cst-msg-precision{
+.lily-cst-msg-avatar, #lily-box-messages .lily-cst-msg-redirection, #lily-box-messages .lily-cst-msg-precision {
 	background: #e5e5e5;
 	color: #595959;
 }
 
-#lily-box-messages .lily-cst-msg-reporting{
+#lily-box-messages .lily-cst-msg-reporting, .lily-cst-msg-chat-operator {
 	color: #595959;
 }
 

@@ -6,5 +6,5 @@ use Ratchet\ConnectionInterface as Conn;
 
 interface RPCHandlerInterface
 {
-    public function dispatch(Conn $conn, $id, $topic, array $params, $clients);
+    public function dispatch(Conn $conn, $id, $topic, array $params, $clients, $config);
 }
