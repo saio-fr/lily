@@ -70,20 +70,22 @@ chat.DashboardView = Backbone.View.extend({
 			var v = model.get('operator');
 			return ((typeof(v)!=='undefined') && (v!==null));
 		});		
-	
-		this.operators.available = this.collection.where({ type: 'operator', available: true });	
+		
+		this.operators = this.collection.where({ type: 'operator' });
+		this.available = this.collection.where({ type: 'operator', available: true });	
 			
 		this.stats.duration = 0;
 		this.stats.messages = 0;
 		this.stats.chats = 0;
 		this.stats.waiting = 0;
 		this.stats.pages = 0;
+		this.stats.satisfaction = 100;
 		this.stats.satisfactions = 0;
 		this.stats.satisfied = 0;
 		this.stats.now = moment();
 		
 		// Calculs
-		if (this.operators.available.length > 0 && this.visitors.length > 0) {
+		if (this.available.length > 0 && this.visitors.length > 0) {
 			
 			$.each(this.visitors, function(key, visitor) {
 				
@@ -116,7 +118,7 @@ chat.DashboardView = Backbone.View.extend({
 			this.stats.duration = moment( this.stats.duration ).format('mm:ss');
 			
 			// Simultaneous chats per operator
-			this.stats.chats = Math.round( this.visitors.chatting.length / this.operators.available.length *10 ) / 10;
+			this.stats.chats = Math.round( this.visitors.chatting.length / this.available.length *10 ) / 10;
 			
 			// Pages seen by visitors
 			this.stats.pages = Math.round( this.stats.pages / this.visitors.length );
@@ -128,7 +130,7 @@ chat.DashboardView = Backbone.View.extend({
 		} 
 		
 		// Operators
-		$('.operators .connected span').text( this.operators.available.length );
+		$('.operators .connected span').text( this.available.length );
 		$('.operators .icon-male').text( this.stats.chats );
 		$('.operators .icon-time').text( this.stats.duration );
 		$('.operators .icon-comments').text( this.stats.messages );
@@ -138,7 +140,10 @@ chat.DashboardView = Backbone.View.extend({
 		$('.visitors .icon-time').text( this.stats.waiting );
 		$('.visitors .icon-eye-open').text( this.stats.pages );
 		$('.visitors .icon-thumbs-up').text( this.stats.satisfaction + '%' );
-		console.log(this.stats.satisfaction);
+
+		// List of connected operators
+		if (typeof(this.connected) !== 'undefined') this.connected.remove();
+		this.connected = new chat.DashboardListConnectedView({collection: this.operators});
 		
 		// Pie Chart
 		this.updatePieChart();
@@ -147,7 +152,7 @@ chat.DashboardView = Backbone.View.extend({
     
     updatePieChart: function () {
 
-	    this.stats.load = ( this.visitors.length / this.operators.available.length ) * 10;
+	    this.stats.load = ( this.visitors.length / this.available.length ) * 10;
 	    
 	    if (this.stats.load > 100) this.stats.load = 100;
 	    if (this.operators.length == 0) this.stats.load = 0;

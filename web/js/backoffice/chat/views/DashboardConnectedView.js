@@ -16,7 +16,7 @@ chat.DashboardConnectedView = Backbone.View.extend({
     render: function () {
     
 	    var template= _.template( $('#dashboard_connected').html());
-	    this.$el.html( template() );
+	    this.$el.html( template(this.model.toJSON()) );
 		this.$el.prependTo( '.list-connected' );
 	    
     }
