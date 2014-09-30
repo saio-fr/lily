@@ -1,0 +1,18 @@
+  <div class="media">
+    <span class="pull-left thumb-sm"><img src="<%= avatar %>" alt="avatar" class="img-circle"></span>
+    <div class="pull-right <% if (available) { %>text-success <% } else { %> text-danger <% } %> m-t-sm">
+      <i class="icon-circle"></i>
+    </div>
+    <div class="media-body">
+      <div><a href="#"><%= firstname %> <%= lastname %></a></div>
+      <small class="text-muted"><% _.each(services, function(service){ console.log(service)}); %></small>
+    </div>
+  </div>
+  
+  <div class="validate hide clear">
+    <span class="validate-title">Transférer la conversation à <%= firstname %> <%= lastname %> ?</span>
+    <span class="transfer-validation">
+      <button type="button" class="btn btn-sm btn-danger pull-right m-l-xs">Non</button>
+      <button type="button" class="btn btn-sm btn-success pull-right" data-dismiss="modal">Oui</button>
+    </span>
+  </div>

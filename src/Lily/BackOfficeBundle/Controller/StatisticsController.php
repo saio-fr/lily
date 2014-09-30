@@ -222,7 +222,7 @@ class StatisticsController extends BaseController
 		
 				$value = $this->getEntityManager()
     			     	 	  ->getRepository('LilyApiBundle:LogNotation')
-					 	      ->averageSatisfaction($date[$i+$level], $date[$i]);
+					 	      ->satisfaction($date[$i+$level], $date[$i]);
 					 	 						
 				$timestamp = ($date[$i]->getTimestamp().'000');
 				$data[] = array($timestamp, $value);
@@ -288,7 +288,7 @@ class StatisticsController extends BaseController
    		// SATISFACTION   		
    		$satisfaction = $this->getEntityManager()
    							 ->getRepository('LilyApiBundle:LogNotation')
-   							 ->averageSatisfaction($from, $to);
+   							 ->satisfaction($from, $to);
    		
    		$satisfaction = round($satisfaction, 0);		  
 

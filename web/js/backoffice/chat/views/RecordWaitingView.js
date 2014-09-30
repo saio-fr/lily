@@ -10,6 +10,8 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 	
 	initialize: function() {
 		
+		this.listenTo(this.model, 'change:operator', this.update); 
+    	this.listenTo(this.model, 'change:closed', this.update);
 		this.listenTo(this.model, 'change:messages', this.status);
 		// The visitor has been waiting over 2 minutes without reply
 		this.listenTo(this.model, 'urgent', this.urgent);
@@ -69,15 +71,7 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 		that = this;
 		
 		sess.call('chat/set_operator', { sid: this.model.get('id') } ).then(function (result) {
-		   
-		   // Delete this view
-		   that.remove();
-		   
-		   // Change waiting counter
-		   chat.app.live.counter.waiting -=1;
-		   $('.header-waiting span').html(chat.app.live.counter.waiting);
-
-		   
+   
 		   if (chat.app.windows.length < chat.app.maxWindows) {
 		   
 				// Create a new conversation view
@@ -94,10 +88,20 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 				chat.app.trigger('change:windows');
 				
 			}
+			
+		   // Delete this view
+		   that.remove();
 		   		   
 		}, function(error) {
 		   
 		});		
+		
+	},
+	
+	update: function() {
+
+		if (this.model.get('operator') !== null) this.remove();
+		if (this.model.get('closed')) this.remove();		
 		
 	}
 	

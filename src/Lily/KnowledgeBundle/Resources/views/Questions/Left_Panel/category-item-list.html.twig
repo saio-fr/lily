@@ -1,0 +1,18 @@
+{%verbatim%}
+<span class="bg-transparent" >
+	<i class="lily-icon lily-icon-label-full text-danger pull-left m-t-xs display-category" style="color:#<%=color %>" data-checked=""></i>
+	<div class="category-item-list"  data-id="<%=id%>">
+		<%= title%>
+	</div>	
+
+	
+	<!--Recréer la liste des sous catégories en faisant un each app.listCategories en faisant un test sur les catégories parents -->
+	<%if(typeof(children)!='undefined'){%>
+	<i class="lily-icon lily-icon-arrow-down text"></i>
+	<i class="lily-icon lily-icon-arrow-up text-active"></i>
+	<ul class="list-sub-categories hide">
+	</ul>
+	<%}%>
+</span>
+
+{%endverbatim%}

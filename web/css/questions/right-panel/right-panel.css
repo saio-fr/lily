@@ -1,0 +1,46 @@
+
+
+/*ANSWER PANEL*/
+#question-content {
+  position: absolute;
+  top: 100px;
+  right: 0;
+  z-index: 10001;
+  height:100%;
+  min-height:800px;
+  min-width:450px;
+}
+#question-content > * {
+height:100%;
+}
+
+#question-content > * >* >section{
+height:100%;
+}
+#question-content > * > * >* >section{
+height:100%;
+}
+@media(max-width:993px){
+#question-content{
+top:50px;
+}
+}
+@media(max-width:780px) and (min-width:768px){
+#question-content{
+width:380px;
+}
+}
+@media(max-width:768px){
+#question-content{
+top:190px;
+}
+}
+/*Buttons save/update/cancel*/
+
+
+
+/*Title "ARBRE DES REPONSES */
+
+
+
+/*A TRIER*/

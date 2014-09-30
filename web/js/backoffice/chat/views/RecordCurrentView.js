@@ -103,8 +103,7 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		if (chat.app.windows.length < chat.app.maxWindows) {
 
 			// Create a new conversation view
-			chat.app.windows.unshift( new chat.Views.Conversation({ model: this.model }) );
-			
+			chat.app.windows.unshift( new chat.Views.Conversation({ model: this.model }) );			
 			chat.app.trigger('change:windows');
 		
 		} else {

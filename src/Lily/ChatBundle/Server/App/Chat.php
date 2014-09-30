@@ -18,14 +18,11 @@ use Lily\ChatBundle\Event\ClientErrorEvent;
 
 class Chat implements WampServerInterface, MessageComponentInterface {
 
-    protected $topicHandler, $rpcHandler, $eventDispatcher, $clients, $available;
+    protected $topicHandler, $rpcHandler, $eventDispatcher, $clients;
+    public $available;
 
     public function __construct(RPCHandlerInterface $rpcHandler, TopicHandlerInterface $topicHandler, EventDispatcherInterface $eventDispatcher)
-    {
-    	$this->context = new ZMQContext();
-		$this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-		$this->socket->connect("tcp://localhost:5555");
-		
+    {	
         $this->rpcHandler = $rpcHandler;
         $this->topicHandler = $topicHandler;
         $this->eventDispatcher = $eventDispatcher;
@@ -94,7 +91,7 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 		    		$operators +=1;
 		    		if ($item->chats <= $this->config->chatMax) {
 			    		$this->available = true;
-						break;
+						return $this->available;
 		    		}
 	    		}
 	    	}
@@ -104,12 +101,12 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 		    }
     	}
 
-	    if (!$this->available && $operators > 0) {
-			if ($queue < $this->config->chatMaxQueue * $operators) $this->available = true;
+	    if ($operators > 0) {
+			if ($queue <= $this->config->chatMaxQueue * $operators) $this->available = true;
 			else $this->available = false;
 	    }
-	    	  	  	
-    	$this->socket->send(json_encode(array('key' => $this->key, 'action' => 'available', 'available' => $this->available)));
+
+		return $this->available;
     	
     }
     
@@ -129,7 +126,7 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 	public function timedCallback() {
 
         // Test if visitor is still connected
-		foreach ($this->clients as $item) {		
+		foreach ($this->clients as $item) {
 			if ($item->type === 'visitor' && $item->lastConn < ( time() - 1800 )) { 
 				// Detach the client
 				$this->clients->detach($item);				

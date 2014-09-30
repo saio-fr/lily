@@ -76,6 +76,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		$cname = $enterprise->getCname();
 		$theme = $enterprise->getTheme();
 		$memcache = $this->get('memcache.default');
+		
 		$available = $memcache->get('chat_available_'.$key);
 		
 		$em = $this->get('doctrine')->getManager($cname);
@@ -125,7 +126,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 			$em->flush();			 
 
 		}
-				
+
         return $this->render('LilyApiBundle:themes:'.$theme.'/index.html.twig', array('key' => $key, 'config' => $config, 'phone' => $phone, 'enterprise' => $enterprise, 'avatar' => $avi, 'available' => $available)); 
         
     }
@@ -176,8 +177,10 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     public function createQueryAction($key, Request $request)
     {    
 
-		// On initialise nos variables			
-		$cname = $this->getEnterprise($key)->getCname();
+		// On initialise nos variables		
+		$enterprise = $this->getEnterprise($key);	
+		$cname = $enterprise->getCname();
+		$memcache = $this->get('memcache.default');
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
 		$em = $this->get('doctrine')->getManager($cname);
 		$session = $this->container->get('session');
@@ -210,7 +213,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		$logrequest->setSession($session->getId());
 		$logrequest->setQuery($request->get('query'));
 		
-		// Support d'utilisation	
+		// Support utilisé	
 		if ($mobileDetector->isMobile()) { $logrequest->setMedia('mobile'); }			
 		if ($mobileDetector->isTablet()) { $logrequest->setMedia('tablet'); }
 		if (!$mobileDetector->isMobile() && !$mobileDetector->isTablet()) { $logrequest->setMedia('pc'); }	
@@ -340,9 +343,11 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		
 		$redirectionMail = $config->getRedirectionMail();							  
 		$redirectionTel = $config->getRedirectionTel();			
-		$redirectionChat = $config->getRedirectionChat();
+		$redirectionChat = $config->getRedirectionChat() || $enterprise->getLivechat();
+		// Is chat available ?
+		$chatAvailable = $memcache->get('chat_available_'.$key);
 		
-		$response = array('redirection' => $redirection, 'isMail' => $redirectionMail, 'isTel' => $redirectionTel, 'isChat' => $redirectionChat);
+		$response = array('redirection' => $redirection, 'isMail' => $redirectionMail, 'isTel' => $redirectionTel, 'isChat' => $redirectionChat, 'chatAvailable' => $chatAvailable);
         
 		$em->persist($redirection);
 		$em->flush();

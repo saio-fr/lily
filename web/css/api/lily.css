@@ -797,21 +797,7 @@ MESSAGES
 	position: absolute;
 }
 
-.lily-redirection-mail{
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	margin-right: 3px;
-	margin-top: 10px;
-	text-align: center;
-	line-height: 34px;
-	font-size: 25px !important;
-	border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-}
-
-.lily-redirection-tel{
+.lily-redirection-tel, .lily-redirection-mail, .lily-redirection-chat {
 	width: 40px;
 	height: 40px;
 	display: inline-block;
@@ -1176,7 +1162,7 @@ MEDIA QUERIES
 
 @media screen and (max-width: 300px){
 	#lily-box-messages {
-		width: 95%;
+		width: 100%;
 	}
 }	
 
@@ -1184,7 +1170,7 @@ MEDIA QUERIES
 
 #lily-box-messages {
 	min-width: 320px;
-	width: 95%;
+	width: 100%;
 	font-size: 0.9em;
 }
 

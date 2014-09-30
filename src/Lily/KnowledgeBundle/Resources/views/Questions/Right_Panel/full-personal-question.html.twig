@@ -1,0 +1,244 @@
+{%verbatim%}
+		  <section class="vbox">
+            <section class="scrollable hover">
+			 <!--<div class="wrapper bg-dark b-b title-header-right-panel">
+			 <%if(Backbone.history.fragment=="unanswered"){%>
+			 <h5 class="m-t-xxs m-b-xs3">Ajouter une réponse</h5>
+			 <h5 class="m-t-xxs m-b-xs3">Ajouter une réponse</h5>
+			 <%} else {%>
+			  <%if(typeof(title)!='undefined'){%>
+                <h5 class="m-t-xxs m-b-xs3">Modifier la question</h5>
+				<%} else {%>
+				<h5 class="m-t-xxs m-b-xs3">Ajouter une question</h5>
+				<%}%>
+				<%}%>
+              </div>-->
+              <section class="panel">
+                <header class="panel-heading bg-light menu-right-side-panel">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#reponse" data-toggle="tab">Réponse</a></li>
+				
+				  <!--<li class="" id="panel-category"><a href="#category" data-toggle="tab">Catégories</a></li>-->
+
+				  <!--<li class=""><a href="#wrapper-mood" data-toggle="tab">Humeur</a></li>-->
+                    <%if(typeof(this.model.id)!=='undefined'){%>
+						<li class="onglet-versions"><a href="#version-question-existante" data-toggle="tab">Versions</a></li>
+					<%}%>
+                  </ul>
+                </header>
+
+                <div class="panel-body wrapper-answer-panel">
+                  <div class="tab-content">
+                    <div class="tab-pane active " id="reponse">
+	                                  <!--  <div class="text-sm padder m-t">-->
+						<div class="wrapper-categories">						
+							<div>Catégorie</div>
+							
+						<!--	<%if((typeof(category)!=='undefined')&&(category!==null)){%>
+								<input id="category" placeholder="Choisir la catégorie de la question" class="hide"/> 
+								<div id="wrapper-category-choosen" >
+									<div class="label category-choosen" style="background:#<%=category.color%>;color:black;" data-id="<%=category.id%>" data-color="category.color" data-title="<%=category.title%>">									
+										<%=category.title%>    
+										<span class="destroy-label">x</span>
+									</div>
+								</div>
+								<ul id="list-categories-displayed">
+								</ul>
+							<%} else {%>
+								<input id="category" placeholder="Choisir la catégorie de la question"/> 
+								<div id="wrapper-category-choosen" class="hide">
+								</div>
+								<ul id="list-categories-displayed">
+								</ul>
+								
+							<%}%>-->
+							<input id="category" placeholder="Choisir la catégorie de la question"/> 
+								<div id="wrapper-category-choosen" class="hide">
+								</div>
+								<ul id="list-categories-displayed">
+								</ul>
+						</div>
+				
+				
+				
+				
+				<div class="block clearfix v-middle m-b title-header-right-panel">
+					Arbre de réponses
+				</div>
+           
+               
+			<div class="wrapper-tree-buttons">   
+				<!--<button href="#" class="btn btn-sm m-r  button-action">                    
+					<i class="icon-plus text"></i>                    
+                    <span class="text">Action</span>                  
+                </button>-->
+				<!--<button href="#" class="btn btn-sm btn-white m-r button-precision">                    
+					<i class="icon-plus text"></i>                    
+					<span class="text">Précisions
+					</span>                  
+                </button>-->
+				<button href="#" class="btn btn-sm m-r  button-add-personal-answer">                    
+					<i class="icon-plus text"></i>                    
+					<span class="text">Réponse</span>                  
+				</button>  
+				<button href="#" class="btn btn-sm button-delete  " >                                                                
+					<span class="text">Supprimer</span>                  
+				</button> 
+			</div>
+       
+    
+
+            
+
+             <!-- </div>--> 
+                      <div class="form-group tree-answers">
+                        <!--  <h6 class="font-semibold"></h6>Arbre de réponses--> 
+     <div class="dd">				  
+                            
+                    
+                     <ol class="dd-list" id="wrapper-tree-answers">	
+				 
+                   <!--     <li class="dd-item dd3-item" data-id="IDMODELE">				      -->
+<%if(typeof(id)=='undefined'){%>
+<li class="dd-item dd3-item" data-id="0">	
+<%}else {%>
+<li class="dd-item dd3-item" data-id="<%=id%>">	
+
+<%}%>
+					<!--	<div class="dd-handle dd3-handle">Drag</div>-->
+												
+<div class="input-group dd3-content wrapper-title">
+			<%if(typeof(id)=='undefined'){%>
+						<input class="question-parent form-control" placeholder="Titre de la question">
+		<%} else {%>
+					<input class="question-parent form-control" value="<%=title%>">
+		<%}%>
+                         <!-- <input type="text" class="form-control" placeholder="Input your comment here">-->
+                            <span class="input-group-btn" style="width:5px"><!---->
+							</span>
+						  <span class="input-group-btn">
+                          		<button class="btn dropdown-toggle select-mood" data-toggle="dropdown">
+		 </span>
+	<!--	<div class="icon-select-questions"></div>-->
+		<!-- filter-header filter-buttons-->
+<span class="caret"></span> 
+<%if(typeof(this.model.get('mood'))!=='undefined'){%>
+            <i class="lily-icon icon-<%=this.model.get('mood')%>" data-name="<%=this.model.get('mood')%>"></i>
+<%} else{%>
+<i class="lily-icon icon-neutral " data-name="neutral"></i>
+<%}%>
+</button> 
+<ul  class="list-moods dropdown-menu">
+
+                  </ul>
+                          </span>
+                        </div>
+                          <ol class="dd-list wrapper-precision wrapper-answer active" id="questions-enfants">				        
+
+                              
+                              
+                              
+  				        
+        </ol>		       
+                      			  
+							</ol>			        
+								</div>
+                            </div>	
+				      </div>
+                   
+           
+                          <!--</textarea>-->
+                          <!-- Début du WYSISWYG-->
+                          <!--<div class="btn-toolbar btn-editor" data-role="editor-toolbar" data-target="#editor">
+						    <div class="btn-group m-t-sm">
+                            <a class="btn btn-white btn-sm" data-edit="bold" title="" data-original-title="Gras (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                            <a class="btn btn-white btn-sm" data-edit="italic" title="" data-original-title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                            <a class="btn btn-white btn-sm" data-edit="underline" title="" data-original-title="Souligné (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+                          </div>
+						    <div class="btn-group m-t-sm m-l-sm">
+                            <a class="btn btn-white btn-sm" title="" id="pictureBtn" data-original-title="Insérer un document (ou &amp; drop)"><i class="icon-picture"></i></a>
+                            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 40px; height: 30px;">
+                          </div>
+						    <div class="btn-group m-t-sm m-l-sm">
+                          <a class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown" title="" data-original-title="Lien"><i class="icon-link"></i></a>
+                            <div class="dropdown-menu">
+                              <div class="input-group m-l-xs m-r-xs">
+                                <input class="form-control input-sm" placeholder="URL" type="text" data-edit="createLink">
+                                <div class="input-group-btn">
+                                  <button class="btn btn-white btn-sm" type="button">Ajouter</button>
+                                </div>
+                              </div>
+                            </div>
+                            <a class="btn btn-white btn-sm" data-edit="unlink" title="" data-original-title="Supprimer le lien"><i class="icon-cut"></i></a>
+                          </div>
+						    <div class="btn-group m-t-sm m-l-sm">
+                            <a class="btn btn-white btn-sm" data-edit="undo" title="" data-original-title="Annuler (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                            <a class="btn btn-white btn-sm" data-edit="redo" title="" data-original-title="Répéter (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+                          </div>
+                          </div>  --><!--Fin du WYSIWYG -->
+                        <!--</div>--><!--Fin du form group de la reponse-->
+              <!--</div>-->
+                    <div class="tab-pane" id="category">
+                                           <div class="form-group">
+                          <h6 class="font-semibold">Liste des catégories
+                                        
+            
+                     
+                  <!--     <button href="#" class="btn btn-sm m-r  button-answer">                    
+                        <i class="icon-plus text"></i>                    
+                        <span class="text">Catégorie                                           
+                        </span>                  
+                      </button>   -->
+                      <button href="#" class="btn btn-sm btn-white m-r  "                    
+                        <i class="icon-star"></i>                    
+                        <span class="text">Redirection active
+                        </span>                  
+                      </button>    
+                      </h6>
+                  
+                          
+                          
+                          
+                       Veuillez sélectionner
+                             
+                          <ul class="listeQuestionsPanneauAjout" id="list-categories-redirections" >
+                            
+            <!--liste des catégories disponibles -->
+                          </ul>
+                       <!-- </div>-->
+                        </div>                                              
+                    </div><!--Fin de la liste des catégories -->
+                    <!--<div class="tab-pane " id="wrapper-mood">
+                      <ul class="mood-list no-padder col-lg-3 col-md-3 col-sm-3 col-xs-12 clearfix content-mood">      
+     </ul>                                                                                                                                                                                                                                                                                                                                                           
+                          <div class="mood-avatar">
+                          </div>
+                    		   
+                
+                  </div>-->
+                      <div class="tab-pane" id="version-question-existante">
+                    <ul class="list-group no-radius m-b-none b-b list-group-alt pull-out-md" id="liste-version-question-existante">
+                    
+                    </ul>
+                    <div id="contenant-detail-version">
+                    
+                    </div>
+                    <!--Historique des versions-->	             
+                   </div>
+                </div>
+              </section>   <!-- End panel section-->
+<div class="wrapper-update-questions">
+			<!--Bouton cancel/update -->              
+              
+              <span class="pull-right btn btn-danger btn-sm text m-t-sm m-r-sm button-cancel" >Annuler</span>
+             
+			 <%if(typeof(answer)!='undefined'){%>
+			 <span  class="pull-right btn btn-success btn-sm m-t-sm m-r-sm text button-update" >Mettre à jour</span>
+<%} else {%>
+			 <span class="pull-right btn btn-success btn-sm m-t-sm m-r-sm text button-save">Enregistrer</span>
+<%}%>
+</div>			  
+            </section>
+          </section>
+
+		  {%endverbatim%}

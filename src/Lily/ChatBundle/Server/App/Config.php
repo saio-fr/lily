@@ -20,45 +20,31 @@ class Config implements WampServerInterface, MessageComponentInterface {
     protected $_container;
     
     protected $key;
+    protected $cname;
     protected $config;
+    protected $available;
 
-    public function __construct(WampServerInterface $app, ContainerInterface $container) {
+    public function __construct(WampServerInterface $app, $cname, $key, ContainerInterface $container) {
     
         $this->app = $app;
         $this->container = $container;
-        
-        $this->key = null;
+        $this->key = $key;
+        $this->cname = $cname;
+        $this->available = false;
         
         $this->memcache = $this->container->get('memcache.default');
-    }
-	// Trick to set key and config on first connect (how to get this from symfony2 router ?)
-    public function onOpen(Conn $conn) {
-    	
-    	if ($this->key == null) { 
-    	
-    		$this->key = $conn->WebSocket->request->getQuery()->get('key');
-    		
-	    	$this->config = $this->memcache->get('config_'.$this->key);
-			
-			if (!$this->config) {
-	
-	    		$enterprise = $this->container->get('doctrine')->getManager()
-					   	   		   ->getRepository('LilyUserBundle:Enterprise')
-					   	   		   ->findOneByKey($this->key);
-					   	   		 	 	 
-				$this->config = $this->container->get('doctrine')->getManager($enterprise->getCname())
-									 ->getRepository('LilyBackOfficeBundle:Config')
-									 ->findOneById(1);
-			   	  			  			
-			    $this->memcache->set('config_'.$this->key, $this->config, 0);
+
+		$this->config();
 		
-			}
-			
-			$this->app->key = $this->key;
-			$this->app->config = $this->config;   		
-    		
-    	}
-    	
+/*
+		$this->context = new ZMQContext();
+		$this->socket = $this->context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+		$this->socket->connect("tcp://localhost:5555");
+*/
+        
+    }
+
+    public function onOpen(Conn $conn) {	
         $this->app->onOpen($conn);
     }
 
@@ -76,6 +62,8 @@ class Config implements WampServerInterface, MessageComponentInterface {
 
     public function onCall(Conn $conn, $id, $topic, array $params) {
         $this->app->onCall($conn, $id, $topic, $params);
+        $this->memcache->set('chat_available_'.$this->key, $this->app->isAvailable(), 3600);
+        $this->app->available = $this->memcache->get('chat_available_'.$this->key);
     }
 
     public function onClose(Conn $conn) {
@@ -90,27 +78,21 @@ class Config implements WampServerInterface, MessageComponentInterface {
     	$this->app->onMessage($from, $msg);
     }
     
-    public function setConfig($key) {
-
-    	if ($key == $this->key) {
-
-	    	$this->config = $this->memcache->get('config_'.$this->key);
-			
-			if (!$this->config) {
-	
-	    		$enterprise = $this->container->get('doctrine')->getManager()
-					   	   		   ->getRepository('LilyUserBundle:Enterprise')
-					   	   		   ->findOneByKey($this->key);
-					   	   		 	 	 
-				$this->config = $this->container->get('doctrine')->getManager($enterprise->getCname())
-									 ->getRepository('LilyBackOfficeBundle:Config')
-									 ->findOneById(1);
-			   	  			  			
-			    $this->memcache->set('config_'.$this->key, $this->config, 0);
+    public function config() {
+	    	        
+        $this->config = $this->memcache->get('config_'.$this->key);
 		
-			}
-			$this->app->config = $this->config; 	    	
-    	}
+		if (!$this->config) {
+				   	   		 	 	 
+			$this->config = $this->container->get('doctrine')->getManager($this->cname)
+								 ->getRepository('LilyBackOfficeBundle:Config')
+								 ->findOneById(1);
+		   	  			  			
+		    $this->memcache->set('config_'.$this->key, $this->config, 0);
+	
+		}
+		
+		$this->app->config = $this->config; 
 		
     }
 

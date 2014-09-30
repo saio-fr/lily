@@ -1,0 +1,50 @@
+{%verbatim%}
+<%if(typeof(id)=='undefined'){%>
+
+<li class="dd-item dd3-item  largeur-pleine wrapper-action active panel" data-id="NULL">
+
+<%} else {%>
+<li class="dd-item dd3-item  largeur-pleine wrapper-action active panel" data-id="<%=id%>">
+<%}%>
+<!--dd handle is fot he icon to reorder the questions -->
+   <!--<div class="dd-handle dd3-handle">Drag</div>-->
+
+   
+   <div class="input-group dd3-content wrapper-action-field panel-heading">
+     <a href="#" class="panel-toggle text-muted"><i class="icon-plus text-active"></i><i class="icon-minus text"></i></a>
+			<%if(typeof(id)=='undefined'){%>
+						<input class="content-action form-control" placeholder="Titre de la question">
+		<%} else {%>
+					<input class="content-action form-control" value="<%=title%>">
+		<%}%>
+                         <!-- <input type="text" class="form-control" placeholder="Input your comment here">-->
+                            <span class="input-group-btn" style="width:5px;background:white"><!---->
+							</span>
+						  <span class="input-group-btn">
+                          		<button class="btn dropdown-toggle select-mood" data-toggle="dropdown">
+		 </span>
+	<!--	<div class="icon-select-questions"></div>-->
+		<!-- filter-header filter-buttons-->
+<span class="caret"></span> 
+
+<%if(typeof(this.model.get('mood'))!=='undefined'){%>
+<i class="lily-icon  icon-<%=mood%> " data-name="<%=mood%>"></i>
+<%} else{%>
+
+<% moodParent = this.$el.parent().parent().parent().find('.lily-icon').attr('data-name');%>
+
+<!--Only way to get the current parent's mood  -->
+            <i class=" lily-icon icon-<%=moodParent%>" data-name="<%=moodParent%>" data-name="<%=moodParent%>"></i>
+<%}%>
+</button>
+<ul  class="list-moods dropdown-menu">
+
+                  </ul>
+                          </span>  
+                        </div>
+           <ol class="dd-list wrapper-precision wrapper-answer panel-body active">
+           
+           </ol>
+		   </li>
+	
+{%endverbatim%}

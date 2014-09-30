@@ -1,0 +1,100 @@
+<!--Tempalte for the navigation and the meter of the diffferents types of questions -->
+<section class="panel pos-rlt clearfix block-answered">
+	<header class="panel-heading ">
+		<ul class="nav  pull-right">
+			<li class="icon-list-collapsed">
+				<a href="#" class="panel-toggle text-muted">
+					<i class="lily-icon lily-icon-arrow-down text-active"></i><i class="lily-icon lily-icon-arrow-up text"></i>
+				</a>
+			</li>
+			<li class=" panel-toggle text-muted title-block-meter" >
+				<a  class="meter-question">
+					<i class="icon-check"></i>Avec réponses
+				</a>
+			</li>
+		</ul>
+    </header>
+	<div class="panel-body clearfix" id="wrapper-answered">
+		<div class="dropdown pull-left m-r">
+			<ul class="nav  nav-stacked no-radius dropdown-menu pos-stc inline" role="menu" >
+				<li class="sub-meter meter-business-questions">
+					<a href="#business">
+						<span class="badge bg-success pull-right ">   ?</span> Métiers
+					</a>
+				</li>
+				<li class="sub-meter meter-personal-questions">
+					<a href="#personal" class="meter-questions-perso">
+						<span class="badge bg-blue-questions pull-right">  ?</span> 
+						Personnelles
+					</a>
+				</li>
+				<!--A décommenter quand table trash sera créée -->
+				<!--<li class="sub-meter meter-trash-questions">
+					<a href="#trash">
+						<span class="badge bg-danger pull-right"> X</span>Corbeille</a>
+				</li>-->
+			</ul>
+		</div>    
+	</div>
+</section>
+			  <!--Deuième sous menu -->
+<section class="panel pos-rlt clearfix block-unanswered">
+	<header class="panel-heading">
+		<ul class="nav  pull-right">
+			<li class="icon-list-collapsed">
+			  <a href="#wrapper-unanswered" class="panel-toggle text-muted">
+				<i class="lily-icon lily-icon-arrow-up text-active"></i>
+				<i class="lily-icon lily-icon-arrow-down text"></i></a>
+			</li>
+			<li class="panel-toggle text-muted title-block-meter" >
+				<a  class="meter-question">
+					<i class="icon-unchecked"></i>Non répondues
+				</a>
+			</li>
+		</ul> 
+	</header>
+	<div class="panel-body clearfix" id="wrapper-unanswered">
+		<div class="dropdown pull-left m-r">
+			<ul class="nav  nav-stacked no-radius dropdown-menu pos-stc inline" role="menu" aria-labelledby="dropdownMenu">
+				<li class="meter-unanswered-questions sub-meter">
+					<a href="#unanswered" class="">
+						<span class="badge bg-danger pull-right">  ?</span>Sans réponse
+					</a>
+				</li>                   
+				<!--A décommenter lorsque la partie spam sera implémentée en back -->
+				<!--<li class="sub-meter meter-spam-questions ">
+					<a href="#spam">
+						<span class="badge bg-danger pull-right"> X</span>Spam
+					</a>
+				</li>-->
+				
+				<!-- A décommenter lorsque la partie récupération de questions du live chat sera implémentée -->
+				<!--
+				<li class="sub-meter meter-live-chat-questions">
+					<a href="#questions-live-chat">
+						<span class="badge bg-danger pull-right"> X</span>Live Chat
+					</a>
+				</li>-->
+			</ul>
+		</div>
+	</div>
+</section>
+
+
+<!--<li class="sub-meter meter-all-questions">
+	<a href="#">
+		<span class="badge bg-success pull-right "></span>  Global
+		</a>
+</li>-->
+
+
+
+
+
+<!--<li class=" meter-synonyms">
+    <a href="#synonyms">
+        <span class="badge bg-blue-questions pull-right"> X</span> 
+        <i class="icon-user"></i>
+        Base de synonymes
+    </a>
+</li>-->

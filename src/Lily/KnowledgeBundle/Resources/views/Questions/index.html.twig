@@ -1,0 +1,319 @@
+  {% extends "LilyBackOfficeBundle::layout.html.twig" %} 
+  {% block stylesheets %} 	   
+
+      {{ parent() }} 	   
+
+      {% stylesheets 'js/nestable/nestable.css' 'js/fuelux/fuelux.css' 'css/icon.css' 'css/questions/left-menu/meter.css' 'css/questions/left-menu/categories.css' 'css/questions/questions.css' 'css/questions/left-menu.css' 'css/questions/right-panel/right-panel.css' 'css/questions/right-panel/answer.css' 'css/questions/right-panel/versions.css' 'css/questions/header.css' filter='cssrewrite' %}      
+  
+      <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+      {% endstylesheets %} 
+
+  {% endblock %}
+
+  
+
+  
+  {% block body %} 
+  
+
+
+      <section class="hbox stretch">	
+          {% include "LilyBackOfficeBundle::menu.html.twig" %} 	         
+
+          
+          {% block content %} 	 	 
+              
+
+              <!-- .vbox -->   
+              <section id="content">      
+
+                  	<div id="menu-content" class="input-group">
+						<span id="link-questions" class="form-control active"><a href="{{ path('lily_questions') }}" class="active">Questions</a></span>
+						<span id="link-faq" class="form-control"><a href="{{ path('lily_faq') }}">FAQ</a></span>
+						<span id="link-redirections" class="form-control"><a href="{{ path('lily_redirections') }}">Redirections</a></span>
+						<span id="link-synonyms" class="form-control"><a href="#">Base de synonymes</a></span>
+	
+					</div> 
+
+                  <section class="hbox stretch">        
+
+
+                      
+                      <!-- .aside -->        
+                      <aside class="aside left-side-menu bg-dark ">          
+                          <section class="vbox content-left-side-menu">            
+                              <!--<header class="dk header">
+                              <header class="dk header">
+                                  <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs" data-toggle="class:show" data-target="#questions-nav">
+                                      <i class="icon-reorder"></i>
+                                  </button>              
+                                  <p class="h4">Questions</p>            
+
+                              </header> -->           
+
+            
+                              <section>              
+                                  <section>                
+                                      <section id="questions-nav" class="hidden-xs">                                     
+  				                                
+                                          <ul class="nav  nav-stacked no-radius" id="nombre-questions">
+                                          </ul>
+                        
+                                          <div id="wrapper-categories">
+                                          </div>				                
+                
+                                      </section>              
+                                  </section>            
+                              </section>                     
+                          </section>        
+                      </aside>        
+                      
+                      <!-- /.aside -->        
+                      <!-- .aside -->        
+        
+                      <aside class="bg-light lter">          
+                          <section id="questions" class="vbox scrollable padder-b">     
+  		                        <section class="hbox stretch" id="contenant-page"> 	  
+                                  <!-- .aside -->                  
+                                  
+                                  <!-- Now in the Central template
+                                  <aside class="bg-white" id="question-list">
+                                      <section class="vbox">                  
+                                          <section id="list-questions-section" class="scrollable ">	                      	              
+                                              
+                                              Now corresponding to the tagName of ListQuestionsView
+                                              <ul id="list-questions" class="list-group no-borders m-b-none m-t-n-xxs list-group-alt list-group-lg liste-questions">
+                                              </ul>
+                                                       	              	          	              
+
+                                          </section>                
+                                      </section>              
+                                  </aside> 
+                                  -->             
+                                  
+                                  <!-- /.aside -->              
+                                  <!-- .aside -->              
+                                  
+                                  <aside class="bg-white hide col-lg-5 col-md-5 col-sm-12 col-xs-12 b-l" id="question-content">
+                                  </aside>              
+                                  
+                                  <!-- /.aside -->            
+                              </section>          
+                          </section>        
+                      </aside>         
+        
+
+                      <!-- /.aside -->      
+                  
+                  </section>      
+      
+                  <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>    
+    
+              
+              </section>    
+              <!-- /.vbox -->	 	
+
+          
+          {% endblock %} 	
+          
+
+          {% block templates %} 		
+              <!--Mettre ici l'appel des différents scripts de vue -->
+              
+
+
+  		
+
+
+              <!--******************************************************************
+                                      Side Left Menu
+              *******************************************************************-->
+  	
+              <!--Meter Questions-->
+              <script type="text/template" id="meter-questions">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/meter-questions.html.twig' %}
+              </script> 
+  	
+              <!--Categories -->		
+  		        <!--Wrapper Category -->		
+              <script type="text/template" id="wrapper-list-categories">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/wrapper-list-categories.html.twig' %}
+              </script> 				
+  		
+              <!--Item Category -->		
+              <script type="text/template" id="item-category">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/category-item-list.html.twig' %}
+              </script> 	
+			  
+			  <!--Item Category -->		
+              <script type="text/template" id="item-sub-category">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/sub-category-item-list.html.twig' %}
+              </script> 
+				
+       	      <!-- Wrapper category popup -->
+              <script type="text/template" id="creation-category">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/popup-category.html.twig' %}
+              </script>  		
+  		
+              <!--Square colored in the popup category -->
+              <script type="text/template" id="square-colored-category">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/square-colored-categories.html.twig' %}
+              </script> 
+  
+              <!-- List redirections in popup category-->		
+  		        <script type="text/template" id="redirection">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/redirection.html.twig' %}
+              </script> 	
+			  <!-- List categories parent in popup category-->		
+  		        <script type="text/template" id="category-parent">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/category-parent.html.twig' %}
+              </script> 	
+			  
+  		
+              <!--Buttons "hide categories" & "display all categories" -->
+              <script type="text/template" id="button-categories">
+            	   {% include 'LilyKnowledgeBundle:Questions:Left_Panel/button-categories.html.twig' %}
+              </script>
+  	
+
+              <!--******************************************************
+  		                               CENTRAL PANEL
+              **********************************************************-->
+   
+              <!--General template of Central Panel-->
+              <script type="text/template" id="centralPanelTemplate">
+                  {% include 'LilyKnowledgeBundle:Questions:Central_Panel/CentralPanel.html.twig' %}
+              </script>
+			  
+              <!--General template of Central panel personal-->
+              <script type="text/template" id="central-panel-personal">
+                  {% include 'LilyKnowledgeBundle:Questions:Central_Panel/central-panel-personal.html.twig' %}
+              </script>
+			<!--General template of central panel unanswered -->
+			 <script type="text/template" id="central-panel-unanswered">
+                  {% include 'LilyKnowledgeBundle:Questions:Central_Panel/central-panel-unanswered.html.twig' %}
+              </script>
+              <!--Label menu-->
+              <script type="text/template" id="label-questions">
+                  {% include 'LilyKnowledgeBundle:Questions:Central_Panel/Label.html.twig' %}
+              </script>
+
+              <!--List  Questions -->
+              <script type="text/template" id="question-item-list">
+  		            {% include 'LilyKnowledgeBundle:Questions:Central_Panel/question-item-list.html.twig' %}
+              </script>
+			
+		
+              <!--*******************************************************
+  		                              Right Side Panel
+  		        ************************************************************-->
+  
+              <!-- Full panel with a question "new question" or "questions without answer" or "question with answer"-->
+              <script type="text/template" id="full-question">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/full-question-display.html.twig' %}
+              </script>      
+  
+              <!--Full personal qquestion on the right side panel -->		
+              <script type="text/template" id="full-personal-question">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/full-personal-question.html.twig' %}
+              </script>     
+			
+			<!--Full personal qquestion on the right side panel -->		
+              <script type="text/template" id="full-unanswered-question">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/full-unanswered-question.html.twig' %}
+              </script> 
+            
+			<!--Template of the answer field-->
+              <script type="text/template" id="answer-question"> 
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/Answer/answer.html.twig' %}
+              </script> 
+
+  		        <!--Template precision field -->
+              <script type="text/template" id="wrapper-precision">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/Answer/precision.html.twig' %} 
+              </script>      
+  		
+              <!--Template to display an action -->
+              <script type="text/template" id="wrapper-action"> 
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/Answer/action.html.twig' %}
+              </script> 
+  		
+              <!--Template for the popup wysiwyg -->		 
+              <script type="text/template" id="wysiwyg">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/edit-wysiwyg.html.twig' %}
+              </script> 
+  	
+              <!-- Panel Mood--> 
+              <script type="text/template" id="mood">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/mood.html.twig' %}
+              </script> 
+				<!--List Categories -->
+              <script type="text/template" id="category-display">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/Category/category-display.html.twig' %}
+              </script>  
+				<script type="text/template" id="category-choosen">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/Category/category-choosen.html.twig' %}
+              </script>
+			  <!--List versions -->
+			 <script type="text/template" id="version-item">
+            	   {% include 'LilyKnowledgeBundle:Questions:Right_Panel/Version/version-item.html.twig' %}
+              </script>
+			<!--Version detail -->
+			<script type="text/template" id="version-detail">
+				{% include 'LilyKnowledgeBundle:Questions:Right_Panel/Version/version-detail.html.twig' %}
+			</script>  
+          {% endblock %}                 	
+
+
+          {% block bootstrap %} 	    
+              
+
+              {% autoescape false %} 	    
+  
+                  <script type="text/javascript">
+                      var root = '{{ path('lily_questions') }}';
+                      var redirections = '{{ path('lily_redirections') }}';
+  	              </script> 	    
+
+              {% endautoescape %} 	
+
+
+          {% endblock %} 
+      </section>
+
+
+
+
+  {% endblock %} 
+
+
+
+  {% block javascripts %} 
+      
+
+      {{ parent() }} 
+  	
+      {% javascripts 
+
+			'js/sortable/jquery.sortable.js'  'js/nestable/jquery.nestable.js' 'js/wysiwyg/jquery.hotkeys.js' 'js/wysiwyg/wysihtml5.js' 'js/questions/librairies/date.js'   'js/wysiwyg/bootstrap-wysihtml5.js'
+			'js/questions/main.js' 
+
+			'js/questions/left_menu/views/Meter.js' 'js/questions/left_menu/models/Category.js' 'js/questions/left_menu/collections/ListCategories.js' 'js/questions/left_menu/views/WrapperCategoriesView.js' 'js/questions/left_menu/views/CategoryView.js'  'js/questions/left_menu/views/ListCategoriesView.js' 'js/questions/left_menu/views/SubCategoryView.js' 'js/questions/left_menu/views/ListSubCategoriesView.js'  'js/questions/left_menu/views/Popup-categoryView.js' 'js/questions/left_menu/models/SquareColored.js' 'js/questions/left_menu/collections/ListSquaresColored.js' 'js/questions/left_menu/views/SquareColoredView.js' 'js/questions/left_menu/views/ListSquaresColoredView.js' 'js/questions/left_menu/models/Redirection.js' 'js/questions/left_menu/collections/ListRedirections.js' 'js/questions/left_menu/views/RedirectionView.js' 'js/questions/left_menu/views/ListRedirectionsView.js' 'js/questions/left_menu/views/CategoryParentView.js' 'js/questions/left_menu/views/ListCategoriesParentsView.js' 'js/questions/left_menu/views/Init-left-menuView.js' 
+
+			'js/questions/central_panel/models/QuestionModel.js' 'js/questions/central_panel/collections/ListQuestions.js' 'js/questions/central_panel/views/QuestionView.js' 'js/questions/central_panel/views/QuestionPersonalView.js' 'js/questions/central_panel/views/QuestionUnansweredView.js' 'js/questions/central_panel/views/ListQuestionsView.js'
+
+			'js/questions/central_panel/models/LabelModel.js' 'js/questions/central_panel/collections/ListLabelsCollection.js' 'js/questions/central_panel/views/LabelView.js' 'js/questions/central_panel/views/ListLabelsView.js' 'js/questions/central_panel/views/CategoryHeaderView.js' 'js/questions/central_panel/views/ListCategoryHeaderView.js' 'js/questions/central_panel/views/AppQuestionView.js' 'js/questions/central_panel/views/AppQuestionPersonalView.js' 'js/questions/central_panel/views/AppQuestionUnansweredView.js'
+
+			'js/questions/right_panel/business/views/QuestionBusinessFullView.js' 'js/questions/right_panel/business/views/answer_panel/AnswerView.js' 'js/questions/right_panel/business/views/answer_panel/WysiwygView.js' 'js/questions/right_panel/business/views/answer_panel/PrecisionView.js' 'js/questions/right_panel/business/views/answer_panel/ActionView.js' 'js/questions/right_panel/business/views/category_panel/CategoryChoosenView.js' 'js/questions/right_panel/business/views/category_panel/CategoryDisplayedView.js'  'js/questions/right_panel/business/views/category_panel/ListCategoriesDisplayedView.js' 'js/questions/right_panel/business/models/Mood.js' 'js/questions/right_panel/business/collections/ListMoods.js' 'js/questions/right_panel/business/views/answer_panel/moods/MoodView.js' 'js/questions/right_panel/business/views/answer_panel/moods/ListMoodsView.js' 'js/questions/right_panel/business/views/versions_panel/VersionView.js' 'js/questions/right_panel/business/views/versions_panel/ListVersionsView.js' 'js/questions/right_panel/business/views/versions_panel/VersionDetailView.js'
+			'js/questions/right_panel/personal/views/QuestionPersonalFullView.js'
+			'js/questions/right_panel/unanswered/views/QuestionUnansweredFullView.js'
+          'js/questions/router.js' 
+      %}   
+  
+      <script type="text/javascript" src="{{ asset_url }}">
+      </script>    
+
+      {% endjavascripts %} 
+
+
+  {% endblock %}

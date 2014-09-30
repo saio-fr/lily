@@ -42,7 +42,9 @@ class LogNotationRepository extends EntityRepository
 	
 	public function satisfaction($question) {
 		
-		$satisfaction = ($this->satisfied($question) / $this->notations($question)) * 100;
+		if ($this->notations($question) > 0) {
+			$satisfaction = ($this->satisfied($question) / $this->notations($question)) * 100;
+		} else { $satisfaction = 100; }
 		return $satisfaction;
 				
 	}

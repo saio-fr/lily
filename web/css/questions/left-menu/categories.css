@@ -1,0 +1,242 @@
+/**********************************************
+Categories sections
+**********************************************/
+.add-category{/
+cursor:pointer;
+} 
+#wrapper-categories{
+width:100%;
+height:80%;
+overflow-y:scroll;
+
+
+}
+#wrapper-list-categories .wrapper-title-list-categories{/*Header of list categories*/
+/*position: fixed;*/
+position:absolute;
+width: 230px;
+background:#f2f4f8;
+}
+.link-action{
+cursor:pointer;
+}
+
+#list-categories{
+height: 100%;
+padding-left:0;
+/*overflow-x: scroll;*/
+margin-top:35px;
+}
+/*Ancienne version*//*ul#list-categories>li.wrapper-category{
+height: auto;
+padding: 17px 12px 2px 13px;
+cursor: pointer;
+}*/
+ul#list-categories li.wrapper-category{
+height: auto;
+padding-top:17px;
+padding-bottom:2px;
+margin-left:13px;
+cursor: pointer;
+list-style-type:none;
+}
+
+ul#list-categories li.wrapper-category .display-category.undisplayed{
+visibility:hidden;
+}
+
+
+#list-categories .lily-icon.lily-icon-arrow-up:before,#list-categories .lily-icon.lily-icon-arrow-down:before{
+font-size:10px;
+
+}
+ul li.wrapper-category a.bg-transparent:hover {
+background:transparent;
+}
+/*
+ul#conteneur-wrapper-categorys{
+height:100%;
+}*/
+.category-item-list{
+display:inline-block;
+color:#a0a8b8;
+width:140px;
+margin-left:15px;
+}
+.list-sub-categories{
+background:#f2f4f8;
+margin-left:-10px;
+margin-top:10px;
+margin-bottom:-5px;
+}
+.list-sub-categories li{
+list-style-type:none;
+}
+
+.wrapper-sub-category{
+padding-top:7px;
+padding-bottom:7px;
+
+}
+.list-sub-categories .sub-category-item-list{
+margin-left:20px;
+margin-bottom:3px;
+}
+/*Popup Ajout catégorie*/
+#popup-categorie{
+height:310px;/*A décommenter lorsque l'on ajoutera l'onglet sous catégorie*/
+/*height:217px;*/
+padding-bottom:15px;
+border: 1px solid #e0e4e8;
+width: 435px;
+padding-left:15px;
+padding-right:15px;
+border-radius:4px;
+color:#929293;
+background-color:white;
+position: absolute;
+left: 245px;
+z-index: 20;
+}
+
+/**********************************************************
+Popup update/create category
+**********************************************************/
+#popup-categorie .title-popup{
+margin-top:13px;
+font-size:14px;
+}
+
+#popup-categorie .label-popup{
+margin-top:22px;
+}
+#popup-categorie .intitule-categorie{/*Wrapper of the title's category*/
+width:195px;
+margin-bottom:11px;
+display:inline-block;
+vertical-align:top;
+margin-right: 9px;
+}
+/*Block category parent*/
+#popup-categorie .wrapper-categories-parent{
+display:inline-block;
+vertical-align:top;
+}
+/*Block redirections*/
+#popup-categorie .wrapper-rdirections{
+/*display:inline-block;*/
+}
+/*button to choose redirection, category parent*/
+#popup-categorie button {
+width : 195px;
+border-radius:5px;
+} 
+#popup-categorie .item-list-popup{
+display: inline-block;
+width: 160px;
+text-align:left;}
+
+#popup-categorie .wrapper-redirection{
+  width:195px;
+  text-align:left;
+}
+#popup-categorie .wrapper-redirection li {
+list-style-type : none;
+
+}
+/**********************************************************
+End Popup update/create category
+**********************************************************/
+
+ .liste-redirection{
+ width:100%;
+ }
+
+
+
+
+.category-color{
+	width:15px;
+	height:15px;
+margin-right:5px;
+margin-top: 10px;
+position:relative;
+right:1px;
+color:transparent;
+display:inline-block;
+}
+#list-squares-colored{ 
+		padding-top:10px;
+		padding-left:0px;
+		padding-right:0px;
+		padding-bottom: 50px;
+	margin-top:8px;
+	width: 400px;
+    height: 33px;
+}
+
+.button-popup{
+color:#ffffff;
+border:0;
+border-radius:2px;
+margin-top: 10px;
+height: 30px;
+
+}
+
+#popup-categorie  .saveCategory, #popup-categorie .updateCategory{
+	background-color: #91cf50;
+width:100px;
+height:30px;
+margin-top:6px;
+margin-right:10px;
+
+}
+
+#popup-categorie button.deleteCategory{
+background:#ee5a5a;
+margin-left:10px;
+margin-right:10px;
+width: 90px;
+}
+#popup-categorie button.cancelCategory.button-popup{
+width:80px;
+background-color:#ee5a5a;
+height:30px;
+position: relative;
+margin-left: 20px;
+}
+.valeur-categorie{
+	color:#c6c6c6;
+	border:1px solid #c6c6c6;
+	border-radius:1px;
+	padding:9px;
+	width:195px;
+	height:30px;
+
+}
+
+
+.puce-categorie-cachee{
+visibility:hidden;
+}
+
+.square-colored{
+width:15px;
+height:15px;}
+
+.square-colored.active{
+border-width:5px !important;
+}
+
+.categorie-choisie{
+width: 3px;
+height: 3px;
+background: #fff}
+
+/*Permet d'avoir la liste des catégories dans le panneau ajout d'une question sous forme de liste, l'un en dessous de l'autre*/
+.wrapper-category-redirection{
+display:block;
+
+}
+

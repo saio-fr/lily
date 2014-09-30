@@ -33,16 +33,25 @@ class RatchetChatCommand extends ContainerAwareCommand
 {	
     protected function configure(){
         $this->setName('ratchet:start')
-             ->setDescription('Start ratchet server');
+             ->setDescription('Start ratchet server')
+             ->addArgument('cname', InputArgument::OPTIONAL, 'Cname')
+             ->addArgument('key', InputArgument::OPTIONAL, 'Key')
+             ->addArgument('zmq', InputArgument::OPTIONAL, 'Zmq')
+             ->addArgument('port', InputArgument::OPTIONAL, 'Port');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
     	
+    	$key = $input->getArgument('key');
+    	$cname = $input->getArgument('cname');
+    	$zmq = $input->getArgument('zmq');
+    	$port = $input->getArgument('port');
+    	
 		// Setup services
 		$handler = $this->getContainer()->get('session.handler');
 		$chat = $this->getContainer()->get("lily_chat.app");
-		$config = new Config($chat, $this->getContainer());
+		$config = new Config($chat, $cname, $key, $this->getContainer());
 		
 		$loop = LoopFactory::create();
     	$loop->addPeriodicTimer(60, array($chat, 'timedCallback'));    	        
@@ -50,21 +59,16 @@ class RatchetChatCommand extends ContainerAwareCommand
         // Bind to our socket to communicate with our symfony app
 		$context = new Context($loop);
 		$pull = $context->getSocket(ZMQ::SOCKET_PULL);
-		$pull->bind('tcp://127.0.0.1:5555');
+		$pull->bind('tcp://127.0.0.1:'.$zmq);
 					
 		$pull->on('message', function ($params) use ($config) {
 
 			$params = json_decode($params, true);
-			$memcache = $this->getContainer()->get('memcache.default');
 			
 			switch ($params['action']) {
-			
-				case 'available':
-					$memcache->set('chat_available_'.$params['key'], $params['available'], 3600);
-					break;
 					
 				case 'config':
-					$config->setConfig($params['key']);
+					$config->config();
 					break;
 					
 			}
@@ -83,9 +87,9 @@ class RatchetChatCommand extends ContainerAwareCommand
                 )
         );    
  
-        $server = new App('dev2.saio.fr', 8080, '0.0.0.0', $loop);
+        $server = new App('ws.saio.fr', $port, '0.0.0.0', $loop);
         // Domain that are able to connect to our chat
-        $server->route('/chat/{key}', $WsServer, array('dev2.saio.fr', 'prod1.saio.fr', 'prod2.saio.fr', 'saio.fr'));
+        $server->route('/'.$key.'/chat', $WsServer, array('dev2.saio.fr', 'prod1.saio.fr', 'prod2.saio.fr', 'saio.fr'));
         $server->run();        
      
     }

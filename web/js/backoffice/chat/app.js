@@ -12,10 +12,12 @@ chat.Views.App = Backbone.View.extend({
 	},
 	
 	initialize: function() {	
+/*
 		
 		// Get a list of all enterprise' operators
 		this.operators = new chat.Operators();
 		this.operators.fetch();
+*/
 		
 		// Create the view to show who's connecting and start chatting
 		this.records = new chat.Records();
@@ -25,18 +27,18 @@ chat.Views.App = Backbone.View.extend({
 		this.windows = [];
 		this.maxWindows = 1;
 		
-		this.listenTo(this, 'change:windows', this.setWindows);		
-		
 		// Adjust windows on navigator resize
 		$(window).resize(function() {
 			chat.app.setWindows();
 			chat.app.setInformationsWidth();
 		});
 		
+		this.listenTo(this, 'change:windows', this.setWindows);
+		
 		// Connection to our WS Server
 		sess = new ab.connect(
 		
-			'ws://dev2.saio.fr:8080/chat/' + licence // The host 		    
+			'ws://ws.saio.fr:80/' + licence +'/chat' // The host 		    
 		    , function(session) {  // Once the connection has been established
 				
 				sess = session;
@@ -193,6 +195,7 @@ chat.Views.App = Backbone.View.extend({
 		
 			$('.conversations').children().addClass('multiple');
 			$('.conversations').children().addClass('half-width');
+			if (this.windows.length > 2) $('.conversations').children().addClass('half-height');
 			chat.app.setInformationsWidth();
 			
 		} else {
@@ -203,12 +206,21 @@ chat.Views.App = Backbone.View.extend({
 			
 		}
 		
+		if (this.windows.length < 3) { $('.conversations').children().removeClass('half-height') }
+		
 		if ( $('#live').width() > 1090 ) { $('.btn-group.windows').show(); } 
 		else { 
 		
 			$('.windows .dropdown-select li:first-child a').trigger( "click" );
 			this.$el.find('.btn-group.windows').hide(); 
 			$('.conversations').children().removeClass('multiple full-width half-width');
+		
+		}
+		
+		if ( $('#live').height() < 750 ) { 
+		
+			$('.windows .dropdown-select li:nth-child(2) a').trigger( "click" );
+			$('.conversations').children().removeClass('half-height');
 		
 		}
 		
@@ -266,13 +278,6 @@ chat.Views.App = Backbone.View.extend({
 			this.live.$el.removeClass('hide');
 			
 		}
-		
-	},
-	
-	// Change the badge in the header-control to show how much persons are waiting a response
-	changeBadge: function () {
-
-		$('.header-control .badge').text( $('.list-current .unanswered').length );
 		
 	}
 	

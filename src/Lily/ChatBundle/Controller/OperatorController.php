@@ -26,6 +26,7 @@ class OperatorController extends BaseController
 	/**
 	 * 
 	 * @View()
+	 * @Secure(roles="ROLE_CHAT_OPERATOR")
 	 */
     public function indexAction()
     { 

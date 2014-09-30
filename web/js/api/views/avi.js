@@ -147,7 +147,6 @@ lily.Views.Avi = lily.Extensions.View.extend({
 			success:  function( data, textStatus, request ) {
 				// If there is no results we need to trigger a custom event to inform other objects.
 				// This way other objects (views) can acts according to this event (display some kind of messages)
-				console.log(data);
 				
 				var type = request.getResponseHeader('type');
 				console.log (type);
@@ -181,7 +180,7 @@ lily.Views.Avi = lily.Extensions.View.extend({
 			type: 'POST',
 			url: root+'/logredirection/'+id,
 			data: JSON.stringify({ canal: 'mail' }),
-			success:  function( data ) {console.log('Log sent')}
+			success:  function( data ) {}
 			
 		});
 	},
@@ -194,7 +193,7 @@ lily.Views.Avi = lily.Extensions.View.extend({
 			type: 'POST',
 			url: root+'/logredirection/'+id,
 			data: JSON.stringify({ canal: 'tel' }),
-			success:  function( data ) {console.log('Log sent')}
+			success:  function( data ) {}
 			
 		});
 	},

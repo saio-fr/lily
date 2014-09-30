@@ -84,6 +84,7 @@ class App {
         				   ), $socket, $loop
         				 );     
 
+/*
         $policy = new FlashPolicy;
         $policy->addAllowedAccess($httpHost, 80);
         $policy->addAllowedAccess($httpHost, $port);
@@ -95,6 +96,7 @@ class App {
         } else {
             $flashSock->listen(8843);
         }
+*/
         
     }
 

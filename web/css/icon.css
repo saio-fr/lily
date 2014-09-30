@@ -1,0 +1,181 @@
+
+/*********************
+FONTS
+*********************/
+
+@import url("http://fonts.googleapis.com/css?family=Open+Sans: 200,400,300,600");
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,100);
+
+@font-face {
+	font-family: 'lily';
+
+	src:url('../font/api/lily.eot');
+	src:url('../font/api/lily.eot') format('embedded-opentype'),
+		url('../font/api/lily.woff') format('woff'),
+		url('../font/api/lily.ttf') format('truetype'),
+		url('../font/api/lily.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.lily-icon {
+	font-family: 'lily';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/*Avatar icons*/
+.lily-icon-search:before {
+	content: "\e601";
+	display: inline-block;
+	height: 40px;
+	vertical-align: middle;
+	line-height: 55px;
+	text-align: center;
+	font-size: 22px;
+}
+.lily-icon-parameters:before {
+	content: "\e603";
+}
+.lily-icon-reduce:before {
+	content: "\e604";
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	text-align: center;
+	line-height: 40px;
+	vertical-align: middle;
+	font-size: 3px;
+}
+.lily-icon-avatar:before {
+	content: "\e609";
+	font-size: 16px;
+	line-height: 45px;
+}
+.lily-icon-mail:before {
+	content: "\e606";
+	font-size: 12px;
+}
+.lily-icon-phone:before {
+	content: "\e602";
+	font-size: 18px;
+}
+.lily-icon-smartphone:before {
+	content: "\f10b";
+	font-size: 28px;
+}
+.lily-icon-mail-alt:before {
+	content: "\e606";
+	font-size: 12px;
+}
+.lily-icon-conversation:before {
+	content: "\e608";
+	font-size: 12px;
+}
+.lily-icon-menu:before {
+	content: "\e605";
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	text-align: center;
+	line-height: 45px;
+	vertical-align: middle;
+	font-size: 16px;
+}
+.lily-icon-chat:before {
+	content: "\e608";
+	line-height: 45px;
+	font-size: 14px;
+}
+.lily-icon-faq:before {
+	content: "\e607";
+	font-size: 18px;
+}
+.lily-icon-favorite:before {
+	content: "\e600";
+	font-size: 16px;
+}
+.lily-icon-home:before {
+	content: "\e607";
+	font-size: 21px;
+}
+.lily-icon-arrow-right:before {
+	content: "\e60a";
+	font-size: 12px;
+	line-height: 52px;
+}
+.lily-icon-arrow-left:before {
+	content: "\e60b";
+	font-size: 10px;
+}
+.lily-icon-thumb-down:before {
+	content: "\e60e";
+	font-size: 18px;
+}
+.lily-icon-thumb-up:before {
+	content: "\e60d";
+	font-size: 18px;
+}
+
+/*Back-office icons*/
+.lily-icon-spam:before {
+	content: "\e60f";
+	font-size: 14px;
+}
+.lily-icon-trash:before {
+	content: "\e610";
+	font-size: 14px;
+}
+.lily-icon-folder:before {
+	content: "\e611";
+	font-size: 14px;
+}
+.lily-icon-label:before {
+	content: "\e612";
+	font-size: 14px;
+}
+.lily-icon-browse-next:before {
+	content: "\e613";
+	font-size: 14px;
+}
+.lily-icon-browse-previous:before {
+	content: "\e614";
+	font-size: 14px;
+}
+.lily-icon-arrow-up:before {
+	content: "\e615";
+	font-size: 14px;
+}
+.lily-icon-arrow-down:before {
+	content: "\e616";
+	font-size: 14px;
+}
+.lily-icon-label-full:before {
+	content: "\e61c";
+	font-size: 14px;
+}
+
+.lily-icon-tag-star-full:before {
+	content: "\e61e";
+	font-size: 14px;
+}
+.lily-icon-tag-star-empty:before {
+	content: "\e61d";
+	font-size: 14px;
+}
+.lily-icon-tag-ribbon-full:before {
+	content: "\e621";
+	font-size: 14px;
+}
+.lily-icon-tag-ribbon-empty:before {
+	content: "\e620";
+	font-size: 14px;
+}

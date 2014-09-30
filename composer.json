@@ -30,7 +30,7 @@
         "react/zmq": "0.2.*",
         "jms/i18n-routing-bundle": "dev-master",
         "fp/jsformvalidator-bundle":"dev-master",
-        "leaseweb/memcache-bundle": "*"   
+        "leaseweb/memcache-bundle": "1.2.13"   
     },
     "scripts": {
         "post-install-cmd": [

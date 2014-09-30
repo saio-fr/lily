@@ -1,0 +1,194 @@
+{% verbatim %}
+
+
+<!--Header Template-->
+<header class="bg-light dker header clearfix" id="header-questions">
+
+	<!--Search field-->
+
+	<div class="input-group col-lg-5 col-md-5 col-sm-12 col-xs-12 m-t-sm no-padder">                
+	    
+	    <input type="text" class="input-sm form-control input-s-sm" placeholder="Rerchercher" id="filtreRecherche">                
+
+	    <div class="input-group-btn">                  
+	        <button class="btn btn-sm btn-white button-search">
+	            <i class="icon-search"></i>
+	        </button>                
+	    </div>       
+
+	</div>
+
+
+	<!--Add question button-->
+
+	<!--<a id="button-add-question"  class="btn btn-sm btn-primary col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right m-b-sm" >
+	         
+		<i class="icon-plus pull-left"></i>Ajouter une question
+
+	</a>-->
+
+</header>
+
+
+<div id="management-questions">
+
+
+	<!--Select button-->
+
+	<div class="btn-group select-button">
+
+		<button class="btn dropdown-toggle  filter-buttons" data-toggle="dropdown">
+			<div class="icon-select-questions"></div>
+			<span class="caret"></span> 
+		</button>
+
+		<ul id="select-menu" class="dropdown-menu">
+	    
+			<li class="select_all_questions select-item">Tout sélectionner</li>
+			<li class="divider"></li>
+			<li class="unselect_all_questions select-item">Tout déselectionner</li>
+		
+		</ul>
+
+	</div>
+
+
+	<!--Filter button-->
+
+	<div class="btn-group filter-button">
+
+		<button class="btn dropdown-toggle  filter-buttons" data-toggle="dropdown">Trier par<span class="caret"></span></button>
+
+		<ul class="dropdown-menu">
+	        
+	        <li class="sort-date">Date</li>
+	        <!--<li>Fréquence></li>
+	        <li>Satisfaction></li>
+	        <li class="divider"></li>
+	        <li>Utilisateur></li>-->
+
+	    </ul>
+
+	</div>
+
+
+	<!--Trash button-->
+
+	<div class="btn-group trash-button">
+
+		<button class="filter-buttons " ><i class="lily-icon lily-icon-trash"></i></button>
+
+</div>
+
+	<!--Label button-->
+
+	<div class="btn-group label-button">
+
+		<button class="btn dropdown-toggle  filter-buttons" data-toggle="dropdown">
+			<i class="lily-icon lily-icon-folder"></i>
+
+			<span class="caret"></span> 
+		</button>
+
+		<ul id="menu-label" class="dropdown-menu">
+		
+			<li class="divider"></li>
+			<li class="remove_label"> Supprimer le label</li>
+
+		</ul>
+
+	</div>
+
+
+	<!--Categories button-->
+
+	<div class="btn-group category-button-filter">
+
+		<button class="btn dropdown-toggle  filter-buttons" data-toggle="dropdown">
+			<i class="lily-icon lily-icon-label"></i>
+			<span class="caret"></span> 
+		</button>
+
+		<!--<ul class="dropdown-menu">
+
+	        <li><a href="#">Catégorie 1</a></li>
+	        <li><a href="#">Catégorie 2</a></li>
+			<li><a href="#">Catégorie 3</a></li>
+
+	    </ul>-->
+
+	</div>
+
+
+	<!--Merge button-->
+
+	<!--<div class="btn-group merge-button">
+
+		<button class="filter-buttons " >Associer à une question existante</button>
+
+	</div>-->
+
+
+	<!--Number of question per page button-->
+	
+	<div class="btn-group question-per-page-button">
+		
+		<button class="btn dropdown-toggle filter-buttons" data-toggle="dropdown">
+			<span class="caret"></span> 
+		</button>
+
+		<ul class="dropdown-menu">
+		
+			<li class="25-questions-per-page">25</li>
+			<li class ="50-questions-per-page">50</li>
+			<li class ="100-questions-per-page">100</li>
+
+		</ul>
+
+	</div>
+
+
+	<!--Next page button-->
+
+	<div class="btn-group next-page-button">
+		
+		<button class="filter-buttons"><i class="lily-icon lily-icon-browse-next"></i></button>
+
+	</div>
+
+
+	<!--Previous page button-->
+
+	<div class="btn-group previous-page-button">
+		
+		<button class="filter-buttons"><i class="lily-icon lily-icon-browse-previous"></i></button>
+
+	</div>
+
+</div>
+<!--Fin template appQuestionView -->
+
+
+
+<!--Question List template-->
+<aside class="bg-white" id="question-list">
+    
+    <section class="vbox">                  
+                                          
+        <section id="list-questions-section" class="scrollable ">	                      	              
+                                              
+         	<!--Now corresponding to the tagName of ListQuestionsView
+            <ul id="list-questions" class="list-group no-borders m-b-none m-t-n-xxs list-group-alt list-group-lg liste-questions">
+            </ul>
+            -->	          	              	          	              
+
+        </section>                
+                                      
+    </section>              
+                                  
+</aside>              
+
+
+
+
+{% endverbatim %}

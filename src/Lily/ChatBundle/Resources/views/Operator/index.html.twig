@@ -95,6 +95,12 @@
         <script type="text/template" id="modal-ban">
             {% include 'LilyChatBundle:Operator/templates:modal_ban.html.twig' %}
         </script>
+        <script type="text/template" id="modal-transfer">
+            {% include 'LilyChatBundle:Operator/templates:modal_transfer.html.twig' %}
+        </script>
+        <script type="text/template" id="transfer-view">
+            {% include 'LilyChatBundle:Operator/templates:transfer.html.twig' %}
+        </script>
     {% endblock %}
 
 	{% block bootstrap %}
@@ -152,6 +158,8 @@
 'js/backoffice/chat/views/MessageVisitorView.js' 
 'js/backoffice/chat/views/ModalCloseView.js' 
 'js/backoffice/chat/views/ModalBanView.js' 
+'js/backoffice/chat/views/ModalTransferView.js'
+'js/backoffice/chat/views/TransferView.js' 
 'js/backoffice/chat/views/ParametersView.js' 
 'js/backoffice/chat/views/DashboardView.js'
 'js/backoffice/chat/views/DashboardListConnectedView.js'

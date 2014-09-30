@@ -41,7 +41,7 @@ class ChatService
 			}
 		}
 		
-		return array('result' => $params);		
+		return array('result' => true);		
     }
     
    /**
@@ -59,7 +59,7 @@ class ChatService
 			}
 		}
 		
-		return array('result' => $params);		
+		return array('result' => true);		
     }
     
    /**
@@ -73,7 +73,7 @@ class ChatService
 			}
 		}
 		
-		return array('result' => $url);		
+		return array('result' => true);		
     }
     
    /**
@@ -87,7 +87,7 @@ class ChatService
 			}
 		}
 		
-		return array('result' => $oarams);		
+		return array('result' => true);		
     }
     
    /**
@@ -103,7 +103,7 @@ class ChatService
 			}
 		}
 		
-		return array('result' => $params);		
+		return array('result' => true);		
     }
     
         
@@ -112,7 +112,7 @@ class ChatService
     */
     public function open(Conn $conn, $params, $clients, $config)
     {	 
-
+		
         foreach ($clients as $item) {
 
 			if ($item->type === 'operator' && $item->available && ($item->chats < $config->chatMax)) {
@@ -126,7 +126,10 @@ class ChatService
 
 			if ($item->id === $conn->Session->getId()) {
 
-				if ($item->operator !== null) return;
+				if ($item->operator !== null) {
+					$item->topic->broadcast($item->messages);
+					return;
+				}
 
 				if (!empty($availables) && $config->chatAutoSetOperator) {
 
@@ -153,7 +156,7 @@ class ChatService
 																	
 			}			
 		}
-		
+
 		return array('result' => true);
 		
     }
@@ -178,7 +181,29 @@ class ChatService
 			}
 		}
 		
-		return array('result' => $params);		
+		return array('result' => true);		
+    }
+    
+   /**
+    * Transfer the visitor to another operator
+    */
+    public function transfer(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+        	// Close the conversation
+			if ($item->id === $params['sid']) { 
+				$item->operator = $params['operator'];
+				$item->transfered = true;
+			}
+								
+			// Decrease the operator' active chats
+			if ($item->id === $conn->User->getId()) $item->chats -= 1;
+			
+			// Increase the new operator' active chats
+			if ($item->id === $params['operator']) $item->chats += 1;			
+		}
+		
+		return array('result' => true);		
     }
     
         
@@ -205,7 +230,7 @@ class ChatService
 			}
 		}
 		
-		return array('result' => $params);		
+		return array('result' => true);		
     }
     
    /**
@@ -213,13 +238,14 @@ class ChatService
     */
     public function available(Conn $conn, $params, $clients)
     {	    	
+
         foreach ($clients as $item) {
 			if ($item->id === $conn->User->getId()) { 
 				$item->available = true;	
 			}
 		}
 		
-		return array('result' => $clients);		
+		return array('result' => true);		
     }
     
    /**

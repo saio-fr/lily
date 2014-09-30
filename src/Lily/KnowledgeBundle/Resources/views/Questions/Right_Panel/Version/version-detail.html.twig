@@ -1,0 +1,35 @@
+{%verbatim%}
+<button class="change-version">Revenir à la version affichée.</button>
+<ol class="dd-list" id="wrapper-tree-versions">	
+<%if(typeof(id)=='undefined'){%>
+	<li class="dd-item dd3-item" data-id="0">	
+<%}else {%>
+	<li class="dd-item dd3-item" data-id="<%=id%>">	
+<%}%>
+	<div class="input-group dd3-content wrapper-title">
+	<%if(typeof(id)=='undefined'){%>
+		<input class="question-parent form-control" placeholder="Titre de la question">
+	<%} else {%>
+		<input class="question-parent form-control" value="<%=title%>">
+	<%}%>	
+	<span class="input-group-btn" style="width:5px"><!---->
+	</span>
+	<span class="input-group-btn">
+		<button class="btn dropdown-toggle select-mood" data-toggle="dropdown">
+	</span>
+	<span class="caret"></span> 
+	<%if(typeof(this.model.get('mood'))!=='undefined'){%>
+		<i class="lily-icon icon-<%=this.model.get('mood')%>" data-name="<%=this.model.get('mood')%>"></i>
+	<%} else{%>
+		<i class="lily-icon icon-neutral " data-name="neutral"></i>
+	<%}%>
+	</button> 
+	<ul  class="list-moods dropdown-menu">
+	</ul>
+	</span>
+	</div>
+	<ol class="dd-list wrapper-precision wrapper-answer active" id="versions-children">				        
+	</ol>		       
+</ol>			        
+
+{%endverbatim%}

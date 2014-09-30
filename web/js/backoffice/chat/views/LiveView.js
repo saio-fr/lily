@@ -15,9 +15,11 @@ chat.LiveView = Backbone.View.extend({
     	this.collection = records;
     	this.listenTo(this.collection, 'add', this.add);
     	this.listenTo(this.collection, 'change:operator', this.add); 
-    	this.listenTo(this.collection, 'change:closed', this.add); 
-    	
-    	this.counter = {};
+    	this.listenTo(this.collection, 'change:closed', this.add);
+    	this.listenTo(this.collection, 'add', this.counters); 
+		this.listenTo(this.collection, 'change', this.counters);
+	
+		this.counter = {};
 		this.counter.current = 0;
 		this.counter.waiting = 0;
 	
@@ -39,8 +41,6 @@ chat.LiveView = Backbone.View.extend({
 		if (record.get('operator') == user.id) { 
 			this.recordView = new chat.Views.RecordCurrent({model: record}); 
 			this.recordView.render();
-			chat.app.live.counter.current +=1;
-			this.$el.find('.header-current span').html(chat.app.live.counter.current);
 		
 		}
 		
@@ -48,8 +48,6 @@ chat.LiveView = Backbone.View.extend({
 
      		this.recordView = new chat.Views.RecordWaiting({model: record});	   	
 	 		this.recordView.render();
-	 		chat.app.live.counter.waiting +=1;
-	 		this.$el.find('.header-waiting span').html(chat.app.live.counter.waiting);
 		
 		}
 		
@@ -62,4 +60,15 @@ chat.LiveView = Backbone.View.extend({
 		return this;
 			   		
     },
+    
+    counters: function() {
+    
+	    this.counter.current = this.$el.find('.list-current').children().length;
+		this.$el.find('.header-current span').html(chat.app.live.counter.current);
+		
+		this.counter.waiting = this.$el.find('.list-waiting').children().length;
+		this.$el.find('.header-waiting span').html(chat.app.live.counter.waiting);
+		
+    }
+    
 });

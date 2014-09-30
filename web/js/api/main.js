@@ -34,7 +34,7 @@ $(function() {
 	// Connect to our ws serv
 	var sess = new ab.connect(
 			
-		'ws://dev2.saio.fr:8080/chat/'+licence // The host 
+		'ws://ws.saio.fr:80/'+licence+'/chat' // The host 
 				    
 	    , function(session) {  // Once the connection has been established
 	    				
@@ -46,7 +46,7 @@ $(function() {
 		}
 	
 	    , function(code, reason, detail) { // When the connection is closed
-	    	console.warn('WebSocket connection closed');
+	    	console.warn(code + reason + detail);
 	    }
 	    , { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
 			'skipSubprotocolCheck': true,

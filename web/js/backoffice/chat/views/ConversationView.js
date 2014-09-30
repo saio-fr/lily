@@ -11,6 +11,7 @@ chat.Views.Conversation = Backbone.View.extend({
 		'click .conversation-close': 'close',
 		'click .conversation-minus': 'minus',
 		'click .ban' : 'ban',
+		'click .transfer' : 'transfer',
 		'click .conversation-form button.send' : 'send',
 		'click .conversation-form .icon-trash' : 'clearInput'
 	},	
@@ -123,28 +124,7 @@ chat.Views.Conversation = Backbone.View.extend({
 
 	},
 	
-	addItem: function(message) {
-			
-		if (message.get('from') == 'operator') {
-		
-			// Display an header on messages with information about the operator
-			this.sentByOperators = this.messages.where({ from: 'operator' });
-			this.index = this.sentByOperators.indexOf(message);
-			
-			var date = moment(message.date).format('LL');
-	
-
-			// If the operator changed or it is the first message
-			if ( this.index < 1 || message.get('operator')['id'] !== this.sentByOperators[this.index-1].get('operator')['id'] ) {
-
-				this.operator = chat.app.operators.findWhere({id: message.get('operator')['id']})
-				this.operator.set({'date': date});			
-				this.messagesHeader = new chat.Views.MessagesHeader({ model: this.operator });
-				this.messagesHeader.$el.appendTo( this.$el.find('.conversation-section-list') );
-				
-			}
-
-		}		
+	addItem: function(message) {	
 	
 		// create an instance of the sub-view to render the single message item.
 		switch ( message.get('from') ) {
@@ -173,7 +153,7 @@ chat.Views.Conversation = Backbone.View.extend({
 	},
 		    
     minus: function(e) {
-		
+
 		if (typeof(e) !== 'undefined') e.stopPropagation();
 		
 	  	var that = this;
@@ -189,7 +169,7 @@ chat.Views.Conversation = Backbone.View.extend({
 	  			chat.app.live.informations = new chat.Views.Informations({model: chat.app.windows[chat.app.windows.length-1].model}); 
 	  		}
 	  	}
-	  	
+
 		this.remove();
 		  
     },
@@ -201,15 +181,8 @@ chat.Views.Conversation = Backbone.View.extend({
 		new chat.Views.ModalClose();
 		
 		$('.modal-close-confirm').click(function() {
-			
-			chat.app.windows.splice( $.inArray(that, chat.app.windows), 1 );
-			chat.app.trigger('change:windows');
-			sess.call('chat/close', { sid: that.model.get('id') } );
-			
-			// Change counter currents
-			chat.app.live.counter.current -=1;
-			$('.header-current span').html(chat.app.live.counter.current);
-			
+
+			sess.call('chat/close', { sid: that.model.get('id') } );			
 			that.minus();
 			
 		});
@@ -227,15 +200,22 @@ chat.Views.Conversation = Backbone.View.extend({
 			chat.app.windows.splice( $.inArray(that, chat.app.windows), 1 );
 			chat.app.trigger('change:windows');
 			sess.call('chat/ban', { sid: that.model.get('id') } );
-			
-			// Change counter currents
-			chat.app.live.counter.current -=1;
-			$('.header-current span').html(chat.app.live.counter.current);
-			
+
 			that.minus();
 		
 		});
 			
+	},
+	
+	transfer: function() {
+
+		this.connected = chat.app.records.filter(function(model) {
+			return ((model.get('type') == 'operator') && (model.get('available')) && (model.get('id') != user.id));
+		});		
+		
+		if (typeof(chat.app.modalTransfer) !== 'undefined') chat.app.modalTransfer.remove();
+		chat.app.modalTransfer = new chat.Views.ModalTransfer({collection: this.connected, visitor: this.model});
+		
 	},
 	
 	urgent: function () {	  

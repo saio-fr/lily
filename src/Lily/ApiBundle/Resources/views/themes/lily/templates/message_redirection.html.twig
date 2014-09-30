@@ -5,5 +5,6 @@
 	<% if (data.isTel)  { %>
 	<i class="lily-redirection-tel lily-cst-redirection-tel"><a href="tel:<%=data.redirection.phone%>"><span class="lily-icon lily-icon-phone"></a></span></i>
 	<% } %>
-	<% if (data.isChat)  { %>
+	<% if (data.isChat && data.chatAvailable)  { %>
+	<i class="lily-redirection-chat lily-cst-redirection-chat"><a href="#/chat"><span class="lily-icon lily-icon-chat"></a></span></i>
 	<% } %>

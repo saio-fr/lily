@@ -86,7 +86,7 @@ input.lily-cst-search-input:ms-input-placeholder {color: #b1b3b4;}
 	border-color: #1c275e transparent;
 }
 
-.lily-cst-redirection-mail, .lily-cst-redirection-tel, .lily-precision-list{
+.lily-cst-redirection-mail, .lily-cst-redirection-tel, .lily-cst-redirection-chat, .lily-precision-list{
 	background: #fff;
 	color: #595959;
 }

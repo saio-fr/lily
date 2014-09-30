@@ -17,7 +17,7 @@ lily.Views.MessageLilyRedirection = lily.Views.MessageView.extend({
 			type: 'POST',
 			url: 'http://saio.fr/web/app_dev.php/api/'+key+'/redirection/'+this.model.get('data').id+'/mail',
 			data: 'mail',
-			success:  function( data ) {console.log('Log sent')}
+			success:  function( data ) {}
 			
 		});
 		
