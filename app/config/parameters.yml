@@ -2,7 +2,7 @@
 parameters:
     # Database
     database_driver: pdo_mysql
-    database_host: 37.59.26.170
+    database_host: 172.16.0.6
     database_port: 3306
     database_user: saio
     database_password: gW74uw?6
