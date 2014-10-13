@@ -1,0 +1,9 @@
+<% date = moment(date*1000); %>
+
+<% if (action == 'startChat') { %>
+	Conversation commencée le <%= date.format('DD MMMM') %> à <%= date.format('h:mm') %>.
+<% } %>
+
+<% if (action == 'transfered') { %>
+	Conversation transférée le <%= date.format('DD MMMM') %> à <%= date.format('h:mm') %>.
+<% } %>

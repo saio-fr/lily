@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
@@ -18,6 +19,8 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Table(name="User")
  * @ExclusionPolicy("all")
  * @ORM\Entity(repositoryClass="Lily\UserBundle\Entity\UserRepository")
+ * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur existe déjà.")
+ * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
  */
 class User extends BaseUser
 {
@@ -128,6 +131,7 @@ class User extends BaseUser
     private $avatarFile;
 
     private $tmpId;
+    
     // Nom du fichier avatar temporaire (stocké dans /tmp/)
     private $tmpAvatar;
     
@@ -141,22 +145,6 @@ class User extends BaseUser
      * @Assert\NotBlank()
      */
     protected $username;
-
-    /**
-     * @Expose
-     */
-    protected $roles_human;
-
-    /*
-     * @Expose
-     */
-    protected $services_human;
-
-    /*
-     * @Expose
-     */
-    protected $last_login_human;
-
 
     public function __construct()
     {
@@ -413,45 +401,6 @@ class User extends BaseUser
     }
 
     /**
-     * Get last_login_human
-     *
-     * @return string 
-     */
-    public function getLastLoginHuman()
-    {
-        $last_login_human="";
-        if($this->getLastLogin()!=null) {
-            return $user->getLastLogin()->format("d-m-Y");
-        } else {
-            return "Jamais connecté";
-        }
-    }
-
-    /**
-     * Get roles_human
-     *
-     * @return string 
-     */
-    public function getRolesHuman()
-    {
-        $roles_human="";
-        if(in_array('ROLE_ADMIN', $this->getRoles()))
-            $roles_human="Administrateur";
-        else {
-            if(in_array('ROLE_CHAT_OPERATOR', $this->getRoles())) {
-                $roles_human.="Opérateur Live chat";
-            }
-            if(in_array('ROLE_KNOWLEDGE_OPERATOR', $this->getRoles())) {
-                $roles_human.=($roles_human==="") ? "Opérateur " : " et ";
-                $roles_human.="Base de connaissance";
-            }
-        }
-        return $roles_human;
-    }
-
-
-
-    /**
     * @ORM\PreRemove()
     */
     public function preRemoveUploadedFiles()
@@ -465,13 +414,7 @@ class User extends BaseUser
     */
     public function removeUploadedFiles()
     {
-        // Nom des fichiers à supprimer : id.hash.extension
-        // ici rm id.*
-        // et  rm tmp/id.*
-        if (file_exists($this->tmpId)) {
-            // On supprime le fichier
-          //  unlink($this->tmpId);
-        }
+
     }
 
 

@@ -34,6 +34,8 @@ class ChatService
 				
 				$item->operator = $conn->User->getId();
 				$item->startChatTime = time();
+				$item->messages[] = array('id' => uniqid(), 'from' => 'server', 'date' => time(), 'action' => 'startChat');
+				
 			}
 			// Increase the operator' active chats
 			if ($item->id === $conn->User->getId()) {				
@@ -52,6 +54,8 @@ class ChatService
         foreach ($clients as $item) {
 			if ($item->id === $params['sid']) { 
 				$item->banned = true;
+				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => null, 'date' => time(), 'msg' => "Vous avez été banni du chat par l'opérateur.");
+				$item->topic->broadcast($item->messages);	
 			}
 			// Decrease the operator' active chats
 			if ($item->id === $conn->User->getId()) {				
@@ -63,17 +67,19 @@ class ChatService
     }
     
    /**
-    * Set current page
+    * When connect on ws, set current page + check if the visitor is already chatting
     */
-    public function setCurrentPage(Conn $conn, $params, $clients)
+    public function connect(Conn $conn, $params, $clients)
     {	    	
         foreach ($clients as $item) {
 			if ($item->id === $conn->Session->getId()) { 
 				$item->pages[] = $params['url'];
+				if ($item->closed) $chatting = false;
+				else $chatting = true;
 			}
 		}
 		
-		return array('result' => true);		
+		return array('chatting' => $chatting);		
     }
     
    /**
@@ -112,7 +118,6 @@ class ChatService
     */
     public function open(Conn $conn, $params, $clients, $config)
     {	 
-		
         foreach ($clients as $item) {
 
 			if ($item->type === 'operator' && $item->available && ($item->chats < $config->chatMax)) {
@@ -121,11 +126,11 @@ class ChatService
 								
 			}
 		}
-        
+
         foreach ($clients as $item) {
 
 			if ($item->id === $conn->Session->getId()) {
-
+				
 				if ($item->operator !== null) {
 					$item->topic->broadcast($item->messages);
 					return;
@@ -143,12 +148,12 @@ class ChatService
 					$item->operator = $availables[$key]->id;
 					$item->startChatTime = time();
 					
+					$item->messages[] = array('id' => uniqid(), 'from' => 'server', 'date' => time(), 'action' => 'startChat');				
 					$item->messages[] = array('id' => uniqid(), 
 											  'from' => 'operator', 
 											  'operator' => $operator, 
 											  'date' => time(), 
-											  'msg' => $availables[$key]->welcome);					  
-									
+											  'msg' => $availables[$key]->welcome);					
 				}
 				
 				$item->topic->broadcast($item->messages);
@@ -173,6 +178,8 @@ class ChatService
 				$item->operator = null;
 				$item->lastMsgTime = time();
 				$item->closed = true;
+				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => null, 'date' => time(), 'msg' => "L'opérateur a clôt la conversation.");
+				$item->topic->broadcast($item->messages);	
 								
 			}
 			// Decrease the operator' active chats
@@ -194,6 +201,7 @@ class ChatService
 			if ($item->id === $params['sid']) { 
 				$item->operator = $params['operator'];
 				$item->transfered = true;
+				$item->messages[] = array('id' => uniqid(), 'from' => 'server', 'date' => time(), 'action' => 'transfered', 'transfer_from' => $conn->User->getFirstname() . ' ' . $conn->User->getLastname());
 			}
 								
 			// Decrease the operator' active chats

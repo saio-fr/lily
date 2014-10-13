@@ -14,33 +14,20 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(isset($options['adminModif']) && $options['adminModif']===true) {
+        if(isset($options['adminModif']) && $options['adminModif']) {
             $builder
                 ->add('avatar', 'text', Array('label' => 'Avatar'))
                 ->add('lastname', 'text', Array('label' => 'Nom'))
                 ->add('firstname', 'text', Array('label' => 'Prénom'))
                 ->add('post', 'text', Array('label' => 'Poste'))
                 ->add('country', 'text', Array('label' => 'Pays'))
-                ->add('roles', 'choice', Array('label' => 'Permissions',
-                                                'choices'=> array('ROLE_ADMIN'=>'Administrateur',
-                                                                    'ROLE_CHAT_OPERATOR'=>'Live chat',
-                                                                    'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances'),
-                                                'multiple'=>true))
-                ->add('services', 'entity', Array('label'=>'Services',
-                                                    'class'=>'LilyUserBundle:Service',
-                                                    'property'=>'nom',
-                                                    'multiple'=>true))
-                ->add('email', 'email', Array('label' => 'Adresse e-mail'))
+                ->add('roles', 'choice', Array('label' => 'Permissions','choices'=> array('ROLE_ADMIN'=>'Administrateur', 'ROLE_CHAT_OPERATOR'=>'Live chat', 'ROLE_KNOWLEDGE_OPERATOR'=>'Base de connaissances'),'multiple'=>true))
                 ->add('phone', 'text', Array('label' => 'Téléphone'))
+                ->add('email', 'email', Array('label' => 'Adresse e-mail'))
                 ->add('username', 'text', Array('label' => 'Login'))
-                ->add('plainPassword', 'repeated', array( 
-                    'type' => 'password',
-                    'first_options' => array('label' => 'Mot de passe', 'attr'=>array('autocomplete'=>'off')),
-                    'second_options' => array('label' => 'Confirmer le mot de passe', 'attr'=>array('autocomplete'=>'off')),
-                    'options' => array('invalid_message' => 'Les mots de passe ne sont pas les mêmes'),
-                ))
+                ->add('plainPassword', 'repeated', array( 'type' => 'password', 'first_options' => array('label' => 'Mot de passe', 'attr'=>array('autocomplete'=>'off')), 'second_options' => array('label' => 'Confirmer le mot de passe', 'attr'=>array('autocomplete'=>'off')), 'invalid_message' => 'Les mots de passe ne sont pas les mêmes',))
                 ;
-        } elseif(isset($options['avatarWidget']) && $options['avatarWidget']===true) {
+        } elseif(isset($options['avatarWidget']) && $options['avatarWidget']) {
             $builder
                 ->add('avatar', 'hidden')
                 ->add('avatarFile', 'file');

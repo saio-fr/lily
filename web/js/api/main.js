@@ -18,6 +18,7 @@ var	lily = {
 	Extensions: {},
 	Models: {},
 	Router: null,
+	chatting: false,
 	Events: {},
 	
 	init: function () {
@@ -40,8 +41,10 @@ $(function() {
 	    				
 			lily.ws = session;
 			lily.ws.subscribe('visitor/'+sid, function (topic, payload) {});
-			lily.ws.call('chat/setCurrentPage', {'url':top.location.pathname});
-			lily.init();
+			lily.ws.call('chat/connect', {'url':top.location.pathname}).then(function(result) { 
+				lily.chatting = result.chatting;
+				lily.init();
+			});
 		
 		}
 	

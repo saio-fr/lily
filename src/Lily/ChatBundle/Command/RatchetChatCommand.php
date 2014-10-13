@@ -23,8 +23,10 @@ use Ratchet\Session\SessionProvider;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;     
 
+use Lily\ChatBundle\Entity\LogChat;
+
 use Lily\ChatBundle\Server\App\App;
-use Lily\ChatBundle\Server\App\Config;
+use Lily\ChatBundle\Server\App\Connector;
 use Lily\ChatBundle\Server\MessageLogger;
 use Lily\ChatBundle\Server\FOSUserProvider;
 
@@ -36,7 +38,8 @@ class RatchetChatCommand extends ContainerAwareCommand
              ->setDescription('Start ratchet server')
              ->addArgument('cname', InputArgument::OPTIONAL, 'Cname')
              ->addArgument('key', InputArgument::OPTIONAL, 'Key')
-             ->addArgument('zmq', InputArgument::OPTIONAL, 'Zmq')
+             ->addArgument('zmqConfig', InputArgument::OPTIONAL, 'ZmqConfig')
+             ->addArgument('zmqLog', InputArgument::OPTIONAL, 'ZmqLog')
              ->addArgument('port', InputArgument::OPTIONAL, 'Port');
     }
 
@@ -45,42 +48,42 @@ class RatchetChatCommand extends ContainerAwareCommand
     	
     	$key = $input->getArgument('key');
     	$cname = $input->getArgument('cname');
-    	$zmq = $input->getArgument('zmq');
+    	$zmqConfig = $input->getArgument('zmqConfig');
+    	$zmqLog = $input->getArgument('zmqLog');
     	$port = $input->getArgument('port');
     	
 		// Setup services
 		$handler = $this->getContainer()->get('session.handler');
-		$chat = $this->getContainer()->get("lily_chat.app");
-		$config = new Config($chat, $cname, $key, $this->getContainer());
+		$chat = $this->getContainer()->get("lily_chat.app");				
+		$connector = new Connector($chat, $cname, $key, $zmqLog, $this->getContainer()); 
 		
 		$loop = LoopFactory::create();
-    	$loop->addPeriodicTimer(60, array($chat, 'timedCallback'));    	        
-        
-        // Bind to our socket to communicate with our symfony app
+		$loop->addPeriodicTimer(60, array($connector, 'timedCallback')); 
+
 		$context = new Context($loop);
 		$pull = $context->getSocket(ZMQ::SOCKET_PULL);
-		$pull->bind('tcp://127.0.0.1:'.$zmq);
-					
-		$pull->on('message', function ($params) use ($config) {
+		$pull->bind('tcp://127.0.0.1:'.$zmqConfig);
+			
+		$pull->on('message', function ($params) use ($connector) {
 
 			$params = json_decode($params, true);
-			
+
 			switch ($params['action']) {
 					
 				case 'config':
-					$config->config();
+					$connector->config();
 					break;
-					
+				
 			}
 
-		});
+		});  	        
 
         $WsServer = new WsServer(
 						                	 
             	new SessionProvider (
             		new FOSUserProvider(
             			new WampServer(
-            				$config
+            				$connector
             				), $this->getContainer()
             			)
             		, $handler
@@ -90,7 +93,7 @@ class RatchetChatCommand extends ContainerAwareCommand
         $server = new App('ws.saio.fr', $port, '0.0.0.0', $loop);
         // Domain that are able to connect to our chat
         $server->route('/'.$key.'/chat', $WsServer, array('dev2.saio.fr', 'prod1.saio.fr', 'prod2.saio.fr', 'saio.fr'));
-        $server->run();        
-     
+        $server->run();
+                   
     }
 }

@@ -18,6 +18,7 @@ chat.LiveView = Backbone.View.extend({
     	this.listenTo(this.collection, 'change:closed', this.add);
     	this.listenTo(this.collection, 'add', this.counters); 
 		this.listenTo(this.collection, 'change', this.counters);
+		this.listenTo(this.collection, 'remove', this.counters);
 	
 		this.counter = {};
 		this.counter.current = 0;

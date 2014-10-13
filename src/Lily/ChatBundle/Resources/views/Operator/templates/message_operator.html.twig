@@ -1,1 +1,10 @@
+<% if (operator !== null && operator.id != user.id) { %>
+
+<img src="<%= operator.avatar %>" class="avatar" width="36" height="36">
+<p class="msg-operator msg-with-avatar"><%= msg %></p>
+
+<% } else { %>
+
 <p class="msg-operator"><%= msg %></p>
+
+<% } %>

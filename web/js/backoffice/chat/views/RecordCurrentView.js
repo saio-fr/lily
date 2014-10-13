@@ -71,9 +71,8 @@ chat.Views.RecordCurrent = Backbone.View.extend({
     },
     
     close: function() {
+		this.model.trigger('minus');
 		this.remove();
-		chat.app.live.counter.current -=1;
-		$('.header-current span').html(chat.app.live.counter.current);  
     },
 	
 	doChat: function() {

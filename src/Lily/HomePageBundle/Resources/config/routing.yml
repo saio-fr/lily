@@ -33,3 +33,7 @@ home_contact:
 home_disclaimer:
     pattern:  /disclaimer
     defaults: { _controller: LilyHomePageBundle:Saio:disclaimer }
+
+home_recruitment:
+    pattern:  /recruitment
+    defaults: { _controller: LilyHomePageBundle:Saio:recruitment }

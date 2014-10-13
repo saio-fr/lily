@@ -540,6 +540,12 @@ HEADER
 MESSAGES
 ******************/
 
+
+#chat-box-messages a, #lily-box-messages a {
+	font-weight: 600;
+	text-decoration: underline;
+}
+
 #lily-box-messages, #chat-box-messages {
 	position: absolute;
 	top: 0;

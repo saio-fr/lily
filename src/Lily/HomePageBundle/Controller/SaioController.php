@@ -84,5 +84,10 @@ class SaioController extends Controller
     {
         return $this->render('LilyHomePageBundle:fr:index.html.twig');
     }
+
+   public function recruitmentAction()
+    {
+        return $this->render('LilyHomePageBundle:fr:recruitment.html.twig');
+    }
     
 }

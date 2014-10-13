@@ -160,7 +160,7 @@ chat.Views.App = Backbone.View.extend({
 		// Set the operator unavailable on the server
 		if (this.available) {  sess.call('chat/unavailable');  this.available = false; }
 		
-		this.$el.find('.status span').html('Disponible');
+		this.$el.find('.status span').html('Indisponible');
 		this.$el.find('.status i').removeClass('available').addClass('unavailable');
 		
 		this.live.$el.addClass('hide');

@@ -22,8 +22,7 @@ lily.Router = Backbone.Router.extend({
 	},
 	
 	home: function () {
-		
-		if (config.chat && config.home == 'chat' && available ) this.chat();
+		if (config.chat && config.home == 'chat' && available || lily.chatting) this.chat();
 		else this.avi();
 		
 	},

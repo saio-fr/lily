@@ -46,7 +46,9 @@
     						<a href="{{ path('home_contact') }} " class="{% if app.request.attributes.get('_route') == 'home_contact' %}active{% endif %}">{{ 'contact'|trans }}</a>
     						<div class="roll"></div>
     					</li>
-    					<li><a href="mailto:contact@saio.fr?Subject=Demande de test&amp;body=Bonjour,%0A%0AJe souhaiterais effectuer un test de votre solution sur mon site internet. Pourriez-vous me contacter afin que nous puissions échanger à ce sujet ?%0A%0AJe vous remercie par avance.%0A%0ACordialement,%0A%0A" class="button">{{ 'demande de test'|trans }}</a></li>
+    					<li>
+                            <a href="mailto:contact@saio.fr?Subject=Demande de test&amp;body=Bonjour,%0A%0AJe souhaiterais effectuer un test de votre solution sur mon site internet. Pourriez-vous me contacter afin que nous puissions échanger à ce sujet ?%0A%0AJe vous remercie par avance.%0A%0ACordialement,%0A%0A" class="button">{{ 'demande de test'|trans }}</a>
+                        </li>
     				</ul>
                     <a href="{{ path('home_index') }}"><img src="{{ asset('images/home/logo-saio-black.png') }}" alt="logo SAIO" class="logo"></a>
     			</div>
@@ -78,6 +80,7 @@
     				<li>
     					<a href="{{ path('home_contact') }}" class="{% if app.request.attributes.get('_route') == 'home_contact' %}active{% endif %}">{{ 'contact'|trans }}</a>
     				</li>
+                    <a href="mailto:contact@saio.fr?Subject=Demande de test&amp;body=Bonjour,%0A%0AJe souhaiterais effectuer un test de votre solution sur mon site internet. Pourriez-vous me contacter afin que nous puissions échanger à ce sujet ?%0A%0AJe vous remercie par avance.%0A%0ACordialement,%0A%0A" class="button">{{ 'demande de test'|trans }}</a>
     			</ul>
     		</div>
     	</div>

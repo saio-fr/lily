@@ -5,7 +5,6 @@ namespace Lily\UserBundle\Controller;
 use Lily\UserBundle\Entity\User;
 use Lily\UserBundle\Form\UserType;
 use Lily\BackOfficeBundle\Controller\BaseController;
-use Lily\ChatBundle\Entity\LogChat; //todo: remove
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +34,7 @@ class ManageController extends BaseController
     }
 
     /**
-     * @Get("/rest")
+     * @Get("/rest/")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getUsersAction() {
@@ -62,20 +61,22 @@ class ManageController extends BaseController
      * @View(statusCode=204)
      */
     public function delAction($id) {
-        $userManager = $this->get('fos_user.user_manager');
-        $userDel = $userManager->findUserBy(Array('id' => $id));
-        
+    
+        $manager = $this->get('fos_user.user_manager');
+        $user = $manager->findUserBy(Array('id' => $id));
+
         //Security check
         $enterprise = $this->getUser()->getEnterprise();
-        if($userDel === null || $userDel->getEnterprise() !== $enterprise) {
+        if($user === null || $user->getEnterprise() !== $enterprise) {
             throw $this->createNotFoundException();
         }
 
-        if($userDel === $this->getUser()) {
-            throw new \Exception("Vous ne pouvez pas supprimer votre propre compte.");
+        if($user === $this->getUser()) {
+            throw new \Exception("You cannot delete your own account.");
         }
-
-       // $userManager->deleteUser($userDel);
+		
+       $manager->deleteUser($user);
+       
     }
 
     /**
@@ -84,57 +85,66 @@ class ManageController extends BaseController
      * @View(statusCode=204)
      */
     public function editAction($id, Request $request) {
+    
         $data = json_decode($request->getContent(), true);
 
-        $userManager = $this->get('fos_user.user_manager');
-        $userEdited = $userManager->findUserBy(Array('id' => $id));
+        $manager = $this->get('fos_user.user_manager');
+        $user = $manager->findUserBy(Array('id' => $id));
 
         //Security check
         $enterprise = $this->getUser()->getEnterprise();
-        if($userEdited === null || $userEdited->getEnterprise() !== $enterprise) {
+        if($user === null || $user->getEnterprise() !== $enterprise) {
             throw $this->createNotFoundException();
         }
 
 
-        $userForm = $this->createForm(new UserType, $userEdited, array('adminModif'=>true, 'csrf_protection' => false));
-        $userForm->bind($data);
+        $form = $this->createForm(new UserType, $user, array('adminModif'=>true, 'csrf_protection' => false));
+        $form->bind($data);
 
-        if($userEdited === $this->getUser() && !in_array('ROLE_ADMIN', $userEdited->getRoles())) {
-            throw new \Exception("Vous ne pouvez pas vous supprimer les droits d'administration.");
+        if($user === $this->getUser() && !in_array('ROLE_ADMIN', $user->getRoles())) {
+            throw new \Exception("You can't delete admin rules on your own account");
         }
 
-        //Manage the avatar
-        $this->updateAvatar($userEdited);
-
-        $userManager->updateUser($userEdited);
+        // Manage the avatar
+        $this->updateAvatar($user);
+        $manager->updateUser($user);
+        
+        $view = $this->view($user)->setFormat('json');
+		return $this->handleView($view);
+     
     }
 
     /**
-     * @Post("/rest/")
+     * @Post("/rest")
      * @Secure(roles="ROLE_ADMIN")
      * @View(statusCode=204)
      */
     public function addAction(Request $request) {
-        $enterprise = $this->getUser()->getEnterprise();
+    
+        $enterprise = $this->getEnterprise();
         $maxusers = $enterprise->getMaxusers();
         $users = $enterprise->getUsers();
-        if(count($users)>=$maxusers)
-            throw new \Exception("Limite d'utilisateur dépassée.");
+        
+        if(count($users) >= $maxusers)
+            throw new \Exception("User limit reached.");
 
         $data = json_decode($request->getContent(), true);
 
-        $userManager = $this->get('fos_user.user_manager');
-        $newUser=$userManager->createUser();
-    
-        $userForm = $this->createForm(new UserType, $newUser, array('adminModif'=>true, 'csrf_protection' => false));
-        $userForm->bind($data);
+        $manager = $this->get('fos_user.user_manager');
+        $new = $manager->createUser();
+
+        $form = $this->createForm(new UserType, $new, array('adminModif'=>true, 'csrf_protection' => false));
+        $form->bind($data);
 
         //Gestion avatar
-        $newUser->setEnabled(true);
-        $newUser->setEnterprise($enterprise);
-        $this->updateAvatar($newUser);
+        $new->setEnabled(true);
+        $new->setEnterprise($enterprise);
+        $this->updateAvatar($new);
 
-        $userManager->updateUser($newUser);
+        $manager->updateUser($new);
+        
+        $view = $this->view($new)->setFormat('json');
+		return $this->handleView($view);
 
     }
 
@@ -143,70 +153,76 @@ class ManageController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getUserFormAction() {
-        $userForm = $this->createForm(new UserType, null, array('adminModif'=>true));
-        return $this->render('LilyUserBundle:Manage:UserManagement/user_edit.html.twig', array('form' => $userForm->createView()));
+    
+        $userForm = $this->createForm(new UserType, null, array('adminModif' => true));
+        
+        return $this->render('LilyUserBundle:Manage:Users/edit.html.twig', array('form' => $userForm->createView()));
+        
     }
 
     public function avatarWidgetAction($id, Request $request) {
+    
         $urlGenerator=$this->get('templating.helper.assets');
 
-        $errors=[];
+        $errors = [];
 
         /* Récupération de l'user (null si création) */
-        if($id==0) {
-            $userEdited=null;
+        if ($id == 0) {
+            $user = null;
         } else {
-            $userManager = $this->get('fos_user.user_manager');
-            $userEdited = $userManager->findUserBy(Array('id' => $id));
+        
+            $manager = $this->get('fos_user.user_manager');
+            $user = $manager->findUserBy(array('id' => $id));
 
             //Security check
-            $enterprise = $this->getUser()->getEnterprise();
-            if($userEdited === null || $userEdited->getEnterprise() !== $enterprise) {
+            $enterprise = $this->getEnterprise();
+            if($user === null || $user->getEnterprise() !== $enterprise) {
                 throw $this->createNotFoundException();
             }
+            
         }
 
         /* Création du formulaire */
-        $avatarWidgetForm = $this->createForm(new UserType, $userEdited, array('avatarWidget'=>true));
-       
+        $form = $this->createForm(new UserType, $user, array('avatarWidget' =>true));
+
         /* Traitement de l'envoi d'un nouvel avatar */
-        if($request->getMethod() == 'POST') {
-            $avatarWidgetForm->bind($request);
+        if ($request->getMethod() == 'POST') {
+        
+            $form->handleRequest($request);
+		
+            $tmpAvatar = $this->uploadTmpAvatar($user, $form->get('avatarFile')->getData());
+            $tmpAvatarUrl = $urlGenerator->getUrl($tmpAvatar);
 
-            if($avatarWidgetForm->isValid()) {
-                $tmpAvatar = $this->uploadTmpAvatar($userEdited, $avatarWidgetForm->get('avatarFile')->getData());
-                $tmpAvatarUrl = $urlGenerator->getUrl($tmpAvatar);
-
-                // Recréation du formulaire (on vient de le soumettre)
-                $avatarWidgetForm = $this->createForm(new UserType, $userEdited, array('avatarWidget'=>true));
-                $avatarWidgetForm->get('avatar')->setData($tmpAvatarUrl);
-            } else {
-                $errors[]="Une erreur est survenue, image non supportée ?";
-            }
+            // Recréation du formulaire (on vient de le soumettre)
+            $form = $this->createForm(new UserType, $user, array('avatarWidget' => true));
+            $form->get('avatar')->setData($tmpAvatarUrl);
+                
+            
         } else if($id==0) {
-            $tmpAvatarUrl=$urlGenerator->getUrl('images/avatar-utilisateur.png');
-            $avatarWidgetForm->get('avatar')->setData($tmpAvatarUrl);
+        
+            $tmpAvatarUrl = $urlGenerator->getUrl('images/avatar-utilisateur.png');
+            $form->get('avatar')->setData($tmpAvatarUrl);
+            
         }
 
-
-
-        return $this->render('LilyUserBundle:Manage:UserManagement/avatarWidget.html.twig', array('form' => $avatarWidgetForm->createView(), 'errors' => $errors));
+        return $this->render('LilyUserBundle:Manage:Users/avatarWidget.html.twig', array('form' => $form->createView(), 'errors' => $errors));
+        
     }
 
-    //Upload le fichier temporaire lié à l'avatar servant à la prévisualisation
+    // Upload le fichier temporaire lié à l'avatar servant à la prévisualisation
     private function uploadTmpAvatar($user, $avatarFile) {
         $enterprise = $this->getUser()->getEnterprise();
 
-        if ($avatarFile === null) { //Pas de fichier à uploader
+        if ($avatarFile === null) { // Pas de fichier à uploader
             return;
         }
 
-        if($user !== null) { // L'utilisateur existe
+        if ($user !== null) { // L'utilisateur existe
 
             $tmpAvatarFileName = $user->getId() . '.' . $avatarFile->guessExtension();
             $tmpAvatar = User::getTmpUploadDir($enterprise) . $tmpAvatarFileName;
             $user->setTmpAvatar($tmpAvatar);
-        
+			
         } else { // L'utilisateur n'existe pas encore (création d'un compte utilisateur)
 
             $tmpAvatarFileName = 'new-user' . '.' . $avatarFile->guessExtension();
@@ -218,7 +234,7 @@ class ManageController extends BaseController
         $avatarFile->move(User::getTmpUploadRootDir($enterprise),   // Répertoire de destination
                                     $tmpAvatarFileName); // Nom du fichier
 
-        return  $tmpAvatar;
+        return $tmpAvatar;
     }
 
     private function updateAvatar($user) {
@@ -255,23 +271,23 @@ class ManageController extends BaseController
                                   ->getManager('dev')
                                   ->getRepository('LilyChatBundle:LogChat');
 
-        $userId=$selectedUser->getId();
+        $userId = $selectedUser->getId();
 
-        $startTimestamp=$start/1000;
-        $endTimestamp=$end/1000;
-        $userStats=[];
-        $userStats['averageNumberOfConversation']=$logChatRepository->hourlyNumberOfConversation($userId, $startTimestamp, $endTimestamp); //$logChatRepository->averageConversationTime($userId); 
-        $userStats['averageConversationTime']=$logChatRepository->averageConversationTime($userId, $startTimestamp, $endTimestamp); 
-        $userStats['averageWaited']=$logChatRepository->averageWaited($userId, $startTimestamp, $endTimestamp);
-        $userStats['averageSatisfaction']=$logChatRepository->averageSatisfaction($userId, $startTimestamp, $endTimestamp); 
-        $userStats['averageActivity']="Non calculée";  
-        
+        $startTimestamp = $start/1000;
+        $endTimestamp = $end/1000;
+        $userStats = [];
+        $userStats['averageNumberOfConversation'] = $logChatRepository->hourlyNumberOfConversation($userId, $startTimestamp, $endTimestamp);
+        $userStats['averageConversationTime'] = $logChatRepository->averageConversationTime($userId, $startTimestamp, $endTimestamp);
+        $userStats['averageWaited'] = $logChatRepository->averageWaited($userId, $startTimestamp, $endTimestamp);
+        $userStats['averageSatisfaction'] = $logChatRepository->averageSatisfaction($userId, $startTimestamp, $endTimestamp);
+        $userStats['averageActivity'] = "Non calculée";
+
         return $userStats;
     }
 
     /**
      * @Get("/rest/userStats/{id}/graph/{type}/{start}/{end}", requirements={"id" = "\d+", "type"="numberOfConversation|conversationTime|waited|satisfaction", "start" = "\d+", "end" = "\d+"})
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getStatsAction($type, $id, $start, $end) {
@@ -285,32 +301,32 @@ class ManageController extends BaseController
         }
 
         //Convert the microtimestamp to timestamp and then Datetime.
-        $timestampStart=round($start/1000);
-        $timestampEnd=round($end/1000);
+        $timestampStart = round($start/1000);
+        $timestampEnd = round($end/1000);
 
         $from = new \Datetime();
         $from->setTimestamp($timestampStart);
-        
+
         $to = new \Datetime();
         $to->setTimestamp($timestampEnd);
 
         //$diff is in days
-        $diff= $to->diff($from)->format('%a');
+        $diff = $to->diff($from)->format('%a');
 
         // Parameters
         if($diff <= 1) {
             $intervalSize = 1*60*60;    // (1 hour)     // interval in second between 2 points (here 1 hour)
             $step = 2;                                  // interval between 2 legend on x axis
             $period = 'hour';                           // unit
-        } elseif($diff <=7) {
+        } elseif($diff <= 7) {
             $intervalSize = 1*24*60*60; // (1 day)
             $step = 1;
             $period = 'day';
-        } elseif($diff <=40) {
+        } elseif($diff <= 40) {
             $intervalSize = 1*24*60*60; // (1 days)
             $step = 4;
             $period = 'day';
-        } elseif($diff <=64) {
+        } elseif($diff <= 64) {
             $intervalSize = 2*24*60*60;  // (2 days)
             $step = 4;
             $period = 'day';
@@ -333,16 +349,16 @@ class ManageController extends BaseController
 
         switch($type) {
             case "numberOfConversation":
-                $data=$logChatRepository->hourlyNumberOfConversation($userId, $timestampStart, $timestampEnd, $intervalSize); 
+                $data = $logChatRepository->hourlyNumberOfConversation($userId, $timestampStart, $timestampEnd, $intervalSize);
             break;
             case "conversationTime":
-                $data=$logChatRepository->averageConversationTime($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
+                $data = $logChatRepository->averageConversationTime($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
             break;
             case "waited":
-                $data=$logChatRepository->averageWaited($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
+                $data = $logChatRepository->averageWaited($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
             break;
             case "satisfaction":
-                $data=$logChatRepository->averageSatisfaction($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
+                $data = $logChatRepository->averageSatisfaction($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
             break;
             default:
                throw $this->createNotFoundException();
@@ -354,13 +370,13 @@ class ManageController extends BaseController
         }
 
 
-        $graphData=[];
-        for($n=round($timestampStart/$intervalSize); $n<round($timestampEnd/$intervalSize); $n++) {
+        $graphData = [];
+        for($n = round($timestampStart/$intervalSize); $n < round($timestampEnd/$intervalSize); $n++) {
 
-            $graphData[]= [(string) ($n*$intervalSize*1000),   //x value: microtimestamp
-                           (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
+            $graphData[] = [(string) ($n*$intervalSize*1000),   //x value: microtimestamp
+                            (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
         }
-        $graphData=array_reverse($graphData);
+        $graphData = array_reverse($graphData);
         return ['type' => $type,
                 'period' => $period,
                 'step' => $step,
@@ -368,13 +384,13 @@ class ManageController extends BaseController
     }
 
     /**
-     * @Get("/rest/conversationHistory/{operatorId}", requirements={"operatorId" = "\d+"})
-     * 
+     * @Get("/rest/conversationHistory/{operator}", requirements={"operator" = "\d+"})
+     *
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function getConversationsAction($operatorId) {
+    public function getConversationsAction($operator) {
         $userManager = $this->get('fos_user.user_manager');
-        $selectedUser = $userManager->findUserBy(Array('id' => $operatorId));
+        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
 
         //Security check
         $enterprise = $this->getUser()->getEnterprise();
@@ -384,22 +400,22 @@ class ManageController extends BaseController
 
         return  [
             ['id'=> 1, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 621', 'endTime' => 1406649334, 'startTime' => 1406648334, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
-            ['id'=> 2, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 622', 'endTime' => 1406698354, 'startTime' => 1406648334, 'redirect' => 14, 'blocked' => true, 'satisfaction'=>true],
+            ['id'=> 2, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 622', 'endTime' => 1406698354, 'startTime' => 1406648334, 'redirect' => 13, 'blocked' => true, 'satisfaction'=>true],
             ['id'=> 3, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 623', 'endTime' => 1406649344, 'startTime' => 1406648787, 'redirect' => false, 'blocked' => false, 'satisfaction'=>null],
-            ['id'=>10, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 648', 'endTime' => 1406649384, 'startTime' => 1406644894, 'redirect' => 14, 'blocked' => false, 'satisfaction'=>false],
+            ['id'=>10, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 648', 'endTime' => 1406649384, 'startTime' => 1406644894, 'redirect' => 13, 'blocked' => false, 'satisfaction'=>false],
             ['id'=>21, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 650', 'endTime' => 1406649334, 'startTime' => 1406648454, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
             ['id'=>24, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 653', 'endTime' => 1406649374, 'startTime' => 1406648123, 'redirect' => false, 'blocked' => false, 'satisfaction'=>false],
         ];
     }
     /**
-     * @Get("/rest/conversationHistory/conversation/{conversationId}", requirements={"operatorId" = "\d+", "conversationId" = "\d+" })
-     * 
+     * @Get("/rest/conversationHistory/conversation/{conversationId}", requirements={"operator" = "\d+", "conversationId" = "\d+" })
+     *
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getConversationDetailAction($conversationId) {
         $userManager = $this->get('fos_user.user_manager');
 
-/*        $selectedUser = $userManager->findUserBy(Array('id' => $operatorId));
+/*        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
 
         //Security check
         $enterprise = $this->getUser()->getEnterprise();
@@ -408,19 +424,77 @@ class ManageController extends BaseController
         }*/
 
         return  [
-                    "conversationId" => $conversationId,
-                    "startTime" => 1406648334,
-                    "interlocutors" => [
-                                            0 => ["type"=>"operator", "id"=>10],
-                                            1 => ["type"=>"user", "name"=>"User 625"]
-                                        ],
-                    "messages" => [
-                        ["time"=>1406648334, "interlocutor"=>0, "content"=>"Bonjour, comment puis-je vous aider ?"],
-                        ["time"=>1406648342, "interlocutor"=>1, "content"=>"Bonjour,"],
-                        ["time"=>1406648362, "interlocutor"=>1, "content"=>"Je cherche à savoir combien de cheveux possède M. Peychès"],
-                        ["time"=>1406648389, "interlocutor"=>0, "content"=>"Oh, c'est une question très simple :"],
-                        ["time"=>1406648400, "interlocutor"=>0, "content"=>"Il n'en a pas !"],
-                    ]
-                ];
+            "conversationId" => $conversationId,
+            "startTime" => 1406648334,
+            "interlocutors" => [
+                                    0 => ["type"=>"operator", "id"=>10],
+                                    1 => ["type"=>"user", "name"=>"User 625"]
+                                ],
+            "messages" => [
+                ["time"=>1406648334, "interlocutor"=>0, "content"=>"Bonjour, comment puis-je vous aider ?"],
+                ["time"=>1406648342, "interlocutor"=>1, "content"=>"Bonjour,"],
+                ["time"=>1406648362, "interlocutor"=>1, "content"=>"Je cherche à savoir combien de cheveux possède M. Peychès"],
+                ["time"=>1406648389, "interlocutor"=>0, "content"=>"Oh, c'est une question très simple :"],
+                ["time"=>1406648400, "interlocutor"=>0, "content"=>"Il n'en a pas !"],
+            ]
+        ];
+    }
+
+
+    /**
+     * @Get("/rest/knowledgeBase/{operator}", requirements={"operator" = "\d+"})
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getKnowledgeBaseHistoryAction($operator) {
+        $userManager = $this->get('fos_user.user_manager');
+        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
+
+        //Security check
+        $enterprise = $this->getUser()->getEnterprise();
+        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+            throw $this->createNotFoundException();
+        }
+
+        return  [
+            ['id'=> 1, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 621', 'endTime' => 1406649334, 'startTime' => 1406648334, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
+            ['id'=> 2, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 622', 'endTime' => 1406698354, 'startTime' => 1406648334, 'redirect' => 13, 'blocked' => true, 'satisfaction'=>true],
+            ['id'=> 3, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 623', 'endTime' => 1406649344, 'startTime' => 1406648787, 'redirect' => false, 'blocked' => false, 'satisfaction'=>null],
+            ['id'=>10, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 648', 'endTime' => 1406649384, 'startTime' => 1406644894, 'redirect' => 13, 'blocked' => false, 'satisfaction'=>false],
+            ['id'=>21, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 650', 'endTime' => 1406649334, 'startTime' => 1406648454, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
+            ['id'=>24, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 653', 'endTime' => 1406649374, 'startTime' => 1406648123, 'redirect' => false, 'blocked' => false, 'satisfaction'=>false],
+        ];
+    }
+    /**
+     * @Get("/rest/knowledgeBase/question/{question}", requirements={"operator" = "\d+", "question" = "\d+" })
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getQuestionDetailAction($question) {
+        $userManager = $this->get('fos_user.user_manager');
+
+/*        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
+
+        //Security check
+        $enterprise = $this->getUser()->getEnterprise();
+        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+            throw $this->createNotFoundException();
+        }*/
+
+        return [
+            "question" => $question,
+            "startTime" => 1406648334,
+            "interlocutors" => [
+                0 => ["type"=>"operator", "id"=>10],
+                1 => ["type"=>"user", "name"=>"User 625"]
+            ],
+            "messages" => [
+                ["time"=>1406648334, "interlocutor"=>0, "content"=>"Bonjour, comment puis-je vous aider ?"],
+                ["time"=>1406648342, "interlocutor"=>1, "content"=>"Bonjour,"],
+                ["time"=>1406648362, "interlocutor"=>1, "content"=>"Je cherche à savoir combien de cheveux possède M. Peychès"],
+                ["time"=>1406648389, "interlocutor"=>0, "content"=>"Oh, c'est une question très simple :"],
+                ["time"=>1406648400, "interlocutor"=>0, "content"=>"Il n'en a pas !"],
+            ]
+        ];
     }
 }

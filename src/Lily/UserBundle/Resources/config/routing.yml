@@ -1,7 +1,7 @@
 lily_profil:
     pattern:  /profil
     defaults: { _controller: LilyUserBundle:Profil:index }
-    
+
 lily_user:
     pattern:  /users
     defaults: { _controller: LilyUserBundle:Manage:index }
@@ -16,3 +16,7 @@ lily_user_rest:
     resource: "@LilyUserBundle/Controller/ManageController.php"
     type:     rest
     prefix:   /users
+    
+fp_js_form_validator:
+    resource: "@FpJsFormValidatorBundle/Resources/config/routing.xml"
+    prefix: /fp_js_form_validator

@@ -1,9 +1,17 @@
 /* =======================================================================================
 LIVE CHAT
 =======================================================================================================*/
+.conversation-section-list a {
+  text-decoration: underline;
+  font-weight: 600;
+}
 
 i {
   font-weight: bold !important;
+}
+
+.conversations .avatar {
+  float: left;
 }
 
 .live-nav.active a {
@@ -68,10 +76,6 @@ i {
 .windows .dropdown-menu {
   margin-top: 5px;
   min-width: 138px;
-}
-
-.status {
-  margin-right: 7px;
 }
 
 .status .dropdown-menu {
@@ -439,6 +443,7 @@ i {
   color: #6075a4;
   border-right: 2px solid #6075a4;
   min-height: 35px;
+  word-wrap: break-word;
 }
 
 .conversation-section-item p.msg-visitor .date {
@@ -453,12 +458,17 @@ i {
   padding-left: 15px;
 }
 
+.msg-with-avatar {
+  margin-left: 30px;
+  border-left: 0 !important;
+}
+
 .conversation-section-item p span {
   color: #d6d6d6;
   display: block;
 }
 
-.conversation-section p.conversation-date {
+.conversation-section p.msg-server {
   border-bottom: 1px dotted #a9abb1;
   padding-bottom: 8px;
   margin-bottom: 20px;
@@ -496,6 +506,18 @@ i {
   overflow: hidden;
   -o-text-overflow: ellipsis; /* pour Opera 9 */
   text-overflow: ellipsis;
+}
+
+.name-form-control {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #6e7d83;
+  font-weight: 600;
+  overflow: hidden;
+  -o-text-overflow: ellipsis; /* pour Opera 9 */
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .informations-form-control {

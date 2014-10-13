@@ -1,0 +1,43 @@
+<section class="bg-light lter">
+  <section class="hbox stretch">
+    <!-- .aside -->
+    <aside>
+      <section class="vbox">
+        <section class="scrollable" id="userManagementContent">
+          <div id="userOverview">
+            <a href="#">Utilisateurs</a>
+            <span class="icon-chevron-right"></span>
+            <span class="overviewUserName"><%=listUser._byId[userId].get('lastname').toUpperCase() %> <%=listUser._byId[userId].get('firstname') %></span>
+             <span class="lastLogin"><%=listUser._byId[userId].getLastLoginHuman() %></span>
+          </div>
+          <header class="bg-light">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab-livechat" data-toggle="tab">Live chat</a></li>
+              <li><a href="#tab-conversationHistory" data-toggle="tab">Conversation</a></li>
+              <li><a href="#tab-knowledgeBase" data-toggle="tab">Base de connaissances</a></li>
+            </ul>
+          </header>
+
+          <div class="wrapper">
+            <div class="tab-content col-md-12">
+              <div class="tab-pane active" id="tab-livechat">
+                <div id="graph"></div>
+              </div>
+              <div class="tab-pane" id="tab-conversationHistory">
+                <div id="conversationHistory">
+                </div>
+              </div >
+              <div class="tab-pane" id="tab-knowledgeBase">
+                <div id="knowledgeBaseHistory">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </aside>
+    <!-- /.aside -->
+    <aside id="user-detail" class="aside-userManagement bg-light lter b-l hide"></aside>
+    <!-- Affichage du panneau de modification-->
+  </section>
+</section>

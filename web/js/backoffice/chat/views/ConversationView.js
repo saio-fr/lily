@@ -34,8 +34,6 @@ chat.Views.Conversation = Backbone.View.extend({
 		this.listenTo(this.model, 'render', this.active);
 		this.listenTo(this.model, 'minus', this.minus);
 		this.listenTo(this.model, 'change:writing', this.writing);
-		// After an half hour of inactivity, the model is removed on the server
-		this.listenTo(this.model, 'remove', this.remove);
 		
 		// Add Active class to record view
 		this.active();
@@ -136,6 +134,11 @@ chat.Views.Conversation = Backbone.View.extend({
 				break;
 			case 'visitor':	
 				new chat.Views.MessageVisitor({
+					model: message
+				}).render( this.$el.find('.conversation-section-list') );
+				break;
+			case 'server':	
+				new chat.Views.MessageServer({
 					model: message
 				}).render( this.$el.find('.conversation-section-list') );
 				break;

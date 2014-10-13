@@ -7,9 +7,6 @@ use Ratchet\Wamp\WampServerInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\Wamp\Topic;
 
-use \ZMQContext;
-use \ZMQ;
-
 use Lily\ChatBundle\Server\App\Handler\RPCHandlerInterface;
 use Lily\ChatBundle\Server\App\Handler\TopicHandlerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -18,8 +15,7 @@ use Lily\ChatBundle\Event\ClientErrorEvent;
 
 class Chat implements WampServerInterface, MessageComponentInterface {
 
-    protected $topicHandler, $rpcHandler, $eventDispatcher, $clients;
-    public $available;
+    public $topicHandler, $rpcHandler, $eventDispatcher, $clients, $available;
 
     public function __construct(RPCHandlerInterface $rpcHandler, TopicHandlerInterface $topicHandler, EventDispatcherInterface $eventDispatcher)
     {	
@@ -44,7 +40,7 @@ class Chat implements WampServerInterface, MessageComponentInterface {
         $this->isAvailable();
     }
 
-    //WampServer adds and removes subscribers to Topics automatically, this is for further optional events.
+    // WampServer adds and removes subscribers to Topics automatically, this is for further optional events.
     public function onSubscribe(Conn $conn, $topic) {    
     	if ($topic->getId() == 'operator') $this->operator = $topic;    
         $this->topicHandler->onSubscribe($conn, $topic, $this->clients);
@@ -83,26 +79,25 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     	$this->available = false;
     	$operators = 0;	
     	$queue = 0;
-    	
+
     	foreach($this->clients as $item) {
 	    	if ($item->type == 'operator') {
-	    		
+
 	    		if ($item->available) {
-		    		$operators +=1;
-		    		if ($item->chats <= $this->config->chatMax) {
+		    		++$operators;
+		    		if ($item->chats < $this->config->chatMax) {
 			    		$this->available = true;
-						return $this->available;
 		    		}
 	    		}
 	    	}
-	    	
-	    	if ($item->type == 'visitor' && $item->operator == null) {
-		    	$queue += 1;    	
+
+	    	if ($item->type == 'visitor' && $item->operator == null && $item->closed == false) {
+		    	++$queue;    	
 		    }
     	}
 
-	    if ($operators > 0) {
-			if ($queue <= $this->config->chatMaxQueue * $operators) $this->available = true;
+	    if (!$this->available && $operators > 0) {
+			if ($this->config->chatQueue && ($queue < $this->config->chatMaxQueue * $operators)) $this->available = true;
 			else $this->available = false;
 	    }
 
@@ -119,21 +114,4 @@ class Chat implements WampServerInterface, MessageComponentInterface {
         foreach ($data as $key => $value) { $result[$key] = (array) $value; }
         return $result;
 	}
-	
-   /**
-    * Called every min
-    */
-	public function timedCallback() {
-
-        // Test if visitor is still connected
-		foreach ($this->clients as $item) {
-			if ($item->type === 'visitor' && $item->lastConn < ( time() - 1800 )) { 
-				// Detach the client
-				$this->clients->detach($item);				
-			}			
-		}   
-		
-		$this->operator->broadcast($this->toArray($this->clients));
-		     
-    }
 }
