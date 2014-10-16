@@ -74,6 +74,9 @@
 	    <script type="text/template" id="lily-page-chat-template">
 	        {% include 'LilyApiBundle:themes/lily/templates:chat.html.twig' with {'config': config, 'enterprise': enterprise } %}
 	    </script>
+	    <script type="text/template" id="lily-page-chat-welcome-screen">
+	        {% include 'LilyApiBundle:themes/lily/templates:chat_welcome_screen.html.twig' with {'config': config} %}
+	    </script>
 	    <script type="text/template" id="lily-page-faq-template">
 	        {% include 'LilyApiBundle:themes/lily/templates:faq.html.twig' %}
 	    </script>
@@ -155,6 +158,7 @@
 'js/api/views/content.js'
 'js/api/views/avi.js'
 'js/api/views/chat.js'
+'js/api/views/chatWelcomeScreen.js'
 'js/api/views/mail.js'
 
 'js/api/routers/router.js' output='js/compiled/api.js' %}

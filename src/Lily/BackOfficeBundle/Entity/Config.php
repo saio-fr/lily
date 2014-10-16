@@ -64,6 +64,54 @@ class Config
     /**
      * @var boolean
      *
+     * @JMS\SerializedName("chatContactForm")
+     * @ORM\Column(name="chatContactForm", type="boolean")
+     */
+    public $chatContactForm;
+    
+    /**
+     * @var string
+     *
+     * @JMS\SerializedName("chatContactFormMsg")
+     * @ORM\Column(name="chatContactFormMsg", type="string")
+     */
+    public $chatContactFormMsg;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("chatContactFirstNameField")
+     * @ORM\Column(name="chatContactFirstNameField", type="boolean")
+     */
+    public $chatContactFirstNameField;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("chatContactLastNameField")
+     * @ORM\Column(name="chatContactLastNameField", type="boolean")
+     */
+    public $chatContactLastNameField;
+
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("chatContactEmailField")
+     * @ORM\Column(name="chatContactEmailField", type="boolean")
+     */
+    public $chatContactEmailField;  
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("chatContactFormAvoidable")
+     * @ORM\Column(name="chatContactFormAvoidable", type="boolean")
+     */
+    public $chatContactFormAvoidable;       
+    
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="avi", type="boolean")
      */
     public $avi;
@@ -554,5 +602,143 @@ class Config
     public function getHome()
     {
         return $this->home;
+    }
+
+    /**
+     * Set chatContactForm
+     *
+     * @param boolean $chatContactForm
+     * @return Config
+     */
+    public function setChatContactForm($chatContactForm)
+    {
+        $this->chatContactForm = $chatContactForm;
+
+        return $this;
+    }
+
+    /**
+     * Get chatContactForm
+     *
+     * @return boolean 
+     */
+    public function getChatContactForm()
+    {
+        return $this->chatContactForm;
+    }
+
+    /**
+     * Set chatContactFormMsg
+     *
+     * @param string $chatContactFormMsg
+     * @return Config
+     */
+    public function setChatContactFormMsg($chatContactFormMsg)
+    {
+        $this->chatContactFormMsg = $chatContactFormMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get chatContactFormMsg
+     *
+     * @return string 
+     */
+    public function getChatContactFormMsg()
+    {
+        return $this->chatContactFormMsg;
+    }
+
+    /**
+     * Set chatContactFirstNameField
+     *
+     * @param boolean $chatContactFirstNameField
+     * @return Config
+     */
+    public function setChatContactFirstNameField($chatContactFirstNameField)
+    {
+        $this->chatContactFirstNameField = $chatContactFirstNameField;
+
+        return $this;
+    }
+
+    /**
+     * Get chatContactFirstNameField
+     *
+     * @return boolean 
+     */
+    public function getChatContactFirstNameField()
+    {
+        return $this->chatContactFirstNameField;
+    }
+
+    /**
+     * Set chatContactLastNameField
+     *
+     * @param boolean $chatContactLastNameField
+     * @return Config
+     */
+    public function setChatContactLastNameField($chatContactLastNameField)
+    {
+        $this->chatContactLastNameField = $chatContactLastNameField;
+
+        return $this;
+    }
+
+    /**
+     * Get chatContactLastNameField
+     *
+     * @return boolean 
+     */
+    public function getChatContactLastNameField()
+    {
+        return $this->chatContactLastNameField;
+    }
+
+    /**
+     * Set chatContactEmailField
+     *
+     * @param boolean $chatContactEmailField
+     * @return Config
+     */
+    public function setChatContactEmailField($chatContactEmailField)
+    {
+        $this->chatContactEmailField = $chatContactEmailField;
+
+        return $this;
+    }
+
+    /**
+     * Get chatContactEmailField
+     *
+     * @return boolean 
+     */
+    public function getChatContactEmailField()
+    {
+        return $this->chatContactEmailField;
+    }
+
+    /**
+     * Set chatContactFormAvoidable
+     *
+     * @param boolean $chatContactFormAvoidable
+     * @return Config
+     */
+    public function setChatContactFormAvoidable($chatContactFormAvoidable)
+    {
+        $this->chatContactFormAvoidable = $chatContactFormAvoidable;
+
+        return $this;
+    }
+
+    /**
+     * Get chatContactFormAvoidable
+     *
+     * @return boolean 
+     */
+    public function getChatContactFormAvoidable()
+    {
+        return $this->chatContactFormAvoidable;
     }
 }

@@ -19,12 +19,12 @@
   
   <p> <b>Page en cours : </b> </p>
   <ul class="informations-list">
-  	<li class="informations-item"><%= _.first(pages) %></li>
+  	<li class="informations-item"><a href="<%= _.first(pages).href %>" target="_blank"><%= _.first(pages).pathname %></a></li>
   </ul>  
   
   <p> <b>Pages vues : </b> </p><% _.each(pages, function(page) { %>
   <ul class="informations-list">
-  	<li class="informations-item"><%= page %></li>
+  	<li class="informations-item"><a href="<%= page.href %>" target="_blank"><%= page.pathname %></a></li>
   </ul> <% }) %>
 
 </section>

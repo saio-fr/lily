@@ -3,6 +3,8 @@
 namespace Lily\ApiBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 
 /**
  * RequeteRepository
@@ -64,18 +66,40 @@ class LogRequestRepository extends EntityRepository
 		          
 	}
 	
-	public function uniqueUsers($from, $to) {
-		
-		$qb = $this->createQueryBuilder('r');
-		
-		$qb->select('count(distinct r.session)')
-		   ->where('r.date >= :from')
-		   ->setParameter('from', $from)
-		   ->andWhere('r.date <= :to')
-		   ->setParameter('to', $to);
-		
-		return $qb->getQuery()
-		          ->getSingleScalarResult();
+	public function uniqueUsers($from, $to, $intervalSize=null) {
+		          
+		//NB : Since DQL does not allow subrequest, we have to use native SQL.
+        $rsm = new ResultSetMapping;
+        $rsm->addScalarResult("users", "value");
+
+        $selectedFields="AVG(users) as users";
+        $groupBy="";
+        if($intervalSize!==null) {
+            $rsm->addScalarResult("intervalId", "intervalId");
+            $selectedFields.=",  ROUND(date/(:intervalSizeInHours)) AS intervalId";
+            $groupBy=" GROUP BY intervalId";
+        }
+
+        $sql='SELECT ' . $selectedFields . ' FROM ((
+                SELECT COUNT(distinct r.session) AS users, ROUND(UNIX_TIMESTAMP(r.date) / 3600) AS date
+                    FROM LogRequest r
+                    WHERE UNIX_TIMESTAMP(r.date) >= :from
+                      AND UNIX_TIMESTAMP(r.date) < :to
+                    GROUP BY date)
+                as T)
+            ' . $groupBy;
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameter('from', $from);
+        $query->setParameter('to', $to);
+
+        if($intervalSize!==null) {
+            $intervalSizeInHours=$intervalSize/3600;
+            $query->setParameter('intervalSizeInHours', $intervalSizeInHours);
+            return $query->getResult();
+        } else {
+            return $query->getSingleScalarResult() ?: 0;
+        }
 		          
 	}
 	

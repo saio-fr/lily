@@ -49,3 +49,10 @@ ul.top-questions-list {
   vertical-align:middle;
   display:inline-block;
 }
+.panel-footer a {
+  cursor: pointer;
+}
+
+.panel-footer a.active {
+  color: #6eaee8;
+}

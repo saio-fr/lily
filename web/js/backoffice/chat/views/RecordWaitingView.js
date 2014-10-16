@@ -13,6 +13,7 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 		this.listenTo(this.model, 'change:operator', this.update); 
     	this.listenTo(this.model, 'change:closed', this.update);
 		this.listenTo(this.model, 'change:messages', this.status);
+		this.listenTo(this.model, 'change:name', this.render);
 		// The visitor has been waiting over 2 minutes without reply
 		this.listenTo(this.model, 'urgent', this.urgent);
 		// After an half hour of inactivity, the model is removed on the server
@@ -69,6 +70,8 @@ chat.Views.RecordWaiting = Backbone.View.extend({
 	doChat: function() {
 		
 		that = this;
+		
+		if ($(window).width() < 768) $('.aside-chat-left').css({display: 'none'});
 		
 		sess.call('chat/set_operator', { sid: this.model.get('id') } ).then(function (result) {
    

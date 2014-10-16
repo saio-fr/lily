@@ -16,6 +16,7 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		this.listenTo(this.model, 'change:operator', this.close);
 		this.listenTo(this.model, 'change:closed', this.remove);
 		this.listenTo(this.model, 'change:banned', this.remove);
+		this.listenTo(this.model, 'change:name', this.render);
 		this.listenTo(this.model, 'unactive', this.unactive);
 		this.listenTo(this.model, 'active', this.active);
 		this.listenTo(this.model, 'urgent', this.urgent);
@@ -79,6 +80,8 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 	
 		var that = this;
 		
+		if ($(window).width() < 768) $('.aside-chat-left').css({display: 'none'});
+		
 		// If the view already exists and only a view is show, do nothing
 		if ( this.$el.hasClass('active') && chat.app.windows.length <= 1 ) { return; }
 		
@@ -102,7 +105,7 @@ chat.Views.RecordCurrent = Backbone.View.extend({
 		if (chat.app.windows.length < chat.app.maxWindows) {
 
 			// Create a new conversation view
-			chat.app.windows.unshift( new chat.Views.Conversation({ model: this.model }) );			
+			chat.app.windows.unshift( new chat.Views.Conversation({ model: this.model }) );	
 			chat.app.trigger('change:windows');
 		
 		} else {

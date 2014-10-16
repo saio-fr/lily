@@ -42,8 +42,10 @@ chat.Views.App = Backbone.View.extend({
 		    , function(session) {  // Once the connection has been established
 				
 				sess = session;
-				sess.subscribe('operator', function (topic, payload) { chat.app.records.set(payload);console.log(payload); });
-
+				sess.subscribe('operator', function (topic, payload) { chat.app.records.set(payload); });
+				
+				chat.app.setWindows();
+				
 				sess.call('chat/isAvailable').then(function(event) {
 					if (event.result) { 
 						chat.app.available = true;
@@ -98,7 +100,7 @@ chat.Views.App = Backbone.View.extend({
 				record.$el.find('.timer-chat').html( hours + 'h ' + minutes + 'm ' + seconds + 's' );
 				
 				break;
-			// Timer for last msg from operator	
+			// Timer for last msg
 			case 'lastMsg':	
 			
 				diff =  (now - last);
@@ -173,8 +175,8 @@ chat.Views.App = Backbone.View.extend({
 	},
 	
 	setMaxWindows: function( ev ) {
-		
-		if ( ev !== false ) { this.maxWindows = $(ev.target).attr('data'); }
+
+		if ( typeof(ev) !== 'undefined' ) { this.maxWindows = $(ev.target).attr('data'); }
 		
 		if ( this.maxWindows < this.windows.length ) {
 			
@@ -189,7 +191,7 @@ chat.Views.App = Backbone.View.extend({
 	
 	setWindows: function () {
 		
-				
+		
 		// If there is more 1 windows, add "multiple" class to show them all
 		if ( this.windows.length > 1 ) {
 		
@@ -217,11 +219,21 @@ chat.Views.App = Backbone.View.extend({
 		
 		}
 		
-		if ( $('#live').height() < 750 ) { 
+		if ( $('#live').height() < 750) {
 		
-			$('.windows .dropdown-select li:nth-child(2) a').trigger( "click" );
-			$('.conversations').children().removeClass('half-height');
+			$('.windows .dropdown-select li:nth-child(3) a').hide();
+			if (this.maxWindows == 4) { 	
+				$('.windows .dropdown-select li:nth-child(2) a').trigger( "click" );
+				$('.conversations').children().removeClass('half-height');
+			}		
+		} else {
+			$('.windows .dropdown-select li:nth-child(3) a').show();
+		}
 		
+		if ($(window).width() > 768) $('.aside-chat-left').css({display: 'table-cell'});
+		else {
+			if (this.windows.length > 0) $('.aside-chat-left').css({display: 'none'});
+			else $('.aside-chat-left').css({display: 'block'});
 		}
 		
 	},	

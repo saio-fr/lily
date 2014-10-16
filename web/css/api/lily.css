@@ -723,7 +723,7 @@ MESSAGES
 }
 
 #lily-box-messages .lily-notation-wrapper{
-	margin-bottom: 60px;
+	margin-bottom: 25px;
 }
 
 #lily-chat-notation-wrapper{
@@ -1111,11 +1111,18 @@ SNAP.JS
 CONTACT FORM
 *******************/
 
+.lily-contact-form h5{
+	color: #404040;
+	font-weight: 400;
+	font-size: 15px;
+}
 
 .lily-contact-form p{
 	color: #404040;
 	margin-top: 12px;
 	margin-bottom: 10px;
+	font-size: 13px;
+	font-weight: 600;
 }
 
 .lily-contact-form {
@@ -1143,6 +1150,18 @@ CONTACT FORM
 	border-radius: 0;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	outline: 0;
+}
+
+.lily-contact-form label{
+	color: #f62441;
+	display: inline;
+	color: 11px;
+	font-weight: 300;
+}
+
+.lily-contact-form input.warning {
+	border-color: #f62441;
 }
 
 .lily-contact-form textarea{
@@ -1151,15 +1170,16 @@ CONTACT FORM
 	line-height: 25px;
 }
 
-.lily-contact-form a{
+.lily-contact-form button{
 	display: block;
 	width: 100%;
-	background-color: #77004e;
+	border: none;
 	text-transform: uppercase;
 	text-align: center;
 	line-height: 40px;
 	margin-top: 15px;
 	margin-bottom: 30px;
+	outline: 0;
 }
 
 /*******************

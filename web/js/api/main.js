@@ -19,6 +19,7 @@ var	lily = {
 	Models: {},
 	Router: null,
 	chatting: false,
+	chatContactForm: true,
 	Events: {},
 	
 	init: function () {
@@ -41,8 +42,9 @@ $(function() {
 	    				
 			lily.ws = session;
 			lily.ws.subscribe('visitor/'+sid, function (topic, payload) {});
-			lily.ws.call('chat/connect', {'url':top.location.pathname}).then(function(result) { 
+			lily.ws.call('chat/connect', {'href': top.location.href,'pathname':top.location.pathname}).then(function(result) { 
 				lily.chatting = result.chatting;
+				lily.chatContactForm = result.showContactForm;
 				lily.init();
 			});
 		

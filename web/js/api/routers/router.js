@@ -49,8 +49,9 @@ lily.Router = Backbone.Router.extend({
 	},
 	
 	chat: function () {
-		if (typeof(view) !== 'undefined') {view.remove();}
-		var view = new lily.Views.Chat();
+		if (typeof(view) !== 'undefined') view.remove();
+		if (config.chatContactForm && lily.chatContactForm) var view = new lily.Views.ChatWelcomeScreen();
+		else var view = new lily.Views.Chat();
 		lily.instance.goTo(view);
 	},
 

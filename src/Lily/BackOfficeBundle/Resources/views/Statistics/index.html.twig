@@ -25,7 +25,9 @@
 		<header class="header bg-dark bg-gradient">
 		  <ul id="statistics-nav" class="nav nav-tabs">
 		    <li class="usage-nav active"><a href="#usage">Utilisation</a></li>
-		    <li class="dialogue-nav"><a href="#dialogue">Dialogue</a></li>
+		    <li class="avi-nav"><a href="#avi">Avi</a></li>
+		    <li class="chat-nav"><a href="#chat">Chat</a></li>
+		    <li class="operators-nav"><a href="#operators">Opérateurs</a></li>
 		  </ul>
 		</header>    
         
@@ -53,14 +55,14 @@
     <script type="text/template" id="graph-usage-footer">
         {% include 'LilyBackOfficeBundle:Statistics:graph-usage-footer.html.twig' %}
     </script>
-	<script type="text/template" id="dialogue">
-        {% include 'LilyBackOfficeBundle:Statistics:dialogue.html.twig' with {'categories': categories} %}
+	<script type="text/template" id="avi">
+        {% include 'LilyBackOfficeBundle:Statistics:avi.html.twig' with {'categories': categories} %}
     </script>
-    <script type="text/template" id="graph-dialogue">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-dialogue.html.twig' %}
+    <script type="text/template" id="graph-avi">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-avi.html.twig' %}
     </script>
-    <script type="text/template" id="graph-dialogue-footer">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-dialogue-footer.html.twig' %}
+    <script type="text/template" id="graph-avi-footer">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-avi-footer.html.twig' %}
     </script>
     {% endblock %}
 
@@ -78,7 +80,23 @@
 
 {{ parent() }}
 
-{% javascripts 'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/charts/morris/raphael-min.js' 'js/charts/morris/morris.min.js' 'js/vendor/moment.js' 'js/daterangepicker/daterangepicker.js' 'js/backoffice/statistics.js' %}
+{% javascripts 
+
+'js/charts/flot/jquery.flot.min.js' 
+'js/charts/flot/jquery.flot.tooltip.min.js' 
+'js/charts/flot/jquery.flot.resize.js' 
+'js/charts/flot/jquery.flot.orderBars.js' 
+'js/charts/flot/jquery.flot.pie.min.js' 
+'js/charts/flot/jquery.flot.time.min.js' 
+'js/charts/morris/raphael-min.js' 
+'js/charts/morris/morris.min.js' 
+'js/vendor/moment.js' 
+'js/daterangepicker/daterangepicker.js' 
+'js/backoffice/statistics/avi.js'
+'js/backoffice/statistics/chat.js'
+'js/backoffice/statistics/usage.js'
+'js/backoffice/statistics/users.js'
+'js/backoffice/statistics/app.js'%}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

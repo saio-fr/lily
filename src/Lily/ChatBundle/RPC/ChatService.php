@@ -73,13 +73,31 @@ class ChatService
     {	    	
         foreach ($clients as $item) {
 			if ($item->id === $conn->Session->getId()) { 
-				$item->pages[] = $params['url'];
+				$item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
 				if ($item->closed) $chatting = false;
 				else $chatting = true;
+				$showContactForm = $item->showContactForm;
 			}
 		}
 		
-		return array('chatting' => $chatting);		
+		return array('chatting' => $chatting, 'showContactForm' => $showContactForm);		
+    }
+    
+   /**
+    * Set visitors' contact informations from contact from
+    */
+    public function contactForm(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $conn->Session->getId()) { 
+				$item->firstname = $params['firstname'];
+				$item->lastname = $params['lastname'];
+				$item->email = $params['email'];
+				$item->showContactForm = false;
+			}
+		}
+		
+		return array('result' => true);		
     }
     
    /**
@@ -106,6 +124,20 @@ class ChatService
 				$item->firstname = $params['firstname'];
 				$item->lastname = $params['lastname'];
 				$item->email = $params['email'];
+			}
+		}
+		
+		return array('result' => true);		
+    }
+    
+   /**
+    * Change chat's name
+    */
+    public function changeName(Conn $conn, $params, $clients)
+    {	    	
+        foreach ($clients as $item) {
+			if ($item->id === $params['sid']) { 
+				$item->name = $params['name'];
 			}
 		}
 		

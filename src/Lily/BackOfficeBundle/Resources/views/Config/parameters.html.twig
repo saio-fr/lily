@@ -143,7 +143,7 @@
     	
 	    <p class="administration-p">Limiter le nombre de conversations à</p>
     	<input name="chatMax" type="text" class="form-control chatMax" value="<%= chatMax %>">
-    	<p class="administration-p">par opérateur disponible.</p>
+    	<p class="administration-p">par opérateur disponible</p>
     	
         <h5>File d'attente</h5>
 		<div class="row">
@@ -156,7 +156,51 @@
     	<div>
         	<p class="administration-p">Limiter la file d'attente à</p>
         	<input name="chatMaxQueue" type="text" class="form-control chatMaxQueue" value="<%= chatMaxQueue %>">
-        	<p class="administration-p">places par conseiller en production.</p>
+        	<p class="administration-p">places par conseiller en production</p>
+    	</div>
+    	
+    	<h5>Ecran d'accueil</h5>
+		<div class="row">
+            <label class="switch">
+            	<input name="chatContactForm" type="checkbox" <% if (chatContactForm) { %> checked <% } %> >
+            	<span></span>
+            </label>
+            <p>Activer un écran d'accueil invitant l'utilisateur à renseigner ses informations personnelles</p>
+    	</div>
+    	<p class="administration-p">Message d'accueil :</p>
+    	<div class="col-sm-12">
+          <div id="editor" name="chatContactFormMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= chatContactFormMsg %></div>
+        </div>
+    	<p class="administration-p">Afficher sur l'écran d'accueil :</p>
+        <div class="row">
+        	<div class="return">
+            	<label class="switch">
+                	<input name="chatContactLastNameField" type="checkbox" <% if (chatContactLastNameField) { %> checked <% } %> >
+                	<span></span>
+                </label>
+                <p>Un champ nom</p>
+            </div>
+            <div class="return">
+                <label class="switch">
+                	<input name="chatContactFirstNameField" type="checkbox" <% if (chatContactFirstNameField) { %> checked <% } %> >
+                	<span></span>
+                </label>
+                <p>Un champ prénom</p>
+            </div>
+            <div class="return">
+                <label class="switch">
+                	<input name="chatContactEmailField" type="checkbox" <% if (chatContactEmailField) { %> checked <% } %>>
+                	<span></span>
+                </label>
+                <p>Un champ email</p>
+            </div>
+        </div>
+        <div class="row">
+            <label class="switch">
+            	<input name="chatContactFormAvoidable" type="checkbox" <% if (chatContactFormAvoidable) { %> checked <% } %> >
+            	<span></span>
+            </label>
+            <p>Autoriser le visiteur à ne pas renseigner ces informations</p>
     	</div>
       </section>
     </div>

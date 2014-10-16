@@ -104,11 +104,23 @@ $(function(){
 		    chatMax = this.$el.find('input[name="chatMax"]').val();
 		    chatQueue = this.$el.find('input[name="chatQueue"]').is(':checked');
 		    chatMaxQueue = this.$el.find('input[name="chatMaxQueue"]').val();
+		    chatContactForm = this.$el.find('input[name="chatContactForm"]').is(':checked');
+		    chatContactFormMsg = this.$el.find('div[name="chatContactFormMsg"]').text();
+		    chatContactFirstNameField = this.$el.find('input[name="chatContactFirstNameField"]').is(':checked');
+		    chatContactLastNameField = this.$el.find('input[name="chatContactLastNameField"]').is(':checked');
+		    chatContactEmailField = this.$el.find('input[name="chatContactEmailField"]').is(':checked');
+		    chatContactFormAvoidable = this.$el.find('input[name="chatContactFormAvoidable"]').is(':checked');
 		    
 		    this.model.set({'chatAutoSetOperator': chatAutoSetOperator});
 		    this.model.set({'chatMax': chatMax});
 		    this.model.set({'chatQueue': chatQueue});
 		    this.model.set({'chatMaxQueue': chatMaxQueue});
+		    this.model.set({'chatContactForm': chatContactForm});
+		    this.model.set({'chatContactFormMsg': chatContactFormMsg});
+		    this.model.set({'chatContactFirstNameField': chatContactFirstNameField});
+		    this.model.set({'chatContactLastNameField': chatContactLastNameField});
+		    this.model.set({'chatContactEmailField': chatContactEmailField});
+		    this.model.set({'chatContactFormAvoidable': chatContactFormAvoidable});
 		    
 		    this.model.url = '/update';
 		    

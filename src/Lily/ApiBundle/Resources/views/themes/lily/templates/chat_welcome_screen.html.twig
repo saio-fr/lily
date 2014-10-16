@@ -1,0 +1,23 @@
+<div class="lily-page-cont"> <!--wrapper page les différentes pages--> 
+	<header id="lily-header" class="lily-cst-header">
+	  <span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
+	</header
+	<section class="lily-main-content">
+	  <div class="lily-contact-form">
+	    <h5>{{ config.chatContactFormMsg }}</h5>
+	    {% if config.chatContactLastNameField %}	
+		<p>Nom: <label class="lastname" style="display:none">Ce champ ne peut pas être vide.</label></p>
+		<input id="lastname" class="lily-cst-form-color" type="text" name="lastname" placeholder="Votre Nom" size="30"/>
+		{% endif %}
+		{% if config.chatContactFirstNameField %}
+		<p>Prénom: <label class="firstname" style="display:none">Ce champ ne peut pas être vide.</label></p>
+		<input id="firstname" class="lily-cst-form-color" type="text" name="firstname" placeholder="Votre Prénom" size="30"/>
+		{% endif %}
+		{% if config.chatContactEmailField %}
+		<p>Email: <label class="email" style="display:none">Ce champ ne peut pas être vide.</label></p>
+	    <input id="email" class="lily-cst-form-color" type="text" name="email" placeholder="Votre Email" size="30"/>
+	    {% endif %}
+		<button class="lily-btn-submit-color" class="button">Commencer la discussion</button>
+	  </div>
+	</section>
+</div>

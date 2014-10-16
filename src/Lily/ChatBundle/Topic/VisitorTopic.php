@@ -58,7 +58,7 @@ class VisitorTopic implements TopicInterface
     	$visitor = new \StdClass;
         $visitor->id = $sid;
         $visitor->topic = $topic;
-        $visitor->name = substr($sid, 0, 9);
+        $visitor->name = 'ID'.substr($sid, 0, 9);
         $visitor->type = 'visitor';
         $visitor->firstname = null;
         $visitor->lastname = null;
@@ -79,6 +79,8 @@ class VisitorTopic implements TopicInterface
         $visitor->questions = array();
         // Pages seen by the visitor
         $visitor->pages = array();
+        // Did the visitor auth on contact form screen ?
+        $visitor->showContactForm = true;
         
         $clients->attach($visitor);
     }

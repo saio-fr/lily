@@ -13,7 +13,8 @@ chat.Views.Conversation = Backbone.View.extend({
 		'click .ban' : 'ban',
 		'click .transfer' : 'transfer',
 		'click .conversation-form button.send' : 'send',
-		'click .conversation-form .icon-trash' : 'clearInput'
+		'click .conversation-form .icon-trash' : 'clearInput',
+		'focusout input[name=name]': 'changeName'
 	},	
 	
 	initialize: function() {
@@ -159,6 +160,9 @@ chat.Views.Conversation = Backbone.View.extend({
 
 		if (typeof(e) !== 'undefined') e.stopPropagation();
 		
+		if ($(window).width() < 768) $('.aside-chat-left').css({display: 'block'});
+		else $('.aside-chat-left').css({display: 'table-cell'});
+		
 	  	var that = this;
 		
 		this.model.trigger('unactive');
@@ -250,6 +254,14 @@ chat.Views.Conversation = Backbone.View.extend({
 	    	this.$writing.removeClass('fadeIn').addClass('fadeOut'); 
 	    }
 	    
-    }
+    },
+    
+    changeName: function(e) {
+		
+		this.name = this.$el.find('input[name="name"]').val();
+		
+		sess.call('chat/changeName', {sid: this.model.get('id'), name: this.name});
+		
+	}
 	
 });
