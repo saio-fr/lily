@@ -3125,7 +3125,7 @@ background-color: #ffffff;
 }
 .loader {
 
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   top: 40%;
   left: 47%;

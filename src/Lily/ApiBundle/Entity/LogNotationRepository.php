@@ -42,88 +42,30 @@ class LogNotationRepository extends EntityRepository
 		
 	}
 	
-	public function satisfaction($question) {
+	public function satisfaction($from, $to, $intervalSize, $satisfaction) {
 		
-		if ($this->notations($question) > 0) {
-			$satisfaction = ($this->satisfied($question) / $this->notations($question)) * 100;
-		} else { $satisfaction = 100; }
-		return $satisfaction;
-				
-	}
-	
-	public function totalSatisfied($from, $to, $intervalSize) {
-		          
-		//NB : Since DQL does not allow subrequest, we have to use native SQL.
-        $rsm = new ResultSetMapping;
-        $rsm->addScalarResult("satisfied", "value");
+		$qb = $this->createQueryBuilder('n');
+        
+        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+        $qb->select('count(n) as value')
+           ->where('UNIX_TIMESTAMP(n.date) >= :start')
+           ->setParameter('start', $from)
+           ->andWhere('UNIX_TIMESTAMP(n.date) < :end')
+           ->setParameter('end', $to);
+           
+        if($satisfaction !== null) {
+           $qb->andWhere('n.satisfied < :true')
+              ->setParameter('true', $satisfaction);
+		}
 		
-		$selectedFields="satisfied";
-        $groupBy="";
         if($intervalSize!==null) {
-            $rsm->addScalarResult("intervalId", "intervalId");
-            $selectedFields.=",  ROUND(date/(:intervalSizeInHours)) AS intervalId";
-            $groupBy=" GROUP BY intervalId";
-        }
-
-        $sql='SELECT ' . $selectedFields . ' FROM ((
-                SELECT COUNT(*) AS satisfied, ROUND(UNIX_TIMESTAMP(lc.date) / 3600) AS date
-                    FROM LogNotation lc
-                    WHERE UNIX_TIMESTAMP(lc.date) >= :from
-                      AND UNIX_TIMESTAMP(lc.date) < :to
-                      AND lc.satisfied = :true
-                    GROUP BY date)
-                as T)
-            ' . $groupBy;
-
-        $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter('from', $from);
-        $query->setParameter('to', $to);
-        $query->setParameter('true', true);
-
-        if($intervalSize!==null) {
-            $intervalSizeInHours=$intervalSize/3600;
-            $query->setParameter('intervalSizeInHours', $intervalSizeInHours);
-            return $query->getResult();
+           $qb->addSelect('ROUND(UNIX_TIMESTAMP(n.date)/(:intervalSize)) as intervalId')
+              ->setParameter('intervalSize', $intervalSize)
+              ->groupBy('intervalId');
+            return $qb->getQuery()->getResult();
         } else {
-            return $query->getSingleScalarResult() ?: 0;
+            return $qb->getQuery()->getSingleScalarResult() ?: 0;
         }	          
-		
-	}
-	
-	public function totalNotations($from, $to, $intervalSize) {
-	
-		//NB : Since DQL does not allow subrequest, we have to use native SQL.
-        $rsm = new ResultSetMapping;
-        $rsm->addScalarResult("satisfied", "value");
-		
-		$selectedFields="satisfied";
-        $groupBy="";
-        if($intervalSize!==null) {
-            $rsm->addScalarResult("intervalId", "intervalId");
-            $selectedFields.=",  ROUND(date/(:intervalSizeInHours)) AS intervalId";
-            $groupBy=" GROUP BY intervalId";
-        }
-
-        $sql='SELECT ' . $selectedFields . ' FROM ((
-                SELECT COUNT(*) AS satisfied, ROUND(UNIX_TIMESTAMP(lc.date) / 3600) AS date
-                    FROM LogNotation lc
-                    WHERE UNIX_TIMESTAMP(lc.date) >= :from
-                      AND UNIX_TIMESTAMP(lc.date) < :to
-                    GROUP BY date)
-                as T)
-            ' . $groupBy;
-
-        $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter('from', $from);
-        $query->setParameter('to', $to);
-
-        if($intervalSize!==null) {
-            $intervalSizeInHours=$intervalSize/3600;
-            $query->setParameter('intervalSizeInHours', $intervalSizeInHours);
-            return $query->getResult();
-        } else {
-            return $query->getSingleScalarResult() ?: 0;
-        }	   
 		
 	}
 	

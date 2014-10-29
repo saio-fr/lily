@@ -41,7 +41,7 @@ class DashboardController extends BaseController
 		  	
 			$requests = $this->getEntityManager()
     			     	 	 ->getRepository('LilyApiBundle:LogRequest')
-					 	 	 ->requests($from, $to); 
+					 	 	 ->requests($from, $to, null); 
 	    					   
 	    	$this->get('memcache.default')->set('dashboard_requests_'.$cname, $requests, 86400);
 	    
@@ -57,7 +57,7 @@ class DashboardController extends BaseController
 			
 			$loadings = $this->getEntityManager()
     			     	 	 ->getRepository('LilyApiBundle:LogRequest')
-					 	 	 ->uniqueUsers($from, $to);
+					 	 	 ->uniqueUsers($from, $to, null);
 	    					   
 	    	$this->get('memcache.default')->set('dashboard_loadings_'.$cname, $loadings, 86400);
 	    
@@ -71,7 +71,7 @@ class DashboardController extends BaseController
 			// taux d'utilisation
 			$visitors = $this->getEntityManager()
     			     	  	 ->getRepository('LilyApiBundle:LogConnection')
-					 	  	 ->uniqueVisitors($from, $to);
+					 	  	 ->uniqueVisitors($from, $to, null);
 	    					   
 	    	$this->get('memcache.default')->set('dashboard_visitors_'.$cname, $visitors, 86400);
 	    
@@ -115,13 +115,13 @@ class DashboardController extends BaseController
 			
 			$notations = $this->getEntityManager()
     			     	 	  ->getRepository('LilyApiBundle:LogNotation')
-					 	 	  ->totalNotations($from, $to);
+					 	 	  ->notations($from, $to, true, null);
 			
 			if ($notations !== '0') { 
 				
 				$satisfied = $this->getEntityManager()
     			     	 	  	  ->getRepository('LilyApiBundle:LogNotation')
-					 	 	  	  ->totalSatisfied($from, $to);
+					 	 	  	  ->notations($from, $to, true, null);
 					 	 	  	  
 				$satisfaction = ($satisfied / $notations) * 100; 
 			

@@ -1,1 +1,0 @@
-lily.Redirection=Backbone.Model.extend({});

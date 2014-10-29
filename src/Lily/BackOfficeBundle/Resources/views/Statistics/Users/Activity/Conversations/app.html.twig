@@ -1,0 +1,19 @@
+<header class="panel-heading font-bold">Historique de conversation
+  <div id="reportrange" class="pull-right">
+    <i class="icon-calendar"></i>
+    <span></span><b class="caret"></b>
+  </div>
+  <div class="btn-group pull-right sort-menu">
+    <button class="btn btn-sm sort-menu-btn dropdown-toggle" data-toggle="dropdown">Trier par <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li data-criteria="start" class="active">Date</li>
+      <li data-criteria="duration">Durée</li>
+      <li data-criteria="satisfaction">Satisfaction</li>
+      <li data-criteria="banned">Banni</li>
+    </ul>
+  </div>
+</header>
+<section class="hbox stretch bg-white">
+  <aside><ul id="conversations-list"></ul></aside>
+  <aside id="conversation-details" class="hide bg-light lter"></aside>
+</section>

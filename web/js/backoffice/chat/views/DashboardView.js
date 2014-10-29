@@ -152,7 +152,7 @@ chat.DashboardView = Backbone.View.extend({
     
     updatePieChart: function () {
 
-	    this.stats.load = ( this.visitors.length / this.available.length ) * 10;
+	    this.stats.load = ( this.visitors.length / this.available.length ) * 5;
 	    
 	    if (this.stats.load > 100) this.stats.load = 100;
 	    if (this.operators.length == 0) this.stats.load = 0;

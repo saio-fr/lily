@@ -50,19 +50,20 @@ class LogChatCommand extends ContainerAwareCommand
 					$item = $params['item'];
 					$log = new LogChat();
 					$log->setSession($item['id']);
+					$log->setName($item['name']);
 					$log->setOperator($item['operator']);
+					$log->setTransfered($item['transfered']);
 					$log->setFirstname($item['firstname']);
 					$log->setLastname($item['lastname']);
 					$log->setEmail($item['email']);
 					$log->setSatisfaction($item['satisfaction']);
-					$log->setStartTime(new \DateTime('@'.$item['startTime']));
-					$log->setEndTime(new \DateTime('@'.$item['lastMsgTime']));
-					$log->setWaited($item['startChatTime'] - $item['startTime']);
+					$log->setStart(new \DateTime('@'.$item['startTime']));
+					$log->setEnd(new \DateTime('@'.$item['lastMsgTime']));
+					$log->setWaited(round($item['waited']/$item['received']));
 					$log->setMessages($item['messages']);
 					$em->persist($log);
 					$em->flush();
-					break;
-				
+					break;				
 			}
 
 		});

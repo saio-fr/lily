@@ -105,7 +105,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
         // Test if visitor is still connected
 		foreach ($this->app->clients as $item) {
-			if ($item->type === 'visitor' && $item->lastConn < ( time() - 1200 )) { 
+			if ($item->type === 'visitor' && $item->lastConn < ( time() - 1200 ) && $item->lastMsgTime < ( time() - 1200 )) { 
 				
 				if ($item->operator !== null) {
 
@@ -118,7 +118,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 					}  	
 				}
 				
-				if (count($item->messages) > 0) {
+				if ($item->received > 0 && $item->sent > 0) {
 					$this->socket->send(json_encode(array('action' => 'log', 'item' => $item)));
 				}
 

@@ -31,8 +31,37 @@
 	   	  </ul>
 	    </div>
 	</section>                
+  </div>
+  
+  <div class="col-md-6">
+	<section class="panel">
+	    <header class="panel-heading font-bold">Questions les plus fréquentes</header>
+	    <div class="panel-body no-padder">
+	      <ul class="top-questions-list">
+	    	<li class="top-questions-item">
+	    	  <div class="top-questions-number">1</div>
+	    	  <h6 class="top-questions-title"><span>{% if questions[0].title is defined %}{{ questions[0].title }}{% else %}Pas assez de questions répondues{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">2</div>
+	    	  <h6 class="top-questions-title"><span>{% if questions[1].title is defined %}{{ questions[1].title }}{% else %}Pas assez de questions répondues{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">3</div>
+	    	  <h6 class="top-questions-title"><span>{% if questions[2].title is defined %}{{ questions[2].title }}{% else %}Pas assez de questions répondues{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">4</div>
+	    	  <h6 class="top-questions-title"><span>{% if questions[3].title is defined %}{{ questions[3].title }}{% else %}Pas assez de questions répondues{% endif %}</span></h6>
+	        </li>
+	        <li class="top-questions-item">
+	    	  <div class="top-questions-number">5</div>
+	    	  <h6 class="top-questions-title"><span>{% if questions[4].title is defined %}{{ questions[4].title }}{% else %}Pas assez de questions répondues{% endif %}</span></h6>
+	        </li>
+	   	  </ul>
+	    </div>
+	</section>                
   </div>	
-
   
   <div class="col-md-6">
     <section class="panel">

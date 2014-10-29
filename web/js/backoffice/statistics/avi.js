@@ -1,7 +1,8 @@
-	$.ajaxPrefilter(function (options) {
-	    options.url = root + options.url;
-	});
 	var lily = lily || {};
+	
+	$.ajaxPrefilter(function (options) {
+        options.url = root_stats + options.url;
+	});
 
 /*========================================
 	  Avi Vue
@@ -14,6 +15,8 @@
 	    initialize: function () {
 	    
 	        this.render();
+	        this.graph = new lily.AviGraphView();
+	        this.redirections = new lily.RedirectionsMediaView();
 	               
 	    },
 	    render: function () {
@@ -45,23 +48,19 @@
 	    	this.data = new lily.Data();
 	    	this.footer = new lily.Data();
 	    	if (typeof this.start == 'undefined') {
-	        	this.start = moment().subtract('days', 30);
-				this.end = moment();
+	        	this.start = moment().subtract('days', 6);
+				this.end = moment().endOf('day');
 			}
 	    	this.render(); 
 	    },
 	    render: function () {
 	        this.footer = new lily.Data();
 	    	this.footer.url = '/avi/footer/'+this.start+'/'+this.end;
-	    	$(this.$el).find('.loader').css({'opacity':'1'});
 	    	var that = this;
 	    	this.footer.fetch({
 		    	success: function() {
 		    		that.$el.html(that.template());
-			    	
-			    	// On affiche le loader
-					$(that.$el).find('footer').css({'opacity':0});
-			    	
+			    	$(that.$el).find('.loader').fadeIn();
 			    	$('#reportrange').daterangepicker({
 						ranges: {
 					         'Cette semaine': [moment().subtract('days', 6), moment()],
@@ -69,7 +68,7 @@
 					         'Ce semestre': [moment().subtract('month', 4).startOf('month'), moment()],
 					         'Cette année': [moment().subtract('month', 12), moment()]
 					      },
-					      startDate: moment().subtract('days', 29),
+					      startDate: moment().subtract('days', 6),
 					      endDate: moment(),
 					      dateLimit: { months: 36 }
 					    },
@@ -91,7 +90,7 @@
 	    	});
 	    },
 	    events: {
-	        'hide #reportrange' : 'range',
+	        'hide.daterangepicker' : 'range',
 	    },
 	    aviFooter: function() {
 	    	var that = this;
@@ -114,13 +113,13 @@
 	    	
 	    	this.data.fetch({
 		    	success: function (data) {
-		    		
+					console.log(data);
 					that.graph(data);
 					that.aviFooter();
 					
 		    		$(that.$el).find('#graph-usage').animate({'opacity':1});
 		    		$(that.$el).find('footer').animate({'opacity':1});
-			    	$(that.$el).find('.loader').animate({'opacity':0});
+			    	$(that.$el).find('.loader').fadeOut();
 			    	
 				}
 	    	});	
@@ -133,7 +132,6 @@
 				d1.push([data.attributes.values.questions[i][0], data.attributes.values.questions[i][1]]);
 				i++;
 			}
-			
 			d2 = [];
 	    	var i = 0;
 			while (typeof data.attributes.values.answered[i] != 'undefined') {
@@ -190,8 +188,8 @@
 	        },
 	        colors: ["#6eaee8", "#92d050"],
 	        xaxis: {
-				min: d1[d1.length - 1][0],
-	            max: d1[0][0],
+				min: d1[0][0],
+	            max: d1[d1.length - 1][0],
 	            mode: "time",
 				tickSize: [data.attributes.step, data.attributes.period], 
 	            tickLength: 0      
@@ -209,9 +207,7 @@
 	            y: 20
 	          },
 	        }
-	        }
-	        );
-	    
+	      });   
 	    },
 	});
 

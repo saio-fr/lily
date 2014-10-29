@@ -22,11 +22,25 @@ class LogChat
     private $id;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=150, nullable=true)
+     */
+    private $name;
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="operator", type="integer", nullable=true)
      */
     private $operator;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="transfered", type="boolean")
+     */
+    private $transfered;
 
     /**
      * @var string
@@ -59,16 +73,16 @@ class LogChat
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="startTime", type="datetime", nullable=true)
+     * @ORM\Column(name="start", type="datetime", nullable=true)
      */
-    private $startTime;
+    private $start;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="endTime", type="datetime", nullable=true)
+     * @ORM\Column(name="end", type="datetime", nullable=true)
      */
-    private $endTime;
+    private $end;
 
     /**
      * @var integer
@@ -83,6 +97,13 @@ class LogChat
      * @ORM\Column(name="satisfaction", type="boolean", nullable=true)
      */
     private $satisfaction;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="banned", type="boolean", nullable=true)
+     */
+    private $banned;
     
     /**
      * @var array $messages
@@ -126,49 +147,36 @@ class LogChat
     }
 
     /**
-     * Set startTime
+     * Get start
      *
-     * @param \DateTime $startTime
+     * @return \DateTime 
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Set end
+     *
+     * @param \DateTime $end
      * @return LogChat
      */
-    public function setStartTime($startTime)
+    public function setEndTime($end)
     {
-        $this->startTime = $startTime;
+        $this->end = $end;
     
         return $this;
     }
 
     /**
-     * Get startTime
+     * Get end
      *
      * @return \DateTime 
      */
-    public function getStartTime()
+    public function getEnd()
     {
-        return $this->startTime;
-    }
-
-    /**
-     * Set endTime
-     *
-     * @param \DateTime $endTime
-     * @return LogChat
-     */
-    public function setEndTime($endTime)
-    {
-        $this->endTime = $endTime;
-    
-        return $this;
-    }
-
-    /**
-     * Get endTime
-     *
-     * @return \DateTime 
-     */
-    public function getEndTime()
-    {
-        return $this->endTime;
+        return $this->end;
     }
 
     /**
@@ -330,5 +338,100 @@ class LogChat
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Set banned
+     *
+     * @param boolean $banned
+     * @return LogChat
+     */
+    public function setBanned($banned)
+    {
+        $this->banned = $banned;
+
+        return $this;
+    }
+
+    /**
+     * Get banned
+     *
+     * @return boolean 
+     */
+    public function getBanned()
+    {
+        return $this->banned;
+    }
+
+    /**
+     * Set transfered
+     *
+     * @param boolean $transfered
+     * @return LogChat
+     */
+    public function setTransfered($transfered)
+    {
+        $this->transfered = $transfered;
+
+        return $this;
+    }
+
+    /**
+     * Get transfered
+     *
+     * @return boolean 
+     */
+    public function getTransfered()
+    {
+        return $this->transfered;
+    }
+
+    /**
+     * Set start
+     *
+     * @param \DateTime $start
+     * @return LogChat
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * Set end
+     *
+     * @param \DateTime $end
+     * @return LogChat
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return LogChat
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

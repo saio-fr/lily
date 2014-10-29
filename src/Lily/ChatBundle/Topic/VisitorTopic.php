@@ -70,6 +70,12 @@ class VisitorTopic implements TopicInterface
         $visitor->closed = true;
         $visitor->startTime = time();
         $visitor->lastConn = time();
+        // Waited time in second
+        $visitor->waited = 0;
+        // Number of messages sent
+        $visitor->sent = 0;
+        // Number of operator's messages received
+        $visitor->received = 0;
         $visitor->lastMsgTime = time();
         // Is the visitor writing ?
         $visitor->writing = false;
@@ -117,6 +123,14 @@ class VisitorTopic implements TopicInterface
 		foreach ($clients as $item) {
 		
 			if ($item->id === $visitorId) { 
+				
+				$item->received += 1;
+				
+				if (count($item->messages) >0 && end($item->messages)['from'] == 'visitor') {
+					
+					$item->waited += time() - $item->lastMsgTime;
+					
+				}
 				
 				$item->lastMsgTime = time();						
 				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $operator, 'date' => time(), 'msg' => $event);	

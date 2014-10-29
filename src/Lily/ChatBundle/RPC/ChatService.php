@@ -179,7 +179,7 @@ class ChatService
 									  
 					$item->operator = $availables[$key]->id;
 					$item->startChatTime = time();
-					
+					$item->received += 1;
 					$item->messages[] = array('id' => uniqid(), 'from' => 'server', 'date' => time(), 'action' => 'startChat');				
 					$item->messages[] = array('id' => uniqid(), 
 											  'from' => 'operator', 

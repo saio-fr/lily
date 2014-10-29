@@ -12,12 +12,11 @@ chat.Views.App = Backbone.View.extend({
 	},
 	
 	initialize: function() {	
-/*
-		
+		/*		
 		// Get a list of all enterprise' operators
 		this.operators = new chat.Operators();
 		this.operators.fetch();
-*/
+		*/
 		
 		// Create the view to show who's connecting and start chatting
 		this.records = new chat.Records();
@@ -72,17 +71,17 @@ chat.Views.App = Backbone.View.extend({
 	
 	timers: function( record, type ) {
 
-		// Setting up record variables
+		// Setting up timer variables
 		now = new moment();
-		start = record.model.get('startTime')*1000 - 1000;
-		last = record.model.get('lastMsgTime')*1000 -1000;
+		start = moment(record.model.get('startTime')*1000-1000);
+		last = moment(record.model.get('lastMsgTime')*1000-1000);
 		
 		switch ( type ) {
 			// Timer for chat			
 			case 'chat':
 			
-				diff =  (now - start);
-				timer = new moment(diff);
+				if (now.diff(start) > 0) timer = moment(now.diff(start));
+				else timer = moment(0);
 				hours = timer.hours()-1;
 				minutes = timer.minutes();
 				seconds = timer.seconds();
@@ -103,12 +102,12 @@ chat.Views.App = Backbone.View.extend({
 			// Timer for last msg
 			case 'lastMsg':	
 			
-				diff =  (now - last);
-				timer = new moment(diff);
+				if (now.diff(last) > 0) timer = moment(now.diff(last));
+				else timer = moment(0);
 				hours = timer.hours()-1;
 				minutes = timer.minutes();
 				seconds = timer.seconds();
-				
+
 				if (record.model.get('messages').length > 0) {
 					// If the visitor waited over 2 minutes for an answer
 					if (timer.minutes() >= 2 && record.model.get('messages')[record.model.get('messages').length-1].from == 'visitor') {

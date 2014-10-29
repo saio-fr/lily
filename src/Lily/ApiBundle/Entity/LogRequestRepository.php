@@ -14,34 +14,49 @@ use Doctrine\ORM\Query\ResultSetMapping;
  */
 class LogRequestRepository extends EntityRepository
 {
-	public function answered($from, $to) {
+	
+	public function answered($from, $to, $intervalSize=null) {
 		
 		$qb = $this->createQueryBuilder('r');
-		
-		$qb->select('count(r)')
-		   ->where('r.question is not null')
-		   ->andWhere('r.date >= :from')
-		   ->setParameter('from', $from)
-		   ->andWhere('r.date <= :to')
-		   ->setParameter('to', $to);
-		
-		return $qb->getQuery()
-		          ->getSingleScalarResult();
+        
+        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+        $qb->select('count(r) as value')
+           ->where('UNIX_TIMESTAMP(r.date) >= :start')
+           ->setParameter('start', $from)
+           ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
+           ->setParameter('end', $to)
+           ->andWhere('r.question is not null');
+
+        if ($intervalSize!==null) {
+           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
+              ->setParameter('intervalSize', $intervalSize)
+              ->groupBy('intervalId');
+            return $qb->getQuery()->getResult();
+        } else {
+            return $qb->getQuery()->getSingleScalarResult() ?: 0;
+        }	
 		
 	}
 	
-	public function requests($from, $to) {
-		
+	public function requests($from, $to, $intervalSize=null) {
+
 		$qb = $this->createQueryBuilder('r');
-		
-		$qb->select('count(r)')
-		   ->where('r.date >= :from')
-		   ->setParameter('from', $from)
-		   ->andWhere('r.date <= :to')
-		   ->setParameter('to', $to);
-		
-		return $qb->getQuery()
-		          ->getSingleScalarResult();
+        
+        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+        $qb->select('count(r) as value')
+           ->where('UNIX_TIMESTAMP(r.date) >= :start')
+           ->setParameter('start', $from)
+           ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
+           ->setParameter('end', $to);
+
+        if($intervalSize!==null) {
+           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
+              ->setParameter('intervalSize', $intervalSize)
+              ->groupBy('intervalId');
+            return $qb->getQuery()->getResult();
+        } else {
+            return $qb->getQuery()->getSingleScalarResult() ?: 0;
+        }	
 		
 	}
 	
@@ -67,40 +82,24 @@ class LogRequestRepository extends EntityRepository
 	}
 	
 	public function uniqueUsers($from, $to, $intervalSize=null) {
-		          
-		//NB : Since DQL does not allow subrequest, we have to use native SQL.
-        $rsm = new ResultSetMapping;
-        $rsm->addScalarResult("users", "value");
-
-        $selectedFields="AVG(users) as users";
-        $groupBy="";
-        if($intervalSize!==null) {
-            $rsm->addScalarResult("intervalId", "intervalId");
-            $selectedFields.=",  ROUND(date/(:intervalSizeInHours)) AS intervalId";
-            $groupBy=" GROUP BY intervalId";
-        }
-
-        $sql='SELECT ' . $selectedFields . ' FROM ((
-                SELECT COUNT(distinct r.session) AS users, ROUND(UNIX_TIMESTAMP(r.date) / 3600) AS date
-                    FROM LogRequest r
-                    WHERE UNIX_TIMESTAMP(r.date) >= :from
-                      AND UNIX_TIMESTAMP(r.date) < :to
-                    GROUP BY date)
-                as T)
-            ' . $groupBy;
-
-        $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter('from', $from);
-        $query->setParameter('to', $to);
+		
+		$qb = $this->createQueryBuilder('r');
+        
+        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+        $qb->select('count(distinct r.session) as value')
+           ->where('UNIX_TIMESTAMP(r.date) >= :start')
+           ->setParameter('start', $from)
+           ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
+           ->setParameter('end', $to);
 
         if($intervalSize!==null) {
-            $intervalSizeInHours=$intervalSize/3600;
-            $query->setParameter('intervalSizeInHours', $intervalSizeInHours);
-            return $query->getResult();
+           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
+              ->setParameter('intervalSize', $intervalSize)
+              ->groupBy('intervalId');
+            return $qb->getQuery()->getResult();
         } else {
-            return $query->getSingleScalarResult() ?: 0;
-        }
-		          
+            return $qb->getQuery()->getSingleScalarResult() ?: 0;
+        }	           
 	}
 	
 	public function averageUsers($from, $to) {
@@ -132,7 +131,26 @@ class LogRequestRepository extends EntityRepository
 		
 	}
 	
-	public function topCategories($from, $to) {
+	public function statsTopQuestions($from, $to) {
+		
+		$qb = $this->createQueryBuilder('r');
+		
+		$qb->select('count(r.id) AS nbs, q.title')
+		   ->leftJoin('r.question', 'q')
+		   ->where('r.date >= :from')
+		   ->setParameter('from', $from)
+		   ->andWhere('r.date <= :to')
+		   ->setParameter('to', $to)
+		   ->andWhere('r.question IS NOT NULL')
+		   ->orderBy('nbs', 'DESC')
+		   ->setMaxResults(5);
+		   
+		return $qb->getQuery()
+		          ->getResult();
+		
+	}
+	
+	public function statsTopCategories($from, $to) {
 		
 		$qb = $this->createQueryBuilder('r');
 		

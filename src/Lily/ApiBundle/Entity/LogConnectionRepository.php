@@ -13,39 +13,25 @@ use Doctrine\ORM\Query\ResultSetMapping;
  */
 class LogConnectionRepository extends EntityRepository
 {
+	
 	public function uniqueVisitors($from, $to, $intervalSize) {
-		
-		//NB : Since DQL does not allow subrequest, we have to use native SQL.
-        $rsm = new ResultSetMapping;
-        $rsm->addScalarResult("visitors", "value");
-		
-		$selectedFields="visitors";
-        $groupBy="";
-        if($intervalSize!==null) {
-            $rsm->addScalarResult("intervalId", "intervalId");
-            $selectedFields.=",  ROUND(date/(:intervalSizeInHours)) AS intervalId";
-            $groupBy=" GROUP BY intervalId";
-        }
-
-        $sql='SELECT ' . $selectedFields . ' FROM ((
-                SELECT COUNT(distinct c.session) AS visitors, ROUND(UNIX_TIMESTAMP(c.date) / 3600) AS date
-                    FROM LogConnection c
-                    WHERE UNIX_TIMESTAMP(c.date) >= :from
-                      AND UNIX_TIMESTAMP(c.date) < :to
-                    GROUP BY date)
-                as T)
-            ' . $groupBy;
-
-        $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter('from', $from);
-        $query->setParameter('to', $to);
+			
+		$qb = $this->createQueryBuilder('c');
+        
+        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+        $qb->select('count(distinct c.session) as value')
+           ->andWhere('UNIX_TIMESTAMP(c.date) >= :from')
+           ->setParameter('from', $from)
+           ->andWhere('UNIX_TIMESTAMP(c.date) < :to')
+           ->setParameter('to', $to);
 
         if($intervalSize!==null) {
-            $intervalSizeInHours=$intervalSize/3600;
-            $query->setParameter('intervalSizeInHours', $intervalSizeInHours);
-            return $query->getResult();
+           $qb->addSelect('ROUND(UNIX_TIMESTAMP(c.date)/(:intervalSize)) as intervalId')
+              ->setParameter('intervalSize', $intervalSize)
+              ->groupBy('intervalId');
+            return $qb->getQuery()->getResult();
         } else {
-            return $query->getSingleScalarResult() ?: 0;
-        }		          
+            return $qb->getQuery()->getSingleScalarResult() ?: 0;
+        }	          
 	}
 }

@@ -1,4 +1,4 @@
-	
+
 	/*================================
 	Création du model Data
 	====================================*/
@@ -17,42 +17,97 @@
 	var AppRouter = Backbone.Router.extend({
 	
 		routes: {
-		  "" : "usage",
-		  "usage" : "usage",
-		  "avi" : "avi",
-		  "chat" : "chat",
-		  "users" : "users"
+		
+			"" : "usage",
+			"usage" : "usage",
+			"avi" : "avi",
+			"chat" : "chat",
+			"users" : "users",
+			"activity/:id/:tab" : "activity"
+			
 		},
 		
 		initialize: function () {
 		},
 		
 		usage: function() {
-			
-		  $('#statistics-nav .active').removeClass('active');
-		  $('#statistics-nav .usage-nav').addClass('active');
 		  
-		  var usage = new lily.UsageView();
-		  var usage_graph = new lily.UsageGraphView();	
-		  var usage_media = new lily.UsageMediaView();
+			$('#statistics-nav .active').removeClass('active');
+			$('#statistics-nav .usage-nav').addClass('active');
+			
+			if (typeof(view) !== 'undefined') view.remove();
+			var view = new lily.UsageView();
 	 
 	    }, 
 	    
 	    avi: function() {
-	    
- 		  $('#statistics-nav .active').removeClass('active');
-		  $('#statistics-nav .avi-nav').addClass('active');
-		  
-		  var avi = new lily.AviView();
-		  var avi_graph = new lily.AviGraphView();
-		  var avi_redirections = new lily.RedirectionsMediaView();
+	    	
+			$('#statistics-nav .active').removeClass('active');
+			$('#statistics-nav .avi-nav').addClass('active');
+			
+			if (typeof(view) !== 'undefined') view.remove();
+			var view = new lily.AviView();
 		  
 	    }, 
 	    
 	    chat: function() {
 	    
 		  
-	    }, 
+	    },
+	    
+		users: function() {
+	    	
+			$('#statistics-nav .active').removeClass('active');
+			$('#statistics-nav .users-nav').addClass('active');
+			
+			if (typeof(view) !== 'undefined') view.remove();
+			view = new lily.UsersView();
+			         
+	    },
+	    
+	    activity: function(id, tab) {
+			
+			if (typeof(view) == 'undefined') {
+				app.navigate("users", {trigger: true});
+				return;
+			}
+			
+			if (typeof(view.activity) !== 'undefined') view.activity.remove();
+            view.activity = new lily.UserStatsAppView({model: view.users.get(id)});
+
+            switch(tab) {
+                case "chat":
+                	$('.loader').fadeIn();
+                    view.activity.data = new lily.Data({id:id});
+                    view.activity.graph = new lily.UserStatsGraphView({model: view.activity.data});
+					break;
+                case "conversations":
+                	$('.loader').fadeIn();
+                	if (typeof(view.activity.data) !=="undefined") view.activity.data.remove();
+                	if (typeof(view.activity.graph) !=="undefined") view.activity.graph.remove();
+                    view.activity.conversationsview = new lily.ConversationsView({id: id});
+					break;
+                case "knowledgeBase":
+                   /*
+ knowledgeBaseHistory = new lily.QuestionList();
+                    knowledgeBaseHistory.url="/rest/knowledgeBase/"+id;
+
+                    knowledgeBaseHistory.fetch({
+                        success: function() {
+                            listUserLoader.success(function() {
+                                if(typeof(knowledgeBaseHistoryView)=="undefined")
+                                    knowledgeBaseHistoryView = new lily.KnowledgeBaseHistoryView();
+                                knowledgeBaseHistoryView.setCollection(knowledgeBaseHistory);
+                            });
+                        }
+                    });
+*/
+					break;
+                default:
+                    console.warn("tab not recognized in viewUserStats");
+                break;
+			} 
+		}
 	     		
 	});
 	

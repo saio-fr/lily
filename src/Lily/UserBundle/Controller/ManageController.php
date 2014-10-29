@@ -254,7 +254,7 @@ class ManageController extends BaseController
     }
 
     /**
-     * @Get("/rest/userStats/footer/{id}/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Get("/rest/stats/footer/{id}/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getStatsFooterAction($id, $start, $end) {
@@ -275,18 +275,19 @@ class ManageController extends BaseController
 
         $startTimestamp = $start/1000;
         $endTimestamp = $end/1000;
-        $userStats = [];
-        $userStats['averageNumberOfConversation'] = $logChatRepository->hourlyNumberOfConversation($userId, $startTimestamp, $endTimestamp);
-        $userStats['averageConversationTime'] = $logChatRepository->averageConversationTime($userId, $startTimestamp, $endTimestamp);
-        $userStats['averageWaited'] = $logChatRepository->averageWaited($userId, $startTimestamp, $endTimestamp);
-        $userStats['averageSatisfaction'] = $logChatRepository->averageSatisfaction($userId, $startTimestamp, $endTimestamp);
-        $userStats['averageActivity'] = "Non calculée";
+        
+        $stats = [];
+        
+        $stats['conversations'] = $logChatRepository->hourlyNumberOfConversation($userId, $startTimestamp, $endTimestamp);
+        $stats['conversationsTime'] = $logChatRepository->averageConversationTime($userId, $startTimestamp, $endTimestamp);
+        $stats['waited'] = $logChatRepository->averageWaited($userId, $startTimestamp, $endTimestamp);
+        $stats['satisfaction'] = $logChatRepository->averageSatisfaction($userId, $startTimestamp, $endTimestamp);
 
-        return $userStats;
+        return $stats;
     }
 
     /**
-     * @Get("/rest/userStats/{id}/graph/{type}/{start}/{end}", requirements={"id" = "\d+", "type"="numberOfConversation|conversationTime|waited|satisfaction", "start" = "\d+", "end" = "\d+"})
+     * @Get("/rest/stats/{id}/graph/{type}/{start}/{end}", requirements={"id" = "\d+", "type"="conversations|conversationsTime|waited|satisfaction", "start" = "\d+", "end" = "\d+"})
      *
      * @Secure(roles="ROLE_ADMIN")
      */
@@ -348,47 +349,48 @@ class ManageController extends BaseController
         $userId=$selectedUser->getId();
 
         switch($type) {
-            case "numberOfConversation":
+            case "conversations":
                 $data = $logChatRepository->hourlyNumberOfConversation($userId, $timestampStart, $timestampEnd, $intervalSize);
-            break;
-            case "conversationTime":
-                $data = $logChatRepository->averageConversationTime($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
-            break;
+				break;
+            case "conversationsTime":
+                $data = $logChatRepository->averageConversationTime($userId, $timestampStart, $timestampEnd, $intervalSize);
+				break;
             case "waited":
-                $data = $logChatRepository->averageWaited($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
-            break;
+                $data = $logChatRepository->averageWaited($userId, $timestampStart, $timestampEnd, $intervalSize);
+				break;
             case "satisfaction":
-                $data = $logChatRepository->averageSatisfaction($userId, $timestampStart, $timestampEnd, $intervalSize); //["period"=>"day","step"=>4,"values"=>[["1406206015000","0"],["1406033215000","2"],["1405860415000","0"],["1405687615000","1"],["1405514815000","1"],["1405342015000","0"],["1405169215000","1"],["1404996415000","1"],["1404823615000","0"],["1404650815000","3"],["1404478015000","9"],["1404305215000","0"],["1404132415000","0"],["1403959615000","3"],["1403786815000","2"]]];
-            break;
+                $data = $logChatRepository->averageSatisfaction($userId, $timestampStart, $timestampEnd, $intervalSize);
+				break;
             default:
                throw $this->createNotFoundException();
-            break;
+			   break;
         }
 
         foreach($data as $entry) {
             $nonzeroData[$entry["intervalId"]]=$entry["value"];
         }
 
-
-        $graphData = [];
+        $graph = [];
         for($n = round($timestampStart/$intervalSize); $n < round($timestampEnd/$intervalSize); $n++) {
 
-            $graphData[] = [(string) ($n*$intervalSize*1000),   //x value: microtimestamp
-                            (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
+            $graph[] = [(string) ($n*$intervalSize*1000),   //x value: microtimestamp
+                        (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
         }
-        $graphData = array_reverse($graphData);
-        return ['type' => $type,
-                'period' => $period,
-                'step' => $step,
-                'values' => $graphData];
+        
+        $graph = array_reverse($graph);
+        return array('type' => $type, 'period' => $period, 'step' => $step, 'values' => $graph);
     }
 
     /**
-     * @Get("/rest/conversationHistory/{operator}", requirements={"operator" = "\d+"})
+     * @Get("/rest/conversations/operator/{operator}/{start}/{end}", requirements={"operator" = "\d+"})
      *
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function getConversationsAction($operator) {
+    public function getConversationsAction($operator, $start, $end) {
+    
+    	$start = round($start/1000);
+        $end = round($end/1000);
+    	
         $userManager = $this->get('fos_user.user_manager');
         $selectedUser = $userManager->findUserBy(Array('id' => $operator));
 
@@ -397,104 +399,12 @@ class ManageController extends BaseController
         if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
             throw $this->createNotFoundException();
         }
+                
+        $em = $this->getEntityManager()->getRepository('LilyChatBundle:LogChat');
+        $conversations = $em->conversations($operator, $start, $end);
+        
+        return $conversations;
 
-        return  [
-            ['id'=> 1, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 621', 'endTime' => 1406649334, 'startTime' => 1406648334, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
-            ['id'=> 2, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 622', 'endTime' => 1406698354, 'startTime' => 1406648334, 'redirect' => 13, 'blocked' => true, 'satisfaction'=>true],
-            ['id'=> 3, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 623', 'endTime' => 1406649344, 'startTime' => 1406648787, 'redirect' => false, 'blocked' => false, 'satisfaction'=>null],
-            ['id'=>10, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 648', 'endTime' => 1406649384, 'startTime' => 1406644894, 'redirect' => 13, 'blocked' => false, 'satisfaction'=>false],
-            ['id'=>21, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 650', 'endTime' => 1406649334, 'startTime' => 1406648454, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
-            ['id'=>24, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 653', 'endTime' => 1406649374, 'startTime' => 1406648123, 'redirect' => false, 'blocked' => false, 'satisfaction'=>false],
-        ];
-    }
-    /**
-     * @Get("/rest/conversationHistory/conversation/{conversationId}", requirements={"operator" = "\d+", "conversationId" = "\d+" })
-     *
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function getConversationDetailAction($conversationId) {
-        $userManager = $this->get('fos_user.user_manager');
-
-/*        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
-
-        //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
-            throw $this->createNotFoundException();
-        }*/
-
-        return  [
-            "conversationId" => $conversationId,
-            "startTime" => 1406648334,
-            "interlocutors" => [
-                                    0 => ["type"=>"operator", "id"=>10],
-                                    1 => ["type"=>"user", "name"=>"User 625"]
-                                ],
-            "messages" => [
-                ["time"=>1406648334, "interlocutor"=>0, "content"=>"Bonjour, comment puis-je vous aider ?"],
-                ["time"=>1406648342, "interlocutor"=>1, "content"=>"Bonjour,"],
-                ["time"=>1406648362, "interlocutor"=>1, "content"=>"Je cherche à savoir combien de cheveux possède M. Peychès"],
-                ["time"=>1406648389, "interlocutor"=>0, "content"=>"Oh, c'est une question très simple :"],
-                ["time"=>1406648400, "interlocutor"=>0, "content"=>"Il n'en a pas !"],
-            ]
-        ];
     }
 
-
-    /**
-     * @Get("/rest/knowledgeBase/{operator}", requirements={"operator" = "\d+"})
-     *
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function getKnowledgeBaseHistoryAction($operator) {
-        $userManager = $this->get('fos_user.user_manager');
-        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
-
-        //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
-            throw $this->createNotFoundException();
-        }
-
-        return  [
-            ['id'=> 1, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 621', 'endTime' => 1406649334, 'startTime' => 1406648334, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
-            ['id'=> 2, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 622', 'endTime' => 1406698354, 'startTime' => 1406648334, 'redirect' => 13, 'blocked' => true, 'satisfaction'=>true],
-            ['id'=> 3, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 623', 'endTime' => 1406649344, 'startTime' => 1406648787, 'redirect' => false, 'blocked' => false, 'satisfaction'=>null],
-            ['id'=>10, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 648', 'endTime' => 1406649384, 'startTime' => 1406644894, 'redirect' => 13, 'blocked' => false, 'satisfaction'=>false],
-            ['id'=>21, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 650', 'endTime' => 1406649334, 'startTime' => 1406648454, 'redirect' => false, 'blocked' => false, 'satisfaction'=>true],
-            ['id'=>24, 'conversationName'=>'Sans titre', 'interlocutor'=>'User 653', 'endTime' => 1406649374, 'startTime' => 1406648123, 'redirect' => false, 'blocked' => false, 'satisfaction'=>false],
-        ];
-    }
-    /**
-     * @Get("/rest/knowledgeBase/question/{question}", requirements={"operator" = "\d+", "question" = "\d+" })
-     *
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function getQuestionDetailAction($question) {
-        $userManager = $this->get('fos_user.user_manager');
-
-/*        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
-
-        //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
-            throw $this->createNotFoundException();
-        }*/
-
-        return [
-            "question" => $question,
-            "startTime" => 1406648334,
-            "interlocutors" => [
-                0 => ["type"=>"operator", "id"=>10],
-                1 => ["type"=>"user", "name"=>"User 625"]
-            ],
-            "messages" => [
-                ["time"=>1406648334, "interlocutor"=>0, "content"=>"Bonjour, comment puis-je vous aider ?"],
-                ["time"=>1406648342, "interlocutor"=>1, "content"=>"Bonjour,"],
-                ["time"=>1406648362, "interlocutor"=>1, "content"=>"Je cherche à savoir combien de cheveux possède M. Peychès"],
-                ["time"=>1406648389, "interlocutor"=>0, "content"=>"Oh, c'est une question très simple :"],
-                ["time"=>1406648400, "interlocutor"=>0, "content"=>"Il n'en a pas !"],
-            ]
-        ];
-    }
 }

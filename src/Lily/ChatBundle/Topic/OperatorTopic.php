@@ -94,6 +94,7 @@ class OperatorTopic implements TopicInterface
 			if ($item->id === $conn->Session->getId()) { 
 				
 				$item->closed = false;
+				$item->sent += 1;
 				$item->lastMsgTime = time();
 				$item->messages[] = array('id' => uniqid(), 'from' => 'visitor', 'date' => time(), 'msg' => $event);
 				$item->topic->broadcast($item->messages);

@@ -12,18 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class LogRedirectionRepository extends EntityRepository
 {
-	public function redirections($from, $to) {
+	
+	public function redirections($from, $to, $intervalSize=null) {
 		
 		$qb = $this->createQueryBuilder('r');
-		
-		$qb->select('count(r)')
-		   ->where('r.date >= :from')
-		   ->setParameter('from', $from)
-		   ->andWhere('r.date <= :to')
-		   ->setParameter('to', $to);
-		
-		return $qb->getQuery()
-		          ->getSingleScalarResult();
+        
+        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+        $qb->select('count(r) as value')
+           ->where('UNIX_TIMESTAMP(r.date) >= :start')
+           ->setParameter('start', $from)
+           ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
+           ->setParameter('end', $to);
+
+        if($intervalSize!==null) {
+           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
+              ->setParameter('intervalSize', $intervalSize)
+              ->groupBy('intervalId');
+            return $qb->getQuery()->getResult();
+        } else {
+            return $qb->getQuery()->getSingleScalarResult() ?: 0;
+        }
 		          
 	}
 	

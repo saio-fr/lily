@@ -9,6 +9,8 @@
 	    initialize: function () {
 	    
 	        this.render();
+	        this.graph = new lily.UsageGraphView();
+	        this.media = new lily.UsageMediaView();
 	               
 	    },
 	    render: function () {
@@ -46,7 +48,7 @@
 	    render: function () {
 	        this.footer = new lily.Data();
 	    	this.footer.url = '/usage/footer/'+this.start+'/'+this.end;
-	    	$(this.$el).find('.loader').css({'opacity':'1'});
+	    	$(this.$el).find('.loader').fadeIn();
 	    	var that = this;
 	    	this.footer.fetch({
 		    	success: function() {
@@ -111,7 +113,7 @@
 					
 		    		$(that.$el).find('#graph-usage').animate({'opacity':1});
 		    		$(that.$el).find('footer').animate({'opacity':1});
-			    	$(that.$el).find('.loader').animate({'opacity':0});
+			    	$(that.$el).find('.loader').fadeOut();
 		    	}
 	    	});	
 	    },
@@ -132,7 +134,7 @@
 					
 		    		$(that.$el).find('#graph-usage').animate({'opacity':1});
 		    		$(that.$el).find('footer').animate({'opacity':1});
-			    	$(that.$el).find('.loader').animate({'opacity':0});
+			    	$(that.$el).find('.loader').fadeOut();
 		    	}
 	    	});	
 	    },
@@ -146,27 +148,6 @@
 				    that.$el.find('footer .' + type).addClass('active');
 			    }
 		    });
-	    },
-	    redirection: function () {
-	    
-	    	data = new lily.Data();
-	    	data.url = '/usage/graph/redirection/'+this.start+'/'+this.end;
-	    	$(this.$el).find('#graph-usage').css({'opacity':0});
-	    	$(this.$el).find('.loader').css({'opacity':1});
-	    	var that = this;
-	    	data.fetch({
-		    	success: function (data) {
-		    		$('#graph .active').removeClass('active');
-		    		$('.redirection').addClass('active');
-		    		$(that.$el).find('#graph-usage').css({'opacity':0});
-		    		
-					that.graph(data);
-					
-		    		$(that.$el).find('#graph-usage').animate({'opacity':1});
-		    		$(that.$el).find('footer').animate({'opacity':1});
-			    	$(that.$el).find('.loader').animate({'opacity':0});
-		    	}
-	    	});	
 	    },
 	    satisfaction: function () {
 	    
@@ -185,7 +166,7 @@
 					
 		    		$(that.$el).find('#graph-usage').animate({'opacity':1});
 		    		$(that.$el).find('footer').animate({'opacity':1});
-			    	$(that.$el).find('.loader').animate({'opacity':0});
+			    	$(that.$el).find('.loader').fadeOut();
 		    	}
 	    	});	
 	    },
@@ -217,6 +198,15 @@
 			}
 	    	
 	    	function getTooltip(label, x, y) {
+                switch(data.attributes.type) {
+                    case "satisfaction":
+                        y=parseInt(y) +"%";
+                    break;
+                    case "usage":
+                        y=parseInt(y) +"%";
+                    break;
+                }
+                
 	    		if (data.attributes.period == 'hour') {
 		    		var date = moment(x/1000, 'X').format('HH');
 					return y + " à " + date + " heures"; 
@@ -263,15 +253,16 @@
 	        },
 	        colors: ["#6eaee8"],
 	        xaxis: {
-				min: d1[d1.length - 1][0],
-	            max: d1[0][0],
+				min: d1[0][0],
+	            max: d1[d1.length - 1][0],
 	            mode: "time",
 				tickSize: [data.attributes.step, data.attributes.period], 
 	            tickLength: 0      
 	        },
 	        yaxis: {
 	            ticks: 2,
-	            tickDecimals: 0,            
+	            tickDecimals: 0, 
+	            min: 0      
 	        },
 	        tooltip: true,
 	        tooltipOpts: {
