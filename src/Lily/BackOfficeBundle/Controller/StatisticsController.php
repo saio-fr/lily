@@ -562,4 +562,157 @@ class StatisticsController extends BaseController
         return array('type' => $type, 'period' => $period, 'step' => $step, 'values' => $graph);
     }
     
+     /**
+     * @Get("/user/{id}/graph/footer/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getUserStatsFooterAction($id, $start, $end) {
+        $userManager = $this->get('fos_user.user_manager');
+        $selectedUser = $userManager->findUserBy(Array('id' => $id));
+
+        //Security check
+        $enterprise = $this->getUser()->getEnterprise();
+        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+            throw $this->createNotFoundException();
+        }
+
+        $logChatRepository = $this->getEntityManager()
+                                  ->getRepository('LilyChatBundle:LogChat');
+
+        $userId = $selectedUser->getId();
+
+        $startTimestamp = $start/1000;
+        $endTimestamp = $end/1000;
+        
+        $stats = [];
+        
+        $stats['conversations'] = $logChatRepository->hourlyNumberOfConversation($userId, $startTimestamp, $endTimestamp);
+        $stats['conversationsTime'] = $logChatRepository->averageConversationTime($userId, $startTimestamp, $endTimestamp);
+        $stats['waited'] = $logChatRepository->averageWaited($userId, $startTimestamp, $endTimestamp);
+        $stats['satisfaction'] = $logChatRepository->averageSatisfaction($userId, $startTimestamp, $endTimestamp);
+
+        return $stats;
+    }
+
+    /**
+     * @Get("/user/{id}/graph/{type}/{start}/{end}", requirements={"id" = "\d+", "type"="conversations|conversationsTime|waited|satisfaction", "start" = "\d+", "end" = "\d+"})
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getUserStatsAction($type, $id, $start, $end) {
+        $userManager = $this->get('fos_user.user_manager');
+        $selectedUser = $userManager->findUserBy(Array('id' => $id));
+
+        //Security check
+        $enterprise = $this->getUser()->getEnterprise();
+        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+            throw $this->createNotFoundException();
+        }
+
+        //Convert the microtimestamp to timestamp and then Datetime.
+        $timestampStart = round($start/1000);
+        $timestampEnd = round($end/1000);
+
+        $from = new \Datetime();
+        $from->setTimestamp($timestampStart);
+
+        $to = new \Datetime();
+        $to->setTimestamp($timestampEnd);
+
+        //$diff is in days
+        $diff = $to->diff($from)->format('%a');
+
+        // Parameters
+        if($diff <= 1) {
+            $intervalSize = 1*60*60;    // (1 hour)     // interval in second between 2 points (here 1 hour)
+            $step = 2;                                  // interval between 2 legend on x axis
+            $period = 'hour';                           // unit
+        } elseif($diff <= 7) {
+            $intervalSize = 1*24*60*60; // (1 day)
+            $step = 1;
+            $period = 'day';
+        } elseif($diff <= 40) {
+            $intervalSize = 1*24*60*60; // (1 days)
+            $step = 4;
+            $period = 'day';
+        } elseif($diff <= 64) {
+            $intervalSize = 2*24*60*60;  // (2 days)
+            $step = 4;
+            $period = 'day';
+        } elseif($diff <= 385) {
+            $intervalSize = 1*31*24*60*60; // (1 month)
+            $step = 1;
+            $period = 'month';
+        } else {
+            $intervalSize = 1*31*24*60*60; // (1 month)
+            $step = 4;
+            $period = 'month';
+        }
+
+
+        $logChatRepository = $this->getEntityManager()
+                                  ->getRepository('LilyChatBundle:LogChat');
+
+        $userId=$selectedUser->getId();
+
+        switch($type) {
+            case "conversations":
+                $data = $logChatRepository->hourlyNumberOfConversation($userId, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            case "conversationsTime":
+                $data = $logChatRepository->averageConversationTime($userId, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            case "waited":
+                $data = $logChatRepository->averageWaited($userId, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            case "satisfaction":
+                $data = $logChatRepository->averageSatisfaction($userId, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            default:
+               throw $this->createNotFoundException();
+			   break;
+        }
+
+        foreach($data as $entry) {
+            $nonzeroData[$entry["intervalId"]]=$entry["value"];
+        }
+
+        $graph = [];
+        for($n = round($timestampStart/$intervalSize); $n < round($timestampEnd/$intervalSize); $n++) {
+
+            $graph[] = [(string) ($n*$intervalSize*1000),   //x value: microtimestamp
+                        (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
+        }
+        
+        $graph = array_reverse($graph);
+        return array('type' => $type, 'period' => $period, 'step' => $step, 'values' => $graph);
+    }
+
+    /**
+     * @Get("/user/{operator}/conversations/{start}/{end}", requirements={"operator" = "\d+"})
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getUSerConversationsAction($operator, $start, $end) {
+    
+    	$start = round($start/1000);
+        $end = round($end/1000);
+    	
+        $userManager = $this->get('fos_user.user_manager');
+        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
+
+        //Security check
+        $enterprise = $this->getUser()->getEnterprise();
+        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+            throw $this->createNotFoundException();
+        }
+                
+        $em = $this->getEntityManager()->getRepository('LilyChatBundle:LogChat');
+        $conversations = $em->conversations($operator, $start, $end);
+        
+        return $conversations;
+
+    }
+
+    
 }

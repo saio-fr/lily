@@ -89,16 +89,16 @@ class LogChatRepository extends EntityRepository
         $qb = $this->createQueryBuilder('r');
         
         // time_to_sec and timediff are personalized dql function, calling the correspondant sql function
-        $qb->select('AVG(TIME_TO_SEC(TIMEDIFF(r.end, r.start))) as value');
-           if ($operator !== null) {
-           $qb->where('r.operator = :operator')
-              ->setParameter('operator', $operator);
-           }
-        $qb->andWhere('UNIX_TIMESTAMP(r.start) >= :start')
+        $qb->select('AVG(TIME_TO_SEC(TIMEDIFF(r.end, r.start))) as value')
+           ->where('UNIX_TIMESTAMP(r.start) >= :start')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
            ->setParameter('end', $end);
 
+        if ($operator !== null) {
+           $qb->andWhere('r.operator = :operator')
+              ->setParameter('operator', $operator);
+        }
 
         if($intervalSize!==null) {
             $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.start)/(:intervalSize)) as intervalId')
@@ -132,14 +132,15 @@ class LogChatRepository extends EntityRepository
         
         // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
         $qb->select('avg(r.waited) as value');
-        if ($operator !== null) {
-           $qb->where('r.operator = :operator')
-              ->setParameter('operator', $operator);
-        }
-        $qb->andWhere('UNIX_TIMESTAMP(r.start) >= :start')
+        $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
            ->setParameter('end', $end);
+           
+        if ($operator !== null) {
+           $qb->andWhere('r.operator = :operator')
+              ->setParameter('operator', $operator);
+        }
 
         if($intervalSize!==null) {
            $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.start)/(:intervalSize)) as intervalId')
@@ -173,16 +174,17 @@ class LogChatRepository extends EntityRepository
         
         // UNIX_TIMESTAMP and ROUND are personalized dql functions, calling the correspondant sql functions
         $qb->select('avg(r.satisfaction) as value');
-        if ($operator !== null) {
-        $qb->where('r.operator = :operator')
-           ->setParameter('operator', $operator);
-        }
-        $qb->andWhere('UNIX_TIMESTAMP(r.start) >= :start')
+        $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
            ->andWhere('r.start IS NOT NULL')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
            ->setParameter('end', $end)
            ->andWhere('r.satisfaction IS NOT NULL');
+           
+        if ($operator !== null) {
+        $qb->andWhere('r.operator = :operator')
+           ->setParameter('operator', $operator);
+        }
 
         if($intervalSize!==null) {
             $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.start)/(:intervalSize)) as intervalId')
@@ -205,16 +207,16 @@ class LogChatRepository extends EntityRepository
     public function conversations($operator, $start, $end) {
         $qb = $this->createQueryBuilder('r');
         $qb->select('r');
-        if ($operator !== null) {
-        $qb->where('r.operator = :operator')
-           ->setParameter('operator', $operator);
-        }
-        $qb->andWhere('UNIX_TIMESTAMP(r.start) >= :start')
-           ->andWhere('r.start IS NOT NULL')
+        $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
            ->setParameter('start', $start)
+           ->andWhere('r.start IS NOT NULL')
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
-           ->setParameter('end', $end)
-		   ->groupBy('r.start');
+           ->setParameter('end', $end);
+        if ($operator !== null) {
+          $qb->andWhere('r.operator = :operator')
+             ->setParameter('operator', $operator);
+        }
+		$qb->groupBy('r.start');
 		   
            return $qb->getQuery()->getResult();
     }

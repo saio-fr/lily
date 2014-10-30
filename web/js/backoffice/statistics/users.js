@@ -219,7 +219,7 @@
                 this.delegateEvents();
             }
             this.footer = new lily.Data();
-            this.footer.url = '/../users/rest/stats/footer/'+ this.model.get('id')+'/'+ this.start+'/'+this.end;
+            this.footer.url = '/user/'+ this.model.get('id')+'/graph/footer/'+ this.start+'/'+this.end;
             that = this;
             this.footer.fetch({
                 success: function() {
@@ -259,7 +259,7 @@
 
         statsFooter: function(type) {
             that = this;
-            this.footer.url = '/../users/rest/stats/footer/'+this.model.get('id')+'/'+this.start+'/'+this.end;
+            this.footer.url = '/user/'+this.model.get('id')+'/graph/footer/'+this.start+'/'+this.end;
             this.footer.fetch({
                 success: function(data) {
                     that.$el.find('footer').remove();
@@ -275,9 +275,8 @@
             // show the loader
             $('.loader').removeClass('hide');
 
-
             data = new lily.Data();
-            data.url = '/../users/rest/stats/'+this.model.get('id')+'/graph/conversations/'+this.start+'/'+this.end;
+            data.url = '/user/'+this.model.get('id')+'/graph/conversations/'+this.start+'/'+this.end;
             $(this.$el).find('#graph').animate({opacity:0});
             $('.loader').fadeIn();
             var that = this;
@@ -287,6 +286,7 @@
                     $('.numberOfConversation').addClass('active');
 
                     that.graph(data);
+                    console.log(data);
 
                     $(that.$el).find('#graph').animate({opacity:1});
                     $(that.$el).find('footer').animate({opacity:1});
@@ -299,7 +299,7 @@
         conversationTime: function () {
 
             data = new lily.Data();
-            data.url = '/../users/rest/stats/'+this.model.get('id')+'/graph/conversationsTime/'+this.start+'/'+this.end;
+            data.url = '/user/'+this.model.get('id')+'/graph/conversationsTime/'+this.start+'/'+this.end;
             $(this.$el).find('#graph').animate({opacity:0});
             $('.loader').fadeIn();
             var that = this;
@@ -322,7 +322,7 @@
         waited: function () {
 
             data = new lily.Data();
-            data.url = '/../users/rest/stats/'+this.model.get('id')+'/graph/waited/'+this.start+'/'+this.end;
+            data.url = '/user/'+this.model.get('id')+'/graph/waited/'+this.start+'/'+this.end;
             $(this.$el).find('#graph').animate({opacity:0});
             $('.loader').fadeIn();
             var that = this;
@@ -345,7 +345,7 @@
         satisfaction: function () {
 
             data = new lily.Data();
-            data.url = '/../users/rest/stats/'+this.model.get('id')+'/graph/satisfaction/'+this.start+'/'+this.end;
+            data.url = '/user/'+this.model.get('id')+'/graph/satisfaction/'+this.start+'/'+this.end;
             $(this.$el).find('#graph').animate({opacity:0});
             $('.loader').fadeIn();
             var that = this;
@@ -693,7 +693,7 @@
         	this.$el.find('#conversation-details').hide();
         	$('.loader').fadeIn();
         	this.collection = new lily.ConversationsList();
-        	this.collection.url="/../users/rest/conversations/operator/"+this.id+"/"+this.start+"/"+this.end;        
+        	this.collection.url="/user/"+this.id+"/conversations/"+this.start+"/"+this.end;        
             this.collection.fetch({          
                 success: function() {
 		            that.render();

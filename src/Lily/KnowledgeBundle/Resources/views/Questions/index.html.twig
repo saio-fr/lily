@@ -3,7 +3,7 @@
 
       {{ parent() }} 	   
 
-      {% stylesheets 'js/nestable/nestable.css' 'js/fuelux/fuelux.css' 'css/icon.css' 'css/questions/left-menu/meter.css' 'css/questions/left-menu/categories.css' 'css/questions/questions.css' 'css/questions/left-menu.css' 'css/questions/right-panel/right-panel.css' 'css/questions/right-panel/answer.css' 'css/questions/right-panel/versions.css' 'css/questions/header.css' filter='cssrewrite' %}      
+      {% stylesheets 'js/nestable/nestable.css' 'js/fuelux/fuelux.css' 'css/icon.css' 'css/questions/left-menu/meter.css' 'css/questions/left-menu/categories.css' 'css/questions/questions.css' 'css/questions/left-menu.css' 'css/questions/right-panel/right-panel.css' 'css/questions/right-panel/answer.css' 'css/questions/right-panel/versions.css' 'css/questions/header.css' filter='cssrewrite' output='css/compiled/questions.css' %}      
   
       <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
       {% endstylesheets %} 
@@ -307,7 +307,7 @@
 			'js/questions/right_panel/business/views/QuestionBusinessFullView.js' 'js/questions/right_panel/business/views/answer_panel/AnswerView.js' 'js/questions/right_panel/business/views/answer_panel/WysiwygView.js' 'js/questions/right_panel/business/views/answer_panel/PrecisionView.js' 'js/questions/right_panel/business/views/answer_panel/ActionView.js' 'js/questions/right_panel/business/views/category_panel/CategoryChoosenView.js' 'js/questions/right_panel/business/views/category_panel/CategoryDisplayedView.js'  'js/questions/right_panel/business/views/category_panel/ListCategoriesDisplayedView.js' 'js/questions/right_panel/business/models/Mood.js' 'js/questions/right_panel/business/collections/ListMoods.js' 'js/questions/right_panel/business/views/answer_panel/moods/MoodView.js' 'js/questions/right_panel/business/views/answer_panel/moods/ListMoodsView.js' 'js/questions/right_panel/business/views/versions_panel/VersionView.js' 'js/questions/right_panel/business/views/versions_panel/ListVersionsView.js' 'js/questions/right_panel/business/views/versions_panel/VersionDetailView.js'
 			'js/questions/right_panel/personal/views/QuestionPersonalFullView.js'
 			'js/questions/right_panel/unanswered/views/QuestionUnansweredFullView.js'
-          'js/questions/router.js' 
+          'js/questions/router.js' output='js/compiled/questions.js'
       %}   
   
       <script type="text/javascript" src="{{ asset_url }}">
