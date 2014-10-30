@@ -48,15 +48,17 @@
                   <i class="icon-dashboard"></i>
                   <span>Dashboard</span>
                 </a>
-              </li> 
-              {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
+              </li>
+              {% if app.user.enterprise.avi %}
+                {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
               <li>
                 <a href="{{ path('lily_questions') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
                   <i class="icon-book"></i>
                   <span>Connaissances</span>
                 </a>
               </li> 
-              {% endif %} 
+                {% endif %} 
+              {% endif %}
               
               {% if app.user.enterprise.faq %}
                 {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %} 
@@ -88,6 +90,7 @@
                 </a>
               </li>  
               {% endif %}
+              
               <li>
                 <a href="{{ path('lily_statistics') }}" class="{% if app.request.attributes.get('_route') == 'lily_statistics' %}active{% endif %}">
                   <i class="icon-bar-chart"></i>

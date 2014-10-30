@@ -21,8 +21,8 @@
 {% endblock %}
 
 <script type="text/javascript">
-  var licence = '{{ licence }}';
   (function() {
+    var licence = '{{ licence }}';
     var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
     lily.src = '{{ app.request.getBaseURL() }}/api/tracking/' + licence;
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);

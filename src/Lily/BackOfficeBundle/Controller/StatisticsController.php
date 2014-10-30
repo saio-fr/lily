@@ -245,19 +245,19 @@ class StatisticsController extends BaseController
     	$data = array();
     	// SUPPORTS
     	$mobiles = $this->getEntityManager()
-   					    ->getRepository('LilyApiBundle:LogRequest')
+   					    ->getRepository('LilyApiBundle:LogConnection')
    						->mobiles($from, $to);   	
    		
    		$mobiles = array('x' => 'Mobile', 'y' => $mobiles);
    		
     	$computers = $this->getEntityManager()
-			    			->getRepository('LilyApiBundle:LogRequest')
+			    			->getRepository('LilyApiBundle:LogConnection')
 							->computers($from, $to);
 		
 		$computers = array('x' => 'Ordinateur', 'y' => $computers);
 							
     	$tablets = $this->getEntityManager()
-   					    ->getRepository('LilyApiBundle:LogRequest')
+   					    ->getRepository('LilyApiBundle:LogConnection')
    						->tablets($from, $to);
    		
    		$tablets = array('x' => 'Tablette', 'y' => $tablets);
@@ -455,6 +455,111 @@ class StatisticsController extends BaseController
    		        		
     }
     
+    
+    /**
+     * @Get("/chat/graph/footer/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Secure(roles="ROLE_USER")
+     */
+    public function getChatStatsFooterAction($start, $end) {
+    
+        $logChatRepository = $this->getEntityManager()
+                                  ->getRepository('LilyChatBundle:LogChat');
 
+        $startTimestamp = $start/1000;
+        $endTimestamp = $end/1000;
+        
+        $stats = [];
+        
+        $stats['conversations'] = $logChatRepository->hourlyNumberOfConversation(null, $startTimestamp, $endTimestamp);
+        $stats['conversationsTime'] = $logChatRepository->averageConversationTime(null, $startTimestamp, $endTimestamp);
+        $stats['waited'] = $logChatRepository->averageWaited(null, $startTimestamp, $endTimestamp);
+        $stats['satisfaction'] = $logChatRepository->averageSatisfaction(null, $startTimestamp, $endTimestamp);
+
+        return $stats;
+    }
+
+    /**
+     * @Get("/chat/graph/{type}/{start}/{end}", requirements={"id" = "\d+", "type"="conversations|conversationsTime|waited|satisfaction", "start" = "\d+", "end" = "\d+"})
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function getChatStatsAction($type, $start, $end) {
+
+        //Convert the microtimestamp to timestamp and then Datetime.
+        $timestampStart = round($start/1000);
+        $timestampEnd = round($end/1000);
+
+        $from = new \Datetime();
+        $from->setTimestamp($timestampStart);
+
+        $to = new \Datetime();
+        $to->setTimestamp($timestampEnd);
+
+        //$diff is in days
+        $diff = $to->diff($from)->format('%a');
+
+        // Parameters
+        if($diff <= 1) {
+            $intervalSize = 1*60*60;    // (1 hour)     // interval in second between 2 points (here 1 hour)
+            $step = 2;                                  // interval between 2 legend on x axis
+            $period = 'hour';                           // unit
+        } elseif($diff <= 7) {
+            $intervalSize = 1*24*60*60; // (1 day)
+            $step = 1;
+            $period = 'day';
+        } elseif($diff <= 40) {
+            $intervalSize = 1*24*60*60; // (1 days)
+            $step = 4;
+            $period = 'day';
+        } elseif($diff <= 64) {
+            $intervalSize = 2*24*60*60;  // (2 days)
+            $step = 4;
+            $period = 'day';
+        } elseif($diff <= 385) {
+            $intervalSize = 1*31*24*60*60; // (1 month)
+            $step = 1;
+            $period = 'month';
+        } else {
+            $intervalSize = 1*31*24*60*60; // (1 month)
+            $step = 4;
+            $period = 'month';
+        }
+
+
+        $logChatRepository = $this->getEntityManager()
+                                  ->getRepository('LilyChatBundle:LogChat');
+
+        switch($type) {
+            case "conversations":
+                $data = $logChatRepository->hourlyNumberOfConversation(null, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            case "conversationsTime":
+                $data = $logChatRepository->averageConversationTime(null, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            case "waited":
+                $data = $logChatRepository->averageWaited(null, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            case "satisfaction":
+                $data = $logChatRepository->averageSatisfaction(null, $timestampStart, $timestampEnd, $intervalSize);
+				break;
+            default:
+               throw $this->createNotFoundException();
+			   break;
+        }
+
+        foreach($data as $entry) {
+            $nonzeroData[$entry["intervalId"]]=$entry["value"];
+        }
+
+        $graph = [];
+        for($n = round($timestampStart/$intervalSize); $n < round($timestampEnd/$intervalSize); $n++) {
+
+            $graph[] = [(string) ($n*$intervalSize*1000),   //x value: microtimestamp
+                        (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
+        }
+        
+        $graph = array_reverse($graph);
+        return array('type' => $type, 'period' => $period, 'step' => $step, 'values' => $graph);
+    }
     
 }

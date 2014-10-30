@@ -581,7 +581,7 @@
         sortCriteria : "start",
 
         comparator: function(item) {
-        	console.log(item);
+			if (this.sortCriteria=="start") return -moment(item.get('start')).unix();
             if(this.sortCriteria=="duration") return moment(item.get('start')).unix()-moment(item.get('end')).unix();
             else return item.get(this.sortCriteria);
         }

@@ -1,0 +1,1 @@
+$.ajaxPrefilter(function(options){if(options.url!==redirections+"/rest"){options.url=root+options.url}});var lily=lily||{};$(function(){app=new AppRouter;Backbone.history.start()});

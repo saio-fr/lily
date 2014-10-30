@@ -156,7 +156,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		
 			$enterprise->getMaintenance() ||
 			$config->getMaintenance() || 
-			!($available || ($config->getAvi() && $enterprise->getAvi()) )
+			!(($enterprise->getChat() && $config->getChat() && $available) || ($config->getAvi() && $enterprise->getAvi()) )
 		
 		) return new Response();
 				

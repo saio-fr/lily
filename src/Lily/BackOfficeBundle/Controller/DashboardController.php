@@ -82,7 +82,7 @@ class DashboardController extends BaseController
 	    
 	    if (!$usage) {
 							
-			if ($visitors !== '0') {
+			if ($visitors > 0) {
 				$usage = floor(($loadings/$visitors)*100);
 			} else $usage = 0;
 	    					   
@@ -99,7 +99,7 @@ class DashboardController extends BaseController
 	    			     	  	 ->getRepository('LilyApiBundle:LogRedirection')
 						 	  	 ->redirections($from, $to);
 			
-			if ($requests !== '0') {
+			if ($requests > 0) {
 				$redirection = round(($redirections/$requests)*100, 2);
 			} else $redirection = 0;
 	    					   

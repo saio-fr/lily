@@ -73,11 +73,11 @@ lily.Views.ChatWelcomeScreen = lily.Extensions.View.extend({
 
 		that = this;
 		if (this.errors.firstname || this.errors.lastname || this.errors.email) return;
-		else {
-			lily.chatContactForm = false;
-			lily.ws.call('chat/contactForm', {'firstname': that.firstname, 'lastname': that.lastname, 'email': that.email});
-			lily.instance.router.navigate('chat', {trigger: true});
-		}
+
+		lily.chatContactForm = false;
+		lily.ws.call('chat/contactForm', {'firstname': that.firstname, 'lastname': that.lastname, 'email': that.email});
+		lily.instance.router.navigate('chat', {trigger: true});
+
 		
 	}
 	

@@ -89,8 +89,8 @@ chat.DashboardView = Backbone.View.extend({
 			
 			$.each(this.visitors, function(key, visitor) {
 				
-				v = visitor.get('operator');
-				if (typeof(v) !== 'undefined' && v!==null) {
+				o = visitor.get('operator');
+				if (typeof(o) !== 'undefined' && o!==null) {
 													
 					that.stats.messages += visitor.get('messages').length;
 					that.stats.waiting += visitor.get('startChatTime') - visitor.get('startTime');
@@ -152,7 +152,7 @@ chat.DashboardView = Backbone.View.extend({
     
     updatePieChart: function () {
 
-	    this.stats.load = ( this.visitors.length / this.available.length ) * 5;
+	    this.stats.load = ( this.visitors.length / this.available.length ) * 20;
 	    
 	    if (this.stats.load > 100) this.stats.load = 100;
 	    if (this.operators.length == 0) this.stats.load = 0;

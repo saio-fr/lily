@@ -70,9 +70,11 @@ $(function(){
 		    
 		    //  Overall
 		    maintenance = !this.$el.find('input[name="maintenance"]').is(':checked');
-		    
-		    if ( this.$el.find('input[name="home"]').is(':checked') ) { home = 'chat';}
-		    else { home = 'avi' }
+
+		    if (this.$el.find('input[name="home"]').length > 0) {
+		    	if ( this.$el.find('input[name="home"]').is(':checked') ) { home = 'chat';}
+				else { home = 'avi'; }
+		    } else home = 'chat'; // If there is no avi, set chat by default
 		    
 		    aviIfNoOperator = this.$el.find('input[name="aviIfNoOperator"]').is(':checked');
 		    chat = this.$el.find('input[name="chat"]').is(':checked');

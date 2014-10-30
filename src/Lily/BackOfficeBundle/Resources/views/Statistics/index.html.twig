@@ -68,6 +68,15 @@
     <script type="text/template" id="graph-avi-footer">
         {% include 'LilyBackOfficeBundle:Statistics:graph-avi-footer.html.twig' %}
     </script>
+    <script type="text/template" id="chat">
+        {% include 'LilyBackOfficeBundle:Statistics:chat.html.twig' %}
+    </script>
+    <script type="text/template" id="graph-chat">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-chat.html.twig' %}
+    </script>
+    <script type="text/template" id="graph-chat-footer">
+        {% include 'LilyBackOfficeBundle:Statistics:graph-chat-footer.html.twig' %}
+    </script>
     <script type="text/template" id="user">
 	  {% include 'LilyBackOfficeBundle:Statistics:Users/user.html.twig' %}
     </script>
@@ -119,9 +128,9 @@
 'js/vendor/moment.js' 
 'js/daterangepicker/daterangepicker.js' 
 'js/backoffice/statistics/avi.js'
-'js/backoffice/statistics/chat.js'
 'js/backoffice/statistics/usage.js'
 'js/backoffice/statistics/users.js'
+'js/backoffice/statistics/chat.js'
 'js/backoffice/statistics/app.js'
 
 output='js/compiled/statistics.js'%}

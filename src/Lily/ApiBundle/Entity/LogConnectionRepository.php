@@ -34,4 +34,56 @@ class LogConnectionRepository extends EntityRepository
             return $qb->getQuery()->getSingleScalarResult() ?: 0;
         }	          
 	}
+	
+	public function computers($from, $to) {
+		
+		$qb = $this->createQueryBuilder('c');
+		
+		$qb->select('count(distinct c.session)')
+		   ->where('c.date >= :from')
+		   ->setParameter('from', $from)
+		   ->andWhere('c.date <= :to')
+		   ->setParameter('to', $to)
+		   ->andWhere('c.media = :media')
+		   ->setParameter('media', 'pc');
+		
+		return $qb->getQuery()
+		          ->getSingleScalarResult();
+		          
+	}
+	
+	public function tablets($from, $to) {
+		
+		$qb = $this->createQueryBuilder('c');
+		
+		$qb->select('count(distinct c.session)')
+		   ->where('c.date >= :from')
+		   ->setParameter('from', $from)
+		   ->andWhere('c.date <= :to')
+		   ->setParameter('to', $to)
+		   ->andWhere('c.media = :media')
+		   ->setParameter('media', 'tablet');
+		
+		return $qb->getQuery()
+		          ->getSingleScalarResult();
+		          
+	}
+	
+	public function mobiles($from, $to) {
+		
+		$qb = $this->createQueryBuilder('c');
+		
+		$qb->select('count(distinct c.session)')
+		   ->where('c.date >= :from')
+		   ->setParameter('from', $from)
+		   ->andWhere('c.date <= :to')
+		   ->setParameter('to', $to)
+		   ->andWhere('c.media = :media')
+		   ->setParameter('media', 'mobile');
+		
+		return $qb->getQuery()
+		          ->getSingleScalarResult();
+		          
+	}
+	
 }

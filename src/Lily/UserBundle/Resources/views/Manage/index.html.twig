@@ -3,7 +3,7 @@
 {% block stylesheets %}
 {{ parent() }}
 
-{% stylesheets 'js/wysiwyg/wysihtml5.css' 'js/daterangepicker/daterangepicker.css' 'css/backoffice/users/manager.css' 'css/icon.css' filter='cssrewrite' output='css/compiled/users.js' %}
+{% stylesheets 'js/daterangepicker/daterangepicker.css' 'css/backoffice/users/manager.css' 'css/icon.css' filter='cssrewrite' output='css/compiled/users.css' %}
 
 	<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
@@ -84,8 +84,6 @@
 
 'js/daterangepicker/daterangepicker.js'
 'js/sortable/jquery.sortable.js' 
-'js/wysiwyg/wysihtml5.js' 
-'js/wysiwyg/bootstrap-wysihtml5.js'
  
 'bundles/fpjsformvalidator/js/fp_js_validator.js'
 'js/backoffice/users/users.js' 

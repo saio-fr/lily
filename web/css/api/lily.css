@@ -1160,7 +1160,7 @@ CONTACT FORM
 	font-weight: 300;
 }
 
-.lily-contact-form input.warning {
+.lily-contact-form input.warning, .lily-contact-form textarea.warning {
 	border-color: #f62441;
 }
 

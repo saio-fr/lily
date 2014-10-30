@@ -1,0 +1,176 @@
+﻿/******************
+CUSTOM COLORS
+******************/
+
+/* Header */
+
+.lily-cst-toolbar {
+	background: #595959;
+	color: #fff;
+}
+
+.lily-cst-toolbar-icons{
+	background: #fdb06a;
+}
+
+.lily-cst-toolbar-reduce{
+	color: #fff;
+}
+
+.lily-cst-toolbar-reduce:active{
+	opacity: 0.9;
+}
+
+.lily-cst-header{
+	background: #efefef;
+	color: #404040;
+}
+
+/* Menu */
+
+.lily-cts-menu{
+	color: #404040;
+}
+
+.lily-cst-menu-separator {
+	background: #f2f2f2;
+}
+
+.lily-cst-menu-footer {
+	background-color: #f2f2f2;
+}
+
+.lily-cst-menu-footer li {
+	border-bottom: 1px solid #fff;
+}
+
+
+/* Search */
+.lily-cst-search{
+	border-top: 1px solid #ebebeb;
+	color: #b1b3b4;
+}
+
+.lily-cst-search-input{
+	background: #fafafa;
+	color: #b1b3b4;
+}
+
+input.lily-cst-search-input::-webkit-input-placeholder {color: #b1b3b4;}
+input.lily-cst-search-input:-moz-placeholder {color: #b1b3b4;}
+input.lily-cst-search-input::-moz-placeholder {color: #b1b3b4;}
+input.lily-cst-search-input:ms-input-placeholder {color: #b1b3b4;}
+
+/* Message */
+
+.lily-cst-msg-avatar, #lily-box-messages .lily-cst-msg-redirection, #lily-box-messages .lily-cst-msg-precision {
+	background: #e5e5e5;
+	color: #595959;
+}
+
+#lily-box-messages .lily-cst-msg-reporting, .lily-cst-msg-chat-operator {
+	color: #595959;
+}
+
+.lily-avatar-bubble{
+	border-top: 10px solid #e5e5e5;
+}
+
+.lily-cst-msg-user{
+	background: #fff;
+	color: #595959;
+	border: solid 1px #1c275e;
+}
+
+.lily-cst-msg-user:before {
+	border-color: #1c275e transparent;
+}
+
+.lily-cst-redirection-mail, .lily-cst-redirection-tel, .lily-cst-redirection-chat, .lily-precision-list{
+	background: #fff;
+	color: #595959;
+}
+
+.lily-cst-msg-precision {
+	background: #e5e5e5;
+	color: #595959;
+}
+
+.lily-cst-msg-precision:after {
+	border-color: #595959 transparent;
+}
+
+.lily-cst-msg-avatar a {
+	padding-bottom: 2px;
+	border-bottom: 1px solid rgba(89, 89, 89, 0.5);
+}
+
+.lily-cst-msg-avatar a:hover {
+	border-bottom: 1px solid rgba(89, 89, 89, 1);
+}
+
+/* Notation */
+.lily-cst-icon-thumb-up{
+	color: #e1e1e1;
+}
+.lily-cst-icon-thumb-down{
+	color: #e1e1e1;
+}
+
+
+/* Chat */
+
+.lily-cst-msg-chat-visitor {
+    background: #fff;
+	color: #595959;
+	border: solid 1px #1c275e;
+}
+
+.lily-cst-msg-chat-visitor:before {
+	border-color: #1c275e transparent;
+}
+
+.lily-cst-msg-chat-operator {
+	background: #e5e5e5;
+}
+
+/*contact form*/
+
+.lily-cst-form-color{
+	border: solid 1px rgba(89,89,89,0.2);
+}
+
+.lily-contact-form button{
+	background-color: #fdb06a;
+	color: white;
+	font-weight: 400;
+}
+
+
+/* Faq */
+
+.lily-cst-faq-title-link{
+	background: #fff;
+	color: #404040;
+	font-weight: 600;
+	border-bottom: 1px solid #595959;
+	margin-left: 12px;
+	margin-right: 12px;
+}
+
+.lily-cst-faq-link{
+	background: #fff;
+	color: #595959;
+	border-bottom: 1px solid #595959;
+	margin-left: 12px;
+	margin-right: 12px;
+}
+
+/* Avatar */
+.lily-cst-universe {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	opacity: 0.8;
+	-webkit-background-size:cover;
+}

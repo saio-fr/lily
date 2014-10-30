@@ -21,7 +21,7 @@
   	
       <p class="conversation-name"><%= name %></p>
       <small class="conversation-duration">
-        <% if (duration.hours()-1 !== 0) { %> <%= duration.format('HH')+' heures' %> <% } %>
+        <% if (duration.hours() !== 0) { %> <%= duration.format('HH')+' heures' %> <% } %>
         <% if (duration.minutes() !==  0) { %> <%= duration.format('mm')+' minutes' %> <% } %>
         <%= duration.format('s')+' secondes, le ' + moment(start).format('DD MMMM YYYY') + ' à ' +  moment(start).format('HH:mm') %>
       </small>

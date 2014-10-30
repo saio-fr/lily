@@ -11,15 +11,21 @@
 	   </ul>
 	</header>
     <div class="tab-content bg-light dker">
+      {% if app.user.enterprise.chat %}
       <div class="tab-pane active" id="tab-livechat">
         <div id="graph-chat"></div> 
       </div>
+      {% endif %}
+      {% if app.user.enterprise.chat %}
       <div class="tab-pane" id="tab-conversations">
         <div id="conversations"></div>
       </div >
+      {% endif %}
+<!--
       <div class="tab-pane" id="tab-knowledgeBase">
         <div id="knowledgeBaseHistory"></div>
       </div>
+-->
     </div>
   </div>
   

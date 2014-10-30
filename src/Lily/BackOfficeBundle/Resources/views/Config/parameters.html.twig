@@ -28,7 +28,7 @@
         </div>
         
         <!-- show if enterprise.chat is enabled -->
-        {% if app.user.enterprise.chat %}
+        {% if app.user.enterprise.chat and app.user.enterprise.avi %}
         <p class="administration-p">Choisissez votre canal de communication par défaut :</p>
         <div class="row">
         	<p>Avatar virtuel</p>
@@ -87,6 +87,21 @@
             </div>
 			{% endif %}
 			
+			<div class="return">
+                <label class="switch">
+                	<input name="redirectionMail" type="checkbox" <% if (redirectionMail) { %> checked <% } %> >
+                	<span></span>
+                </label>
+                <p>Redirection par Mail</p>
+            </div>
+			<div class="return">
+            	<label class="switch">
+                	<input name="redirectionTel" type="checkbox" <% if (redirectionTel) { %> checked <% } %> >
+                	<span></span>
+                </label>
+                <p>Redirection par Téléphone</p>
+            </div>
+			
         </div>
       </section>
       
@@ -95,30 +110,6 @@
         <h5>Message d'accueil</h5>
         <div class="col-sm-12">
           <div id="editor" name="aviWelcomeMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= aviWelcomeMsg %></div>
-        </div>
-        <h5 class="m-t-lg">Redirections</h5>
-        <div class="row">
-        	<div class="return">
-            	<label class="switch">
-                	<input name="redirectionTel" type="checkbox" <% if (redirectionTel) { %> checked <% } %> >
-                	<span></span>
-                </label>
-                <p>Téléphone</p>
-            </div>
-            <div class="return">
-                <label class="switch">
-                	<input name="redirectionMail" type="checkbox" <% if (redirectionMail) { %> checked <% } %> >
-                	<span></span>
-                </label>
-                <p>Mail</p>
-            </div>
-            <div class="return">
-                <label class="switch">
-                	<input name="redirectionChat" type="checkbox" <% if (redirectionChat) { %> checked <% } %>>
-                	<span></span>
-                </label>
-                <p>Live chat</p>
-            </div>
         </div>
         <h5 class="m-t-lg">Animations</h5>
         <div class="row">

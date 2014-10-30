@@ -52,6 +52,11 @@
 	    
 	    chat: function() {
 	    
+		  	$('#statistics-nav .active').removeClass('active');
+			$('#statistics-nav .chat-nav').addClass('active');
+			
+			if (typeof(view) !== 'undefined') view.remove();
+			var view = new lily.ChatView();
 		  
 	    },
 	    

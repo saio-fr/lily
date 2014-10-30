@@ -32,19 +32,15 @@ lily.Router = Backbone.Router.extend({
 		if (typeof(view) !== 'undefined') {view.remove();}
 		var view = new lily.Views.Avi();
 		lily.instance.goTo(view);
+		
 		this.welcome = new lily.Models.MessageLilySimple({message_content: config.aviWelcomeMsg});
 		this.message = new lily.Views.MessageLilySimple ({model: this.welcome}).render();
 
 	},
 	
 	mailSent: function () {
-	
-		if (typeof(view) !== 'undefined') {view.remove();}
-		var view = new lily.Views.Avi();
-		lily.instance.goTo(view);
 		
-		this.welcome = new lily.Models.MessageLilySimple({message_content: 'Votre message a bien été envoyé. Que puis-je faire pour vous ?'});
-		this.message = new lily.Views.MessageLilySimple ({model: this.welcome}).render();
+		this.home();
 		
 	},
 	

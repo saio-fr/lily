@@ -68,6 +68,7 @@
                   </div>
 		        </section>	
 		        
+		        {% if app.user.enterprise.avi and app.user.enterprise.config.avi %}
                 <section class="panel">
                   <header class="panel-heading font-bold">Top des questions</header>
                   <div class="panel-body no-padder">
@@ -86,7 +87,8 @@
                       </li>
                    	</ul>
                   </div>
-		      </section>                	
+				</section>
+				{% endif %}             	
 		      
 		    </div>
           </div>
