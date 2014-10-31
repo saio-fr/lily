@@ -19,11 +19,11 @@
 										break;
 									case 'operator':
 										%>
-										<p class="msg-operator"><%= item.msg %><span class="date"><%= moment(item.date).format('HH:mm') %></span></p><%
+										<p class="msg-operator"><%= item.msg %><span class="date"><%= moment(item.date*1000).format('HH:mm') %></span></p><%
 										break;
 									case 'visitor':
 										%>
-										<p class="msg-visitor"><%= item.msg %><span class="date"><%= moment(item.date).format('HH:mm') %></span></p><%
+										<p class="msg-visitor"><%= item.msg %><span class="date"><%= moment(item.date*1000).format('HH:mm') %></span></p><%
 										break;
 									
 								} %>
