@@ -89,7 +89,7 @@ class ConfigController extends BaseController
 		// Tell our chat app that config changed
 		$context = new ZMQContext();
 		$socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-		$socket->connect("tcp://localhost:5555");
+		$socket->connect("tcp://172.16.0.2:5555");
 
 		$socket->send(json_encode(array('action' => 'config', 'key' => $key)));	
         
