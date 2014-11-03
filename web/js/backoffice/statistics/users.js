@@ -189,8 +189,8 @@
     lily.UserStatsGraphView = Backbone.View.extend({
     
         el: '#graph-chat',
-        template: _.template($('#user-activity-graph').html()),
-        templateFooter: _.template($('#user-activity-graph-footer').html()),
+        template: _.template($('#user-activity-chat-graph').html()),
+        templateFooter: _.template($('#user-activity-chat-graph-footer').html()),
 
         events: {
             'click .numberOfConversation': 'numberOfConversation',
@@ -702,6 +702,98 @@
 			}); 	        
 		}        
     });
+    
+    /*======================================
+      Model Conversation
+    =======================================*/
+
+    lily.Activity = Backbone.Model.extend({});
+    
+    /*======================================
+      Collection Conversation List
+    =======================================*/
+
+    lily.ActivitiesList = Backbone.Collection.extend({
+    
+        model : lily.Activity,
+
+    });
+    
+     /*=========================================
+                Conversation History View
+    =========================================*/
+    lily.ActivitiesView = Backbone.View.extend({
+    
+        el: '#activities',
+        template: _.template($('#user-activity-logs-app').html()),
+
+        events: {
+            'click .sort-menu ul li': 'changeSortCriteria',
+            'hide.daterangepicker' : 'load'
+        },
+
+        initialize: function() {
+        
+        	if (typeof(this.start) == 'undefined') {
+	        	this.start = moment().subtract('days', 6);
+				this.end = moment();
+			}
+            
+			that = this;
+			this.$el.html(this.template());
+			
+            $('#reportrange').daterangepicker({
+                 ranges: {
+                     "Aujourd'hui": [moment().startOf('day'), moment()],
+                     "Cette semaine": [moment().subtract('days', 6), moment()],
+                     "Ce mois": [moment().subtract('days', 30), moment()]
+                  },
+                  startDate: moment().subtract('days', 6),
+                  endDate: moment(),
+                  dateLimit: { months: 36 }
+                },
+                function(start, end) {
+
+                    $('#reportrange span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
+
+                    that.start = start;
+                    that.end = end;
+            }); 
+            
+            $('#reportrange span').html(this.start.format('D MMMM YYYY') + ' - ' + this.end.format('D MMMM YYYY'));
+			this.load();			 			
+			    
+        },
+
+        render: function () {
+			this.$el.find('#activities-list').empty();
+		    this.collection.each(this.add, this);
+		    if (this.collection.length == 0) {
+			    this.$el.find('#activities-list').html('<li class="list-group-item"><h6>Aucune Activité.</h6></li>');
+		    }
+            return this;
+        },
+
+        add: function (activity) {
+            this.view = new lily.ActivityView({model: activity});
+            this.$el.find('ul#activities-list').append(this.view.render().el);
+            return this;
+        },
+        
+        load: function() {
+        	this.$el.find('#activities-details').hide();
+        	$('.loader').fadeIn();
+        	this.collection = new lily.ActivitiesList();
+        	this.collection.url="/user/"+this.id+"/activities/"+this.start+"/"+this.end;        
+            this.collection.fetch({          
+                success: function() {
+		            that.render();
+		            $('.loader').fadeOut();
+	            }          
+			}); 	        
+		}        
+    });
+
 
 
     /*========================================

@@ -38,6 +38,20 @@ class LoggableListener extends GedmoLoggableListener
      * @var string
      */
     protected $username;
+    
+    /**
+     * Firstname for identification
+     *
+     * @var string
+     */
+    protected $firstname;
+
+    /**
+     * Lastname for identification
+     *
+     * @var string
+     */
+    protected $lastname;
 
     /**
      * List of log entries which do not have the foreign
@@ -64,15 +78,11 @@ class LoggableListener extends GedmoLoggableListener
      * @param mixed $username
      * @throws \Gedmo\Exception\InvalidArgumentException Invalid username
      */
-    public function setUsername($username)
+    public function setUsername($user)
     {
-        if (is_string($username)) {
-            $this->username = $username;
-        } elseif (is_object($username) && method_exists($username, 'getUsername')) {
-            $this->username = (string)$username->getUsername();
-        } else {
-            throw new \Gedmo\Exception\InvalidArgumentException("Username must be a string, or object should have method: getUsername");
-        }
+		$this->username = $user->getUser()->getUsername();
+		$this->firstname = $user->getUser()->getFirstname();
+		$this->lastname = $user->getUser()->getLastname();
     }
 
     /**
@@ -245,6 +255,8 @@ class LoggableListener extends GedmoLoggableListener
 
             $logEntry->setAction($action);
             $logEntry->setUsername($this->username);
+            $logEntry->setFirstname($this->firstname);
+            $logEntry->setLastname($this->lastname);
             $logEntry->setObjectClass($meta->name);
             $logEntry->setType($entity);
             $logEntry->setTitle($title);

@@ -19,20 +19,11 @@ class DashboardController extends BaseController
 		$from = new \Datetime('-1 month');
 		
 		$cname = $this->getEnterprise()->getCname();	    
-	    
-	    // ACTIVITIES LIST
-	    $activities = $this->get('memcache.default')->get('dashboard_activities_'.$cname);
 		
-		if (!$activities) {
-		
-	    	// On récupère les fichiers de logs    	
-	    	$activities = $this->getEntityManager()
-	    					   ->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry')
-	    					   ->findBy(array(), array("loggedAt" => "DESC"), 5);
-	    					   
-	    	$this->get('memcache.default')->set('dashboard_activities_'.$cname, $activities, 86400);
-	    
-	    }
+    	// On récupère les fichiers de logs    	
+    	$activities = $this->getEntityManager()
+    					   ->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry')
+    					   ->findBy(array("username" => $this->getUser()->getUsername()), array("loggedAt" => "DESC"), 5);
 	    
 	    // REQUESTS INT
 	    $requests = $this->get('memcache.default')->get('dashboard_requests_'.$cname);

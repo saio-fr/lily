@@ -44,7 +44,7 @@
                       {% for activity in activities %}
                       <li class="m-t">
                         <span class="timeline-icon"><i class="time-icon bg-primary lt"></i></span>
-                        <h6 class="m-n m-l-xlg"><b></b>{{ activity.username }} a {{ activity.action }} le {{ activity.loggedAt|date("d/m/Y") }} à {{ activity.loggedAt|date("H:i") }} la {{activity.type}} :</h6>
+                        <h6 class="m-n m-l-xlg"><b></b>Vous avez {{ activity.action }} le {{ activity.loggedAt|date("d/m/Y") }} à {{ activity.loggedAt|date("H:i") }} la {{activity.type}}</h6>
                         <small class="m-l-xlg">{{ activity.title }}</small>
                       </li>
                       {% endfor %}

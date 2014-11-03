@@ -90,11 +90,25 @@ abstract class AbstractLogEntry
     protected $satisfaction;
     
     /**
-     * @var string $data
+     * @var string $username
      *
      * @ORM\Column(length=255, nullable=true)
      */
     protected $username;
+    
+    /**
+     * @var string $lastname
+     *
+     * @ORM\Column(length=255, nullable=true)
+     */
+    protected $lastname;
+    
+    /**
+     * @var string $firstname
+     *
+     * @ORM\Column(length=255, nullable=true)
+     */
+    protected $firstname;
 
     /**
      * Get id
@@ -225,6 +239,46 @@ abstract class AbstractLogEntry
     {
         $this->username = $username;
     }
+    
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
+    
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
 
     /**
      * Get loggedAt
@@ -302,8 +356,7 @@ abstract class AbstractLogEntry
     public function getSatisfaction()
     {
         return $this->satisfaction;
-    }
-    
+    }   
         
     /**
      * Set current children

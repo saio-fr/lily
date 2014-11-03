@@ -163,12 +163,12 @@ chat.Views.App = Backbone.View.extend({
 		
 		this.$el.find('.status span').html('Indisponible');
 		this.$el.find('.status i').removeClass('available').addClass('unavailable');
-		
+
 		this.live.$el.addClass('hide');
-		if (typeof(this.view) !== 'undefined' && !view.instanceof(chat.DashboardView)) {
+		if (typeof(this.view) !== 'undefined') {
 			this.view.remove();
 			this.view = new chat.DashboardView( this.records );
-		}
+		} else this.view = new chat.DashboardView( this.records );
 		
 		$('.nav-tabs .active').removeClass('active');
 		$('.dashboard-nav').addClass('active');
