@@ -777,6 +777,7 @@
         add: function (activity) {
             this.view = new lily.ActivityView({model: activity});
             this.$el.find('ul#activities-list').append(this.view.render().el);
+            console.log('1');
             return this;
         },
         
