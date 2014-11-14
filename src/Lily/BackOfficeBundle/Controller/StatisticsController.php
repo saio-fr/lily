@@ -693,7 +693,7 @@ class StatisticsController extends BaseController
      *
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function getUSerConversationsAction($operator, $start, $end) {
+    public function getUserConversationsAction($operator, $start, $end) {
     
     	$start = round($start/1000);
         $end = round($end/1000);
@@ -713,6 +713,31 @@ class StatisticsController extends BaseController
         return $conversations;
 
     }
+    
+    /**
+     * @Get("/user/{operator}/logs/{start}/{end}", requirements={"operator" = "\d+"})
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function getUserActivitiesAction($operator, $start, $end) {
+    
+    	$start = round($start/1000);
+        $end = round($end/1000);
+    	
+        $userManager = $this->get('fos_user.user_manager');
+        $selectedUser = $userManager->findUserBy(Array('id' => $operator));
 
+        //Security check
+        $enterprise = $this->getUser()->getEnterprise();
+        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+            throw $this->createNotFoundException();
+        }
+                
+        $em = $this->getEntityManager()->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry');
+        $activities = $em->getLogs($selectedUser->getUsername(), $start, $end);
+        
+        return $activities;
+
+    }
     
 }

@@ -1,1 +1,0 @@
-lily.Models.TopQuestions=Backbone.Model.extend({defaults:{}});

@@ -4,7 +4,8 @@
 
 {{ parent() }} 	   
 
-{% stylesheets 'css/backoffice/statistics.css' 'js/daterangepicker/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}      
+{% stylesheets 'css/backoffice/statistics.css' 'js/daterangepicker/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}   
+   
 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
 {% endstylesheets %} 
@@ -51,31 +52,31 @@
 	{% block templates %}
 	<!-- L'appel des différents scripts de vue -->
 	<script type="text/template" id="usage">
-        {% include 'LilyBackOfficeBundle:Statistics:usage.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Usage:app.html.twig' %}
     </script>
 	<script type="text/template" id="graph-usage">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-usage.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Usage:graph.html.twig' %}
     </script>
     <script type="text/template" id="graph-usage-footer">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-usage-footer.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Usage:graph-footer.html.twig' %}
     </script>
 	<script type="text/template" id="avi">
-        {% include 'LilyBackOfficeBundle:Statistics:avi.html.twig' with {'categories': categories} %}
+        {% include 'LilyBackOfficeBundle:Statistics/Avi:app.html.twig' with {'categories': categories} %}
     </script>
     <script type="text/template" id="graph-avi">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-avi.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Avi:graph.html.twig' %}
     </script>
     <script type="text/template" id="graph-avi-footer">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-avi-footer.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Avi:graph-footer.html.twig' %}
     </script>
     <script type="text/template" id="chat">
-        {% include 'LilyBackOfficeBundle:Statistics:chat.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Chat:app.html.twig' %}
     </script>
     <script type="text/template" id="graph-chat">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-chat.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Chat:graph.html.twig' %}
     </script>
     <script type="text/template" id="graph-chat-footer">
-        {% include 'LilyBackOfficeBundle:Statistics:graph-chat-footer.html.twig' %}
+        {% include 'LilyBackOfficeBundle:Statistics/Chat:graph-footer.html.twig' %}
     </script>
     <script type="text/template" id="user">
 	  {% include 'LilyBackOfficeBundle:Statistics:Users/user.html.twig' %}
@@ -135,11 +136,14 @@
 'js/daterangepicker/daterangepicker.js' 
 'js/backoffice/statistics/avi.js'
 'js/backoffice/statistics/usage.js'
-'js/backoffice/statistics/users.js'
+'js/backoffice/statistics/users/app.js'
+'js/backoffice/statistics/users/chat.js'
+'js/backoffice/statistics/users/conversations.js'
+'js/backoffice/statistics/users/logs.js'
 'js/backoffice/statistics/chat.js'
 'js/backoffice/statistics/app.js'
 
-output='js/compiled/statistics.js'%}
+output='js/compiled/statistics.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

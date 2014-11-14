@@ -199,40 +199,36 @@
 
 			function getTooltip(label, x, y) {
 				switch (data.attributes.type) {
-				case "satisfaction":
-					y = parseInt(y) + "%";
-					break;
-				case "usage":
-					y = parseInt(y) + "%";
-					break;
+					case "satisfaction":
+						y = parseInt(y) + "%";
+						break;
+					case "usage":
+						y = parseInt(y) + "%";
+						break;
 				}
 				if (data.attributes.period == 'hour') {
 					var date = moment(x / 1000, 'X').format('HH');
 					return y + " à " + date + " heures";
-				}
+				} 
 				if (data.attributes.period == 'day') {
 					var date = moment(x / 1000, 'X').format('DD/MM/YYYY');
 					return y + " le " + date;
-				}
+				} 
 				if (data.attributes.period == 'month') {
 					var date = moment(x / 1000, 'X').format('MMMM');
 					return y + " en " + date;
 				}
 			}
-			var plot = $.plot($("#graph-usage"), [{
-				data: d1
-			}], {
+			
+			var plotOptions = {
+			
 				series: {
 					lines: {
 						show: true,
 						lineWidth: 2,
 						fill: true,
 						fillColor: {
-							colors: [{
-								opacity: 0.0
-							}, {
-								opacity: 0.2
-							}]
+							colors: [{ opacity: 0.0 }, { opacity: 0.2 }]
 						}
 					},
 					points: {
@@ -270,7 +266,13 @@
 						y: 20
 					},
 				}
-			});
+			}
+			
+			if(data.attributes.type=="usage" || data.attributes.type=="satisfaction") {
+                plotOptions.yaxis.max=100;
+            }
+
+			var plot = $.plot($("#graph-usage"), [{ data: d1 }], plotOptions);		
 		},
 	});
 /*======================================

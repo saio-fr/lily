@@ -1,6 +1,20 @@
-<div class="view">
-  <div class="conversation-info">
-      <p class="log-name"><%= title %></p>
-      <small class="log-date"></small>
+<div class="view clear">
+  <% switch(type) {
+  	 case 'faq': %>
+  	   <p class="log-name"><span class="label bg-info">Faq</span><%= title %></p>
+  	   <% break;
+  	 case 'question': %>
+  	   <p class="log-name"><span class="label bg-success">Question</span><%= title %></p>
+  	   <% break;
+  	 case 'redirection': %>
+  	   <p class="log-name"><span class="label bg-primary">Redirection</span><%= title %></p>
+  	   <% break;
+  	 case 'chat': %>
+  	   <p class="log-name"><span class="label bg-primary">Chat</span><%= title %></p>
+  	   <% break;
+  } %>
+    <div class="log-info text-right">
+  	  <small><%= action %></small>
+  	  <small class="log-date">Le <%= moment(logged_at).format('DD MMMM à HH:mm') %></small>
   </div>
 </div>

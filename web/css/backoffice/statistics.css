@@ -88,17 +88,6 @@ li.active .conversation-start {
 	margin-top: 13px;
 }
 
-.conversation-name {
-	margin: 5px 0 0 0;
-	overflow: hidden;
-    -o-text-overflow: ellipsis; /* pour Opera 9 */
-    text-overflow: ellipsis;
-}
-
-.conversation-duration, .conversation-duration:focus {
-	color: #a6a7a9 !important;
-}
-
 .userList-item .user-info {
 	display:inline-block;
 	font-size:10px;
@@ -143,12 +132,12 @@ li.active .conversation-start {
 	border-radius: 0;
 }
 
-.sort-menu .dropdown-menu > li,#sortConversationMenu .dropdown-menu > li {
+.sort-menu .dropdown-menu > li {
 	padding:5px 15px;
 	cursor:pointer;
 }
 
-.sort-menu .dropdown-menu > li:hover,.sort-menu .dropdown-menu > li:focus,.sort-menu .dropdown-menu > .active,.sort-menu .dropdown-menu > .active:hover,.sort-menu .dropdown-menu > .active:focus,#sortConversationMenu .dropdown-menu > li:hover,#sortConversationMenu .dropdown-menu > li:focus,#sortConversationMenu .dropdown-menu > .active,#sortConversationMenu .dropdown-menu > .active:hover,#sortConversationMenu .dropdown-menu > .active:focus {
+.sort-menu .dropdown-menu > li:hover,.sort-menu .dropdown-menu > li:focus,.sort-menu .dropdown-menu > .active,.sort-menu .dropdown-menu > .active:hover,.sort-menu .dropdown-menu > .active:focus {
 	background-color:#4c5566;
 	background-image:none;
 	color:#fff;
@@ -209,7 +198,7 @@ li.active .conversation-start {
 	margin-top:-15px;
 }
 
-#conversations-list {
+#conversations-list, #logs-list {
 	padding:0;
 	margin:0;
 }
@@ -299,6 +288,30 @@ li.active .conversation-start {
 	border-left:thin solid #ebeff6;
 	border-right:thin solid #ebeff6;
 	border-top:thin solid #ebeff6;
+}
+
+.conversation-name {
+	margin: 5px 0 0 0;
+	overflow: hidden;
+    -o-text-overflow: ellipsis; /* pour Opera 9 */
+    text-overflow: ellipsis;
+}
+
+.conversation-duration, .conversation-duration:focus {
+	color: #a6a7a9 !important;
+}
+
+.log-info small {
+	display: block;
+}
+
+.log-name {
+	margin: 5px 0 10px 0;
+	float: left;
+}
+
+.log-name .label {
+	margin-right: 5px;
 }
 
 #lecteur-video #iframe {

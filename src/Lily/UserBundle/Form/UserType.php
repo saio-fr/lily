@@ -14,7 +14,7 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(isset($options['adminModif']) && $options['adminModif']) {
+        if(isset($options['admin']) && $options['admin']) {
             $builder
                 ->add('avatar', 'text', Array('label' => 'Avatar'))
                 ->add('lastname', 'text', Array('label' => 'Nom'))
@@ -25,18 +25,29 @@ class UserType extends AbstractType
                 ->add('phone', 'text', Array('label' => 'Téléphone'))
                 ->add('email', 'email', Array('label' => 'Adresse e-mail'))
                 ->add('username', 'text', Array('label' => 'Login'))
-                ->add('plainPassword', 'repeated', array( 'type' => 'password', 'first_options' => array('label' => 'Mot de passe', 'attr'=>array('autocomplete'=>'off')), 'second_options' => array('label' => 'Confirmer le mot de passe', 'attr'=>array('autocomplete'=>'off')), 'invalid_message' => 'Les mots de passe ne sont pas les mêmes',))
-                ;
-        } elseif(isset($options['avatarWidget']) && $options['avatarWidget']) {
+				->add('plainPassword', 'repeated', array(
+					  'type' => 'password',
+					  'options' => array('required' => true),
+					  'first_options'  => array('label' => 'Mot de passe'),
+					  'second_options' => array('label' => 'Confirmer le mot de passe'),
+					  'invalid_message' => 'Les mots de passe doivent correspondre',));
+        } elseif(isset($options['avatar']) && $options['avatar']) {
             $builder
                 ->add('avatar', 'hidden')
                 ->add('avatarFile', 'file');
         } else {
             $builder
-                ->add('email')
-                ->add('phone')
-                ->add('post')
-                ->add('country');
+            	->add('avatar', 'text', Array('label' => 'Avatar'))
+                ->add('email', 'email', Array('label' => 'Adresse e-mail'))
+                ->add('post', 'text', Array('label' => 'Poste'))
+                ->add('phone', 'text', Array('label' => 'Téléphone'))
+                ->add('country', 'text', Array('label' => 'Pays'))
+				->add('plainPassword', 'repeated', array(
+					  'type' => 'password',
+					  'options' => array('required' => true),
+					  'first_options'  => array('label' => 'Mot de passe'),
+					  'second_options' => array('label' => 'Confirmer le mot de passe'),			  
+					  'invalid_message' => 'Les mots de passe doivent correspondre',));
         }
     }
     
@@ -47,8 +58,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Lily\UserBundle\Entity\User',
-            'adminModif'=>false,
-            'avatarWidget'=>false,
+            'admin'=>false,
+            'avatar'=>false,
         ));
     }
 

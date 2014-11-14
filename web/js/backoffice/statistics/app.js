@@ -83,30 +83,24 @@
             switch(tab) {
                 case "chat":
                 	$('.loader').fadeIn();
+                	if (typeof(view.activity.conversationsview) !=="undefined") view.activity.conversationsview.remove();
+                	if (typeof(view.activity.logsview) !=="undefined") view.activity.logsview.remove();
                     view.activity.data = new lily.Data({id:id});
                     view.activity.graph = new lily.UserStatsGraphView({model: view.activity.data});
 					break;
                 case "conversations":
                 	$('.loader').fadeIn();
-                	if (typeof(view.activity.data) !=="undefined") view.activity.data.remove();
-                	if (typeof(view.activity.graph) !=="undefined") view.activity.graph.remove();
+                	if (typeof(view.activity.data) !== "undefined") view.activity.data.remove();
+                	if (typeof(view.activity.graph) !== "undefined") view.activity.graph.remove();
+                	if (typeof(view.activity.activitiesview) !=="undefined") view.activity.activitiesview.remove();
                     view.activity.conversationsview = new lily.ConversationsView({id: id});
 					break;
-                case "knowledgeBase":
-                   /*
- knowledgeBaseHistory = new lily.QuestionList();
-                    knowledgeBaseHistory.url="/rest/knowledgeBase/"+id;
-
-                    knowledgeBaseHistory.fetch({
-                        success: function() {
-                            listUserLoader.success(function() {
-                                if(typeof(knowledgeBaseHistoryView)=="undefined")
-                                    knowledgeBaseHistoryView = new lily.KnowledgeBaseHistoryView();
-                                knowledgeBaseHistoryView.setCollection(knowledgeBaseHistory);
-                            });
-                        }
-                    });
-*/
+                case "logs":
+                	$('.loader').fadeIn();
+                	if (typeof(view.activity.data) !== "undefined") view.activity.data.remove();
+                	if (typeof(view.activity.graph) !== "undefined") view.activity.graph.remove();
+                	if (typeof(view.activity.conversationsview) !=="undefined") view.activity.conversationsview.remove();
+                    view.activity.logsview = new lily.LogsView({id: id});
 					break;
                 default:
                     console.warn("tab not recognized in viewUserStats");

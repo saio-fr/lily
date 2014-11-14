@@ -1,0 +1,59 @@
+<div class="vbox">
+	<section class="scrollable">
+		<div class="wrapper">
+			<div class="clearfix">
+				<div class="clear">
+					<form class="form-group">
+
+						{{ form_errors(form) }}
+						 {% for field in form %}
+						 	{% if field.vars.name!='_token' %}
+	    						{% set type = field.vars.block_prefixes[1] %}
+
+	    						{% if type in ['repeated'] %}
+	    							{{ form_errors(field) }}
+	    							{% for subField in field %}
+
+									{{ form_label(subField) }}
+		    						{{ form_errors(subField) }}
+	    							{{ form_widget(subField, { 'attr' : {'class' : 'form-control input-sm' }}) }}
+			    							
+		    						{% endfor %}
+	    						{% elseif field.vars.name == 'avatar' %}
+	    						
+  							    <div class="loader"><i class="icon-spinner icon-spin icon-2x"></i></div> 
+	    						<iframe src="{{ path('lily_avatarWidget') }}/{{ app.user.id }}" id="avatarWidget">Widget de modification d'avatar non disponible</iframe>
+	    						<div class="user-info">
+									<div class="h5 m-t-xs">{{ app.user.firstname|capitalize }} {{ app.user.lastname|capitalize }}</div>
+									<small class="text-muted">{{ app.user.enterprise.name }}</small>
+								</div>
+	    						{% elseif type in ['text', 'email'] %}
+	
+									{{ form_label(field) }}
+		    						{{ form_errors(field) }}
+	    							{# Champ classique #}
+									
+									<input type="{{ type }}" name="{{ field.vars.name }}" id="{{ field.vars.id }}" class="form-control input-sm" value="<% if(typeof({{ field.vars.name }})!=='undefined') {{ '{' }} %><%-{{ field.vars.name }} %><% {{ '}' }} %>" />
+
+								{% else %}
+
+									{{ form_label(field) }}
+									{{ form_errors(field) }}
+
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer class="dk footer text-center">
+		<button class="btn btn-sm btn-success button-update">Sauvegarder</button>
+		<button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
+	</footer>
+	
+    {{ js_validator_config() }}
+    {{ init_js_validation(null, false, true) }}
+	
+</div>

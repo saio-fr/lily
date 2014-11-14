@@ -1,1 +1,56 @@
-#menu-content{height:50px;background:#4c5566;border-radius:0}#menu-content>*{border:0;border-radius:0;background:#4c5566}#menu-content>*.active{color:#6e7d83;background:#f9fafc}#menu-content #link-questions{width:100px}#menu-content #link-faq{width:50px}#menu-content #link-redirections{width:93px}#menu-content a{color:white}#menu-content a.active{color:#575757}#central-panel #management-questions .details-sort-date{position:absolute;top:-6px}#central-panel #management-questions .details-sort-requests{position:absolute;top:-6px}#central-panel #management-questions .details-sort-satisfaction{position:absolute;top:-6px}#management-questions .filter-button a.dropdown-toggle{box-shadow:none;padding-left:0}
+/*Navigation between differents knowledge sections*/
+#menu-content{
+height:50px;
+background:#4c5566;
+border-radius:0;
+}
+#menu-content >*{
+border:0;
+border-radius:0;
+background:#4c5566;
+}
+#menu-content >*.active{
+color: #6e7d83;
+background:#f9fafc;
+}
+#menu-content #link-questions{
+width:100px;
+}
+
+#menu-content #link-faq{
+width:50px;
+}
+
+#menu-content #link-redirections{
+width:93px;
+}
+
+#menu-content #link-synonyms{
+/*width:125px;*/
+}
+#menu-content a{
+color:white;
+}
+#menu-content a.active{
+color:#575757;
+}
+
+
+/*Management Questions*/
+/*Sort by date*/
+#central-panel #management-questions .details-sort-date{
+position: absolute;
+top: -6px;
+}
+#central-panel #management-questions .details-sort-requests{
+position: absolute;
+top: -6px;
+}
+#central-panel #management-questions .details-sort-satisfaction{
+position: absolute;
+top: -6px;
+}
+#management-questions .filter-button a.dropdown-toggle{
+box-shadow:none;
+padding-left:0;
+}

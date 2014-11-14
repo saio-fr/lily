@@ -1,1 +1,0 @@
-lily.Models.MessageLilyNotation=Backbone.Model.extend({defaults:{id:""}});

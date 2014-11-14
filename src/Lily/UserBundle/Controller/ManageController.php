@@ -98,7 +98,7 @@ class ManageController extends BaseController
         }
 
 
-        $form = $this->createForm(new UserType, $user, array('adminModif'=>true, 'csrf_protection' => false));
+        $form = $this->createForm(new UserType, $user, array('admin'=>true, 'csrf_protection' => false));
         $form->bind($data);
 
         if($user === $this->getUser() && !in_array('ROLE_ADMIN', $user->getRoles())) {
@@ -133,7 +133,7 @@ class ManageController extends BaseController
         $manager = $this->get('fos_user.user_manager');
         $new = $manager->createUser();
 
-        $form = $this->createForm(new UserType, $new, array('adminModif'=>true, 'csrf_protection' => false));
+        $form = $this->createForm(new UserType, $new, array('admin'=>true, 'csrf_protection' => false));
         $form->bind($data);
 
         //Gestion avatar
@@ -154,7 +154,7 @@ class ManageController extends BaseController
      */
     public function getUserFormAction() {
     
-        $userForm = $this->createForm(new UserType, null, array('adminModif' => true));
+        $userForm = $this->createForm(new UserType, null, array('admin' => true));
         
         return $this->render('LilyUserBundle:Manage:Users/edit.html.twig', array('form' => $userForm->createView()));
         
@@ -183,7 +183,7 @@ class ManageController extends BaseController
         }
 
         /* Création du formulaire */
-        $form = $this->createForm(new UserType, $user, array('avatarWidget' =>true));
+        $form = $this->createForm(new UserType, $user, array('avatar' =>true));
 
         /* Traitement de l'envoi d'un nouvel avatar */
         if ($request->getMethod() == 'POST') {
@@ -194,7 +194,7 @@ class ManageController extends BaseController
             $tmpAvatarUrl = $urlGenerator->getUrl($tmpAvatar);
 
             // Recréation du formulaire (on vient de le soumettre)
-            $form = $this->createForm(new UserType, $user, array('avatarWidget' => true));
+            $form = $this->createForm(new UserType, $user, array('avatar' => true));
             $form->get('avatar')->setData($tmpAvatarUrl);
                 
             

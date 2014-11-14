@@ -1,1 +1,0 @@
-lily.squareColored=Backbone.Model.extend({});

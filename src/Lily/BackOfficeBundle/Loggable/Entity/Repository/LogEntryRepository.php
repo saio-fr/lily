@@ -21,6 +21,25 @@ class LogEntryRepository extends EntityRepository
      * @var LoggableListener
      */
     private $listener;
+    
+    /**
+     * Loads user's logs between 2 dates
+     *
+     */
+    public function getLogs($username, $start, $end)
+    {
+    	$qb = $this->createQueryBuilder('l');
+    	
+        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+        $qb->where('l.username = :username')
+           ->setParameter('username', $username)
+           ->andWhere('UNIX_TIMESTAMP(l.loggedAt) >= :start')
+           ->setParameter('start', $start)
+           ->andWhere('UNIX_TIMESTAMP(l.loggedAt) < :end')
+           ->setParameter('end', $end);
+
+        return $qb->getQuery()->getResult();
+    }
 
     /**
      * Loads all log entries for the

@@ -1,5 +1,17 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/backoffice/profil.css' filter='cssrewrite' output='css/compiled/statistics.css' %}  
+
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" /> 
+
+{% endstylesheets %}
+
+{% endblock %}
+
 {% block body %}
 
 <section class="hbox stretch">
@@ -17,53 +29,12 @@
         <section class="scrollable">
           <section class="hbox stretch">
             <aside class="aside-profil bg-light lter b-r">
-              <form class="vbox" method="post" action="{{ path('lily_profil') }}">
-                <section class="scrollable">
-                  <div class="wrapper">
-                    <div class="clearfix m-b">
-                      <a href="#" class="pull-left thumb m-r">
-                        <img width="180" height="180" src="{{ logo }}">
-                      </a>
-                      <div class="clear m-t-sm">
-                        <div class="h5 m-t-xs m-b-xs">{{ app.user.firstname|capitalize }} {{ app.user.lastname|capitalize }}</div>
-                        <small class="text-muted">{{ app.user.enterprise.name }}</small>
-                      </div>
-                      <div class="form-group m-t-xlg">
-                        <label>Email</label>
-                        <input name="{{ form.email.vars.full_name }}" id="{{ form.email.vars.id }}" type="email" class="form-control input-sm" value="{{ app.user.email }}">
-                      </div>
-                      <div class="form-group">
-                        <label>Téléphone</label>
-                        <input name="{{ form.phone.vars.full_name }}" id="{{ form.phone.vars.id }}" type="text" class="form-control input-sm" value="{{ app.user.phone }}">
-                      </div>
-                      <div class="form-group">
-                        <label>Poste occupé</label>
-                        <input name="{{ form.post.vars.full_name }}" id="{{ form.post.vars.id }}" type="text" class="form-control input-sm" value="{{ app.user.post }}">
-                      </div>
-                      <div class="form-group">
-                        <label>Pays</label>
-                      <input name="{{ form.country.vars.full_name }}" id="{{ form.country.vars.id }}" type="text" class="form-control input-sm" value="{{ app.user.country }}">
-                      </div>         
-                    </div>
-                  </div>
-                </div>
-                </section>
-                <footer class="dk footer text-center">
-                  <button type="submit" class="btn btn-sm btn-success">Modifier mon profil</button>
-                </footer>   
-              </form>
+              <!-- User edit template -->
             </aside>
             <aside class="bg-white">
               <section class="vbox">
                 <section class="scrollable">
-                <h5 class="m-l m-t-lg">Activités</h5>
-				<ul class="list-group no-borders no-radius m-b-none m-t-n-xxs list-group-alt">
-                {% for activity in activities %}
-                  <li class="list-group-item animated bounceInLeft">
-                    <h6 class="m-n">Vous avez <b>{{ activity.action }}</b> le {{ activity.loggedAt|date("d/m/Y") }} à {{ activity.loggedAt|date("H:i") }} la <b>{{activity.type}}</b>: <small class="m-l-sm">{{ activity.title }}</small></h6>              
-                  </li>
-                {% endfor %}            
-	            </ul>
+                  <h5 class="m-l m-t-lg">Activités</h5>
                 </section>
               </section>
             </aside>
@@ -77,11 +48,54 @@
 	{% endblock %}
 
 
-	{% block templates %}
-	
-    {% endblock %}
+  {% block templates %}
+  
+    {% autoescape false %}
+    
+    <!-- include of templates -->    
+    <!-- replacing </script> with <\/script> so it won't close the <script type="text/template"> even if there is script in our templates -->
+    <script type="text/template" id="user-edit">
+    {% filter replace({'</script>':'<\\\/script>'}) %}
+      {{ render(controller('LilyUserBundle:Profil:getForm')) }}
+    {% endfilter %}
+    </script>
+    {% endautoescape %}
+  
+  {% endblock %}
+  
+  {% block bootstrap %}
+    {% autoescape false %}
+    <script type="text/javascript">
+        var root = "{{ path('lily_profil') }}";
+    </script>
+    {% endautoescape %}
+  {% endblock %}
 
 
 </section>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% javascripts 
+'js/vendor/jquery.min.js' 
+'js/vendor/bootstrap.js' 
+'js/vendor/underscore.min.js' 
+'js/vendor/backbone.min.js'
+
+'js/app.js' 
+'js/app.plugin.js' 
+
+'js/daterangepicker/daterangepicker.js' 
+ 
+'bundles/fpjsformvalidator/js/fp_js_validator.js'
+'js/backoffice/profil.js' 
+
+output='js/compiled/profil.js' %}
+
+<script type="text/javascript" src="{{ asset_url }}"></script>
+
+{% endjavascripts %}
 
 {% endblock %}

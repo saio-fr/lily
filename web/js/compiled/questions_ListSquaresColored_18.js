@@ -1,1 +1,0 @@
-lily.ListSquareColored=Backbone.Collection.extend({model:lily.squareColored});

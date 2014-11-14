@@ -8,11 +8,11 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-    height: 119px;
-    line-height: 119px;
+    height: 70px;
+    line-height: 70px;
     padding: 0;
     text-align: center;
-    max-width: 119px;
+    max-width: 70px;
 }
 
 #avatarContainer #changeAvatar {

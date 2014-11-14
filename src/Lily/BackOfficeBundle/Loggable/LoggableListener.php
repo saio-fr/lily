@@ -20,17 +20,17 @@ class LoggableListener extends GedmoLoggableListener
     /**
      * Create action
      */
-    const ACTION_CREATE = 'ajouté';
+    const ACTION_CREATE = 'create';
 
     /**
      * Update action
      */
-    const ACTION_UPDATE = 'modifié';
+    const ACTION_UPDATE = 'update';
 
     /**
      * Remove action
      */
-    const ACTION_REMOVE = 'supprimé';
+    const ACTION_REMOVE = 'remove';
 
     /**
      * Username for identification
