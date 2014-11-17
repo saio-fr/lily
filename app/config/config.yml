@@ -18,29 +18,29 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
-    session:         
+    session:
         #handler_id:   session.handler.memcached
         cookie_domain: .saio.fr
     fragments:       ~
-    http_method_override: true  
-    
+    http_method_override: true
+
 # Memcached bundle
 lsw_memcache:
     session:
-        client: default
+        client: bruno_dev
         prefix: "session_"
         ttl: 86400
         locking: true
         spin_lock_wait: 150000
     clients:
-        default:
+        bruno_dev:
             hosts:
               - { dsn: 172.16.0.6 , port: 11211 }
             options:
                 compression: true
                 serializer: json
                 prefix_key: ""
-                hash: default
+                hash: bruno_dev
                 distribution: consistent
                 libketama_compatible: true
                 buffer_writes: true
@@ -58,15 +58,15 @@ lsw_memcache:
                 server_failure_limit: 0
     doctrine:
         metadata_cache:
-            client: default
-            entity_manager: [default, dev, cgm]
+            client: bruno_dev
+            entity_manager: [bruno_dev, dev, cgm]
         result_cache:
-            client: default
-            entity_manager: [default, dev, cgm]
+            client: bruno_dev
+            entity_manager: [bruno_dev, dev, cgm]
             prefix: "result_"
         query_cache:
-            client: default
-            entity_manager: [default, dev, cgm]
+            client: bruno_dev
+            entity_manager: [bruno_dev, dev, cgm]
 
 # JMS Automatic routing
 jms_i18n_routing:
@@ -126,7 +126,7 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-            
+
             # Dev
             cgm:
                 driver:   "%database_driver%"
@@ -215,7 +215,7 @@ doctrine:
                 mappings:
                     LilyAdminBundle: ~
                     LilyUserBundle: ~
-                    
+
             # Dev
             dev:
                 connection:       dev
@@ -298,7 +298,7 @@ doctrine:
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
 
-            # Telecom Paris            
+            # Telecom Paris
             tparis:
                 connection:       tparis
                 mappings:
@@ -312,7 +312,7 @@ doctrine:
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
 
-            # Paris.fr            
+            # Paris.fr
             parisfr:
                 connection:       parisfr
                 mappings:
@@ -326,7 +326,7 @@ doctrine:
                         dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
                         is_bundle: false
 
-            # saio.fr            
+            # saio.fr
             saio:
                 connection:       saio
                 mappings:
@@ -346,7 +346,7 @@ doctrine:
                                 unix_timestamp: Lily\BackOfficeBundle\DoctrineFunction\UnixTimestamp
                                 round: Lily\BackOfficeBundle\DoctrineFunction\Round
 
-            # movinmotion.com            
+            # movinmotion.com
             movinmotion:
                 connection:       movinmotion
                 mappings:
@@ -371,15 +371,15 @@ swiftmailer:
 
 # Fos User Bundle
 fos_user:
-    db_driver:     orm                        
-    firewall_name: main                       
+    db_driver:     orm
+    firewall_name: main
     user_class:    Lily\UserBundle\Entity\User
     use_username_form_type: false
     from_email:
         address:        jeanclaude.giron@saio.fr
-        sender_name:    Jean Claude GIRON 
+        sender_name:    Jean Claude GIRON
 
-# Fos rest            
+# Fos rest
 fos_rest:
     param_fetcher_listener: true
     routing_loader:
@@ -394,50 +394,50 @@ sensio_framework_extra:
     view:    { annotations: false }
     router:  { annotations: true }
 
-# StofDoctrine    
+# StofDoctrine
 stof_doctrine_extensions:
     default_locale: fr_FR
     orm:
-        dev: 
+        dev:
             loggable: true
             timestampable: true
             sortable: true
-        cgm: 
+        cgm:
             loggable: true
             timestampable: true
             sortable: true
-        tem: 
+        tem:
             loggable: true
             timestampable: true
             sortable: true
-        tsp: 
+        tsp:
             loggable: true
             timestampable: true
             sortable: true
-        tbretagne: 
+        tbretagne:
             loggable: true
             timestampable: true
             sortable: true
-        tparis: 
+        tparis:
             loggable: true
             timestampable: true
             sortable: true
-        parisfr: 
+        parisfr:
             loggable: true
             timestampable: true
             sortable: true
-        saio: 
+        saio:
             loggable: true
             timestampable: true
             sortable: true
-        movinmotion: 
+        movinmotion:
             loggable: true
             timestampable: true
             sortable: true
     class:
         loggable: Lily\BackOfficeBundle\Loggable\LoggableListener
 
-# Mobile Detect        
+# Mobile Detect
 mobile_detect:
     redirect:
         mobile: ~
