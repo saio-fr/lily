@@ -6,10 +6,10 @@ parameters:
     database_port: 3306
     database_user: saio
     database_password: gW74uw?6
-        
+
     # DB Clients
-    database_name: lily
-    database_dev: dev
+    database_name: oldlily
+    database_dev: olddev
     database_cgm: cgm
     database_saio: saio
     database_tem: tem
@@ -18,13 +18,13 @@ parameters:
     database_tparis: tparis
     database_parisfr: parisfr
     database_movinmotion: movinmotion
-    
+
     # Mail
     mailer_transport: smtp
     mailer_host: 37.59.26.163
     mailer_user: null
     mailer_password: null
-    
+
     # Var
     locale: fr
     secret: e63298c3f103b670cb57be1596080ed94

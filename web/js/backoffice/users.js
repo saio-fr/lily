@@ -19,13 +19,14 @@ $(function () {
     options.url = root + options.url;
   });
 
-  var lily = lily || {};
+  var lily = lily || {},
+      UserModule = lily.UserModule = {};
 
   /*================================
       Model User
     ====================================*/
 
-  lily.User = Backbone.Model.extend({
+  UserModule.User = Backbone.Model.extend({
 
     getRolesHuman: function () {
 
@@ -92,15 +93,16 @@ $(function () {
       Collection User
     =======================================*/
 
-  lily.ListUser = Backbone.Collection.extend({
+  UserModule.ListUser = Backbone.Collection.extend({
 
-    model : lily.User,
+    model : UserModule.User,
     sortCriteria : "lastname",
 
     comparator: function(item) {
 
       var roles = item.get('roles'),
-          rolesInt = 0;
+          rolesInt = 0,
+          last_login;
 
       if ( this.sortCriteria === "lastname" ) {
         return item.get('lastname');
@@ -149,7 +151,7 @@ $(function () {
       Modal Delete
     =========================================*/
 
-  lily.ModalDelete = Backbone.View.extend({
+  UserModule.ModalDelete = Backbone.View.extend({
 
     id: 'delete',
     className: 'modal fade',
@@ -181,7 +183,7 @@ $(function () {
       UserView
     =========================================*/
 
-  lily.UserView = Backbone.View.extend({
+  UserModule.UserView = Backbone.View.extend({
 
     tagName:  "li",
     className: "list-group-item hover",
@@ -192,7 +194,7 @@ $(function () {
       'click .view'   : 'edit'
     },
 
-    setModel: function (model) {
+    setModel:function (model) {
 
       if ( this.model !== model ) {
         this.model = model,
@@ -213,7 +215,7 @@ $(function () {
 
       e.stopPropagation();
 
-      new lily.ModalDelete();
+      new UserModule.ModalDelete();
 
       var that = this;
 
@@ -232,9 +234,11 @@ $(function () {
       e.stopPropagation();
       var id = $(e.currentTarget).parent().data("id");
 
-      if(typeof(userEditView) === "undefined")
-        userEditView = new lily.UserEditView();
-      userEditView.setModel(this.model)
+      if ( typeof(UserModule.userEditView) === "undefined" ) {
+        UserModule.userEditView = new UserModule.UserEditView();
+      }
+
+      UserModule.userEditView.setModel(this.model)
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');
@@ -248,7 +252,7 @@ $(function () {
       User List View
     =========================================*/
 
-  lily.ListUserView = Backbone.View.extend({
+  UserModule.ListUserView = Backbone.View.extend({
 
     el: '#user-list',
 
@@ -275,7 +279,7 @@ $(function () {
     // Add user to the list
     add: function (user) {
 
-      var view = new lily.UserView();
+      var view = new UserModule.UserView();
       view.setModel(user)
       this.$el.append(view.render().el);
 
@@ -302,7 +306,7 @@ $(function () {
       User Edit View
     =========================================*/
 
-  lily.UserEditView = Backbone.View.extend({
+  UserModule.UserEditView = Backbone.View.extend({
 
     el: '#user-detail',
     template: _.template($('#userEdit').html().replace(/<\\\/script/g, '</script')),
@@ -390,7 +394,7 @@ $(function () {
         });
 
         if ( this.model.get('id') === undefined ) {
-          listUser.create(this.model, { wait: true });
+          UserModule.listUser.create(this.model, { wait: true });
 
         } else {
           this.model.url = "/rest/"+this.model.get('id');
@@ -420,7 +424,7 @@ $(function () {
         this.delegateEvents();
       }
 
-      userManagementAppView.editedUserId = this.model.id;
+      UserModule.userManagementAppView.editedUserId = this.model.id;
 
       this.$el.removeClass('hide');
       this.$el.html(this.template(this.model.toJSON()));
@@ -446,7 +450,7 @@ $(function () {
 
     remove: function () {
 
-      userManagementAppView.editedUserId = null;
+      UserModule.userManagementAppView.editedUserId = null;
       this.$el.addClass('hide');
       this.close();
     },
@@ -459,14 +463,14 @@ $(function () {
       APP
     =========================================*/
 
-  lily.UserManagementApp = Backbone.Model.extend();
+  UserModule.UserManagementApp = Backbone.Model.extend();
 
 
   /*========================================
       USER MANAGEMENT APP VIEW
     =========================================*/
 
-  lily.UserManagementAppView = Backbone.View.extend({
+  UserModule.UserManagementAppView = Backbone.View.extend({
 
     el: '#users',
     template: _.template($('#app').html()),
@@ -479,11 +483,11 @@ $(function () {
 
     initialize: function() {
 
-      this.listenTo(listUser, 'add', this.updateNumberOfUser);
-      this.listenTo(listUser, 'remove', this.updateNumberOfUser);
+      this.listenTo(UserModule.listUser, 'add', this.updateNumberOfUser);
+      this.listenTo(UserModule.listUser, 'remove', this.updateNumberOfUser);
     },
 
-    setModel:function (model) {
+    setModel: function (model) {
 
       if( this.model !== model ) {
         this.model = model;
@@ -511,16 +515,17 @@ $(function () {
     createUser: function (e) {
       e.preventDefault();
 
-      if ( typeof(userEditView) !== 'undefined' )
-        userEditView.remove();
+      if ( typeof(UserModule.userEditView) !== 'undefined' ) {
+        UserModule.userEditView.remove();
+      }
 
-      user = new lily.User({ avatar:"http://saio.fr/images/avatar-utilisateur.png" });
+      var user = new UserModule.User({ avatar:"http://saio.fr/images/avatar-utilisateur.png" });
       user.url = '/rest';
 
-      if ( typeof(userEditView) === "undefined" )
-        userEditView = new lily.UserEditView();
+      if ( typeof(UserModule.userEditView) === "undefined" )
+        UserModule.userEditView = new UserModule.UserEditView();
 
-      userEditView.setModel(user);
+      UserModule.userEditView.setModel(user);
 
       $('#user-list .active').removeClass('active');
 
@@ -529,15 +534,16 @@ $(function () {
 
     changeSortCriteria: function(e) {
 
-      var target = $(e.target);
+      var target = $(e.target),
+          listUser = UserModule.listUser;
 
       if( target.data('criteria') !== undefined ) {
 
-        listUser.sortCriteria = target.data('criteria');
+        UserModule.listUser.sortCriteria = target.data('criteria');
         target.parent().find('.active').removeClass('active');
         target.addClass('active');
-        listUser.sort();
-        listUserView.updateView();
+        UserModule.listUser.sort();
+        UserModule.listUserView.updateView();
       }
 
       return this;
@@ -545,10 +551,14 @@ $(function () {
 
     updateNumberOfUser: function() {
 
-      var maxUsers = this.model.get('maxusers'),
+      var maxUsers,
           listCounter;
 
-      if( listUser.length >= maxUsers ) {
+      if ( this.model ) {
+        maxUsers = this.model.get('maxusers');
+      }
+
+      if( UserModule.listUser.length >= maxUsers ) {
         $('#userListCounter').addClass('limitReached');
         $('#userMaxReachedAlert').show();
         $('#addUserButton').hide();
@@ -558,8 +568,8 @@ $(function () {
         $('#addUserButton').show();
       }
 
-      listCounter = listUser.length
-      + (listUser.length <= 1 ? " compte" : " comptes")
+      listCounter = UserModule.listUser.length
+      + (UserModule.listUser.length <= 1 ? " compte" : " comptes")
       + " sur " + maxUsers
       + (maxUsers <= 1 ? " disponible" : " disponibles");
 
@@ -575,7 +585,7 @@ $(function () {
                                             Router
    ========================================================================================== */
 
-  AppRouter = Backbone.Router.extend({
+  UserModule.AppRouter = Backbone.Router.extend({
 
     routes: {
       "" : "home",
@@ -586,26 +596,27 @@ $(function () {
 
       // TODO Make listUser a less dirty global... Local namespace for users module ?
       // Thanks :)
-      listUser = new lily.ListUser();
-      listUser.url = "/rest/";
-      listUserLoader = listUser.fetch();
-
+      UserModule.listUser = new UserModule.ListUser();
+      UserModule.listUser.url = "/rest/";
+      UserModule.listUserLoader = UserModule.listUser.fetch();
     },
 
     home: function() {
 
       // Same here!
-      userManagementApp = new lily.UserManagementApp();
-      userManagementApp.url = "/rest/maxusers";
+      var userManagementApp = new UserModule.UserManagementApp(),
+          self = this;
 
+      if ( typeof(UserModule.userManagementAppView) === "undefined" ) {
+        UserModule.userManagementAppView = new UserModule.UserManagementAppView();
+      }
+
+      userManagementApp.url = "/rest/maxusers";
       userManagementApp.fetch({
         success: function() {
-          listUserLoader.success( function() {
-            if ( typeof(userManagementAppView) === "undefined" ) {
-              userManagementAppView = new lily.UserManagementAppView();
-            }
-            userManagementAppView.setModel(userManagementApp)
-            listUserView = new lily.ListUserView(listUser);
+          UserModule.listUserLoader.success( function() {
+            UserModule.userManagementAppView.setModel(userManagementApp)
+            UserModule.listUserView = new UserModule.ListUserView(UserModule.listUser);
           });
         }
       });
@@ -613,6 +624,6 @@ $(function () {
   });
 
   // Let's rock
-  var app = new AppRouter();
+  var app = new UserModule.AppRouter();
   Backbone.history.start();
 });
