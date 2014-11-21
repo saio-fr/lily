@@ -245,7 +245,7 @@ $(function () {
       return this;
     },
 
-    close: closeModelView,
+    close: UserModule.closeModelView,
   });
 
   /*========================================
@@ -455,7 +455,7 @@ $(function () {
       this.close();
     },
 
-    close: closeModelView
+    close: UserModule.closeModelView
   });
 
 
@@ -578,7 +578,7 @@ $(function () {
       return this;
     },
 
-    close: closeModelView
+    close: UserModule.closeModelView
   });
 
   /* ============================================================================================

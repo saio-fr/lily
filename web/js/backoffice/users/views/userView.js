@@ -2,71 +2,81 @@
               USER VIEW
 =======================================*/
 
-'use strict';
+define(function (require) {
 
-var UserModule = UserModule || {};
+  'use strict';
 
-UserModule.UserView = Backbone.View.extend({
+  // Require CommonJS like includes
+  var Backbone = require('backbone'),
+      utils = require('backoffice/utils'),
+      ModalDeleteView = require('backoffice/users/views/modalDeleteView'),
+      UserEditView = require('backoffice/users/views/userEditView'),
 
-  tagName:  "li",
-  className: "list-group-item hover",
-  template: _.template($('#user').html()),
+      // Object wrapper returned as a module
+      UserView;
 
-  events: {
-    'click .destroy': 'destroy',
-    'click .view'   : 'edit'
-  },
+  UserView = Backbone.View.extend({
 
-  setModel:function (model) {
+    tagName:  "li",
+    className: "list-group-item hover",
+    template: _.template($('#user').html()),
 
-    if ( this.model !== model ) {
-      this.model = model,
+    events: {
+      'click .destroy': 'destroy',
+      'click .view'   : 'edit'
+    },
+
+    setModel:function (model) {
+
+      if ( this.model !== model ) {
+        // Relevant User model passed when the
+        // view gets instanciated.
+        this.model = model;
         this.listenTo(this.model, 'select', this.select);
-      this.listenTo(this.model, 'render', this.render);
-      this.render();
-    }
+        this.listenTo(this.model, 'render', this.render);
+        this.render();
+      }
 
-    return this;
-  },
+      return this;
+    },
 
-  render: function () {
-    this.$el.html(this.template(this.model.toJSONWithComputedValues()));
-    return this;
-  },
+    render: function () {
+      this.$el.html(this.template(this.model.toJSONWithComputedValues()));
+      return this;
+    },
 
-  destroy: function (e) {
+    destroy: function (e) {
 
-    e.stopPropagation();
+      e.stopPropagation();
 
-    new UserModule.ModalDelete();
+      var modal = new ModalDeleteView(),
+          that = this;
 
-    var that = this;
+      $('.modal-close-confirm').click( function() {
 
-    $('.modal-close-confirm').click(function() {
+        that.model.url = "/rest/" + that.model.id;
+        that.model.destroy();
+        that.remove();
 
-      that.model.url = "/rest/" + that.model.id;
-      that.model.destroy();
-      that.remove();
+      });
 
-    });
+    },
 
-  },
+    edit: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var id = $(e.currentTarget).parent().data("id"),
+          editView = new UserEditView();
 
-  edit: function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    var id = $(e.currentTarget).parent().data("id");
+      editView.setModel(this.model)
 
-    if ( typeof(UserModule.userEditView) === "undefined" ) {
-      UserModule.userEditView = new UserModule.UserEditView();
-    }
+      this.$el.parent().find('li.active').removeClass('active');
+      this.$el.addClass('active');
+      return this;
+    },
 
-    UserModule.userEditView.setModel(this.model)
+    close: utils.closeModelView
+  });
 
-    this.$el.parent().find('li.active').removeClass('active');
-    this.$el.addClass('active');
-    return this;
-  },
-
-  close: UserModule.closeModelView,
+  return UserView;
 });

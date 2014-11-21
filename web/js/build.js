@@ -1,8 +1,8 @@
-module.exports = {
-  "appDir": "web",
-  baseUrl: 'js/',
-  "dir": "build",
-  "mainConfigFile": "/web/js/common.js",
+({
+  "appDir": "js/",
+  baseUrl: './',
+  //"dir": "build",
+  "mainConfigFile": "common.js",
   //"optimize": "uglify2",
   "optimize": "none",
   //"optimizeCss": "standard",
@@ -14,18 +14,23 @@ module.exports = {
   //"stubModules": ["text"],
   //"removeCombined": true,
   "optimizeAllPluginResources": true,
+  paths: {
+    "users": "backoffice/users/main"
+    // Other paths to other modules
+  },
   "modules": [
     {
-      "name": "common",
+      "name": "vendors",
       "include": [
         "jquery",
         "underscore",
-        "backbone"
+        "backbone",
+        "modernizr"
       ]
     },
     {
-      "name": "app/hello/main",
+      "name": "users",
       "exclude": ["common"]
     }
   ]
-}
+});

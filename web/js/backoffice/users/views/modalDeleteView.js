@@ -2,33 +2,43 @@
       		MODAL DELETE
 =======================================*/
 
-'use strict';
+define(function (require) {
 
-var UserModule = UserModule || {};
+  'use strict';
 
-UserModule.ModalDelete = Backbone.View.extend({
+  // Require CommonJS like includes
+  var Backbone = require('backbone'),
 
-  id: 'delete',
-  className: 'modal fade',
-  template: _.template( $('#modal-delete').html()),
+      // Object wrapper returned as a module
+      ModalDelete;
 
-  initialize: function() {
-    this.render();
-  },
 
-  render: function() {
+  ModalDelete = Backbone.View.extend({
 
-    this.$el.html(this.template());
-    this.$el.appendTo('#users');
-    this.$el.attr({
-      'tabindex': '-1',
-      'role': 'dialog',
-      'aria-labelledby': 'close',
-      'aria-hidden': 'true'
-    });
-    this.$el.modal('show');
+    id: 'delete',
+    className: 'modal fade',
+    template: _.template( $('#modal-delete').html()),
 
-    return this;
-  }
+    initialize: function() {
+      this.render();
+    },
 
+    render: function() {
+
+      this.$el.html(this.template());
+      this.$el.appendTo('#users');
+      this.$el.attr({
+        'tabindex': '-1',
+        'role': 'dialog',
+        'aria-labelledby': 'close',
+        'aria-hidden': 'true'
+      });
+      this.$el.modal('show');
+
+      return this;
+    }
+
+  });
+  
+  return ModalDelete;
 });

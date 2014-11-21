@@ -2,11 +2,20 @@
          	ROUTER
    ========================== */
 
-define('userRouter', ["", ""], function (userModule, ) {
+define(function (require) {
 
   'use strict';
 
-  userModule.AppRouter = Backbone.Router.extend({
+  // Require CommonJS like includes
+  var UserCollection = require('backoffice/users/collections/userCollection'),
+      UserManagementModel = require('backoffice/users/models/userManagementModel'),
+      UserManagementView = require('backoffice/users/views/userManagementView'),
+      UserCollectionView = require('backoffice/users/views/userCollectionView'),
+
+      // Object wrapper returned as a module
+      AppRouter;
+
+  AppRouter = Backbone.Router.extend({
 
     routes: {
       "" : "home",
@@ -15,33 +24,30 @@ define('userRouter', ["", ""], function (userModule, ) {
 
     initialize: function () {
 
-      // TODO Make listUser a less dirty global... Local namespace for users module ?
-      // Thanks :)
-      userModule.listUser = new userModule.ListUser();
-      userModule.listUser.url = "/rest/";
-      userModule.listUserLoader = userModule.listUser.fetch();
-    },
+      // We only want one userCollection and one userManagement view
+      var userCollection = new UserCollection(),
+          fetchUserCollection = userCollection.fetch(),
 
-    home: function() {
+          userManagementModel = new UserManagementModel(),
+          userManagementView = new UserManagementView();
 
-      // Same here!
-      var userManagementApp = new userModule.UserManagementApp(),
-          self = this;
-
-      if ( typeof(userModule.userManagementAppView) === "undefined" ) {
-        userModule.userManagementAppView = new userModule.UserManagementAppView();
-      }
-
-      userManagementApp.url = "/rest/maxusers";
-      userManagementApp.fetch({
+      userManagementModel.fetch({
         success: function() {
-          userModule.listUserLoader.success( function() {
-            userModule.userManagementAppView.setModel(userManagementApp)
-            userModule.listUserView = new userModule.ListUserView(userModule.listUser);
+          fetchUserCollection.success(function() {
+            UserManagementView.setModel(userManagementModel)
+            userCollectionView = new UserCollectionView(userCollection);
           });
         }
       });
+
     },
+
+    home: function() {
+      // todo: Adding more logic to the router (sort based on url...)
+      return;
+    }
   });
 
+  return AppRouter;
 });
+

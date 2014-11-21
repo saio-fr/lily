@@ -3,8 +3,9 @@
 /vendor/*
 /web/bundles/*
 /app/config/parameters.yml
-/bower_components/
-/build/
-/node_modules/
-/bower_components/
+/bower_components/*
+/build/*
+/compiled/*
+node_modules/
+bower_components/
 npm-debug.log
