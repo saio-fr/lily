@@ -7,7 +7,10 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var UserCollection = require('backoffice/users/collections/userCollection'),
+  var _ = require('underscore'),
+      Backbone = require('backbone'),
+      app = require('app'),
+      UserCollection = require('backoffice/users/collections/userCollection'),
       UserManagementModel = require('backoffice/users/models/userManagementModel'),
       UserManagementView = require('backoffice/users/views/userManagementView'),
       UserCollectionView = require('backoffice/users/views/userCollectionView'),
@@ -18,33 +21,39 @@ define(function (require) {
   AppRouter = Backbone.Router.extend({
 
     routes: {
-      "" : "home",
-      "*path" : "home"
+      '': 'home',
+      '*path': 'home'
     },
 
     initialize: function () {
 
-      // We only want one userCollection and one userManagement view
       var userCollection = new UserCollection(),
-          fetchUserCollection = userCollection.fetch(),
+          userCollectionView = {},
+          userManagementModel = new UserManagementModel();
 
-          userManagementModel = new UserManagementModel(),
-          userManagementView = new UserManagementView();
+      // Store managementView in global namespace.
+      app.userManagementView = {};
 
-      userManagementModel.fetch({
-        success: function() {
-          fetchUserCollection.success(function() {
-            UserManagementView.setModel(userManagementModel)
-            userCollectionView = new UserCollectionView(userCollection);
+
+      function initViews () {
+        userCollection.fetch().success(function() {
+          app.userManagementView  = new UserManagementView({
+            model: userManagementModel,
+            collection: userCollection
           });
-        }
-      });
+          userCollectionView = new UserCollectionView(userCollection);
+        });
+      }
 
+      // Get max users allowed
+      userManagementModel.fetch({
+        // Bootstrap users list and fetch existing users.
+        success: initViews
+      });
     },
 
     home: function() {
       // todo: Adding more logic to the router (sort based on url...)
-      return;
     }
   });
 

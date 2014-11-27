@@ -8,8 +8,12 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
+      _ = require('underscore'),
+      app = require('app'),
       utils = require('backoffice/utils'),
-      UserModel = require('backoffice/users/models/useModel'),
+      globals = require('backoffice/globals'),
+      UserModel = require('backoffice/users/models/userModel'),
+      UserEditView = require('backoffice/users/views/userEditView'),
 
       // Object wrapper returned as a module
       UserManagementView;
@@ -25,11 +29,12 @@ define(function (require) {
       'click #sortMenu li': 'changeSortCriteria',
     },
 
-    initialize: function() {
-
-      Backbone.on('userCollection:add', this.updateNumberOfUser);
-      Backbone.on('userCollection:remove', this.updateNumberOfUser);
-      Backbone.on('userId:change', this.onEditedUserIdChange);
+    initialize: function(options) {
+      if (options) {
+        this.model = options.model;
+        this.collection = options.collection;
+      }
+      this.render();
     },
 
     setModel: function (model) {
@@ -44,15 +49,16 @@ define(function (require) {
 
     render: function () {
 
-      if( $(document).find(this.$el).length == 0 ) {
+      // todo: change the logic here!
+      if( $(document).find(this.$el).length === 0 ) {
         // parent view has been rebuild, we have to update our $el
-        this.$el = $(this.__proto__.el);
+        this.$el = $(this.this.__proto__.el);
         this.delegateEvents();
       }
 
       this.$el.removeClass('hide');
       this.$el.html(this.template(this.model.toJSON()));
-      this.updateNumberOfUser();
+      this.checkMaxUser();
 
       return this;
     },
@@ -60,44 +66,40 @@ define(function (require) {
     createUser: function (e) {
       e.preventDefault();
 
-      Backbone.trigger('createNewUser');
+      app.trigger('closeEditView');
 
-      var user = new User({ avatar:"http://saio.fr/images/avatar-utilisateur.png" }),
-          editView = new UserEditView();     
-
-      editView.setModel(user);
+      var userModel = new UserModel({ avatar: globals.avatarUrl }),
+          editView = new UserEditView(userModel);
 
       $('#user-list .active').removeClass('active');
       return this;
     },
 
     changeSortCriteria: function(e) {
-
-      var target = $(e.target),
-          listUser = UserModule.listUser;
+      var target = $(e.target);
 
       if( target.data('criteria') !== undefined ) {
 
-        UserModule.listUser.sortCriteria = target.data('criteria');
         target.parent().find('.active').removeClass('active');
         target.addClass('active');
-        UserModule.listUser.sort();
-        UserModule.listUserView.updateView();
+        // Listen in userCollection
+        app.trigger("managementView:sort", target.data('criteria'));
       }
 
       return this;
     },
 
-    updateNumberOfUser: function() {
+    checkMaxUser: function() {
 
       var maxUsers,
-          listCounter;
+          listCounter,
+          userCount = this.collection.length;
 
       if ( this.model ) {
         maxUsers = this.model.get('maxusers');
       }
 
-      if( UserModule.listUser.length >= maxUsers ) {
+      if( userCount >= maxUsers ) {
         $('#userListCounter').addClass('limitReached');
         $('#userMaxReachedAlert').show();
         $('#addUserButton').hide();
@@ -107,26 +109,18 @@ define(function (require) {
         $('#addUserButton').show();
       }
 
-      listCounter = UserModule.listUser.length
-      + (UserModule.listUser.length <= 1 ? " compte" : " comptes")
-      + " sur " + maxUsers
-      + (maxUsers <= 1 ? " disponible" : " disponibles");
+      listCounter = userCount +
+        (userCount <= 1 ? " compte" : " comptes") +
+        " sur " + maxUsers +
+        (maxUsers <= 1 ? " disponible" : " disponibles");
 
       $('#userListCounter').text(listCounter);
 
       return this;
     },
 
-    onEditedUserIdChange: function (id) {
-      this.editedUserId = id;
-    },
-
     close: function () {
-      // Unbind global backbone Eventbus listeners
-      Backbone.off('userCollection:add', this.updateNumberOfUser);
-      Backbone.off('userCollection:remove', this.updateNumberOfUser);
-      Backbone.off('userId:change', this.onEditedUserIdChange);
-      utils.closeModelView();
+      utils.closeModelView(this);
     }
   });
 

@@ -15,11 +15,12 @@ define(function (require) {
 
   UserModel = Backbone.Model.extend({
 
+    url: '/rest',
+
     getRolesHuman: function () {
 
       var roles = this.get('roles'),
-          roleHuman = "",
-          url: '/rest'
+          roleHuman = "";
 
       if ( typeof(roles) === "undefined" ) {
         return "";
@@ -49,9 +50,9 @@ define(function (require) {
           lastLoginYear,
           d;
 
-      if (typeof(lastLogin) !== "undefined"
-          && lastLogin !== null
-          && lastLogin.toUpperCase() !== 'NULL') {
+      if (typeof(lastLogin) !== "undefined" &&
+        lastLogin !== null &&
+        lastLogin.toUpperCase() !== 'NULL') {
 
         d = new Date(lastLogin);
 
@@ -70,6 +71,7 @@ define(function (require) {
 
       var data = this.toJSON();
 
+      // todo: replace with camelCase notation in both this file and template
       data.last_login_human=this.getLastLoginHuman();
       data.roles_human=this.getRolesHuman();
 

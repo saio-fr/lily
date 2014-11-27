@@ -197,8 +197,8 @@ $(function () {
     setModel:function (model) {
 
       if ( this.model !== model ) {
-        this.model = model,
-          this.listenTo(this.model, 'select', this.select);
+        this.model = model;
+        this.listenTo(this.model, 'select', this.select);
         this.listenTo(this.model, 'render', this.render);
         this.render();
       }
@@ -501,7 +501,7 @@ $(function () {
 
       if( $(document).find(this.$el).length == 0 ) {
         // parent view has been rebuild, we have to update our $el
-        this.$el = $(this.__proto__.el);
+        this.$el = $(this.prototype.el);
         this.delegateEvents();
       }
 

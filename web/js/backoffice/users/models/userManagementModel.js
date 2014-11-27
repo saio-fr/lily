@@ -10,10 +10,11 @@ define(function (require) {
   var Backbone = require('backbone'),
 
       // Object wrapper returned as a module
-      UserManagementApp;
+      UserManagementModel;
 
-  UserManagementApp = Backbone.Model.extend({
+  UserManagementModel = Backbone.Model.extend({
     url: "/rest/maxusers"
   });
 
+  return UserManagementModel;
 });

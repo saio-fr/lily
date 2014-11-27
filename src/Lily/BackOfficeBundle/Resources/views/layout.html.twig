@@ -7,11 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
 {% block stylesheets %}
-  
+
 {% stylesheets 'css/vendor/bootstrap.css' 'css/vendor/animate.css' 'css/vendor/font-awesome.min.css' 'css/vendor/font.css' 'css/vendor/plugin.css' 'css/vendor/app.css' filter='cssrewrite' %}
-  
+
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-  
+
 {% endstylesheets %}
 
 {% endblock %}
@@ -21,7 +21,7 @@
     <script src="{{ asset('js/ie/html5.js') }}" cache="false"></script>
     <script src="{{ asset('js/ie/fix.js') }}" cache="false"></script>
   <![endif]-->
-  
+
 </head>
 <body>
 
@@ -29,16 +29,8 @@
 
 {% block javascripts %}
 
-{% javascripts 
+{% javascripts
 
-'js/vendor/jquery.min.js' 
-'js/vendor/bootstrap.js' 
-'js/vendor/bootstrap.js'  
-'js/vendor/underscore.min.js' 
-'js/vendor/backbone.min.js' 
-
-'js/app.js' 
-'js/app.plugin.js'
 
 %}
 

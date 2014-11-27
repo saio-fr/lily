@@ -8,6 +8,8 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
+      _ = require('underscore'),
+      app = require('app'),
       utils = require('backoffice/utils'),
       ModalDeleteView = require('backoffice/users/views/modalDeleteView'),
       UserEditView = require('backoffice/users/views/userEditView'),
@@ -65,17 +67,20 @@ define(function (require) {
     edit: function(e) {
       e.preventDefault();
       e.stopPropagation();
-      var id = $(e.currentTarget).parent().data("id"),
-          editView = new UserEditView();
 
-      editView.setModel(this.model)
+      app.trigger('userView:closeEditView', this);
+
+      // var id = $(e.currentTarget).parent().data("id"),
+      var editView = new UserEditView(this.model);
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');
       return this;
     },
 
-    close: utils.closeModelView
+    close: function () {
+      utils.closeModelView(this);
+    }
   });
 
   return UserView;

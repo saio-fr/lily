@@ -8,8 +8,9 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
+      _ = require('underscore'),
+      app = require('app'),
       utils = require('backoffice/utils'),
-      UserModel = require('backoffice/users/models/useModel'),
 
       // Object wrapper returned as a module
       UserEditView;
@@ -29,9 +30,22 @@ define(function (require) {
       'keyup input': 'checkIfValid',
       'submit #user-editor': 'noSubmit'
     },
-    
-    initialize: function () {
-      Backbone.on('createNewUser', this.remove);
+
+    initialize: function (model) {
+      var self = this;
+
+      app.on('userView:closeEditView', _.bind(this.remove, this));
+      this.model = model;
+      this.listenTo(this.model, 'destroy', this.remove);
+      this.render();
+      this.widget = this.$el.find('#avatarWidget');
+
+      this.widget.load(function() {
+
+        self.widget.contents().find('input').change(function() {
+          self.changeAvatar();
+        });
+      });
     },
 
     render: function () {
@@ -42,36 +56,14 @@ define(function (require) {
         this.delegateEvents();
       }
 
-      Backbone.trigger('userId:change', this.model.id);
+      app.userManagementView.editedUserId = this.model.id;
 
       this.$el.removeClass('hide');
       this.$el.html(this.template(this.model.toJSON()));
 
       $('iframe#avatarWidget').load(function () {
-        $('.loader').hide()
+        $('.loader').hide();
       });
-
-      return this;
-    },
-
-    setModel: function (model) {
-
-      var that = this;
-
-      if ( this.model !== model ) {
-        this.model = model;
-        this.listenTo(this.model, 'destroy', this.remove);
-        this.render();
-        this.widget = this.$el.find('#avatarWidget');
-
-        this.widget.load(function() {
-
-          that.widget.contents().find('input').change(function() {
-            that.changeAvatar();
-          });
-        });
-
-      }
 
       return this;
     },
@@ -84,7 +76,7 @@ define(function (require) {
     // Break into multiple subFunctions
     update: function (e) {
 
-      if (this.model.get('id') === undefined) {
+      if (this.model && this.model.get('id') === undefined) {
         $('#user-editor').jsFormValidator('validate', { recursive:true });
       }
 
@@ -103,12 +95,12 @@ define(function (require) {
         }
 
         // Fill model with values from multiple choice inputs
-        for ( var i = 0; i < multipleChoicesInputs.length; i++ ) {
+        for ( var j = 0; i < multipleChoicesInputs.length; j++ ) {
 
           var multipleValues = [],
               multipleChoices = multipleChoicesInputs.eq(i).find(':checked');
 
-          for ( var j = 0; j < multipleChoices.length; j++ ) {
+          for ( var k = 0; j < multipleChoices.length; k++ ) {
             multipleValues.push(multipleChoices.eq(j).attr('name'));
           }
 
@@ -130,7 +122,8 @@ define(function (require) {
         });
 
         if ( this.model.get('id') === undefined ) {
-          UserModule.listUser.create(this.model, { wait: true });
+          // Listener in userCollectionView
+          app.trigger("userEditView:create", this.model);
 
         } else {
           this.model.url = "/rest/"+this.model.get('id');
@@ -165,14 +158,14 @@ define(function (require) {
     },
 
     remove: function () {
-      Backbone.trigger('userId:change', this.model.id);
+      app.userManagementView.editedUserId = null;
       this.$el.addClass('hide');
       this.close();
     },
 
     close: function () {
-      Backbone.off('createNewUser', this.remove);
-      utils.closeModelView();
+      app.off('userView:closeEditView', _.bind(this.remove, this));
+      utils.closeModelView(this);
     }
   });
 

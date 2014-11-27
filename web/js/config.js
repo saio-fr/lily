@@ -9,9 +9,8 @@ require.config({
     'dateRangePicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
     'moment': 'bower_components/moment/moment',
     'todoTpl': 'todo',
-    'flot': 'charts/flot/jquery.flot.min',
-    'validator': '../bundles/fpjsformvalidator/js/fp_js_validator',
-    'app': 'backoffice/users/app'
+    'flot': 'charts/flot/jquery.flot.all',
+    'validator': '../bundles/fpjsformvalidator/js/fp_js_validator'
   },
   shim: {
     'underscore': {
@@ -24,7 +23,7 @@ require.config({
     "bootstrap" : {
       "deps": ['jquery']
     },
-    "todoTpl" : {
+    "todo" : {
       "deps": ['jquery', 'bootstrap']
     },
     "dateRangePicker" : {
@@ -37,29 +36,4 @@ require.config({
       "deps": ['jquery']
     }
   }
-});
-
-require([
-  "jquery",
-  "underscore",
-  "backbone",
-  "backoffice/users/router",
-
-  // Libraries required at bootstrap for the UI.
-  "bootstrap",
-  "todoTpl",
-  "flot",
-  "validator"
-], function( $, _, Backbone, UserRouter ) {
-
-  'use strict';
-
-  $.ajaxPrefilter( function (options) {
-    options.url = window.root + options.url;
-  });
-
-  var router = new UserRouter();
-
-  // Start app router
-  Backbone.history.start();
 });

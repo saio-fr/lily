@@ -3,21 +3,30 @@ define(function (require) {
   'use strict';
 
   // Object wrapper returned as a module
-  var Utils = {};
+  var Backbone = require('backbone'),
+      Utils = {};
 
-  Utils.closeModelView = function () {
-    this.model = undefined;
-    this.$el.empty();
-    this.stopListening();
-    return this;
-  }
+  Utils.closeModelView = function (context) {
 
-  Utils.closeCollectionView = function () {
-    this.model = undefined;
-    this.$el.empty();
-    this.stopListening();
-    return this;
-  }
+    // COMPLETELY UNBIND THE VIEW
+    context.undelegateEvents();
+
+    context.$el.removeData().unbind();
+
+    context.stopListening();
+    context.$el.empty();
+  };
+
+  Utils.closeCollectionView = function (context) {
+
+    // COMPLETELY UNBIND THE VIEW
+    context.undelegateEvents();
+
+    context.$el.removeData().unbind();
+
+    context.stopListening();
+    context.$el.empty();
+  };
 
   return Utils;
 });

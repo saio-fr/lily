@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      UserModel = require('backoffice/users/models/useModel'),
+      UserModel = require('backoffice/users/models/userModel'),
 
       // Object wrapper returned as a module
       UsersCollection;
@@ -17,8 +17,8 @@ define(function (require) {
 
     model : UserModel,
     sortCriteria : "lastname",
-    'url': '/rest/',
-    
+    url: '/rest/',
+
     initialize: function () {
       this.fetch();
     },
@@ -27,7 +27,7 @@ define(function (require) {
 
       var roles = item.get('roles'),
           rolesInt = 0,
-          last_login;
+          lastLogin;
 
       if ( this.sortCriteria === "lastname" ) {
         return item.get('lastname');
@@ -38,12 +38,15 @@ define(function (require) {
         // ROLE_KNOWLEDGE_OPERATOR : += 2
         // ROLE_CHAT_OPERATOR : += 1
 
-        if ( roles.indexOf('ROLE_ADMIN') !== -1 )
+        if ( roles.indexOf('ROLE_ADMIN') !== -1 ) {
           rolesInt += 4;
-        if ( roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1 )
+        }
+        if ( roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1 ){
           rolesInt += 2;
-        if ( roles.indexOf('ROLE_CHAT_OPERATOR') !== -1 )
+        }
+        if ( roles.indexOf('ROLE_CHAT_OPERATOR') !== -1 ){
           rolesInt += 1;
+        }
 
         return -rolesInt; //Par défaut, ROLE_ADMIN en premier
 
@@ -54,22 +57,23 @@ define(function (require) {
       } else if ( this.sortCriteria === "last_login" ) {
         if ( item.get('last_login') !== null) {
 
-          last_login = new Date(item.get('last_login'));
-          last_login = -last_login.getTime();
-          return last_login;
+          lastLogin = new Date(item.get('last_login'));
+          lastLogin = -lastLogin.getTime();
+          return lastLogin;
 
         } else {
           return Infinity;
         }
       } else {
-        if( this.sortCriteria !== "id" )
+        if( this.sortCriteria !== "id" ){
           console.warn("Sort criteria not recognized");
+        }
         return item.get('id') || "0";
       }
 
-      return a;
+      return;
     },
   });
-  
+
   return UsersCollection;
 });
