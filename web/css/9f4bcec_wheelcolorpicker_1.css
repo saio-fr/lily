@@ -30,7 +30,7 @@
 }
 
 .jQWCP-wWheel {
-	background: url('../../css/images/wheel.500.jpg') no-repeat center center;
+	background: url('images/wheel.500.jpg') no-repeat center center;
 	background-size: contain;
 	position: relative;
 	float: left;
@@ -58,7 +58,7 @@
 }
 
 .jQWCP-wWheelCursor {
-	background: url('../../css/images/crosshair.png') no-repeat center center;
+	background: url('images/crosshair.png') no-repeat center center;
 	width: 19px;
 	height: 19px;
 	margin: -9px 0 0 -9px;
@@ -97,16 +97,16 @@
 	position: absolute;
 	left: 0;
 	top: 0;
-	background: url('../../css/images/slider.png') no-repeat center center;
+	background: url('images/slider.png') no-repeat center center;
 	width: 26px;
 	height: 19px;
 	margin: -9px 0 0 -3px;
 }
 
 .jQWCP-wAlphaSlider {
-	background: url('../../css/images/alpha.png');
+	background: url('images/alpha.png');
 }
 
 .jQWCP-wPreviewBox {
-	background: url('../../css/images/alpha.png');
+	background: url('images/alpha.png');
 }

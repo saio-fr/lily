@@ -42,8 +42,8 @@ class ConfigController extends BaseController
      */
     public function getAction(Request $request) {
 	    
-	    $key = $this->getEnterprise()->getKey();	    
-	    $config = $this->get('memcache.default')->get('config_'.$key);
+	    $licence = $this->getLicence();	    
+	    $config = $this->get('memcache.default')->get('config_'.$licence);
 		
 		if (!$config) {
 		
@@ -51,7 +51,7 @@ class ConfigController extends BaseController
     				   	   ->getRepository('LilyBackOfficeBundle:Config')
 					   	   ->findOneById(1);    	  			  
 			
-			$this->get('memcache.default')->set('config_'.$key, $config, 0);
+			$this->get('memcache.default')->set('config_'.$licence, $config, 0);
 		
 		}
     					  
@@ -83,15 +83,15 @@ class ConfigController extends BaseController
         $em->persist($config);
         $em->flush();
         
-        $key = $this->getEnterprise()->getKey();
-        $this->get('memcache.default')->set('config_'.$key, $config, 0);        
+        $licence = $this->getLicence();
+        $this->get('memcache.default')->set('config_'.$licence, $config, 0);        
         		
 		// Tell our chat app that config changed
 		$context = new ZMQContext();
 		$socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
 		$socket->connect("tcp://172.16.0.2:5555");
 
-		$socket->send(json_encode(array('action' => 'config', 'key' => $key)));	
+		$socket->send(json_encode(array('action' => 'config', 'licence' => $licence)));	
         
         $view = $this->view($config)->setFormat('json');
 		return $this->handleView($view);

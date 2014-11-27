@@ -3,12 +3,12 @@
     <a id="save" href="#" class="btn btn-success pull-right">Sauvegarder</a>
     <ul class="nav nav-tabs">
       <li class="active"><a href="#overall" data-toggle="tab">Globaux</a></li>
-      <!-- show if enterprise.avi is enabled -->
-      {% if app.user.enterprise.avi %}
+      <!-- show if client.avi is enabled -->
+      {% if app.user.client.avi %}
       <li class=""><a href="#avatar" data-toggle="tab">Avatar</a></li>
       {% endif %}
-      <!-- show if enterprise.chat is enabled -->
-      {% if app.user.enterprise.chat %}
+      <!-- show if client.chat is enabled -->
+      {% if app.user.client.chat %}
       <li class=""><a href="#chat" data-toggle="tab">Live chat</a></li>
 	  {% endif %}
     </ul>
@@ -27,8 +27,8 @@
           <p>Afficher l'iframe</p>
         </div>
         
-        <!-- show if enterprise.chat is enabled -->
-        {% if app.user.enterprise.chat and app.user.enterprise.avi %}
+        <!-- show if client.chat is enabled -->
+        {% if app.user.client.chat and app.user.client.avi %}
         <p class="administration-p">Choisissez votre canal de communication par défaut :</p>
         <div class="row">
         	<p>Avatar virtuel</p>
@@ -40,8 +40,8 @@
         </div>
         {% endif %}
         
-        <!-- show if enterprise.chat && enterprise.avi is enabled -->
-        {% if app.user.enterprise.chat and app.user.enterprise.avi %}
+        <!-- show if client.chat && client.avi is enabled -->
+        {% if app.user.client.chat and app.user.client.avi %}
         <div class="checkbox">
           <label class="checkbox-custom">
             <input type="checkbox" name="aviIfNoOperator" <% if (aviIfNoOperator) { %> checked <% } %> >
@@ -54,8 +54,8 @@
         <h5 class="m-t-xlg">Activer / Désactiver un service</h5>
         <div class="row">
         	
-        	<!-- show if enterprise.chat is enabled -->
-        	{% if app.user.enterprise.chat %}
+        	<!-- show if client.chat is enabled -->
+        	{% if app.user.client.chat %}
         	<div class="return">
             	<label class="switch">
                 	<input type="checkbox" name="chat" <% if (chat) { %> checked <% } %>>
@@ -65,8 +65,8 @@
             </div>
             {% endif %}
             
-            <!-- show if enterprise.faq is enabled -->
-            {% if app.user.enterprise.faq %}
+            <!-- show if client.faq is enabled -->
+            {% if app.user.client.faq %}
             <div class="return">
                 <label class="switch">
                 	<input type="checkbox" name="faq" <% if (faq) { %> checked <% } %>>
@@ -76,8 +76,8 @@
             </div>
             {% endif %}
             
-            <!-- show if enterprise.topQuestions is enabled -->
-            {% if app.user.enterprise.topQuestions %}
+            <!-- show if client.topQuestions is enabled -->
+            {% if app.user.client.topQuestions %}
             <div class="return">
                 <label class="switch">
                 	<input type="checkbox" name="topQuestions" <% if (topQuestions) { %> checked <% } %>>

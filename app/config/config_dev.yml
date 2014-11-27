@@ -1,31 +1,15 @@
 imports:
-    - { resource: config.yml }
-
-framework:
-    router:
-        resource: "%kernel.root_dir%/config/routing_dev.yml"
-        strict_requirements: true
-    profiler: { only_exceptions: false }
-
-web_profiler:
-    toolbar: true
-    intercept_redirects: false
-
-monolog:
-    handlers:
-        main:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-        firephp:
-            type:  firephp
-            level: info
-        chromephp:
-            type:  chromephp
-            level: info
-
-assetic:
-    use_controller: true
-
-#swiftmailer:
-#    delivery_address: me@example.com
+    - { resource: parameters_dev.yml }
+    - { resource: security.yml }
+    - { resource: resources_dev/solarium.yml }
+    - { resource: resources_dev/memcached.yml }
+    - { resource: resources_dev/assetic.yml }
+    - { resource: resources_dev/framework.yml }
+    - { resource: resources_dev/jms.yml }
+    - { resource: resources_dev/doctrine.yml }
+    - { resource: resources_dev/mailer.yml }
+    - { resource: resources_dev/fos.yml }
+    - { resource: resources_dev/sensio.yml }
+    - { resource: resources_dev/stof.yml }
+    - { resource: resources_dev/mobiledetect.yml }
+    - { resource: resources_dev/flysystem.yml }

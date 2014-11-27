@@ -24,7 +24,7 @@ ul.top-questions-list {
 .top-questions-item {
 	width:100%;
 	margin-top:10px;
-	background:url(../../../css/images/top-questions-bg.png) repeat-x bottom!important;
+	background:url(../images/top-questions-bg.png) repeat-x bottom!important;
 	border-bottom:1px solid #f2f6fb;
 }
 

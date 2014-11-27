@@ -1,0 +1,49 @@
+<?php
+
+namespace Lily\ClientBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+class ClientType extends AbstractType
+{
+        /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('name')
+            ->add('cname')
+            ->add('logo')
+            ->add('key')
+            ->add('maintenance')
+            ->add('chat')
+            ->add('avi')
+            ->add('faq')
+            ->add('topQuestions')
+            ->add('maxusers')
+            ->add('theme')
+        ;
+    }
+    
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Lily\ClientBundle\Entity\Client'
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'lily_clientbundle_client';
+    }
+}

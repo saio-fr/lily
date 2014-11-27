@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Lily\AdminBundle\LilyAdminBundle(),
             new Lily\UserBundle\LilyUserBundle(),
             new Lily\ApiBundle\LilyApiBundle(),
+            new Lily\ClientBundle\LilyClientBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Nelmio\SolariumBundle\NelmioSolariumBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
@@ -35,6 +36,7 @@ class AppKernel extends Kernel
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new Fp\JsFormValidatorBundle\FpJsFormValidatorBundle(),
             new Lsw\MemcacheBundle\LswMemcacheBundle(),
+            new Oneup\FlysystemBundle\OneupFlysystemBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,8 +1,8 @@
 <div id="lily-chat" class="lily-page-cont"><!-- wrapper page les différentes pages -->
 	<header id="lily-header" class="lily-cst-header">
 		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
-		{% if enterprise.avi and config.avi %}
-		<a href="#/avi" class="lily-right"><p>Posez votre question à {{ config.aviName }}<i class="lily-icon lily-icon-avatar"></i></p></a>
+		{% if config.client.avi and config.app.avi.active %}
+		<a href="#/avi" class="lily-right"><p>Posez votre question à {{ config.app.avi.name }}<i class="lily-icon lily-icon-avatar"></i></p></a>
 		{% endif %}
 	</header>
 	<section id="lily-chat-notation-wrapper">

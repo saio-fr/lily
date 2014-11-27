@@ -15,29 +15,13 @@ class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('chat')
-            ->add('chatQueue')
-            ->add('chatMax')
-            ->add('chatAutoSetOperator')
-            ->add('chatMaxQueue')
-            ->add('chatContactForm')
-            ->add('chatContactFormMsg')
-            ->add('chatContactFirstNameField')
-            ->add('chatContactLastNameField')
-            ->add('chatContactEmailField')
-            ->add('chatContactFormAvoidable')
-            ->add('avi')
-            ->add('aviName')
-            ->add('aviWelcomeMsg')
-            ->add('aviIfNoOperator')
-            ->add('aviAnimations')
             ->add('faq')
             ->add('topQuestions')
-            ->add('maintenance')
-            ->add('redirectionChat')
-            ->add('redirectionMail')
-            ->add('redirectionTel')
             ->add('home')
+            ->add('maintenance')
+			->add('chat',new ChatType())
+			->add('avi',new AviType())
+			->add('redirections',new RedirectionsType())
         ;
     }
     

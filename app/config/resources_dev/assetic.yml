@@ -1,0 +1,25 @@
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle, LilyHomePageBundle, LilyAdminBundle]
+    #node: /usr/local/bin/node
+    filters:
+        cssrewrite: ~
+        # java: "/usr/bin/java"
+        #yui_css:
+            #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+        #yui_js:
+            #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+        #uglifyjs2:
+            #bin: /usr/local/bin/uglifyjs
+            #apply_to: "\.js$"
+        #uglifycss:
+            #bin: /usr/local/bin/uglifycss
+            #apply_to: "\.css$"

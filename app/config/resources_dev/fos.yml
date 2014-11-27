@@ -1,0 +1,20 @@
+# Fos User Bundle
+fos_user:
+    db_driver:     orm                        
+    firewall_name: main                       
+    user_class:    Lily\UserBundle\Entity\User
+    use_username_form_type: false
+    from_email:
+        address:        jeanclaude.giron@saio.fr
+        sender_name:    Jean Claude GIRON 
+
+# Fos rest            
+fos_rest:
+    param_fetcher_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false
+    view:
+        view_response_listener: force
+    serializer:
+        serialize_null: true

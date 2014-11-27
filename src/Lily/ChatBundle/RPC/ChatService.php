@@ -27,9 +27,9 @@ class ChatService
      * @param array $params
      * @return int
      */     
-    public function setOperator(Conn $conn, $params, $clients)
+    public function setOperator(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $params['sid']) { 
 				
 				$item->operator = $conn->User->getId();
@@ -49,9 +49,9 @@ class ChatService
    /**
     * Ban an visitor for his session time
     */
-    public function ban(Conn $conn, $params, $clients)
+    public function ban(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $params['sid']) { 
 				$item->banned = true;
 				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => null, 'date' => time(), 'msg' => "Vous avez été banni du chat par l'opérateur.");
@@ -69,9 +69,9 @@ class ChatService
    /**
     * When connect on ws, set current page + check if the visitor is already chatting
     */
-    public function connect(Conn $conn, $params, $clients)
+    public function connect(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $conn->Session->getId()) { 
 				$item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
 				if ($item->closed) $chatting = false;
@@ -86,9 +86,9 @@ class ChatService
    /**
     * Set visitors' contact informations from contact from
     */
-    public function contactForm(Conn $conn, $params, $clients)
+    public function contactForm(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $conn->Session->getId()) { 
 				$item->firstname = $params['firstname'];
 				$item->lastname = $params['lastname'];
@@ -103,9 +103,9 @@ class ChatService
    /**
     * Set asked question to the avatar
     */
-    public function newAviQuestion(Conn $conn, $params, $clients)
+    public function newAviQuestion(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $conn->Session->getId()) { 
 				$item->questions[] = $params['question'];
 			}
@@ -117,9 +117,9 @@ class ChatService
    /**
     * Update the personal informations of the visitior
     */
-    public function updateInformations(Conn $conn, $params, $clients)
+    public function updateInformations(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $params['sid']) { 
 				$item->firstname = $params['firstname'];
 				$item->lastname = $params['lastname'];
@@ -133,9 +133,9 @@ class ChatService
    /**
     * Change chat's name
     */
-    public function changeName(Conn $conn, $params, $clients)
+    public function changeName(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $params['sid']) { 
 				$item->name = $params['name'];
 			}
@@ -148,18 +148,18 @@ class ChatService
    /**
     * Open the conversation with the visitor
     */
-    public function open(Conn $conn, $params, $clients, $config)
+    public function open(Conn $conn, $params, $client)
     {	 
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 
-			if ($item->type === 'operator' && $item->available && ($item->chats < $config->chatMax)) {
+			if ($item->type === 'operator' && $item->available && ($item->chats < $client->config->max)) {
 
 				$availables[] = $item;
 								
 			}
 		}
 
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 
 			if ($item->id === $conn->Session->getId()) {
 				
@@ -168,7 +168,7 @@ class ChatService
 					return;
 				}
 
-				if (!empty($availables) && $config->chatAutoSetOperator) {
+				if (!empty($availables) && $client->config->autoSetOperator) {
 
 					$key = array_rand($availables, 1);
 					$availables[$key]->chats += 1;
@@ -201,9 +201,9 @@ class ChatService
    /**
     * Close the conversation with the visitor
     */
-    public function close(Conn $conn, $params, $clients)
+    public function close(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
         	// Close the conversation
 			if ($item->id === $params['sid']) {
 				 
@@ -226,9 +226,9 @@ class ChatService
    /**
     * Transfer the visitor to another operator
     */
-    public function transfer(Conn $conn, $params, $clients)
+    public function transfer(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
         	// Close the conversation
 			if ($item->id === $params['sid']) { 
 				$item->operator = $params['operator'];
@@ -250,11 +250,11 @@ class ChatService
    /**
     * Set the operator as unavailable
     */
-    public function unavailable(Conn $conn, $params, $clients)
+    public function unavailable(Conn $conn, $params, $client)
     {	
     	$chats = 0;
     	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 
 			if (isset($item->operator) && $item->operator == $conn->User->getId()) {
 
@@ -263,7 +263,7 @@ class ChatService
 			}
 		}
 
-		foreach ($clients as $item) {
+		foreach ($client->users as $item) {
 			if ($item->id === $conn->User->getId()) { 
 				$item->available = false;
 				$item->chats -= $chats;
@@ -276,10 +276,10 @@ class ChatService
    /**
     * Set the operator as available
     */
-    public function available(Conn $conn, $params, $clients)
+    public function available(Conn $conn, $params, $client)
     {	    	
 
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $conn->User->getId()) { 
 				$item->available = true;	
 			}
@@ -291,9 +291,9 @@ class ChatService
    /**
     * Is the operator available ?
     */
-    public function isAvailable(Conn $conn, $params, $clients)
+    public function isAvailable(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $conn->User->getId()) { 
 				if ($item->available == true) { $result = true; }	
 				else { $result = false; }
@@ -305,9 +305,9 @@ class ChatService
    /**
     * Is we writing ?
     */
-    public function writing(Conn $conn, $params, $clients)
+    public function writing(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $params['sid']) { 
 				$item->writing = $params['writing'];
 			}
@@ -318,9 +318,9 @@ class ChatService
    /**
     * Set chat satisfaction
     */
-    public function satisfaction(Conn $conn, $params, $clients)
+    public function satisfaction(Conn $conn, $params, $client)
     {	    	
-        foreach ($clients as $item) {
+        foreach ($client->users as $item) {
 			if ($item->id === $params['sid']) { 
 				$item->satisfaction = $params['satisfaction'];
 			}

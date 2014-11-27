@@ -571,8 +571,8 @@ class StatisticsController extends BaseController
         $selectedUser = $userManager->findUserBy(Array('id' => $id));
 
         //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+        $client = $this->getClient();
+        if($selectedUser === null || $selectedUser->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
 
@@ -604,8 +604,8 @@ class StatisticsController extends BaseController
         $selectedUser = $userManager->findUserBy(Array('id' => $id));
 
         //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+        $client = $this->getClient();
+        if($selectedUser === null || $selectedUser->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
 
@@ -702,8 +702,8 @@ class StatisticsController extends BaseController
         $selectedUser = $userManager->findUserBy(Array('id' => $operator));
 
         //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+        $client = $this->getClient();
+        if($selectedUser === null || $selectedUser->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
                 
@@ -728,8 +728,8 @@ class StatisticsController extends BaseController
         $selectedUser = $userManager->findUserBy(Array('id' => $operator));
 
         //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($selectedUser === null || $selectedUser->getEnterprise() !== $enterprise) {
+        $client = $this->getClient();
+        if($selectedUser === null || $selectedUser->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
                 

@@ -9,15 +9,6 @@ parameters:
         
     # DB Clients
     database_name: lily
-    database_dev: dev
-    database_cgm: cgm
-    database_saio: saio
-    database_tem: tem
-    database_tsp: tsp
-    database_tbretagne: tbretagne
-    database_tparis: tparis
-    database_parisfr: parisfr
-    database_movinmotion: movinmotion
     
     # Mail
     mailer_transport: smtp

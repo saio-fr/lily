@@ -20,91 +20,30 @@ use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\View\ViewHandler;
 
-use Lily\ApiBundle\Entity\LogRequest;
-use Lily\ApiBundle\Entity\LogNotation;
-use Lily\ApiBundle\Entity\LogConnection;
-use Lily\ApiBundle\Entity\LogRedirection;
-use Lily\KnowledgeBundle\Entity\UnansweredQuestion;
-
 use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\SerializationContext;
 
-class ApiController extends FOSRestController implements ClassResourceInterface
+use Lily\ApiBundle\Controller\BaseController;
+
+class ApiController extends BaseController
 {
-    protected function getEnterprise($key)
-    {
-    	$memcache = $this->get('memcache.default');
-		$enterprise = $memcache->get('enterprise_'.$key);
-		
-		if (!$enterprise) {
-		
-	    	$enterprise = $this->getDoctrine()
-	    					   ->getManager()
-				   			   ->getRepository('LilyUserBundle:Enterprise')
-				  			   ->findOneByKey($key);     	  			  
-			
-			$memcache->set('enterprise_'.$key, $enterprise, 3600);
-		
-		}
-		
-        return $enterprise;
-    }
-
-    protected function deserialize($class, Request $request, $format = 'json')
-    {
-        $serializer = $this->get('serializer');
-        $validator = $this->get('validator');
-
-        try {
-            $entity = $serializer->deserialize($request->getContent(), $class, $format);
-        } catch (RuntimeException $e) {
-            throw new HttpException(400, $e->getMessage());
-        }
-
-        if (count($errors = $validator->validate($entity))) {
-            return $errors;
-        }
-
-        return $entity;
-    }
     
-	public function indexAction($key)
+	public function indexAction($licence)
     {
     	
     	// Services	
-    	$enterprise = $this->getEnterprise($key);
-		$cname = $enterprise->getCname();
-		$theme = $enterprise->getTheme();
+    	$client = $this->getClient($licence);
+    	$config = $this->getConfig($licence);
+		$redirection = $this->getRedirection($licence);
+		
 		$memcache = $this->get('memcache.default');
-		
-		$available = $memcache->get('chat_available_'.$key);
-		
-		$em = $this->get('doctrine')->getManager($cname);
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
+		$chatAvailable = $memcache->get('chat_available_'.$licence);
 		
-		$avi = $this->get('kernel')->getRootDir() . '/../web/customer/'.$cname.'/js/avatar.js';
-		$avi = file_get_contents($avi);
+		$em = $this->getEntityManager($licence);
 		
-		$config = $memcache->get('config_'.$key);
-		
-		if (!$config) {
-			
-			$config = $em->getRepository('LilyBackOfficeBundle:Config')->findOneById(1);
-			$memcache->set('config_'.$key, $config, 3600);
-		
-		}
-		
-		$phone = $memcache->get('phone_'.$key);
-		
-		if (!$phone) {
-			
-			$phone = $em->getRepository('LilyKnowledgeBundle:Redirection')
-						->findOneByBydefault(1)
-						->getPhone();	
-							
-			$memcache->set('phone_'.$key, $phone, 3600);
-		
-		}
+		$avi = 'http://cdn.saio.fr/customer/'.$licence.'/js/avatar.js';
+		$avi = file_get_contents($avi);	
 		
 		// Utilisateur
 		$session = $this->container->get('session');
@@ -127,42 +66,29 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 
 		}
 
-        return $this->render('LilyApiBundle:themes:'.$theme.'/index.html.twig', array('key' => $key, 'config' => $config, 'phone' => $phone, 'enterprise' => $enterprise, 'avatar' => $avi, 'available' => $available)); 
+        return $this->render('LilyApiBundle:themes:lily/index.html.twig', array('licence' => $licence, 'config' => $config, 'redirection' => $redirection, 'avatar' => $avi, 'chatAvailable' => $chatAvailable)); 
         
     }
     
-    public function trackingAction($key)
+    public function trackingAction($licence)
     {
     	
-    	$memcache = $this->get('memcache.default');
-    	$enterprise = $memcache->get($key);
+    	$client = $this->getClient($licence);
+		$config = $this->getConfig();
 		
-		if (!$enterprise) {
-			
-			$enterprise = $this->getEnterprise($key);
-			$memcache->set($key, $enterprise, 0);
+		$memcache = $this->get('memcache.default');
 		
-		}
-    	
-    	// Services
-		$cname = $enterprise->getCname();
-		
-		$em = $this->get('doctrine')->getManager($cname);
-		$config = $em->getRepository('LilyBackOfficeBundle:Config')->findOneById(1);
-		
-		$available = $memcache->get('chat_available_'.$key);
+		$available = $memcache->get('chat_available_'.$licence);
 		
 		if ( // Return if Maintenance is On or Avi is off and no operators available to chat
 		
-			$enterprise->getMaintenance() ||
+			$client->getMaintenance() ||
 			$config->getMaintenance() || 
-			!(($enterprise->getChat() && $config->getChat() && $available) || ($config->getAvi() && $enterprise->getAvi()) )
+			!(($client->getChat() && $config->getChat() && $available) || ($config->getAvi() && $client->getAvi()) )
 		
 		) return new Response();
 				
-		$trackerJS = $this->renderView( 'LilyApiBundle::tracker.js.twig', 
-		array('key' => $key, 'cname' => $cname)
-		);
+		$trackerJS = $this->renderView( 'LilyApiBundle::tracker.js.twig', array('licence' => $licence));
 		
 		$response = new Response($trackerJS);
 		$response->headers->set( 'Content-Type', 'text/javascript' );		
@@ -172,27 +98,26 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     }
         
     /**
-     * @Post("/{key}/query")
+     * @Post("/{licence}/query")
      */
-    public function createQueryAction($key, Request $request)
+    public function createQueryAction($licence, Request $request)
     {    
 
 		// On initialise nos variables		
-		$enterprise = $this->getEnterprise($key);	
-		$cname = $enterprise->getCname();
+		$client = $this->getClient($licence);	
 		$memcache = $this->get('memcache.default');
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
-		$em = $this->get('doctrine')->getManager($cname);
+		$em = $this->getEntityManager($licence);
 		$session = $this->container->get('session');
 			
 		// On récupère la question
 		$query = str_replace(str_split('+&&||!(){}[]^"~*?:'), "", $request->get('query'));
 		
 		// On vérifie que la question posée ne comporte pas de mots grossier
-		$client = $this->get('solarium.client.insults');
+		$solarium = $this->get('solarium.client.insults');
         $select = $client->createSelect();
         $select->setQuery($query);
-        $result = $client->select($select);        
+        $result = $solarium->select($select);        
         
         // Si la question posée n'est pas correcte
         if ($result->getNumFound() != 0) {
@@ -221,17 +146,17 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		$em->persist($logrequest);
 		$em->flush();
 	    	    
-    	$client = $this->get('solarium.client.' . $cname);
-		$select = $client->createSelect();
+    	$solarium = $this->get('solarium.client.' . $licence);
+		$select = $solarium->createSelect();
 		$select->setQuery($query);
 		$select->setStart(0)->setRows(1);
-		$result = $client->select($select); 
+		$result = $solarium->select($select); 
 		$fields = $result->getDocuments(); 
 		
 		// Si la requete retourne un résultat
         if (($result->getNumFound() != 0) && ($fields[0]['score'] >= 0.2)) { 
             
-	    	$question = $this->get('doctrine')->getManager($cname)
+	    	$question = $this->get('doctrine')->getManager($licence)
                  			 ->getRepository('LilyKnowledgeBundle:Question')
 				 			 ->find($fields[0]['id']);
 				 			 
@@ -248,7 +173,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 			                 
 			if (!$question->getChildren()->isEmpty()) {
 			
-				$actions = $this->get('doctrine')->getManager($cname)
+				$actions = $this->get('doctrine')->getManager($licence)
 			                      ->getRepository('LilyKnowledgeBundle:Question')
 							      ->findByParent($question);			 
 				    
@@ -266,17 +191,17 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		// La requete n'a pas retourné de résultat		
         }	   
         
-        $client = $this->get('solarium.client.' . $cname . '.personal');
+        $solarium = $this->get('solarium.client.' . $licence . '.personal');
 		$select = $client->createSelect();
 		$select->setQuery($query);
 		$select->setStart(0)->setRows(1);
-		$result = $client->select($select); 
+		$result = $solarium->select($select); 
 		$fields = $result->getDocuments(); 
 		
 		if (($result->getNumFound() != 0) && ($fields[0]['score'] >= 0.2)) { 
 		
 			$fields = $result->getDocuments();
-	    	$question = $this->get('doctrine')->getManager($cname)
+	    	$question = $this->get('doctrine')->getManager($licence)
              				 ->getRepository('LilyKnowledgeBundle:PersonalQuestion')
 			 				 ->find($fields[0]['id']);
 			 				 
@@ -288,16 +213,16 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		}          	
        
         // Test if the question already exist in unanswered db
-	    $client = $this->get('solarium.client.' . $cname . '.unanswered');
-		$select = $client->createSelect();
+	    $solarium = $this->get('solarium.client.' . $licence . '.unanswered');
+		$select = $solarium->createSelect();
 		$select->setQuery($query);
 		$select->setStart(0)->setRows(1);
-		$result = $client->select($select); 
+		$result = $solarium->select($select); 
 		$fields = $result->getDocuments();
 		
 		// Si la requete retourne un résultat
 		if (($result->getNumFound() != 0)) {            
-			$unanswered = $this->get('doctrine')->getManager($cname)
+			$unanswered = $this->get('doctrine')->getManager($licence)
              			 	   ->getRepository('LilyKnowledgeBundle:UnansweredQuestion')
 			 			 	   ->find($fields[0]['id']);
 			 			 	 			
@@ -332,7 +257,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 	   		
    	    }   
          
-        $redirection = $this->get('doctrine')->getManager($cname)
+        $redirection = $this->get('doctrine')->getManager($licence)
 		                    ->getRepository('LilyKnowledgeBundle:Redirection')
 						    ->findOneByBydefault(true);
 						    
@@ -343,9 +268,9 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		
 		$redirectionMail = $config->getRedirectionMail();							  
 		$redirectionTel = $config->getRedirectionTel();			
-		$redirectionChat = $config->getRedirectionChat() || $enterprise->getLivechat();
+		$redirectionChat = $config->getRedirectionChat() || $client->getLivechat();
 		// Is chat available ?
-		$chatAvailable = $memcache->get('chat_available_'.$key);
+		$chatAvailable = $memcache->get('chat_available_'.$licence);
 		
 		$response = array('redirection' => $redirection, 'isMail' => $redirectionMail, 'isTel' => $redirectionTel, 'isChat' => $redirectionChat, 'chatAvailable' => $chatAvailable);
         
@@ -358,14 +283,13 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     }
     
     /**
-     * @Get("/{key}/precision/{id}")
+     * @Get("/{licence}/precision/{id}")
      * @View()
      */
-    public function getPrecisionAction($key, $id)
+    public function getPrecisionAction($licence, $id)
     { 
-     	// Initialisation des variables
-		$cname = $this->getEnterprise($key)->getCname();	
-		$response = $this->get('doctrine')->getManager($cname)
+     	// Initialisation des variables	
+		$response = $this->getEntityManager($licence)
 			             ->getRepository('LilyKnowledgeBundle:Question')
 			             ->find($id);	
 			              
@@ -373,7 +297,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 			             
 		if (!$response->getChildren()->isEmpty()) {
 		
-			$precision = $this->get('doctrine')->getManager($cname)
+			$precision = $this->get('doctrine')->getManager($licence)
 		                     ->getRepository('LilyKnowledgeBundle:Question')
 						     ->findByParent($id);
 	
@@ -393,13 +317,12 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     } 
     
     /**
-     * @Post("/{key}/notation/{question}")
+     * @Post("/{licence}/notation/{question}")
      * @View()
      */
-    public function NotationAction($key, $question, Request $request)
-    {  					
-    	$cname = $this->getEnterprise($key)->getCname();    	
-    	$em = $this->get('doctrine')->getManager($cname);
+    public function NotationAction($licence, $question, Request $request)
+    {  					  	
+    	$em = $this->getEntityManager($licence);
 		$notation = $this->deserialize('Lily\ApiBundle\Entity\LogNotation', $request);
     	
     	if ($notation instanceof LogNotation === false) {
@@ -407,7 +330,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 	        return $this->handleView($view);
         }   
         
-    	$question = $this->get('doctrine')->getManager($cname)
+    	$question = $this->get('doctrine')->getManager($licence)
                  		 ->getRepository('LilyKnowledgeBundle:Question')
 				 		 ->find($question);	
             	
@@ -417,7 +340,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     	$em->persist($notation);
     	$em->flush();
     	
-		$satisfaction = $this->get('doctrine')->getManager($cname)
+		$satisfaction = $this->get('doctrine')->getManager($licence)
              		 	     ->getRepository('LilyApiBundle:LogNotation')
 			 		 	     ->satisfaction($question);	
 			 		 	     
@@ -434,14 +357,13 @@ class ApiController extends FOSRestController implements ClassResourceInterface
         
         } else {
         
-        $redirection = $this->get('doctrine')->getManager($cname)
+        $redirection = $this->get('doctrine')->getManager($licence)
 			                ->getRepository('LilyKnowledgeBundle:Redirection')
 						    ->findOneByBydefault(true);	
 		
 		}		
 		
-		$config = $em->getRepository('LilyBackOfficeBundle:Config')
-					 ->findOneById(1);
+		$config = $this->getConfig();
 			
 		$redirectionMail = $config->getRedirectionMail();							  
 		$redirectionTel = $config->getRedirectionTel();			
@@ -455,14 +377,13 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     }  
     
     /**
-     * @Get("/{key}/faq/{parent}")
+     * @Get("/{licence}/faq/{parent}")
      * @View()
      */
-    public function getFaqAction($key, $parent)
+    public function getFaqAction($licence, $parent)
     {  	
     	// On initialise nos variables
-		$cname = $this->getEnterprise($key)->getCname();
-		$em = $this->get('doctrine')->getManager($cname);
+		$em = $this->getEntityManager($licence);
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
 		$session = $this->container->get('session');
 		
@@ -478,14 +399,14 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 		if ($parent == 'NULL'  || $parent == 'null' ) $parent = NULL;
 		
 		// On récupère les catégories enfants
-		$faqs = $this->get('doctrine')->getManager($cname)
+		$faqs = $this->get('doctrine')->getManager($licence)
 					 ->getRepository('LilyKnowledgeBundle:Faq')
 					 ->findByParent($parent);
 		
 		if ($parent !== NULL) {
 		
 			// On récupère l'id du parent
-			$parent = $this->get('doctrine')->getManager($cname)
+			$parent = $this->get('doctrine')->getManager($licence)
 						   ->getRepository('LilyKnowledgeBundle:Faq')
 						   ->findOneById($parent);
 			
@@ -508,21 +429,20 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     } 
     
     /**
-     * @Get("/{key}/top-questions/{id}")
+     * @Get("/{licence}/top-questions/{id}")
      * @View()
      */
-    public function getTopQuestionsAction($key, $id)
+    public function getTopQuestionsAction($licence, $id)
     {  	
     	// On initialise nos variables
-		$cname = $this->getEnterprise($key)->getCname();
-		$em = $this->get('doctrine')->getManager($cname);
+		$em = $this->getEntityManager($licence);
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
 		$from = new \Datetime('-4 month');	
 		$to = new \Datetime();
 		
 		if ($id == 'NULL') {
 			// On récupère le top des questions
-			$requests = $this->get('doctrine')->getManager($cname)
+			$requests = $this->get('doctrine')->getManager($licence)
 				 			 ->getRepository('LilyApiBundle:LogRequest')
 				 			 ->topQuestions($from, $to);
 				 			 	
@@ -532,7 +452,7 @@ class ApiController extends FOSRestController implements ClassResourceInterface
 			}
 
 		} else {
-			$questions = $this->get('doctrine')->getManager($cname)
+			$questions = $this->get('doctrine')->getManager($licence)
 	 			  			  ->getRepository('LilyKnowledgeBundle:Question')
 	 			  			  ->find($id);
 	 			  		
@@ -544,13 +464,12 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     
     
     /**
-     * @Post("/{key}/logredirection/{redirection}")
+     * @Post("/{licence}/logredirection/{redirection}")
      */
-    public function geRedirectionSupportAction($key, $redirection, Request $request)
+    public function geRedirectionSupportAction($licence, $redirection, Request $request)
     {  	
         // On initialise nos variables
-		$cname = $this->getEnterprise($key)->getCname();
-		$em = $this->get('doctrine')->getManager($cname);
+		$em = $this->get('doctrine')->getManager($licence);
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');		
 		
 		$logRedirection = $this->deserialize('Lily\ApiBundle\Entity\LogRedirection', $request);
@@ -577,36 +496,16 @@ class ApiController extends FOSRestController implements ClassResourceInterface
     } 
     
     /**
-     * @Get("/{key}/avatar")
+     * @Post("/{licence}/send/mail")
      */
-    public function getAvatarAction($key)
+    public function sendEmailAction($licence, Request $request)
     { 
-    
-    	// Services	
-		$cname = $this->getEnterprise($key)->getCname();
-				
-		$avatar = $this->get('kernel')->getRootDir() . '/../web/customer/'.$cname.'/js/avatar.js';
-		$avatar = file_get_contents($avatar);
-		
-		$response = new Response($avatar);
-		$response->headers->set( 'Content-Type', 'text/javascript' );		
-		
-		return $response;	
-		
-    } 
-    
-    /**
-     * @Post("/{key}/send/mail")
-     */
-    public function sendEmailAction($key, Request $request)
-    { 
-    	$cname = $this->getEnterprise($key)->getCname();
     
     	$from = $request->get('from');
     	$object = $request->get('object');
     	$msg = $request->get('msg');
     	
-    	$redirection = $this->get('doctrine')->getManager($cname)
+    	$redirection = $this->getEntityManager($licence)
 			                ->getRepository('LilyKnowledgeBundle:Redirection')
 							->findOneByBydefault(true);
     	
