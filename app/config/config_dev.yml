@@ -1,5 +1,5 @@
 imports:
-	# Resources
+    # Resources
     - { resource: parameters_dev.yml }
     - { resource: security.yml }
     - { resource: resources/solarium.yml }
