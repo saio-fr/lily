@@ -8,7 +8,7 @@ parameters:
     database_password: gW74uw?6
         
     # DB Clients
-    database_name: lily
+    database_name: lilynew
     
     # Mail
     mailer_transport: smtp
@@ -19,3 +19,4 @@ parameters:
     # Var
     locale: fr
     secret: e63298c3f103b670cb57be1596080ed94
+    cdn: cdn.saio.fr
