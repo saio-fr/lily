@@ -1,6 +1,6 @@
 set :application, "saio"
-set :domain,      "37.59.26.168 "
-set :deploy_to,   "/var/www/vhosts/saio.fr/httpdocs"
+set :domain,      "prod2.#{application}.fr"
+set :deploy_to,   "/var/www/vhosts/#{domain}/httpdocs"
 set :app_path,    "app"
 
 set :repository,  "file:///var/www/vhosts/saio.fr/dev2.saio.fr"
@@ -29,10 +29,10 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/#{application}.fr/httpdocs/current && php app/console cache:clear"
+  run "cd /var/www/vhosts/#{domain}/httpdocs/current && php app/console cache:clear"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/#{application}.fr/httpdocs/current && php app/console assetic:dump"
+  run "cd /var/www/vhosts/#{domain}/httpdocs/current && php app/console assetic:dump"
 end
 
 task :upload_parameters do
