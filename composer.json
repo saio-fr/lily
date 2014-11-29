@@ -29,7 +29,7 @@
         "cboden/Ratchet": "0.3.*",
         "react/zmq": "0.2.*",
         "jms/i18n-routing-bundle": "dev-master",
-        "leaseweb/memcache-bundle": "1.2.13",
+        "leaseweb/memcache-bundle": "*",
         "fp/jsformvalidator-bundle":"dev-master",
         "oneup/flysystem-bundle": "~0.1"
     },
