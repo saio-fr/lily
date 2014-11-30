@@ -10,8 +10,8 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     
 	protected function getClient($licence)
     {
-    	$memcache = $this->get('memcache.default');
-		$client = $memcache->get('client_'.$licence);
+    	$cache = $this->get( 'aequasi_cache.instance.default' );
+		$client = $cache->fetch( $licence.'_client' );
 		
 		if (!$client) {
 		
@@ -20,7 +20,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 						   ->getRepository('LilyClientBundle:Client')
 				  		   ->findOneByLicence($licence);     	  			  
 			
-			$memcache->set('client_'.$licence, $client, 3600);
+			$cache->save( $licence.'_client', $client, 3600 );
 		
 		}
 		
@@ -29,8 +29,8 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     
     protected function getConfig($licence)
     {
-	    $memcache = $this->get('memcache.default');
-	    $config = $memcache->get('config_'.$licence);
+	    $cache = $this->get( 'aequasi_cache.instance.default' );
+	    $config = $cache->fetch( $licence.'_config' );
 		
 		if (!$config) {
 			
@@ -49,7 +49,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 					  	 ->findOneByLicence($licence)
 					  	 ->getConfig();
 						   
-			$memcache->set('config_'.$licence, $config, 3600);
+			$cache->save( $licence.'_config', $config, 3600 );
 			
 			$config = array('client' => $client, 'app' => $app);
 		
@@ -60,8 +60,8 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     
     protected function getRedirection($licence)
     {
-	    $memcache = $this->get('memcache.default');
-	    $redirection = $memcache->get('redirection_'.$licence);
+	    $cache = $this->get( 'aequasi_cache.instance.default' );
+	    $redirection = $cache->fetch( $licence.'_redirection' );
 		
 		if (!$redirection) {
 			
@@ -69,7 +69,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 						   		->getRepository('LilyKnowledgeBundle:Redirection')
 						   		->findOneByBydefault(true);
 						   
-			$memcache->set('redirection_'.$licence, $redirection, 3600);
+			$cache->save( $licence.'_redirection', $redirection, 3600 );
 		
 		}
 		

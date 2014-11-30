@@ -12,7 +12,8 @@ $(function(){
 	lily.Config = Backbone.Model.extend({
 		
 		url: "/get",
-	    initialize: function () {	    	
+	    initialize: function () {
+		    console.log(this); 	
 	    },
 		
 	});

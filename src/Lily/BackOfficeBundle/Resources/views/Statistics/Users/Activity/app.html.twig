@@ -11,12 +11,12 @@
 	   </ul>
 	</header>
     <div class="tab-content bg-light dker">
-      {% if app.user.client.chat %}
+      {% if app.user.client.config.chat %}
       <div class="tab-pane active" id="tab-livechat">
         <div id="graph-chat"></div> 
       </div>
       {% endif %}
-      {% if app.user.client.chat %}
+      {% if app.user.client.config.chat %}
       <div class="tab-pane" id="tab-conversations">
         <div id="conversations"></div>
       </div >

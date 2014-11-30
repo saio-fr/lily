@@ -36,9 +36,9 @@ class ApiController extends BaseController
     	$config = $this->getConfig($licence);
 		$redirection = $this->getRedirection($licence);
 		
-		$memcache = $this->get('memcache.default');
+		$cache = $this->get( 'aequasi_cache.instance.default' );
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
-		$chatAvailable = $memcache->get('chat_available_'.$licence);
+		$chatAvailable = $cache->fetch($licence.'_chat_available');
 		
 		$em = $this->getEntityManager($licence);
 		
@@ -76,9 +76,9 @@ class ApiController extends BaseController
     	$client = $this->getClient($licence);
 		$config = $this->getConfig();
 		
-		$memcache = $this->get('memcache.default');
+		$cache = $this->get( 'aequasi_cache.instance.default' );
 		
-		$available = $memcache->get('chat_available_'.$licence);
+		$available = $cache->fetch($licence.'_chat_available');
 		
 		if ( // Return if Maintenance is On or Avi is off and no operators available to chat
 		
@@ -105,7 +105,7 @@ class ApiController extends BaseController
 
 		// On initialise nos variables		
 		$client = $this->getClient($licence);	
-		$memcache = $this->get('memcache.default');
+		$cache = $this->get( 'aequasi_cache.instance.default' );
 		$mobileDetector = $this->get('mobile_detect.mobile_detector');
 		$em = $this->getEntityManager($licence);
 		$session = $this->container->get('session');
@@ -270,7 +270,7 @@ class ApiController extends BaseController
 		$redirectionTel = $config->getRedirectionTel();			
 		$redirectionChat = $config->getRedirectionChat() || $client->getLivechat();
 		// Is chat available ?
-		$chatAvailable = $memcache->get('chat_available_'.$licence);
+		$chatAvailable = $cache->fetch($licence.'_chat_available');
 		
 		$response = array('redirection' => $redirection, 'isMail' => $redirectionMail, 'isTel' => $redirectionTel, 'isChat' => $redirectionChat, 'chatAvailable' => $chatAvailable);
         

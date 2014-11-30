@@ -109,7 +109,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     
     public function config($licence) {
 
-        $config = $this->memcache->get('config_app_chat'.$licence);
+        $config = $this->memcache->get($licence.'_app_chat_config'.$licence);
 		
 
 		if (!$config) {
@@ -131,7 +131,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 								 ->getRepository('LilyBackOfficeBundle:ChatConfig')
 								 ->findOneById(1);
 		   	  			  			
-		    $this->memcache->set('config_app_chat'.$licence, $config, 0);
+		    $this->memcache->set($licence.'_app_chat_config', $config, 0);
 	
 		}		
 		return $config;

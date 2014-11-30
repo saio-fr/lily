@@ -4,11 +4,11 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#overall" data-toggle="tab">Globaux</a></li>
       <!-- show if client.avi is enabled -->
-      {% if app.user.client.avi %}
+      {% if app.user.client.config.avi %}
       <li class=""><a href="#avatar" data-toggle="tab">Avatar</a></li>
       {% endif %}
       <!-- show if client.chat is enabled -->
-      {% if app.user.client.chat %}
+      {% if app.user.client.config.chat %}
       <li class=""><a href="#chat" data-toggle="tab">Live chat</a></li>
 	  {% endif %}
     </ul>
@@ -28,7 +28,7 @@
         </div>
         
         <!-- show if client.chat is enabled -->
-        {% if app.user.client.chat and app.user.client.avi %}
+        {% if app.user.client.config.chat and app.user.client.config.avi %}
         <p class="administration-p">Choisissez votre canal de communication par défaut :</p>
         <div class="row">
         	<p>Avatar virtuel</p>
@@ -41,10 +41,10 @@
         {% endif %}
         
         <!-- show if client.chat && client.avi is enabled -->
-        {% if app.user.client.chat and app.user.client.avi %}
+        {% if app.user.client.config.chat and app.user.client.config.avi %}
         <div class="checkbox">
           <label class="checkbox-custom">
-            <input type="checkbox" name="aviIfNoOperator" <% if (aviIfNoOperator) { %> checked <% } %> >
+            <input type="checkbox" name="aviIfNoOperator" <% if (avi.aviIfNoOperator) { %> checked <% } %> >
             <i class="icon-unchecked"></i>
             Proposer directement l'AVI si aucun conseiller n'est disponible
           </label>
@@ -55,10 +55,10 @@
         <div class="row">
         	
         	<!-- show if client.chat is enabled -->
-        	{% if app.user.client.chat %}
+        	{% if app.user.client.config.chat %}
         	<div class="return">
             	<label class="switch">
-                	<input type="checkbox" name="chat" <% if (chat) { %> checked <% } %>>
+                	<input type="checkbox" name="chat" <% if (chat.active) { %> checked <% } %>>
                 	<span></span>
                 </label>
                 <p>Live chat</p>
@@ -66,7 +66,7 @@
             {% endif %}
             
             <!-- show if client.faq is enabled -->
-            {% if app.user.client.faq %}
+            {% if app.user.client.config.faq %}
             <div class="return">
                 <label class="switch">
                 	<input type="checkbox" name="faq" <% if (faq) { %> checked <% } %>>
@@ -77,10 +77,10 @@
             {% endif %}
             
             <!-- show if client.topQuestions is enabled -->
-            {% if app.user.client.topQuestions %}
+            {% if app.user.client.config.topquestions %}
             <div class="return">
                 <label class="switch">
-                	<input type="checkbox" name="topQuestions" <% if (topQuestions) { %> checked <% } %>>
+                	<input type="checkbox" name="topquestions" <% if (topquestions) { %> checked <% } %>>
                 	<span></span>
                 </label>
                 <p>Top des questions</p>
@@ -89,14 +89,14 @@
 			
 			<div class="return">
                 <label class="switch">
-                	<input name="redirectionMail" type="checkbox" <% if (redirectionMail) { %> checked <% } %> >
+                	<input name="redirectionMail" type="checkbox" <% if (redirection.mail) { %> checked <% } %> >
                 	<span></span>
                 </label>
                 <p>Redirection par Mail</p>
             </div>
 			<div class="return">
             	<label class="switch">
-                	<input name="redirectionTel" type="checkbox" <% if (redirectionTel) { %> checked <% } %> >
+                	<input name="redirectionPhone" type="checkbox" <% if (redirection.phone) { %> checked <% } %> >
                 	<span></span>
                 </label>
                 <p>Redirection par Téléphone</p>
@@ -109,12 +109,12 @@
       <section class="tab-pane" id="avatar">
         <h5>Message d'accueil</h5>
         <div class="col-sm-12">
-          <div id="editor" name="aviWelcomeMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= aviWelcomeMsg %></div>
+          <div id="editor" name="aviWelcomeMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= avi.welcomeMsg %></div>
         </div>
         <h5 class="m-t-lg">Animations</h5>
         <div class="row">
             <label class="switch">
-            	<input name="aviAnimations" type="checkbox" <% if (aviAnimations) { %> checked <% } %> >
+            	<input name="aviAnimations" type="checkbox" <% if (avi.animations) { %> checked <% } %> >
             	<span></span>
             </label>
             <p>Activer les animations</p>
@@ -126,61 +126,61 @@
       	<h5>Conversations</h5>
 		<div class="row">
             <label class="switch">
-            	<input name="chatAutoSetOperator" type="checkbox" <% if (chatAutoSetOperator) { %> checked <% } %> >
+            	<input name="autoSetOperator" type="checkbox" <% if (chat.autoSetOperator) { %> checked <% } %> >
             	<span></span>
             </label>
             <p>Attribuer automatiquement un opérateur s'il est disponible</p>
     	</div>
     	
 	    <p class="administration-p">Limiter le nombre de conversations à</p>
-    	<input name="chatMax" type="text" class="form-control chatMax" value="<%= chatMax %>">
+    	<input name="max" type="text" class="form-control chatMax" value="<%= chat.max %>">
     	<p class="administration-p">par opérateur disponible</p>
     	
         <h5>File d'attente</h5>
 		<div class="row">
             <label class="switch">
-            	<input name="chatQueue" type="checkbox" <% if (chatQueue) { %> checked <% } %> >
+            	<input name="queue" type="checkbox" <% if (chat.queue) { %> checked <% } %> >
             	<span></span>
             </label>
             <p>Activer la file d'attente</p>
     	</div>
     	<div>
         	<p class="administration-p">Limiter la file d'attente à</p>
-        	<input name="chatMaxQueue" type="text" class="form-control chatMaxQueue" value="<%= chatMaxQueue %>">
+        	<input name="maxQueue" type="text" class="form-control chatMaxQueue" value="<%= chat.maxQueue %>">
         	<p class="administration-p">places par conseiller en production</p>
     	</div>
     	
     	<h5>Ecran d'accueil</h5>
 		<div class="row">
             <label class="switch">
-            	<input name="chatContactForm" type="checkbox" <% if (chatContactForm) { %> checked <% } %> >
+            	<input name="contactForm" type="checkbox" <% if (chat.contactForm) { %> checked <% } %> >
             	<span></span>
             </label>
             <p>Activer un écran d'accueil invitant l'utilisateur à renseigner ses informations personnelles</p>
     	</div>
     	<p class="administration-p">Message d'accueil :</p>
     	<div class="col-sm-12">
-          <div id="editor" name="chatContactFormMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= chatContactFormMsg %></div>
+          <div id="editor" name="contactFormMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= chat.contactFormMsg %></div>
         </div>
     	<p class="administration-p">Afficher sur l'écran d'accueil :</p>
         <div class="row">
         	<div class="return">
             	<label class="switch">
-                	<input name="chatContactLastNameField" type="checkbox" <% if (chatContactLastNameField) { %> checked <% } %> >
+                	<input name="contactLastNameField" type="checkbox" <% if (chat.contactLastNameField) { %> checked <% } %> >
                 	<span></span>
                 </label>
                 <p>Un champ nom</p>
             </div>
             <div class="return">
                 <label class="switch">
-                	<input name="chatContactFirstNameField" type="checkbox" <% if (chatContactFirstNameField) { %> checked <% } %> >
+                	<input name="contactFirstNameField" type="checkbox" <% if (chat.contactFirstNameField) { %> checked <% } %> >
                 	<span></span>
                 </label>
                 <p>Un champ prénom</p>
             </div>
             <div class="return">
                 <label class="switch">
-                	<input name="chatContactEmailField" type="checkbox" <% if (chatContactEmailField) { %> checked <% } %>>
+                	<input name="contactEmailField" type="checkbox" <% if (chat.contactEmailField) { %> checked <% } %>>
                 	<span></span>
                 </label>
                 <p>Un champ email</p>
@@ -188,7 +188,7 @@
         </div>
         <div class="row">
             <label class="switch">
-            	<input name="chatContactFormAvoidable" type="checkbox" <% if (chatContactFormAvoidable) { %> checked <% } %> >
+            	<input name="contactFormAvoidable" type="checkbox" <% if (chat.contactFormAvoidable) { %> checked <% } %> >
             	<span></span>
             </label>
             <p>Autoriser le visiteur à ne pas renseigner ces informations</p>

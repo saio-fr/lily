@@ -1,7 +1,1 @@
-/*******************************************************************************************************************************************
-Collection Redirections 
-*******************************************************************************************************************************************/
-lily.ListRedirections = Backbone.Collection.extend({
-    model: lily.Redirection,
-    url: redirections + '/rest',
-});
+lily.ListRedirections=Backbone.Collection.extend({model:lily.Redirection,url:redirections+"/rest"});

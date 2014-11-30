@@ -35,7 +35,7 @@ class AppKernel extends Kernel
             new Lily\HomePageBundle\LilyHomePageBundle(),
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new Fp\JsFormValidatorBundle\FpJsFormValidatorBundle(),
-            new Lsw\MemcacheBundle\LswMemcacheBundle(),
+            new Aequasi\Bundle\CacheBundle\AequasiCacheBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
         );
 

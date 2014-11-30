@@ -42,16 +42,21 @@ class ConfigController extends BaseController
      */
     public function getAction(Request $request) {
 	    
-	    $licence = $this->getLicence();	    
-	    $config = $this->get('memcache.default')->get('config_'.$licence);
+	    $licence = $this->getLicence();
+	    $cache = $this->get( 'aequasi_cache.instance.default' );
+	    $config = $cache->fetch($licence.'_app_config');
 		
 		if (!$config) {
 		
 	    	$config = $this->getEntityManager()
     				   	   ->getRepository('LilyBackOfficeBundle:Config')
-					   	   ->findOneById(1);    	  			  
+					   	   ->findOneById(1);
 			
-			$this->get('memcache.default')->set('config_'.$licence, $config, 0);
+			$config->getAvi();
+			$config->getChat();
+			$config->getRedirections();    	  			  
+			
+			$cache->save($licence.'_app_config', $config, 0);
 		
 		}
     					  
@@ -84,7 +89,9 @@ class ConfigController extends BaseController
         $em->flush();
         
         $licence = $this->getLicence();
-        $this->get('memcache.default')->set('config_'.$licence, $config, 0);        
+        $cache = $this->get( 'aequasi_cache.instance.default' );
+        
+        $cache->fetch($licence.'_app_config', $config, 0);        
         		
 		// Tell our chat app that config changed
 		$context = new ZMQContext();

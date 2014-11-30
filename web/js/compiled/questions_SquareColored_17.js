@@ -1,6 +1,1 @@
-/************************************************************************
-Square colored model
-*************************************************************************/
-lily.squareColored = Backbone.Model.extend({
-
-});
+lily.squareColored=Backbone.Model.extend({});
