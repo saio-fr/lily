@@ -10,8 +10,8 @@ assetic:
     use_controller: false
     bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle, LilyHomePageBundle, LilyAdminBundle]
     #node: /usr/local/bin/node
-    #filters:
-        #cssrewrite: ~
+    filters:
+        cssrewrite: ~
         #uglifyjs2:
             #bin: /usr/local/bin/uglifyjs
             #apply_to: "\.js$"
