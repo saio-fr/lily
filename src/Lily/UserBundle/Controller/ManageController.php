@@ -50,7 +50,7 @@ class ManageController extends BaseController
     public function getMaxusersAction() {
         $client = $this->getClient();
         $data=[];
-        $data['maxusers'] = $client->getMaxusers();
+        $data['maxusers'] = $client->getConfig()->getMaxusers();
         return $data;
     }
 

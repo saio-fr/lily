@@ -51,7 +51,19 @@
 
 {{ parent() }}
 
-{% javascripts 'js/fuelux/fuelux.js' 'js/backoffice/config.js' output='js/compiled/config.js' %}
+{% javascripts 
+
+'js/vendor/jquery.min.js' 
+'js/vendor/bootstrap.js' 
+'js/vendor/bootstrap.js'  
+'js/vendor/underscore.min.js' 
+'js/vendor/backbone.min.js' 
+
+'js/todo.js' 
+
+'js/fuelux/fuelux.js' 
+'js/backoffice/config.js' 
+output='js/compiled/config.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   
