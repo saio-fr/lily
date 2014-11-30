@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: resources/solarium.yml }
     - { resource: resources/jms.yml }
+    - { resource: resources/assetic.yml }
     - { resource: resources/doctrine.yml }
     - { resource: resources/mailer.yml }
     - { resource: resources/fos.yml }
