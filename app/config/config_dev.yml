@@ -12,7 +12,6 @@ imports:
     - { resource: resources/flysystem.yml }    
     # Dev resources
     - { resource: parameters_dev.yml }
-    - { resource: resources_dev/assetic.yml }
     - { resource: resources_dev/framework.yml }
     - { resource: resources_dev/cache.yml }
 
