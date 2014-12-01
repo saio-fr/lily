@@ -31,11 +31,10 @@ define(function (require) {
       'submit #user-editor': 'noSubmit'
     },
 
-    initialize: function (model) {
+    initialize: function () {
       var self = this;
 
       app.on('userView:closeEditView', _.bind(this.remove, this));
-      this.model = model;
       this.listenTo(this.model, 'destroy', this.remove);
       this.render();
       this.widget = this.$el.find('#avatarWidget');
@@ -56,10 +55,12 @@ define(function (require) {
         this.delegateEvents();
       }
 
-      app.userManagementView.editedUserId = this.model.id;
+      if (this.model) {
+        app.userManagementView.editedUserId = this.model.id;
+        this.$el.html(this.template(this.model.toJSON()));
+      }
 
       this.$el.removeClass('hide');
-      this.$el.html(this.template(this.model.toJSON()));
 
       $('iframe#avatarWidget').load(function () {
         $('.loader').hide();
@@ -132,29 +133,25 @@ define(function (require) {
 
         this.model.trigger('render');
 
+        // Hide edit panel, remove view.
         $('#user-list .active').removeClass('active');
         this.remove();
 
       }
-
-      return this;
     },
 
     cancel: function () {
+      // Hide edit panel, remove view.
       $('#user-list .active').removeClass('active');
       this.remove();
     },
 
     noSubmit: function (e) {
-
       e.preventDefault();
-      return this;
     },
 
     checkIfValid: function (e) {
-
       e.target.jsFormValidator.validate();
-      return this;
     },
 
     remove: function () {

@@ -29,22 +29,8 @@ define(function (require) {
       'click #sortMenu li': 'changeSortCriteria',
     },
 
-    initialize: function(options) {
-      if (options) {
-        this.model = options.model;
-        this.collection = options.collection;
-      }
+    initialize: function() {
       this.render();
-    },
-
-    setModel: function (model) {
-
-      if( this.model !== model ) {
-        this.model = model;
-        this.render();
-      }
-
-      return this;
     },
 
     render: function () {
