@@ -20,51 +20,50 @@ class Config
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    protected $id;
     
     /**
      * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ChatConfig", cascade={"persist", "remove"})
      */
-    public $chat;
+    protected $chat;
     
     /**
      * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\AviConfig", cascade={"persist", "remove"})
      */
-    public $avi;
+    protected $avi;
     
     /**
      * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\RedirectionsConfig", cascade={"persist", "remove"})
      */
-    public $redirections;   
+    protected $redirections;   
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="faq", type="boolean")
      */
-    public $faq;
+    protected $faq;
 
     /**
      * @var boolean
      *
-     * @JMS\SerializedName("topQuestions")
-     * @ORM\Column(name="topQuestions", type="boolean")
+     * @ORM\Column(name="topquestions", type="boolean")
      */
-    public $topQuestions;
+    protected $topquestions;
 
     /**
      * @var string
      *
      * @ORM\Column(name="home", type="string", length=10)
      */
-    public $home;   
+    protected $home;   
     
     /**
      * @var string
      *
      * @ORM\Column(name="theme", type="string", length=20)
      */
-    public $theme; 
+    protected $theme; 
      
     
     /**
@@ -72,7 +71,7 @@ class Config
      *
      * @ORM\Column(name="maintenance", type="boolean")
      */
-    public $maintenance;
+    protected $maintenance;
     
     public function __construct()
 	{   
@@ -117,26 +116,26 @@ class Config
     }
 
     /**
-     * Set topQuestions
+     * Set topquestions
      *
-     * @param boolean $topQuestions
+     * @param boolean $topquestions
      * @return Config
      */
-    public function setTopQuestions($topQuestions)
+    public function setTopquestions($topquestions)
     {
-        $this->topQuestions = $topQuestions;
+        $this->topquestions = $topquestions;
 
         return $this;
     }
 
     /**
-     * Get topQuestions
+     * Get topquestions
      *
      * @return boolean 
      */
-    public function getTopQuestions()
+    public function getTopquestions()
     {
-        return $this->topQuestions;
+        return $this->topquestions;
     }
 
     /**

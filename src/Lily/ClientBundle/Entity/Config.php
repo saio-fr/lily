@@ -31,35 +31,35 @@ class Config
      * @var boolean
      * @ORM\Column(name="maintenance", type="boolean")
      */
-    private $maintenance = false;
+    protected $maintenance = false;
     
     /**
      * @var boolean
      * @Assert\NotBlank()
      * @ORM\Column(name="chat", type="boolean")
      */
-    private $chat;
+    protected $chat;
     
     /**
      * @var boolean
      * @Assert\NotBlank()
      * @ORM\Column(name="avi", type="boolean")
      */
-    private $avi;
+    protected $avi;
     
     /**
      * @var boolean
      * @Assert\NotBlank()
      * @ORM\Column(name="faq", type="boolean")
      */
-    private $faq;
+    protected $faq;
     
     /**
      * @var boolean
      * @Assert\NotBlank()
      * @ORM\Column(name="topquestions", type="boolean")
      */
-    private $topquestions;
+    protected $topquestions;
     
     /**
      * @var integer

@@ -1,0 +1,87 @@
+
+  <!-- GLOBAL -->         
+    <h5>Fonctionnalités</h5>
+    <div class="row">
+      <label class="switch">
+        <input name="maintenance" type="checkbox" <% if (!maintenance) { %> checked <% } %> >
+          <span></span>
+      </label>
+      <p>Afficher l'iframe</p>
+    </div>
+    
+    <!-- show if client.chat is enabled -->
+    {% if app.user.client.config.chat and app.user.client.config.avi %}
+    <p class="administration-p">Choisissez votre canal de communication par défaut :</p>
+    <div class="row">
+    	<p>Avatar virtuel</p>
+    	<label class="switch no-color">
+        	<input name="home" type="checkbox" <% if (home == 'chat') { %> checked <% } %>>
+        	<span></span>
+        </label>
+        <p>Live chat</p>
+    </div>
+    {% endif %}
+    
+    <!-- show if client.chat && client.avi is enabled -->
+    {% if app.user.client.config.chat and app.user.client.config.avi %}
+    <div class="checkbox">
+      <label class="checkbox-custom">
+        <input type="checkbox" name="aviIfNoOperator" <% if (avi.aviIfNoOperator) { %> checked <% } %> >
+        <i class="icon-unchecked"></i>
+        Proposer directement l'AVI si aucun conseiller n'est disponible
+      </label>
+    </div>
+    {% endif %}
+    
+    <h5 class="m-t-xlg">Activer / Désactiver un service</h5>
+      <div class="row">
+    	
+    	<!-- show if client.chat is enabled -->
+    	{% if app.user.client.config.chat %}
+    	<div class="return">
+        	<label class="switch">
+            	<input type="checkbox" name="chat" <% if (chat.active) { %> checked <% } %>>
+            	<span></span>
+            </label>
+            <p>Live chat</p>
+        </div>
+        {% endif %}
+        
+        <!-- show if client.faq is enabled -->
+        {% if app.user.client.config.faq %}
+        <div class="return">
+            <label class="switch">
+            	<input type="checkbox" name="faq" <% if (faq) { %> checked <% } %>>
+            	<span></span>
+            </label>
+            <p>FAQ dynamique</p>
+        </div>
+        {% endif %}
+        
+        <!-- show if client.topquestions is enabled -->
+        {% if app.user.client.config.topquestions %}
+        <div class="return">
+            <label class="switch">
+            	<input type="checkbox" name="topquestions" <% if (topquestions) { %> checked <% } %>>
+            	<span></span>
+            </label>
+            <p>Top des questions</p>
+        </div>
+		{% endif %}
+		
+		<div class="return">
+            <label class="switch">
+            	<input name="redirectionMail" type="checkbox" <% if (redirections.mail) { %> checked <% } %> >
+            	<span></span>
+            </label>
+            <p>Redirection par Mail</p>
+        </div>
+		<div class="return">
+        	<label class="switch">
+            	<input name="redirectionPhone" type="checkbox" <% if (redirections.phone) { %> checked <% } %> >
+            	<span></span>
+            </label>
+            <p>Redirection par Téléphone</p>
+        </div>
+		
+    </div>

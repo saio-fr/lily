@@ -20,28 +20,28 @@ class ChatConfig
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    protected $id;
   
     /**
      * @var boolean
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    public $active;   
+    protected $active;   
         
     /**
      * @var smallint
      *
      * @ORM\Column(name="max", type="smallint")
      */
-    public $max;
+    protected $max;
     
     /**
      * @var boolean
      *
      * @ORM\Column(name="queue", type="boolean")
      */
-    public $queue;
+    protected $queue;
            
     /**
      * @var smallint
@@ -49,7 +49,7 @@ class ChatConfig
      * @JMS\SerializedName("maxQueue")
      * @ORM\Column(name="maxQueue", type="smallint")
      */
-    public $maxQueue;
+    protected $maxQueue;
     
     /**
      * @var boolean
@@ -57,7 +57,7 @@ class ChatConfig
      * @JMS\SerializedName("autoSetOperator")
      * @ORM\Column(name="autoSetOperator", type="boolean")
      */
-    public $autoSetOperator;
+    protected $autoSetOperator;
     
     /**
      * @var boolean
@@ -65,7 +65,7 @@ class ChatConfig
      * @JMS\SerializedName("contactForm")
      * @ORM\Column(name="contactForm", type="boolean")
      */
-    public $contactForm;
+    protected $contactForm;
     
     /**
      * @var string
@@ -73,7 +73,7 @@ class ChatConfig
      * @JMS\SerializedName("contactFormMsg")
      * @ORM\Column(name="contactFormMsg", type="string")
      */
-    public $contactFormMsg;
+    protected $contactFormMsg;
     
     /**
      * @var boolean
@@ -81,7 +81,7 @@ class ChatConfig
      * @JMS\SerializedName("contactFirstNameField")
      * @ORM\Column(name="contactFirstNameField", type="boolean")
      */
-    public $contactFirstNameField;
+    protected $contactFirstNameField;
     
     /**
      * @var boolean
@@ -89,7 +89,7 @@ class ChatConfig
      * @JMS\SerializedName("contactLastNameField")
      * @ORM\Column(name="contactLastNameField", type="boolean")
      */
-    public $contactLastNameField;
+    protected $contactLastNameField;
 
     /**
      * @var boolean
@@ -97,7 +97,7 @@ class ChatConfig
      * @JMS\SerializedName("contactEmailField")
      * @ORM\Column(name="contactEmailField", type="boolean")
      */
-    public $contactEmailField;  
+    protected $contactEmailField;  
     
     /**
      * @var boolean
@@ -105,7 +105,7 @@ class ChatConfig
      * @JMS\SerializedName("contactFormAvoidable")
      * @ORM\Column(name="contactFormAvoidable", type="boolean")
      */
-    public $contactFormAvoidable;       
+    protected $contactFormAvoidable;       
  
     public function __construct()
 	{
@@ -133,531 +133,255 @@ class ChatConfig
     }
 
     /**
-     * Set chat
+     * Set active
      *
-     * @param boolean $chat
-     * @return Config
+     * @param boolean $active
+     * @return ChatConfig
      */
-    public function setChat($chat)
+    public function setActive($active)
     {
-        $this->chat = $chat;
+        $this->active = $active;
 
         return $this;
     }
 
     /**
-     * Get chat
+     * Get active
      *
      * @return boolean 
      */
-    public function getChat()
+    public function getActive()
     {
-        return $this->chat;
+        return $this->active;
     }
 
     /**
-     * Set chatQueue
+     * Set max
      *
-     * @param boolean $chatQueue
-     * @return Config
+     * @param integer $max
+     * @return ChatConfig
      */
-    public function setChatQueue($chatQueue)
+    public function setMax($max)
     {
-        $this->chatQueue = $chatQueue;
+        $this->max = $max;
 
         return $this;
     }
 
     /**
-     * Get chatQueue
-     *
-     * @return boolean 
-     */
-    public function getChatQueue()
-    {
-        return $this->chatQueue;
-    }
-
-    /**
-     * Set chatMax
-     *
-     * @param integer $chatMax
-     * @return Config
-     */
-    public function setChatMax($chatMax)
-    {
-        $this->chatMax = $chatMax;
-
-        return $this;
-    }
-
-    /**
-     * Get chatMax
+     * Get max
      *
      * @return integer 
      */
-    public function getChatMax()
+    public function getMax()
     {
-        return $this->chatMax;
+        return $this->max;
     }
 
     /**
-     * Set chatAutoSetOperator
+     * Set queue
      *
-     * @param boolean $chatAutoSetOperator
-     * @return Config
+     * @param boolean $queue
+     * @return ChatConfig
      */
-    public function setChatAutoSetOperator($chatAutoSetOperator)
+    public function setQueue($queue)
     {
-        $this->chatAutoSetOperator = $chatAutoSetOperator;
+        $this->queue = $queue;
 
         return $this;
     }
 
     /**
-     * Get chatAutoSetOperator
+     * Get queue
      *
      * @return boolean 
      */
-    public function getChatAutoSetOperator()
+    public function getQueue()
     {
-        return $this->chatAutoSetOperator;
+        return $this->queue;
     }
 
     /**
-     * Set chatMaxQueue
+     * Set maxQueue
      *
-     * @param integer $chatMaxQueue
-     * @return Config
+     * @param integer $maxQueue
+     * @return ChatConfig
      */
-    public function setChatMaxQueue($chatMaxQueue)
+    public function setMaxQueue($maxQueue)
     {
-        $this->chatMaxQueue = $chatMaxQueue;
+        $this->maxQueue = $maxQueue;
 
         return $this;
     }
 
     /**
-     * Get chatMaxQueue
+     * Get maxQueue
      *
      * @return integer 
      */
-    public function getChatMaxQueue()
+    public function getMaxQueue()
     {
-        return $this->chatMaxQueue;
+        return $this->maxQueue;
     }
 
     /**
-     * Set avi
+     * Set autoSetOperator
      *
-     * @param boolean $avi
-     * @return Config
+     * @param boolean $autoSetOperator
+     * @return ChatConfig
      */
-    public function setAvi($avi)
+    public function setAutoSetOperator($autoSetOperator)
     {
-        $this->avi = $avi;
+        $this->autoSetOperator = $autoSetOperator;
 
         return $this;
     }
 
     /**
-     * Get avi
+     * Get autoSetOperator
      *
      * @return boolean 
      */
-    public function getAvi()
+    public function getAutoSetOperator()
     {
-        return $this->avi;
+        return $this->autoSetOperator;
     }
 
     /**
-     * Set aviName
+     * Set contactForm
      *
-     * @param string $aviName
-     * @return Config
+     * @param boolean $contactForm
+     * @return ChatConfig
      */
-    public function setAviName($aviName)
+    public function setContactForm($contactForm)
     {
-        $this->aviName = $aviName;
+        $this->contactForm = $contactForm;
 
         return $this;
     }
 
     /**
-     * Get aviName
+     * Get contactForm
+     *
+     * @return boolean 
+     */
+    public function getContactForm()
+    {
+        return $this->contactForm;
+    }
+
+    /**
+     * Set contactFormMsg
+     *
+     * @param string $contactFormMsg
+     * @return ChatConfig
+     */
+    public function setContactFormMsg($contactFormMsg)
+    {
+        $this->contactFormMsg = $contactFormMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get contactFormMsg
      *
      * @return string 
      */
-    public function getAviName()
+    public function getContactFormMsg()
     {
-        return $this->aviName;
+        return $this->contactFormMsg;
     }
 
     /**
-     * Set aviWelcomeMsg
+     * Set contactFirstNameField
      *
-     * @param string $aviWelcomeMsg
-     * @return Config
+     * @param boolean $contactFirstNameField
+     * @return ChatConfig
      */
-    public function setAviWelcomeMsg($aviWelcomeMsg)
+    public function setContactFirstNameField($contactFirstNameField)
     {
-        $this->aviWelcomeMsg = $aviWelcomeMsg;
+        $this->contactFirstNameField = $contactFirstNameField;
 
         return $this;
     }
 
     /**
-     * Get aviWelcomeMsg
-     *
-     * @return string 
-     */
-    public function getAviWelcomeMsg()
-    {
-        return $this->aviWelcomeMsg;
-    }
-
-    /**
-     * Set aviIfNoOperator
-     *
-     * @param boolean $aviIfNoOperator
-     * @return Config
-     */
-    public function setAviIfNoOperator($aviIfNoOperator)
-    {
-        $this->aviIfNoOperator = $aviIfNoOperator;
-
-        return $this;
-    }
-
-    /**
-     * Get aviIfNoOperator
+     * Get contactFirstNameField
      *
      * @return boolean 
      */
-    public function getAviIfNoOperator()
+    public function getContactFirstNameField()
     {
-        return $this->aviIfNoOperator;
+        return $this->contactFirstNameField;
     }
 
     /**
-     * Set aviAnimations
+     * Set contactLastNameField
      *
-     * @param boolean $aviAnimations
-     * @return Config
+     * @param boolean $contactLastNameField
+     * @return ChatConfig
      */
-    public function setAviAnimations($aviAnimations)
+    public function setContactLastNameField($contactLastNameField)
     {
-        $this->aviAnimations = $aviAnimations;
+        $this->contactLastNameField = $contactLastNameField;
 
         return $this;
     }
 
     /**
-     * Get aviAnimations
+     * Get contactLastNameField
      *
      * @return boolean 
      */
-    public function getAviAnimations()
+    public function getContactLastNameField()
     {
-        return $this->aviAnimations;
+        return $this->contactLastNameField;
     }
 
     /**
-     * Set faq
+     * Set contactEmailField
      *
-     * @param boolean $faq
-     * @return Config
+     * @param boolean $contactEmailField
+     * @return ChatConfig
      */
-    public function setFaq($faq)
+    public function setContactEmailField($contactEmailField)
     {
-        $this->faq = $faq;
+        $this->contactEmailField = $contactEmailField;
 
         return $this;
     }
 
     /**
-     * Get faq
+     * Get contactEmailField
      *
      * @return boolean 
      */
-    public function getFaq()
+    public function getContactEmailField()
     {
-        return $this->faq;
+        return $this->contactEmailField;
     }
 
     /**
-     * Set topQuestions
+     * Set contactFormAvoidable
      *
-     * @param boolean $topQuestions
-     * @return Config
+     * @param boolean $contactFormAvoidable
+     * @return ChatConfig
      */
-    public function setTopQuestions($topQuestions)
+    public function setContactFormAvoidable($contactFormAvoidable)
     {
-        $this->topQuestions = $topQuestions;
+        $this->contactFormAvoidable = $contactFormAvoidable;
 
         return $this;
     }
 
     /**
-     * Get topQuestions
+     * Get contactFormAvoidable
      *
      * @return boolean 
      */
-    public function getTopQuestions()
+    public function getContactFormAvoidable()
     {
-        return $this->topQuestions;
-    }
-
-    /**
-     * Set maintenance
-     *
-     * @param boolean $maintenance
-     * @return Config
-     */
-    public function setMaintenance($maintenance)
-    {
-        $this->maintenance = $maintenance;
-
-        return $this;
-    }
-
-    /**
-     * Get maintenance
-     *
-     * @return boolean 
-     */
-    public function getMaintenance()
-    {
-        return $this->maintenance;
-    }
-
-    /**
-     * Set redirectionChat
-     *
-     * @param boolean $redirectionChat
-     * @return Config
-     */
-    public function setRedirectionChat($redirectionChat)
-    {
-        $this->redirectionChat = $redirectionChat;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectionChat
-     *
-     * @return boolean 
-     */
-    public function getRedirectionChat()
-    {
-        return $this->redirectionChat;
-    }
-
-    /**
-     * Set redirectionMail
-     *
-     * @param boolean $redirectionMail
-     * @return Config
-     */
-    public function setRedirectionMail($redirectionMail)
-    {
-        $this->redirectionMail = $redirectionMail;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectionMail
-     *
-     * @return boolean 
-     */
-    public function getRedirectionMail()
-    {
-        return $this->redirectionMail;
-    }
-
-    /**
-     * Set redirectionTel
-     *
-     * @param boolean $redirectionTel
-     * @return Config
-     */
-    public function setRedirectionTel($redirectionTel)
-    {
-        $this->redirectionTel = $redirectionTel;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectionTel
-     *
-     * @return boolean 
-     */
-    public function getRedirectionTel()
-    {
-        return $this->redirectionTel;
-    }
-
-    /**
-     * Set home
-     *
-     * @param string $home
-     * @return Config
-     */
-    public function setHome($home)
-    {
-        $this->home = $home;
-
-        return $this;
-    }
-
-    /**
-     * Get home
-     *
-     * @return string 
-     */
-    public function getHome()
-    {
-        return $this->home;
-    }
-
-    /**
-     * Set chatContactForm
-     *
-     * @param boolean $chatContactForm
-     * @return Config
-     */
-    public function setChatContactForm($chatContactForm)
-    {
-        $this->chatContactForm = $chatContactForm;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactForm
-     *
-     * @return boolean 
-     */
-    public function getChatContactForm()
-    {
-        return $this->chatContactForm;
-    }
-
-    /**
-     * Set chatContactFormMsg
-     *
-     * @param string $chatContactFormMsg
-     * @return Config
-     */
-    public function setChatContactFormMsg($chatContactFormMsg)
-    {
-        $this->chatContactFormMsg = $chatContactFormMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactFormMsg
-     *
-     * @return string 
-     */
-    public function getChatContactFormMsg()
-    {
-        return $this->chatContactFormMsg;
-    }
-
-    /**
-     * Set chatContactFirstNameField
-     *
-     * @param boolean $chatContactFirstNameField
-     * @return Config
-     */
-    public function setChatContactFirstNameField($chatContactFirstNameField)
-    {
-        $this->chatContactFirstNameField = $chatContactFirstNameField;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactFirstNameField
-     *
-     * @return boolean 
-     */
-    public function getChatContactFirstNameField()
-    {
-        return $this->chatContactFirstNameField;
-    }
-
-    /**
-     * Set chatContactLastNameField
-     *
-     * @param boolean $chatContactLastNameField
-     * @return Config
-     */
-    public function setChatContactLastNameField($chatContactLastNameField)
-    {
-        $this->chatContactLastNameField = $chatContactLastNameField;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactLastNameField
-     *
-     * @return boolean 
-     */
-    public function getChatContactLastNameField()
-    {
-        return $this->chatContactLastNameField;
-    }
-
-    /**
-     * Set chatContactEmailField
-     *
-     * @param boolean $chatContactEmailField
-     * @return Config
-     */
-    public function setChatContactEmailField($chatContactEmailField)
-    {
-        $this->chatContactEmailField = $chatContactEmailField;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactEmailField
-     *
-     * @return boolean 
-     */
-    public function getChatContactEmailField()
-    {
-        return $this->chatContactEmailField;
-    }
-
-    /**
-     * Set chatContactFormAvoidable
-     *
-     * @param boolean $chatContactFormAvoidable
-     * @return Config
-     */
-    public function setChatContactFormAvoidable($chatContactFormAvoidable)
-    {
-        $this->chatContactFormAvoidable = $chatContactFormAvoidable;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactFormAvoidable
-     *
-     * @return boolean 
-     */
-    public function getChatContactFormAvoidable()
-    {
-        return $this->chatContactFormAvoidable;
+        return $this->contactFormAvoidable;
     }
 }

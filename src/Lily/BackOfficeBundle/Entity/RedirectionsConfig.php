@@ -20,28 +20,28 @@ class RedirectionsConfig
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    protected $id;
   
     /**
      * @var boolean
      *
      * @ORM\Column(name="chat", type="boolean")
      */
-    public $chat;
+    protected $chat;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="mail", type="boolean")
      */
-    public $mail;
+    protected $mail;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="phone", type="boolean")
      */
-    public $phone;
+    protected $phone;
     
     public function __construct()
 	{       
@@ -50,4 +50,83 @@ class RedirectionsConfig
 		$this->phone = true;
 	}
     
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set chat
+     *
+     * @param boolean $chat
+     * @return RedirectionsConfig
+     */
+    public function setChat($chat)
+    {
+        $this->chat = $chat;
+
+        return $this;
+    }
+
+    /**
+     * Get chat
+     *
+     * @return boolean 
+     */
+    public function getChat()
+    {
+        return $this->chat;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param boolean $mail
+     * @return RedirectionsConfig
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return boolean 
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param boolean $phone
+     * @return RedirectionsConfig
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return boolean 
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
 }

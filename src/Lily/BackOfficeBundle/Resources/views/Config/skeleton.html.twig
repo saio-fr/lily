@@ -1,0 +1,20 @@
+  <header class="header bg-dark bg-gradient">
+    <a id="save" href="#" class="btn btn-success pull-right">Sauvegarder</a>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#global" data-toggle="tab">Globaux</a></li>
+      <!-- show if client.avi is enabled -->
+      {% if app.user.client.config.avi %}
+      <li class=""><a href="#avi" data-toggle="tab">Avatar</a></li>
+      {% endif %}
+      <!-- show if client.chat is enabled -->
+      {% if app.user.client.config.chat %}
+      <li class=""><a href="#chat" data-toggle="tab">Live chat</a></li>
+	  {% endif %}
+    </ul>
+  </header>
+  
+  <section class="scrollable wrapper">
+    <div class="tab-content">
+	   <!-- There goes the views --> 
+	</div>
+  </section> 

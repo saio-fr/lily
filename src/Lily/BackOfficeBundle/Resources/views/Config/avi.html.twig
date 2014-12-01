@@ -1,0 +1,15 @@
+  <!-- AVATAR -->
+  <section class="tab-pane" id="avatar">
+    <h5>Message d'accueil</h5>
+    <div class="col-sm-12">
+      <div id="editor" name="aviWelcomeMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= avi.welcomeMsg %></div>
+    </div>
+    <h5 class="m-t-lg">Animations</h5>
+    <div class="row">
+        <label class="switch">
+        	<input name="aviAnimations" type="checkbox" <% if (avi.animations) { %> checked <% } %> >
+        	<span></span>
+        </label>
+        <p>Activer les animations</p>
+	</div>
+  </section>

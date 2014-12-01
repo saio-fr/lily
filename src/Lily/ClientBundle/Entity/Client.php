@@ -31,31 +31,31 @@ class Client
     /**
      * @ORM\OneToMany(targetEntity="Lily\UserBundle\Entity\User", mappedBy="client", cascade={"persist"})
      */
-    private $users;
+    protected $users;
 
     /**
      * @ORM\OneToOne(targetEntity="Lily\ClientBundle\Entity\Config", cascade={"persist", "remove"})
      */
-    public $config;
+    protected $config;
     
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
     
     /**
      * @var string
      * @ORM\Column(name="logo", type="string", length=255, nullable=true)
      */
-    private $logo;
+    protected $logo;
     
     /**
      * @var string
      * @ORM\Column(name="licence", type="string", length=50)
      */
-    private $licence;
+    protected $licence;
 
     /**
      * Constructor

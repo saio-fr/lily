@@ -48,10 +48,9 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 			$client = $em->getRepository('LilyClientBundle:Client')
 					  	 ->findOneByLicence($licence)
 					  	 ->getConfig();
-						   
-			$cache->save( $licence.'_config', $config, 3600 );
 			
 			$config = array('client' => $client, 'app' => $app);
+      $cache->save( $licence.'_config', $config, 3600 );
 		
 		}
 		
