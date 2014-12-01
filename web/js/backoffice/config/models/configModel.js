@@ -12,9 +12,9 @@ define(function (require) {
 		// Object wrapper returned as a module
 		ConfigModel;
 
-	ConfigModel = Backbone.Model.extend({
+  ConfigModel = Backbone.Model.extend({
 		url: "/rest"
-	});
+  });
 
 	return ConfigModel;
 });

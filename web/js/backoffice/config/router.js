@@ -1,6 +1,6 @@
 /* ===========================
          	ROUTER
-   ========================== */
+========================== */
 
 define(function (require) {
 
@@ -8,17 +8,17 @@ define(function (require) {
 
   // Require CommonJS like includes
   var _ = require('underscore'),
-      Backbone = require('backbone'),
-      app = require('app'),
-      ConfigModel = require('backoffice/config/models/configModel'),
-      SkeletonView = require('backoffice/config/views/skeletonView'),
-      GlobalView = require('backoffice/config/views/globalView'),
-      ChatView = require('backoffice/config/views/chatView'),
-      AviView = require('backoffice/config/views/aviView'),
-      ModalView = require('backoffice/config/views/modalView'),
+    Backbone = require('backbone'),
+    app = require('app'),
+    ConfigModel = require('backoffice/config/models/configModel'),
+    SkeletonView = require('backoffice/config/views/skeletonView'),
+    GlobalView = require('backoffice/config/views/globalView'),
+    ChatView = require('backoffice/config/views/chatView'),
+    AviView = require('backoffice/config/views/aviView'),
+    ModalView = require('backoffice/config/views/modalView'),
 
-      // Object wrapper returned as a module
-      AppRouter;
+    // Object wrapper returned as a module
+    AppRouter;
 
   AppRouter = Backbone.Router.extend({
 
@@ -29,19 +29,19 @@ define(function (require) {
 
     initialize: function () {
 	  
-	  var configModel = new ConfigModel();
+	    var configModel = new ConfigModel();
 	  
-	  configModel.fetch().success(function() {
+      configModel.fetch().success(function() {
 	    
-	    var skeleton = new SkeletonView({ model: configModel });
-	    app.skeleton = skeleton;
+	      var skeleton = new SkeletonView({ model: configModel });
+        app.skeleton = skeleton;
 	    
-	    skeleton.globalView = new GlobalView({ model: configModel });
-	    skeleton.aviView = new AviView({ model: configModel });
-	    skeleton.chatView = new ChatView({ model: configModel });
-	    skeleton.modalView = new ModalView();
+        skeleton.globalView = new GlobalView({ model: configModel });
+        skeleton.aviView = new AviView({ model: configModel });
+        skeleton.chatView = new ChatView({ model: configModel });
+        skeleton.modalView = new ModalView();
 	    
-	  });
+	    });
 
     },
 
@@ -50,8 +50,6 @@ define(function (require) {
     }
     
   });
-
-  return AppRouter;
-  
+  return AppRouter;  
 });
 

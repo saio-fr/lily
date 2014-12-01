@@ -8,31 +8,31 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
+    _ = require('underscore'),
+    app = require('app'),
 
-      // Object wrapper returned as a module
-      ChatView;
+    // Object wrapper returned as a module
+    ChatView;
 
   ChatView = Backbone.View.extend({
 	  
     tagName:  "section",
-	className: "tab-pane",
-	id: "chat",
+    className: "tab-pane",
+    id: "chat",
     template: _.template($('#chatTpl').html()),
     
     initialize: function() {
-	  this.render();
-	},
+	    this.render();
+	  },
 
     render: function () {
-	  this.$el.html(this.template(this.model.toJSON()));
+	    this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('.tab-content');
     },
 	
-	update: function () {
+    update: function () {
 		
-	}
+	  }
 	
   });
   return ChatView;

@@ -8,32 +8,31 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
+    _ = require('underscore'),
+    app = require('app'),
 
-      // Object wrapper returned as a module
-      AviView;
+    // Object wrapper returned as a module
+    AviView;
 
-  AviView = Backbone.View.extend({
+    AviView = Backbone.View.extend({
 	
-	tagName:  "section",
-	className: "tab-pane",
-	id: "avi",
+    tagName:  "section",
+    className: "tab-pane",
+    id: "avi",
     template: _.template($('#aviTpl').html()),
     
     initialize: function() {
-	   console.log(this.model);
-	  this.render();
-	},
+      this.render();
+	  },
 
     render: function () {
-	  this.$el.html(this.template(this.model.toJSON()));
+	    this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('.tab-content');
     },
 	
-	update: function () {
+    update: function () {
 		
-	}
+	  }
 	
   });
   return AviView;

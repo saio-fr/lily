@@ -11,8 +11,8 @@ define(function (require) {
 
   // Require CommonJS like includes
   var _ = require('underscore'),
-      Backbone = require('backbone'),
-      app = {};
+    Backbone = require('backbone'),
+    app = {};
 
   _.extend( app, Backbone.Events );
 
