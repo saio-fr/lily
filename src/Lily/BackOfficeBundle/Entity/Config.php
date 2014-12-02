@@ -23,19 +23,14 @@ class Config
     protected $id;
     
     /**
-     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ChatConfig", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigChat", cascade={"persist", "remove"})
      */
     protected $chat;
     
     /**
-     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\AviConfig", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigAvi", cascade={"persist", "remove"})
      */
-    protected $avi;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\RedirectionsConfig", cascade={"persist", "remove"})
-     */
-    protected $redirections;   
+    protected $avi;  
 
     /**
      * @var boolean
@@ -74,12 +69,12 @@ class Config
     protected $maintenance;
     
     public function __construct()
-	{   
+    {   
 		$this->theme = 'lily';
 		$this->faq = true;
-		$this->topQuestions = true;
+		$this->topquestions = true;
 		$this->maintenance = false;
-	}
+	  }
    
 
     /**
@@ -210,10 +205,10 @@ class Config
     /**
      * Set chat
      *
-     * @param \Lily\BackOfficeBundle\Entity\ChatConfig $chat
+     * @param \Lily\BackOfficeBundle\Entity\ConfigChat $chat
      * @return Config
      */
-    public function setChat(\Lily\BackOfficeBundle\Entity\ChatConfig $chat = null)
+    public function setChat(\Lily\BackOfficeBundle\Entity\ConfigChat $chat = null)
     {
         $this->chat = $chat;
 
@@ -223,7 +218,7 @@ class Config
     /**
      * Get chat
      *
-     * @return \Lily\BackOfficeBundle\Entity\ChatConfig 
+     * @return \Lily\BackOfficeBundle\Entity\ConfigChat
      */
     public function getChat()
     {
@@ -233,10 +228,10 @@ class Config
     /**
      * Set avi
      *
-     * @param \Lily\BackOfficeBundle\Entity\AviConfig $avi
+     * @param \Lily\BackOfficeBundle\Entity\ConfigAvi $avi
      * @return Config
      */
-    public function setAvi(\Lily\BackOfficeBundle\Entity\AviConfig $avi = null)
+    public function setAvi(\Lily\BackOfficeBundle\Entity\ConfigAvi $avi = null)
     {
         $this->avi = $avi;
 
@@ -246,33 +241,10 @@ class Config
     /**
      * Get avi
      *
-     * @return \Lily\BackOfficeBundle\Entity\AviConfig 
+     * @return \Lily\BackOfficeBundle\Entity\ConfigAvi 
      */
     public function getAvi()
     {
         return $this->avi;
-    }
-
-    /**
-     * Set redirections
-     *
-     * @param \Lily\BackOfficeBundle\Entity\RedirectionsConfig $redirections
-     * @return Config
-     */
-    public function setRedirections(\Lily\BackOfficeBundle\Entity\RedirectionsConfig $redirections = null)
-    {
-        $this->redirections = $redirections;
-
-        return $this;
-    }
-
-    /**
-     * Get redirections
-     *
-     * @return \Lily\BackOfficeBundle\Entity\RedirectionsConfig 
-     */
-    public function getRedirections()
-    {
-        return $this->redirections;
     }
 }

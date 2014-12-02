@@ -38,9 +38,10 @@ class ManageController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getUsersAction() {
-        $client = $this->getClient();
-        $userList = $client->getUsers();
-        return $userList;
+      
+        $users = $this->getUser()->getClient()->getUsers();
+        return $users;
+        
     }
 
     /**

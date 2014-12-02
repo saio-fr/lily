@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation AS JMS;
 
 /**
- * Config
+ * ConfigAviRedirections
  *
- * @ORM\Table(name="RedirectionsConfig")
+ * @ORM\Table(name="ConfigAviRedirections")
  * @ORM\Entity
  */
-class RedirectionsConfig
+class ConfigAviRedirections
 {
     /**
      * @var integer
@@ -20,7 +20,7 @@ class RedirectionsConfig
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected $id; 
   
     /**
      * @var boolean
@@ -44,12 +44,11 @@ class RedirectionsConfig
     protected $phone;
     
     public function __construct()
-	{       
+    {       
 		$this->chat = true;
 		$this->mail = true;
 		$this->phone = true;
-	}
-    
+	  }
 
     /**
      * Get id
@@ -65,7 +64,7 @@ class RedirectionsConfig
      * Set chat
      *
      * @param boolean $chat
-     * @return RedirectionsConfig
+     * @return ConfigAviRedirections
      */
     public function setChat($chat)
     {
@@ -88,7 +87,7 @@ class RedirectionsConfig
      * Set mail
      *
      * @param boolean $mail
-     * @return RedirectionsConfig
+     * @return ConfigAviRedirections
      */
     public function setMail($mail)
     {
@@ -111,7 +110,7 @@ class RedirectionsConfig
      * Set phone
      *
      * @param boolean $phone
-     * @return RedirectionsConfig
+     * @return ConfigAviRedirections
      */
     public function setPhone($phone)
     {

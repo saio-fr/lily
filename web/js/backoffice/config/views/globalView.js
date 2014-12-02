@@ -10,6 +10,7 @@ define(function (require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app'),
+    globals = require('globals'),
 
     // Object wrapper returned as a module
     GlobalView;
@@ -31,7 +32,42 @@ define(function (require) {
     },
 
     update: function () {
-
+		  
+      // MAINTENANCE
+      this.maintenance = !$('input[name="maintenance"]').is(':checked');
+      this.model.set({'maintenance': this.maintenance});
+      
+      // CHAT SERVICE
+      if (globals.chat) {
+        this.chat = this.$el.find('input[name="chat"]').is(':checked');
+        this.model.get('chat').set({'active': this.chat});
+      }
+      
+      // AVI SERVICE
+      if (globals.avi) {
+        this.avi = this.$el.find('input[name="avi"]').is(':checked');
+        this.model.get('avi').set({'active': this.avi});
+      }
+      
+      // FAQ SERVICE
+	    this.faq = this.$el.find('input[name="faq"]').is(':checked');
+      this.model.set({'faq': this.faq});
+      
+      
+      // TOP QUESTIONS SERVICE
+	    this.topquestions = this.$el.find('input[name="topquestions"]').is(':checked');
+	    this.model.set({'topquestions': this.topquestions});
+	    
+      // APP HOME PAGE
+      if (globals.chat && globals.avi) {
+        if ( this.$el.find('input[name="home"]').is(':checked') ) this.home = 'chat';
+        else this.home = 'avi';
+      } else {
+        if (globals.avi) this.home = 'avi';
+        if (globals.chat) this.home = 'chat';
+      }
+      this.model.set({'home': this.home});
+	    
     }
 
   });

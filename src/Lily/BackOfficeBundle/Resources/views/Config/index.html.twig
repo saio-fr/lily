@@ -47,7 +47,9 @@
 	{% block bootstrap %}
 	    {% autoescape false %}
 	    <script type="text/javascript">
-	        var root = '{{ path('lily_config') }}';
+  	      var config = {};
+  	      config.root = '{{ path('lily_config') }}';
+	        config.client = '{{ client | serialize('json') }}';
 	    </script>
 	    {% endautoescape %}
 	{% endblock %}

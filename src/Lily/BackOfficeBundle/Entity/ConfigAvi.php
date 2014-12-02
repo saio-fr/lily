@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation AS JMS;
 
 /**
- * Config
+ * ConfigAvi
  *
- * @ORM\Table(name="AviConfig")
+ * @ORM\Table(name="ConfigAvi")
  * @ORM\Entity
  */
-class AviConfig
+class ConfigAvi
 {
     /**
      * @var integer
@@ -28,6 +28,11 @@ class AviConfig
      * @ORM\Column(name="active", type="boolean")
      */
     protected $active;
+            
+    /**
+     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigAviRedirections", cascade={"persist", "remove"})
+     */
+    protected $redirections; 
     
     /**
      * @var string
@@ -62,14 +67,13 @@ class AviConfig
     protected $animations;
     
     public function __construct()
-	{       
+    {       
 		$this->active = true;
 		$this->name = 'Lily';
 		$this->welcomeMsg = 'Bonjour, quelle est votre question ?';
 		$this->aviIfNoOperator = true;
 		$this->animations = true;
-	}
-    
+	  }
 
     /**
      * Get id
@@ -85,7 +89,7 @@ class AviConfig
      * Set active
      *
      * @param boolean $active
-     * @return AviConfig
+     * @return ConfigAvi
      */
     public function setActive($active)
     {
@@ -108,7 +112,7 @@ class AviConfig
      * Set name
      *
      * @param string $name
-     * @return AviConfig
+     * @return ConfigAvi
      */
     public function setName($name)
     {
@@ -131,7 +135,7 @@ class AviConfig
      * Set welcomeMsg
      *
      * @param string $welcomeMsg
-     * @return AviConfig
+     * @return ConfigAvi
      */
     public function setWelcomeMsg($welcomeMsg)
     {
@@ -154,7 +158,7 @@ class AviConfig
      * Set aviIfNoOperator
      *
      * @param boolean $aviIfNoOperator
-     * @return AviConfig
+     * @return ConfigAvi
      */
     public function setAviIfNoOperator($aviIfNoOperator)
     {
@@ -177,7 +181,7 @@ class AviConfig
      * Set animations
      *
      * @param boolean $animations
-     * @return AviConfig
+     * @return ConfigAvi
      */
     public function setAnimations($animations)
     {
@@ -194,5 +198,28 @@ class AviConfig
     public function getAnimations()
     {
         return $this->animations;
+    }
+
+    /**
+     * Set redirections
+     *
+     * @param \Lily\BackOfficeBundle\Entity\ConfigAviRedirections $redirections
+     * @return ConfigAvi
+     */
+    public function setRedirections(\Lily\BackOfficeBundle\Entity\ConfigAviRedirections $redirections = null)
+    {
+        $this->redirections = $redirections;
+
+        return $this;
+    }
+
+    /**
+     * Get redirections
+     *
+     * @return \Lily\BackOfficeBundle\Entity\ConfigAviRedirections 
+     */
+    public function getRedirections()
+    {
+        return $this->redirections;
     }
 }

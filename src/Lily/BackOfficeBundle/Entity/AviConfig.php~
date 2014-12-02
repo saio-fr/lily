@@ -28,6 +28,11 @@ class AviConfig
      * @ORM\Column(name="active", type="boolean")
      */
     protected $active;
+            
+    /**
+     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\RedirectionsAviConfig", cascade={"persist", "remove"})
+     */
+    protected $redirections; 
     
     /**
      * @var string
@@ -70,4 +75,129 @@ class AviConfig
 		$this->animations = true;
 	}
     
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return AviConfig
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return AviConfig
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set welcomeMsg
+     *
+     * @param string $welcomeMsg
+     * @return AviConfig
+     */
+    public function setWelcomeMsg($welcomeMsg)
+    {
+        $this->welcomeMsg = $welcomeMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get welcomeMsg
+     *
+     * @return string 
+     */
+    public function getWelcomeMsg()
+    {
+        return $this->welcomeMsg;
+    }
+
+    /**
+     * Set aviIfNoOperator
+     *
+     * @param boolean $aviIfNoOperator
+     * @return AviConfig
+     */
+    public function setAviIfNoOperator($aviIfNoOperator)
+    {
+        $this->aviIfNoOperator = $aviIfNoOperator;
+
+        return $this;
+    }
+
+    /**
+     * Get aviIfNoOperator
+     *
+     * @return boolean 
+     */
+    public function getAviIfNoOperator()
+    {
+        return $this->aviIfNoOperator;
+    }
+
+    /**
+     * Set animations
+     *
+     * @param boolean $animations
+     * @return AviConfig
+     */
+    public function setAnimations($animations)
+    {
+        $this->animations = $animations;
+
+        return $this;
+    }
+
+    /**
+     * Get animations
+     *
+     * @return boolean 
+     */
+    public function getAnimations()
+    {
+        return $this->animations;
+    }
 }

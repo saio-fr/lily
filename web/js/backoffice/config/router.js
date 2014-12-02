@@ -37,8 +37,8 @@ define(function (require) {
         app.skeleton = skeleton;
 	    
         skeleton.globalView = new GlobalView({ model: configModel });
-        skeleton.aviView = new AviView({ model: configModel });
-        skeleton.chatView = new ChatView({ model: configModel });
+        skeleton.aviView = new AviView({ model: configModel.get('avi') });
+        skeleton.chatView = new ChatView({ model: configModel.get('chat') });
         skeleton.modalView = new ModalView();
 	    
 	    });

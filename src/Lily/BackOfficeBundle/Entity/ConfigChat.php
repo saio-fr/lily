@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation AS JMS;
 
 /**
- * Config
+ * ConfigChat
  *
- * @ORM\Table(name="ChatConfig")
+ * @ORM\Table(name="ConfigChat")
  * @ORM\Entity
  */
-class ChatConfig
+class ConfigChat
 {
     /**
      * @var integer
@@ -108,19 +108,21 @@ class ChatConfig
     protected $contactFormAvoidable;       
  
     public function __construct()
-	{
-		$this->active = true;
-		$this->queue = true;
-		$this->max = 4;
-		$this->autoSetOperator = true;
-		$this->maxQueue = 4;
-		$this->contactForm = false;
-		$this->contactFormMsg = 'Merci de renseigner vos informations personnelles avant commencer à chatter avec un conseiller.';
-		$this->contactFirstNameField = true;
-		$this->contactLastNameField = true;
-		$this->contactEmailField = true;  
-	    $this->contactFormAvoidable = true;       
-	}
+    {
+      
+    		$this->active = true;
+    		$this->queue = true;
+    		$this->max = 4;
+    		$this->autoSetOperator = true;
+    		$this->maxQueue = 4;
+    		$this->contactForm = false;
+    		$this->contactFormMsg = 'Merci de renseigner vos informations personnelles avant commencer à chatter avec un conseiller.';
+    		$this->contactFirstNameField = true;
+    		$this->contactLastNameField = true;
+    		$this->contactEmailField = true;  
+        $this->contactFormAvoidable = true; 
+              
+	  }
 
     /**
      * Get id
@@ -136,7 +138,7 @@ class ChatConfig
      * Set active
      *
      * @param boolean $active
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setActive($active)
     {
@@ -159,7 +161,7 @@ class ChatConfig
      * Set max
      *
      * @param integer $max
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setMax($max)
     {
@@ -182,7 +184,7 @@ class ChatConfig
      * Set queue
      *
      * @param boolean $queue
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setQueue($queue)
     {
@@ -205,7 +207,7 @@ class ChatConfig
      * Set maxQueue
      *
      * @param integer $maxQueue
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setMaxQueue($maxQueue)
     {
@@ -228,7 +230,7 @@ class ChatConfig
      * Set autoSetOperator
      *
      * @param boolean $autoSetOperator
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setAutoSetOperator($autoSetOperator)
     {
@@ -251,7 +253,7 @@ class ChatConfig
      * Set contactForm
      *
      * @param boolean $contactForm
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setContactForm($contactForm)
     {
@@ -274,7 +276,7 @@ class ChatConfig
      * Set contactFormMsg
      *
      * @param string $contactFormMsg
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setContactFormMsg($contactFormMsg)
     {
@@ -297,7 +299,7 @@ class ChatConfig
      * Set contactFirstNameField
      *
      * @param boolean $contactFirstNameField
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setContactFirstNameField($contactFirstNameField)
     {
@@ -320,7 +322,7 @@ class ChatConfig
      * Set contactLastNameField
      *
      * @param boolean $contactLastNameField
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setContactLastNameField($contactLastNameField)
     {
@@ -343,7 +345,7 @@ class ChatConfig
      * Set contactEmailField
      *
      * @param boolean $contactEmailField
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setContactEmailField($contactEmailField)
     {
@@ -366,7 +368,7 @@ class ChatConfig
      * Set contactFormAvoidable
      *
      * @param boolean $contactFormAvoidable
-     * @return ChatConfig
+     * @return ConfigChat
      */
     public function setContactFormAvoidable($contactFormAvoidable)
     {

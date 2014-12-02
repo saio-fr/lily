@@ -6,7 +6,8 @@ require.config({
     'backbone': 'bower_components/backbone/backbone',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'todoTpl': 'todo',
-    'app': 'backoffice/config/app'
+    'app': 'backoffice/config/app',
+    'globals': 'backoffice/globals'
   },
   shim: {
     'underscore': {
@@ -30,16 +31,17 @@ require([
   "underscore",
   "backbone",
   "backoffice/config/router",
+  "globals",
 
   // Libraries required at bootstrap for the UI.
   "bootstrap",
   "todoTpl"
-], function( $, _, Backbone, ConfigRouter ) {
+], function( $, _, Backbone, ConfigRouter, globals ) {
 
   'use strict';
 
   $.ajaxPrefilter( function (options) {
-    options.url = window.root + options.url;
+    options.url = globals.root + options.url;
   });
 
   var router = new ConfigRouter();
