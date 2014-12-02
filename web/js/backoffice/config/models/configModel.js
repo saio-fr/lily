@@ -7,12 +7,12 @@ define(function (require) {
 	'use strict';
 
 	// Require CommonJS like includes
-	var Backbone = require('backbone'),
+	var NestedModel = require('backbone-nested'),
 
 		// Object wrapper returned as a module
 		ConfigModel;
 
-  ConfigModel = Backbone.Model.extend({
+  ConfigModel = Backbone.NestedModel.extend({
 		url: "/rest"
   });
 

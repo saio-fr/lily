@@ -45,9 +45,6 @@ class ConfigController extends BaseController
      */
     public function getAction(Request $request) {
 
-        $licence = $this->getLicence();
-        $cache = $this->get('aequasi_cache.instance.default');
-
         $config = $this->getEntityManager()
         ->getRepository('LilyBackOfficeBundle:Config')
         ->findOneById(1);

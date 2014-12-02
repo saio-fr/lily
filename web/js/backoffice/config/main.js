@@ -4,6 +4,7 @@ require.config({
     'jquery': 'bower_components/jquery/dist/jquery',
     'underscore': 'bower_components/underscore/underscore',
     'backbone': 'bower_components/backbone/backbone',
+    'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'todoTpl': 'todo',
     'app': 'backoffice/config/app',
@@ -16,6 +17,10 @@ require.config({
     'backbone': {
       deps: ["underscore", "jquery"],
       exports: 'Backbone'
+    },
+    'backbone-nested': {
+      deps: ["backbone"],
+      exports: ["Backbone.NestedModel"]
     },
     "bootstrap" : {
       "deps": ['jquery']
@@ -48,4 +53,5 @@ require([
 
   // Start app router
   Backbone.history.start();
+  
 });

@@ -6,26 +6,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ChatConfigType extends AbstractType
+class ConfigAviRedirectionsType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('active')
-            ->add('max')
-            ->add('queue')
-            ->add('maxQueue')
-            ->add('autoSetOperator')
-            ->add('contactForm')
-            ->add('contactFormMsg')
-            ->add('contactFirstNameField')
-            ->add('contactLastNameField')
-            ->add('contactEmailField')
-            ->add('contactFormAvoidable')
+            ->add('chat')
+            ->add('mail')
+            ->add('phone')
         ;
     }
     
@@ -35,7 +27,7 @@ class ChatConfigType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\BackOfficeBundle\Entity\ChatConfig'
+            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigAviRedirections'
         ));
     }
 
@@ -44,6 +36,6 @@ class ChatConfigType extends AbstractType
      */
     public function getName()
     {
-        return 'lily_backofficebundle_chatconfig';
+        return 'lily_backofficebundle_configaviredirections';
     }
 }

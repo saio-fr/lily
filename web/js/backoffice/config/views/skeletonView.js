@@ -10,6 +10,7 @@ define(function (require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app'),
+    globals = require('globals'),
 
     // Object wrapper returned as a module
     Skeleton;
@@ -34,13 +35,12 @@ define(function (require) {
     },
 	
     save: function () {
-		
+
 		  // Call the children view to set new model attributes
       this.globalView.update();
-      this.aviView.update();
-      this.chatView.update();
       
-      console.log(this.model);
+      if (globals.client.avi) this.aviView.update();
+      if (globals.client.chat) this.chatView.update();
 		
       this.model.save(null, {
         success: function() {

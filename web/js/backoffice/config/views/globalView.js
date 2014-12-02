@@ -38,25 +38,28 @@ define(function (require) {
       this.model.set({'maintenance': this.maintenance});
       
       // CHAT SERVICE
-      if (globals.chat) {
+      if (globals.client.chat) {
         this.chat = this.$el.find('input[name="chat"]').is(':checked');
-        this.model.get('chat').set({'active': this.chat});
+        this.model.set({'chat.active': this.chat});
       }
       
       // AVI SERVICE
-      if (globals.avi) {
+      if (globals.client.avi) {
         this.avi = this.$el.find('input[name="avi"]').is(':checked');
-        this.model.get('avi').set({'active': this.avi});
+        this.model.set({'avi.active': this.avi});
       }
       
       // FAQ SERVICE
-	    this.faq = this.$el.find('input[name="faq"]').is(':checked');
-      this.model.set({'faq': this.faq});
-      
+      if (globals.client.faq) {
+	      this.faq = this.$el.find('input[name="faq"]').is(':checked');
+        this.model.set({'faq': this.faq});
+      }      
       
       // TOP QUESTIONS SERVICE
-	    this.topquestions = this.$el.find('input[name="topquestions"]').is(':checked');
-	    this.model.set({'topquestions': this.topquestions});
+      if (globals.client.topquestions) {
+	      this.topquestions = this.$el.find('input[name="topquestions"]').is(':checked');
+        this.model.set({'topquestions': this.topquestions});
+	    }
 	    
       // APP HOME PAGE
       if (globals.chat && globals.avi) {

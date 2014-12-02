@@ -27,13 +27,12 @@ define(function (require) {
 	  },
 
     render: function () {
-	    this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('.tab-content');
     },
 	
     update: function () {
-      this.model.get('avi').set({active: false});
-      console.log(this.model.get('avi'));
+      
       // FIRST MESSAGE DISPLAYED BY THE AVI
       this.welcomeMsg = this.$el.find('div[name="welcomeMsg"]').text();
       this.model.set({'avi.welcomeMsg': this.welcomeMsg});
@@ -48,9 +47,9 @@ define(function (require) {
       this.redirections.mail = this.$el.find('input[name="mail"]').is(':checked');
       this.redirections.chat = this.$el.find('input[name="chat"]').is(':checked');
       
-      this.model.set({'redirections.phone': this.redirections.phone});
-      this.model.set({'redirections.mail': this.redirections.mail});
-      this.model.set({'redirections.chat': this.redirections.chat});
+      this.model.set({'avi.redirections.phone': this.redirections.phone});
+      this.model.set({'avi.redirections.mail': this.redirections.mail});
+      this.model.set({'avi.redirections.chat': this.redirections.chat});
       
 	  }
 	

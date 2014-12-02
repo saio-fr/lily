@@ -22,7 +22,7 @@
     	{% if app.user.client.config.chat %}
   		<div class="return">
         <label class="switch">
-        	<input name="chat" type="checkbox" <% if (redirections.chat) { %> checked <% } %> >
+        	<input name="chat" type="checkbox" <% if (avi.redirections.chat) { %> checked <% } %> >
         	<span></span>
         </label>
         <p>Redirection par live chat</p>
@@ -31,7 +31,7 @@
       
   		<div class="return">
         <label class="switch">
-        	<input name="mail" type="checkbox" <% if (redirections.mail) { %> checked <% } %> >
+        	<input name="mail" type="checkbox" <% if (avi.redirections.mail) { %> checked <% } %> >
         	<span></span>
         </label>
         <p>Redirection par mail</p>
@@ -39,7 +39,7 @@
         
   		<div class="return">
         <label class="switch">
-        	<input name="phone" type="checkbox" <% if (redirections.phone) { %> checked <% } %> >
+        	<input name="phone" type="checkbox" <% if (avi.redirections.phone) { %> checked <% } %> >
         	<span></span>
         </label>
         <p>Redirection par téléphone</p>

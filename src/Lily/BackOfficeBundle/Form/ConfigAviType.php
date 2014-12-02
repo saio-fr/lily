@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AviConfigType extends AbstractType
+class ConfigAviType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -20,6 +20,7 @@ class AviConfigType extends AbstractType
             ->add('welcomeMsg')
             ->add('aviIfNoOperator')
             ->add('animations')
+            ->add('redirections',new ConfigAviRedirectionsType())
         ;
     }
     
@@ -29,7 +30,7 @@ class AviConfigType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\BackOfficeBundle\Entity\AviConfig'
+            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigAvi'
         ));
     }
 
@@ -38,6 +39,6 @@ class AviConfigType extends AbstractType
      */
     public function getName()
     {
-        return 'lily_backofficebundle_aviconfig';
+        return 'lily_backofficebundle_configavi';
     }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ConfigType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -19,9 +19,8 @@ class ConfigType extends AbstractType
             ->add('topquestions')
             ->add('home')
             ->add('maintenance')
-			->add('chat',new ChatConfigType())
-			->add('avi',new AviConfigType())
-			->add('redirections',new RedirectionsConfigType())
+            ->add('chat',new ConfigChatType())
+            ->add('avi',new ConfigAviType())
         ;
     }
     

@@ -49,7 +49,7 @@
 	    <script type="text/javascript">
   	      var config = {};
   	      config.root = '{{ path('lily_config') }}';
-	        config.client = '{{ client | serialize('json') }}';
+	        config.client = JSON.parse('{{ client | serialize('json') | raw }}');
 	    </script>
 	    {% endautoescape %}
 	{% endblock %}

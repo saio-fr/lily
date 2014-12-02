@@ -39,7 +39,7 @@ class ManageController extends BaseController
      */
     public function getUsersAction() {
       
-        $users = $this->getUser()->getClient()->getUsers();
+        $users = $this->getClient()->getUsers();
         return $users;
         
     }
@@ -49,10 +49,10 @@ class ManageController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getMaxusersAction() {
-        $client = $this->getClient();
-        $data=[];
-        $data['maxusers'] = $client->getConfig()->getMaxusers();
-        return $data;
+      
+        $max = $this->getClient()->getConfig()->getMaxusers();
+        return $max;
+        
     }
 
 
@@ -76,14 +76,13 @@ class ManageController extends BaseController
             throw new \Exception("You cannot delete your own account.");
         }
 		
-       $manager->deleteUser($user);
+        $manager->deleteUser($user);
        
     }
 
     /**
      * @Put("/rest/{id}", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
-     * @View(statusCode=204)
      */
     public function editAction($id, Request $request) {
     
@@ -97,7 +96,6 @@ class ManageController extends BaseController
         if($user === null || $user->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
-
 
         $form = $this->createForm(new UserType, $user, array('admin'=>true, 'csrf_protection' => false));
         $form->bind($data);
