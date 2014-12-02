@@ -1,0 +1,1 @@
+lily.Models.MessageLilySimple=Backbone.Model.extend({defaults:{message_content:""}});

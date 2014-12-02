@@ -18,7 +18,7 @@ class RPCHandler implements RPCHandlerInterface
         return $this->container;
     }
 
-    public function dispatch(Conn $conn, $id, $topic, array $params, $clients, $config)
+    public function dispatch(Conn $conn, $id, $topic, array $params, $users)
     {	
         $parts = explode("/", $topic);
 
@@ -37,7 +37,7 @@ class RPCHandler implements RPCHandlerInterface
         {
             try{
 
-                $result = call_user_func(array($handler, $method), $conn, $params, $clients, $config);
+                $result = call_user_func(array($handler, $method), $conn, $params, $users);
 
             }catch(\Exception $e)
             {

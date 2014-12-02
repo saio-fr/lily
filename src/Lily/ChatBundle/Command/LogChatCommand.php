@@ -18,14 +18,14 @@ class LogChatCommand extends ContainerAwareCommand
     protected function configure(){
         $this->setName('ratchet:log:start')
              ->setDescription('Start logging for ratchet server')
-             ->addArgument('cname', InputArgument::OPTIONAL, 'Cname')
+             ->addArgument('licence', InputArgument::OPTIONAL, 'Licence')
              ->addArgument('zmqLog', InputArgument::OPTIONAL, 'ZmqLog');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
     	
-    	$cname = $input->getArgument('cname');
+    	$licence = $input->getArgument('licence');
     	$zmqLog = $input->getArgument('zmqLog');
     	
 		        // Another script to log chats & info into Database without blocking ratchet
@@ -33,7 +33,19 @@ class LogChatCommand extends ContainerAwareCommand
 	    $context = new Context($loop);
 	    
 	    // Get the client' entity manager
-	    $em = $this->getContainer()->get('Doctrine')->getManager($cname);
+   		$connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
+	
+	    $refConn = new \ReflectionObject($connection);
+	    $refParams = $refConn->getProperty('_params');
+	    $refParams->setAccessible('public'); //we have to change it for a moment
+	
+	    $params = $refParams->getValue($connection);
+	    $params['dbname'] = $this->getClient()->getLicence();
+	
+	    $refParams->setAccessible('private');
+	    $refParams->setValue($connection, $params);
+	    
+        $em =  $this->get('doctrine')->getManager('client');
 	    
 	    	    // Bind to our socket to communicate with our symfony app
 		$context = new Context($loop);

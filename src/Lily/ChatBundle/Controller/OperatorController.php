@@ -30,7 +30,7 @@ class OperatorController extends BaseController
 	 */
     public function indexAction()
     { 
-        if (!$this->getUser()->getEnterprise()->getChat()) {
+        if (!$this->getClient()->getConfig()->getChat()) {
     	
 	    	throw new AccessDeniedException();
 	    	
@@ -44,7 +44,7 @@ class OperatorController extends BaseController
      */
     public function getUserAction() {    
 		
-		$users = $this->getUser()->getEnterprise()->getUsers();
+		$users = $this->getClient()->getUsers();
 		
 		foreach($users as $user){
 

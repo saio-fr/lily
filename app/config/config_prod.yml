@@ -1,15 +1,18 @@
 imports:
-    - { resource: config.yml }
-
-#framework:
-#    validation:
-#        cache: apc
-
-#doctrine:
-#    orm:
-#        metadata_cache_driver: apc
-#        result_cache_driver: apc
-#        query_cache_driver: apc
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: resources/solarium.yml }
+    - { resource: resources/cache.yml }
+    - { resource: resources/assetic.yml }
+    - { resource: resources/framework.yml }
+    - { resource: resources/jms.yml }
+    - { resource: resources/doctrine.yml }
+    - { resource: resources/mailer.yml }
+    - { resource: resources/fos.yml }
+    - { resource: resources/sensio.yml }
+    - { resource: resources/stof.yml }
+    - { resource: resources/mobiledetect.yml }
+    - { resource: resources/flysystem.yml }
 
 monolog:
     handlers:

@@ -21,35 +21,35 @@ var	lily = {
 	chatting: false,
 	chatContactForm: true,
 	Events: {},
-
+	
 	init: function () {
-
+		
 		_.extend(lily.Events = Backbone.Events);
 		this.instance = new lily.Views.App();
 		Backbone.history.start();
-
+		
 	}
 };
 
 $(function() {
-
+	
 	// Connect to our ws serv
 	var sess = new ab.connect(
-
-		'ws://ws.saio.fr:80/'+licence+'/chat' // The host
-
+			
+		'ws://ws.saio.fr/'+licence+'/chat' // The host 
+				    
 	    , function(session) {  // Once the connection has been established
-
+	    				
 			lily.ws = session;
-			lily.ws.subscribe('visitor/'+sid, function (topic, payload) {});
-			lily.ws.call('chat/connect', {'href': top.location.href,'pathname':top.location.pathname}).then(function(result) {
+			lily.ws.subscribe('visitor/'+licence+'/'+sid, function (topic, payload) {});
+			lily.ws.call('chat/connect', {'href': top.location.href,'pathname':top.location.pathname}).then(function(result) { 
 				lily.chatting = result.chatting;
 				lily.chatContactForm = result.showContactForm;
 				lily.init();
 			});
-
+		
 		}
-
+	
 	    , function(code, reason, detail) { // When the connection is closed
 	    	console.warn(code + reason + detail);
 	    }
@@ -59,7 +59,7 @@ $(function() {
 			'retryDelay': 2000
 	      }
 	);
-
+	
 });
 
 var snapper = new Snap({
@@ -74,28 +74,28 @@ var snapper = new Snap({
 	MENU (Snap.js)
 ***********************/
 
-$(function() {
-
+$(function() {	
+	
 	$('.lily-bt-menu').each(function(){
-
+		
 		$(this).on('click', function(){
-
+			
 			if( snapper.state().state=="left" ){
 				snapper.close();
 			} else {
 				snapper.open('left');
 			}
-
+			
 		});
-
+		
 	});
-
+	
 	$('.lily-menu-body li a').click(function() {
 
 		snapper.close();
-
+				
 	});
-
+	
 });
 
 /***********************/

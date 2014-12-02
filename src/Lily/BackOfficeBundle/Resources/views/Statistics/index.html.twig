@@ -26,10 +26,10 @@
 		<header class="header bg-dark bg-gradient">
 		  <ul id="statistics-nav" class="nav nav-tabs">
 		    <li class="usage-nav active"><a href="#usage">Utilisation</a></li>
-		    {% if (app.user.enterprise.avi) %}
+		    {% if (app.user.client.config.avi) %}
 		    <li class="avi-nav"><a href="#avi">Avatar</a></li>
 		    {% endif %}
-		    {% if (app.user.enterprise.chat) %}
+		    {% if (app.user.client.config.chat) %}
 		    <li class="chat-nav"><a href="#chat">Chat</a></li>
 		    {% endif %}
 		    <li class="users-nav"><a href="#users">Opérateurs</a></li>
@@ -123,6 +123,14 @@
 {{ parent() }}
 
 {% javascripts 
+
+'js/vendor/jquery.min.js' 
+'js/vendor/bootstrap.js' 
+'js/vendor/bootstrap.js'  
+'js/vendor/underscore.min.js' 
+'js/vendor/backbone.min.js' 
+
+'js/todo.js' 
 
 'js/charts/flot/jquery.flot.min.js' 
 'js/charts/flot/jquery.flot.tooltip.min.js' 

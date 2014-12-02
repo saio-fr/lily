@@ -16,7 +16,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * User
  *
  * @ORM\Table()
- * @ORM\Table(name="User")
  * @ExclusionPolicy("all")
  * @ORM\Entity(repositoryClass="Lily\UserBundle\Entity\UserRepository")
  * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur existe déjà.")
@@ -34,9 +33,9 @@ class User extends BaseUser
     protected $id;
 
 	/**
-     * @ORM\ManyToOne(targetEntity="Lily\UserBundle\Entity\Enterprise", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="Lily\ClientBundle\Entity\Client", inversedBy="users")
      */
-    private $enterprise;
+    private $client;
     
     /**
      * @var string
@@ -163,26 +162,26 @@ class User extends BaseUser
     }
 
     /**
-     * Set enterprise
+     * Set client
      *
-     * @param \Lily\UserBundle\Entity\Enterprise $enterprise
+     * @param \Lily\ClientBundle\Entity\Client $client
      * @return User
      */
-    public function setEnterprise(\Lily\UserBundle\Entity\Enterprise $enterprise)
+    public function setClient(\Lily\ClientBundle\Entity\Client $client)
     {
-        $this->enterprise = $enterprise;
+        $this->client = $client;
     
         return $this;
     }
 
     /**
-     * Get enterprise
+     * Get client
      *
-     * @return \Lily\UserBundle\Entity\Enterprise 
+     * @return \Lily\ClientBundle\Entity\Client 
      */
-    public function getEnterprise()
+    public function getClient()
     {
-        return $this->enterprise;
+        return $this->client;
     }
 
     /**
@@ -418,26 +417,26 @@ class User extends BaseUser
     }
 
 
-    public static function getUploadDir($enterprise)
+    public static function getUploadDir($client)
     {
         // On retourne le chemin relatif vers l'image pour un navigateur
-        return 'customer/' . $enterprise->getCname() . '/images/avatars/';
+        return 'customer/' . $client->getLicence() . '/images/avatars/';
     }
 
-    public static function getTmpUploadDir($enterprise)
+    public static function getTmpUploadDir($client)
     {
-        return 'customer/' . $enterprise->getCname() . '/images/avatars/tmp/';
+        return 'customer/' . $client->getLicence() . '/images/avatars/tmp/';
     }
 
-    public static function getUploadRootDir($enterprise)
+    public static function getUploadRootDir($client)
     {
         // On retourne le chemin relatif vers l'image pour notre code PHP
-        return __DIR__.'/../../../../web/' . User::getUploadDir($enterprise);
+        return 'cdn.saio.fr/' . User::getUploadDir($client);
     }
 
-    public static function getTmpUploadRootDir($enterprise)
+    public static function getTmpUploadRootDir($client)
     {
-        return __DIR__.'/../../../../web/' . User::getTmpUploadDir($enterprise);
+        return 'cdn.saio.fr/' . User::getTmpUploadDir($client);
     }
 
     /**

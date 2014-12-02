@@ -10,7 +10,6 @@ define(function (require) {
 
   globals = {
     avatarUrl: "http://saio.fr/images/avatar-utilisateur.png",
-
   };
 
   _.extend(globals, window.config);
