@@ -34,7 +34,7 @@ class FaqController extends BaseController
 	 */
 	public function indexAction()
     {      
-    	if (!$this->getUser()->getClient()->getFaq()) {
+    	if (!$this->getUser()->getClient()->getConfig()->getFaq()) {
     	
 	    	throw new AccessDeniedException();
 	    	

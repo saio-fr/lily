@@ -38,9 +38,10 @@ class ManageController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getUsersAction() {
-        $client = $this->getClient();
-        $userList = $client->getUsers();
-        return $userList;
+      
+        $users = $this->getUser()->getClient()->getUsers();
+        return $users;
+        
     }
 
     /**
@@ -50,7 +51,7 @@ class ManageController extends BaseController
     public function getMaxusersAction() {
         $client = $this->getClient();
         $data=[];
-        $data['maxusers'] = $client->getMaxusers();
+        $data['maxusers'] = $client->getConfig()->getMaxusers();
         return $data;
     }
 

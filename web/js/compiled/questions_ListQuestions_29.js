@@ -1,5 +1,1 @@
-lily.ListQuestions = Backbone.Collection.extend({
-    model: lily.Question,
-    initialize: function () {},
-  
-});
+lily.ListQuestions=Backbone.Collection.extend({model:lily.Question,initialize:function(){}});

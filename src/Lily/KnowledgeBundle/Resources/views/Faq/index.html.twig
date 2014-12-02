@@ -127,7 +127,17 @@
 
 {{ parent() }}
 
-{% javascripts 'js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/backoffice/faq.js' %}
+{% javascripts 
+
+'js/vendor/jquery.min.js' 
+'js/vendor/bootstrap.js' 
+'js/vendor/bootstrap.js'  
+'js/vendor/underscore.min.js' 
+'js/vendor/backbone.min.js' 
+
+'js/todo.js' 
+
+'js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/backoffice/faq.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

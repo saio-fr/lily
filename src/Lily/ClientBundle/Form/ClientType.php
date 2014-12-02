@@ -19,13 +19,6 @@ class ClientType extends AbstractType
             ->add('cname')
             ->add('logo')
             ->add('key')
-            ->add('maintenance')
-            ->add('chat')
-            ->add('avi')
-            ->add('faq')
-            ->add('topQuestions')
-            ->add('maxusers')
-            ->add('theme')
         ;
     }
     

@@ -2,7 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: resources/solarium.yml }
-    - { resource: resources/memcached.yml }
+    - { resource: resources/cache.yml }
     - { resource: resources/assetic.yml }
     - { resource: resources/framework.yml }
     - { resource: resources/jms.yml }

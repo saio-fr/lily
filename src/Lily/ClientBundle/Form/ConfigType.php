@@ -19,7 +19,7 @@ class ConfigType extends AbstractType
             ->add('chat')
             ->add('avi')
             ->add('faq')
-            ->add('topQuestions')
+            ->add('topquestions')
             ->add('maxusers')
         ;
     }

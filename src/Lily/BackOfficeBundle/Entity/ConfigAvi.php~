@@ -1,0 +1,77 @@
+<?php
+
+namespace Lily\BackOfficeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation AS JMS;
+
+/**
+ * ConfigAvi
+ *
+ * @ORM\Table(name="ConfigAvi")
+ * @ORM\Entity
+ */
+class ConfigAvi
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+  
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    protected $active;
+            
+    /**
+     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigAviRedirections", cascade={"persist", "remove"})
+     */
+    protected $redirections; 
+    
+    /**
+     * @var string
+     *
+     * @JMS\SerializedName("name")
+     * @ORM\Column(name="name", type="string")
+     */
+    protected $name;
+    
+    /**
+     * @var string
+     *
+     * @JMS\SerializedName("welcomeMsg")
+     * @ORM\Column(name="welcomeMsg", type="string")
+     */
+    protected $welcomeMsg;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("aviIfNoOperator")
+     * @ORM\Column(name="aviIfNoOperator", type="boolean")
+     */
+    protected $aviIfNoOperator;
+    
+    /**
+     * @var boolean
+     *
+     * @JMS\SerializedName("animations")
+     * @ORM\Column(name="animations", type="boolean")
+     */
+    protected $animations;
+    
+    public function __construct()
+    {       
+		$this->active = true;
+		$this->name = 'Lily';
+		$this->welcomeMsg = 'Bonjour, quelle est votre question ?';
+		$this->aviIfNoOperator = true;
+		$this->animations = true;
+	  }
+}

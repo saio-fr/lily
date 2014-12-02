@@ -16,12 +16,12 @@ class ConfigType extends AbstractType
     {
         $builder
             ->add('faq')
-            ->add('topQuestions')
+            ->add('topquestions')
             ->add('home')
             ->add('maintenance')
-			->add('chat',new ChatType())
-			->add('avi',new AviType())
-			->add('redirections',new RedirectionsType())
+			->add('chat',new ChatConfigType())
+			->add('avi',new AviConfigType())
+			->add('redirections',new RedirectionsConfigType())
         ;
     }
     

@@ -1,10 +1,9 @@
 imports:
     # Resources
-    - { resource: parameters_dev.yml }
     - { resource: security.yml }
     - { resource: resources/solarium.yml }
-    - { resource: resources/assetic.yml }
     - { resource: resources/jms.yml }
+    - { resource: resources/assetic.yml }
     - { resource: resources/doctrine.yml }
     - { resource: resources/mailer.yml }
     - { resource: resources/fos.yml }
@@ -13,8 +12,9 @@ imports:
     - { resource: resources/mobiledetect.yml }
     - { resource: resources/flysystem.yml }    
     # Dev resources
+    - { resource: parameters_dev.yml }
     - { resource: resources_dev/framework.yml }
-    - { resource: resources_dev/memcached.yml }
+    - { resource: resources_dev/cache.yml }
 
 framework:
     router:

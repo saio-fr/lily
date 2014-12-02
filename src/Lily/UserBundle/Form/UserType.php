@@ -25,29 +25,31 @@ class UserType extends AbstractType
                 ->add('phone', 'text', Array('label' => 'Téléphone'))
                 ->add('email', 'email', Array('label' => 'Adresse e-mail'))
                 ->add('username', 'text', Array('label' => 'Login'))
-				->add('plainPassword', 'repeated', array(
-					  'type' => 'password',
-					  'options' => array('required' => true),
-					  'first_options'  => array('label' => 'Mot de passe'),
-					  'second_options' => array('label' => 'Confirmer le mot de passe'),
-					  'invalid_message' => 'Les mots de passe doivent correspondre',));
+                ->add('plainPassword', 'repeated', array(
+                      'type' => 'password',
+                      'options' => array('required' => true),
+                      'first_options'  => array('label' => 'Mot de passe'),
+                      'second_options' => array('label' => 'Confirmer le mot de passe'),
+                      'invalid_message' => 'Les mots de passe doivent correspondre',));
+                      
         } elseif(isset($options['avatar']) && $options['avatar']) {
             $builder
                 ->add('avatar', 'hidden')
                 ->add('avatarFile', 'file');
+                
         } else {
             $builder
-            	->add('avatar', 'text', Array('label' => 'Avatar'))
+                ->add('avatar', 'text', Array('label' => 'Avatar'))
                 ->add('email', 'email', Array('label' => 'Adresse e-mail'))
                 ->add('post', 'text', Array('label' => 'Poste'))
                 ->add('phone', 'text', Array('label' => 'Téléphone'))
                 ->add('country', 'text', Array('label' => 'Pays'))
-				->add('plainPassword', 'repeated', array(
-					  'type' => 'password',
-					  'options' => array('required' => true),
-					  'first_options'  => array('label' => 'Mot de passe'),
-					  'second_options' => array('label' => 'Confirmer le mot de passe'),			  
-					  'invalid_message' => 'Les mots de passe doivent correspondre',));
+                ->add('plainPassword', 'repeated', array(
+                      'type' => 'password',
+                      'options' => array('required' => true),
+                      'first_options'  => array('label' => 'Mot de passe'),
+                      'second_options' => array('label' => 'Confirmer le mot de passe'),			  
+                      'invalid_message' => 'Les mots de passe doivent correspondre',));
         }
     }
     

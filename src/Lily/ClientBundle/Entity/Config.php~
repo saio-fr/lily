@@ -1,0 +1,70 @@
+<?php
+
+namespace Lily\ClientBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+
+/**
+ * Config
+ *
+ * @ORM\Table(name="Config")
+ * @ORM\Entity
+ */
+class Config
+{
+	
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    /**
+     * @var boolean
+     * @ORM\Column(name="maintenance", type="boolean")
+     */
+    protected $maintenance = false;
+    
+    /**
+     * @var boolean
+     * @Assert\NotBlank()
+     * @ORM\Column(name="chat", type="boolean")
+     */
+    protected $chat;
+    
+    /**
+     * @var boolean
+     * @Assert\NotBlank()
+     * @ORM\Column(name="avi", type="boolean")
+     */
+    protected $avi;
+    
+    /**
+     * @var boolean
+     * @Assert\NotBlank()
+     * @ORM\Column(name="faq", type="boolean")
+     */
+    protected $faq;
+    
+    /**
+     * @var boolean
+     * @Assert\NotBlank()
+     * @ORM\Column(name="topquestions", type="boolean")
+     */
+    protected $topquestions;
+    
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     * @ORM\Column(name="maxusers", type="integer")
+     */
+    protected $maxusers;
+}

@@ -1,0 +1,50 @@
+  <!-- AVATAR -->
+  <section class="tab-pane" id="avi">
+    
+    <h5>Message d'accueil</h5>
+    <div class="col-sm-12">
+      <div id="editor" name="welcomeMsg" class="form-control" style="overflow:scroll;height:50px;max-height:150px;" contenteditable="true"><%= avi.welcomeMsg %></div>
+    </div>
+    
+    <h5 class="m-t-lg">Animations</h5>    
+    <div class="row">
+        <label class="switch">
+        	<input name="animations" type="checkbox" <% if (avi.animations) { %> checked <% } %> >
+        	<span></span>
+        </label>
+        <p>Activer les animations</p>
+    </div>
+
+    <h5 class="m-t-xlg">Redirections</h5>
+    <div class="row">
+      
+      <!-- show if client.chat is enabled -->
+    	{% if app.user.client.config.chat %}
+  		<div class="return">
+        <label class="switch">
+        	<input name="chat" type="checkbox" <% if (redirections.chat) { %> checked <% } %> >
+        	<span></span>
+        </label>
+        <p>Redirection par live chat</p>
+      </div>
+      {% endif %}
+      
+  		<div class="return">
+        <label class="switch">
+        	<input name="mail" type="checkbox" <% if (redirections.mail) { %> checked <% } %> >
+        	<span></span>
+        </label>
+        <p>Redirection par mail</p>
+      </div>
+        
+  		<div class="return">
+        <label class="switch">
+        	<input name="phone" type="checkbox" <% if (redirections.phone) { %> checked <% } %> >
+        	<span></span>
+        </label>
+        <p>Redirection par téléphone</p>
+      </div>
+      
+    </div>
+	
+  </section>
