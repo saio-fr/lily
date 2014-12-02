@@ -4,16 +4,15 @@
 
 define(function (require) {
 
-  // Require CommonJS like includes
-	var _ = require('underscore');
-	
   'use strict';
 
-  var globals = {
+  var _ = require('underscore'),
+
+  globals = {
     avatarUrl: "http://saio.fr/images/avatar-utilisateur.png",
   };
-  
-  _.extend(globals, config);
-  
+
+  _.extend(globals, window.config);
+
   return globals;
 });

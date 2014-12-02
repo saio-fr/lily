@@ -11,7 +11,7 @@ require.config({
     'todoTpl': 'todo',
     'flot': 'charts/flot/jquery.flot.min',
     'validator': '../bundles/fpjsformvalidator/js/fp_js_validator',
-    'app': 'backoffice/users/app'
+    'app': 'backoffice/redirection/app'
   },
   shim: {
     'underscore': {
@@ -43,6 +43,7 @@ require([
   "jquery",
   "underscore",
   "backbone",
+  "backoffice/globals",
   "backoffice/users/router",
 
   // Libraries required at bootstrap for the UI.
@@ -50,12 +51,12 @@ require([
   "todoTpl",
   "flot",
   "validator"
-], function( $, _, Backbone, UserRouter ) {
+], function( $, _, Backbone, globals, UserRouter ) {
 
   'use strict';
 
   $.ajaxPrefilter( function (options) {
-    options.url = window.root + options.url;
+    options.url = globals.root + options.url;
   });
 
   var router = new UserRouter();

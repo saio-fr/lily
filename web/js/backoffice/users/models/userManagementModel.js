@@ -1,5 +1,5 @@
 /* ===========================
-         	ROUTER
+      User Management Model
    ========================== */
 
 define(function (require) {

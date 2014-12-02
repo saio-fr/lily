@@ -15,3 +15,10 @@ REDIRECTION
 .redirection-action .icon-check-sign.default, .redirection-action .icon-sign-blank:hover  {
   color: #63a5e1;
 }
+
+.modal-dialog { /* extends bootstraps .modal-dialog class */
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}

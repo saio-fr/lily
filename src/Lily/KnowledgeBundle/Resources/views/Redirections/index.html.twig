@@ -1,14 +1,14 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
 
-{% block stylesheets %} 	   
+{% block stylesheets %}
 
-{{ parent() }} 	   
+{{ parent() }}
 
-{% stylesheets 'css/backoffice/redirection.css' filter='cssrewrite'  output='css/compiled/redirections.css' %}      
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+{% stylesheets 'css/backoffice/redirection.css' filter='cssrewrite'  output='css/compiled/redirections.css' %}
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
-{% endstylesheets %} 
+{% endstylesheets %}
 
 {% endblock %}
 
@@ -21,32 +21,40 @@
 	{% block content %}
 
     <!-- .vbox -->
-    <section id="redirection">
-      <section class="vbox">
+    <section id="redirection" class="vbox">
+
         <header class="blue-header dker header b-b">
           <p>Redirections</p>
-          <a id="redirection-new" class="btn btn-sm btn-primary pull-right"><i class="icon-plus pull-left"></i>Ajouter une redirection</a>
+          <a id="redirection-new" class="btn btn-sm btn-primary pull-right">
+            <i class="icon-plus pull-left"></i>
+            Ajouter une redirection
+          </a>
         </header>
+
         <section class="scrollable">
           <section class="hbox stretch">
             <aside class="bg-white">
               <section class="vbox">
                 <section class="scrollable">
-                <header class="wrapper-sm clearfix b-b">
-                  </div>
-	              <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 redirection-view">
-	                <span>Titre</span>
-	              </div>
-	              <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 text-center">
-	                <span>Fréquence</span>
-	              </div>
-	              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 redirection-action">
-		            <span>Défaut</span>
-	              </div>
-                </header>
-				<ul id="redirections-list" class="list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
-	            <!-- Affichage de la liste des redirections -->          
-	            </ul>
+
+                  <header class="wrapper-sm clearfix b-b">
+                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 redirection-view">
+    	                <span>Titre</span>
+    	              </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 text-center">
+    	                <span>Fréquence</span>
+    	              </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 redirection-action">
+                      <span>Défaut</span>
+                    </div>
+                  </header>
+
+        		      <ul id="redirections-list" class="list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
+    	            <!-- Affichage de la liste des redirections -->
+    	            </ul>
+
                 </section>
               </section>
             </aside>
@@ -55,7 +63,6 @@
             </aside>
           </section>
         </section>
-      </section>
       <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
     </section>
     <!-- /.vbox -->
@@ -72,7 +79,7 @@
             {% include 'LilyKnowledgeBundle:Redirections:redirection_edit.html.twig' %}
         </script>
     {% endblock %}
-    
+
     {% block modal %}
     <!-- Modal -->
 	<div class="modal fade" id="default-redirection-delete" tabindex="-1" role="dialog" aria-hidden="true">
@@ -93,33 +100,17 @@
 	{% block bootstrap %}
 	    {% autoescape false %}
 	    <script type="text/javascript">
-	        var root = '{{ path('lily_redirections') }}';
+	        var config = {};
+          config.root = '{{ path('lily_redirections') }}';
 	    </script>
 	    {% endautoescape %}
 	{% endblock %}
 
 </section>
 
-{% endblock %}
-
-{% block javascripts %}
-
-{{ parent() }}
-
-{% javascripts 
-
-'js/vendor/jquery.min.js' 
-'js/vendor/bootstrap.js' 
-'js/vendor/bootstrap.js'  
-'js/vendor/underscore.min.js' 
-'js/vendor/backbone.min.js' 
-
-'js/todo.js' 
-
-'js/backoffice/redirections.js' output='js/compiled/redirections.js' %}
-
-  <script type="text/javascript" src="{{ asset_url }}"></script>
-  
-{% endjavascripts %}
+  <script
+    src="{{ asset('js/bower_components/requirejs/require.js')}}"
+    data-main="{{ asset('js/backoffice/redirection/main.js')}}">
+  </script>
 
 {% endblock %}
