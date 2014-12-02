@@ -8,36 +8,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ConfigType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('chat')
-            ->add('chatQueue')
-            ->add('chatMax')
-            ->add('chatAutoSetOperator')
-            ->add('chatMaxQueue')
-            ->add('chatContactForm')
-            ->add('chatContactFormMsg')
-            ->add('chatContactFirstNameField')
-            ->add('chatContactLastNameField')
-            ->add('chatContactEmailField')
-            ->add('chatContactFormAvoidable')
-            ->add('avi')
-            ->add('aviName')
-            ->add('aviWelcomeMsg')
-            ->add('aviIfNoOperator')
-            ->add('aviAnimations')
             ->add('faq')
-            ->add('topQuestions')
-            ->add('maintenance')
-            ->add('redirectionChat')
-            ->add('redirectionMail')
-            ->add('redirectionTel')
+            ->add('topquestions')
             ->add('home')
+            ->add('maintenance')
+            ->add('chat',new ConfigChatType())
+            ->add('avi',new ConfigAviType())
         ;
     }
     

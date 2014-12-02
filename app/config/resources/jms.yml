@@ -1,0 +1,13 @@
+# JMS Automatic routing
+jms_i18n_routing:
+    default_locale: fr
+    locales: [en, fr]
+    strategy: prefix_except_default
+    
+# JMS serializer
+jms_serializer:
+    metadata:
+        directories:
+            FOSUB:
+                path: %kernel.root_dir%/Resources/FOSUserBundle/serializer
+                namespace_prefix: 'FOS\UserBundle'

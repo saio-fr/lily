@@ -49,7 +49,7 @@
                   <span>Dashboard</span>
                 </a>
               </li>
-              {% if app.user.enterprise.avi %}
+              {% if app.user.client.config.avi %}
                 {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
               <li>
                 <a href="{{ path('lily_questions') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
@@ -60,7 +60,7 @@
                 {% endif %} 
               {% endif %}
               
-              {% if app.user.enterprise.faq %}
+              {% if app.user.client.config.faq %}
                 {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %} 
               <li>
                 <a href="{{ path('lily_faq') }}" class="{% if app.request.attributes.get('_route') == 'lily_faq' %}active{% endif %}">
@@ -71,7 +71,7 @@
                 {% endif %} 
               {% endif %}
               
-              {% if app.user.enterprise.chat %}
+              {% if app.user.client.config.chat %}
                 {% if is_granted('ROLE_CHAT_OPERATOR') %}
               <li>
                 <a href="{{ path('lily_chat') }}" class="{% if app.request.attributes.get('_route') == 'lily_chat' %}active{% endif %}">

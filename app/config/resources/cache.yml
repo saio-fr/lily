@@ -1,0 +1,28 @@
+aequasi_cache:
+    instances:
+        default:
+          persistent: true # Boolean or persistent_id
+          namespace: mc
+          type: memcached
+          hosts:
+              - { host: 172.16.0.3, port: 11211 }
+    doctrine:
+        enabled: true
+        metadata:
+            instance: default
+            entity_managers:   [ default, client ]
+            document_managers: [ default, client ]
+        result:
+            instance: default
+            entity_managers:   [ default, client ]
+        query:
+            instance: default
+            entity_managers: [ default, client ]
+    session:
+        enabled: true
+        instance: default
+        prefix: "session_"
+        ttl: 7200
+    router:
+        enabled: true
+        instance: default

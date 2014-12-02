@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation AS JMS;
 /**
  * Config
  *
- * @ORM\Table(name="LilyConfig")
+ * @ORM\Table(name="Config")
  * @ORM\Entity
  */
 class Config
@@ -20,188 +20,62 @@ class Config
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="chat", type="boolean")
-     */
-    public $chat;
+    protected $id;
     
     /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("chatQueue")
-     * @ORM\Column(name="chatQueue", type="boolean")
+     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigChat", cascade={"persist", "remove"})
      */
-    public $chatQueue;
+    protected $chat;
     
     /**
-     * @var smalling
-     *
-     * @JMS\SerializedName("chatMax")
-     * @ORM\Column(name="chatMax", type="smallint")
+     * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigAvi", cascade={"persist", "remove"})
      */
-    public $chatMax;
-    
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("chatAutoSetOperator")
-     * @ORM\Column(name="chatAutoSetOperator", type="boolean")
-     */
-    public $chatAutoSetOperator;
-    
-    /**
-     * @var smallint
-     *
-     * @JMS\SerializedName("chatMaxQueue")
-     * @ORM\Column(name="chatMaxQueue", type="smallint")
-     */
-    public $chatMaxQueue;
-    
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("chatContactForm")
-     * @ORM\Column(name="chatContactForm", type="boolean")
-     */
-    public $chatContactForm;
-    
-    /**
-     * @var string
-     *
-     * @JMS\SerializedName("chatContactFormMsg")
-     * @ORM\Column(name="chatContactFormMsg", type="string")
-     */
-    public $chatContactFormMsg;
-    
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("chatContactFirstNameField")
-     * @ORM\Column(name="chatContactFirstNameField", type="boolean")
-     */
-    public $chatContactFirstNameField;
-    
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("chatContactLastNameField")
-     * @ORM\Column(name="chatContactLastNameField", type="boolean")
-     */
-    public $chatContactLastNameField;
-
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("chatContactEmailField")
-     * @ORM\Column(name="chatContactEmailField", type="boolean")
-     */
-    public $chatContactEmailField;  
-    
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("chatContactFormAvoidable")
-     * @ORM\Column(name="chatContactFormAvoidable", type="boolean")
-     */
-    public $chatContactFormAvoidable;       
-    
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="avi", type="boolean")
-     */
-    public $avi;
-    
-    /**
-     * @var string
-     *
-     * @JMS\SerializedName("aviName")
-     * @ORM\Column(name="aviName", type="string")
-     */
-    public $aviName;
-    
-    /**
-     * @var string
-     *
-     * @JMS\SerializedName("aviWelcomeMsg")
-     * @ORM\Column(name="aviWelcomeMsg", type="string")
-     */
-    public $aviWelcomeMsg;
-    
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("aviIfNoOperator")
-     * @ORM\Column(name="aviIfNoOperator", type="boolean")
-     */
-    public $aviIfNoOperator;
-    
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("aviAnimations")
-     * @ORM\Column(name="aviAnimations", type="boolean")
-     */
-    public $aviAnimations;
-
+    protected $avi;  
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="faq", type="boolean")
      */
-    public $faq;
+    protected $faq;
 
     /**
      * @var boolean
      *
-     * @JMS\SerializedName("topQuestions")
-     * @ORM\Column(name="topQuestions", type="boolean")
+     * @ORM\Column(name="topquestions", type="boolean")
      */
-    public $topQuestions;
+    protected $topquestions;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="home", type="string", length=10)
+     */
+    protected $home;   
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="theme", type="string", length=20)
+     */
+    protected $theme; 
+     
+    
     /**
      * @var boolean
      *
      * @ORM\Column(name="maintenance", type="boolean")
      */
-    public $maintenance;
-
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("redirectionChat")
-     * @ORM\Column(name="redirectionChat", type="boolean")
-     */
-    public $redirectionChat;
-
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("redirectionMail")
-     * @ORM\Column(name="redirectionMail", type="boolean")
-     */
-    public $redirectionMail;
-
-    /**
-     * @var boolean
-     *
-     * @JMS\SerializedName("redirectionTel")
-     * @ORM\Column(name="redirectionTel", type="boolean")
-     */
-    public $redirectionTel;
-
-    /**
-     * @var string
-     *
-     * @JMS\SerializedName("home")
-     * @ORM\Column(name="home", type="string", length=10)
-     */
-    public $home;
+    protected $maintenance;
+    
+    public function __construct()
+    {   
+		$this->theme = 'lily';
+		$this->faq = true;
+		$this->topquestions = true;
+		$this->maintenance = false;
+	  }
+   
 
     /**
      * Get id
@@ -211,236 +85,6 @@ class Config
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set chat
-     *
-     * @param boolean $chat
-     * @return Config
-     */
-    public function setChat($chat)
-    {
-        $this->chat = $chat;
-
-        return $this;
-    }
-
-    /**
-     * Get chat
-     *
-     * @return boolean 
-     */
-    public function getChat()
-    {
-        return $this->chat;
-    }
-
-    /**
-     * Set chatQueue
-     *
-     * @param boolean $chatQueue
-     * @return Config
-     */
-    public function setChatQueue($chatQueue)
-    {
-        $this->chatQueue = $chatQueue;
-
-        return $this;
-    }
-
-    /**
-     * Get chatQueue
-     *
-     * @return boolean 
-     */
-    public function getChatQueue()
-    {
-        return $this->chatQueue;
-    }
-
-    /**
-     * Set chatMax
-     *
-     * @param integer $chatMax
-     * @return Config
-     */
-    public function setChatMax($chatMax)
-    {
-        $this->chatMax = $chatMax;
-
-        return $this;
-    }
-
-    /**
-     * Get chatMax
-     *
-     * @return integer 
-     */
-    public function getChatMax()
-    {
-        return $this->chatMax;
-    }
-
-    /**
-     * Set chatAutoSetOperator
-     *
-     * @param boolean $chatAutoSetOperator
-     * @return Config
-     */
-    public function setChatAutoSetOperator($chatAutoSetOperator)
-    {
-        $this->chatAutoSetOperator = $chatAutoSetOperator;
-
-        return $this;
-    }
-
-    /**
-     * Get chatAutoSetOperator
-     *
-     * @return boolean 
-     */
-    public function getChatAutoSetOperator()
-    {
-        return $this->chatAutoSetOperator;
-    }
-
-    /**
-     * Set chatMaxQueue
-     *
-     * @param integer $chatMaxQueue
-     * @return Config
-     */
-    public function setChatMaxQueue($chatMaxQueue)
-    {
-        $this->chatMaxQueue = $chatMaxQueue;
-
-        return $this;
-    }
-
-    /**
-     * Get chatMaxQueue
-     *
-     * @return integer 
-     */
-    public function getChatMaxQueue()
-    {
-        return $this->chatMaxQueue;
-    }
-
-    /**
-     * Set avi
-     *
-     * @param boolean $avi
-     * @return Config
-     */
-    public function setAvi($avi)
-    {
-        $this->avi = $avi;
-
-        return $this;
-    }
-
-    /**
-     * Get avi
-     *
-     * @return boolean 
-     */
-    public function getAvi()
-    {
-        return $this->avi;
-    }
-
-    /**
-     * Set aviName
-     *
-     * @param string $aviName
-     * @return Config
-     */
-    public function setAviName($aviName)
-    {
-        $this->aviName = $aviName;
-
-        return $this;
-    }
-
-    /**
-     * Get aviName
-     *
-     * @return string 
-     */
-    public function getAviName()
-    {
-        return $this->aviName;
-    }
-
-    /**
-     * Set aviWelcomeMsg
-     *
-     * @param string $aviWelcomeMsg
-     * @return Config
-     */
-    public function setAviWelcomeMsg($aviWelcomeMsg)
-    {
-        $this->aviWelcomeMsg = $aviWelcomeMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get aviWelcomeMsg
-     *
-     * @return string 
-     */
-    public function getAviWelcomeMsg()
-    {
-        return $this->aviWelcomeMsg;
-    }
-
-    /**
-     * Set aviIfNoOperator
-     *
-     * @param boolean $aviIfNoOperator
-     * @return Config
-     */
-    public function setAviIfNoOperator($aviIfNoOperator)
-    {
-        $this->aviIfNoOperator = $aviIfNoOperator;
-
-        return $this;
-    }
-
-    /**
-     * Get aviIfNoOperator
-     *
-     * @return boolean 
-     */
-    public function getAviIfNoOperator()
-    {
-        return $this->aviIfNoOperator;
-    }
-
-    /**
-     * Set aviAnimations
-     *
-     * @param boolean $aviAnimations
-     * @return Config
-     */
-    public function setAviAnimations($aviAnimations)
-    {
-        $this->aviAnimations = $aviAnimations;
-
-        return $this;
-    }
-
-    /**
-     * Get aviAnimations
-     *
-     * @return boolean 
-     */
-    public function getAviAnimations()
-    {
-        return $this->aviAnimations;
     }
 
     /**
@@ -467,118 +111,26 @@ class Config
     }
 
     /**
-     * Set topQuestions
+     * Set topquestions
      *
-     * @param boolean $topQuestions
+     * @param boolean $topquestions
      * @return Config
      */
-    public function setTopQuestions($topQuestions)
+    public function setTopquestions($topquestions)
     {
-        $this->topQuestions = $topQuestions;
+        $this->topquestions = $topquestions;
 
         return $this;
     }
 
     /**
-     * Get topQuestions
+     * Get topquestions
      *
      * @return boolean 
      */
-    public function getTopQuestions()
+    public function getTopquestions()
     {
-        return $this->topQuestions;
-    }
-
-    /**
-     * Set maintenance
-     *
-     * @param boolean $maintenance
-     * @return Config
-     */
-    public function setMaintenance($maintenance)
-    {
-        $this->maintenance = $maintenance;
-
-        return $this;
-    }
-
-    /**
-     * Get maintenance
-     *
-     * @return boolean 
-     */
-    public function getMaintenance()
-    {
-        return $this->maintenance;
-    }
-
-    /**
-     * Set redirectionChat
-     *
-     * @param boolean $redirectionChat
-     * @return Config
-     */
-    public function setRedirectionChat($redirectionChat)
-    {
-        $this->redirectionChat = $redirectionChat;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectionChat
-     *
-     * @return boolean 
-     */
-    public function getRedirectionChat()
-    {
-        return $this->redirectionChat;
-    }
-
-    /**
-     * Set redirectionMail
-     *
-     * @param boolean $redirectionMail
-     * @return Config
-     */
-    public function setRedirectionMail($redirectionMail)
-    {
-        $this->redirectionMail = $redirectionMail;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectionMail
-     *
-     * @return boolean 
-     */
-    public function getRedirectionMail()
-    {
-        return $this->redirectionMail;
-    }
-
-    /**
-     * Set redirectionTel
-     *
-     * @param boolean $redirectionTel
-     * @return Config
-     */
-    public function setRedirectionTel($redirectionTel)
-    {
-        $this->redirectionTel = $redirectionTel;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectionTel
-     *
-     * @return boolean 
-     */
-    public function getRedirectionTel()
-    {
-        return $this->redirectionTel;
+        return $this->topquestions;
     }
 
     /**
@@ -605,140 +157,94 @@ class Config
     }
 
     /**
-     * Set chatContactForm
+     * Set theme
      *
-     * @param boolean $chatContactForm
+     * @param string $theme
      * @return Config
      */
-    public function setChatContactForm($chatContactForm)
+    public function setTheme($theme)
     {
-        $this->chatContactForm = $chatContactForm;
+        $this->theme = $theme;
 
         return $this;
     }
 
     /**
-     * Get chatContactForm
-     *
-     * @return boolean 
-     */
-    public function getChatContactForm()
-    {
-        return $this->chatContactForm;
-    }
-
-    /**
-     * Set chatContactFormMsg
-     *
-     * @param string $chatContactFormMsg
-     * @return Config
-     */
-    public function setChatContactFormMsg($chatContactFormMsg)
-    {
-        $this->chatContactFormMsg = $chatContactFormMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactFormMsg
+     * Get theme
      *
      * @return string 
      */
-    public function getChatContactFormMsg()
+    public function getTheme()
     {
-        return $this->chatContactFormMsg;
+        return $this->theme;
     }
 
     /**
-     * Set chatContactFirstNameField
+     * Set maintenance
      *
-     * @param boolean $chatContactFirstNameField
+     * @param boolean $maintenance
      * @return Config
      */
-    public function setChatContactFirstNameField($chatContactFirstNameField)
+    public function setMaintenance($maintenance)
     {
-        $this->chatContactFirstNameField = $chatContactFirstNameField;
+        $this->maintenance = $maintenance;
 
         return $this;
     }
 
     /**
-     * Get chatContactFirstNameField
+     * Get maintenance
      *
      * @return boolean 
      */
-    public function getChatContactFirstNameField()
+    public function getMaintenance()
     {
-        return $this->chatContactFirstNameField;
+        return $this->maintenance;
     }
 
     /**
-     * Set chatContactLastNameField
+     * Set chat
      *
-     * @param boolean $chatContactLastNameField
+     * @param \Lily\BackOfficeBundle\Entity\ConfigChat $chat
      * @return Config
      */
-    public function setChatContactLastNameField($chatContactLastNameField)
+    public function setChat(\Lily\BackOfficeBundle\Entity\ConfigChat $chat = null)
     {
-        $this->chatContactLastNameField = $chatContactLastNameField;
+        $this->chat = $chat;
 
         return $this;
     }
 
     /**
-     * Get chatContactLastNameField
+     * Get chat
      *
-     * @return boolean 
+     * @return \Lily\BackOfficeBundle\Entity\ConfigChat
      */
-    public function getChatContactLastNameField()
+    public function getChat()
     {
-        return $this->chatContactLastNameField;
+        return $this->chat;
     }
 
     /**
-     * Set chatContactEmailField
+     * Set avi
      *
-     * @param boolean $chatContactEmailField
+     * @param \Lily\BackOfficeBundle\Entity\ConfigAvi $avi
      * @return Config
      */
-    public function setChatContactEmailField($chatContactEmailField)
+    public function setAvi(\Lily\BackOfficeBundle\Entity\ConfigAvi $avi = null)
     {
-        $this->chatContactEmailField = $chatContactEmailField;
+        $this->avi = $avi;
 
         return $this;
     }
 
     /**
-     * Get chatContactEmailField
+     * Get avi
      *
-     * @return boolean 
+     * @return \Lily\BackOfficeBundle\Entity\ConfigAvi 
      */
-    public function getChatContactEmailField()
+    public function getAvi()
     {
-        return $this->chatContactEmailField;
-    }
-
-    /**
-     * Set chatContactFormAvoidable
-     *
-     * @param boolean $chatContactFormAvoidable
-     * @return Config
-     */
-    public function setChatContactFormAvoidable($chatContactFormAvoidable)
-    {
-        $this->chatContactFormAvoidable = $chatContactFormAvoidable;
-
-        return $this;
-    }
-
-    /**
-     * Get chatContactFormAvoidable
-     *
-     * @return boolean 
-     */
-    public function getChatContactFormAvoidable()
-    {
-        return $this->chatContactFormAvoidable;
+        return $this->avi;
     }
 }

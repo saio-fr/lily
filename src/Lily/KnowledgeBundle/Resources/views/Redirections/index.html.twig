@@ -106,7 +106,17 @@
 
 {{ parent() }}
 
-{% javascripts 'js/backoffice/redirections.js' output='js/compiled/redirections.js' %}
+{% javascripts 
+
+'js/vendor/jquery.min.js' 
+'js/vendor/bootstrap.js' 
+'js/vendor/bootstrap.js'  
+'js/vendor/underscore.min.js' 
+'js/vendor/backbone.min.js' 
+
+'js/todo.js' 
+
+'js/backoffice/redirections.js' output='js/compiled/redirections.js' %}
 
   <script type="text/javascript" src="{{ asset_url }}"></script>
   

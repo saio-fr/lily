@@ -1,9 +1,9 @@
 lily_api_index:
-    pattern:  /api/{key}
+    pattern:  /api/{licence}
     defaults: { _controller: LilyApiBundle:Api:index }
     
 lily_api_js_index:
-    pattern:  /api/tracking/{key}
+    pattern:  /api/tracking/{licence}
     defaults: { _controller: LilyApiBundle:Api:tracking }    
     
 lily_api_rest:

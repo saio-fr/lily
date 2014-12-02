@@ -8,16 +8,7 @@ parameters:
     database_password: gW74uw?6
 
     # DB Clients
-    database_name: oldlily
-    database_dev: olddev
-    database_cgm: cgm
-    database_saio: saio
-    database_tem: tem
-    database_tsp: tsp
-    database_tbretagne: tbretagne
-    database_tparis: tparis
-    database_parisfr: parisfr
-    database_movinmotion: movinmotion
+    database_name: lilynew
 
     # Mail
     mailer_transport: smtp

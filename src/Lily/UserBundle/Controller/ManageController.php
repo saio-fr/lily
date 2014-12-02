@@ -38,9 +38,10 @@ class ManageController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getUsersAction() {
-        $enterprise = $this->getUser()->getEnterprise();
-        $userList = $enterprise->getUsers();
-        return $userList;
+      
+        $users = $this->getClient()->getUsers();
+        return $users;
+        
     }
 
     /**
@@ -48,10 +49,10 @@ class ManageController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getMaxusersAction() {
-        $enterprise = $this->getUser()->getEnterprise();
-        $data=[];
-        $data['maxusers'] = $enterprise->getMaxusers();
-        return $data;
+      
+        $max = $this->getClient()->getConfig()->getMaxusers();
+        return $max;
+        
     }
 
 
@@ -66,8 +67,8 @@ class ManageController extends BaseController
         $user = $manager->findUserBy(Array('id' => $id));
 
         //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($user === null || $user->getEnterprise() !== $enterprise) {
+        $client = $this->getClient();
+        if($user === null || $user->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
 
@@ -75,14 +76,13 @@ class ManageController extends BaseController
             throw new \Exception("You cannot delete your own account.");
         }
 		
-       $manager->deleteUser($user);
+        $manager->deleteUser($user);
        
     }
 
     /**
      * @Put("/rest/{id}", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
-     * @View(statusCode=204)
      */
     public function editAction($id, Request $request) {
     
@@ -92,11 +92,10 @@ class ManageController extends BaseController
         $user = $manager->findUserBy(Array('id' => $id));
 
         //Security check
-        $enterprise = $this->getUser()->getEnterprise();
-        if($user === null || $user->getEnterprise() !== $enterprise) {
+        $client = $this->getClient();
+        if($user === null || $user->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
-
 
         $form = $this->createForm(new UserType, $user, array('admin'=>true, 'csrf_protection' => false));
         $form->bind($data);
@@ -121,9 +120,9 @@ class ManageController extends BaseController
      */
     public function addAction(Request $request) {
     
-        $enterprise = $this->getEnterprise();
-        $maxusers = $enterprise->getMaxusers();
-        $users = $enterprise->getUsers();
+        $client = $this->getClient();
+        $maxusers = $client->getMaxusers();
+        $users = $client->getUsers();
         
         if(count($users) >= $maxusers)
             throw new \Exception("User limit reached.");
@@ -138,7 +137,7 @@ class ManageController extends BaseController
 
         //Gestion avatar
         $new->setEnabled(true);
-        $new->setEnterprise($enterprise);
+        $new->setClient($client);
         $this->updateAvatar($new);
 
         $manager->updateUser($new);
@@ -175,8 +174,8 @@ class ManageController extends BaseController
             $user = $manager->findUserBy(array('id' => $id));
 
             //Security check
-            $enterprise = $this->getEnterprise();
-            if($user === null || $user->getEnterprise() !== $enterprise) {
+            $client = $this->getClient();
+            if($user === null || $user->getClient() !== $client) {
                 throw $this->createNotFoundException();
             }
             
@@ -211,7 +210,7 @@ class ManageController extends BaseController
 
     // Upload le fichier temporaire lié à l'avatar servant à la prévisualisation
     private function uploadTmpAvatar($user, $avatarFile) {
-        $enterprise = $this->getUser()->getEnterprise();
+        $client = $this->getClient();
 
         if ($avatarFile === null) { // Pas de fichier à uploader
             return;
@@ -220,25 +219,25 @@ class ManageController extends BaseController
         if ($user !== null) { // L'utilisateur existe
 
             $tmpAvatarFileName = $user->getId() . '.' . $avatarFile->guessExtension();
-            $tmpAvatar = User::getTmpUploadDir($enterprise) . $tmpAvatarFileName;
+            $tmpAvatar = User::getTmpUploadDir($client) . $tmpAvatarFileName;
             $user->setTmpAvatar($tmpAvatar);
 			
         } else { // L'utilisateur n'existe pas encore (création d'un compte utilisateur)
 
             $tmpAvatarFileName = 'new-user' . '.' . $avatarFile->guessExtension();
-            $tmpAvatar = User::getTmpUploadDir($enterprise) . $tmpAvatarFileName;
+            $tmpAvatar = User::getTmpUploadDir($client) . $tmpAvatarFileName;
 
         }
 
         // On déplace le fichier envoyé dans le répertoire d'upload temporaire
-        $avatarFile->move(User::getTmpUploadRootDir($enterprise),   // Répertoire de destination
+        $avatarFile->move(User::getTmpUploadRootDir($client),   // Répertoire de destination
                                     $tmpAvatarFileName); // Nom du fichier
 
         return $tmpAvatar;
     }
 
     private function updateAvatar($user) {
-        if(preg_match('#^/customer/' . $user->getEnterprise()->getCname() . '/images/avatars/tmp/[0-9]+\.[a-zA-Z]+$#', $user->getAvatar())) {
+        if(preg_match('#^/customer/' . $this->getClient()->getLicence() . '/images/avatars/tmp/[0-9]+\.[a-zA-Z]+$#', $user->getAvatar())) {
             $urlGenerator = $this->get('templating.helper.assets');
 
 

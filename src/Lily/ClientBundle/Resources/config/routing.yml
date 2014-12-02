@@ -1,0 +1,4 @@
+lily_client_rest:
+    resource: "@LilyClientBundle/Controller/ClientController.php"
+    type:     rest
+    prefix:   /client

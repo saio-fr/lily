@@ -20,7 +20,7 @@ class CreateUserCommand extends BaseCommand
         $this
             ->setName('lily:user:create')
             ->getDefinition()->addArguments(array(
-            	new InputArgument('enterprise', InputArgument::REQUIRED, 'Enterprise'),
+            	new InputArgument('client', InputArgument::REQUIRED, 'Client'),
                 new InputArgument('lastname', InputArgument::REQUIRED, 'Lastname'),
                 new InputArgument('firstname', InputArgument::REQUIRED, 'Firstname')
             ))
@@ -36,7 +36,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-    	$enterprise   = $input->getArgument('enterprise');
+    	$client   = $input->getArgument('client');
         $username   = $input->getArgument('username');
         $email      = $input->getArgument('email');
         $password   = $input->getArgument('password');
@@ -52,7 +52,7 @@ EOT
         $user = $user_manager->createUser();
         $user->setUsername($username);
         $user->setEmail($email);
-        $user->setEnterprise($enterprise);
+        $user->setClient($client);
         $user->setPlainPassword($password);
         $user->setEnabled((Boolean) !$inactive);
         $user->setSuperAdmin((Boolean) $superadmin);
@@ -99,26 +99,26 @@ EOT
             $input->setArgument('firstname', $firstname);
         }
         
-        if (!$input->getArgument('enterprise')) {
-            $enterprise = $this->getHelper('dialog')->askAndValidate(
+        if (!$input->getArgument('client')) {
+            $client = $this->getHelper('dialog')->askAndValidate(
                 $output,
-                'Please choose a enterprise (by cname):',
-                function($enterprise) {
-                    if (empty($enterprise)) {
-                        throw new \Exception('enterprise can not be empty');
+                'Please choose a client (by licence):',
+                function($licence) {
+                    if (empty($licence)) {
+                        throw new \Exception('licence can not be empty');
                     }
                     
                     $em = $this->getContainer()->get('doctrine')->getManager();
-					$enterprise = $em->getRepository('LilyUserBundle:Enterprise')->findOneByCname($enterprise);
+					$client = $em->getRepository('LilyClientBundle:Client')->findOneByLicence($licence);
 			
-					if (!$enterprise) {
-						throw new \Exception('enterprise has not been fund');
+					if (!$client) {
+						throw new \Exception('client has not been fund');
 					}
 
-                    return $enterprise;
+                    return $client;
                 }
             );
-            $input->setArgument('enterprise', $enterprise);
+            $input->setArgument('client', $client);
         }
         
         

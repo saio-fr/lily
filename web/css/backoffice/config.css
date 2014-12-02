@@ -1,5 +1,5 @@
 /* =======================================================================================
-ADMINISTRATION
+CONFIG
 =======================================================================================================*/
 
 #administration-wrapper header h6 {
@@ -92,8 +92,10 @@ h5 {
   position: absolute;
   width: 500px;
   height: 400px;
-  top: calc(50% - 100px) !important;
+  top: calc(50% - 50px) !important;
   left: calc(50% - 250px) !important;
+  z-index: 9999;
+  opacity: 1;
 }
 .switch input:checked + span {
   background-color: #71aee5;

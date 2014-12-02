@@ -19,18 +19,27 @@
 
 {% block content %} 	 	
   <!-- .vbox -->      
-  <section id="administration">     
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>    
+  <section id="wrapper">     
+  
   </section>    
   <!-- /.vbox -->
   {% endblock %} 	
   
   {% block templates %} 		
 	<!-- L'appel des différents scripts de vue -->
-	<script type="text/template" id="parameters">
-        {% include 'LilyBackOfficeBundle:Config:parameters.html.twig' %}
+	<script type="text/template" id="skeletonTpl">
+        {% include 'LilyBackOfficeBundle:Config:skeleton.html.twig' %}
     </script>
-	<script type="text/template" id="modal">
+	<script type="text/template" id="globalTpl">
+        {% include 'LilyBackOfficeBundle:Config:global.html.twig' %}
+    </script>
+	<script type="text/template" id="aviTpl">
+        {% include 'LilyBackOfficeBundle:Config:avi.html.twig' %}
+    </script>
+	<script type="text/template" id="chatTpl">
+        {% include 'LilyBackOfficeBundle:Config:chat.html.twig' %}
+    </script>
+	<script type="text/template" id="modalTpl">
         {% include 'LilyBackOfficeBundle:Config:modal.html.twig' %}
     </script>		 
   {% endblock %}
@@ -38,23 +47,17 @@
 	{% block bootstrap %}
 	    {% autoescape false %}
 	    <script type="text/javascript">
-	        var root = '{{ path('lily_config') }}';
+  	      var config = {};
+  	      config.root = '{{ path('lily_config') }}';
+	        config.client = JSON.parse('{{ client | serialize('json') | raw }}');
 	    </script>
 	    {% endautoescape %}
 	{% endblock %}
 
 </section>
 
-{% endblock %}
-
-{% block javascripts %}
-
-{{ parent() }}
-
-{% javascripts 'js/fuelux/fuelux.js' 'js/backoffice/config.js' output='js/compiled/config.js' %}
-
-  <script type="text/javascript" src="{{ asset_url }}"></script>
-  
-{% endjavascripts %}
+<script src="{{ asset('js/bower_components/requirejs/require.js')}}" 
+        data-main="{{ asset('js/backoffice/config/main.js')}}">
+</script>
 
 {% endblock %}
