@@ -11,7 +11,7 @@ require.config({
     'todoTpl': 'todo',
     'flot': 'charts/flot/jquery.flot.min',
     'validator': '../bundles/fpjsformvalidator/js/fp_js_validator',
-    'app': 'backoffice/redirection/app'
+    'app': 'backoffice/users/app'
   },
   shim: {
     'underscore': {
@@ -43,15 +43,16 @@ require([
   "jquery",
   "underscore",
   "backbone",
+  "app",
   "backoffice/globals",
-  "backoffice/users/router",
+  "backoffice/redirection/views/skeletonView",
 
   // Libraries required at bootstrap for the UI.
   "bootstrap",
   "todoTpl",
   "flot",
   "validator"
-], function( $, _, Backbone, globals, UserRouter ) {
+], function( $, _, Backbone, app, globals, SkeletonView ) {
 
   'use strict';
 
@@ -59,8 +60,6 @@ require([
     options.url = globals.root + options.url;
   });
 
-  var router = new UserRouter();
+  app.skeletonView = new SkeletonView();
 
-  // Start app router
-  Backbone.history.start();
 });

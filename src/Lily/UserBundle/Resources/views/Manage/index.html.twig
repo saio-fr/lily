@@ -53,7 +53,8 @@
   {% block bootstrap %}
     {% autoescape false %}
     <script type="text/javascript">
-        var root = "{{ path('lily_user') }}";
+      var config = {};
+      config.root = "{{ path('lily_user') }}";
     </script>
     {% endautoescape %}
   {% endblock %}
@@ -61,8 +62,8 @@
 
 </section>
 
-<script 
-        src="{{ asset('js/bower_components/requirejs/require.js')}}" 
+<script
+        src="{{ asset('js/bower_components/requirejs/require.js')}}"
         data-main="{{ asset('js/backoffice/users/main.js')}}">
 </script>
 

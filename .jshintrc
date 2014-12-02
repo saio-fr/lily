@@ -2,8 +2,11 @@
     "camelcase": true,
     "curly": true,
     "eqeqeq": true,
-    "es3": false,
-    "forin": false,
+    "undef": true,
+    "unused": "vars",
+    "strict": true,
+    "forin": true,
+
     "immed": true,
     "indent": 2,
     "white": true,
@@ -13,8 +16,7 @@
     "noempty": true,
     "nonew": true,
     "plusplus": false,
-    "undef": true,
-    "unused": "vars",
+
     "strict": true,
     "trailing": true,
 
