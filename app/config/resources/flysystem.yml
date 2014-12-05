@@ -11,3 +11,4 @@ oneup_flysystem:
     filesystems:
         cdn:
             adapter: cdn
+            mount: cdn

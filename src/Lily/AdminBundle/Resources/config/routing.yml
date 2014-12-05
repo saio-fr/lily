@@ -1,3 +1,13 @@
 lily_admin:
     pattern: /
     defaults: { _controller: LilyAdminBundle:Admin:index }
+    
+lily_admin_client_api:
+    resource: "@LilyAdminBundle/Controller/ClientController.php"
+    type:     rest
+    prefix:   /api/client
+        
+lily_admin_user_api:
+    resource: "@LilyAdminBundle/Controller/UserController.php"
+    type:     rest
+    prefix:   /api/user

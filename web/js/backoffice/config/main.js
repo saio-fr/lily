@@ -15,32 +15,32 @@ require.config({
       exports: '_'
     },
     'backbone': {
-      deps: ["underscore", "jquery"],
+      deps: ['underscore', 'jquery'],
       exports: 'Backbone'
     },
     'backbone-nested': {
-      deps: ["backbone"],
-      exports: ["Backbone.NestedModel"]
+      deps: ['backbone'],
+      exports: ['Backbone.NestedModel']
     },
-    "bootstrap" : {
-      "deps": ['jquery']
+    'bootstrap' : {
+      deps: ['jquery']
     },
-    "todoTpl" : {
-      "deps": ['jquery', 'bootstrap']
+    'todoTpl' : {
+      deps: ['jquery', 'bootstrap']
     }
   }
 });
 
 require([
-  "jquery",
-  "underscore",
-  "backbone",
-  "backoffice/config/router",
-  "globals",
+  'jquery',
+  'underscore',
+  'backbone',
+  'backoffice/config/router',
+  'globals',
 
   // Libraries required at bootstrap for the UI.
-  "bootstrap",
-  "todoTpl"
+  'bootstrap',
+  'todoTpl'
 ], function( $, _, Backbone, ConfigRouter, globals ) {
 
   'use strict';

@@ -37,7 +37,7 @@ class RedirectionsController extends BaseController
     }
     
 	/**
-     * @Get("/rest")
+     * @Get("/")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -53,7 +53,7 @@ class RedirectionsController extends BaseController
     }
     
     /**
-     * @Get("/rest/{id}")
+     * @Get("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -73,7 +73,7 @@ class RedirectionsController extends BaseController
     }
     
     /**
-     * @Post("/rest")
+     * @Post("/")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction(Request $request)
@@ -98,7 +98,7 @@ class RedirectionsController extends BaseController
     }    
     
     /**
-     * @Put("/rest/{id}")
+     * @Put("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction($id, Request $request)
@@ -123,7 +123,7 @@ class RedirectionsController extends BaseController
     } 
     
     /**
-     * @Delete("/rest/{id}")
+     * @Delete("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */

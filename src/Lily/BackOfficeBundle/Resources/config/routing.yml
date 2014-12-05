@@ -6,19 +6,19 @@ lily_statistics:
     pattern:  /statistics
     defaults: { _controller: LilyBackOfficeBundle:Statistics:index }
     
-lily_statistiques_rest:
+lily_statistiques_api:
     resource: "@LilyBackOfficeBundle/Controller/StatisticsController.php"
     type:     rest
-    prefix:   /statistics
+    prefix:   /api/statistics
 
 lily_config:
     pattern:  /config
     defaults: { _controller: LilyBackOfficeBundle:Config:index }
     
-lily_config_rest:
+lily_config_api:
     resource: "@LilyBackOfficeBundle/Controller/ConfigController.php"
     type:     rest
-    prefix:   /config
+    prefix:   /api/config
     
 # lily_personnalisation:
 #     pattern:  /personnalisation

@@ -1,0 +1,16 @@
+vich_uploader:
+    db_driver: orm
+    
+    flysystem: true
+    storage:   vich_uploader.storage.flysystem
+
+    mappings:
+        user_avatar:
+            uri_prefix:         /users/avatar
+            upload_destination: cdn
+            namer:              vich_uploader.namer_uniqid
+            directory_namer:    uploader.directory.namer
+            
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true

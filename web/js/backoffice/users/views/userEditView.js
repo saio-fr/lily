@@ -10,163 +10,102 @@ define(function (require) {
   var Backbone = require('backbone'),
       _ = require('underscore'),
       app = require('app'),
-      utils = require('backoffice/utils'),
+      g = require('globals'),
+      utils = require('utils/dropzone'),
 
       // Object wrapper returned as a module
       UserEditView;
 
   UserEditView = Backbone.View.extend({
 
-    el: '#user-detail',
-    template: _.template(
-      $('#userEdit')
-      .html()
-      .replace(/<\\\/script/g, '</script')
-    ),
+    className: 'vbox',
+    template: _.template($('#editTpl').html()),
 
     events: {
       'click .button-update': 'update',
-      'click .button-cancel': 'cancel',
-      'keyup input': 'checkIfValid',
-      'submit #user-editor': 'noSubmit'
+      'click .button-cancel': 'close',
+      'submit': 'noSubmit'
     },
 
-    initialize: function (model) {
-      var self = this;
-
-      app.on('userView:closeEditView', _.bind(this.remove, this));
-      this.model = model;
-      this.listenTo(this.model, 'destroy', this.remove);
+    initialize: function () {      
+      this.listenTo(this.model, 'destroy', this.close);
       this.render();
-      this.widget = this.$el.find('#avatarWidget');
-
-      this.widget.load(function() {
-
-        self.widget.contents().find('input').change(function() {
-          self.changeAvatar();
-        });
-      });
+      
+      // Call in utils/dropone the avatar function to do image preview
+      this.dropzone = utils.avatar(this.$el.find('#avatar-widget'), this.model);
+      // HACK: trigger clicks events on roles
+      this.setFormRoles();
     },
 
     render: function () {
-
-      if( $(document).find(this.$el).length === 0 ) {
-        // parent view has been rebuild, we have to update our $el
-        this.$el = $(this.__proto__.el);
-        this.delegateEvents();
-      }
-
-      app.userManagementView.editedUserId = this.model.id;
-
-      this.$el.removeClass('hide');
       this.$el.html(this.template(this.model.toJSON()));
+      this.$el.appendTo('.user-edit');
+      $('.user-edit').removeClass('hide');
+      
+      return this;
+    },
 
-      $('iframe#avatarWidget').load(function () {
-        $('.loader').hide();
+    update: function () { 
+      
+      var that = this;       
+      
+      this.model.set({'lastname': $('input[name="lastname"]').val()});
+      this.model.set({'firstname': $('input[name="firstname"]').val()});
+      this.model.set({'email': $('input[name="email"]').val()});
+      this.model.set({'username': $('input[name="username"]').val()});
+      this.model.set({'country': $('input[name="country"]').val()});
+      this.model.set({'post': $('input[name="post"]').val()});
+      this.model.set({'phone': $('input[name="phone"]').val()});
+      this.model.set({'roles': this.getFormRoles()});
+      
+      this.model.set('plainPassword', {
+        'first': $('input[name="first"]').val(),
+        'second': $('input[name="second"]').val()
       });
-
-      return this;
-    },
-
-    changeAvatar: function () {
-      this.widget.contents().find('#avatarWidgetForm').submit();
-    },
-
-    // TODO: Look into a better way to do that kind of data binding... OR/AND
-    // Break into multiple subFunctions
-    update: function (e) {
-
-      if (this.model && this.model.get('id') === undefined) {
-        $('#user-editor').jsFormValidator('validate', { recursive:true });
-      }
-
-      if( $('#user-editor')[0].jsFormValidator.isValid() ) {
-
-        // Dirty Selectors for form inputs
-        var classicInputs = $('#user-editor input:not([type="checkbox"]):not([type="password"]):not([name="avatar"]'),
-            multipleChoicesInputs = $('#user-editor .dropdownSelect'),
-            passwordInputFirst = $('#lily_userbundle_user_plainPassword_first'),
-            passwordInputSecond = $('#lily_userbundle_user_plainPassword_second'),
-            avatarUrl;
-
-        // Fill model with values from classic inputs
-        for ( var i = 0; i < classicInputs.length; i++ ) {
-          this.model.set(classicInputs.eq(i).attr('name'), classicInputs.eq(i).val());
-        }
-
-        // Fill model with values from multiple choice inputs
-        for ( var j = 0; i < multipleChoicesInputs.length; j++ ) {
-
-          var multipleValues = [],
-              multipleChoices = multipleChoicesInputs.eq(i).find(':checked');
-
-          for ( var k = 0; j < multipleChoices.length; k++ ) {
-            multipleValues.push(multipleChoices.eq(j).attr('name'));
-          }
-
-          this.model.set(multipleChoicesInputs.eq(i).data('name'), multipleValues);
-        }
-
-        // Fill model with avatar url
-        avatarUrl = $('iframe#avatarWidget')
-        .contents()
-        .find('input#lily_userbundle_user_avatar')
-        .val(); // au format url("url") ou url("data:@@;")
-
-        this.model.set('avatar', avatarUrl);
-
-        // Same with password
-        this.model.set('plainPassword', {
-          'first': passwordInputFirst.val(),
-          'second': passwordInputSecond.val()
-        });
-
-        if ( this.model.get('id') === undefined ) {
-          // Listener in userCollectionView
-          app.trigger("userEditView:create", this.model);
-
-        } else {
-          this.model.url = "/rest/"+this.model.get('id');
-          this.model.save();
-        }
-
-        this.model.trigger('render');
-
-        $('#user-list .active').removeClass('active');
-        this.remove();
-
-      }
-
-      return this;
-    },
-
-    cancel: function () {
-      $('#user-list .active').removeClass('active');
-      this.remove();
-    },
-
-    noSubmit: function (e) {
-
-      e.preventDefault();
-      return this;
-    },
-
-    checkIfValid: function (e) {
-
-      e.target.jsFormValidator.validate();
-      return this;
-    },
-
-    remove: function () {
-      app.userManagementView.editedUserId = null;
-      this.$el.addClass('hide');
+      this.model.save().success(function() {
+        // Delay the avatar sending in order to be sure User Entity is first persisted
+        that.dropzone.processQueue();
+      });
       this.close();
     },
-
+    
+    // Get roles and convert to save model
+    getFormRoles: function () {
+      var roles = [];
+      $('.btn-roles li.active a').each(function() {
+        if ($(this).attr('name') == 'admin') roles.push('ROLE_ADMIN');
+        else {
+          if ($(this).attr('name') == 'chat') roles.push('ROLE_CHAT_OPERATOR');
+          if ($(this).attr('name') == 'knowledge') roles.push('ROLE_KNOWLEDGE_OPERATOR');
+        }
+      });
+      return roles;
+    },
+    // TODO: Not ideal solution, clean it later ?
+    setFormRoles: function () {
+      var roles = this.model.get('roles');
+      if (roles.indexOf('ROLE_ADMIN') !== -1) {
+        this.$el.find('a[name="admin"]').click();
+      } else {  
+        if (roles.indexOf('ROLE_CHAT_OPERATOR') !== -1) {
+          this.$el.find('a[name="chat"]').click();
+        }      
+        if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
+          this.$el.find('a[name="knowledge"]').click();
+        }
+      }
+    },
+    
+    noSubmit: function (e) {
+      e.preventDefault();
+    },
+    
     close: function () {
-      app.off('userView:closeEditView', _.bind(this.remove, this));
-      utils.closeModelView(this);
+      $('.list-group-item .active').removeClass('active');
+      $('.user-edit').addClass('hide');
+      this.remove();
     }
+    
   });
 
   return UserEditView;

@@ -28,7 +28,7 @@ class UnansweredQuestionsController extends BaseController
 {
     
 	/**
-     * @Get("/get")
+     * @Get("/")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getQuestionsAction()
@@ -44,7 +44,7 @@ class UnansweredQuestionsController extends BaseController
     }
     
     /**
-     * @Get("/get/{id}")
+     * @Get("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getAction($id)
@@ -64,7 +64,7 @@ class UnansweredQuestionsController extends BaseController
     }
         
     /**
-     * @Delete("/delete/{id}")
+     * @Delete("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */

@@ -11,17 +11,13 @@ define(function (require) {
       UserModel = require('backoffice/users/models/userModel'),
 
       // Object wrapper returned as a module
-      UsersCollection;
+      UserCollection;
 
-  UsersCollection = Backbone.Collection.extend({
+  UserCollection = Backbone.Collection.extend({
 
     model : UserModel,
     sortCriteria : "lastname",
-    url: '/rest/',
-
-    initialize: function () {
-      this.fetch();
-    },
+    url: '/',
 
     comparator: function(item) {
 
@@ -75,5 +71,5 @@ define(function (require) {
     },
   });
 
-  return UsersCollection;
+  return UserCollection;
 });

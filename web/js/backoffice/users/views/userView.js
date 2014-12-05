@@ -10,7 +10,7 @@ define(function (require) {
   var Backbone = require('backbone'),
       _ = require('underscore'),
       app = require('app'),
-      utils = require('backoffice/utils'),
+      g = require('globals'),
       ModalDeleteView = require('backoffice/users/views/modalDeleteView'),
       UserEditView = require('backoffice/users/views/userEditView'),
 
@@ -21,42 +21,32 @@ define(function (require) {
 
     tagName:  "li",
     className: "list-group-item hover",
-    template: _.template($('#user').html()),
+    template: _.template($('#userTpl').html()),
 
     events: {
       'click .destroy': 'destroy',
       'click .view'   : 'edit'
     },
-
-    setModel:function (model) {
-
-      if ( this.model !== model ) {
-        // Relevant User model passed when the
-        // view gets instanciated.
-        this.model = model;
-        this.listenTo(this.model, 'select', this.select);
-        this.listenTo(this.model, 'render', this.render);
-        this.render();
-      }
-
-      return this;
+    
+    initialize: function () {
+      this.listenTo(this.model, 'change', this.render);
+      this.render();    
     },
 
     render: function () {
-      this.$el.html(this.template(this.model.toJSONWithComputedValues()));
+      this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
 
     destroy: function (e) {
 
       e.stopPropagation();
+      app.skeleton.modalView.show();
 
-      var modal = new ModalDeleteView(),
-          that = this;
+      that = this;
 
       $('.modal-close-confirm').click( function() {
 
-        that.model.url = "/rest/" + that.model.id;
         that.model.destroy();
         that.remove();
 
@@ -69,18 +59,17 @@ define(function (require) {
       e.stopPropagation();
 
       app.trigger('userView:closeEditView', this);
-
-      // var id = $(e.currentTarget).parent().data("id"),
-      var editView = new UserEditView(this.model);
+      
+      if (app.skeleton.editView !== undefined) {
+        app.skeleton.editView.remove();
+      }
+      app.skeleton.editView = new UserEditView({model: this.model});
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');
       return this;
-    },
-
-    close: function () {
-      utils.closeModelView(this);
     }
+    
   });
 
   return UserView;

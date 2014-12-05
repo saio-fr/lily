@@ -11,9 +11,8 @@ define(function (require) {
       Backbone = require('backbone'),
       app = require('app'),
       UserCollection = require('backoffice/users/collections/userCollection'),
-      UserManagementModel = require('backoffice/users/models/userManagementModel'),
-      UserManagementView = require('backoffice/users/views/userManagementView'),
-      UserCollectionView = require('backoffice/users/views/userCollectionView'),
+      UsersView = require('backoffice/users/views/usersView'),
+      SkeletonView = require('backoffice/users/views/skeletonView'),
 
       // Object wrapper returned as a module
       AppRouter;
@@ -26,30 +25,17 @@ define(function (require) {
     },
 
     initialize: function () {
+      
+      var userCollection = new UserCollection();
+          
+      userCollection.fetch().success(function() {
 
-      var userCollection = new UserCollection(),
-          userCollectionView = {},
-          userManagementModel = new UserManagementModel();
-
-      // Store managementView in global namespace.
-      app.userManagementView = {};
-
-
-      function initViews () {
-        userCollection.fetch().success(function() {
-          app.userManagementView  = new UserManagementView({
-            model: userManagementModel,
-            collection: userCollection
-          });
-          userCollectionView = new UserCollectionView(userCollection);
-        });
-      }
-
-      // Get max users allowed
-      userManagementModel.fetch({
-        // Bootstrap users list and fetch existing users.
-        success: initViews
+        var skeleton = new SkeletonView({collection: userCollection});
+        app.skeleton  = skeleton;
+        skeleton.usersView = new UsersView({collection: userCollection});
+        
       });
+   
     },
 
     home: function() {

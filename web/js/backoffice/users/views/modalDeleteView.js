@@ -18,7 +18,7 @@ define(function (require) {
 
     id: 'delete',
     className: 'modal fade',
-    template: _.template( $('#modal-delete').html()),
+    template: _.template( $('#modalTpl').html()),
 
     initialize: function() {
       this.render();

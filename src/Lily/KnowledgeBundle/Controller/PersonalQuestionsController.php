@@ -32,7 +32,7 @@ class PersonalQuestionsController extends BaseController
 {
     
 	/**
-     * @Get("/get")
+     * @Get("/")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getQuestionsAction()
@@ -47,7 +47,7 @@ class PersonalQuestionsController extends BaseController
     }
     
     /**
-     * @Get("/get/{id}")
+     * @Get("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getAction($id)
@@ -66,7 +66,7 @@ class PersonalQuestionsController extends BaseController
     }
     
     /**
-     * @Post("/create")
+     * @Post("/")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction(Request $request)
@@ -107,7 +107,7 @@ class PersonalQuestionsController extends BaseController
     }    
     
     /**
-     * @Put("/update/{id}")
+     * @Put("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -151,7 +151,7 @@ class PersonalQuestionsController extends BaseController
     } 
     
     /**
-     * @Delete("/delete/{id}")
+     * @Delete("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */

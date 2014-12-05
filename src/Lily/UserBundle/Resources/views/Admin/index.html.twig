@@ -1,0 +1,64 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+{% stylesheets 'css/backoffice/users.css' filter='cssrewrite' output='css/compiled/users.css' %}
+
+	<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+
+{% endstylesheets %}
+{% endblock %}
+
+
+{% block body %}
+
+<section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+
+	{% block content %}
+    <!-- .vbox -->
+    <section id="wrapper" class="vbox scrollable padder-b">
+    </section>
+	{% endblock %}
+
+
+    {% block templates %}
+    {% autoescape false %}
+
+    <!-- include of templates -->
+    <script type="text/template" id="userTpl">
+	  {% include 'LilyUserBundle:Admin:Users/user.html.twig' %}
+    </script>
+    <script type="text/template" id="editTpl">
+    {% include 'LilyUserBundle:Admin:Users/edit.html.twig' %}
+    </script>
+    <script type="text/template" id="skeletonTpl">
+	  {% include 'LilyUserBundle:Admin:Users/skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="modalTpl">
+	  {% include 'LilyUserBundle:Admin:Users/modal.html.twig' %}
+    </script>
+
+  {% endautoescape %}
+  {% endblock %}
+
+  {% block bootstrap %}
+    {% autoescape false %}
+    <script type="text/javascript">
+      var config = {};
+      config.root = '{{ path('get_admin_users') }}';
+      config.licence = '{{ app.user.client.licence }}';
+      config.maxusers = '{{ app.user.client.config.maxusers }}';
+    </script>
+    {% endautoescape %}
+  {% endblock %}
+
+</section>
+
+<script src="{{ asset('js/bower_components/requirejs/require.js')}}" 
+        data-main="{{ asset('js/backoffice/users/main.js')}}">
+</script>
+
+{% endblock %}

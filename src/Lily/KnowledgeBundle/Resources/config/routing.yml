@@ -10,37 +10,37 @@ lily_redirections:
     pattern:  /redirections
     defaults: { _controller: LilyKnowledgeBundle:Redirections:index }   
 
-lily_categories_rest:
+lily_categories_api:
     resource: "@LilyKnowledgeBundle/Controller/CategoriesController.php"
     type:     rest
-    prefix:   /questions/categories
+    prefix:   /api/questions/categories
     
-lily_tags_rest:
+lily_tags_api:
     resource: "@LilyKnowledgeBundle/Controller/TagsController.php"
     type:     rest
-    prefix:   /questions/tags
+    prefix:   /api/questions/tags
     
-lily_faq_rest:
+lily_faq_api:
     resource: "@LilyKnowledgeBundle/Controller/FaqController.php"
     type:     rest
-    prefix:   /faq
+    prefix:   /api/faq
     
-lily_questions_rest:
+lily_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/QuestionsController.php"
     type:     rest
-    prefix:   /questions 
+    prefix:   /api/questions 
     
-lily_redirections_rest:
+lily_redirections_api:
     resource: "@LilyKnowledgeBundle/Controller/RedirectionsController.php"
     type:     rest
-    prefix:   /redirections 
+    prefix:   /api/redirections 
 
-lily_unsanswered_questions_rest:
+lily_unsanswered_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/UnansweredQuestionsController.php"
     type:     rest
-    prefix:   /questions/unanswered 
+    prefix:   /api/questions/unanswered 
 
-lily_personal_questions_rest:
+lily_personal_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/PersonalQuestionsController.php"
     type:     rest
-    prefix:   /questions/personal
+    prefix:   /api/questions/personal

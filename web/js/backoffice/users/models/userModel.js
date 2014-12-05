@@ -8,75 +8,65 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
+      NestedModel = require('backbone-nested'),
+      moment = require('moment'),
+      g = require('globals'),
 
       // Object wrapper returned as a module
       UserModel;
 
 
-  UserModel = Backbone.Model.extend({
+  UserModel = Backbone.NestedModel.extend({
 
-    url: '/rest',
+    id: '',
+    url: function() {
+        return this.id;
+    },
+    
+    initialize: function () {
+      this.convertRoles();
+      this.convertLastlogin();
+      this.convertAvatar();
+    },
 
-    getRolesHuman: function () {
+    convertRoles: function () {
 
-      var roles = this.get('roles'),
-          roleHuman = "";
-
-      if ( typeof(roles) === "undefined" ) {
-        return "";
-      }
-
-      if ( roles.indexOf('ROLE_ADMIN') !== -1 ) {
-        roleHuman = "Administrateur";
-
-      } else {
-        if ( roles.indexOf('ROLE_CHAT_OPERATOR') !== -1 ) {
-          roleHuman += "Opérateur Live chat";
-        }
+      var roles = this.get('roles');
+      
+      if ( roles.indexOf('ROLE_ADMIN') !== -1 ) this.convertedRoles = "Administrateur";
+      else {
+        if ( roles.indexOf('ROLE_CHAT_OPERATOR') !== -1 ) this.convertedRoles = "Opérateur Live chat";
         if ( roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1 ) {
-          roleHuman += (roleHuman === "") ? "Opérateur " : " et ";
-          roleHuman += "Base de connaissance";
+          this.convertedRoles += (this.convertedRoles == '') ? "Opérateur " : " et ";
+          this.convertedRoles += "Base de connaissance";
         }
       }
+      
+      this.set({'converted_roles': this.convertedRoles});
 
-      return roleHuman;
     },
 
-    getLastLoginHuman: function () {
+    convertLastlogin: function () {
 
-      var lastLogin = this.get('last_login'),
-          lastLoginDay,
-          lastLoginMonth,
-          lastLoginYear,
-          d;
+      var lastLogin = this.get('last_login');
 
-      if (typeof(lastLogin) !== "undefined" &&
-        lastLogin !== null &&
-        lastLogin.toUpperCase() !== 'NULL') {
+      if ( lastLogin !== null && lastLogin.toUpperCase() !== 'NULL') {
 
-        d = new Date(lastLogin);
+        var d = moment(lastLogin);
+        this.convertedLastlogin = "Dernière connexion le " + d.format('DD/MM/YY');
 
-        lastLoginDay = (d.getDate() < 10 ? '0' : '') + d.getDate();
-        lastLoginMonth = (d.getMonth() < 9 ? '0' : '') + (d.getMonth()+1);
-        lastLoginYear = (d.getYear() - 100);
-
-        return "Dernière connexion le " + lastLoginDay + '/' + lastLoginMonth + '/' + lastLoginYear;
-
-      } else {
-        return "Jamais connecté";
-      }
+      } else this.convertedLastlogin = "Jamais connecté";
+      
+      this.set({'converted_last_login': this.convertedLastlogin});
     },
+    
+    convertAvatar: function () {
+      
+      var avatar = g.path.avatars + this.get('config').avatar;
+      this.set({'converted_avatar': avatar});
+      
+    }
 
-    toJSONWithComputedValues: function () {
-
-      var data = this.toJSON();
-
-      // todo: replace with camelCase notation in both this file and template
-      data.last_login_human=this.getLastLoginHuman();
-      data.roles_human=this.getRolesHuman();
-
-      return data;
-    },
   });
 
   return UserModel;
