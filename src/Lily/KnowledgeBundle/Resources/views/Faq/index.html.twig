@@ -1,13 +1,13 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block stylesheets %} 	   
+{% block stylesheets %}
 
-{{ parent() }} 	   
+{{ parent() }}
 
-{% stylesheets 'css/backoffice/faq.css' 'css/vendor/wysihtml5.css' filter='cssrewrite' output='css/compiled/faq.css' %}      
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+{% stylesheets 'css/backoffice/faq.css' 'css/vendor/wysihtml5.css' filter='cssrewrite' output='css/compiled/faq.css' %}
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
-{% endstylesheets %} 
+{% endstylesheets %}
 
 {% endblock %}
 
@@ -17,129 +17,85 @@
 
 {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
-    {% block content %}
+  {% block content %}
     <!-- .vbox -->
-    <section id="faq">
-      <section class="hbox stretch">
-      <!-- .aside -->
-      <!--
-        <aside class="aside aside-md bg-dark">
-          <section class="vbox">
-            <header class="dk header">
-              <button class="btn btn-icon btn-default btn-sm pull-right visible-xs m-r-xs" data-toggle="class:show" data-target="#faq-nav"><i class="icon-reorder"></i></button>
-              <p class="h4">FAQ</p>
-            </header>
-            <section>
-              <section>
-                <section id="faq-nav" class="hidden-xs">
-                  <ul class="nav nav-pills nav-stacked no-radius">
-                    <li class="active">
-                      <a href="#"> 
-                        <i class="icon-book"></i>
-                        Recherche thématique
-                      </a>
-                    </li>
-                   <li>
-                      <a href="#"> 
-                        <i class="icon-download-alt"></i>
-                        Importer
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                      	<span class="badge bg-danger pull-right">721</span> 
-                        <i class="icon-share"></i>
-                        Exporter
-                      </a>
-                    </li>
-                  </ul>
-                </section>
-              </section>
-            </section>         
-          </section>
-        </aside>
-        -->
-        <!-- /.aside -->
-        <aside class="bg-light lter">
+  <section id="faq">
+    <section class="hbox stretch">
+
+      <aside class="bg-light lter">
 	      <section id="faqs" class="vbox scrollable padder-b">
-	        <header class="bg-light dker header clearfix padder-t b-b">
-	          <ul class="breadcrumb m-n">
-              </ul>
-            </header>
-            <section class="bg-light lter">
-              <section class="hbox stretch">          
-                <!-- .aside -->
-                <aside>
-                  <section class="vbox">
-                    <section class="scrollable wrapper">
-                      <!-- faq list -->
-                      <ul id="faq-list" class="list-group list-group-sp sortable"></ul>
-                      <a class="btn btn-sm btn-white new-content faq-content pull-right-lg"><i class="icon-plus pull-left"></i>Ajouter un contenu</a>
-					  <a class="btn btn-sm btn-white new-category pull-right-lg m-l-sm"><i class="icon-plus pull-left"></i>Ajouter une catégorie</a>
-                    </section>
+	        <header id="breadcrumbs" class="bg-light dker header clearfix padder-t b-b">
+            <!-- Here go the breadcrumb items
+              will render as a <ul class="breadcrumb m-n">
+            -->
+          </header>
+
+          <section class="bg-light lter">
+            <section class="hbox stretch">
+
+              <aside>
+                <section class="vbox">
+                  <section class="scrollable wrapper" id="faq-list">
+                      <!-- Here go the faq items -->
+
+                    <a class="btn btn-sm btn-white new-content faq-content pull-right-lg">
+                      <i class="icon-plus pull-left"></i>
+                      Ajouter un contenu
+                    </a>
+                    <a class="btn btn-sm btn-white new-category pull-right-lg m-l-sm">
+                      <i class="icon-plus pull-left"></i>
+                      Ajouter une catégorie
+                    </a>
                   </section>
-                </aside>
-                <!-- /.aside -->
-                <aside id="faq-detail" class="aside-faq bg-light lter b-l hide">
-        				  <!-- Affichage du panneau de modification-->
-                </aside>
-              </section>
+                </section>
+              </aside>
+              <!-- /.aside -->
+              <aside id="faq-detail" class="aside-faq bg-light lter b-l hide">
+				  <!-- Affichage du panneau de modification-->
+              </aside>
             </section>
-	      </section>
-        </aside>
-        <!-- /.aside --> 
+          </section>
+      </section>
+      </aside>
+        <!-- /.aside -->
       </section>
     </section>
-	{% endblock %}
-
-  </section>
-
-	{% block templates %}
-		<!-- L'appel des différents scripts de vue -->
- 		<script type="text/template" id="category">
-            {% include 'LilyKnowledgeBundle:Faq:category.html.twig' %}
-        </script>
-        <script type="text/template" id="content">
-            {% include 'LilyKnowledgeBundle:Faq:content.html.twig' %}
-        </script>
-        <script type="text/template" id="contentEdit">
-            {% include 'LilyKnowledgeBundle:Faq:content_edit.html.twig' %}
-        </script>
-        <script type="text/template" id="breadcrumbView">
-            {% include 'LilyKnowledgeBundle:Faq:breadcrumb.html.twig' %}
-        </script>
-    {% endblock %}
-
-  {% block bootstrap %}
-    {% autoescape false %}
-    <script type="text/javascript">
-        var root = '{{ path('lily_faq') }}';
-        {% if entreprise is defined %}
-        var entreprise = {{ entreprise | serialize | raw }};
-        {% endif %}
-    </script>
-    {% endautoescape %}
   {% endblock %}
+
+</section>
+
+{% block templates %}
+
+	<!-- L'appel des différents scripts de vue -->
+	<script type="text/template" id="category">
+        {% include 'LilyKnowledgeBundle:Faq:category.html.twig' %}
+  </script>
+  <script type="text/template" id="content">
+      {% include 'LilyKnowledgeBundle:Faq:content.html.twig' %}
+  </script>
+  <script type="text/template" id="contentEdit">
+      {% include 'LilyKnowledgeBundle:Faq:content_edit.html.twig' %}
+  </script>
+  <script type="text/template" id="breadcrumbView">
+      {% include 'LilyKnowledgeBundle:Faq:breadcrumb.html.twig' %}
+  </script>
 
 {% endblock %}
 
-{% block javascripts %}
+{% block bootstrap %}
+  {% autoescape false %}
 
-{{ parent() }}
+  <script type="text/javascript">
+    var config = {};
+    config.root = '{{ path('lily_faq') }}';
+  </script>
 
-{% javascripts 
+  {% endautoescape %}
+{% endblock %}
 
-'js/vendor/jquery.min.js' 
-'js/vendor/bootstrap.js' 
-'js/vendor/bootstrap.js'  
-'js/vendor/underscore.min.js' 
-'js/vendor/backbone.min.js' 
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/faq/main.js')}}">
+</script>
 
-'js/todo.js' 
-
-'js/sortable/jquery.sortable.js' 'js/wysiwyg/wysihtml5.js' 'js/wysiwyg/bootstrap-wysihtml5.js' 'js/backoffice/faq.js' %}
-
-  <script type="text/javascript" src="{{ asset_url }}"></script>
-  
-{% endjavascripts %}
 {% endblock %}

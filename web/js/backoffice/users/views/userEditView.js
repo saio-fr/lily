@@ -7,7 +7,9 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app'),
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      app = require('app'),
       utils = require('utils/default'),
       validation = require('utils/backbone-validation'),
 
@@ -31,15 +33,15 @@ define(function (require) {
       }
     },
 
-    initialize: function () { 
-      
+    initialize: function () {
+
       Backbone.Validation.bind(this);
-      
+
       app.on('closeEditView', _.bind(this.close, this));
       this.listenTo(this.model, 'destroy', this.close);
-      
+
       this.render();
-      
+
       // HACK: trigger clicks events on roles
       this.setFormRoles();
     },
@@ -49,18 +51,19 @@ define(function (require) {
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('.user-edit');
       $('.user-edit').removeClass('hide');
-      
+
       return this;
     },
 
-    update: function () { 
+    update: function () {
       var that = this;
       var data = utils.serializeObject(this.$el.find('form'));
 
       data.roles = this.getFormRoles();
       this.model.set(data);
-      
+
       if(this.model.isValid(true)){
+
         app.skeleton.collection.create(this.model, {
           wait: true,
           success: function (model) {
@@ -68,8 +71,10 @@ define(function (require) {
             utils.uploadAvatar(model, avatar);
             that.close();
           },
+
           error: function (model, response) {
-            var response = JSON.parse(response.responseText);
+            response = JSON.parse(response.responseText);
+
             if (response.errors.children.username.errors) {
               $('input[name="username"]')
                 .closest('.form-group')
@@ -78,19 +83,20 @@ define(function (require) {
                 .html(response.errors.children.username.errors)
                 .removeClass('hidden');
             }
+
             if (response.errors.children.email.errors) {
               $('input[name="email"]')
                 .closest('.form-group')
                 .addClass('has-error has-feedback')
                 .find('.help-block')
                 .html(response.errors.children.email.errors)
-                .removeClass('hidden');    
+                .removeClass('hidden');
             }
           }
         });
       }
     },
-    
+
     // Get roles and convert to save model
     getFormRoles: function () {
       var roles = [];
@@ -108,27 +114,27 @@ define(function (require) {
       var roles = this.model.get('roles');
       if (roles.indexOf('ROLE_ADMIN') !== -1) {
         this.$el.find('a[name="admin"]').click();
-      } else {  
+      } else {
         if (roles.indexOf('ROLE_CHAT_OPERATOR') !== -1) {
           this.$el.find('a[name="chat"]').click();
-        }      
+        }
         if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
           this.$el.find('a[name="knowledge"]').click();
         }
       }
     },
-    
+
     noSubmit: function (e) {
       e.preventDefault();
     },
-    
+
     close: function () {
       $('.list-group-item.active').removeClass('active');
       $('.user-edit').addClass('hide');
       Backbone.Validation.unbind(this);
       this.remove();
     }
-    
+
   });
 
   return UserEditView;

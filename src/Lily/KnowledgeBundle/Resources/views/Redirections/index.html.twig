@@ -1,14 +1,15 @@
-{% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
 {% block stylesheets %}
 
-{{ parent() }}
+  {{ parent() }}
 
-{% stylesheets 'css/backoffice/redirection.css' filter='cssrewrite'  output='css/compiled/redirections.css' %}
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-
-{% endstylesheets %}
+  {% stylesheets 'css/backoffice/redirection.css'
+     filter='cssrewrite'
+     output='css/compiled/redirections.css' %}
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+  {% endstylesheets %}
 
 {% endblock %}
 
@@ -19,7 +20,6 @@
   {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
 	{% block content %}
-
   <!-- .vbox -->
   <section id="redirection" class="vbox">
 
@@ -63,15 +63,13 @@
           </aside>
         </section>
       </section>
-    <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
-  </section>
-  <!-- /.vbox -->
-
+      <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+    </section>
+    <!-- /.vbox -->
 	{% endblock %}
 
 
   {% block templates %}
-  
 	<!-- L'appel des différents scripts de vue -->
   <script type="text/template" id="listTpl">
     {% include 'LilyKnowledgeBundle:Redirections:list.html.twig' %}
@@ -79,26 +77,9 @@
   <script type="text/template" id="editTpl">
     {% include 'LilyKnowledgeBundle:Redirections:edit.html.twig' %}
   </script>
-  
-  {% endblock %}
-
-  {% block modal %}
-  
-  <!-- Modal -->
-  <div class="modal fade" id="default-redirection-delete" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title"><i class="icon-bell-alt"></i>Attention</h4>
-        </div>
-        <div class="modal-body">
-          Vous ne pouvez pas supprimer une redirection par défaut. Vous devez d'abord choisir une nouvelle redirection par défaut avant de pouvoir supprimer celle-ci.
-        </div>
-      </div>
-    </div>
-  </div>
-  
+  <script type="text/template" id="modalTpl">
+    {% include 'LilyBackOfficeBundle:Utils:modalAlert.html.twig' %}
+  </script>
   {% endblock %}
 
 	{% block bootstrap %}

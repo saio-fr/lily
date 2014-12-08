@@ -4,3 +4,7 @@
 /web/bundles/*
 /app/config/parameters.yml
 /app/config/parameters_dev.yml
+node_modules
+compiled
+tmp
+temp
