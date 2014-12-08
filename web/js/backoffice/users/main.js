@@ -5,6 +5,7 @@ require.config({
     'underscore': 'bower_components/underscore/underscore',
     'backbone': 'bower_components/backbone/backbone',
     'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
+    'backbone-validation': 'bower_components/backbone-validation/index',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'dropzone': 'bower_components/dropzone/downloads/dropzone',
     'moment': 'bower_components/moment/moment',
@@ -22,7 +23,10 @@ require.config({
     },
     'backbone-nested': {
       deps: ['backbone'],
-      exports: ['Backbone.NestedModel']
+      exports: 'Backbone.NestedModel'
+    },
+    'backbone-validation': {
+      deps: ['backbone']
     },
     'bootstrap' : {
       deps: ['jquery']
@@ -41,14 +45,14 @@ require([
   'globals',
 
   // Libraries required at bootstrap for the UI.
-  'bootstrap',
-  'todoTpl'
+  'todoTpl',
+  'bootstrap'
 ], function( $, _, Backbone, UserRouter, g ) {
 
   'use strict';
 
   $.ajaxPrefilter( function (options) {
-    options.url = g.root + options.url;
+    options.url = g.root.slice(0,-1) + options.url;
   });
   var router = new UserRouter();
 

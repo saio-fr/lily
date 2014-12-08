@@ -7,10 +7,7 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
-      g = require('globals'),
+  var app = require('app'),
       ModalDeleteView = require('backoffice/users/views/modalDeleteView'),
       UserEditView = require('backoffice/users/views/userEditView'),
 
@@ -30,6 +27,7 @@ define(function (require) {
     
     initialize: function () {
       this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'destroy', this.remove);
       this.render();    
     },
 
@@ -41,28 +39,13 @@ define(function (require) {
     destroy: function (e) {
 
       e.stopPropagation();
-      app.skeleton.modalView.show();
-
-      that = this;
-
-      $('.modal-close-confirm').click( function() {
-
-        that.model.destroy();
-        that.remove();
-
-      });
+      if (typeof(app.skeleton.modalDeleteView) !== undefined)
+      app.skeleton.modalDeleteView = new ModalDeleteView({model: this.model});
 
     },
 
-    edit: function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      app.trigger('userView:closeEditView', this);
-      
-      if (app.skeleton.editView !== undefined) {
-        app.skeleton.editView.remove();
-      }
+    edit: function() {
+      app.trigger('closeEditView', this);
       app.skeleton.editView = new UserEditView({model: this.model});
 
       this.$el.parent().find('li.active').removeClass('active');

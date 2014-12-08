@@ -108,17 +108,12 @@
 .modal-remove {
   margin: 0;
   position: absolute;
+  z-index: 9999;
+  opacity: 1,
   width: 500px;
   height: 400px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
-}
-
-#user-editor .form-errors {
-  list-style: none;
-  padding: 0;
-  color: #fb6b5b;
-  font-size: 10px;
 }
 
 .btn-roles {
@@ -153,6 +148,10 @@
   opacity: 0;
 }
 
-#avatar-widget:hover .uploader {
+.avatar-wrapper:hover .uploader {
   opacity: 1;
+}
+
+input[type="file"] {
+  display: none;
 }

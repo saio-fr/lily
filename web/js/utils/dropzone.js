@@ -25,11 +25,12 @@ define(function (require) {
         autoProcessQueue: false,
         dictDefaultMessage: "",
         previewTemplate: "<div class=\"dz-preview dz-file-preview\"><img data-dz-thumbnail class=\"avatar\" /></div>",
-        url: Globals.root + model.id + "/avatar",
-        
-        init: function() {
+        method: 'Put',
+        url: '/',
 
-          var uri = model.get('converted_avatar');      
+        init: function () {
+
+          var uri = model.get('converted.avatar');      
           var avatar = { name: "avatar", type: 'image/jpg' };
           
           this.addFile.call(this, avatar);
@@ -45,7 +46,18 @@ define(function (require) {
             }
             self.fileTracker = file;
           });
-        }                     
+          
+          this.on("success", function(file, response) {
+            // Set the response as User.config
+            model.set({'config': response});
+          });
+          
+        },
+        
+        setUrl: function (id) {
+          this.url = Globals.root + id + "/avatar";
+        }
+                           
       });
       
       return self;

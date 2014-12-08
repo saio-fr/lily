@@ -42,7 +42,7 @@ class UserConfig
     protected $welcomeMsg;
     
     /**
-     * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\User", inversedBy="config", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\User", mappedBy="config")
      */
     protected $user;
  
@@ -71,7 +71,8 @@ class UserConfig
     public function __construct()
     {       
         $this->welcomeMsg = "Bonjour. Que puis-je faire pour vous ?";
-        $this->avatar = "http://cdn.saio.fr/images/default-user-avatar.png";
+        $this->avatar = "default.png";
+        $this->updatedAt = new \DateTime('now');
 	  }
 
     /**

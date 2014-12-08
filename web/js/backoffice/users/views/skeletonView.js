@@ -7,12 +7,10 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
-      globals = require('globals'),
+  var app = require('app'),
       UserModel = require('backoffice/users/models/userModel'),
       UserEditView = require('backoffice/users/views/userEditView'),
+      g = require('globals'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -34,34 +32,22 @@ define(function (require) {
     },
     
     render: function () {
-
-      // todo: change the logic here!
-      if( $(document).find(this.$el).length === 0 ) {
-        // parent view has been rebuild, we have to update our $el
-        this.$el = $(this.this.__proto__.el);
-        this.delegateEvents();
-      }
-
       this.$el.removeClass('hide');
       this.$el.html(this.template());
 
       return this;
     },
 
-    create: function (e) {
-      e.preventDefault();
+    create: function () {
+      app.trigger('closeEditView', this);
 
-      app.trigger('closeEditView');
-
-      var userModel = new UserModel({ avatar: globals.avatarUrl }),
-          editView = new UserEditView(userModel);
+      var userModel = new UserModel({ 'converted.avatar': g.avatarUrl });
+      var editView = new UserEditView({model: userModel});
 
       $('#user-list .active').removeClass('active');
-
     },
 
-    sort: function(e) {
-      
+    sort: function(e) { 
       var target = $(e.target);
 
       target.parent().find('.active').removeClass('active');
@@ -69,30 +55,23 @@ define(function (require) {
       
       // Listen in userCollection
       app.trigger("skeleton:sort", target.data('criteria'));
-        
     },
 
     checkMaxUsers: function() {
-
-      var listCounter,
-          userCount = this.collection.length;
-
-      if( userCount >= globals.maxusers ) {
-        $('#userListCounter').addClass('limitReached');
-        $('#userMaxReachedAlert').show();
-        $('#addUserButton').hide();
+      if( this.collection.length >= g.maxusers ) {
+        $('.max-users-reached-alert').show();
+        $('.add-user').hide();
       } else {
-        $('#userListCounter').removeClass('limitReached');
-        $('#userMaxReachedAlert').hide();
-        $('#addUserButton').show();
+        $('.max-users-reached-alert').hide();
+        $('.add-user').show();
       }
 
-      listCounter = userCount +
-        (userCount <= 1 ? " compte" : " comptes") +
-        " sur " + globals.maxusers +
-        (globals.maxusers <= 1 ? " disponible" : " disponibles");
+      this.counter = this.collection.length +
+        (this.collection.length <= 1 ? " compte" : " comptes") +
+        " sur " + g.maxusers +
+        (g.maxusers <= 1 ? " disponible" : " disponibles");
 
-      $('#userListCounter').text(listCounter);
+      $('.users-counter').text(this.counter);
 
     },
 

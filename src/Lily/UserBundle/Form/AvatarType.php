@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserManagementType extends AbstractType
+class AvatarType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,18 +16,12 @@ class UserManagementType extends AbstractType
     {
       
         $builder
-            ->add('lastname')
-            ->add('firstname')
-            ->add('post')
-            ->add('country')
-            ->add('roles')
-            ->add('phone')
-            ->add('email')
-            ->add('username')
-            ->add('plainPassword', 'repeated', array(
-					        'type' => 'password',
-                  'options' => array('required' => true),
-                  'invalid_message' => 'Les mots de passe doivent correspondre',));
+            ->add('avatarFile', 'vich_file', array(
+              'required'      => false,
+              'mapping'       => 'user_avatar',
+              'allow_delete'  => true,
+              'download_link' => true,
+            ));
     }
     
     /**
@@ -36,7 +30,7 @@ class UserManagementType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\UserBundle\Entity\User',
+            'data_class' => 'Lily\UserBundle\Entity\UserConfig',
         ));
     }
 
@@ -45,6 +39,6 @@ class UserManagementType extends AbstractType
      */
     public function getName()
     {
-        return 'lily_userbundle_usermanagement';
+        return 'lily_userbundle_userconfig';
     }
 }

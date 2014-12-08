@@ -7,8 +7,7 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-      NestedModel = require('backbone-nested'),
+  var NestedModel = require('backbone-nested'),
       moment = require('moment'),
       g = require('globals'),
 
@@ -20,51 +19,99 @@ define(function (require) {
 
     id: '',
     url: function() {
-        return this.id;
+      return '/' + this.id;
+    },
+    
+    defaults: {
+      'firstname': '',
+      'lastname': '',
+      'phone': '',
+      'post': '',
+      'country': '',
+      'username': '',
+      'email': '',
+      'roles': ['ROLE_ADMIN'],
+      'converted.avatar': g.path.avatars + 'default.png'
+    },
+    
+    validation: {
+      'firstname': {
+        required: true,
+      },
+      'lastname': {
+        required: true
+      },
+      'phone': {
+        required: false,
+        minLength: 10
+      },
+      'username': {
+        required: true
+      },
+      'email': {
+        required: true,
+        pattern: 'email'
+      },
+      'roles': {
+        required: true,
+      },
+      'plainPassword': {
+        required: false,
+        minLength: 4
+      },
+      'plainPasswordRepeat': {
+        equalTo: 'plainPassword'
+      }
     },
     
     initialize: function () {
+      this.listenTo(this, 'change', this.convert);
+      // If the model isnt new, convert server's attributes
+      if (!this.isNew()) {
+        this.convert();
+      }
+    },
+    
+    convert: function () {
+      this.converted = {};          
       this.convertRoles();
       this.convertLastlogin();
       this.convertAvatar();
     },
 
     convertRoles: function () {
-
       var roles = this.get('roles');
       
-      if ( roles.indexOf('ROLE_ADMIN') !== -1 ) this.convertedRoles = "Administrateur";
+      if (roles.indexOf('ROLE_ADMIN') !== -1) { 
+        this.convertedRoles = 'Administrateur';
+      }
       else {
-        if ( roles.indexOf('ROLE_CHAT_OPERATOR') !== -1 ) this.convertedRoles = "Opérateur Live chat";
-        if ( roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1 ) {
-          this.convertedRoles += (this.convertedRoles == '') ? "Opérateur " : " et ";
-          this.convertedRoles += "Base de connaissance";
+        if (roles.indexOf('ROLE_CHAT_OPERATOR') !== -1) {
+          this.convertedRoles = 'Opérateur Live chat';
+        }
+        if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
+          this.convertedRoles += (this.convertedRoles == '') ? 'Opérateur ' : ' et ';
+          this.convertedRoles += 'Base de connaissance';
         }
       }
       
-      this.set({'converted_roles': this.convertedRoles});
-
+      this.set({'converted.roles': this.convertedRoles});
     },
 
     convertLastlogin: function () {
-
       var lastLogin = this.get('last_login');
 
-      if ( lastLogin !== null && lastLogin.toUpperCase() !== 'NULL') {
-
+      if (lastLogin) {
         var d = moment(lastLogin);
-        this.convertedLastlogin = "Dernière connexion le " + d.format('DD/MM/YY');
-
-      } else this.convertedLastlogin = "Jamais connecté";
+        this.convertedLastlogin = 'Dernière connexion le ' + d.format('DD/MM/YY');
+      } else this.convertedLastlogin = 'Jamais connecté';
       
-      this.set({'converted_last_login': this.convertedLastlogin});
+      this.set({'converted.last_login': this.convertedLastlogin});
     },
     
-    convertAvatar: function () {
-      
-      var avatar = g.path.avatars + this.get('config').avatar;
-      this.set({'converted_avatar': avatar});
-      
+    convertAvatar: function () {  
+      var avatar = g.path.avatars + this.get('config.avatar');
+      this.set({'converted.avatar': avatar});   
     }
 
   });

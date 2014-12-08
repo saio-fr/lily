@@ -3,6 +3,7 @@
 namespace Lily\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
+use Lily\UserBundle\Entity\UserConfig;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,7 +41,7 @@ class User extends BaseUser
     private $client;
     
     /**
-     * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\UserConfig", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\UserConfig", inversedBy="user", cascade={"persist", "remove"})
      * @Expose
      */
     private $config;
@@ -135,6 +136,7 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->services = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->config = new UserConfig();
     }
 
     /**

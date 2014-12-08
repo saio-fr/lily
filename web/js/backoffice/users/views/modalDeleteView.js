@@ -16,12 +16,16 @@ define(function (require) {
 
   ModalDelete = Backbone.View.extend({
 
-    id: 'delete',
     className: 'modal fade',
     template: _.template( $('#modalTpl').html()),
+    
+    events: {
+      'click .modal-close-confirm' : 'destroy'
+    },
 
     initialize: function() {
       this.render();
+      this.$el.modal('show');
     },
 
     render: function() {
@@ -34,9 +38,12 @@ define(function (require) {
         'aria-labelledby': 'close',
         'aria-hidden': 'true'
       });
-      this.$el.modal('show');
-
       return this;
+    },
+    
+    destroy: function () {
+      this.model.destroy();
+      this.remove();
     }
 
   });

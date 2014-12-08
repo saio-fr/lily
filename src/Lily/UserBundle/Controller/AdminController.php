@@ -3,8 +3,9 @@
 namespace Lily\UserBundle\Controller;
 
 use Lily\UserBundle\Entity\User;
-use Lily\UserBundle\Form\UserManagementType;
-use Lily\UserBundle\Form\UserConfigType;
+use Lily\UserBundle\Entity\UserConfig;
+use Lily\UserBundle\Form\UserAdminType;
+use Lily\UserBundle\Form\AvatarType;
 use Lily\BackOfficeBundle\Controller\BaseController;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -49,7 +50,7 @@ class AdminController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      * @View(statusCode=204)
      */
-    public function delAction($id) {
+    public function deleteAction($id) {
     
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->findUserBy(Array('id' => $id));
@@ -72,7 +73,7 @@ class AdminController extends BaseController
      * @Put("/{id}", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function editAction($id, Request $request) {
+    public function putAction($id, Request $request) {
 
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->findUserBy(Array('id' => $id));
@@ -82,25 +83,19 @@ class AdminController extends BaseController
         if($user === null || $user->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
-
-        $data = json_decode($request->getContent(), true);
-        $form = $this->createForm(new UserManagementType, $user, array('csrf_protection' => false, 'allow_extra_fields' => true));
-        $form->bind($data);
         
+        $form = $this->getForm(new UserAdminType(), $user, $request);
+
         if ($form->isValid()) {
 
             $manager->updateUser($user);
-            $view = $this->view($user)->setFormat('json');
-          
-        } else {
             
-            $serializer = $this->get('jms_serializer');
-            $form = $serializer->serialize($form, 'json');
-            $data = array('success' => false, 'errorList' => $form);
-            $view = $this->view($data)->setFormat('json');
-          
-        }
+            $view = $this->view($user);
+            return $this->handleView($view);
         
+        } 
+        
+        $view = $this->view($form, 400);
         return $this->handleView($view);
      
     }
@@ -108,52 +103,47 @@ class AdminController extends BaseController
     /**
      * @Post("/")
      * @Secure(roles="ROLE_ADMIN")
-     * @View(statusCode=204)
      */
-    public function addAction(Request $request) {
-    
-        $client = $this->getClient();
+    public function postAction(Request $request) {
+
         $manager = $this->get('fos_user.user_manager');
         
-        if(count($client->getUsers()) >= $client->getMaxusers())
+        $client = $this->getClient();
+        $users = $client->getUsers();
+        $maxusers = $client->getConfig()->getMaxusers();
+        $user = $manager->createUser();
+        
+        if(count($users) >= $maxusers)
         throw new \Exception("User limit reached.");
 
-        $data = json_decode($request->getContent(), true);
-
-        $new = $manager->createUser();
-
-        $form = $this->createForm(new UserManagementType, $new, array('csrf_protection' => false));
-        $form->handleRequest($data);
+        $form = $this->getForm(new UserAdminType(), $user, $request);
 
         if ($form->isValid()) {
 
-            $new->setClient($client);
-            $new->setEnabled(true);
-            $manager->updateUser($new);
+            $user->setClient($client);
+            $manager->updateUser($user);
+            
+            $view = $this->view($user);
+            return $this->handleView($view);
         
-        } else {
-          
-            $form = $serializer->serialize($form, 'json');
-            $data = array('success' => false, 'errorList' => $form);
-            $view = $this->view($data)->setFormat('json');
-          
-        }
+        } 
         
-        $view = $this->view($new)->setFormat('json');
+        $view = $this->view($form, 400);
         return $this->handleView($view);
 
     } 
     
     /**
-     * @Post("/{id}/avatar", requirements={"id" = "\d+"})
+     * @Put("/{id}/avatar", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function editAvatarAction($id, Request $request) {
+    public function putAvatarAction($id, Request $request) {
 
-        $manager = $this->get('fos_user.user_manager');
         $em = $this->getDoctrine()->getManager();
         
-        $user = $manager->findUserBy(Array('id' => $id));
+        $user = $em->getRepository('LilyUserBundle:User')
+                     ->findOneById($id);
+                     
         $config = $user->getConfig();
 
         //Security check
@@ -162,7 +152,7 @@ class AdminController extends BaseController
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(new UserConfigType, $config, array('csrf_protection' => false));
+        $form = $this->createForm(new AvatarType, $config, array('csrf_protection' => false));
         $form->submit($request);  
         
         if ($form->isValid()) {

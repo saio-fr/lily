@@ -29,7 +29,7 @@ class Client
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Lily\UserBundle\Entity\User", mappedBy="client", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Lily\UserBundle\Entity\User", mappedBy="client", cascade={"persist", "remove"})
      */
     protected $users;
 

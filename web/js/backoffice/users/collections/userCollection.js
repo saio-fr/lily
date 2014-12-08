@@ -7,8 +7,7 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-      UserModel = require('backoffice/users/models/userModel'),
+  var UserModel = require('backoffice/users/models/userModel'),
 
       // Object wrapper returned as a module
       UserCollection;
@@ -34,7 +33,7 @@ define(function (require) {
         // ROLE_KNOWLEDGE_OPERATOR : += 2
         // ROLE_CHAT_OPERATOR : += 1
 
-        if ( roles.indexOf('ROLE_ADMIN') !== -1 ) {
+        if (roles.indexOf('ROLE_ADMIN') !== -1) {
           rolesInt += 4;
         }
         if ( roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1 ){
@@ -60,6 +59,7 @@ define(function (require) {
         } else {
           return Infinity;
         }
+        
       } else {
         if( this.sortCriteria !== "id" ){
           console.warn("Sort criteria not recognized");
@@ -68,7 +68,7 @@ define(function (require) {
       }
 
       return;
-    },
+    }
   });
 
   return UserCollection;

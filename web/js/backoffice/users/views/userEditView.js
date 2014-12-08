@@ -7,11 +7,9 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
-      g = require('globals'),
-      utils = require('utils/dropzone'),
+  var app = require('app'),
+      utils = require('utils/default'),
+      validation = require('utils/backbone-validation'),
 
       // Object wrapper returned as a module
       UserEditView;
@@ -24,15 +22,19 @@ define(function (require) {
     events: {
       'click .button-update': 'update',
       'click .button-cancel': 'close',
+      'click .uploader': 'click input[name="avatarFile"]',
+      'change img': 'utils.previewAvatar',
       'submit': 'noSubmit'
     },
 
-    initialize: function () {      
+    initialize: function () { 
+      
+      Backbone.Validation.bind(this);
+      
+      app.on('closeEditView', _.bind(this.close, this));
       this.listenTo(this.model, 'destroy', this.close);
       this.render();
       
-      // Call in utils/dropone the avatar function to do image preview
-      this.dropzone = utils.avatar(this.$el.find('#avatar-widget'), this.model);
       // HACK: trigger clicks events on roles
       this.setFormRoles();
     },
@@ -46,37 +48,48 @@ define(function (require) {
     },
 
     update: function () { 
+      var that = this;
+      var data = this.$el.find('form').serializeObject();
+
+      data.roles = this.getFormRoles();
+      this.model.set(data);
       
-      var that = this;       
-      
-      this.model.set({'lastname': $('input[name="lastname"]').val()});
-      this.model.set({'firstname': $('input[name="firstname"]').val()});
-      this.model.set({'email': $('input[name="email"]').val()});
-      this.model.set({'username': $('input[name="username"]').val()});
-      this.model.set({'country': $('input[name="country"]').val()});
-      this.model.set({'post': $('input[name="post"]').val()});
-      this.model.set({'phone': $('input[name="phone"]').val()});
-      this.model.set({'roles': this.getFormRoles()});
-      
-      this.model.set('plainPassword', {
-        'first': $('input[name="first"]').val(),
-        'second': $('input[name="second"]').val()
-      });
-      this.model.save().success(function() {
-        // Delay the avatar sending in order to be sure User Entity is first persisted
-        that.dropzone.processQueue();
-      });
-      this.close();
+      if(this.model.isValid(true)){
+        app.skeleton.collection.create(this.model, {
+          success: function (model) {
+            that.close();
+          },
+          error: function (model, response) {
+            var response = JSON.parse(response.responseText);
+            if (response.errors.children.username.errors) {
+              $('input[name="username"]')
+                .closest('.form-group')
+                .addClass('has-error has-feedback')
+                .find('.help-block')
+                .html(response.errors.children.username.errors)
+                .removeClass('hidden');
+            }
+            if (response.errors.children.email.errors) {
+              $('input[name="email"]')
+                .closest('.form-group')
+                .addClass('has-error has-feedback')
+                .find('.help-block')
+                .html(response.errors.children.email.errors)
+                .removeClass('hidden');    
+            }
+          }
+        });
+      }
     },
     
     // Get roles and convert to save model
     getFormRoles: function () {
       var roles = [];
       $('.btn-roles li.active a').each(function() {
-        if ($(this).attr('name') == 'admin') roles.push('ROLE_ADMIN');
+        if ($(this).attr('name') === 'admin') roles.push('ROLE_ADMIN');
         else {
-          if ($(this).attr('name') == 'chat') roles.push('ROLE_CHAT_OPERATOR');
-          if ($(this).attr('name') == 'knowledge') roles.push('ROLE_KNOWLEDGE_OPERATOR');
+          if ($(this).attr('name') === 'chat') roles.push('ROLE_CHAT_OPERATOR');
+          if ($(this).attr('name') === 'knowledge') roles.push('ROLE_KNOWLEDGE_OPERATOR');
         }
       });
       return roles;
@@ -101,8 +114,9 @@ define(function (require) {
     },
     
     close: function () {
-      $('.list-group-item .active').removeClass('active');
+      $('.list-group-item.active').removeClass('active');
       $('.user-edit').addClass('hide');
+      Backbone.Validation.unbind(this);
       this.remove();
     }
     
