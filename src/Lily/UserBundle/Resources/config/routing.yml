@@ -2,26 +2,16 @@ lily_profil:
     pattern:  /profil
     defaults: { _controller: LilyUserBundle:Profil:index }
 
-lily_profil_rest:
+lily_profil_api:
     resource: "@LilyUserBundle/Controller/ProfilController.php"
     type:     rest
-    prefix:   /profil
+    prefix:   /api/user
 
-lily_user:
+lily_users:
     pattern:  /users
-    defaults: { _controller: LilyUserBundle:Manage:index }
+    defaults: { _controller: LilyUserBundle:Admin:index }
 
-lily_avatarWidget:
-    pattern:  /users/avatarWidget/{id}
-    defaults: { _controller: LilyUserBundle:Manage:avatarWidget, id: 0}
-    requirements:
-        id: \d*
-
-lily_user_rest:
-    resource: "@LilyUserBundle/Controller/ManageController.php"
+lily_users_api:
+    resource: "@LilyUserBundle/Controller/AdminController.php"
     type:     rest
-    prefix:   /users
-    
-fp_js_form_validator:
-    resource: "@FpJsFormValidatorBundle/Resources/config/routing.xml"
-    prefix: /fp_js_form_validator
+    prefix:   /api/user/admin

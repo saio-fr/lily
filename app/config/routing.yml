@@ -1,6 +1,6 @@
-lily_client:
-    resource: "@LilyClientBundle/Resources/config/routing.yml"
-    prefix:   /admin
+lily_media:
+    resource: "@LilyMediaBundle/Resources/config/routing.yml"
+    prefix:   /
 
 home:
     resource: "@LilyHomePageBundle/Resources/config/routing.yml"

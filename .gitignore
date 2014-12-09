@@ -5,4 +5,6 @@
 /app/config/parameters.yml
 /app/config/parameters_dev.yml
 
-composer.lock
+web/js/backoffice/users/models/userManagementModel.js
+
+web/js/backoffice/users/views/userManagementView.js

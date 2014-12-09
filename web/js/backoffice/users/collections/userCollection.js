@@ -7,21 +7,16 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-      UserModel = require('backoffice/users/models/userModel'),
+  var UserModel = require('backoffice/users/models/userModel'),
 
       // Object wrapper returned as a module
-      UsersCollection;
+      UserCollection;
 
-  UsersCollection = Backbone.Collection.extend({
+  UserCollection = Backbone.Collection.extend({
 
     model : UserModel,
     sortCriteria : "lastname",
-    url: '/rest/',
-
-    initialize: function () {
-      this.fetch();
-    },
+    url: '/',
 
     comparator: function(item) {
 
@@ -30,15 +25,11 @@ define(function (require) {
           lastLogin;
 
       if ( this.sortCriteria === "lastname" ) {
-        return item.get('lastname');
+        return item.get('lastname').toUpperCase();
 
       } else if ( this.sortCriteria === "roles" ) {
-        // Convert roles into an integer
-        // ROLE_ADMIN : += 4
-        // ROLE_KNOWLEDGE_OPERATOR : += 2
-        // ROLE_CHAT_OPERATOR : += 1
-
-        if ( roles.indexOf('ROLE_ADMIN') !== -1 ) {
+        
+        if (roles.indexOf('ROLE_ADMIN') !== -1) {
           rolesInt += 4;
         }
         if ( roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1 ){
@@ -55,7 +46,7 @@ define(function (require) {
         return item.get('services').join('/');
 
       } else if ( this.sortCriteria === "last_login" ) {
-        if ( item.get('last_login') !== null) {
+        if (item.get('last_login')) {
 
           lastLogin = new Date(item.get('last_login'));
           lastLogin = -lastLogin.getTime();
@@ -64,6 +55,7 @@ define(function (require) {
         } else {
           return Infinity;
         }
+        
       } else {
         if( this.sortCriteria !== "id" ){
           console.warn("Sort criteria not recognized");
@@ -72,8 +64,8 @@ define(function (require) {
       }
 
       return;
-    },
+    }
   });
 
-  return UsersCollection;
+  return UserCollection;
 });

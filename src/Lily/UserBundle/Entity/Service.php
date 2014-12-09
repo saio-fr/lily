@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Service
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Lily\UserBundle\Entity\ServiceRepository")
+ * @ORM\Entity()
  */
 class Service
 {

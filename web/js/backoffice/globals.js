@@ -6,13 +6,18 @@ define(function (require) {
 
   'use strict';
 
-  var _ = require('underscore'),
+  var _ = require('underscore'),  
+  var g = {};
+  
+    _.extend(g, config);
 
-  globals = {
-    avatarUrl: "http://saio.fr/images/avatar-utilisateur.png",
+  g.path = {
+    cdn: "http://cdn.saio.fr",
+    customer: "http://cdn.saio.fr/customer/",
+    avatars: "http://cdn.saio.fr/customer/"+g.licence+"/images/avatars/",
+    defaultAvatar: "http://cdn.saio.fr/images/default-avatar.png" ,
   };
 
-  _.extend(globals, window.config);
+  return g;
 
-  return globals;
 });

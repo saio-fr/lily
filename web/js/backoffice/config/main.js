@@ -7,7 +7,7 @@ require.config({
     'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'todoTpl': 'todo',
-    'app': 'backoffice/config/app',
+    'app': 'backoffice/app',
     'globals': 'backoffice/globals'
   },
   shim: {
@@ -15,32 +15,32 @@ require.config({
       exports: '_'
     },
     'backbone': {
-      deps: ["underscore", "jquery"],
+      deps: ['underscore', 'jquery'],
       exports: 'Backbone'
     },
     'backbone-nested': {
-      deps: ["backbone"],
-      exports: ["Backbone.NestedModel"]
+      deps: ['backbone'],
+      exports: ['Backbone.NestedModel']
     },
-    "bootstrap" : {
-      "deps": ['jquery']
+    'bootstrap' : {
+      deps: ['jquery']
     },
-    "todoTpl" : {
-      "deps": ['jquery', 'bootstrap']
+    'todoTpl' : {
+      deps: ['jquery', 'bootstrap']
     }
   }
 });
 
 require([
-  "jquery",
-  "underscore",
-  "backbone",
-  "backoffice/config/router",
-  "globals",
+  'jquery',
+  'underscore',
+  'backbone',
+  'backoffice/config/router',
+  'globals',
 
   // Libraries required at bootstrap for the UI.
-  "bootstrap",
-  "todoTpl"
+  'bootstrap',
+  'todoTpl'
 ], function( $, _, Backbone, ConfigRouter, globals ) {
 
   'use strict';

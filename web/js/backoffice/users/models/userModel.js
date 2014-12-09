@@ -7,76 +7,118 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
+  var Uploader = require('backbone-model-file-upload'),
+      NestedModel = require('backbone-nested'),
+      moment = require('moment'),
+      g = require('globals'),
 
       // Object wrapper returned as a module
       UserModel;
 
 
-  UserModel = Backbone.Model.extend({
+  UserModel = Backbone.NestedModel.extend({
 
-    url: '/rest',
-
-    getRolesHuman: function () {
-
-      var roles = this.get('roles'),
-          roleHuman = "";
-
-      if ( typeof(roles) === "undefined" ) {
-        return "";
+    id: '',
+    url: function() {
+      return '/' + this.id;
+    },
+    
+    defaults: {
+      'firstname': '',
+      'lastname': '',
+      'phone': '',
+      'post': '',
+      'country': '',
+      'username': '',
+      'email': '',
+      'roles': ['ROLE_ADMIN'],
+      'converted.avatar': g.path.defaultAvatar
+    },
+    
+    validation: {
+      'firstname': {
+        required: true,
+      },
+      'lastname': {
+        required: true
+      },
+      'phone': {
+        required: false,
+        minLength: 10
+      },
+      'username': {
+        required: true
+      },
+      'email': {
+        required: true,
+        pattern: 'email'
+      },
+      'roles': {
+        required: true,
+      },
+      'plainPassword': {
+        required: false,
+        minLength: 4
+      },
+      'plainPasswordRepeat': {
+        equalTo: 'plainPassword'
       }
+    },
+    
+    initialize: function () {
+      this.listenTo(this, 'change', this.convert);
+      // If the model isnt new, convert server's attributes
+      if (!this.isNew()) {
+        this.convert();
+      }
+    },
+    
+    convert: function () {
+      this.converted = {};          
+      this.convertRoles();
+      this.convertLastlogin();
+      this.convertAvatar();
+    },
 
-      if ( roles.indexOf('ROLE_ADMIN') !== -1 ) {
-        roleHuman = "Administrateur";
-
-      } else {
-        if ( roles.indexOf('ROLE_CHAT_OPERATOR') !== -1 ) {
-          roleHuman += "Opérateur Live chat";
+    convertRoles: function () {
+      var roles = this.get('roles');
+      
+      if (roles.indexOf('ROLE_ADMIN') !== -1) { 
+        this.convertedRoles = 'Administrateur';
+      }
+      else {
+        if (roles.indexOf('ROLE_CHAT_OPERATOR') !== -1) {
+          this.convertedRoles = 'Opérateur Live chat';
         }
-        if ( roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1 ) {
-          roleHuman += (roleHuman === "") ? "Opérateur " : " et ";
-          roleHuman += "Base de connaissance";
+        if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
+          this.convertedRoles += (this.convertedRoles == '') ? 'Opérateur ' : ' et ';
+          this.convertedRoles += 'Base de connaissance';
         }
       }
-
-      return roleHuman;
+      
+      this.set({'converted.roles': this.convertedRoles});
     },
 
-    getLastLoginHuman: function () {
+    convertLastlogin: function () {
+      var lastLogin = this.get('last_login');
 
-      var lastLogin = this.get('last_login'),
-          lastLoginDay,
-          lastLoginMonth,
-          lastLoginYear,
-          d;
-
-      if (typeof(lastLogin) !== "undefined" &&
-        lastLogin !== null &&
-        lastLogin.toUpperCase() !== 'NULL') {
-
-        d = new Date(lastLogin);
-
-        lastLoginDay = (d.getDate() < 10 ? '0' : '') + d.getDate();
-        lastLoginMonth = (d.getMonth() < 9 ? '0' : '') + (d.getMonth()+1);
-        lastLoginYear = (d.getYear() - 100);
-
-        return "Dernière connexion le " + lastLoginDay + '/' + lastLoginMonth + '/' + lastLoginYear;
-
+      if (lastLogin) {
+        var d = moment(lastLogin);
+        this.convertedLastlogin = 'Dernière connexion le ' + d.format('DD/MM/YY');
+      } else this.convertedLastlogin = 'Jamais connecté';
+      
+      this.set({'converted.last_login': this.convertedLastlogin});
+    },
+    
+    convertAvatar: function () {
+      if (this.get('config.avatar')) {
+        var avatar = g.path.avatars + this.get('config.avatar'); 
       } else {
-        return "Jamais connecté";
+        var avatar = g.path.defaultAvatar;
       }
-    },
+      this.set({'converted.avatar': avatar});   
+    }
 
-    toJSONWithComputedValues: function () {
-
-      var data = this.toJSON();
-
-      // todo: replace with camelCase notation in both this file and template
-      data.last_login_human=this.getLastLoginHuman();
-      data.roles_human=this.getRolesHuman();
-
-      return data;
-    },
   });
 
   return UserModel;

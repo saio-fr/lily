@@ -40,7 +40,7 @@ class ConfigController extends BaseController
     }
 
     /**
-     * @Get("/rest")
+     * @Get("/")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getAction(Request $request) {
@@ -59,7 +59,7 @@ class ConfigController extends BaseController
     }
 
     /**
-     * @Put("/rest")
+     * @Put("/")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function updateAction(Request $request) {

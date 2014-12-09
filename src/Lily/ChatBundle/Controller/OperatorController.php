@@ -36,29 +36,5 @@ class OperatorController extends BaseController
 	    	
     	}
     	
-    }    
-    
-    /**
-     * @Get("/users")
-     * @Secure(roles="ROLE_CHAT_OPERATOR")
-     */
-    public function getUserAction() {    
-		
-		$users = $this->getClient()->getUsers();
-		
-		foreach($users as $user){
-
-            foreach($user->getRoles() as $role){
-                if($role == "ROLE_CHAT_OPERATOR"){
-
-                       $users = $user;
-                }
-
-            }
-        }
-		
-		return $users;	
-		
-    }
-    
+    }        
 }

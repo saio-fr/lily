@@ -3,7 +3,7 @@
 namespace Lily\UserBundle\Controller;
 
 use Lily\UserBundle\Entity\User;
-use Lily\UserBundle\Form\UserType;
+use Lily\UserBundle\Form\UserProfilType;
 use Lily\BackOfficeBundle\Controller\BaseController;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -33,7 +33,7 @@ class ProfilController extends BaseController
     }
     
     /**
-     * @Get("/user")
+     * @Get("/")
      * @Secure(roles="ROLE_USER")
      */
     public function getUserAction() {
@@ -44,7 +44,7 @@ class ProfilController extends BaseController
     }
     
     /**
-     * @Put("/user")
+     * @Put("/")
      * @Secure(roles="ROLE_USER")
      * @View(statusCode=204)
      */
@@ -57,91 +57,13 @@ class ProfilController extends BaseController
         $form = $this->createForm(new UserType, $user, array('csrf_protection' => false));
         $form->bind($data);
 	
-		// Manage the avatar
-		$this->updateAvatar($user);
-		$manager->updateUser($user);
+        // Manage the avatar
+        $this->updateAvatar($user);
+        $manager->updateUser($user);
         
         $view = $this->view($user)->setFormat('json');
-		return $this->handleView($view);
+        return $this->handleView($view);
      
-    }
-    
-    /**
-     * @Get("/form")
-     * @Secure(roles="ROLE_USER")
-     */
-    public function getFormAction() {
-    
-        $userForm = $this->createForm(new UserType, null);
-        
-        return $this->render('LilyUserBundle:Profil:edit.html.twig', array('form' => $userForm->createView()));
-        
-    }
-
-    public function avatarWidgetAction(Request $request) {
-    
-        $urlGenerator=$this->get('templating.helper.assets');
-
-        $errors = [];
-		$user = $this->getUser();
-
-        /* Création du formulaire */
-        $form = $this->createForm(new UserType, $user, array('avatar' => true));
-
-        /* Traitement de l'envoi d'un nouvel avatar */
-        if ($request->getMethod() == 'POST') {
-        
-            $form->handleRequest($request);
-		
-            $tmpAvatar = $this->uploadTmpAvatar($user, $form->get('avatarFile')->getData());
-            $tmpAvatarUrl = $urlGenerator->getUrl($tmpAvatar);
-
-            // Recréation du formulaire (on vient de le soumettre)
-            $form = $this->createForm(new UserType, $user, array('avatar' => true));
-            $form->get('avatar')->setData($tmpAvatarUrl);
-        
-		}
-		
-        return $this->render('LilyUserBundle:Manage:Users/avatarWidget.html.twig', array('form' => $form->createView(), 'errors' => $errors));
-        
-    }
-
-   /* 
-    * Upload le fichier temporaire lié à l'avatar servant à la prévisualisation 	    
-    */
-    private function uploadTmpAvatar($avatarFile) {
-        $enterprise = $this->getUser()->getEnterprise();
-
-        if ($avatarFile === null) { // Pas de fichier à uploader
-            return;
-        }
-
-        $tmpAvatarFileName = 'new-user' . '.' . $avatarFile->guessExtension();
-        $tmpAvatar = User::getTmpUploadDir($enterprise) . $tmpAvatarFileName;
-
-        // On déplace le fichier envoyé dans le répertoire d'upload temporaire
-        $avatarFile->move(User::getTmpUploadRootDir($enterprise),   // Répertoire de destination
-                                    $tmpAvatarFileName); // Nom du fichier
-
-        return $tmpAvatar;
-    }
-
-    private function updateAvatar() {
-    
-    	$user = $this->getUser();
-    	
-        if(preg_match('#^/customer/' . $user->getEnterprise()->getCname() . '/images/avatars/tmp/[0-9]+\.[a-zA-Z]+$#', $user->getAvatar())) {
-            $urlGenerator = $this->get('templating.helper.assets');
-
-            $newAvatarRelativeUrl=str_replace('/tmp/', '/', $user->getAvatar());
-            $newAvatarAbsoluteUrl=$urlGenerator->getUrl($newAvatarRelativeUrl);
-
-            $fs = new Filesystem();
-            $fs->copy('.'.$user->getAvatar(), '.'.$newAvatarRelativeUrl);
-
-
-            $user->setAvatar($newAvatarAbsoluteUrl);
-        }
     }
     
 }

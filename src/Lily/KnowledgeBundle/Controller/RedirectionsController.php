@@ -32,112 +32,105 @@ class RedirectionsController extends BaseController
     
     public function indexAction()
     {    
-    	return $this->render('LilyKnowledgeBundle:Redirections:index.html.twig');
+        return $this->render('LilyKnowledgeBundle:Redirections:index.html.twig');
     	    
     }
     
-	/**
-     * @Get("/rest")
+    /**
+     * @Get("/")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
     public function getRedirectionsAction()
     {    
 
-    	$redirections = $this->getEntityManager()
-    					     ->getRepository('LilyKnowledgeBundle:Redirection')
-    					     ->findAll();
+        $redirections = $this->getEntityManager()
+    		->getRepository('LilyKnowledgeBundle:Redirection')
+        ->findAll();
     	
-    	return $redirections;	
+        return $redirections;	
         	
     }
     
     /**
-     * @Get("/rest/{id}")
+     * @Get("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
     public function getAction($id)
     {   
-   		
-   		$redirection = $this->getEntityManager()
-    					    ->getRepository('LilyKnowledgeBundle:Redirection')
-    					    ->find($id);
+        $redirection = $this->getEntityManager()
+    		->getRepository('LilyKnowledgeBundle:Redirection')
+        ->find($id);
     					  
         if (!$redirection) {
             throw $this->createNotFoundException();
         }
         
-		return $redirection;
-       		
+        return $redirection;	
     }
     
     /**
-     * @Post("/rest")
+     * @Post("/")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction(Request $request)
     {
+        $em = $this->getEntityManager();
+        $redirection = $this->deserialize('Lily\KnowledgeBundle\Entity\Redirection', $request);
     	
-    	$redirection = $this->deserialize('Lily\KnowledgeBundle\Entity\Redirection', $request);
-    	
-    	if ($redirection instanceof Redirection === false) {
+        if ($redirection instanceof Redirection === false) {
             $view = $this->view($redirection, 400);
-	        return $this->handleView($view);
+            return $this->handleView($view);
         }  
         
         $redirection->setBydefault(0);
         
-        $em = $this->getEntityManager();
         $em->persist($redirection);
         $em->flush();
 			
-        $view = $this->view($redirection)->setFormat('json');
-		return $this->handleView($view);
-        
+        $view = $this->view($redirection);
+        return $this->handleView($view);  
     }    
     
     /**
-     * @Put("/rest/{id}")
+     * @Put("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction($id, Request $request)
     {
-
-    	$data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);
     	
-    	$redirection = $this->getEntityManager()
-    					 ->getRepository('LilyKnowledgeBundle:Redirection')
-    					 ->find($id); 	
+        $redirection = $this->getEntityManager()
+    		->getRepository('LilyKnowledgeBundle:Redirection')
+    		->find($id); 	
 		
-		$form = $this->createForm(new RedirectionType(), $redirection, array('csrf_protection' => false));   
-		$form->bind($data);
+        $form = $this->createForm(new RedirectionType(), 
+          $redirection, array('csrf_protection' => false));  
+           
+        $form->bind($data);
         
         $em = $this->getEntityManager();
         $em->persist($redirection);
         $em->flush();
 			
         $view = $this->view($redirection)->setFormat('json');
-		return $this->handleView($view);			
-    
+        return $this->handleView($view);			
     } 
     
     /**
-     * @Delete("/rest/{id}")
+     * @Delete("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
     public function deleteAction($id)
     {   
-    	
-		$em = $this->getEntityManager();
-		
-		$redirection = $em->getRepository('LilyKnowledgeBundle:Redirection')
-				   	      ->find($id); 
+		    $em = $this->getEntityManager();
+        $redirection = $em->getRepository('LilyKnowledgeBundle:Redirection')
+				->find($id); 
     			   
-	    $em->remove($redirection);
-	    $em->flush();
-	    
+        $em->remove($redirection);
+        $em->flush();
     }
 
 }

@@ -13,6 +13,7 @@ imports:
     - { resource: resources/stof.yml }
     - { resource: resources/mobiledetect.yml }
     - { resource: resources/flysystem.yml }
+    - { resource: resources/uploader.yml } 
 
 monolog:
     handlers:

@@ -30,7 +30,6 @@ doctrine:
                 mappings:
                     LilyAdminBundle: ~
                     LilyUserBundle: ~
-                    LilyClientBundle: ~
                     
             # Client
             client:

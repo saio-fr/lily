@@ -39,9 +39,8 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 			$app = $em->getRepository('LilyBackOfficeBundle:Config')
 					  ->findOneById(1);
 			
-			$app->getAvi();
+			$app->getAvi()->getRedirections();
 			$app->getChat();
-			$app->getRedirections();
 			
 			$em = $this->getDoctrine()->getManager();
 			
