@@ -1,0 +1,6 @@
+parameters:
+#    lily_media.example.class: Lily\MediaBundle\Example
+
+services:
+    uploader.directory.namer:
+        class: Lily\MediaBundle\Uploader\DirectoryNamer

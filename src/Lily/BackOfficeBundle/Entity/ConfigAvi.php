@@ -68,11 +68,11 @@ class ConfigAvi
     
     public function __construct()
     {       
-		$this->active = true;
-		$this->name = 'Lily';
-		$this->welcomeMsg = 'Bonjour, quelle est votre question ?';
-		$this->aviIfNoOperator = true;
-		$this->animations = true;
+		    $this->active = true;
+        $this->name = 'Lily';
+        $this->welcomeMsg = 'Bonjour, quelle est votre question ?';
+        $this->aviIfNoOperator = true;
+        $this->animations = true;
 	  }
 
     /**

@@ -1,63 +1,60 @@
-
 require.config({
   baseUrl: '/js',
   paths: {
     'jquery': 'bower_components/jquery/dist/jquery',
     'underscore': 'bower_components/underscore/underscore',
     'backbone': 'bower_components/backbone/backbone',
+    'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
+    'backbone-validation': 'bower_components/backbone-validation/index',
+    'backbone-model-file-upload': 'bower_components/backbone-model-file-upload/backbone-model-file-upload',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
-    'dateRangePicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
+    'dropzone': 'bower_components/dropzone/downloads/dropzone',
     'moment': 'bower_components/moment/moment',
     'todoTpl': 'todo',
-    'flot': 'charts/flot/jquery.flot.min',
-    'validator': '../bundles/fpjsformvalidator/js/fp_js_validator',
-    'app': 'backoffice/users/app'
+    'app': 'backoffice/app',
+    'globals': 'backoffice/globals'
   },
   shim: {
     'underscore': {
       exports: '_'
     },
     'backbone': {
-      deps: ["underscore", "jquery"],
+      deps: ['underscore', 'jquery'],
       exports: 'Backbone'
     },
-    "bootstrap" : {
-      "deps": ['jquery']
+    'backbone-nested': {
+      deps: ['backbone'],
+      exports: 'Backbone.NestedModel'
     },
-    "todoTpl" : {
-      "deps": ['jquery', 'bootstrap']
+    'backbone-validation': {
+      deps: ['backbone']
     },
-    "dateRangePicker" : {
-      "deps": ['jquery', 'bootstrap']
+    'bootstrap' : {
+      deps: ['jquery']
     },
-    "flot" : {
-      "deps": ['jquery']
-    },
-    "validator" : {
-      "deps": ['jquery']
+    'todoTpl' : {
+      deps: ['jquery', 'bootstrap']
     }
   }
 });
 
 require([
-  "jquery",
-  "underscore",
-  "backbone",
-  "backoffice/users/router",
+  'jquery',
+  'underscore',
+  'backbone',
+  'backoffice/users/router',
+  'globals',
 
   // Libraries required at bootstrap for the UI.
-  "bootstrap",
-  "todoTpl",
-  "flot",
-  "validator"
-], function( $, _, Backbone, UserRouter ) {
+  'todoTpl',
+  'bootstrap'
+], function( $, _, Backbone, UserRouter, g ) {
 
   'use strict';
 
   $.ajaxPrefilter( function (options) {
-    options.url = window.root + options.url;
+    options.url = g.root + options.url;
   });
-
   var router = new UserRouter();
 
   // Start app router

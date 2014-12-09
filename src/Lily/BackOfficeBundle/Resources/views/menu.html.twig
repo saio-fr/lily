@@ -16,7 +16,7 @@
           <div class="lt nav-user hidden-xs pos-rlt">
             <div class="nav-avatar pos-rlt">
               <a href="#" class="thumb-sm avatar animated rollIn" data-toggle="dropdown">
-                <img src="{{ app.user.avatar }}" width="70" height="70">
+                <img src="{{ app.user|avatar }}" width="70" height="70">
                 <span class="caret caret-white"></span>
               </a>
               <ul class="dropdown-menu m-t-sm animated fadeInLeft">
@@ -107,7 +107,7 @@
               {% endif %}  
               {% if is_granted('ROLE_ADMIN') %}
               <li>
-                <a href="{{ path('lily_user') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
+                <a href="{{ path('lily_users') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
                   <i class="icon-group"></i>
                   <span>Utilisateurs</span>
                 </a>

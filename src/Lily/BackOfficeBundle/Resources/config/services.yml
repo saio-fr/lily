@@ -2,6 +2,8 @@ parameters:
 #    lily_back_office.example.class: Lily\BackOfficeBundle\Example
 
 services:
-#    lily_back_office.example:
-#        class: %lily_back_office.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    lily.twig.avatar_extension:
+        class: Lily\BackOfficeBundle\Twig\AvatarExtension
+        tags:
+            - { name: twig.extension }
+        arguments: [ "@doctrine.orm.default_entity_manager", "%cdn%" ]

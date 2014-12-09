@@ -33,6 +33,10 @@ define(function (require) {
 	
     update: function () {
       
+      // SHOW AVI IF NO OPERATOR (global view)
+      this.aviIfNoOperator = $('div[name="aviIfNoOperator"]').is(':checked');
+      this.model.set({'avi.aviIfNoOperator': this.aviIfNoOperator});
+      
       // FIRST MESSAGE DISPLAYED BY THE AVI
       this.welcomeMsg = this.$el.find('div[name="welcomeMsg"]').text();
       this.model.set({'avi.welcomeMsg': this.welcomeMsg});
