@@ -20,7 +20,7 @@ define(function (require) {
 
     el: '#redirection-edit',
 
-    template: _.template($('#redirectionEdit').html()),
+    template: _.template($('#editTpl').html()),
 
     events: {
       'click .button-update': 'update',

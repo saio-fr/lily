@@ -16,7 +16,7 @@ define(function (require) {
   RedirectionCollection = Backbone.Collection.extend({
 
     model: RedirectionModel,
-    url: "/rest",
+    url: "/",
   });
 
   return RedirectionCollection;

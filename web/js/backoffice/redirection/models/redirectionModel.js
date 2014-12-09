@@ -15,7 +15,7 @@ define(function (require) {
   RedirectionModel = Backbone.Model.extend({
 
     initialize: function () {
-        this.urlRoot = "/rest";
+        this.urlRoot = "/";
     },
 
     cancel: function() {

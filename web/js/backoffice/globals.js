@@ -7,7 +7,7 @@ define(function (require) {
   'use strict';
 
   var _ = require('underscore'),  
-  var g = {};
+      g = {};
   
     _.extend(g, config);
 

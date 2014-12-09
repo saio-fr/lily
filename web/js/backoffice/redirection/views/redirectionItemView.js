@@ -23,7 +23,7 @@ define(function (require) {
 
     className: 'list-group-item animated bounceInLeft padder-xl',
 
-    template: _.template($('#redirectionsList').html()),
+    template: _.template($('#listTpl').html()),
 
     events: {
       'click .icon-remove': 'todelete',

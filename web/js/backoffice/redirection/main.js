@@ -11,7 +11,7 @@ require.config({
     'todoTpl': 'todo',
     'flot': 'charts/flot/jquery.flot.min',
     'validator': '../bundles/fpjsformvalidator/js/fp_js_validator',
-    'app': 'backoffice/users/app'
+    'app': 'backoffice/app'
   },
   shim: {
     'underscore': {
