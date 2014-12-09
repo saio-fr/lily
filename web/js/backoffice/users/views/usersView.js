@@ -50,10 +50,9 @@ define(function (require) {
     sort: function (criteria) {
       if (criteria) {
         this.collection.sortCriteria = criteria;
+        this.collection.sort();
+        this.render();
       }
-      this.collection.sort();
-      this.$el.empty();
-      this.render();
     }
 
   });

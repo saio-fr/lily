@@ -48,7 +48,7 @@
     {% autoescape false %}
     <script type="text/javascript">
       var config = {};
-      config.root = '{{ path('get_admin_users') }}';
+      config.root = '{{ app.request.getBaseURL() }}/lily/api/user/admin';
       config.licence = '{{ app.user.client.licence }}';
       config.maxusers = '{{ app.user.client.config.maxusers }}';
     </script>

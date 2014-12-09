@@ -24,7 +24,8 @@ class UserAdminType extends AbstractType
             ->add('phone')
             ->add('email')
             ->add('username')
-            ->add('plainPassword');
+            ->add('plainPassword')
+            ->add('config', new AvatarType());
     }
     
     /**

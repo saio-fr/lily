@@ -20,11 +20,15 @@ define(function (require) {
     template: _.template($('#editTpl').html()),
 
     events: {
+      'submit': 'noSubmit',
       'click .button-update': 'update',
       'click .button-cancel': 'close',
-      'click .uploader': 'click input[name="avatarFile"]',
-      'change img': 'utils.previewAvatar',
-      'submit': 'noSubmit'
+      'click .uploader': function () {
+        this.$el.find('input[name="avatarFile"]').click();
+      },
+      'change input[name="avatarFile"]': function (e) {
+        utils.previewAvatar(e.target, 1);
+      }
     },
 
     initialize: function () { 
@@ -49,7 +53,7 @@ define(function (require) {
 
     update: function () { 
       var that = this;
-      var data = this.$el.find('form').serializeObject();
+      var data = utils.serializeObject(this.$el.find('form'));
 
       data.roles = this.getFormRoles();
       this.model.set(data);
@@ -57,6 +61,8 @@ define(function (require) {
       if(this.model.isValid(true)){
         app.skeleton.collection.create(this.model, {
           success: function (model) {
+            var avatar = that.$el.find('input[name="avatarFile"]')[0].files[0];
+            utils.uploadAvatar(model.get('id'), avatar);
             that.close();
           },
           error: function (model, response) {

@@ -34,7 +34,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 	      $refParams->setAccessible('public'); //we have to change it for a moment
 	
 	      $params = $refParams->getValue($connection);
-	      $params['dbname'] = $this->getClient()->getLicence();
+	      $params['dbname'] = $this->getLicence();
 	
 	      $refParams->setAccessible('private');
         $refParams->setValue($connection, $params);

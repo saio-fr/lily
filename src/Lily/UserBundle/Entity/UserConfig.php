@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -58,6 +59,7 @@ class UserConfig
     /**
      * @var File
      * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatar")
+     * @JMS\SerializedName("avatarFile")
      */
     protected $avatarFile;
     
@@ -71,7 +73,6 @@ class UserConfig
     public function __construct()
     {       
         $this->welcomeMsg = "Bonjour. Que puis-je faire pour vous ?";
-        $this->avatar = "default.png";
         $this->updatedAt = new \DateTime('now');
 	  }
 

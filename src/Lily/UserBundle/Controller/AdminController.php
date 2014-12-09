@@ -84,7 +84,7 @@ class AdminController extends BaseController
             throw $this->createNotFoundException();
         }
         
-        $form = $this->getForm(new UserAdminType(), $user, $request);
+        $form = $this->getForm(new UserAdminType(), $user, $request);   
 
         if ($form->isValid()) {
 
@@ -106,21 +106,22 @@ class AdminController extends BaseController
      */
     public function postAction(Request $request) {
 
-        $manager = $this->get('fos_user.user_manager');
-        
         $client = $this->getClient();
         $users = $client->getUsers();
         $maxusers = $client->getConfig()->getMaxusers();
-        $user = $manager->createUser();
         
         if(count($users) >= $maxusers)
         throw new \Exception("User limit reached.");
+        
+        $manager = $this->get('fos_user.user_manager');
+        $user = $manager->createUser();
 
         $form = $this->getForm(new UserAdminType(), $user, $request);
-
+        
         if ($form->isValid()) {
 
             $user->setClient($client);
+            $user->setEnabled(true);
             $manager->updateUser($user);
             
             $view = $this->view($user);
@@ -134,37 +135,37 @@ class AdminController extends BaseController
     } 
     
     /**
-     * @Put("/{id}/avatar", requirements={"id" = "\d+"})
+     * @Post("/{id}/avatar", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function putAvatarAction($id, Request $request) {
 
         $em = $this->getDoctrine()->getManager();
+        $client = $this->getClient();
         
         $user = $em->getRepository('LilyUserBundle:User')
-                     ->findOneById($id);
-                     
-        $config = $user->getConfig();
-
-        //Security check
-        $client = $this->getClient();
+        ->findOneById($id);
+                  
         if($user === null || $user->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
-
-        $form = $this->createForm(new AvatarType, $config, array('csrf_protection' => false));
-        $form->submit($request);  
         
+        $config = $user->getConfig();
+        $form = $this->getForm(new AvatarType(), $config, $request);
+
         if ($form->isValid()) {
-
-            $config->setAvatarFile($request->files->get('file'));
-
+          
+            $config->setAvatarFile($request->files->get('avatarFile'));
             $em->persist($config);
             $em->flush();
             
             $view = $this->view($config);
             return $this->handleView($view);
           
-        } 
+        }
+        
+        $view = $this->view($form, 400);
+        return $this->handleView($view);
+        
     }
 }

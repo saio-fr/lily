@@ -6,11 +6,12 @@ require.config({
     'backbone': 'bower_components/backbone/backbone',
     'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
     'backbone-validation': 'bower_components/backbone-validation/index',
+    'backbone-model-file-upload': 'bower_components/backbone-model-file-upload/backbone-model-file-upload',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'dropzone': 'bower_components/dropzone/downloads/dropzone',
     'moment': 'bower_components/moment/moment',
     'todoTpl': 'todo',
-    'app': 'backoffice/users/app',
+    'app': 'backoffice/app',
     'globals': 'backoffice/globals'
   },
   shim: {
@@ -52,7 +53,7 @@ require([
   'use strict';
 
   $.ajaxPrefilter( function (options) {
-    options.url = g.root.slice(0,-1) + options.url;
+    options.url = g.root + options.url;
   });
   var router = new UserRouter();
 

@@ -35,7 +35,7 @@ class User extends BaseUser
      */
     protected $id;
 
-	/**
+    /**
      * @ORM\ManyToOne(targetEntity="Lily\UserBundle\Entity\Client", inversedBy="users")
      */
     private $client;

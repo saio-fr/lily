@@ -30,7 +30,7 @@ use Lily\BackOfficeBundle\Controller\BaseController;
 class FaqController extends BaseController
 {
 	  /**
-     * @View()
+     * @Template()
 	   */
     public function indexAction()
     {      
@@ -47,7 +47,7 @@ class FaqController extends BaseController
     public function getAction($parent)
     {   
    		
-        if ($parent == 'null' ) $parent = NULL;
+        if ($parent == 'null') $parent = NULL;
         
         $faq = $this->getEntityManager()
                     ->getRepository('LilyKnowledgeBundle:Faq')
@@ -95,11 +95,12 @@ class FaqController extends BaseController
      */
     public function createAction($parent, Request $request)
     {
-    	
+    	  
+    	  $em = $this->getEntityManager();
+    	  
     	  if ($parent == 0) $parent = NULL;
-        else $parent = $this->getEntityManager()
-                            ->getRepository('LilyKnowledgeBundle:Faq')
-                            ->find($parent);
+        else $parent = $em->getRepository('LilyKnowledgeBundle:Faq')
+                          ->find($parent);
 
     				   
         $faq = $this->deserialize('Lily\KnowledgeBundle\Entity\Faq', $request);
@@ -111,7 +112,6 @@ class FaqController extends BaseController
             return $this->handleView($view);
         }   	
         
-        $em = $this->getEntityManager();
         $em->persist($faq);
         $em->flush();
 			

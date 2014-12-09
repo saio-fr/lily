@@ -25,14 +25,10 @@ define(function (require) {
           lastLogin;
 
       if ( this.sortCriteria === "lastname" ) {
-        return item.get('lastname');
+        return item.get('lastname').toUpperCase();
 
       } else if ( this.sortCriteria === "roles" ) {
-        // Convert roles into an integer
-        // ROLE_ADMIN : += 4
-        // ROLE_KNOWLEDGE_OPERATOR : += 2
-        // ROLE_CHAT_OPERATOR : += 1
-
+        
         if (roles.indexOf('ROLE_ADMIN') !== -1) {
           rolesInt += 4;
         }
@@ -50,7 +46,7 @@ define(function (require) {
         return item.get('services').join('/');
 
       } else if ( this.sortCriteria === "last_login" ) {
-        if ( item.get('last_login') !== null) {
+        if (item.get('last_login')) {
 
           lastLogin = new Date(item.get('last_login'));
           lastLogin = -lastLogin.getTime();

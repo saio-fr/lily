@@ -7,7 +7,7 @@ require.config({
     'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'todoTpl': 'todo',
-    'app': 'backoffice/config/app',
+    'app': 'backoffice/app',
     'globals': 'backoffice/globals'
   },
   shim: {

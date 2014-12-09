@@ -7,7 +7,8 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var NestedModel = require('backbone-nested'),
+  var Uploader = require('backbone-model-file-upload'),
+      NestedModel = require('backbone-nested'),
       moment = require('moment'),
       g = require('globals'),
 
@@ -31,7 +32,7 @@ define(function (require) {
       'username': '',
       'email': '',
       'roles': ['ROLE_ADMIN'],
-      'converted.avatar': g.path.avatars + 'default.png'
+      'converted.avatar': g.path.defaultAvatar
     },
     
     validation: {
@@ -109,8 +110,12 @@ define(function (require) {
       this.set({'converted.last_login': this.convertedLastlogin});
     },
     
-    convertAvatar: function () {  
-      var avatar = g.path.avatars + this.get('config.avatar');
+    convertAvatar: function () {
+      if (this.get('config.avatar')) {
+        var avatar = g.path.avatars + this.get('config.avatar'); 
+      } else {
+        var avatar = g.path.defaultAvatar;
+      }
       this.set({'converted.avatar': avatar});   
     }
 

@@ -7,48 +7,39 @@ define(function (require) {
       Utils = {};
 
   // Used to serialize form into backbone model
-  $.fn.serializeObject = function () {
-
-    // https://github.com/hongymagic/jQuery.serializeObject
-    
+  Utils.serializeObject = function (el) {    
     var a = {}, b = function (b, c) {
         var d = a[c.name];
         "undefined" != typeof d && d !== null ? $.isArray(d) ? d.push(c.value) : a[c.name] = [d, c.value] : a[c.name] = c.value
     };
-    return $.each(this.serializeArray(), b), a
+    return $.each(el.serializeArray(), b), a
   };
   
   // Used to preview avatar 
-  function previewAvatar(el,widths,limit){
+  Utils.previewAvatar = function(el,limit){
   	var files = el.files;
-  	var wrap = el.parentNode;
-  	var output = wrap.getElementsByClassName('imagePreview')[0];
+  	var wrap = $(el).parent();
+  	var description = $('.upload-errors');
   	var allowedTypes = ['JPG','JPEG','GIF','PNG','SVG','WEBP'];
-  
-  	output.innerHTML='Loading...';
   
   	var file = files[0];
   	var imageType = /image.*/;
   
   	// detect device
-  	var device = detectDevice();
+  	var device = Utils.detectDevice();
   
   	if (!device.android){ // Since android doesn't handle file types right, do not do this check for phones
   		if (!file.type.match(imageType)) {
-  			var description = document.createElement('p');
-  			output.innerHTML='';
-  			description.innerHTML='This is not valid Image file';
-  			output.appendChild(description);
+  			description.html('This is not valid Image file');
   			return false;
   		}
   	}
   
   	var img='';
-  
+
   	var reader = new FileReader();
   	reader.onload = (function(aImg) {
   		return function(e) {
-  			output.innerHTML='';
   
   			var format = e.target.result.split(';');
   			format = format[0].split('/');
@@ -61,44 +52,45 @@ define(function (require) {
           		format = format[format.length-1].split('+');
   				format = format[0].toUpperCase();
   			}
-  			
-  			var description = document.createElement('p');
-  			description.innerHTML = '<br />This is a <b>'+format+'</b> image, size of <b>'+(e.total/1024).toFixed(2)+'</b> KB.';
   
   			if (allowedTypes.indexOf(format)>=0 && e.total<(limit*1024*1024)){
-  				for (var size in widths){
-  					var image = document.createElement('img');
-  					var src = e.target.result;
+					var image = wrap.find('.avatar');
+					var src = e.target.result;
+
+					// very nasty hack for android
+					// This actually injects a small string with format into a temp image.
+					/*if (device.android){
+						src = src.split(':');
+						if (src[1].substr(0,4) == 'base'){
+							src = src[0] + ':image/'+format.toLowerCase()+';'+src[1];
+						}
+					}*/
+										
+					image.attr('src', src);
+					description.html('');
   
-  					// very nasty hack for android
-  					// This actually injects a small string with format into a temp image.
-  					/*if (device.android){
-  						src = src.split(':');
-  						if (src[1].substr(0,4) == 'base'){
-  							src = src[0] + ':image/'+format.toLowerCase()+';'+src[1];
-  						}
-  					}*/
-  										
-  					image.src = src;
-  
-  					image.width = widths[size];
-  					image.title = 'Image preview '+widths[size]+'px';
-  					output.appendChild(image);
-  				}
-  
-  				description.innerHTML += '<br /><span style="color:green;">Picture seems to be fine for upload.</span>';
   			} else {
-  			    description.innerHTML += '<br /><span style="color:red;">Which is wrong format / size! Accepted formats: '+allowedTypes.join(', ')+'. Size limit is: '+limit+'MB</span>';
+  			    description.html('<span>Wrong format or size! Accepted formats: '+allowedTypes.join(', ')+'. Size limit is: '+limit+'MB</span>');
   			}						
-  
-  			output.appendChild(description);
+
   		};
   	})(img);
   	reader.readAsDataURL(file);
   }
   
+  Utils.uploadAvatar = function (user, avatar) {
+    /* Create a FormData instance */
+    var form = new FormData();
+    /* Add the file */ 
+    form.append('avatarFile', avatar);
+    
+    var xhr = new XMLHttpRequest;
+    xhr.open('POST', '/app_dev.php/lily/api/user/admin/' + user + '/avatar', true);
+    xhr.send(form);
+  }
+  
   // Detect client's device
-  function detectDevice(){
+  Utils.detectDevice = function () {
   	var ua = navigator.userAgent;
   	var brand = {
   		apple: ua.match(/(iPhone|iPod|iPad)/),

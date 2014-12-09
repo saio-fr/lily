@@ -25,11 +25,8 @@
     <!-- show if client.chat && client.avi is enabled -->
     {% if app.user.client.config.chat and app.user.client.config.avi %}
     <div class="checkbox">
-      <label class="checkbox-custom">
-        <input type="checkbox" name="aviIfNoOperator" <% if (avi.aviIfNoOperator) { %> checked <% } %> >
-        <i class="icon-unchecked"></i>
-        Proposer directement l'AVI si aucun conseiller n'est disponible
-      </label>
+      <input type="checkbox" name="aviIfNoOperator" <% if (avi.aviIfNoOperator) { %> checked <% } %> >
+      Proposer directement l'AVI si aucun conseiller n'est disponible
     </div>
     {% endif %}
     
