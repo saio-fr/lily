@@ -4,11 +4,9 @@
 
 define(function (require) {
 
-  // Require CommonJS like includes
-	var _ = require('underscore');
-	
   'use strict';
-  
+
+  var _ = require('underscore'),  
   var g = {};
   
     _.extend(g, config);
@@ -21,4 +19,5 @@ define(function (require) {
   };
 
   return g;
+
 });

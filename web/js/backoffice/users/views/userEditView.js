@@ -37,6 +37,7 @@ define(function (require) {
       
       app.on('closeEditView', _.bind(this.close, this));
       this.listenTo(this.model, 'destroy', this.close);
+      
       this.render();
       
       // HACK: trigger clicks events on roles
@@ -44,6 +45,7 @@ define(function (require) {
     },
 
     render: function () {
+
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('.user-edit');
       $('.user-edit').removeClass('hide');
