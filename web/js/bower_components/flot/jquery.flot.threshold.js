@@ -46,7 +46,11 @@ You may need to check for this in hover events.
     var options = {
         series: { threshold: null } // or { below: number, color: color spec}
     };
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> new bower components
     function init(plot) {
         function thresholdData(plot, s, datapoints, below, color) {
             var ps = datapoints.pointsize, i, x, y, p, prevp,
@@ -58,7 +62,11 @@ You may need to check for this in hover events.
             thresholded.threshold = null;
             thresholded.originSeries = s;
             thresholded.data = [];
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> new bower components
             var origpoints = datapoints.points,
                 addCrossingPoints = s.lines.show;
 
@@ -83,7 +91,11 @@ You may need to check for this in hover events.
                     prevp.push(below);
                     for (m = 2; m < ps; ++m)
                         prevp.push(origpoints[i + m]);
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> new bower components
                     p.push(null); // start new segment
                     p.push(null);
                     for (m = 2; m < ps; ++m)
@@ -102,12 +114,17 @@ You may need to check for this in hover events.
 
             datapoints.points = newpoints;
             thresholded.datapoints.points = threspoints;
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> new bower components
             if (thresholded.datapoints.points.length > 0) {
                 var origIndex = $.inArray(s, plot.getData());
                 // Insert newly-generated series right after original one (to prevent it from becoming top-most)
                 plot.getData().splice(origIndex + 1, 0, thresholded);
             }
+<<<<<<< HEAD
                 
             // FIXME: there are probably some edge cases left in bars
         }
@@ -116,11 +133,25 @@ You may need to check for this in hover events.
             if (!s.threshold)
                 return;
             
+=======
+
+            // FIXME: there are probably some edge cases left in bars
+        }
+
+        function processThresholds(plot, s, datapoints) {
+            if (!s.threshold)
+                return;
+
+>>>>>>> new bower components
             if (s.threshold instanceof Array) {
                 s.threshold.sort(function(a, b) {
                     return a.below - b.below;
                 });
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> new bower components
                 $(s.threshold).each(function(i, th) {
                     thresholdData(plot, s, datapoints, th.below, th.color);
                 });
@@ -129,10 +160,17 @@ You may need to check for this in hover events.
                 thresholdData(plot, s, datapoints, s.threshold.below, s.threshold.color);
             }
         }
+<<<<<<< HEAD
         
         plot.hooks.processDatapoints.push(processThresholds);
     }
     
+=======
+
+        plot.hooks.processDatapoints.push(processThresholds);
+    }
+
+>>>>>>> new bower components
     $.plot.plugins.push({
         init: init,
         options: options,

@@ -2,7 +2,11 @@
 
 ## About ##
 
+<<<<<<< HEAD
 Flot is a Javascript plotting library for jQuery.  
+=======
+Flot is a Javascript plotting library for jQuery.
+>>>>>>> new bower components
 Read more at the website: <http://www.flotcharts.org/>
 
 Take a look at the the examples in examples/index.html; they should give a good
@@ -71,8 +75,13 @@ $.plot($("#placeholder"), data, options);
 
 Here, data is an array of data series and options is an object with
 settings if you want to customize the plot. Take a look at the
+<<<<<<< HEAD
 examples for some ideas of what to put in or look at the 
 [API reference](API.md). Here's a quick example that'll draw a line 
+=======
+examples for some ideas of what to put in or look at the
+[API reference](API.md). Here's a quick example that'll draw a line
+>>>>>>> new bower components
 from (0, 0) to (1, 1):
 
 ```js

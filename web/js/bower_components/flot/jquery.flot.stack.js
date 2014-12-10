@@ -39,13 +39,18 @@ charts or filled areas).
     var options = {
         series: { stack: null } // or number/string
     };
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> new bower components
     function init(plot) {
         function findMatchingSeries(s, allseries) {
             var res = null;
             for (var i = 0; i < allseries.length; ++i) {
                 if (s == allseries[i])
                     break;
+<<<<<<< HEAD
                 
                 if (allseries[i].stack == s.stack)
                     res = allseries[i];
@@ -54,6 +59,16 @@ charts or filled areas).
             return res;
         }
         
+=======
+
+                if (allseries[i].stack == s.stack)
+                    res = allseries[i];
+            }
+
+            return res;
+        }
+
+>>>>>>> new bower components
         function stackData(plot, s, datapoints) {
             if (s.stack == null || s.stack === false)
                 return;
@@ -118,7 +133,11 @@ charts or filled areas).
 
                         newpoints[l + accumulateOffset] += qy;
                         bottom = qy;
+<<<<<<< HEAD
                         
+=======
+
+>>>>>>> new bower components
                         i += ps;
                         j += otherps;
                     }
@@ -131,7 +150,11 @@ charts or filled areas).
                             newpoints.push(intery + qy);
                             for (m = 2; m < ps; ++m)
                                 newpoints.push(points[i + m]);
+<<<<<<< HEAD
                             bottom = qy; 
+=======
+                            bottom = qy;
+>>>>>>> new bower components
                         }
 
                         j += otherps;
@@ -142,22 +165,37 @@ charts or filled areas).
                             i += ps;
                             continue;
                         }
+<<<<<<< HEAD
                             
                         for (m = 0; m < ps; ++m)
                             newpoints.push(points[i + m]);
                         
+=======
+
+                        for (m = 0; m < ps; ++m)
+                            newpoints.push(points[i + m]);
+
+>>>>>>> new bower components
                         // we might be able to interpolate a point below,
                         // this can give us a better y
                         if (withlines && j > 0 && otherpoints[j - otherps] != null)
                             bottom = qy + (otherpoints[j - otherps + accumulateOffset] - qy) * (px - qx) / (otherpoints[j - otherps + keyOffset] - qx);
 
                         newpoints[l + accumulateOffset] += bottom;
+<<<<<<< HEAD
                         
+=======
+
+>>>>>>> new bower components
                         i += ps;
                     }
 
                     fromgap = false;
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> new bower components
                     if (l != newpoints.length && withbottom)
                         newpoints[l + 2] += bottom;
                 }
@@ -175,10 +213,17 @@ charts or filled areas).
 
             datapoints.points = newpoints;
         }
+<<<<<<< HEAD
         
         plot.hooks.processDatapoints.push(stackData);
     }
     
+=======
+
+        plot.hooks.processDatapoints.push(stackData);
+    }
+
+>>>>>>> new bower components
     $.plot.plugins.push({
         init: init,
         options: options,

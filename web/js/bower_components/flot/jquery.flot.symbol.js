@@ -58,11 +58,19 @@ The symbols are accessed as strings through the standard symbol options:
         if (handlers[s])
             series.points.symbol = handlers[s];
     }
+<<<<<<< HEAD
     
     function init(plot) {
         plot.hooks.processDatapoints.push(processRawData);
     }
     
+=======
+
+    function init(plot) {
+        plot.hooks.processDatapoints.push(processRawData);
+    }
+
+>>>>>>> new bower components
     $.plot.plugins.push({
         init: init,
         name: 'symbols',

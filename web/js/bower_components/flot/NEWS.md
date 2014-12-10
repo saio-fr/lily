@@ -548,7 +548,11 @@ also surfaced, if your graphs are slow in IE, you may want to give it a spin:
  - Refactor replot behaviour so Flot tries to reuse the existing canvas,
    adding shutdown() methods to the plot. (based on patch by Ryley Breiddal,
    issue 269)
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> new bower components
    This prevents a memory leak in Chrome and hopefully makes replotting faster
    for those who are using $.plot instead of .setData()/.draw(). Also update
    jQuery to 1.5.1 to prevent IE leaks fixed in jQuery.
@@ -708,7 +712,11 @@ in event handling speed.
    The "setting options" example provides a demonstration.
 
  - Gradient bars. (suggestion by stefpet)
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> new bower components
  - Added a "plotunselected" event which is triggered when the selection is
    removed, see "selection" example. (suggestion by Meda Ugo)
 
@@ -735,7 +743,11 @@ in event handling speed.
 
  - Added pointOffset method for converting a point in data space to an offset
    within the placeholder.
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> new bower components
  - Plugin system: register an init method in the $.flot.plugins array to get
    started, see PLUGINS.txt for details on how to write plugins (it's easy).
    There are also some extra methods to enable access to internal state.
@@ -744,7 +756,11 @@ in event handling speed.
    the data and doing the plot. This can be used to modify Flot without
    changing the source, useful for writing plugins. Some hooks are defined,
    more are likely to come.
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> new bower components
  - Threshold plugin: you can set a threshold and a color, and the data points
    below that threshold will then get the color. Useful for marking data
    below 0, for instance.
@@ -890,9 +906,15 @@ code shouldn't break) and markings (formerly coloredAreas).
    value they represent.
 
  - setSelection now takes a second parameter which you can use to prevent the
+<<<<<<< HEAD
    method from firing the "plotselected" handler. 
 
  - Improved the handling of axis auto-scaling with bars. 
+=======
+   method from firing the "plotselected" handler.
+
+ - Improved the handling of axis auto-scaling with bars.
+>>>>>>> new bower components
 
 ## Bug fixes ##
 
@@ -900,7 +922,11 @@ code shouldn't break) and markings (formerly coloredAreas).
    timothytoe)
 
  - Fixed a bug in finding max values for all-negative data sets.
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> new bower components
  - Prevent the possibility of eternal looping in tick calculations.
 
  - Fixed a bug when borderWidth is set to 0. (reported by Rob/sanchothefat)
