@@ -1213,9 +1213,6 @@ html.layout-box .vbox > footer {
   }
 }
 @media (max-width: 767px) {
-  .redirection-action {
-    display: none;
-  }
   .nav-user {
     text-align: center;
   }

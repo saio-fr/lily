@@ -18,7 +18,9 @@ define(function (require) {
 
     model: RedirectionModel,
 
-    el: '#redirection-edit',
+    tagName: 'aside',
+    className: 'aside-redirection bg-light lter b-l hide',
+    id: 'redirection-edit',
 
     template: _.template($('#editTpl').html()),
 
@@ -27,53 +29,46 @@ define(function (require) {
       'click .button-cancel': 'cancel',
     },
 
-    initialize: function (redirection) {
+    initialize: function () {
 
       this.$el.removeClass('hide');
-        this.model = redirection;
-        this.render();
-        this.listenTo(this.model, 'change', this.render);
-        this.listenTo(this.model, 'destroy', this.close);
+      this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'destroy', this.close);
     },
 
     render: function () {
 
-        this.$el.html(this.template(this.model.toJSON()));
-        return this;
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
     },
 
     update: function () {
 
-        var title = $(this.el).find('#title').val();
-        var object = $(this.el).find('#object').val();
-        var phone = $(this.el).find('#phone').val();
-        var mail = $(this.el).find('#mail').val();
+      var title = $(this.el).find('#title').val();
+      var object = $(this.el).find('#object').val();
+      var phone = $(this.el).find('#phone').val();
+      var mail = $(this.el).find('#mail').val();
 
-        this.model.set({
-          'title': title,
-          'object': object,
-          'phone': phone,
-          'mail': mail
-        });
+      this.model.set({
+        'title': title,
+        'object': object,
+        'phone': phone,
+        'mail': mail
+      });
 
-        this.model.save();
+      this.model.save();
 
-        this.close();
+      this.$el.addClass('hide');
+      this.remove();
     },
 
     cancel: function () {
 
-        this.model.cancel();
-        this.close();
-        $(this.el).addClass('hide');
-        $('#list-redirections .active').removeClass('active');
-    },
-
-    close: function () {
-      this.$el.unbind();
-      this.$el.empty();
+      this.model.cancel();
       this.$el.addClass('hide');
-    }
+      this.remove();
+      $('#list-redirections .active').removeClass('active');
+    },
 
   });
 

@@ -60,6 +60,6 @@ require([
     options.url = globals.root + options.url;
   });
 
-  app.skeletonView = new SkeletonView();
+  app.skeleton = new SkeletonView();
 
 });

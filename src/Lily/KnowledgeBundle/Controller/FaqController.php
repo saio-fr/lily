@@ -29,9 +29,9 @@ use Lily\BackOfficeBundle\Controller\BaseController;
 
 class FaqController extends BaseController
 {
-	  /**
+	/**
      * @Template()
-	   */
+	 */
     public function indexAction()
     {      
         if (!$this->getUser()->getClient()->getConfig()->getFaq()) {       

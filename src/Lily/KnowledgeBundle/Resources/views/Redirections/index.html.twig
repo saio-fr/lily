@@ -20,47 +20,54 @@
   {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
 	{% block content %}
-  <!-- .vbox -->
-  <section id="redirection" class="vbox">
+    <!-- .vbox -->
+    <section id="redirection" class="vbox">
 
-      <header class="blue-header dker header b-b">
-        <p>Redirections</p>
-        <a id="redirection-new" class="btn btn-sm btn-primary pull-right">
-          <i class="icon-plus pull-left"></i>
-          Ajouter une redirection
-        </a>
-      </header>
+        <header class="blue-header dker header b-b">
+          <p>Redirections</p>
+          <a id="redirection-new" class="btn btn-sm btn-primary pull-right">
+            <i class="icon-plus pull-left"></i>
+            Ajouter une redirection
+          </a>
+        </header>
 
-      <section class="scrollable">
-        <section class="hbox stretch">
-          <aside class="bg-white">
-            <section class="vbox">
-              <section class="scrollable">
+        <section class="scrollable">
+          <section class="hbox stretch main-container">
+            <aside class="bg-white">
+              <section class="vbox">
+                <section class="scrollable">
 
-                <header class="wrapper-sm clearfix b-b">
-                  <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8 redirection-view">
-  	                <span>Titre</span>
-  	              </div>
+                  <header class="wrapper-sm clearfix b-b">
+                    <div class="col-sm-7 col-xs-9 redirection-view">
+	                   <span>Titre</span>
+	                  </div>
 
-                  <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 text-center">
-  	                <span>Fréquence</span>
-  	              </div>
+                    <div class="col-sm-2 col-xs-3 text-center">
+	                <span>Fréquence</span>
+	              </div>
 
-                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 redirection-action">
-                    <span>Défaut</span>
-                  </div>
-                </header>
+                    <div class="col-xs-2 redirection-action">
+                      <span>Défaut</span>
+                    </div>
 
-      		      <ul id="redirections-list" class="list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
-  	            <!-- Affichage de la liste des redirections -->
-  	            </ul>
+                    <div class="col-xs-1 redirection-delete">
+                      <span></span>
+                      <!-- Empty colon to make space for delete button-->
+                    </div>
+                  </header>
 
+                  <ul id="redirections-list" class="list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
+                    <!-- Affichage de la liste des redirections -->
+                  </ul>
+
+                </section>
               </section>
-            </section>
-          </aside>
-          <aside id="redirection-edit" class="aside-redirection bg-light lter b-l hide">
-          <!-- Affichage du panneau de modification-->
-          </aside>
+            </aside>
+            <!--<aside id="redirection-edit" class="aside-redirection bg-light lter b-l hide">
+                Affichage du panneau de modification
+                </aside>
+            -->
+          </section>
         </section>
       </section>
       <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
@@ -69,17 +76,17 @@
 	{% endblock %}
 
 
-  {% block templates %}
-	<!-- L'appel des différents scripts de vue -->
-  <script type="text/template" id="listTpl">
-    {% include 'LilyKnowledgeBundle:Redirections:list.html.twig' %}
-  </script>
-  <script type="text/template" id="editTpl">
-    {% include 'LilyKnowledgeBundle:Redirections:edit.html.twig' %}
-  </script>
-  <script type="text/template" id="modalTpl">
-    {% include 'LilyBackOfficeBundle:Utils:modalAlert.html.twig' %}
-  </script>
+	{% block templates %}
+		<!-- L'appel des différents scripts de vue -->
+		<script type="text/template" id="listTpl">
+      {% include 'LilyKnowledgeBundle:Redirections:list.html.twig' %}
+    </script>
+    <script type="text/template" id="editTpl">
+      {% include 'LilyKnowledgeBundle:Redirections:edit.html.twig' %}
+    </script>
+    <script type="text/template" id="modalTpl">
+      {% include 'LilyBackofficeBundle:Utils:modalAlert.html.twig' %}
+    </script>
   {% endblock %}
 
 	{% block bootstrap %}

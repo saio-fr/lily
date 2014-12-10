@@ -11,16 +11,16 @@ define(function (require) {
       _ = require('underscore'),
       app = require('app'),
       RedirectionModel = require('backoffice/redirection/models/redirectionModel'),
+      ModalView = require('backoffice/redirection/views/modalAlertView'),
 
       // Object wrapper returned as a module
       RedirectionItemView;
 
- RedirectionItemView = Backbone.View.extend({
+    RedirectionItemView = Backbone.View.extend({
 
     model: RedirectionModel,
 
     tagName: 'li',
-
     className: 'list-group-item animated bounceInLeft padder-xl',
 
     template: _.template($('#listTpl').html()),
@@ -39,22 +39,22 @@ define(function (require) {
 
     render: function () {
 
-        this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template(this.model.toJSON()));
 
-        if (this.model.get('bydefault') === true) {
-          this.$el
-            .find('.icon-sign-blank')
-            .removeClass('icon-sign-blank')
-            .addClass('icon-check-sign default');
-        }
+      if (this.model.get('bydefault') === true) {
+        this.$el
+          .find('.icon-sign-blank')
+          .removeClass('icon-sign-blank')
+          .addClass('icon-check-sign default');
+      }
 
-        return this;
+      return this;
     },
 
     select: function() {
 
-      if (app.skeletonView.editView) {
-        app.skeletonView.editView.close();
+      if (app.skeleton.editView) {
+        app.skeleton.editView.close();
       }
 
       app.trigger('itemView:select', this.model);
@@ -76,7 +76,7 @@ define(function (require) {
           .removeClass('icon-sign-blank')
           .addClass('icon-check-sign default');
 
-        var active = app.skeletonView.getActiveItem();
+        var active = app.skeleton.getActiveItem();
 
         if (active.length !== 0) {
           active[0].set({ 'bydefault': false });
@@ -90,12 +90,23 @@ define(function (require) {
 
     todelete: function () {
 
+      var modalModel = new Backbone.model.extend({
+        title: '',
+        body: ''
+      });
+
+      // Can't delete a default redirection.
+      // Showing an alert modal.
       if (this.model.get('bydefault') === true) {
-        $('#default-redirection-delete').modal();
+        if (!app.skeleton.modalView) {
+          app.skeleton.modalView = new ModalView({ model: modalModel });
+        }
+
+        app.skeleton.modalView.$el.modal('show');
         return false;
       }
 
-      app.skeletonView.collection.remove(this.model);
+      app.skeleton.collection.remove(this.model);
       this.model.destroy();
 
       this.remove();
@@ -104,4 +115,3 @@ define(function (require) {
 
   return RedirectionItemView;
 });
-

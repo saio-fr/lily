@@ -1,5 +1,5 @@
 /*======================================
-      		MODAL DELETE
+          MODAL Alert
 =======================================*/
 
 define(function (require) {
@@ -11,16 +11,17 @@ define(function (require) {
       _ = require('underscore'),
 
       // Object wrapper returned as a module
-      ModalDelete;
+      ModalAlert;
 
 
-  ModalDelete = Backbone.View.extend({
+  ModalAlert = Backbone.View.extend({
 
     className: 'modal fade',
+
     template: _.template( $('#modalTpl').html()),
 
     events: {
-      'click .modal-close-confirm' : 'destroy'
+      'click .modal-dialog .close' : 'destroy'
     },
 
     initialize: function() {
@@ -30,17 +31,19 @@ define(function (require) {
 
     render: function() {
 
-      this.$el.html(this.template());
-      this.$el.appendTo('#users');
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.appendTo('#redirection');
       return this;
     },
 
     destroy: function () {
+      // Bootstrap modal plugin takes care of the displaying non stuff,
+      // so we just remove the view and model.
       this.model.destroy();
       this.remove();
     }
 
   });
 
-  return ModalDelete;
+  return ModalAlert;
 });

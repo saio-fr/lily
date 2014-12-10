@@ -39,9 +39,11 @@ define(function (require) {
     },
 
     selectItem: function (model) {
-
-      var editView = new RedirectionEditView(model);
-      return editView;
+      if (this.editView) {
+        this.editView.remove();
+      }
+      this.editView = new RedirectionEditView({model: model});
+      $('.main-container').append(this.editView.render().el);
     },
 
     getActiveItem: function () {
