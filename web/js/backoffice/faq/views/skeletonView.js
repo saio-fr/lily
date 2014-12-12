@@ -30,9 +30,6 @@ define(function (require) {
         }, {
           wait: true
       });
-
-      faq.rootUrl = "/rest";
-      faq.trigger('edit');
     },
 
     createContent: function() {
@@ -43,9 +40,6 @@ define(function (require) {
         }, {
           wait:true
       });
-
-      faq.rootUrl = "/rest";
-      faq.trigger('edit');
     },
 
   });

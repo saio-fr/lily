@@ -27,6 +27,7 @@ define(function (require) {
 
           'click .destroy':   'destroy',
           'click .view':      'select',
+          'click .faq-name':  'edit',
           'blur .edit':       'leaveEdit',
           'keypress .edit':   'updateOnEnter',
           'dropped':          'dropped'
@@ -72,12 +73,17 @@ define(function (require) {
           });
         }
 
-        this.$el.addClass('editing');
-        this.input.focus();
+        this.$el.parent().find('.active').removeClass('active');
+        this.$el.addClass('active');
+      },
+
+      edit: function (e) {
+
+        this.$el.addClass("editing");
+        this.input.focus().select();
 
         this.$el.parent().find('.active').removeClass('active');
         this.$el.addClass('active');
-
       },
 
       leaveEdit: function() {
@@ -95,11 +101,7 @@ define(function (require) {
       },
 
       dropped: function(event, index) {
-<<<<<<< HEAD
-        this.model.saveFaq();
-=======
         this.model.set({ position: index });
->>>>>>> faq refactoring api syncs
       },
 
       destroy: function () {
