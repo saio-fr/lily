@@ -1,5 +1,5 @@
 /*========================================
-      USER MANAGEMENT APP VIEW
+      SKELETON APP VIEW
 =========================================*/
 
 define(function (require) {

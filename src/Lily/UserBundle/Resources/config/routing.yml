@@ -1,17 +1,12 @@
-lily_profil:
-    pattern:  /profil
-    defaults: { _controller: LilyUserBundle:Profil:index }
+lily_profile:
+    pattern:  /profile
+    defaults: { _controller: LilyUserBundle:Profile:index }
 
-lily_profil_api:
-    resource: "@LilyUserBundle/Controller/ProfilController.php"
+lily_users_admin:
+    pattern:  /users
+    defaults: { _controller: LilyUserBundle:User:index }
+
+lily_user_api:
+    resource: "@LilyUserBundle/Controller/UserController.php"
     type:     rest
     prefix:   /api/user
-
-lily_users:
-    pattern:  /users
-    defaults: { _controller: LilyUserBundle:Admin:index }
-
-lily_users_api:
-    resource: "@LilyUserBundle/Controller/AdminController.php"
-    type:     rest
-    prefix:   /api/user/admin

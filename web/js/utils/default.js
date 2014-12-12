@@ -84,9 +84,17 @@ define(function (require) {
     /* Add the file */ 
     form.append('avatarFile', avatar);
     
-    var xhr = new XMLHttpRequest;
-    xhr.open('POST', '/app_dev.php/lily/api/user/admin/' + user + '/avatar', true);
-    xhr.send(form);
+    $.ajax({
+      url: '/' + user.get('id') + '/avatar',
+      type: 'POST',
+      data: form,
+      processData: false,  // tell jQuery not to process the data
+      contentType: false,   // tell jQuery not to set contentType
+      success: function (data) {
+        user.set({'config.avatar': data.avatar});
+      }
+    });
+
   }
   
   // Detect client's device
@@ -102,6 +110,6 @@ define(function (require) {
   
   	return brand;
   }
-
+  
   return Utils;
 });

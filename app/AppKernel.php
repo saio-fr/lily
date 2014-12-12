@@ -37,6 +37,7 @@ class AppKernel extends Kernel
             new Aequasi\Bundle\CacheBundle\AequasiCacheBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new Lily\StatisticsBundle\LilyStatisticsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

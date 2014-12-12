@@ -1,15 +1,6 @@
 lily_dashboard:
     pattern:  /dashboard
     defaults: { _controller: LilyBackOfficeBundle:Dashboard:index }
-    
-lily_statistics:
-    pattern:  /statistics
-    defaults: { _controller: LilyBackOfficeBundle:Statistics:index }
-    
-lily_statistiques_api:
-    resource: "@LilyBackOfficeBundle/Controller/StatisticsController.php"
-    type:     rest
-    prefix:   /api/statistics
 
 lily_config:
     pattern:  /config

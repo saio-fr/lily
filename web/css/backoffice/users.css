@@ -60,7 +60,6 @@
     margin: 0 !important;
 }
 
-.sort-menu .dropdown-menu > li,
 .sort-menu .dropdown-menu > li {
   padding: 5px 15px;
   cursor: pointer;
@@ -150,6 +149,10 @@
 
 .avatar-wrapper:hover .uploader {
   opacity: 1;
+}
+
+.avatar {
+  display: inline-block;
 }
 
 input[type="file"] {

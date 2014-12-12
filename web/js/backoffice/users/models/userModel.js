@@ -7,8 +7,7 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Uploader = require('backbone-model-file-upload'),
-      NestedModel = require('backbone-nested'),
+  var NestedModel = require('backbone-nested'),
       moment = require('moment'),
       g = require('globals'),
 

@@ -1,0 +1,23 @@
+lily_statistics:
+    pattern:  /statistics
+    defaults: { _controller: LilyBackOfficeBundle:Statistics:index }
+    
+lily_statistiques_api:
+    resource: "@LilyStatisticsBundle/Controller/DefaultController.php"
+    type:     rest
+    prefix:   /api/statistics
+    
+lily_statistiques_avi_api:
+    resource: "@LilyStatisticsBundle/Controller/AviController.php"
+    type:     rest
+    prefix:   /api/statistics/avi
+    
+lily_statistiques_user_api:
+    resource: "@LilyStatisticsBundle/Controller/UserController.php"
+    type:     rest
+    prefix:   /api/statistics/user
+    
+lily_statistiques_chat_api:
+    resource: "@LilyStatisticsBundle/Controller/ChatController.php"
+    type:     rest
+    prefix:   /api/statistics/chat

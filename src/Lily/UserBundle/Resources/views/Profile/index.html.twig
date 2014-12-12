@@ -1,0 +1,90 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/backoffice/profil.css' 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}  
+
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" /> 
+
+{% endstylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+<section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+
+	{% block content %}
+
+    
+    <!-- .vbox -->
+    <section class="vbox content-wrapper">
+    </section>
+    <!-- /.vbox -->
+
+	{% endblock %}
+
+
+  {% block templates %}
+  
+    {% autoescape false %}
+    
+    <script type="text/template" id="skeletonTpl">
+      {% include 'LilyUserBundle:Profile:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="userEditTpl">
+      {% include 'LilyUserBundle:Profile:user-edit.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesSkeletonTpl">
+      {% include 'LilyUserBundle:Profile/Activities:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesStatisticsGraphTpl">
+      {% include 'LilyUserBundle:Profile/Activities/Statistics:graph.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesStatisticsFooterTpl">
+      {% include 'LilyUserBundle:Profile/Activities/Statistics:footer.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesLogsSkeletonTpl">
+      {% include 'LilyUserBundle:Profile/Activities/Logs:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesLogsLogTpl">
+      {% include 'LilyUserBundle:Profile/Activities/Logs:log.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesChatsSkeletonTpl">
+      {% include 'LilyUserBundle:Profile/Activities/Chats:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesChatsChatTpl">
+      {% include 'LilyUserBundle:Profile/Activities/Chats:chat.html.twig' %}
+    </script>
+    <script type="text/template" id="activitiesChatsDetailsTpl">
+      {% include 'LilyUserBundle:Profile/Activities/Chats:details.html.twig' %}
+    </script>
+    
+    {% endautoescape %}
+  
+  {% endblock %}
+  
+  {% block bootstrap %}
+    {% autoescape false %}
+      <script type="text/javascript">
+        var config = {};
+        config.root = '{{ app.request.getBaseURL() }}/lily/api';
+        config.licence = '{{ app.user.client.licence }}';
+        config.userId = '{{ app.user.id }}';
+	    </script>
+    {% endautoescape %}
+  {% endblock %}
+
+
+</section>
+
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/profile/main.js')}}">
+</script>
+
+{% endblock %}
