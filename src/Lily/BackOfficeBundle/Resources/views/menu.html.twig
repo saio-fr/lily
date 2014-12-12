@@ -22,7 +22,7 @@
               <ul class="dropdown-menu m-t-sm animated fadeInLeft">
               	<span class="arrow top"></span>
                 <li>
-                  <a href="{{ path('lily_profil') }}">Profil</a>
+                  <a href="{{ path('lily_profile') }}">Profil</a>
                 </li>
                 <li class="divider"></li>
                 <li>
@@ -37,12 +37,6 @@
           <!-- nav -->
           <nav class="nav-primary hidden-xs">
             <ul class="nav">
-              <!--<li>
-                <a href="{{ path('lily_profil') }}">
-                  <i class="icon-user"></i>
-                  <span>Mon profil</span>
-                </a>
-              </li> -->
               <li>
                 <a href="{{ path('lily_dashboard') }}" class="{% if app.request.attributes.get('_route') == 'lily_dashboard' %}active{% endif %}">
                   <i class="icon-dashboard"></i>
@@ -107,7 +101,7 @@
               {% endif %}  
               {% if is_granted('ROLE_ADMIN') %}
               <li>
-                <a href="{{ path('lily_users') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
+                <a href="{{ path('lily_users_admin') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
                   <i class="icon-group"></i>
                   <span>Utilisateurs</span>
                 </a>
