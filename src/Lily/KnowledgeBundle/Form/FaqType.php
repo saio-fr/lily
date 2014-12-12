@@ -28,7 +28,9 @@ class FaqType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\KnowledgeBundle\Entity\Faq'
+            'data_class' => 'Lily\KnowledgeBundle\Entity\Faq',
+            'csrf_protection' => false,
+            'allow_extra_fields' => true
         ));
     }
 

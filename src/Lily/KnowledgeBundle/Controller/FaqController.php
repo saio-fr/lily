@@ -133,7 +133,7 @@ class FaqController extends BaseController
         $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
                   ->find($id); 	
 		
-        $form = $this->createForm(new FaqType(), $faq, array('csrf_protection' => false));   
+        $form = $this->createForm(new FaqType(), $faq);   
         $form->submit($data);
         
         if ($form->isValid()) {
