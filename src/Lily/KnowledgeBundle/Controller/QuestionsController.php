@@ -55,7 +55,7 @@ class QuestionsController extends BaseController
     }
     
     /**
-     * @Get("/{id}")
+     * @Get("/get/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getAction($id)
@@ -74,7 +74,7 @@ class QuestionsController extends BaseController
     }
     
     /**
-     * @Post("/{category}/{parent}")
+     * @Post("/create/{category}/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction($category, $parent, Request $request)
@@ -133,7 +133,7 @@ class QuestionsController extends BaseController
     }    
     
     /**
-     * @Put("/{id}/{parent}/{category}")
+     * @Put("/update/{id}/{parent}/{category}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -195,7 +195,7 @@ class QuestionsController extends BaseController
     } 
     
     /**
-     * @Delete("/{id}")
+     * @Delete("/delete/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
@@ -227,7 +227,7 @@ class QuestionsController extends BaseController
     }
     
     /**
-     * @Get("{id}/versions")
+     * @Get("{id}/versions/get")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -301,5 +301,21 @@ class QuestionsController extends BaseController
     	return true;
     			
     }	    	    
+    
+    /**
+	 * @Get("export/csv")
+	 * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
+	 * @View()
+	 */
+    public function exportAction()
+    {     
+      	
+      	$questions = $this->getEntityManager()
+    					  ->getRepository('LilyKnowledgeBundle:Question')
+    					  ->findAll();
+      	
+    	return $questions;
+      
+    }
     
 }

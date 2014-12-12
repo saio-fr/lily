@@ -1,0 +1,20 @@
+<header class="panel-heading font-bold">Historique de conversation</header>
+<div id="conversationHistory-menu">
+    <div class="btn-group" id="sortConversationMenu">
+      <button class="btn btn-white dropdown-toggle" data-toggle="dropdown">Trier par <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li data-criteria="startTime" class="active">Date</li>
+        <li data-criteria="duration">Durée</li>
+        <li data-criteria="redirect">Redirection</li>
+        <li data-criteria="satisfaction">Satisfaction</li>
+        <li data-criteria="blocked">Blocage</li>
+      </ul>
+    </div>
+</div>
+<section class="hbox stretch">
+	<aside>
+		<ul id="conversationHistory-list"></ul>
+	</aside>
+	<aside id="conversationDetails">
+	</aside>
+</section>

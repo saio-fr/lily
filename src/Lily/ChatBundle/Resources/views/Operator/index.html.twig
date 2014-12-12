@@ -107,7 +107,7 @@
 	    {% autoescape false %}
 	    <script type="text/javascript">
 	        var root = '{{ path('lily_chat') }}';
-	        var licence = '{{ app.user.client.licence }}';
+	        var licence = '{{ app.user.enterprise.key }}';
 	        var user = {
 	        	id: '{{ app.user.id }}',
 	        };

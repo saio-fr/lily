@@ -1,21 +1,5 @@
 imports:
-    # Resources
-    - { resource: security.yml }
-    - { resource: resources/solarium.yml }
-    - { resource: resources/jms.yml }
-    - { resource: resources/assetic.yml }
-    - { resource: resources/doctrine.yml }
-    - { resource: resources/mailer.yml }
-    - { resource: resources/fos.yml }
-    - { resource: resources/sensio.yml }
-    - { resource: resources/stof.yml }
-    - { resource: resources/mobiledetect.yml }
-    - { resource: resources/flysystem.yml } 
-    - { resource: resources/uploader.yml }   
-    # Dev resources
-    - { resource: parameters_dev.yml }
-    - { resource: resources_dev/framework.yml }
-    - { resource: resources_dev/cache.yml }
+    - { resource: config.yml }
 
 framework:
     router:
@@ -36,6 +20,12 @@ monolog:
         firephp:
             type:  firephp
             level: info
+        chromephp:
+            type:  chromephp
+            level: info
 
 assetic:
     use_controller: true
+
+#swiftmailer:
+#    delivery_address: me@example.com

@@ -33,16 +33,16 @@ class VisitorTopic implements TopicInterface
      * @param array
      * @return mixed|void
      */
-    public function onSubscribe(Conn $conn, $topic, $users)
+    public function onSubscribe(Conn $conn, $topic, $clients)
     {
     	// Session id
     	$sid = $conn->Session->getId();
     	    			
 		// Delete the topic when the visitor leaves
-		$topic->autoDelete = true;
+		$topic->autoDelete = true;  
     	
     	// Test if visitor is already connected
-    	foreach ($users as $item) {
+    	foreach ($clients as $item) {
 			if ($item->id === $sid && $item->type === 'visitor') { 
 				
 				$item->topic = $topic;
@@ -88,7 +88,7 @@ class VisitorTopic implements TopicInterface
         // Did the visitor auth on contact form screen ?
         $visitor->showContactForm = true;
         
-        $users->attach($visitor);
+        $clients->attach($visitor);
     }
 
     /**
@@ -99,7 +99,7 @@ class VisitorTopic implements TopicInterface
      * @param array
      * @return mixed|void
      */
-    public function onUnSubscribe(Conn $conn, $topic, $users)
+    public function onUnSubscribe(Conn $conn, $topic, $clients)
     {    	
     }
 
@@ -112,18 +112,18 @@ class VisitorTopic implements TopicInterface
      * @param $event
      * @param array $exclude
      * @param array $eligible
-     * @param array $users
+     * @param array $clients
      * @return mixed|void
      */
-    public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $users)
+    public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $clients)
     {   	
-    	$visitorId = explode('/', $topic)[2];
-
+    	$visitorId = explode('/', $topic)[1];
     	$operator = array('id' => $conn->User->getId(), 'firstname' => $conn->User->getFirstname(), 'avatar' => $conn->User->getAvatar());
     	
-		foreach ($users as $item) {
+		foreach ($clients as $item) {
+		
 			if ($item->id === $visitorId) { 
-
+				
 				$item->received += 1;
 				
 				if (count($item->messages) >0 && end($item->messages)['from'] == 'visitor') {
@@ -135,7 +135,8 @@ class VisitorTopic implements TopicInterface
 				$item->lastMsgTime = time();						
 				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $operator, 'date' => time(), 'msg' => $event);	
 				
-				$topic->broadcast($item->messages);			
+				$messages = $item->messages;
+				$topic->broadcast($messages);			
 								
 			}
 		}

@@ -1,1 +1,0 @@
-lily.Models.MessageLilyCompletion=Backbone.Model.extend({defaults:{id:""}});

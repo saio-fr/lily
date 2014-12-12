@@ -36,12 +36,12 @@ $(function() {
 	// Connect to our ws serv
 	var sess = new ab.connect(
 			
-		'ws://ws.saio.fr/'+licence+'/chat' // The host 
+		'ws://ws.saio.fr:80/'+licence+'/chat' // The host 
 				    
 	    , function(session) {  // Once the connection has been established
 	    				
 			lily.ws = session;
-			lily.ws.subscribe('visitor/'+licence+'/'+sid, function (topic, payload) {});
+			lily.ws.subscribe('visitor/'+sid, function (topic, payload) {});
 			lily.ws.call('chat/connect', {'href': top.location.href,'pathname':top.location.pathname}).then(function(result) { 
 				lily.chatting = result.chatting;
 				lily.chatContactForm = result.showContactForm;

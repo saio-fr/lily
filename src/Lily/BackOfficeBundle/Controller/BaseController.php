@@ -6,48 +6,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Delete;
+use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\View\ViewHandler;
+
+use JMS\Serializer\Exception\RuntimeException;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use JMS\Serializer\SerializationContext;
 
 class BaseController extends FOSRestController implements ClassResourceInterface
 {
-    
-    protected function getClient()
-    {
-        $client = $this->getUser()->getClient();   		     
-        return $client;
-    }
-    
-    protected function getLicence()
-    {
-        $licence = $this->getClient()->getLicence();  		     
-        return $licence;
-    }
-    
+	
+	
     protected function getEntityManager()
-    {	   	  			  
-        $connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
-	
-	      $refConn = new \ReflectionObject($connection);
-	      $refParams = $refConn->getProperty('_params');
-	      $refParams->setAccessible('public'); //we have to change it for a moment
-	
-	      $params = $refParams->getValue($connection);
-	      $params['dbname'] = $this->getLicence();
-	
-	      $refParams->setAccessible('private');
-        $refParams->setValue($connection, $params);
-	    
-        return $this->get('doctrine')->getManager('client');
+    {	
+    	$cname = $this->getEnterprise()
+			 		  ->getCname();    	  			  
+   		     
+        return $this->get('doctrine')->getManager($cname);
     }
     
-    protected function getForm($type, $entity, $request) 
-    {      
-        $request = json_decode($request->getContent(), true);
-        $form = $this->createForm($type, $entity, array('csrf_protection' => false));
-        $form->bind($request);
-        return $form;
+    protected function getEnterprise()
+    {
+        $enterprise = $this->getUser()->getEnterprise();   		     
+        return $enterprise;
     }
 
     protected function deserialize($class, Request $request, $format = 'json')
@@ -67,5 +57,4 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 
         return $entity;
     }
-
 }

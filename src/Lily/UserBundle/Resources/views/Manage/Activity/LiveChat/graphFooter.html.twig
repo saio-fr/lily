@@ -1,0 +1,20 @@
+<footer class="panel-footer">
+  <div class="row text-center">
+    <a class="col-xs-3 numberOfConversation b-r">
+      <p class="h3 font-bold m-t"><% if(typeof(averageNumberOfConversation)!="undefined") { %><%-parseFloat(averageNumberOfConversation*1).toFixed(2) %><%}%></p>
+      <p class="text-muted">Nombre de conversations / heure</p>
+    </a>
+    <a class="col-xs-3 conversationTime b-r">
+      <p class="h3 font-bold m-t"><% if(typeof(averageConversationTime)!="undefined") { %><%-parseInt(averageConversationTime/60) + ' min ' + parseInt(averageConversationTime%60)  + ' s'  %><%}%></p>
+      <p class="text-muted">Temps moyen de conversation</p>
+    </a>
+    <a class="col-xs-3 waited b-r">
+      <p class="h3 font-bold m-t"><% if(typeof(averageWaited)!="undefined") { %><%-parseInt(averageWaited/60) + ' min ' + parseInt(averageWaited%60)  + ' s'  %><%}%></p>
+      <p class="text-muted">Temps moyen d'attente</p>
+    </a>
+    <a class="col-xs-3 satisfaction">
+      <p class="h3 font-bold m-t"><% if(typeof(averageSatisfaction)!="undefined") { %><%-parseInt(averageSatisfaction*100) %><%}%>%</p>
+      <p class="text-muted">Taux de satisfaction</p>                        
+    </a>
+  </div>
+</footer>

@@ -37,11 +37,11 @@ chat.Views.App = Backbone.View.extend({
 		// Connection to our WS Server
 		sess = new ab.connect(
 		
-			'ws://ws.saio.fr/' + licence +'/chat' // The host 		    
+			'ws://ws.saio.fr:80/' + licence +'/chat' // The host 		    
 		    , function(session) {  // Once the connection has been established
 				
 				sess = session;
-				sess.subscribe('operator/'+licence, function (topic, payload) { chat.app.records.set(payload); console.log(payload) });
+				sess.subscribe('operator', function (topic, payload) { chat.app.records.set(payload); });
 				
 				chat.app.setWindows();
 				
@@ -191,7 +191,8 @@ chat.Views.App = Backbone.View.extend({
 		
 	},
 	
-	setWindows: function () {		
+	setWindows: function () {
+		
 		
 		// If there is more 1 windows, add "multiple" class to show them all
 		if ( this.windows.length > 1 ) {

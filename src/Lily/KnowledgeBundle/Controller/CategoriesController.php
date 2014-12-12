@@ -31,7 +31,7 @@ class CategoriesController extends BaseController
 {
     
 	/**
-     * @Get("/")
+     * @Get("/get")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(serializerGroups={"list"})
      */
@@ -48,7 +48,7 @@ class CategoriesController extends BaseController
     }
     
     /**
-     * @Get("/{id}")
+     * @Get("/get/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getAction($id)
@@ -68,7 +68,7 @@ class CategoriesController extends BaseController
     }
     
     /**
-     * @Post("/{redirection}/{parent}")
+     * @Post("/create/{redirection}/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction($redirection, $parent, Request $request)
@@ -101,7 +101,7 @@ class CategoriesController extends BaseController
     }    
     
     /**
-     * @Put("/{id}/{parent}/{redirection}")
+     * @Put("/update/{id}/{parent}/{redirection}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction($id, $parent, $redirection, Request $request)
@@ -137,7 +137,7 @@ class CategoriesController extends BaseController
     } 
     
     /**
-     * @Delete("/{id}")
+     * @Delete("/delete/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */

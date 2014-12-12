@@ -30,11 +30,35 @@ class OperatorController extends BaseController
 	 */
     public function indexAction()
     { 
-        if (!$this->getClient()->getConfig()->getChat()) {
+        if (!$this->getUser()->getEnterprise()->getChat()) {
     	
 	    	throw new AccessDeniedException();
 	    	
     	}
     	
-    }        
+    }    
+    
+    /**
+     * @Get("/users")
+     * @Secure(roles="ROLE_CHAT_OPERATOR")
+     */
+    public function getUserAction() {    
+		
+		$users = $this->getUser()->getEnterprise()->getUsers();
+		
+		foreach($users as $user){
+
+            foreach($user->getRoles() as $role){
+                if($role == "ROLE_CHAT_OPERATOR"){
+
+                       $users = $user;
+                }
+
+            }
+        }
+		
+		return $users;	
+		
+    }
+    
 }

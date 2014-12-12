@@ -1,1 +1,0 @@
-lily.Models.Faq=Backbone.Model.extend({defaults:{}});

@@ -3,10 +3,3 @@
 /vendor/*
 /web/bundles/*
 /app/config/parameters.yml
-/app/config/parameters_dev.yml
-node_modules
-node_modules/*/node_modules
-compiled
-tmp
-temp
-ftpsync.settings

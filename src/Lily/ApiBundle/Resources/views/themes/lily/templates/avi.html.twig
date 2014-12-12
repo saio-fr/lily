@@ -1,14 +1,14 @@
 <div id="lily-home" class="lily-page-cont"><!-- wrapper page les différentes pages -->
 	<header id="lily-header" class="lily-cst-header">
 		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
-		{% if config.client.chat and config.app.chat.active and chatAvailable %}
+		{% if enterprise.chat and config.chat and available %}
 		<a href="#/chat" class="lily-right"><p>Parler à un conseiller<i class="lily-icon lily-icon-chat"></i></p></a>
 		{% endif %}
 	</header>
 	<section class="lily-main-content">
 		<section class="lily-avatar-wrapper">
-			{# {% include '@customer/'~client.cname~'/templates/avatar-svg.html.twig' %}
-			<img src="{{asset('customer/'~enterprise.cname~'/images/universe.png')}}" class="lily-cst-universe" class="lily-cst-universe" /> #}
+			{% include '@customer/'~enterprise.cname~'/templates/avatar-svg.html.twig' %}
+			<img src="{{asset('customer/'~enterprise.cname~'/images/universe.png')}}" class="lily-cst-universe" class="lily-cst-universe" />
 			<canvas id="canvas" width="380" height="460"></canvas>
 		</section>
 		<div id="lily-box-messages" class="scrollable">

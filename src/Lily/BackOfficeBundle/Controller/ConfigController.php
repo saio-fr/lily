@@ -28,70 +28,74 @@ use \ZMQ;
 
 class ConfigController extends BaseController
 {
-
     /**
      * @View()
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function indexAction() {
-      
-        $client = $this->getUser()->getClient()->getConfig();     
-        return array('client' => $client);
+    public function indexAction()
+    {    	 
     }
-
+        
     /**
-     * @Get("/")
+     * @Get("/get")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getAction(Request $request) {
-
-        $config = $this->getEntityManager()
-        ->getRepository('LilyBackOfficeBundle:Config')
-        ->findOneById(1);
-
+	    
+	    $key = $this->getEnterprise()->getKey();	    
+	    $config = $this->get('memcache.default')->get('config_'.$key);
+		
+		if (!$config) {
+		
+	    	$config = $this->getEntityManager()
+    				   	   ->getRepository('LilyBackOfficeBundle:Config')
+					   	   ->findOneById(1);    	  			  
+			
+			$this->get('memcache.default')->set('config_'.$key, $config, 0);
+		
+		}
+    					  
         if (!$config) {
             throw $this->createNotFoundException();
         }
-
-        $view = $this->view($config)->setFormat('json');
-        return $this->handleView($view);
-
+        
+		$view = $this->view($config)->setFormat('json');
+		return $this->handleView($view);
+	    
     }
-
+    
     /**
-     * @Put("/")
+     * @Put("/update")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function updateAction(Request $request) {
-
-        $data = json_decode($request->getContent(), true);
-
-        $config = $this->getEntityManager()
-        ->getRepository('LilyBackOfficeBundle:Config')
-        ->findOneById(1);
-
-        $form = $this->createForm(new ConfigType(), $config, array('csrf_protection' => false));
-        $form->bind($data);
-
-        $em = $this->getEntityManager();
+	    
+	    $data = json_decode($request->getContent(), true);
+	    
+	    $config = $this->getEntityManager()
+    				   ->getRepository('LilyBackOfficeBundle:Config')
+    				   ->findOneById(1); 
+	    
+	    $form = $this->createForm(new ConfigType(), $config, array('csrf_protection' => false));
+	    $form->bind($data);
+	    
+	    $em = $this->getEntityManager();
         $em->persist($config);
         $em->flush();
+        
+        $key = $this->getEnterprise()->getKey();
+        $this->get('memcache.default')->set('config_'.$key, $config, 0);        
+        		
+		// Tell our chat app that config changed
+		$context = new ZMQContext();
+		$socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+		$socket->connect("tcp://172.16.0.2:5555");
 
-        $licence = $this->getLicence();
-        $cache = $this->get( 'aequasi_cache.instance.default' );
-
-        $cache->fetch($licence.'_app_config', $config, 0);
-
-        // Tell our chat app that config changed
-        $context = new ZMQContext();
-        $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-        $socket->connect("tcp://ws.saio.fr:5555");
-
-        $socket->send(json_encode(array('action' => 'config', 'licence' => $licence)));
-
+		$socket->send(json_encode(array('action' => 'config', 'key' => $key)));	
+        
         $view = $this->view($config)->setFormat('json');
-        return $this->handleView($view);
-
+		return $this->handleView($view);
+	    
     }
-
+    
 }

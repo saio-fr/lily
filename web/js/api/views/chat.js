@@ -20,7 +20,7 @@ lily.Views.Chat = lily.Extensions.View.extend({
 		this.messages = new lily.Messages();
 		this.listenTo(this.messages, 'add', this.addItem);
 		
-		lily.ws.subscribe('visitor/'+licence+'/'+sid, function (topic, payload) {
+		lily.ws.subscribe('visitor/'+sid, function (topic, payload) {
 			
 			chat.messages.set(payload);
 			
@@ -68,7 +68,7 @@ lily.Views.Chat = lily.Extensions.View.extend({
 	
 	send: function ( m ) {		
 
-		lily.ws.publish('operator/'+licence, m);
+		lily.ws.publish('operator', m);
 		
 	},
 	

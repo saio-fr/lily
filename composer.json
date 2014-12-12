@@ -8,7 +8,7 @@
     },
     "require": {    
         "php": ">=5.3.3",
-        "symfony/symfony": "2.6.x-dev",
+        "symfony/symfony": "2.5.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
@@ -29,9 +29,8 @@
         "cboden/Ratchet": "0.3.*",
         "react/zmq": "0.2.*",
         "jms/i18n-routing-bundle": "dev-master",
-        "aequasi/cache-bundle": "~2.4.0",
-        "oneup/flysystem-bundle": "~0.1",
-        "vich/uploader-bundle": "~0.11"
+        "leaseweb/memcache-bundle": "1.2.13",
+        "fp/jsformvalidator-bundle":"dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -62,3 +61,4 @@
         }
     }
 }
+

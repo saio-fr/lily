@@ -1,1 +1,29 @@
-iframe#avatarWidget{border:0;width:100%;max-width:70px;height:70px;position:relative;z-index:15000;float:left}.form-errors{list-style:none;padding:0;color:#fb6b5b;font-size:10px}.user-info{padding:20px 0 30px 85px}.user-info small{margin-top:0}label{font-weight:500;margin-top:10px}
+iframe#avatarWidget {
+  border:none;
+  width: 100%;
+  max-width: 70px;
+  height: 70px;
+  position: relative;
+  z-index: 15000;
+  float: left;
+}
+
+.form-errors {
+  list-style: none;
+  padding: 0;
+  color: #fb6b5b;
+  font-size: 10px;
+}
+
+.user-info {
+  padding: 20px 0 30px 85px;
+}
+
+.user-info small {
+  margin-top: 0;
+}
+
+label {
+  font-weight: 500;
+  margin-top: 10px;
+}

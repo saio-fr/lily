@@ -308,7 +308,7 @@ lily.Views.Avi = lily.Extensions.View.extend({
     	// On charge l'avatar du client
     	avi = this;
     	setTimeout(function() {
-	    	$.getScript( 'http://cdn.saio.fr/customer/'+licence+'/js/avatar.js', function( data ) {});
+	    	$.getScript( root+'/avatar', function( data ) {});
     	}, 500);
 
     }

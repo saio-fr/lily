@@ -1,8 +1,6 @@
 // Socket
 // Connection to our WS Server
-
-// Global WS variable
-window.sess = new ab.connect(
+sess = new ab.connect(
 
 	'ws://' + window.location.hostname +':8080/chat/' + licence // The host 		    
     , function(session) {  // Once the connection has been established

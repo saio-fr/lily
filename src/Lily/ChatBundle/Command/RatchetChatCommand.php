@@ -36,6 +36,8 @@ class RatchetChatCommand extends ContainerAwareCommand
     protected function configure(){
         $this->setName('ratchet:start')
              ->setDescription('Start ratchet server')
+             ->addArgument('cname', InputArgument::OPTIONAL, 'Cname')
+             ->addArgument('key', InputArgument::OPTIONAL, 'Key')
              ->addArgument('zmqConfig', InputArgument::OPTIONAL, 'ZmqConfig')
              ->addArgument('zmqLog', InputArgument::OPTIONAL, 'ZmqLog')
              ->addArgument('port', InputArgument::OPTIONAL, 'Port');
@@ -44,6 +46,8 @@ class RatchetChatCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
     	
+    	$key = $input->getArgument('key');
+    	$cname = $input->getArgument('cname');
     	$zmqConfig = $input->getArgument('zmqConfig');
     	$zmqLog = $input->getArgument('zmqLog');
     	$port = $input->getArgument('port');
@@ -51,7 +55,7 @@ class RatchetChatCommand extends ContainerAwareCommand
 		// Setup services
 		$handler = $this->getContainer()->get('session.handler');
 		$chat = $this->getContainer()->get("lily_chat.app");				
-		$connector = new Connector($chat, $zmqLog, $this->getContainer()); 
+		$connector = new Connector($chat, $cname, $key, $zmqLog, $this->getContainer()); 
 		
 		$loop = LoopFactory::create();
 		$loop->addPeriodicTimer(60, array($connector, 'timedCallback')); 
@@ -74,18 +78,21 @@ class RatchetChatCommand extends ContainerAwareCommand
 
 		});  	        
 
-        $sessionProvider = new SessionProvider (
-				        		new FOSUserProvider(
-				        			new WampServer(
-				        				$connector
-				        				), $this->getContainer()
-				        			)
-				        		, $handler
-				            );  
+        $WsServer = new WsServer(
+						                	 
+            	new SessionProvider (
+            		new FOSUserProvider(
+            			new WampServer(
+            				$connector
+            				), $this->getContainer()
+            			)
+            		, $handler
+                )
+        );    
  
         $server = new App('ws.saio.fr', $port, '0.0.0.0', $loop);
         // Domain that are able to connect to our chat
-        $server->route('/{licence}/chat', new WsServer($sessionProvider), array('dev2.saio.fr', 'prod1.saio.fr', 'prod2.saio.fr', 'saio.fr'));
+        $server->route('/'.$key.'/chat', $WsServer, array('dev2.saio.fr', 'prod1.saio.fr', 'prod2.saio.fr', 'saio.fr'));
         $server->run();
                    
     }

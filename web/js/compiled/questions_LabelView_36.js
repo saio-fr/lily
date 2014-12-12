@@ -1,1 +1,0 @@
-lily.LabelView=Backbone.View.extend({tagName:"li",tpl:_.template($("#label-questions").html()),render:function(){this.$el.html(this.tpl(this.model.toJSON()));return this},events:{"click .label-item":"add_label"},add_label:function(){},close:function(){this.unbind();this.remove()}});

@@ -3,7 +3,6 @@
 namespace Lily\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use Lily\UserBundle\Entity\UserConfig;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,16 +10,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table()
+ * @ORM\Table(name="User")
  * @ExclusionPolicy("all")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Lily\UserBundle\Entity\UserRepository")
  * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur existe déjà.")
  * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
  */
@@ -35,16 +33,10 @@ class User extends BaseUser
      */
     protected $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Lily\UserBundle\Entity\Client", inversedBy="users")
+	/**
+     * @ORM\ManyToOne(targetEntity="Lily\UserBundle\Entity\Enterprise", inversedBy="users")
      */
-    private $client;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\UserConfig", inversedBy="user", cascade={"persist", "remove"})
-     * @Expose
-     */
-    private $config;
+    private $enterprise;
     
     /**
      * @var string
@@ -101,6 +93,13 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @ORM\Column(name="welcomeMsg", type="string", length=200, nullable=true)
+     */
+    private $welcomeMsg;
+    
+    /**
+     * @var string
+     *
      * @ORM\ManyToMany(targetEntity="Lily\UserBundle\Entity\Service", cascade={"persist"})
      * @Expose
      */
@@ -119,6 +118,24 @@ class User extends BaseUser
     private $country;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="avatar", type="string", length=150, nullable=true)
+     * @Expose
+     */
+    private $avatar;
+
+    /**
+     * @Assert\Image
+     */
+    private $avatarFile;
+
+    private $tmpId;
+    
+    // Nom du fichier avatar temporaire (stocké dans /tmp/)
+    private $tmpAvatar;
+    
+    /**
      * @Assert\Email()
      * @Assert\NotBlank()
      */
@@ -129,14 +146,10 @@ class User extends BaseUser
      */
     protected $username;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
-        $this->services = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->config = new UserConfig();
+        // Logique de construction
     }
 
     /**
@@ -150,49 +163,26 @@ class User extends BaseUser
     }
 
     /**
-     * Set lastname
+     * Set enterprise
      *
-     * @param string $lastname
+     * @param \Lily\UserBundle\Entity\Enterprise $enterprise
      * @return User
      */
-    public function setLastname($lastname)
+    public function setEnterprise(\Lily\UserBundle\Entity\Enterprise $enterprise)
     {
-        $this->lastname = $lastname;
-
+        $this->enterprise = $enterprise;
+    
         return $this;
     }
 
     /**
-     * Get lastname
+     * Get enterprise
      *
-     * @return string 
+     * @return \Lily\UserBundle\Entity\Enterprise 
      */
-    public function getLastname()
+    public function getEnterprise()
     {
-        return $this->lastname;
-    }
-
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
-     * @return User
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    /**
-     * Get firstname
-     *
-     * @return string 
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
+        return $this->enterprise;
     }
 
     /**
@@ -204,7 +194,7 @@ class User extends BaseUser
     public function setPhone($phone)
     {
         $this->phone = $phone;
-
+    
         return $this;
     }
 
@@ -227,7 +217,7 @@ class User extends BaseUser
     public function setPost($post)
     {
         $this->post = $post;
-
+    
         return $this;
     }
 
@@ -242,6 +232,36 @@ class User extends BaseUser
     }
 
     /**
+    * Add services
+    *
+    * @param Lily\UserBundle\Entity\Service $services
+    */
+    public function addService(\Lily\UserBundle\Entity\Service $service)
+    {
+        $this->services[] = $service;
+    }
+
+    /**
+    * Remove services
+    *
+    * @param Lily\UserBundle\Entity\Service $services
+    */
+    public function removeService(\Lily\UserBundle\Entity\Service $service)
+    {
+        $this->services->removeElement($service);
+    }
+
+    /**
+    * Get services
+    *
+    * @return Doctrine\Common\Collections\Collection
+    */
+    public function getServices()
+    {
+        return $this->services;
+    }
+
+    /**
      * Set country
      *
      * @param string $country
@@ -250,7 +270,7 @@ class User extends BaseUser
     public function setCountry($country)
     {
         $this->country = $country;
-
+    
         return $this;
     }
 
@@ -265,81 +285,181 @@ class User extends BaseUser
     }
 
     /**
-     * Set client
+     * Set lastname
      *
-     * @param \Lily\UserBundle\Entity\Client $client
+     * @param string $lastname
      * @return User
      */
-    public function setClient(\Lily\UserBundle\Entity\Client $client = null)
+    public function setLastname($lastname)
     {
-        $this->client = $client;
+        $this->lastname = $lastname;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string 
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     * @return User
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string 
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param string $avatar
+     * @return User
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return string 
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+
+    /**
+     * Set avatarFile
+     *
+     * @param UploadedFile $avatarFile
+     * @return User
+     */
+    public function setAvatarFile($avatarFile)
+    {
+        $this->avatarFile = $avatarFile;
+    
+        return $this;
+    }
+
+    /**
+     * Get avatarFile
+     *
+     * @return string 
+     */
+    public function getAvatarFile()
+    {
+        return $this->avatarFile;
+    }
+
+    /**
+     * Set tmpAvatar
+     *
+     * @param string $tmpAvatar
+     * @return User
+     */
+    public function setTmpAvatar($tmpAvatar)
+    {
+        $this->tmpAvatar = $tmpAvatar;
+    
+        return $this;
+    }
+
+    /**
+     * Get tmpAvatar
+     *
+     * @return string 
+     */
+    public function getTmpAvatar()
+    {
+        return $this->tmpAvatar;
+    }
+
+    /**
+    * @ORM\PreRemove()
+    */
+    public function preRemoveUploadedFiles()
+    {
+        // On sauvegarde temporairement l'id dont dépend le nom du fichier
+        $this->tmpId = $this->id;
+    }
+
+    /**
+    * @ORM\PostRemove()
+    */
+    public function removeUploadedFiles()
+    {
+
+    }
+
+
+    public static function getUploadDir($enterprise)
+    {
+        // On retourne le chemin relatif vers l'image pour un navigateur
+        return 'customer/' . $enterprise->getCname() . '/images/avatars/';
+    }
+
+    public static function getTmpUploadDir($enterprise)
+    {
+        return 'customer/' . $enterprise->getCname() . '/images/avatars/tmp/';
+    }
+
+    public static function getUploadRootDir($enterprise)
+    {
+        // On retourne le chemin relatif vers l'image pour notre code PHP
+        return __DIR__.'/../../../../web/' . User::getUploadDir($enterprise);
+    }
+
+    public static function getTmpUploadRootDir($enterprise)
+    {
+        return __DIR__.'/../../../../web/' . User::getTmpUploadDir($enterprise);
+    }
+
+    /**
+     * Set welcomeMsg
+     *
+     * @param string $welcomeMsg
+     * @return User
+     */
+    public function setWelcomeMsg($welcomeMsg)
+    {
+        $this->welcomeMsg = $welcomeMsg;
 
         return $this;
     }
 
     /**
-     * Get client
+     * Get welcomeMsg
      *
-     * @return \Lily\UserBundle\Entity\Client 
+     * @return string 
      */
-    public function getClient()
+    public function getWelcomeMsg()
     {
-        return $this->client;
-    }
-
-    /**
-     * Set config
-     *
-     * @param \Lily\UserBundle\Entity\UserConfig $config
-     * @return User
-     */
-    public function setConfig(\Lily\UserBundle\Entity\UserConfig $config = null)
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    /**
-     * Get config
-     *
-     * @return \Lily\UserBundle\Entity\UserConfig 
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * Add services
-     *
-     * @param \Lily\UserBundle\Entity\Service $services
-     * @return User
-     */
-    public function addService(\Lily\UserBundle\Entity\Service $services)
-    {
-        $this->services[] = $services;
-
-        return $this;
-    }
-
-    /**
-     * Remove services
-     *
-     * @param \Lily\UserBundle\Entity\Service $services
-     */
-    public function removeService(\Lily\UserBundle\Entity\Service $services)
-    {
-        $this->services->removeElement($services);
-    }
-
-    /**
-     * Get services
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getServices()
-    {
-        return $this->services;
+        return $this->welcomeMsg;
     }
 }

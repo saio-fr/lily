@@ -32,11 +32,11 @@ class OperatorTopic implements TopicInterface
      * @param array
      * @return mixed|void
      */
-    public function onSubscribe(Conn $conn, $topic, $users)
+    public function onSubscribe(Conn $conn, $topic, $clients)
     {
     	
     	// Test if opeartor is already connected
-    	foreach ($users as $item) {
+    	foreach ($clients as $item) {
 			if ($item->id === $conn->User->getId() && $item->type === 'operator') { 
 				return;
 			}
@@ -44,6 +44,7 @@ class OperatorTopic implements TopicInterface
 		
     	$operator = new \StdClass;
         $operator->id = $conn->User->getId();
+        $operator->enterprise = $conn->User->getEnterprise()->getCname();
         $operator->welcome = $conn->User->getWelcomeMsg();
         $operator->avatar = $conn->User->getAvatar();
         $operator->firstname = $conn->User->getFirstname();
@@ -54,7 +55,7 @@ class OperatorTopic implements TopicInterface
         $operator->available = false;
         $operator->chats = 0;
         
-        $users->attach($operator);
+        $clients->attach($operator);
     }
 
     /**
@@ -65,11 +66,11 @@ class OperatorTopic implements TopicInterface
      * @param array
      * @return mixed|void
      */
-    public function onUnSubscribe(Conn $conn, $topic, $users)
+    public function onUnSubscribe(Conn $conn, $topic, $clients)
     {
-    	foreach ($users as $item) {
+    	foreach ($clients as $item) {
 			if ($item->id === $conn->User->getId() && $item->type === 'operator') {
-				$users->detach($item);
+				$clients->detach($item);
 			}
 		}
     }
@@ -83,12 +84,12 @@ class OperatorTopic implements TopicInterface
      * @param $event
      * @param array $exclude
      * @param array $eligible
-     * @param array $users
+     * @param array $clients
      * @return mixed|void
      */
-    public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $users)
+    public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $clients)
     {   
-		foreach ($users as $item) {
+		foreach ($clients as $item) {
 		
 			if ($item->id === $conn->Session->getId()) { 
 				

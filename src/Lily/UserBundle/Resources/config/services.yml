@@ -2,6 +2,6 @@ parameters:
 #    lily_user.example.class: Lily\UserBundle\Example
 
 services:
-    RedirectAfterLogin:
-        class: Lily\UserBundle\Redirection\UserRedirection
-        arguments: [@router, @security.context]
+#    lily_user.example:
+#        class: %lily_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

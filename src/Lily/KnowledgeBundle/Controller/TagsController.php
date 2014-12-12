@@ -31,7 +31,7 @@ class TagsController extends BaseController
 {
     
 	/**
-     * @Get("/")
+     * @Get("/get")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(serializerGroups={"list"})
      */
@@ -48,7 +48,7 @@ class TagsController extends BaseController
     }
     
     /**
-     * @Get("/{id}")
+     * @Get("/get/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getAction($id)
@@ -68,7 +68,7 @@ class TagsController extends BaseController
     }
     
     /**
-     * @Post("/")
+     * @Post("/create")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction(Request $request)
@@ -91,7 +91,7 @@ class TagsController extends BaseController
     }    
     
     /**
-     * @Put("/")
+     * @Put("/update")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction(Request $request)
@@ -112,7 +112,7 @@ class TagsController extends BaseController
     } 
     
     /**
-     * @Delete("/{id}")
+     * @Delete("/delete/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
@@ -130,10 +130,10 @@ class TagsController extends BaseController
     }
             
     /**
-     * @Post("/{id}")
+     * @Post("/add/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function addQuestionAction($question, Request $request)
+    public function addQuestionAction($id, Request $request)
     {
 		
 		$em = $this->getEntityManager();
@@ -157,13 +157,13 @@ class TagsController extends BaseController
         $em->flush();
 			
         $view = $this->view($tag)->setFormat('json');
-        return $this->handleView($view);
+		return $this->handleView($view);
         
     }
     
                 
     /**
-     * @Post("/{id}")
+     * @Post("/remove/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function removeQuestionAction($id, Request $request)

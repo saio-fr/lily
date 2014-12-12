@@ -115,7 +115,7 @@ chat.Views.Conversation = Backbone.View.extend({
 
 		if ( $.trim(this.message).length > 0 ){ /*On vérifie que le champ n'est pas vide ou contient uniquement des espaces*/
 			
-			sess.publish('visitor/'+licence+'/'+this.model.id, this.message);
+			sess.publish('visitor/'+this.model.id, this.message);
 			
 		}
 		// clear the search field

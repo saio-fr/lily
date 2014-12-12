@@ -1,0 +1,58 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/admin/admin.css' filter='cssrewrite' output='css/compiled/admin.css' %}      
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
+{% block body %}
+
+<section class="vbox">
+
+	<header class="header bg-black navbar navbar-inverse pull-in">
+      <div class="navbar-header nav-bar aside dk">
+        <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-primary">
+          <i class="icon-reorder"></i>
+        </a>
+        <a href="#" class="nav-brand" data-toggle="fullscreen"><img src="{{ asset('images/home/logo-saio-black.png') }}"></a>
+        <a class="btn btn-link visible-xs" data-toggle="collapse" data-target=".navbar-collapse">
+          <i class="icon-comment-alt"></i>
+        </a>
+      </div>
+      <form class="navbar-form navbar-left m-t-sm" role="search">
+        <div class="form-group">
+          <div class="input-group input-s">
+            <input type="text" class="form-control input-sm no-border dk text-white" placeholder="Rechercher">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-sm btn-default btn-icon"><i class="icon-search"></i></button>
+            </span>
+          </div>
+        </div>
+      </form>
+      <button class="btn btn-default btn-sm"><i class="icon-plus"></i>Ajouter un client</button>
+    </header>
+    
+    <section clas="w-f">
+      <section class="hbox stretch">
+
+	  {% block content %}
+	  
+	    <section>
+          <div class="wrapper">
+          </div>
+        </section>	  
+
+	  {% endblock %}
+	  
+      </section>
+    </section>
+	
+</section>
+
+{% endblock %}

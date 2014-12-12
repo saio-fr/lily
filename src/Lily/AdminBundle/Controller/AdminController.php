@@ -8,6 +8,6 @@ class AdminController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('LilyAdminBundle:Admin:layout.html.twig');
+        return $this->render('LilyAdminBundle:Admin:index.html.twig');
     }
 }

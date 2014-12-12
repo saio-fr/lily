@@ -1,0 +1,453 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: solarium.yml }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:         
+        #handler_id:   session.handler.memcached
+        cookie_domain: .saio.fr
+    fragments:       ~
+    http_method_override: true  
+    
+# Memcached bundle
+lsw_memcache:
+    session:
+        client: default
+        prefix: "session_"
+        ttl: 86400
+        locking: true
+        spin_lock_wait: 150000
+    clients:
+        default:
+            hosts:
+              - { dsn: 172.16.0.6 , port: 11211 }
+            options:
+                compression: true
+                serializer: json
+                prefix_key: ""
+                hash: default
+                distribution: consistent
+                libketama_compatible: true
+                buffer_writes: true
+                binary_protocol: true
+                no_block: true
+                tcp_nodelay: false
+                socket_send_size: 4096
+                socket_recv_size: 4096
+                connect_timeout: 1000
+                retry_timeout: 0
+                send_timeout: 0
+                recv_timeout: 0
+                poll_timeout: 1000
+                cache_lookups: false
+                server_failure_limit: 0
+    doctrine:
+        metadata_cache:
+            client: default
+            entity_manager: [default, dev, cgm]
+        result_cache:
+            client: default
+            entity_manager: [default, dev, cgm]
+            prefix: "result_"
+        query_cache:
+            client: default
+            entity_manager: [default, dev, cgm]
+
+# JMS Automatic routing
+jms_i18n_routing:
+    default_locale: fr
+    locales: [en, fr]
+    strategy: prefix_except_default
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+    paths:
+        "%kernel.root_dir%/../web/customer": customer
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle, LilyHomePageBundle, LilyAdminBundle]
+    #node: /usr/local/bin/node
+    filters:
+        cssrewrite: ~
+        # java: "/usr/bin/java"
+        #yui_css:
+            #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+        #yui_js:
+            #jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
+        #uglifyjs2:
+            #bin: /usr/local/bin/uglifyjs
+            #apply_to: "\.js$"
+        #uglifycss:
+            #bin: /usr/local/bin/uglifycss
+            #apply_to: "\.css$"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection:   default
+        connections:
+            # Lily users client
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # Dev
+            dev:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_dev%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+            
+            # Dev
+            cgm:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_cgm%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # Telecom EM
+            tem:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_tem%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # Telecom Sud Paris
+            tsp:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_tsp%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # Telecom Bretagne
+            tbretagne:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_tbretagne%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # Telecom Paris
+            tparis:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_tparis%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # Paris.fr
+            parisfr:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_parisfr%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # saio.fr
+            saio:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_saio%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            # movinmotion.com
+            movinmotion:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_movinmotion%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+    orm:
+        default_entity_manager:   default
+        entity_managers:
+            default:
+                connection:       default
+                mappings:
+                    LilyAdminBundle: ~
+                    LilyUserBundle: ~
+                    
+            # Dev
+            dev:
+                connection:       dev
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+                dql:
+                       datetime_functions:
+                                timediff: Lily\BackOfficeBundle\DoctrineFunction\TimeDiff
+                                time_to_sec: Lily\BackOfficeBundle\DoctrineFunction\TimeToSec
+                                unix_timestamp: Lily\BackOfficeBundle\DoctrineFunction\UnixTimestamp
+                                round: Lily\BackOfficeBundle\DoctrineFunction\Round
+
+# Dev
+            cgm:
+                connection:       cgm
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+                dql:
+                       datetime_functions:
+                                timediff: Lily\BackOfficeBundle\DoctrineFunction\TimeDiff
+                                time_to_sec: Lily\BackOfficeBundle\DoctrineFunction\TimeToSec
+                                unix_timestamp: Lily\BackOfficeBundle\DoctrineFunction\UnixTimestamp
+                                round: Lily\BackOfficeBundle\DoctrineFunction\Round
+
+            # Telecom EM
+            tem:
+                connection:       tem
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+
+            # Telecom Sud Paris
+            tsp:
+                connection:       tsp
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+
+            # Telecom Bretagne
+            tbretagne:
+                connection:       tbretagne
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+
+            # Telecom Paris            
+            tparis:
+                connection:       tparis
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+
+            # Paris.fr            
+            parisfr:
+                connection:       parisfr
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+
+            # saio.fr            
+            saio:
+                connection:       saio
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+                dql:
+                       datetime_functions:
+                                timediff: Lily\BackOfficeBundle\DoctrineFunction\TimeDiff
+                                time_to_sec: Lily\BackOfficeBundle\DoctrineFunction\TimeToSec
+                                unix_timestamp: Lily\BackOfficeBundle\DoctrineFunction\UnixTimestamp
+                                round: Lily\BackOfficeBundle\DoctrineFunction\Round
+
+            # movinmotion.com            
+            movinmotion:
+                connection:       movinmotion
+                mappings:
+                    LilyBackOfficeBundle: ~
+                    LilyApiBundle: ~
+                    LilyKnowledgeBundle: ~
+                    LilyChatBundle: ~
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Lily\BackOfficeBundle\Loggable\Entity\LogEntry
+                        dir: "%kernel.root_dir%/../src/Lily/BackOfficeBundle/Loggable/Entity"
+                        is_bundle: false
+
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+
+# Fos User Bundle
+fos_user:
+    db_driver:     orm                        
+    firewall_name: main                       
+    user_class:    Lily\UserBundle\Entity\User
+    use_username_form_type: false
+    from_email:
+        address:        jeanclaude.giron@saio.fr
+        sender_name:    Jean Claude GIRON 
+
+# Fos rest            
+fos_rest:
+    param_fetcher_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false
+    view:
+        view_response_listener: force
+    serializer:
+        serialize_null: true
+
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
+# StofDoctrine    
+stof_doctrine_extensions:
+    default_locale: fr_FR
+    orm:
+        dev: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        cgm: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        tem: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        tsp: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        tbretagne: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        tparis: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        parisfr: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        saio: 
+            loggable: true
+            timestampable: true
+            sortable: true
+        movinmotion: 
+            loggable: true
+            timestampable: true
+            sortable: true
+    class:
+        loggable: Lily\BackOfficeBundle\Loggable\LoggableListener
+
+# Mobile Detect        
+mobile_detect:
+    redirect:
+        mobile: ~
+        tablet: ~
+    switch_device_view: ~
+
+# JMS serializer
+jms_serializer:
+    metadata:
+        directories:
+            FOSUB:
+                path: %kernel.root_dir%/Resources/FOSUserBundle/serializer
+                namespace_prefix: 'FOS\UserBundle'

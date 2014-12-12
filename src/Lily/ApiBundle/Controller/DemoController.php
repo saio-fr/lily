@@ -14,7 +14,7 @@ class DemoController extends Controller
      public function indexAction($cname, $url) {
 	     
 	     $licence = $this->get('doctrine')->getManager()
-	     				 ->getRepository('LilyClientBundle:Enterprise')
+	     				 ->getRepository('LilyUserBundle:Enterprise')
 	     				 ->findOneByCname($cname)
 	     				 ->getKey();
 	     				 
