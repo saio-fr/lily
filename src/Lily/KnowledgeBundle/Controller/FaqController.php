@@ -127,24 +127,23 @@ class FaqController extends BaseController
     public function updateAction($id, $position, Request $request)
     {
     
+        $em = $this->getEntityManager();
     	  $data = json_decode($request->getContent(), true);
     	
-        $faq = $this->getEntityManager()
-    			          ->getRepository('LilyKnowledgeBundle:Faq')
-                    ->find($id); 	
+        $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
+                  ->find($id); 	
 		
         $form = $this->createForm(new FaqType(), $faq, array('csrf_protection' => false));   
         $form->submit($data);
         
         if ($form->isValid()) {
             
-            $em = $this->getEntityManager();
             $em->persist($faq);
             $em->flush();
         
         }
 			
-        $view = $this->view($faq)->setFormat('json');
+        $view = $this->view($form, 400);
         return $this->handleView($view);
     
     } 

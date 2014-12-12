@@ -18,6 +18,7 @@ class FaqType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('type')
+            ->add('position')
         ;
     }
     
