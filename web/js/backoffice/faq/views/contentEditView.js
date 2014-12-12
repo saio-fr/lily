@@ -52,8 +52,11 @@ define(function (require) {
         'content': content,
       });
 
+<<<<<<< HEAD
       this.model.saveFaq();
 
+=======
+>>>>>>> faq refactoring api syncs
       this.remove();
       $('#faq-list .active').removeClass('active');
     },
@@ -72,7 +75,7 @@ define(function (require) {
     close: function () {
 
       this.$el.addClass('hide');
-      this.$el.unbind();
+      this.remove();
     }
   });
 

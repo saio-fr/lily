@@ -17,9 +17,17 @@ define(function (require) {
 
     model: FaqModel,
 
+    initialize: function () {
+      this.listenTo(this, 'change', this.onChange);
+    },
+
     comparator: function (model) {
       return model.get('position');
     },
+
+    onChange: function (model) {
+      model.save();
+    }
 
   });
 

@@ -7,9 +7,17 @@ require.config({
     'backbone': 'bower_components/backbone/backbone',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'dateRangePicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
+<<<<<<< HEAD
     'sortable': 'bower_components/jquery-sortable/source/js/jquery-sortable-min',
     'wysihtml5': 'bower_components/wysihtml5/dist/wysihtml5-0.3.0.min',
     'bootstrap-wysihtml5': 'bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2',
+=======
+    'sortable': 'bower_components/html5sortable/jquery.sortable',
+    // 'wysihtml5': 'bower_components/wysihtml5/dist/wysihtml5-0.3.0.min',
+    // 'bootstrap-wysihtml5': 'bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2',
+    'wysihtml5': 'wysiwyg/wysihtml5',
+    'bootstrap-wysihtml5': 'wysiwyg/bootstrap-wysihtml5',
+>>>>>>> faq refactoring api syncs
     'moment': 'bower_components/moment/moment',
     'todoTpl': 'todo',
     'flot': 'charts/flot/jquery.flot.min',

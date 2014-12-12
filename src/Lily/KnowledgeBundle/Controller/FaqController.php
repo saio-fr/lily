@@ -33,137 +33,137 @@ class FaqController extends BaseController
      * @Template()
 	 */
     public function indexAction()
-    {      
-        if (!$this->getUser()->getClient()->getConfig()->getFaq()) {       
-            throw new AccessDeniedException();       
+    {
+        if (!$this->getUser()->getClient()->getConfig()->getFaq()) {
+            throw new AccessDeniedException();
         }
     }
-    
+
     /**
      * @Get("/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
     public function getAction($parent)
-    {   
-   		
+    {
+
         if ($parent == 'null') $parent = NULL;
-        
+
         $faq = $this->getEntityManager()
                     ->getRepository('LilyKnowledgeBundle:Faq')
                     ->findByParent($parent);
-        
+
         return $faq;
-      		
+
     }
-        
+
     /**
      * @Get("/breadcrumbs/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getBreadcrumbsAction($id)
-    {    	    	
-    	
+    {
+
         if ($id == 'null') {
             $breadcrumbs[] = array('link' => '', 'title' => 'Accueil');
-            return $breadcrumbs;	
+            return $breadcrumbs;
         }
-        
+
         $faq = $this->getEntityManager()
                     ->getRepository('LilyKnowledgeBundle:Faq')
                     ->find($id);
-        
+
         $current = $faq;
-        
-        $breadcrumbs[] = array('link' => 'category/'.$faq->getId() ,'title' => $current->getTitle());		 
-        
+
+        $breadcrumbs[] = array('link' => 'category/'.$faq->getId() ,'title' => $current->getTitle());
+
         while ($faq->getParent()) {
             $title = $faq->getParent()->getTitle();
             $breadcrumbs[] = array('link' => 'category/'.$faq->getParent()->getId(), 'title' => $title);
             $faq = $faq->getParent();
         }
-        
-        $breadcrumbs[] = array('link' => '', 'title' => 'Accueil');	  
-        
+
+        $breadcrumbs[] = array('link' => '', 'title' => 'Accueil');
+
         return $breadcrumbs;
-      	
+
     }
-    
+
     /**
      * @Post("/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction($parent, Request $request)
     {
-    	  
+
     	  $em = $this->getEntityManager();
-    	  
+
     	  if ($parent == 0) $parent = NULL;
         else $parent = $em->getRepository('LilyKnowledgeBundle:Faq')
                           ->find($parent);
 
-    				   
+
         $faq = $this->deserialize('Lily\KnowledgeBundle\Entity\Faq', $request);
         $faq->setParent($parent);
         $faq->setPosition(-1);
-    	
+
         if ($faq instanceof Faq === false) {
             $view = $this->view($faq, 400);
             return $this->handleView($view);
-        }   	
-        
+        }
+
         $em->persist($faq);
         $em->flush();
-			
+
         $view = $this->view($faq)->setFormat('json');
         return $this->handleView($view);
-        
-    }    
-    
+
+    }
+
     /**
      * @Put("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction($id, $position, Request $request)
     {
-    
+
         $em = $this->getEntityManager();
     	  $data = json_decode($request->getContent(), true);
-    	
+
         $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
-                  ->find($id); 	
-		
-        $form = $this->createForm(new FaqType(), $faq);   
+                  ->find($id);
+
+        $form = $this->createForm(new FaqType(), $faq);
         $form->submit($data);
-        
+
         if ($form->isValid()) {
-            
+
             $em->persist($faq);
             $em->flush();
-        
+
         }
-			
+
         $view = $this->view($form, 400);
         return $this->handleView($view);
-    
-    } 
-    
+
+    }
+
     /**
      * @Delete("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
     public function deleteAction($id)
-    {   
-    	
+    {
+
 		    $em = $this->getEntityManager();
-		
+
         $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
-				          ->find($id); 
-    			   
+				          ->find($id);
+
         $em->remove($faq);
         $em->flush();
-		
+
     }
 
 }

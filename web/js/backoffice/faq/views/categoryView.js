@@ -75,8 +75,12 @@ define(function (require) {
     },
 
     dropped: function (event, index) {
+<<<<<<< HEAD
 
       this.model.saveFaq();
+=======
+      this.model.set({ position: index });
+>>>>>>> faq refactoring api syncs
     },
 
     leaveEdit: function () {

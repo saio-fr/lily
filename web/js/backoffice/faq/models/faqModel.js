@@ -13,8 +13,33 @@ define(function (require) {
       FaqModel;
 
   FaqModel = Backbone.Model.extend({
+<<<<<<< HEAD
     initialize: function () {
       this.urlRoot = "/rest";
+=======
+
+    createUrl: function () {
+      return this.collection.url;
+    },
+    updateUrl: function () {
+      return "/" + this.id;
+    },
+    deleteUrl: function () {
+      return "/" + this.id;
+    },
+    readUrl: function () {
+      return this.collection.url;
+    },
+
+    sync: function (method, model, options) {
+        options = options  || {};
+
+        if (!options.url) {
+          // Let Backbone.sync handle model.url fallback value
+          options.url = _.result(model, method + 'Url');
+        }
+        return Backbone.sync.call(this, method, model, options);
+>>>>>>> faq refactoring api syncs
     }
   });
 

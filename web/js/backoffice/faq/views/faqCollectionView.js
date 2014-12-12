@@ -11,6 +11,7 @@ define(function (require) {
   var Backbone = require('backbone'),
       CategoryView = require('backoffice/faq/views/categoryView'),
       ContentView = require('backoffice/faq/views/contentView'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
       FaqCollectionView;
 
@@ -25,15 +26,9 @@ define(function (require) {
       this.listenTo(this.collection, 'reset', this.render);
       this.listenTo( this.collection, 'add', this.add );
 
-      this.childViews = [];
+      this.childViews = new Backbone.ChildViewContainer();
 
       this.render();
-
-      $('.js-faq-list')
-        .sortable()
-        .bind( 'sortupdate', function(e, ui) {
-          ui.item.trigger('dropped', ui.item.index());
-        });
     },
 
     render: function () {
@@ -54,17 +49,47 @@ define(function (require) {
         view = new ContentView({ model: model });
       }
 
-      this.childViews.push(view);
+      this.childViews.add(view);
       this.$el.append(view.render().el);
+      // bind drag events again on new list
+      if (this.childViews.length === this.collection.length) {
+        this.makeSortable();
+      }
     },
 
     closeChildren: function () {
       this.childViews.forEach(function (view){
+        // delete index for that view
+        this.remove(view);
+        // remove the view
         view.remove();
       });
       // Reset index of child views
       this.childViews = [];
     },
+
+    makeSortable: function () {
+      $('.js-faq-list')
+        .off('sortupdate', this.triggerDrop)
+        .sortable('destroy')
+        // Unbind before rebinding to avoid shadow events
+        .sortable()
+        .on('sortupdate', this.triggerDrop);
+    },
+
+    triggerDrop: function (e, el) {
+      if (el && el.item) {
+        el.item.trigger('dropped', el.item.index());
+      }
+    },
+
+    close: function () {
+      this.closeChildren();
+      $('.js-faq-list')
+        .off('sortupdate', this.triggerDrop)
+        .sortable('destroy');
+      this.remove();
+    }
   });
 
   return FaqCollectionView;
