@@ -24,7 +24,7 @@ REDIRECTION
 }
 @media (max-width: 767px) {
   .redirection-action,
-  .redirection-delete {
+  .delete-action {
     display: none;
   }
 }

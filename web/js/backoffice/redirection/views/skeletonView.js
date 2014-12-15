@@ -22,7 +22,7 @@ define(function (require) {
     initialize: function () {
 
       this.fetchRedirections();
-      app.on('itemView:select', _.bind(this.selectItem, this));
+      app.on('itemView:select', this.selectItem, this);
     },
 
     fetchRedirections: function () {
@@ -53,7 +53,7 @@ define(function (require) {
 
     close: function () {
 
-      app.off('itemView:select', _.bind(this, this.selectItem));
+      app.off('itemView:select', this.selectItem, this);
       this.remove();
     }
 
