@@ -2,25 +2,18 @@
 
 namespace Lily\KnowledgeBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\View\ViewHandler;
 
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Lily\KnowledgeBundle\Entity\Faq;
@@ -29,9 +22,10 @@ use Lily\BackOfficeBundle\Controller\BaseController;
 
 class FaqController extends BaseController
 {
-	/**
-     * @Template()
-	 */
+
+   /**
+    * @Template()
+    */
     public function indexAction()
     {
         if (!$this->getUser()->getClient()->getConfig()->getFaq()) {
@@ -99,10 +93,10 @@ class FaqController extends BaseController
      */
     public function createAction($parent, Request $request)
     {
+        $em = $this->getEntityManager();
+    	  
+        if ($parent == 0) $parent = NULL;
 
-    	$em = $this->getEntityManager();
-
-    	if ($parent == 0) $parent = NULL;
         else $parent = $em->getRepository('LilyKnowledgeBundle:Faq')
                           ->find($parent);
 
@@ -118,10 +112,9 @@ class FaqController extends BaseController
 
         $em->persist($faq);
         $em->flush();
-
-        $view = $this->view($faq)->setFormat('json');
+			
+        $view = $this->view($faq);
         return $this->handleView($view);
-
     }
 
     /**
@@ -130,14 +123,13 @@ class FaqController extends BaseController
      */
     public function updateAction($id, Request $request)
     {
-
         $em = $this->getEntityManager();
-
+    	
         $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
-                  ->find($id);
-
-        $form = $this->getForm(new FaqType(), $faq, $request);
-
+                  ->find($id); 	
+		
+        $form = $this->getForm(new FaqType(), $faq, $request);   
+        
         if ($form->isValid()) {
 
             $em->persist($faq);
@@ -149,7 +141,6 @@ class FaqController extends BaseController
 
         $view = $this->view($form, 400);
         return $this->handleView($view);
-
     }
 
     /**
@@ -158,13 +149,12 @@ class FaqController extends BaseController
      * @View(statusCode=204)
      */
     public function deleteAction($id)
-    {
-
-		$em = $this->getEntityManager();
-
+    {   
+        $em = $this->getEntityManager();
+		
         $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
-				          ->find($id);
-
+        ->find($id); 
+    			   
         $em->remove($faq);
         $em->flush();
 

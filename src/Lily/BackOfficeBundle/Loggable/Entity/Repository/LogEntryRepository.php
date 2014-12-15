@@ -92,7 +92,6 @@ class LogEntryRepository extends EntityRepository
         $wrapped = new EntityWrapper($entity, $this->_em);
         $objectMeta = $wrapped->getMetadata();
         $objectClass = $objectMeta->name;
-        //$objectMeta = $this->_em->getClassMetadata($objectClass);
         $meta = $this->getClassMetadata();
         $dql = "SELECT log FROM {$meta->name} log";
         $dql .= " WHERE log.objectId = :objectId";
@@ -124,9 +123,6 @@ class LogEntryRepository extends EntityRepository
                 }
                 $filled = count($fields) === 0;
             }
-            /*if (count($fields)) {
-                throw new \Gedmo\Exception\UnexpectedValueException('Could not fully revert the entity to version: '.$version);
-            }*/
         } else {
             throw new \Gedmo\Exception\UnexpectedValueException('Could not find any log entries under version: '.$version);
         }

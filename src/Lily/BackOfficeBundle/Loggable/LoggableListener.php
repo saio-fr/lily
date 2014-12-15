@@ -4,7 +4,6 @@ namespace Lily\BackOfficeBundle\Loggable;
 
 use Doctrine\Common\EventArgs;
 use Gedmo\Loggable\LoggableListener as GedmoLoggableListener;
-use Gedmo\Mapping\MappedEventSubscriber;
 use Gedmo\Loggable\Mapping\Event\LoggableAdapter;
 use Gedmo\Tool\Wrapper\AbstractWrapper;
 

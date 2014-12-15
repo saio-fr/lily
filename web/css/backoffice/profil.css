@@ -56,9 +56,12 @@ input[type="file"] {
   filter: none;
 }
 
-
 .panel-heading {
   padding: 15px;
+}
+
+.list-group-item p {
+  margin: 0;
 }
 
 .view {
@@ -70,10 +73,6 @@ input[type="file"] {
 .view icon {
   font-size: 14px;
   margin-top:10px;
-}
-
-.view p {
-  margin: 0;
 }
 
 .view:hover {
@@ -200,4 +199,28 @@ CONVERSATIONS
 	overflow: hidden;
   -o-text-overflow: ellipsis; /* pour Opera 9 */
   text-overflow: ellipsis;
+}
+
+/*=======================================================================================================
+LOGS
+=======================================================================================================*/
+
+.faq {
+  background: #509add;
+  color: white;
+}
+
+.redirection {
+  background: #59cc4d;
+  color: white;
+}
+
+.question {
+  background: #eda418;
+  color: white;
+}
+
+.chat {
+  background: #35acc5;
+  color: white;
 }

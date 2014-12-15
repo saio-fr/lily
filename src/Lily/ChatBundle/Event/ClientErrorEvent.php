@@ -1,8 +1,6 @@
 <?php
 namespace Lily\ChatBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
-
 class ClientErrorEvent extends ClientEvent
 {
     protected $e;

@@ -1,6 +1,6 @@
 lily_statistics:
     pattern:  /statistics
-    defaults: { _controller: LilyBackOfficeBundle:Statistics:index }
+    defaults: { _controller: LilyStatisticsBundle:Default:index }
     
 lily_statistiques_api:
     resource: "@LilyStatisticsBundle/Controller/DefaultController.php"

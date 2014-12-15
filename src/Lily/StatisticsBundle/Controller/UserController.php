@@ -2,19 +2,9 @@
 
 namespace Lily\StatisticsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\View\ViewHandler;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Lily\StatisticsBundle\Controller\DefaultController;
@@ -55,7 +45,7 @@ class UserController extends DefaultController
     }
     
     /**
-     * @Get("/{id}/chat/graph/{function}/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Get("/{id}/chat/{function}/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      */
     public function getUserStatsAction($id, $function, $start, $end) {
       
@@ -88,12 +78,11 @@ class UserController extends DefaultController
             case 'duration':
                 $data = $rep->averageConversationTime($id, $timestampto, $timestampto, $interval['size']);
                 $type = 'time';
-                return $data;
                 break;
 
             case 'waited':
                 $data = $rep->averageWaited($id, $timestampfrom, $timestampto, $interval['size']);
-                $type = 'time';
+                $type = 'int';
                 break;
 
             case 'satisfaction':
@@ -107,11 +96,14 @@ class UserController extends DefaultController
         }
         
         foreach($data as $entry) {
-            $nonzeroData[$entry['intervalId']]=$entry['value'];
+            $nonzeroData[$entry['intervalId']] = $entry['value'];
         }
         
         $graph = [];
-        for($n = round($timestampfrom/$interval['size']); $n < round($timestampto/$interval['size']); $n++) {
+        $from = round($timestampfrom/$interval['size']);
+        $to = round($timestampto/$interval['size']);
+    
+        for ($n = $from; $n < $to; $n++) { 
             $graph[] = [(string) ($n*$interval['size']*1000),   //x value: microtimestamp
                         (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
         }
@@ -122,11 +114,10 @@ class UserController extends DefaultController
     
     
     /**
-     * @Get("/{id}/chat/history/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Get("/{id}/history/chats/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getUserConversationsAction($id, $start, $end) {
-    
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->findUserBy(Array('id' => $id));
         
@@ -149,7 +140,7 @@ class UserController extends DefaultController
     }
     
     /**
-     * @Get("/{id}/logs/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Get("/{id}/history/logs/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      */
     public function getUserActivitiesAction($id, $start, $end) {
     
@@ -168,7 +159,7 @@ class UserController extends DefaultController
         $timestampfrom = round($start/1000);
         $timestampto = round($end/1000);
                 
-        $rep = $this->getEntityManager()->getRepository('LilyBackOfficeBundle:Loggable:Entity:LogEntry');
+        $rep = $this->getEntityManager()->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry');
         $activities = $rep->getLogs($user->getUsername(), $timestampfrom, $timestampto);
         
         return $activities;

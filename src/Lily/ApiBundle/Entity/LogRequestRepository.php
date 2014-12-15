@@ -3,8 +3,6 @@
 namespace Lily\ApiBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
-
 
 /**
  * RequeteRepository
@@ -77,7 +75,7 @@ class LogRequestRepository extends EntityRepository
 	public function categoryRate($category) {
 		
 		$categoryRate = ($this->categoryRequests() / $this->answered()) * 100;
-		return $successrate;
+		return $categoryRate;
 		          
 	}
 	
@@ -127,7 +125,7 @@ class LogRequestRepository extends EntityRepository
 		   ->setMaxResults(8);
 		   
 		return $qb->getQuery()
-		          ->getResult();
+		->getResult();
 		
 	}
 	
@@ -146,7 +144,7 @@ class LogRequestRepository extends EntityRepository
 		   ->setMaxResults(5);
 		   
 		return $qb->getQuery()
-		          ->getResult();
+        ->getResult();
 		
 	}
 	
@@ -168,7 +166,7 @@ class LogRequestRepository extends EntityRepository
 		   ->setMaxResults(5);
 		   
 		return $qb->getQuery()
-		          ->getResult();
+        ->getResult();
 		
 	}
 	

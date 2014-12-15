@@ -2,27 +2,18 @@
 
 namespace Lily\UserBundle\Controller;
 
-use Lily\UserBundle\Entity\User;
-use Lily\UserBundle\Entity\UserConfig;
 use Lily\UserBundle\Form\UserAdminType;
 use Lily\UserBundle\Form\AvatarType;
 use Lily\BackOfficeBundle\Controller\BaseController;
 
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\View\ViewHandler;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 class UserController extends BaseController
@@ -37,13 +28,11 @@ class UserController extends BaseController
 
     /**
      * @Get("/")
-     * @Secure(roles="ROLE_ADMIN")
+     * @Secure(roles="ROLE_USER")
      */
     public function getUsersAction() {
-      
         $users = $this->getClient()->getUsers();
         return $users;
-        
     }
     
     /**

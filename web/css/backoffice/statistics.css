@@ -283,13 +283,6 @@ li.active .conversation-start {
   color: #a9abb1;
 }
 
-#conversations-menu {
-	background:#fff none repeat scroll 0 0;
-	border-left:thin solid #ebeff6;
-	border-right:thin solid #ebeff6;
-	border-top:thin solid #ebeff6;
-}
-
 .conversation-name {
 	margin: 5px 0 0 0;
 	overflow: hidden;
@@ -300,6 +293,14 @@ li.active .conversation-start {
 .conversation-duration, .conversation-duration:focus {
 	color: #a6a7a9 !important;
 }
+
+#conversations-menu {
+	background:#fff none repeat scroll 0 0;
+	border-left:thin solid #ebeff6;
+	border-right:thin solid #ebeff6;
+	border-top:thin solid #ebeff6;
+}
+
 
 .log-info small {
 	display: block;

@@ -30,7 +30,8 @@ class ConfigAviType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigAvi'
+            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigAvi',
+            'csrf_protection' => false
         ));
     }
 

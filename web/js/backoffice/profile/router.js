@@ -15,7 +15,9 @@ define(function (require) {
       GraphModel = require('backoffice/profile/models/graphModel'),
       FooterModel = require('backoffice/profile/models/footerModel'),
       ChatCollection = require('backoffice/profile/collections/chatCollection'),
-      ChatsView = require('backoffice/profile/views/activities/chats/skeletonView'),
+      LogCollection = require('backoffice/profile/collections/logCollection'),
+      ChatsSkeletonView = require('backoffice/profile/views/activities/chats/skeletonView'),
+      LogsSkeletonView = require('backoffice/profile/views/activities/logs/skeletonView'),
       UserEditView = require('backoffice/profile/views/userEditView'),
       ActivitiesView = require('backoffice/profile/views/activities/skeletonView'),
       StatisticsView = require('backoffice/profile/views/activities/statistics/statisticsView'),
@@ -32,10 +34,14 @@ define(function (require) {
 
     initialize: function () {
       
+      // Models & Collection
       var userModel = new UserModel();
       var graphModel = new GraphModel();
       var footerModel = new FooterModel();
+      var chatCollection = new ChatCollection();
+      var logCollection = new LogCollection();
       
+      // Sekeleton
       var skeleton = new SkeletonView();
       app.skeleton  = skeleton;
       
@@ -43,25 +49,30 @@ define(function (require) {
         skeleton.userEditView = new UserEditView({model: userModel});  
       });
 
-        // All ready and good to go...
-        // Create activities skeleton
-        var activities = new ActivitiesView();
-        skeleton.activities = activities;
-          
-        activities.statisticsView = new StatisticsView({
-          model: {
-            graph: graphModel, 
-            footer: footerModel 
-          } 
-        });
+      // Create activities skeleton
+      var activities = new ActivitiesView();
+      skeleton.activities = activities;
         
-        var chatCollection = new ChatCollection();
-    
-        chatCollection.fetch().success(function () {
-          activities.chatsView = new ChatsView({
-            collection: chatCollection
-          });
-        });   
+      activities.statisticsView = new StatisticsView({
+        model: {
+          graph: graphModel, 
+          footer: footerModel 
+        } 
+      });
+  
+      chatCollection.fetch().success(function () {
+        activities.chatsView = new ChatsSkeletonView({
+          collection: chatCollection
+        });
+      });
+      
+      logCollection.fetch().success(function () {
+        activities.logsView = new LogsSkeletonView({
+          collection: logCollection
+        });
+      });
+      
+      
    
     },
 

@@ -3,7 +3,6 @@
 namespace Lily\AdminBundle\Controller;
 
 use Lily\AdminBundle\Controller\BaseController;
-use Lily\UserBundle\Form\ClientType;
 use Lily\UserBundle\Entity\Client;
 use Lily\UserBundle\Entity\ClientConfig;
 
@@ -16,12 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application as Console;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
-use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\View\ViewHandler;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -107,7 +101,7 @@ class ClientController extends BaseController
   
     }
   
-    public function createClientDir($licence) {
+    private function createClientDir($licence) {
       
         $fs = $this->container->get('oneup_flysystem.cdn_filesystem');
         $fs->createDir('customer/'.$licence.'/images/avatars/tmp');

@@ -30,7 +30,8 @@ class QuestionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\KnowledgeBundle\Entity\Question'
+            'data_class' => 'Lily\KnowledgeBundle\Entity\Question',
+            'csrf_protection' => false
         ));
         
     }

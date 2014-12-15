@@ -2,25 +2,14 @@
 
 namespace Lily\BackOfficeBundle\Controller;
 
-
-use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\View\ViewHandler;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
-use Lily\BackOfficeBundle\Entity\Config;
 use Lily\BackOfficeBundle\Form\ConfigType;
 
 use \ZMQContext;
@@ -64,14 +53,11 @@ class ConfigController extends BaseController
      */
     public function updateAction(Request $request) {
 
-        $data = json_decode($request->getContent(), true);
-
         $config = $this->getEntityManager()
         ->getRepository('LilyBackOfficeBundle:Config')
         ->findOneById(1);
 
-        $form = $this->createForm(new ConfigType(), $config, array('csrf_protection' => false));
-        $form->bind($data);
+        $form = $this->getForm(new ConfigType(), $config, $request);
 
         $em = $this->getEntityManager();
         $em->persist($config);

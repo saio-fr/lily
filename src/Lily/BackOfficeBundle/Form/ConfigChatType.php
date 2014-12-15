@@ -35,7 +35,8 @@ class ConfigChatType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigChat'
+            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigChat',
+            'csrf_protection' => false
         ));
     }
 
