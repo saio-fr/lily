@@ -13,10 +13,6 @@ define(function (require) {
       FaqModel;
 
   FaqModel = Backbone.Model.extend({
-<<<<<<< HEAD
-    initialize: function () {
-      this.urlRoot = "/rest";
-=======
 
     createUrl: function () {
       return this.collection.url;
@@ -39,7 +35,6 @@ define(function (require) {
           options.url = _.result(model, method + 'Url');
         }
         return Backbone.sync.call(this, method, model, options);
->>>>>>> faq refactoring api syncs
     }
   });
 

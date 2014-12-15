@@ -31,7 +31,7 @@
           </header>
 
           <section class="bg-light lter">
-            <section class="hbox stretch">
+            <section class="hbox stretch main-container">
 
               <aside>
                 <section class="vbox">
@@ -50,9 +50,9 @@
                 </section>
               </aside>
               <!-- /.aside -->
-              <aside id="faq-detail" class="aside-faq bg-light lter b-l hide">
-				  <!-- Affichage du panneau de modification-->
-              </aside>
+<!--               <aside id="faq-detail" class="aside-faq bg-light lter b-l hide">
+                 Affichage du panneau de modification
+              </aside> -->
             </section>
           </section>
       </section>
@@ -79,6 +79,9 @@
   <script type="text/template" id="breadcrumbView">
     {% include 'LilyKnowledgeBundle:Faq:breadcrumb.html.twig' %}
   </script>
+  <script type="text/template" id="modalTpl">
+    {% include 'LilyBackOfficeBundle:Utils:modalAlert.html.twig' %}
+  </script>
 
 {% endblock %}
 
@@ -87,7 +90,7 @@
 
   <script type="text/javascript">
     var config = {};
-    config.root = '{{ path('lily_faq') }}';
+    config.root = '{{ app.request.getBaseURL() }}/lily/api/faq';
   </script>
 
   {% endautoescape %}

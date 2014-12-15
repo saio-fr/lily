@@ -9,11 +9,15 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       app = require('app'),
+      globals = require('backoffice/globals'),
       SkeletonView = require('backoffice/faq/views/skeletonView'),
       FaqCollectionView = require('backoffice/faq/views/faqCollectionView'),
       BreadcrumbCollectionView = require('backoffice/faq/views/breadcrumbCollectionView'),
       BreadcrumbCollection = require('backoffice/faq/collections/breadcrumbCollection'),
       FaqCollection = require('backoffice/faq/collections/faqCollection'),
+      ModalView = require('components/modals/modalAlertView'),
+      ModalModel = require('components/modals/modalAlertModel'),
+
 
       // Object wrapper returned as a module
       AppRouter;
@@ -23,6 +27,7 @@ define(function (require) {
     routes: {
       "" : "category",
       "category/:id" : "category",
+      "404": "notFound"
     },
 
     initialize: function () {
@@ -38,17 +43,23 @@ define(function (require) {
 
     showView: function (id) {
 
-      id = typeof id !== "undefined" ? id : "";
+      var self = this;
+      id = id  || "";
 
-      if (typeof app.faqCollectionView !== 'undefined') {
+      if (app.faqCollectionView) {
         app.faqCollectionView.closeChildren();
       }
 
-      if (typeof(app.breadcrumbsView) !== 'undefined') {
+      if (app.breadcrumbsView) {
         app.breadcrumbsView.closeChildren();
       }
 
-      app.faqCollection.url = "/rest/" + id;
+      if (app.contentEditView) {
+        app.contentEditView.remove();
+        app.contentEditView = null;
+      }
+
+      app.faqCollection.url = "/" + id;
       app.breadcrumbs.url = "/breadcrumbs/" + id;
 
       // Fetch breadcrumb models and init view
@@ -61,6 +72,9 @@ define(function (require) {
             });
 
           fetchItems();
+        }, error: function () {
+          app.router.navigate('/', {trigger: true});
+          self.notFound();
         }
       });
 
@@ -76,6 +90,19 @@ define(function (require) {
           }
         });
       }
+    },
+
+    notFound: function () {
+      // Show modal with error:
+      var modalModel = new ModalModel(globals.modalAlert.faq);
+
+      if (app.skeleton.modalView) {
+        app.skeleton.modalView.remove();
+      }
+      app.skeleton.modalView = new ModalView({
+        model: modalModel,
+        appendEl: "#faq"
+      });
     }
 
   });

@@ -10,8 +10,10 @@ define(function (require) {
   var Backbone = require('backbone'),
       _ = require('underscore'),
       app = require('app'),
+      globals = require('backoffice/globals'),
       RedirectionModel = require('backoffice/redirection/models/redirectionModel'),
-      ModalView = require('backoffice/redirection/views/modalAlertView'),
+      ModalView = require('components/modals/modalAlertView'),
+      ModalModel = require('components/modals/modalAlertModel'),
 
       // Object wrapper returned as a module
       RedirectionItemView;
@@ -90,16 +92,16 @@ define(function (require) {
 
     todelete: function () {
 
-      var modalModel = new Backbone.model.extend({
-        title: '',
-        body: ''
-      });
+      var modalModel = new ModalModel(globals.modalAlert.redirection);
 
       // Can't delete a default redirection.
       // Showing an alert modal.
       if (this.model.get('bydefault') === true) {
         if (!app.skeleton.modalView) {
-          app.skeleton.modalView = new ModalView({ model: modalModel });
+          app.skeleton.modalView = new ModalView({
+            model: modalModel ,
+            appendEl: "#redirection"
+          });
         }
 
         app.skeleton.modalView.$el.modal('show');

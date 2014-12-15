@@ -17,7 +17,9 @@ define(function (require) {
 
   ContentEditView = Backbone.View.extend({
 
-    el: '#faq-detail',
+    id: '#faq-detail',
+    tagName: "aside",
+    className: "aside-faq bg-light lter b-l hide",
 
     template: _.template($('#contentEdit').html()),
 
@@ -39,6 +41,8 @@ define(function (require) {
         .removeClass('hide')
         .html(this.template(this.model.toJSON()));
 
+      $(".main-container").append(this.$el);
+
       $('#faq-editor').wysihtml5(globals.faqWysiConfig);
 
       return this;
@@ -52,11 +56,6 @@ define(function (require) {
         'content': content,
       });
 
-<<<<<<< HEAD
-      this.model.saveFaq();
-
-=======
->>>>>>> faq refactoring api syncs
       this.remove();
       $('#faq-list .active').removeClass('active');
     },

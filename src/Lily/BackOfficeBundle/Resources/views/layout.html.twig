@@ -8,7 +8,14 @@
 
 {% block stylesheets %}
 
-{% stylesheets 'css/vendor/bootstrap.css' 'css/vendor/animate.css' 'css/vendor/font-awesome.min.css' 'css/vendor/font.css' 'css/vendor/plugin.css' 'css/vendor/app.css' filter='cssrewrite' %}
+{% stylesheets 'css/vendor/bootstrap.css'
+               'css/vendor/animate.css'
+               'css/vendor/font-awesome.min.css'
+               'css/vendor/font.css'
+               'css/vendor/plugin.css'
+               'css/vendor/app.css'
+               'css/backoffice/main.css'
+filter='cssrewrite' %}
 
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 

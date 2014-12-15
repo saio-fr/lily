@@ -53,12 +53,12 @@ define(function (require) {
 
         var id = this.model.id;
 
-        if ( typeof app.contentEditView !== 'undefined' ) {
+        if (app.contentEditView) {
 
           // edit view already exists for that item ?
           if (app.contentEditView.model.get('id') !== id) {
 
-            app.contentEditView.close();
+            app.contentEditView.remove();
             app.contentEditView = new ContentEditView({
               model: this.model
             });

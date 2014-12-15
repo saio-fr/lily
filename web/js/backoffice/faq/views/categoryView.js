@@ -27,7 +27,8 @@ define(function (require) {
       'click .destroy':       'destroy',
       'click .icon-reorder':  'navigate',
       'dblclick':             'navigate',
-      'click .view':          'edit',
+      'click .faq-name':      'edit',
+      'click .view':          'navigate',
       'blur .edit':           'leaveEdit',
       'keypress .edit':       'updateOnEnter',
       'dropped':              'dropped',
@@ -47,21 +48,24 @@ define(function (require) {
       return this;
     },
 
-    navigate: function () {
-
-      app.router.navigate( "category/" + this.model.get('id'), {
-        trigger: true
-      });
+    navigate: function (e) {
+      if ( e.target.className.indexOf('faq-name') === -1 &&
+           e.target.className.indexOf('edit')     === -1 &&
+           e.target.className.indexOf('destroy')  === -1) {
+        app.router.navigate( "category/" + this.model.get('id'), {
+          trigger: true
+        });
+      }
     },
 
     edit: function (e) {
 
-      if ( typeof app.contentEditView !== 'undefined' ) {
+      if (app.contentEditView) {
         app.contentEditView.close();
       }
 
       this.$el.addClass("editing");
-      this.input.focus();
+      this.input.focus().select();
 
       this.$el.parent().find('.active').removeClass('active');
       this.$el.addClass('active');
@@ -75,12 +79,7 @@ define(function (require) {
     },
 
     dropped: function (event, index) {
-<<<<<<< HEAD
-
-      this.model.saveFaq();
-=======
       this.model.set({ position: index });
->>>>>>> faq refactoring api syncs
     },
 
     leaveEdit: function () {

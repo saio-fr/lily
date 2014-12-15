@@ -16,23 +16,28 @@ define(function (require) {
 
   ModalAlert = Backbone.View.extend({
 
-    className: 'modal fade',
-
     template: _.template( $('#modalTpl').html()),
 
     events: {
       'click .modal-dialog .close' : 'destroy'
     },
 
-    initialize: function() {
+    initialize: function(options) {
+      if (options && options.appendEl) {
+        this.appendEl = options.appendEl;
+      }
+
       this.render();
-      this.$el.modal('show');
+      this.$el
+        .find('.modal')
+        .modal('show');
     },
 
     render: function() {
+      var container = $(this.appendEl);
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('#redirection');
+      this.$el.appendTo(container);
       return this;
     },
 
