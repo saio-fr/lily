@@ -9,6 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       RedirectionItemView = require('backoffice/redirection/views/redirectionItemView'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
       // Object wrapper returned as a module
       CollectionView;
@@ -23,13 +24,14 @@ define(function (require) {
 
     initialize: function (collection) {
       this.collection = collection;
+      this.childViews = new Backbone.ChildViewContainer();
       this.render();
     },
 
     render: function () {
 
       this.collection.each(function (item) {
-          this.show(item);
+        this.show(item);
       }, this);
 
       return this;
@@ -40,6 +42,8 @@ define(function (require) {
       var redirectionView = new RedirectionItemView({
         model: item
       });
+
+      this.childViews.add(redirectionView);
 
       this.$el
         .find('#redirections-list')
@@ -60,6 +64,17 @@ define(function (require) {
 
       this.show(model);
     },
+
+    closeChildren: function () {
+      var self = this;
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        self.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+    },
+
   });
 
   return CollectionView;

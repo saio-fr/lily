@@ -50,8 +50,8 @@ define(function (require) {
 
     navigate: function (e) {
       if ( e.target.className.indexOf('faq-name') === -1 &&
-           e.target.className.indexOf('edit')     === -1 &&
-           e.target.className.indexOf('destroy')  === -1) {
+           e.target.className.indexOf('edit') === -1 &&
+           e.target.className.indexOf('destroy') === -1) {
         app.router.navigate( "category/" + this.model.get('id'), {
           trigger: true
         });
