@@ -76,7 +76,5 @@ require([
   app.router = new Router();
   // Start app router
   // Backbone.history.start() returns false if no route matches
-  if (!Backbone.history.start()) {
-    app.router.navigate('404', {trigger:true});
-  }
+  Backbone.history.start();
 });

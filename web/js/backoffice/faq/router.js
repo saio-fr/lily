@@ -27,7 +27,6 @@ define(function (require) {
     routes: {
       "" : "category",
       "category/:id" : "category",
-      "404": "notFound"
     },
 
     initialize: function () {
@@ -44,7 +43,7 @@ define(function (require) {
     showView: function (id) {
 
       var self = this;
-      id = id  || "";
+      id = id  || null;
 
       if (app.faqCollectionView) {
         app.faqCollectionView.closeChildren();
