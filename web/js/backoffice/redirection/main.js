@@ -9,8 +9,6 @@ require.config({
     'dateRangePicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
     'moment': 'bower_components/moment/moment',
     'todoTpl': 'todo',
-    'flot': 'charts/flot/jquery.flot.min',
-    'validator': '../bundles/fpjsformvalidator/js/fp_js_validator',
     'app': 'backoffice/app'
   },
   shim: {
@@ -50,8 +48,6 @@ require([
   // Libraries required at bootstrap for the UI.
   "bootstrap",
   "todoTpl",
-  "flot",
-  "validator"
 ], function( $, _, Backbone, app, globals, SkeletonView ) {
 
   'use strict';
