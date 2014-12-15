@@ -27,7 +27,6 @@ define(function (require) {
       this.listenTo( this.collection, 'add', this.add );
 
       this.childViews = new Backbone.ChildViewContainer();
-
       this.render();
     },
 
@@ -58,14 +57,13 @@ define(function (require) {
     },
 
     closeChildren: function () {
+      var self = this;
       this.childViews.forEach(function (view){
         // delete index for that view
-        this.remove(view);
+        self.childViews.remove(view);
         // remove the view
         view.remove();
       });
-      // Reset index of child views
-      this.childViews = [];
     },
 
     makeSortable: function () {

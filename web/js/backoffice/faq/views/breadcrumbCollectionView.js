@@ -9,6 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       BreadcrumbView = require('backoffice/faq/views/breadcrumbView'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
       // Object wrapper returned as a module
       BreadcrumbsView;
@@ -23,7 +24,7 @@ define(function (require) {
       this.listenTo(this.collection, 'reset', this.render);
       this.listenTo( this.collection, 'add', this.add );
 
-      this.childViews = [];
+      this.childViews = new Backbone.ChildViewContainer();
       this.render();
     },
 
@@ -43,17 +44,18 @@ define(function (require) {
         model: model,
       });
 
-      this.childViews.push(view);
+      this.childViews.add(view);
       this.$el.prepend(view.render().el);
     },
 
     closeChildren: function () {
-
-      this.childViews.forEach(function (view) {
+      var self = this;
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        self.childViews.remove(view);
+        // remove the view
         view.remove();
       });
-      // Reset index of child views
-      this.childViews = [];
     },
 
   });

@@ -73,6 +73,10 @@ class FaqController extends BaseController
                     ->getRepository('LilyKnowledgeBundle:Faq')
                     ->find($id);
 
+        if (!$faq) {
+            throw $this->createNotFoundException();
+        }
+
         $current = $faq;
 
         $breadcrumbs[] = array('link' => 'category/'.$faq->getId() ,'title' => $current->getTitle());
@@ -96,9 +100,9 @@ class FaqController extends BaseController
     public function createAction($parent, Request $request)
     {
 
-    	  $em = $this->getEntityManager();
+    	$em = $this->getEntityManager();
 
-    	  if ($parent == 0) $parent = NULL;
+    	if ($parent == 0) $parent = NULL;
         else $parent = $em->getRepository('LilyKnowledgeBundle:Faq')
                           ->find($parent);
 
@@ -124,22 +128,22 @@ class FaqController extends BaseController
      * @Put("/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function updateAction($id, $position, Request $request)
+    public function updateAction($id, Request $request)
     {
 
         $em = $this->getEntityManager();
-    	  $data = json_decode($request->getContent(), true);
 
         $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
                   ->find($id);
 
-        $form = $this->createForm(new FaqType(), $faq);
-        $form->submit($data);
+        $form = $this->getForm(new FaqType(), $faq, $request);
 
         if ($form->isValid()) {
 
             $em->persist($faq);
             $em->flush();
+            $view = $this->view($faq);
+            return $this->handleView($view);
 
         }
 
@@ -156,7 +160,7 @@ class FaqController extends BaseController
     public function deleteAction($id)
     {
 
-		    $em = $this->getEntityManager();
+		$em = $this->getEntityManager();
 
         $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
 				          ->find($id);
