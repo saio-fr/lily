@@ -2,47 +2,33 @@
 
 namespace Lily\StatisticsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-use Gedmo\Loggable\LoggableListener;
-
 use Lily\BackOfficeBundle\Controller\BaseController;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\Controller\Annotations\View;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 class DefaultController extends BaseController
 {
 
-   /**
-    * @Template()
-    */
     public function indexAction()
     {
         $from = new \Datetime('-1 month');
         $to = new \Datetime();
+        
+        $em = $this->getEntityManager();
     
         // Top categories
-        $categories = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogRequest')
+        $categories = $em->getRepository('LilyApiBundle:LogRequest')
         ->statsTopCategories($from, $to);
     
         // Top questions
-        $questions = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogRequest')
+        $questions = $em->getRepository('LilyApiBundle:LogRequest')
         ->statsTopQuestions($from, $to);
-
-        return array('categories' => $categories, 'questions' => $questions);
+        
+        return $this->render('LilyStatisticsBundle:Statistics:index.html.twig', 
+          array('categories' => $categories, 'questions' => $questions));
     }
     
     
@@ -58,23 +44,25 @@ class DefaultController extends BaseController
         $timestampto = round($timestampto/1000);
         $interval = $this->getInterval($timestampfrom, $timestampto);
            
-        $loadings = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogConnection')
-        ->uniqueVisitors($timestampfrom, $timestampto, $interval->size);
+        $loadings = $em->getRepository('LilyApiBundle:LogConnection')
+        ->uniqueVisitors($timestampfrom, $timestampto, $interval['size']);
   
         foreach ($loadings as $key => $entry) {
-            $nonzeroData[$entry["intervalId"]]=$entry["value"];
+            $nonzeroData[$entry['intervalId']] = $entry['value'];
         }
-  
-        for ($n = round($timestampfrom/$intervalSize); $n < round($timestampto/$interval->size); $n++) { 
-            $data[] = [(string) ($n*$intervalSize*1000), //x value: microtimestamp
+        
+        $from = round($timestampfrom/$interval['size']);
+        $to = round($timestampto/$interval['size']);
+        
+        for ($n = $from; $n < $to; $n++) { 
+            $data[] = [(string) ($n*$interval['size']), //x value: microtimestamp
             (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data           
         }
         
         return array(
-            'period' => $interval->period, 
-            'step' => $interval->step, 
-            'type' => 'loadings', 
+            'period' => $interval['period'], 
+            'step' => $interval['step'], 
+            'type' => 'int', 
             'values' => $data
         );
     }
@@ -91,12 +79,10 @@ class DefaultController extends BaseController
         $timestampto = round($timestampto/1000);
         $interval = $this->getInterval($timestampfrom, $timestampto);
            
-        $loadings = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogConnection')
+        $loadings = $em->getRepository('LilyApiBundle:LogConnection')
         ->uniqueVisitors($timestampfrom, $timestampto, $intervalSize);
   
-        $users = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogRequest')
+        $users = $em->getRepository('LilyApiBundle:LogRequest')
         ->uniqueUsers($timestampfrom, $timestampto, $intervalSize);
   
         foreach ($loadings as $loading) {
@@ -105,19 +91,22 @@ class DefaultController extends BaseController
                     $nonzeroData[$loading['intervalId']]=round($user['value']*100/$loading['value']);
                     break;
                 }
-                $nonzeroData[$loading['intervalId']]=0;
+                $nonzeroData[$loading['intervalId']] = 0;
             }
         }
-  
-        for ($n = round($timestampfrom/$intervalSize); $n < round($timestampto/$intervalSize); $n++) {
-            $data[] = [(string) ($n*$intervalSize*1000), //x value: microtimestamp
+        
+        $from = round($timestampfrom/$interval['size']);
+        $to = round($timestampto/$interval['size']);
+        
+        for ($n = $from; $n < $to; $n++) { 
+            $data[] = [(string) ($n*$interval['size']*1000), //x value: microtimestamp
             (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 100)];  //y value : data
         } 
         
         return array(
-            'period' => $interval->period, 
-            'step' => $interval->step, 
-            'type' => 'loadings', 
+            'period' => $interval['period'], 
+            'step' => $interval['step'], 
+            'type' => '%', 
             'values' => $data
         );
     }
@@ -134,12 +123,10 @@ class DefaultController extends BaseController
         $timestampto = round($timestampto/1000);
         $interval = $this->getInterval($timestampfrom, $timestampto);
         
-        $satisfied = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogNotation')
+        $satisfied = $em->getRepository('LilyApiBundle:LogNotation')
         ->satisfaction($timestampfrom, $timestampto, $intervalSize, true);
   
-        $notations = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogNotation')
+        $notations = $em->getRepository('LilyApiBundle:LogNotation')
         ->satisfaction($timestampfrom, $timestampto, $intervalSize, null);
   
         foreach ($notations as $notation) {
@@ -151,23 +138,25 @@ class DefaultController extends BaseController
                 $nonzeroData[$notation['intervalId']]=100;
             }
         }
-  
-        for ($n = round($timestampfrom/$intervalSize); $n < round($timestampto/$intervalSize); $n++) {
-  
-          $data[] = [(string) ($n*$intervalSize*1000), //x value: microtimestamp
+        
+        $from = round($timestampfrom/$interval['size']);
+        $to = round($timestampto/$interval['size']);
+        
+        for ($n = $from; $n < $to; $n++) { 
+          $data[] = [(string) ($n*$interval['size']*1000), //x value: microtimestamp
           (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 100)];  //y value : data
         }
         
         return array(
-            'period' => $interval->period, 
-            'step' => $interval->step, 
-            'type' => 'loadings', 
+            'period' => $interval['period'], 
+            'step' => $interval['step'], 
+            'type' => '%', 
             'values' => $data
         );
     }
 
     /**
-     * @Get("/footer/usage/{timestampfrom}/{timestampto}")
+     * @Get("/usage/footer/usage/{timestampfrom}/{timestampto}")
      * @Secure(roles="ROLE_USER")
      * @View()
      */
@@ -179,25 +168,21 @@ class DefaultController extends BaseController
         $to = round($timestampto/1000);
 
         // LOADINGS
-        $loadings = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogConnection')
+        $loadings = $em->getRepository('LilyApiBundle:LogConnection')
         ->uniqueVisitors($from, $to, null);
 
         // USAGE
-        $users = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogRequest')
+        $users = $em->getRepository('LilyApiBundle:LogRequest')
         ->uniqueUsers($from, $to, null);
 
         if ($loadings > 0) $usage = round(($users/$loadings)*100);
         else $usage = 0;
 
         // SATISFACTION
-        $satisfied = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogNotation')
+        $satisfied = $em->getRepository('LilyApiBundle:LogNotation')
         ->satisfaction($from, $to, true, null);
 
-        $notations = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogNotation')
+        $notations = $em->getRepository('LilyApiBundle:LogNotation')
         ->satisfaction($from, $to, null, null);
 
         if ($notations > 0) $satisfaction = round($satisfaction, 0);
@@ -221,20 +206,17 @@ class DefaultController extends BaseController
         $to = new \Datetime();
     
         // SUPPORTS
-        $mobiles = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogConnection')
+        $mobiles = $em->getRepository('LilyApiBundle:LogConnection')
         ->mobiles($from, $to);
     
         $mobiles = array('x' => 'Mobile', 'y' => $mobiles);
     
-        $computers = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogConnection')
+        $computers = $em->getRepository('LilyApiBundle:LogConnection')
         ->computers($from, $to);
     
         $computers = array('x' => 'Ordinateur', 'y' => $computers);
     
-        $tablets = $this->getEntityManager()
-        ->getRepository('LilyApiBundle:LogConnection')
+        $tablets = $em->getRepository('LilyApiBundle:LogConnection')
         ->tablets($from, $to);
     
         $tablets = array('x' => 'Tablette', 'y' => $tablets);
@@ -244,7 +226,7 @@ class DefaultController extends BaseController
   
     }
 
-    public function getInterval($timestampfrom, $timestampto) {
+    protected function getInterval($timestampfrom, $timestampto) {
     
         // PERIODE
         $from = new \Datetime();

@@ -5,7 +5,6 @@ namespace Lily\ChatBundle\Topic;
 use Lily\ChatBundle\Topic\TopicInterface;
 
 use Ratchet\ConnectionInterface as Conn;
-use Symfony\Component\Serializer\Serializer;
 
 class OperatorTopic implements TopicInterface
 {

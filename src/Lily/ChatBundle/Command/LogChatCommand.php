@@ -3,14 +3,13 @@ namespace Lily\ChatBundle\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;  
-use Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
 use React\EventLoop\Factory as LoopFactory;
 use React\ZMQ\Context;
 use \ZMQ;
+
 use Lily\ChatBundle\Entity\LogChat;
 
 class LogChatCommand extends ContainerAwareCommand
@@ -25,7 +24,6 @@ class LogChatCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
     	
-    	$licence = $input->getArgument('licence');
     	$zmqLog = $input->getArgument('zmqLog');
     	
 		        // Another script to log chats & info into Database without blocking ratchet
@@ -45,7 +43,7 @@ class LogChatCommand extends ContainerAwareCommand
 	    $refParams->setAccessible('private');
 	    $refParams->setValue($connection, $params);
 	    
-        $em =  $this->get('doctrine')->getManager('client');
+        $em = $this->get('doctrine')->getManager('client');
 	    
 	    	    // Bind to our socket to communicate with our symfony app
 		$context = new Context($loop);

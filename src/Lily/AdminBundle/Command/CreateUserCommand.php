@@ -3,10 +3,8 @@
 namespace Lily\AdminBundle\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use FOS\UserBundle\Model\User;
 use FOS\UserBundle\Command\CreateUserCommand as BaseCommand;
 
 class CreateUserCommand extends BaseCommand

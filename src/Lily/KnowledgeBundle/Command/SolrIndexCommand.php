@@ -5,7 +5,6 @@ namespace Lily\KnowledgeBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SolrIndexCommand extends ContainerAwareCommand
@@ -43,7 +42,7 @@ class SolrIndexCommand extends ContainerAwareCommand
 		$update->addDocuments($documents);
 		$update->addCommit();
 		
-		// On exécute la query et on affiche le résultat
-		$result = $client->update($update);
+		// On exécute la query
+		$client->update($update);
 	}
 }

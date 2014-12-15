@@ -2,9 +2,7 @@
 
 namespace Lily\BackOfficeBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -29,14 +27,14 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     {	   	  			  
         $connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
 	
-	      $refConn = new \ReflectionObject($connection);
-	      $refParams = $refConn->getProperty('_params');
-	      $refParams->setAccessible('public'); //we have to change it for a moment
+        $refConn = new \ReflectionObject($connection);
+        $refParams = $refConn->getProperty('_params');
+        $refParams->setAccessible('public'); //we have to change it for a moment
 	
-	      $params = $refParams->getValue($connection);
-	      $params['dbname'] = $this->getLicence();
+        $params = $refParams->getValue($connection);
+        $params['dbname'] = $this->getLicence();
 	
-	      $refParams->setAccessible('private');
+        $refParams->setAccessible('private');
         $refParams->setValue($connection, $params);
 	    
         return $this->get('doctrine')->getManager('client');

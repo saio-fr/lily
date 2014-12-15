@@ -1,9 +1,11 @@
 <?php
+
 namespace Lily\ChatBundle\Server\App;
+
 use React\EventLoop\LoopInterface;
 use React\EventLoop\Factory as LoopFactory;
 use React\Socket\Server as Reactor;
-use React\ZMQ\Context;
+
 use Ratchet\Http\HttpServerInterface;
 use Ratchet\Http\OriginCheck;
 use Ratchet\Wamp\WampServerInterface;
@@ -14,21 +16,18 @@ use Ratchet\Http\Router;
 use Ratchet\WebSocket\WsServer;
 use Ratchet\Wamp\WampServer;
 use Ratchet\ComponentInterface;
+
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler; 
-use Lily\ChatBundle\Server\MessageLogger;
-use Lily\ChatBundle\Server\DatabaseConnector;
-use Lily\ChatBundle\Server\FOSUserProvider;
 
 /**
  * An opinionated facade class to quickly and easily create a WebSocket server.
  * A few configuration assumptions are made and some best-practice security conventions are applied by default.
  */
 class App {
+
     /**
      * @var \Symfony\Component\Routing\RouteCollection
      */
@@ -77,27 +76,13 @@ class App {
 
         $this->routes  = new RouteCollection;
         $this->_server = new IoServer(
-        				   new HttpServer(
-        				     new Router(
-        				       new UrlMatcher($this->routes, new RequestContext)
-        				     )
-        				   ), $socket, $loop
-        				 );     
+            new HttpServer(
+                new Router(
+                    new UrlMatcher($this->routes, new RequestContext)
+                )
+            ), $socket, $loop
+        );
 
-/*
-        $policy = new FlashPolicy;
-        $policy->addAllowedAccess($httpHost, 80);
-        $policy->addAllowedAccess($httpHost, $port);
-        $flashSock = new Reactor($loop);
-        $this->flashServer = new IoServer($policy, $flashSock);
-
-        if (80 == $port) {
-            $flashSock->listen(843, '0.0.0.0');
-        } else {
-            $flashSock->listen(8843);
-        }
-*/
-        
     }
 
     /**
@@ -128,9 +113,9 @@ class App {
         if ('*' !== $allowedOrigins[0]) {
             $decorated = new OriginCheck($decorated, $allowedOrigins);
         }
-        
+
         $this->routes->add('rr-' . ++$this->_routeCounter, new Route($path, array('_controller' => $decorated), array('Origin' => $this->httpHost), array(), $httpHost));
-        
+
         return $decorated;
     }
 

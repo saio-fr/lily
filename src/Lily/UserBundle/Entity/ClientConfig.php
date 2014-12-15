@@ -3,12 +3,7 @@
 namespace Lily\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
 
 /**
  * ClientConfig

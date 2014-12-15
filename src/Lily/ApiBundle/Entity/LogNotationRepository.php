@@ -3,7 +3,6 @@
 namespace Lily\ApiBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
 
 
 /**

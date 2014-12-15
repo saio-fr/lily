@@ -1,0 +1,24 @@
+<div class="conversation-info">
+	
+  <% if (transfered) { %>
+  	<icon class="icon-share-sign pull-right"></icon>
+  <% } %>
+  <% if (satisfaction) { %>
+  	<icon class="icon-thumbs-up-alt pull-right"></icon>
+  <% } %>
+  <% if (satisfaction === false) { %>
+  	<icon class="icon-thumbs-down-alt pull-right"></icon>
+  <% } %>
+   <% if (banned) { %>
+  	<icon class="icon-ban-circle pull-right"></icon>
+  <% } %>	  
+	
+  <p class="conversation-name"><%= name %></p>
+  <small class="conversation-duration">
+    <% duration = moment(end).subtract(moment(start)) %>
+    <% if (duration.hours()) { %> <%= duration.format('HH')+' heures' %> <% } %>
+    <% if (duration.minutes()) { %> <%= duration.format('mm')+' minutes' %> <% } %>
+    <%= duration.format('s')+' secondes, le ' + moment(start).format('DD MMMM YYYY') + ' à ' +  moment(start).format('HH:mm') %>
+  </small>
+    
+</div>

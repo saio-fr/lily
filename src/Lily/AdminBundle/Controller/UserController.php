@@ -8,19 +8,9 @@ use Lily\UserBundle\Entity\Client;
 use Lily\UserBundle\Entity\User;
 use Lily\UserBundle\Entity\UserConfig;
 
-use Symfony\Bundle\FrameworkBundle\Console\Application as Console;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
-use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\View\ViewHandler;
-
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 class UserController extends BaseController

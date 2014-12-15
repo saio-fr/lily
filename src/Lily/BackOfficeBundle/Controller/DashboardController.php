@@ -2,8 +2,6 @@
 
 namespace Lily\BackOfficeBundle\Controller;
 
-
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class DashboardController extends BaseController
@@ -16,9 +14,7 @@ class DashboardController extends BaseController
     {    	
     	
 		$to = new \Datetime();
-		$from = new \Datetime('-1 month');
-		
-		$licence = $this->getLicence();	    
+		$from = new \Datetime('-1 month');   
 		
     	// On récupère les fichiers de logs    	
     	$activities = $this->getEntityManager()

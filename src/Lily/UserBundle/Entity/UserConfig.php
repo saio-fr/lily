@@ -2,18 +2,12 @@
 
 namespace Lily\UserBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
-
 use Doctrine\ORM\Mapping as ORM;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
-use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation as JMS;
 
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 

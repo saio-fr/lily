@@ -2,25 +2,13 @@
 
 namespace Lily\ApiBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\View\ViewHandler;
 
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\SerializationContext;
 
 use Lily\ApiBundle\Controller\BaseController;
@@ -31,7 +19,6 @@ class ApiController extends BaseController
     public function indexAction($licence) {
 
         // Services
-        $client = $this->getClient($licence);
         $config = $this->getConfig($licence);
         $redirection = $this->getRedirection($licence);
 
@@ -316,7 +303,7 @@ class ApiController extends BaseController
      * @Post("/{licence}/notation/{question}")
      * @View()
      */
-    public function NotationAction($licence, $question, Request $request) {
+    public function notationAction($licence, $question, Request $request) {
 
         $em = $this->getEntityManager($licence);
         $notation = $this->deserialize('Lily\ApiBundle\Entity\LogNotation', $request);
@@ -431,14 +418,13 @@ class ApiController extends BaseController
     public function getTopQuestionsAction($licence, $id) {
         // On initialise nos variables
         $em = $this->getEntityManager($licence);
-        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        
         $from = new \Datetime('-4 month');
         $to = new \Datetime();
 
         if ($id == 'NULL') {
             // On récupère le top des questions
-            $requests = $this->get('doctrine')->getManager($licence)
-            ->getRepository('LilyApiBundle:LogRequest')
+            $requests = $em->getRepository('LilyApiBundle:LogRequest')
             ->topQuestions($from, $to);
 
             foreach ($requests as $item) {
@@ -447,8 +433,7 @@ class ApiController extends BaseController
             }
 
         } else {
-            $questions = $this->get('doctrine')->getManager($licence)
-            ->getRepository('LilyKnowledgeBundle:Question')
+            $questions = $em->getRepository('LilyKnowledgeBundle:Question')
             ->find($id);
 
         }

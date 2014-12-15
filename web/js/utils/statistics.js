@@ -55,18 +55,13 @@ define(function (require) {
           view.model.footer instanceof Backbone.Model) {
             view.model.footer.start = start;
             view.model.footer.end = end;
-        }  
-        
+        }   
       }
     );
     el.find('span').html(g.date.start.format('D MMMM YYYY') + ' - ' + g.date.end.format('D MMMM YYYY'));
   }
   
-  // Render footer and plot graph
-  Statistics.renderGraph = function (view) {
-    // Show loader
-    $('.icon-spinner').fadeIn();
-    // Fetch data
+  Statistics.renderFooter = function (view) {
     view.model.footer.fetch({
       success: function(data) {
         view.$el.find('footer').remove();
@@ -74,6 +69,13 @@ define(function (require) {
         view.$el.find('#'+view.model.graph.type).addClass('active');
       }
     });
+  },
+  
+  // Render footer and plot graph
+  Statistics.renderGraph = function (view) {
+    // Show loader
+    $('.icon-spinner').fadeIn();
+    // Fetch data
     view.model.graph.fetch({
       success: function(data) {
         var el = view.$el.find('.graph');

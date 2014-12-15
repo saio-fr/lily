@@ -2,7 +2,6 @@
 
 namespace Lily\BackOfficeBundle\Loggable\Mapping\Event;
 
-use Gedmo\Mapping\Event\AdapterInterface;
 use Gedmo\Loggable\Mapping\Event\LoggableAdapter as GedmoLoggableAdapter;
 
 /**

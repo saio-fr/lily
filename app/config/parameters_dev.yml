@@ -6,17 +6,20 @@ parameters:
     database_port: 3306
     database_user: saio
     database_password: gW74uw?6
-        
+
     # DB Clients
     database_name: lilynew
-    
+
     # Mail
     mailer_transport: smtp
     mailer_host: 37.59.26.163
     mailer_user: null
     mailer_password: null
-    
+
     # Var
     locale: fr
     secret: e63298c3f103b670cb57be1596080ed94
     cdn: http://cdn.saio.fr
+    ftp_username: saio
+    ftp_password: qyH26i$8
+    ftp_root: /cdn.saio.fr

@@ -1,0 +1,31 @@
+	<header class="header bg-dark bg-gradient">
+	  <ul id="statistics-nav" class="nav nav-tabs">
+	    <li class="usage-nav active"><a href="#usage">Utilisation</a></li>
+	    {% if (app.user.client.config.avi) %}
+	    <li class="avi-nav"><a href="#avi">Avatar</a></li>
+	    {% endif %}
+	    {% if (app.user.client.config.chat) %}
+	    <li class="chat-nav"><a href="#chat">Chat</a></li>
+	    {% endif %}
+	    <li class="users-nav"><a href="#users">Opérateurs</a></li>
+	  </ul>
+	</header>
+  <section>
+    <div class="tab-content">
+      <div class="tab-pane active" id="usage">
+      <!-- Usage -->
+      </div>
+      <div class="tab-pane vbox" id="avi">
+      <!-- Avi -->
+      </div>
+      <div class="tab-pane vbox" id="chat">
+      <!-- Chat -->
+      </div>
+      <div class="tab-pane vbox" id="users">
+      <!-- Users -->
+      </div>
+      <div class="text-center wrapper">
+        <i class="icon-spinner icon-spin icon-large"></i>
+      </div>
+    </div>
+  </section>

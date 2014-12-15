@@ -27,7 +27,8 @@ class ConfigAviRedirectionsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigAviRedirections'
+            'data_class' => 'Lily\BackOfficeBundle\Entity\ConfigAviRedirections',
+            'csrf_protection' => false
         ));
     }
 

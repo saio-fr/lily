@@ -3,7 +3,6 @@
 namespace Lily\BackOfficeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation AS JMS;
 
 /**
  * Config

@@ -1,0 +1,134 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/backoffice/statistics.css' 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}   
+   
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
+{% block body %} 
+
+<section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+
+	{% block content %}
+    
+    <!-- .vbox -->
+    <section class="vbox content-wrapper">
+    </section>
+    <!-- /.vbox -->
+
+	{% endblock %}
+
+
+  {% block templates %}
+    {% autoescape false %}
+    
+    <!-- L'appel des différents scripts de vue -->
+    <script type="text/template" id="skeletonTpl">
+      {% include 'LilyStatisticsBundle:Statistics:skeleton.html.twig' %}
+    </script>
+    
+    <!-- Usage -->
+    
+    <script type="text/template" id="usageTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Usage:skeleton.html.twig' %}
+    </script> 
+    <script type="text/template" id="usageGraphTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Usage:graph.html.twig' %}
+    </script>
+    <script type="text/template" id="usageGraphFooterTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Usage:footer.html.twig' %}
+    </script>
+    
+    <!-- Avi -->
+    
+    <script type="text/template" id="aviSkeletonTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Avi:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="aviGraphTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Avi:graph.html.twig' %}
+    </script>
+    <script type="text/template" id="aviFooterTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Avi:footer.html.twig' %}
+    </script>
+    <script type="text/template" id="aviRedirectionsTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Avi:redirections.html.twig' %}
+    </script>
+    <script type="text/template" id="aviTopCategoriesTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Avi:top-categories.html.twig' %}
+    </script>
+    <script type="text/template" id="aviTopQuestionsTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Avi:top-questions.html.twig' %}
+    </script>
+    
+    <!-- Chat -->
+    
+    <script type="text/template" id="chatSkeletonTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Chat:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="chatGraphTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Chat:graph.html.twig' %}
+    </script>
+    <script type="text/template" id="chatFooterTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Chat:footer.html.twig' %}
+    </script>
+    
+    <!-- Users -->
+    
+    <script type="text/template" id="usersSkeletonTpl">
+	    {% include 'LilyStatisticsBundle:Statistics/Users:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesSkeletonTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesStatisticsGraphTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Statistics:graph.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesStatisticsFooterTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Statistics:footer.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesLogsSkeletonTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Logs:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesLogsLogTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Logs:log.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesChatsSkeletonTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Chats:skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesChatsChatTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Chats:chat.html.twig' %}
+    </script>
+    <script type="text/template" id="usersActivitiesChatsDetailsTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Chats:details.html.twig' %}
+    </script>    
+    
+    {% endautoescape %}
+  {% endblock %}
+  
+  {% block bootstrap %}
+    {% autoescape false %}
+      <script type="text/javascript">
+        var config = {};
+        config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
+        config.licence = '{{ app.user.client.licence }}';
+	    </script>
+    {% endautoescape %}
+  {% endblock %}
+
+</section>
+
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js') }}"
+  data-main="{{ asset('js/backoffice/statistics/main.js') }}">
+</script>
+
+{% endblock %}
