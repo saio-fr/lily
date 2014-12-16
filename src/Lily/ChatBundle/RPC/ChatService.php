@@ -23,10 +23,10 @@ class ChatService {
      *
      * @param \Ratchet\ConnectionInterface $conn
      * @param array $params
-     * @param stdclass $client
+     * @param \StdClass $client
      * @return boolean
      */
-    public function setOperator(Conn $conn, $params, StdClass $client) {
+    public function setOperator(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
 
@@ -49,10 +49,10 @@ class ChatService {
      *
      * @param \Ratchet\ConnectionInterface $conn
      * @param array $params
-     * @param stdclass $client
+     * @param \StdClass $client
      * @return boolean
      */
-    public function ban(Conn $conn, $params, StdClass $client) {
+    public function ban(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->banned = true;
@@ -73,9 +73,10 @@ class ChatService {
      *
      * @param \Ratchet\ConnectionInterface $conn
      * @param array $params
-     * @param stdclass $client
+     * @param \StdClass $client
      */
-    public function connect(Conn $conn, $params, StdClass $client) {
+    public function connect(Conn $conn, $params, \StdClass $client) {
+        echo 'connect';
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
@@ -91,7 +92,7 @@ class ChatService {
     /**
      * Set visitors' contact informations from contact from
      */
-    public function contactForm(Conn $conn, $params, StdClass $client) {
+    public function contactForm(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->firstname = $params['firstname'];
@@ -107,7 +108,7 @@ class ChatService {
     /**
      * Set asked question to the avatar
      */
-    public function newAviQuestion(Conn $conn, $params, StdClass $client) {
+    public function newAviQuestion(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->questions[] = $params['question'];
@@ -120,7 +121,7 @@ class ChatService {
     /**
      * Update the personal informations of the visitor
      */
-    public function updateInformations(Conn $conn, $params, StdClass $client) {
+    public function updateInformations(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->firstname = $params['firstname'];
@@ -134,7 +135,7 @@ class ChatService {
     /**
      * Change chat's name
      */
-    public function changeName(Conn $conn, $params, StdClass $client) {
+    public function changeName(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->name = $params['name'];
@@ -148,7 +149,7 @@ class ChatService {
     /**
      * Open the conversation with the visitor
      */
-    public function open(Conn $conn, $params, StdClass $client) {
+    public function open(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
 
             if ($item->type === 'operator' && $item->available && ($item->chats < $client->config->max)) {
@@ -200,7 +201,7 @@ class ChatService {
     /**
      * Close the conversation with the visitor
      */
-    public function close(Conn $conn, $params, StdClass $client) {
+    public function close(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             // Close the conversation
             if ($item->id === $params['sid']) {
@@ -224,7 +225,7 @@ class ChatService {
     /**
      * Transfer the visitor to another operator
      */
-    public function transfer(Conn $conn, $params, StdClass $client) {
+    public function transfer(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             // Close the conversation
             if ($item->id === $params['sid']) {
@@ -247,7 +248,7 @@ class ChatService {
     /**
      * Set the operator as unavailable
      */
-    public function unavailable(Conn $conn, $params, StdClass $client) {
+    public function unavailable(Conn $conn, $params, \StdClass $client) {
         $chats = 0;
 
         foreach ($client->users as $item) {
@@ -272,7 +273,7 @@ class ChatService {
     /**
      * Set the operator as available
      */
-    public function available(Conn $conn, $params, StdClass $client) {
+    public function available(Conn $conn, $params, \StdClass $client) {
 
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
@@ -286,7 +287,7 @@ class ChatService {
     /**
      * Is the operator available ?
      */
-    public function isAvailable(Conn $conn, $params, StdClass $client) {
+    public function isAvailable(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
                 if ($item->available) { $result = true; }
@@ -299,7 +300,7 @@ class ChatService {
     /**
      * Is we writing ?
      */
-    public function writing(Conn $conn, $params, StdClass $client) {
+    public function writing(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->writing = $params['writing'];
@@ -311,7 +312,7 @@ class ChatService {
     /**
      * Set chat satisfaction
      */
-    public function satisfaction(Conn $conn, $params, StdClass $client) {
+    public function satisfaction(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->satisfaction = $params['satisfaction'];

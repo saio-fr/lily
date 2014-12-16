@@ -1,1 +1,5 @@
-lily.Label=Backbone.Model.extend({defaults:{title:""}});
+lily.Label = Backbone.Model.extend ({
+	defaults: {
+		title: ''
+	} 
+});

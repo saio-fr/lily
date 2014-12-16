@@ -1,1 +1,6 @@
-chat.Models.Operator=Backbone.Model.extend({defaults:{}});
+chat.Models.Operator = Backbone.Model.extend({
+	
+	defaults: {
+	}
+	
+});

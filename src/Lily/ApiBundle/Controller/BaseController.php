@@ -8,85 +8,145 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 class BaseController extends FOSRestController implements ClassResourceInterface
 {	
     
-	protected function getClient($licence)
+	  protected function getClient($licence)
     {
-    	$cache = $this->get( 'aequasi_cache.instance.default' );
-		$client = $cache->fetch( $licence.'_client' );
+    	  $cache = $this->get( 'aequasi_cache.instance.default' );
+        $client = $cache->fetch( $licence.'_client' );
 		
-		if (!$client) {
+        if (!$client) {
 		
-	    	$client = $this->getDoctrine()
-	    				   ->getManager()
-						   ->getRepository('LilyClientBundle:Client')
-				  		   ->findOneByLicence($licence);     	  			  
+	    	    $client = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('LilyUserBundle:Client')
+            ->findOneByLicence($licence);     	  			  
 			
-			$cache->save( $licence.'_client', $client, 3600 );
+            $cache->save( $licence.'_client', $client, 3600 );
 		
-		}
-		
+		    }
         return $client;
     }
     
-    protected function getConfig($licence)
+    protected function getAppConfig($licence)
     {
-	    $cache = $this->get( 'aequasi_cache.instance.default' );
-	    $config = $cache->fetch( $licence.'_config' );
-		
-		if (!$config) {
-			
-			$em = $this->getEntityManager($licence);
-			
-			$app = $em->getRepository('LilyBackOfficeBundle:Config')
-					  ->findOneById(1);
-			
-			$app->getAvi()->getRedirections();
-			$app->getChat();
-			
-			$em = $this->getDoctrine()->getManager();
-			
-			$client = $em->getRepository('LilyClientBundle:Client')
-					  	 ->findOneByLicence($licence)
-					  	 ->getConfig();
-			
-			$config = array('client' => $client, 'app' => $app);
-      $cache->save( $licence.'_config', $config, 3600 );
-		
-		}
-		
-		return $config;
+  	    $cache = $this->get('aequasi_cache.instance.default');
+  	    $config = $cache->fetch($licence.'_config_app');
+  		
+        if (!$config) {	
+            // App
+            $config = $this->getEntityManager($licence)
+            ->getRepository('LilyBackOfficeBundle:Config')
+            ->findOneById(1);
+            
+            // Client Config
+      			$em = $this->getDoctrine()->getManager();
+      			$client = $em->getRepository('LilyUserBundle:Client')
+            ->findOneByLicence($licence)
+            ->getConfig();
+                        
+            $avi = $config->getAvi();
+            $chat = $config->getChat();
+            $redirections = $avi->getRedirections();
+            
+            $avi->setActive($avi->getActive() && $client->getAvi());  
+            $avi->setRedirections($redirections);    
+            $chat->setActive($chat->getActive() && $client->getChat());
+            
+            $config->setMaintenance($config->getMaintenance() && $client->getMaintenance());
+            $config->setTopquestions($config->getTopquestions() && $client->getTopquestions());
+            $config->setFaq($config->getFaq() && $client->getFaq());
+            $config->setAvi($avi);
+            $config->setChat($chat);
+
+            $cache->save( $licence.'_config_app', $config, 3600 );
+		    }
+        return $config;
     }
     
-    protected function getRedirection($licence)
+    protected function getChatConfig($licence)
     {
-	    $cache = $this->get( 'aequasi_cache.instance.default' );
-	    $redirection = $cache->fetch( $licence.'_redirection' );
+  	    $cache = $this->get('aequasi_cache.instance.default');
+  	    $config = $cache->fetch($licence.'_config_app_chat');
+  		
+        if (!$config) {	
+      			$em = $this->getEntityManager($licence);
+      			$config = $em->getRepository('LilyBackOfficeBundle:Config')
+            ->findOneById(1);
+            $config = $config->getChat();
+
+            $cache->save( $licence.'_config_app_chat', $config, 3600 );
+		    }
+        return $config;
+    }
+    
+    protected function getAviConfig($licence)
+    {
+  	    $cache = $this->get('aequasi_cache.instance.default');
+  	    $config = $cache->fetch($licence.'_config_app_avi');
+  		
+        if (!$config) {	
+      			$em = $this->getEntityManager($licence);
+      			$config = $em->getRepository('LilyBackOfficeBundle:Config')
+            ->findOneById(1);
+            $config = $config->getAvi();
+
+            $cache->save( $licence.'_config_app_avi', $config, 3600 );
+		    }
+        return $config;
+    }
+    
+    protected function getClientConfig($licence)
+    {
+  	    $cache = $this->get('aequasi_cache.instance.default');
+  	    $config = $cache->fetch($licence.'_config');
+  		
+        if (!$config) {	
+      			$em = $this->getDoctrine()->getManager();
+      			$config = $em->getRepository('LilyUserBundle:Client')
+            ->findOneByLicence($licence)
+            ->getConfig();
+
+            $cache->save( $licence.'_config', $config, 3600 );
+		    }
+        return $config;
+    }
+    
+    protected function isChatAvailable($licence)
+    {
+        $cache = $this->get('aequasi_cache.instance.default');
+        $available = $cache->fetch($licence.'_chat_available');
+        return $available;
+    }
+    
+    protected function getDefaultRedirection($licence)
+    {
+	      $cache = $this->get( 'aequasi_cache.instance.default' );
+        $redirection = $cache->fetch( $licence.'_redirection' );
 		
-		if (!$redirection) {
+        if (!$redirection) {
 			
-			$redirection = $this->getEntityManager($licence)
-						   		->getRepository('LilyKnowledgeBundle:Redirection')
-						   		->findOneByBydefault(true);
+            $redirection = $this->getEntityManager($licence)
+						->getRepository('LilyKnowledgeBundle:Redirection')
+						->findOneByBydefault(true);
 						   
-			$cache->save( $licence.'_redirection', $redirection, 3600 );
+            $cache->save( $licence.'_redirection', $redirection, 3600 );
 		
-		}
-		
-		return $redirection;
+		    }
+        return $redirection;
     }
         
     protected function getEntityManager($licence)
     {	   	  			  
-   		$connection = $this->container->get('doctrine.dbal.client_connection');
-	
-	    $refConn = new \ReflectionObject($connection);
-	    $refParams = $refConn->getProperty('_params');
-	    $refParams->setAccessible('public'); //we have to change it for a moment
-	
-	    $params = $refParams->getValue($connection);
-	    $params['dbname'] = $licence;
-	
-	    $refParams->setAccessible('private');
-	    $refParams->setValue($connection, $params);
+     		$connection = $this->container->get('doctrine.dbal.client_connection');
+  	
+  	    $refConn = new \ReflectionObject($connection);
+  	    $refParams = $refConn->getProperty('_params');
+  	    $refParams->setAccessible('public'); //we have to change it for a moment
+  	
+  	    $params = $refParams->getValue($connection);
+  	    $params['dbname'] = $licence;
+  	
+  	    $refParams->setAccessible('private');
+  	    $refParams->setValue($connection, $params);
 	    
         return $this->get('doctrine')->getManager('client');
     }
@@ -105,7 +165,6 @@ class BaseController extends FOSRestController implements ClassResourceInterface
         if (count($errors = $validator->validate($entity))) {
             return $errors;
         }
-
         return $entity;
     }
 
