@@ -20,7 +20,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
             ->getRepository('LilyUserBundle:Client')
             ->findOneByLicence($licence);     	  			  
 			
-            $cache->save( $licence.'_client', $client, 3600 );
+            $cache->save( $licence.'_client', $client, 0);
 		
 		    }
         return $client;
@@ -44,12 +44,13 @@ class BaseController extends FOSRestController implements ClassResourceInterface
             ->getConfig();
                         
             $avi = $config->getAvi();
-            $chat = $config->getChat();
             $redirections = $avi->getRedirections();
+            $chat = $config->getChat();
             
             $avi->setActive($avi->getActive() && $client->getAvi());  
-            $avi->setRedirections($redirections);    
             $chat->setActive($chat->getActive() && $client->getChat());
+            // Little hack to persist entity into memcached
+            $redirections->setMail($redirections->getMail());
             
             $config->setMaintenance($config->getMaintenance() && $client->getMaintenance());
             $config->setTopquestions($config->getTopquestions() && $client->getTopquestions());
@@ -57,7 +58,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
             $config->setAvi($avi);
             $config->setChat($chat);
 
-            $cache->save( $licence.'_config_app', $config, 3600 );
+            $cache->save( $licence.'_config_app', $config, 0);
 		    }
         return $config;
     }
@@ -73,7 +74,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
             ->findOneById(1);
             $config = $config->getChat();
 
-            $cache->save( $licence.'_config_app_chat', $config, 3600 );
+            $cache->save( $licence.'_config_app_chat', $config, 0 );
 		    }
         return $config;
     }
@@ -89,7 +90,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
             ->findOneById(1);
             $config = $config->getAvi();
 
-            $cache->save( $licence.'_config_app_avi', $config, 3600 );
+            $cache->save( $licence.'_config_app_avi', $config, 0 );
 		    }
         return $config;
     }
@@ -105,7 +106,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
             ->findOneByLicence($licence)
             ->getConfig();
 
-            $cache->save( $licence.'_config', $config, 3600 );
+            $cache->save( $licence.'_config', $config, 0 );
 		    }
         return $config;
     }

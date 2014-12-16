@@ -42,7 +42,7 @@ class ConfigController extends BaseController
             throw $this->createNotFoundException();
         }
 
-        $view = $this->view($config)->setFormat('json');
+        $view = $this->view($config);
         return $this->handleView($view);
 
     }
@@ -51,7 +51,7 @@ class ConfigController extends BaseController
      * @Put("/")
      * @Secure(roles="ROLE_ADMIN")
      */
-    public function updateAction(Request $request) {
+    public function putAction(Request $request) {
 
         $config = $this->getEntityManager()
         ->getRepository('LilyBackOfficeBundle:Config')
@@ -63,21 +63,11 @@ class ConfigController extends BaseController
         $em->persist($config);
         $em->flush();
 
-        $licence = $this->getLicence();
-        $cache = $this->get( 'aequasi_cache.instance.default' );
+        // Publish new config in memcached and send it to chat's servers
+        $this->publishConfig($config);
 
-        $cache->fetch($licence.'_app_config', $config, 0);
-
-        // Tell our chat app that config changed
-        $context = new ZMQContext();
-        $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-        $socket->connect("tcp://ws.saio.fr:5555");
-
-        $socket->send(json_encode(array('action' => 'config', 'licence' => $licence)));
-
-        $view = $this->view($config)->setFormat('json');
+        $view = $this->view($config);
         return $this->handleView($view);
 
     }
-
 }
