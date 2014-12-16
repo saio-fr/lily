@@ -1,56 +1,21 @@
-#reportrange {
+/*=======================================================================================================
+GLOBAL
+=======================================================================================================*/
+
+.reportrange {
 	margin-top:-6px;
-	margin-right:-10px;
+	margin-right:-5px;
 	border:#efefef solid 1px;
 	background:#f8f8f8;
 	padding:5px;
 	cursor:pointer;
 }
 
-#statistics-row .questions {
-	color:#63a5e1;
-}
-
-#statistics-row .answered {
-	color:#92d050;
-}
-
-ul.top-questions-list {
-	padding:0;
-	margin:0;
-	list-style-type:none;
-}
-
-.top-questions-item {
-	width:100%;
-	margin-top:10px;
-	background:url(../images/top-questions-bg.png) repeat-x bottom!important;
-	border-bottom:1px solid #f2f6fb;
-}
-
-.top-questions-number {
-	display:inline-block;
-	border-right:1px solid #f2f6fb;
-	width:70px;
-	height:55px;
-	line-height:50px;
-	text-align:center;
-	font-weight:700;
-	color:#6eaee8;
-	font-size:16px;
-	float:left;
-}
-
-.top-questions-title {
-	padding-left:90px;
-	line-height:55px;
-	margin:0;
-}
-
-.top-questions-title span {
-	line-height:1.2;
-	vertical-align:middle;
-	display:inline-block;
+.icon-spinner {
+  position: absolute;
+  top: calc(40% - 50px);
+  left: calc(50% - 50px);
+  font-size: 50px;
 }
 
 .panel-footer a {
@@ -61,171 +26,113 @@ ul.top-questions-list {
 	color:#6eaee8;
 }
 
-.list-group-item {
-	margin:0 15px 3px;
+.sort-menu-btn {
+  color: #717171;
+  font-weight: bold;
+  margin: -6px 5px 0;
+  border: #efefef solid 1px;
+  background: #f8f8f8;
+  border-radius: 0;
 }
 
-.tab-content .panel-heading {
-	padding:15px;
+
+.sort-menu .dropdown-menu > li {
+  padding: 5px 15px;
+  cursor: pointer;
 }
 
-.user-name {
-	color:#63a5e1;
+.sort-menu .dropdown-menu > li:hover,
+.sort-menu .dropdown-menu > li:focus,
+.sort-menu .dropdown-menu > .active,
+.sort-menu .dropdown-menu > .active:hover,
+.sort-menu .dropdown-menu > .active:focus {
+  background-color: #4c5566;
+  background-image: none;
+  color: #fff;
+  filter: none;
 }
 
-li.active .conversation-duration, li.active .conversation-start {
-	color: #eff2f5 !important;
+.panel-heading {
+  padding: 15px;
 }
 
-li.active .conversation-start {
-	display: none;
-}
-
-#activity .list-group-item icon {
-	color: #63a5e1;
-	float: right;
-	font-size: 15px;
-	margin-top: 13px;
-}
-
-.userList-item .user-info {
-	display:inline-block;
-	font-size:10px;
-	line-height:23px;
-	padding-left:20px;
-	vertical-align:top;
+.list-group-item p {
+  margin: 0;
 }
 
 .view {
-	cursor:pointer;
+  cursor: pointer;
+  border: 0;
+  border-bottom: 1px solid #ebeff6;
 }
 
-.list-group-item {
-	margin:0;
-	border:none;
-	border-bottom:1px solid #edf0f6;
+.view icon {
+  font-size: 14px;
+  margin-top:10px;
 }
 
-.userListInput {
-	display:inline-block;
-	margin-bottom:8px;
-	padding:5px;
-	width:49%;
+.view:hover {
+  background:#fcfdfd;
 }
 
-.userListInput label {
-	font-weight:lighter;
+.view.active {
+  background: #63a4e1 !important;
+  color: white !important;
 }
 
-.dropdown-label {
-	display:block;
-	margin-right:9px;
-	overflow:hidden;
+.view.active small {
+  color: white;
 }
 
-.sort-menu-btn {
-	color:#717171;
-	font-weight: bold;
-	margin:-6px 5px 0;
-	border:#efefef solid 1px;
-	background:#f8f8f8;
-	border-radius: 0;
+/*=======================================================================================================
+USER EDIT
+=======================================================================================================*/
+
+.aside-user-edit {
+  width: 325px;
 }
 
-.sort-menu .dropdown-menu > li {
-	padding:5px 15px;
-	cursor:pointer;
+.avatar-wrapper img {
+  width: 80px;
+  height: 80px;
 }
 
-.sort-menu .dropdown-menu > li:hover,.sort-menu .dropdown-menu > li:focus,.sort-menu .dropdown-menu > .active,.sort-menu .dropdown-menu > .active:hover,.sort-menu .dropdown-menu > .active:focus {
-	background-color:#4c5566;
-	background-image:none;
-	color:#fff;
+.avatar-wrapper:hover .uploader {
+  opacity: 1;
 }
 
-#statistics-row .numberOfConversation,#statistics-row .conversationTime,#statistics-row .waited,#statistics-row .satisfaction {
-	cursor:pointer;
+.avatar {
+  display: inline-block;
 }
 
-#activity {
-	margin:20px 15px 0;
+.uploader {
+  position: absolute;
+  z-index: 9999;
+  top: 40px;
+  left: 20px;
+  opacity: 0;
 }
 
-#activity #reportrange {
-	margin-right: -5px;
+.user-info-wrapper {
+  margin-bottom: 30px;
 }
 
-#users-list {
-	margin-top:-15px;
+.user-info {
+  margin-top: 20px;
+  margin-left: 90px;
 }
 
-#user-overview {
-	margin-top:-15px;
+.user-info small {
+  margin-top: 0;
 }
 
-#user-overview .view {
-	cursor:default;
-}
+/*=======================================================================================================
+CONVERSATIONS
+=======================================================================================================*/
 
-#user-overview icon {
-	font-size:35px;
-	color:#63a5e1;
-	position:absolute;
-	top:25px;
-	right:30px;
-	cursor:pointer;
-}
-
-.conversation-redirect {
-	float:right;
-	margin-right:5px;
-}
-
-.tab-pane #graph {
-	width:1px;
-}
-
-.tab-pane.active #graph {
-	width:auto;
-}
-
-#activity .loader {
-	left:47%;
-	top:300px;
-}
-
-#users-list {
-	margin-top:-15px;
-}
-
-#conversations-list, #logs-list {
-	padding:0;
-	margin:0;
-}
-
-#conversations-list .list-group-item:first-child {
-	border-top-right-radius: 0;
-	border-top-left-radius: 0;
-}
-
-#conversations-list .list-group-item:last-child {
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-}
-
-#conversations-list .list-group-item > div.view {
-	height:45px;
-}
-
-
-#conversations-list .list-group-item.active {
-	background-color:#6eaee8;
-}
-
-#conversation-details {
-	width: 70%;
+.conversation-details {
+	width: 60%;
 	border-left: 1px solid #edf0f6;
-	height: 450px;
 }
 
 .conversation-section-list {
@@ -286,36 +193,30 @@ li.active .conversation-start {
 .conversation-name {
 	margin: 5px 0 0 0;
 	overflow: hidden;
-    -o-text-overflow: ellipsis; /* pour Opera 9 */
-    text-overflow: ellipsis;
+  -o-text-overflow: ellipsis; /* pour Opera 9 */
+  text-overflow: ellipsis;
 }
 
-.conversation-duration, .conversation-duration:focus {
-	color: #a6a7a9 !important;
+/*=======================================================================================================
+LOGS
+=======================================================================================================*/
+
+.faq {
+  background: #509add;
+  color: white;
 }
 
-#conversations-menu {
-	background:#fff none repeat scroll 0 0;
-	border-left:thin solid #ebeff6;
-	border-right:thin solid #ebeff6;
-	border-top:thin solid #ebeff6;
+.redirection {
+  background: #59cc4d;
+  color: white;
 }
 
-
-.log-info small {
-	display: block;
+.question {
+  background: #eda418;
+  color: white;
 }
 
-.log-name {
-	margin: 5px 0 10px 0;
-	float: left;
-}
-
-.log-name .label {
-	margin-right: 5px;
-}
-
-#lecteur-video #iframe {
-	width:100%;
-	height:540px;
+.chat {
+  background: #35acc5;
+  color: white;
 }

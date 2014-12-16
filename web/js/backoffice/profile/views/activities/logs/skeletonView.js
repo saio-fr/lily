@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      utils = require('utils/statistics'),
+      utils = require('statistics'),
       LogCollection = require('backoffice/profile/collections/logCollection'),
       LogView = require('backoffice/profile/views/activities/logs/logView'),
 

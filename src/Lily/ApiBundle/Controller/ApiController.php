@@ -57,29 +57,30 @@ class ApiController extends BaseController
     }
 
     public function trackingAction($licence) {
-
-        $client = $this->getClient($licence);
-        $config = $this->getConfig();
-
+      
+        $config = $this->getConfig($licence);
         $cache = $this->get( 'aequasi_cache.instance.default' );
-
         $available = $cache->fetch($licence.'_chat_available');
+        
+        return new Response(json_encode($available, true));
+        
+        $condition1 = $config['client']->getChat() && $config['app']->getChat()->getActive() && $available;
+        $condition2 = $config['app']->getAvi()->getActive() && $config['client']->getAvi();
 
         if ( // Return if Maintenance is On or Avi is off and no operators available to chat
 
-            $client->getMaintenance() ||
-            $config->getMaintenance() ||
-            !(($client->getChat() && $config->getChat() && $available) || ($config->getAvi() && $client->getAvi()) )
+            $config['app']->getMaintenance() ||
+            $config['client']->getMaintenance() ||
+            !($condition1 || $condition2)
 
         ) return new Response();
 
-        $trackerJS = $this->renderView( 'LilyApiBundle::tracker.js.twig', array('licence' => $licence));
+        $trackerJS = $this->render('LilyApiBundle::tracker.js.twig', array('licence' => $licence));
 
         $response = new Response($trackerJS);
-        $response->headers->set( 'Content-Type', 'text/javascript' );
+        $response->headers->set('Content-Type', 'text/javascript');
 
         return $response;
-
     }
 
     /**

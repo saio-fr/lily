@@ -939,19 +939,11 @@ if (!document.createElement('canvas').getContext) {
                          mr(p.xEnd), ',', mr(p.yEnd));
             break;
         }
-<<<<<<< HEAD
   
   
         // TODO: Following is broken for curves due to
         //       move to proper paths.
   
-=======
-
-
-        // TODO: Following is broken for curves due to
-        //       move to proper paths.
-
->>>>>>> new bower components
         // Figure out dimensions so we can do gradient fills
         // properly
         if (p) {
@@ -970,25 +962,15 @@ if (!document.createElement('canvas').getContext) {
         }
       }
       lineStr.push(' ">');
-<<<<<<< HEAD
   
-=======
-
->>>>>>> new bower components
       if (!aFill) {
         appendStroke(this, lineStr);
       } else {
         appendFill(this, lineStr, min, max);
       }
-<<<<<<< HEAD
   
       lineStr.push('</g_vml_:shape>');
   
-=======
-
-      lineStr.push('</g_vml_:shape>');
-
->>>>>>> new bower components
       this.element_.insertAdjacentHTML('beforeEnd', lineStr.join(''));
     }
   };

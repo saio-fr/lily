@@ -692,13 +692,8 @@ Licensed under the MIT license.
             plot = null;
         };
         plot.resize = function () {
-<<<<<<< HEAD
         	var width = placeholder.width(),
         		height = placeholder.height();
-=======
-		var width = placeholder.width(),
-			height = placeholder.height();
->>>>>>> new bower components
             surface.resize(width, height);
             overlay.resize(width, height);
         };
@@ -748,11 +743,7 @@ Licensed under the MIT license.
             // not expected behavior; avoid it by replacing them here.
 
             if (opts && opts.colors) {
-<<<<<<< HEAD
             	options.colors = opts.colors;
-=======
-		options.colors = opts.colors;
->>>>>>> new bower components
             }
 
             if (options.xaxis.color == null)
@@ -2019,11 +2010,7 @@ Licensed under the MIT license.
                             ctx.lineTo(xrange.to + subPixel, yrange.to);
                         } else {
                             ctx.moveTo(xrange.from, yrange.to + subPixel);
-<<<<<<< HEAD
                             ctx.lineTo(xrange.to, yrange.to + subPixel);                            
-=======
-                            ctx.lineTo(xrange.to, yrange.to + subPixel);
->>>>>>> new bower components
                         }
                         ctx.stroke();
                     } else {
@@ -2538,15 +2525,9 @@ Licensed under the MIT license.
                 radius = series.points.radius,
                 symbol = series.points.symbol;
 
-<<<<<<< HEAD
             // If the user sets the line width to 0, we change it to a very 
             // small value. A line width of 0 seems to force the default of 1.
             // Doing the conditional here allows the shadow setting to still be 
-=======
-            // If the user sets the line width to 0, we change it to a very
-            // small value. A line width of 0 seems to force the default of 1.
-            // Doing the conditional here allows the shadow setting to still be
->>>>>>> new bower components
             // optional even with a lineWidth of 0.
 
             if( lw == 0 )
@@ -2764,11 +2745,7 @@ Licensed under the MIT license.
                 if ($.isFunction(options.legend.sorted)) {
                     entries.sort(options.legend.sorted);
                 } else if (options.legend.sorted == "reverse") {
-<<<<<<< HEAD
                 	entries.reverse();
-=======
-			entries.reverse();
->>>>>>> new bower components
                 } else {
                     var ascending = options.legend.sorted != "descending";
                     entries.sort(function(a, b) {

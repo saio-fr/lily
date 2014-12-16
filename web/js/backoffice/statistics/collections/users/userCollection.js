@@ -21,7 +21,8 @@ define(function (require) {
     },
     
     initialize: function () {
-    },
+    }
+    
   });
 
   return UserCollection;

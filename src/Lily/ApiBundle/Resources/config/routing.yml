@@ -12,5 +12,5 @@ lily_api_rest:
     prefix:   /api
     
 lily_demo_index:
-    pattern:  /demo/{cname}/{url}
+    pattern:  /demo/{licence}/{url}
     defaults: { _controller: LilyApiBundle:Demo:index }

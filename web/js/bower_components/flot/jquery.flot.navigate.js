@@ -139,11 +139,7 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
             onZoomClick(e, delta < 0);
             return false;
         }
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         var prevCursor = 'default', prevPageX = 0, prevPageY = 0,
             panTimeout = null;
 
@@ -157,11 +153,7 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
             prevPageX = e.pageX;
             prevPageY = e.pageY;
         }
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         function onDrag(e) {
             var frameRate = plot.getOptions().pan.frameRate;
             if (panTimeout || !frameRate)
@@ -172,11 +164,7 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
                            top: prevPageY - e.pageY });
                 prevPageX = e.pageX;
                 prevPageY = e.pageY;
-<<<<<<< HEAD
                                                     
-=======
-
->>>>>>> new bower components
                 panTimeout = null;
             }, 1 / frameRate * 1000);
         }
@@ -186,20 +174,12 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
                 clearTimeout(panTimeout);
                 panTimeout = null;
             }
-<<<<<<< HEAD
                     
-=======
-
->>>>>>> new bower components
             plot.getPlaceholder().css('cursor', prevCursor);
             plot.pan({ left: prevPageX - e.pageX,
                        top: prevPageY - e.pageY });
         }
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         function bindEvents(plot, eventHolder) {
             var o = plot.getOptions();
             if (o.zoom.interactive) {
@@ -217,41 +197,25 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
         plot.zoomOut = function (args) {
             if (!args)
                 args = {};
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             if (!args.amount)
                 args.amount = plot.getOptions().zoom.amount;
 
             args.amount = 1 / args.amount;
             plot.zoom(args);
         };
-<<<<<<< HEAD
         
         plot.zoom = function (args) {
             if (!args)
                 args = {};
             
-=======
-
-        plot.zoom = function (args) {
-            if (!args)
-                args = {};
-
->>>>>>> new bower components
             var c = args.center,
                 amount = args.amount || plot.getOptions().zoom.amount,
                 w = plot.width(), h = plot.height();
 
             if (!c)
                 c = { left: w / 2, top: h / 2 };
-<<<<<<< HEAD
                 
-=======
-
->>>>>>> new bower components
             var xf = c.left / w,
                 yf = c.top / h,
                 minmax = {
@@ -274,11 +238,7 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
 
                 if (zr === false) // no zooming on this axis
                     return;
-<<<<<<< HEAD
                     
-=======
-
->>>>>>> new bower components
                 min = axis.c2p(min);
                 max = axis.c2p(max);
                 if (min > max) {
@@ -303,7 +263,6 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
                     ((zr[0] != null && range < zr[0] && amount >1) ||
                      (zr[1] != null && range > zr[1] && amount <1)))
                     return;
-<<<<<<< HEAD
             
                 opts.min = min;
                 opts.max = max;
@@ -312,16 +271,6 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
             plot.setupGrid();
             plot.draw();
             
-=======
-
-                opts.min = min;
-                opts.max = max;
-            });
-
-            plot.setupGrid();
-            plot.draw();
-
->>>>>>> new bower components
             if (!args.preventEvent)
                 plot.getPlaceholder().trigger("plotzoom", [ plot, args ]);
         };
@@ -347,11 +296,7 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
                 var pr = opts.panRange;
                 if (pr === false) // no panning on this axis
                     return;
-<<<<<<< HEAD
                 
-=======
-
->>>>>>> new bower components
                 if (pr) {
                     // check whether we hit the wall
                     if (pr[0] != null && pr[0] > min) {
@@ -359,18 +304,13 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
                         min += d;
                         max += d;
                     }
-<<<<<<< HEAD
                     
-=======
-
->>>>>>> new bower components
                     if (pr[1] != null && pr[1] < max) {
                         d = pr[1] - max;
                         min += d;
                         max += d;
                     }
                 }
-<<<<<<< HEAD
                 
                 opts.min = min;
                 opts.max = max;
@@ -379,16 +319,6 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
             plot.setupGrid();
             plot.draw();
             
-=======
-
-                opts.min = min;
-                opts.max = max;
-            });
-
-            plot.setupGrid();
-            plot.draw();
-
->>>>>>> new bower components
             if (!args.preventEvent)
                 plot.getPlaceholder().trigger("plotpan", [ plot, args ]);
         };
@@ -402,19 +332,11 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
             if (panTimeout)
                 clearTimeout(panTimeout);
         }
-<<<<<<< HEAD
         
         plot.hooks.bindEvents.push(bindEvents);
         plot.hooks.shutdown.push(shutdown);
     }
     
-=======
-
-        plot.hooks.bindEvents.push(bindEvents);
-        plot.hooks.shutdown.push(shutdown);
-    }
-
->>>>>>> new bower components
     $.plot.plugins.push({
         init: init,
         options: options,

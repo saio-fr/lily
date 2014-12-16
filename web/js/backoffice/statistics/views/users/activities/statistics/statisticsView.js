@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      Utils = require('utils/statistics'),
+      Utils = require('statistics'),
       g = require('globals'),
 
       // Object wrapper returned as a module
@@ -17,8 +17,8 @@ define(function (require) {
   StatisticsView = Backbone.View.extend({
 
     el: '#statistics',
-    template: _.template($('#activitiesStatisticsGraphTpl').html()),
-    templateFooter: _.template($('#activitiesStatisticsFooterTpl').html()),
+    template: _.template($('#usersActivitiesStatisticsGraphTpl').html()),
+    templateFooter: _.template($('#usersActivitiesStatisticsFooterTpl').html()),
 
     events: {
       'click footer a': 'select',

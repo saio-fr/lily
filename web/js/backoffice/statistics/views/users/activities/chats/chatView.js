@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      ChatDetailsView = require('backoffice/profile/views/activities/chats/detailsView'),
+      ChatDetailsView = require('backoffice/statistics/views/users/activities/chats/detailsView'),
 
       // Object wrapper returned as a module
       ChatView;
@@ -17,7 +17,7 @@ define(function (require) {
 
     tagName:  'li',
     className: 'list-group-item view',
-    template: _.template($('#activitiesChatsChatTpl').html()),
+    template: _.template($('#usersActivitiesChatsChatTpl').html()),
 
     events: {
       'click' : 'select'

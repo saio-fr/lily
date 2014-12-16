@@ -66,11 +66,7 @@ The plugin also adds four public methods:
             lineWidth: 1
         }
     };
-<<<<<<< HEAD
     
-=======
-
->>>>>>> new bower components
     function init(plot) {
         // position of crosshair in pixels
         var crosshair = { x: -1, y: -1, locked: false };
@@ -83,21 +79,12 @@ The plugin also adds four public methods:
                 crosshair.x = Math.max(0, Math.min(o.left, plot.width()));
                 crosshair.y = Math.max(0, Math.min(o.top, plot.height()));
             }
-<<<<<<< HEAD
             
             plot.triggerRedrawOverlay();
         };
         
         plot.clearCrosshair = plot.setCrosshair; // passes null for pos
         
-=======
-
-            plot.triggerRedrawOverlay();
-        };
-
-        plot.clearCrosshair = plot.setCrosshair; // passes null for pos
-
->>>>>>> new bower components
         plot.lockCrosshair = function lockCrosshair(pos) {
             if (pos)
                 plot.setCrosshair(pos);
@@ -121,30 +108,18 @@ The plugin also adds four public methods:
         function onMouseMove(e) {
             if (crosshair.locked)
                 return;
-<<<<<<< HEAD
                 
-=======
-
->>>>>>> new bower components
             if (plot.getSelection && plot.getSelection()) {
                 crosshair.x = -1; // hide the crosshair while selecting
                 return;
             }
-<<<<<<< HEAD
                 
-=======
-
->>>>>>> new bower components
             var offset = plot.offset();
             crosshair.x = Math.max(0, Math.min(e.pageX - offset.left, plot.width()));
             crosshair.y = Math.max(0, Math.min(e.pageY - offset.top, plot.height()));
             plot.triggerRedrawOverlay();
         }
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         plot.hooks.bindEvents.push(function (plot, eventHolder) {
             if (!plot.getOptions().crosshair.mode)
                 return;
@@ -159,11 +134,7 @@ The plugin also adds four public methods:
                 return;
 
             var plotOffset = plot.getPlotOffset();
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             ctx.save();
             ctx.translate(plotOffset.left, plotOffset.top);
 
@@ -195,11 +166,7 @@ The plugin also adds four public methods:
             eventHolder.unbind("mousemove", onMouseMove);
         });
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> new bower components
     $.plot.plugins.push({
         init: init,
         options: options,

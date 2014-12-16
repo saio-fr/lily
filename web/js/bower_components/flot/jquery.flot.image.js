@@ -69,19 +69,11 @@ Google Maps).
         var urls = [], points = [];
 
         var defaultShow = options.series.images.show;
-<<<<<<< HEAD
         
         $.each(series, function (i, s) {
             if (!(defaultShow || s.images.show))
                 return;
             
-=======
-
-        $.each(series, function (i, s) {
-            if (!(defaultShow || s.images.show))
-                return;
-
->>>>>>> new bower components
             if (s.data)
                 s = s.data;
 
@@ -103,11 +95,7 @@ Google Maps).
             callback();
         });
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> new bower components
     $.plot.image.load = function (urls, callback) {
         var missing = urls.length, loaded = {};
         if (missing == 0)
@@ -116,15 +104,9 @@ Google Maps).
         $.each(urls, function (i, url) {
             var handler = function () {
                 --missing;
-<<<<<<< HEAD
                 
                 loaded[url] = this;
                 
-=======
-
-                loaded[url] = this;
-
->>>>>>> new bower components
                 if (missing == 0)
                     callback(loaded);
             };
@@ -132,7 +114,6 @@ Google Maps).
             $('<img />').load(handler).error(handler).attr('src', url);
         });
     };
-<<<<<<< HEAD
     
     function drawSeries(plot, ctx, series) {
         var plotOffset = plot.getPlotOffset();
@@ -143,18 +124,6 @@ Google Maps).
         var points = series.datapoints.points,
             ps = series.datapoints.pointsize;
         
-=======
-
-    function drawSeries(plot, ctx, series) {
-        var plotOffset = plot.getPlotOffset();
-
-        if (!series.images || !series.images.show)
-            return;
-
-        var points = series.datapoints.points,
-            ps = series.datapoints.pointsize;
-
->>>>>>> new bower components
         for (var i = 0; i < points.length; i += ps) {
             var img = points[i],
                 x1 = points[i + 1], y1 = points[i + 2],
@@ -178,13 +147,8 @@ Google Maps).
                 y2 = y1;
                 y1 = tmp;
             }
-<<<<<<< HEAD
             
             // if the anchor is at the center of the pixel, expand the 
-=======
-
-            // if the anchor is at the center of the pixel, expand the
->>>>>>> new bower components
             // image by 1/2 pixel in each direction
             if (series.images.anchor == "center") {
                 tmp = 0.5 * (x2-x1) / (img.width - 1);
@@ -194,11 +158,7 @@ Google Maps).
                 y1 -= tmp;
                 y2 += tmp;
             }
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             // clip
             if (x1 == x2 || y1 == y2 ||
                 x1 >= xaxis.max || x2 <= xaxis.min ||
@@ -225,20 +185,12 @@ Google Maps).
                 sy1 += (sy1 - sy2) * (yaxis.max - y2) / (y2 - y1);
                 y2 = yaxis.max;
             }
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             x1 = xaxis.p2c(x1);
             x2 = xaxis.p2c(x2);
             y1 = yaxis.p2c(y1);
             y2 = yaxis.p2c(y2);
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             // the transformation may have swapped us
             if (x1 > x2) {
                 tmp = x2;
@@ -274,20 +226,12 @@ Google Maps).
             { y: true, number: true, required: true }
         ];
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> new bower components
     function init(plot) {
         plot.hooks.processRawData.push(processRawData);
         plot.hooks.drawSeries.push(drawSeries);
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> new bower components
     $.plot.plugins.push({
         init: init,
         options: options,

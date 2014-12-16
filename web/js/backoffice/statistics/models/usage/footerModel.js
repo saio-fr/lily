@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var NestedModel = require('backbone-nested'),
-      g = require('globals'),
+      statistics = require('statistics'),
 
       // Object wrapper returned as a module
       FooterModel;
@@ -22,8 +22,8 @@ define(function (require) {
     },
 
     initialize: function () {
-      this.start = g.date.start;
-      this.end = g.date.end;
+      this.start = statistics.date.start;
+      this.end = statistics.date.end;
     }
 
   });

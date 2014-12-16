@@ -1,22 +1,22 @@
 <footer class="panel-footer">
   <div class="row text-center">
-    <a class="col-xs-3 numberOfConversation b-r">
+    <a data-type="conversations" class="col-xs-3 b-r">
       <p class="h3 font-bold m-t"><%-parseFloat(conversations*1).toFixed(2) %></p>
       <p class="text-muted">Nombre de conversations / heure</p>
     </a>
-    <a class="col-xs-3 conversationTime b-r">
-      <p class="h3 font-bold m-t"><%-parseInt(conversationsTime/60) + 
-        ' min ' + parseInt(conversationsTime%60) + ' s' %>
+    <a data-type="duration" class="col-xs-3 b-r">
+      <p class="h3 font-bold m-t"><%-parseInt(duration/60) + 
+        ' min ' + parseInt(duration%60) + ' s' %>
       </p>
       <p class="text-muted">Temps moyen par conversation</p>
     </a>
-    <a class="col-xs-3 waited b-r">
+    <a data-type="waited" class="col-xs-3 b-r">
       <p class="h3 font-bold m-t"><%-parseInt(waited/60) + 
         ' min ' + parseInt(waited%60) + ' s' %>
       </p>
       <p class="text-muted">Temps moyen d'attente</p>
     </a>
-    <a class="col-xs-3 satisfaction">
+    <a data-type="satisfaction" class="col-xs-3">
       <p class="h3 font-bold m-t"><%-parseInt(satisfaction*100) %> %</p>
       <p class="text-muted">Taux de satisfaction</p>                        
     </a>

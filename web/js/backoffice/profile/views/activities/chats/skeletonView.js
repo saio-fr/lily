@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      utils = require('utils/statistics'),
+      utils = require('statistics'),
       ChatView = require('backoffice/profile/views/activities/chats/chatView'),
 
       // Object wrapper returned as a module

@@ -106,7 +106,7 @@ ab._matchRegex(c,ab._UA_WEBKIT))return-1<c.indexOf("Windows")&&"534+"==g||-1<c.i
 	var s = document.createElement('link');
 	s.setAttribute('rel', 'stylesheet');
 	s.setAttribute('type', 'text/css');
-	s.setAttribute('href', '{{ app.request.getSchemeAndHttpHost() }}/customer/{{ cname }}/css/lily-float.css');
+	s.setAttribute('href', 'http://cdn.saio.fr/customer/{{ licence }}/css/lily-float.css');
 	head[0].appendChild(s);
 	
 	// Add widget container	
@@ -126,7 +126,7 @@ ab._matchRegex(c,ab._UA_WEBKIT))return-1<c.indexOf("Windows")&&"534+"==g||-1<c.i
 	
 		var i = document.createElement('iframe');
 		i.setAttribute('id', 'lilyApp');
-		i.setAttribute('src', '{{ path("lily_api_index", { key: key }) }}');
+		i.setAttribute('src', '{{ path("lily_api_index", { licence: licence }) }}');
 		i.setAttribute('frameborder', '0');
 		document.getElementById('lilyAppContainer').appendChild(i);
 		
@@ -150,7 +150,7 @@ ab._matchRegex(c,ab._UA_WEBKIT))return-1<c.indexOf("Windows")&&"534+"==g||-1<c.i
 	// Clicks events
 	w.onclick = function() { 
 	
-		if (mobile.phone) { window.open('{{ path("lily_api_index", { key: key }) }}'); }
+		if (mobile.phone) { window.open('{{ path("lily_api_index", { licence: licence }) }}'); }
 		else { c.style.opacity = 1; c.style.display = 'block'; w.style.opacity = 0; }
 	
 	}

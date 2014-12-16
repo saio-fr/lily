@@ -72,8 +72,6 @@ define(function (require) {
         });
       });
       
-      
-   
     },
 
     home: function () {

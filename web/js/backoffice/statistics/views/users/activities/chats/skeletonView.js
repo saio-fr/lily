@@ -8,8 +8,8 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      utils = require('utils/statistics'),
-      ChatView = require('backoffice/profile/views/activities/chats/chatView'),
+      utils = require('statistics'),
+      ChatView = require('backoffice/statistics/views/users/activities/chats/chatView'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -17,7 +17,7 @@ define(function (require) {
   SkeletonView = Backbone.View.extend({
 
     el: '#chats',
-    template: _.template($('#activitiesChatsSkeletonTpl').html()),
+    template: _.template($('#usersActivitiesChatsSkeletonTpl').html()),
 
     events: {
       'hide.daterangepicker' : 'range',
