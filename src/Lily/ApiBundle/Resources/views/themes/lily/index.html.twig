@@ -26,7 +26,7 @@
 
 {% block body %}
 	<div id="lily-toolbar" class="lily-cst-toolbar">
-		<span id="lily-toolbar-name" class="lily-cst-toolbar-name">{{ config.app.avi.name }}</span>
+		<span id="lily-toolbar-name" class="lily-cst-toolbar-name">{{ config.avi.name }}</span>
 		<div id="lily-toolbar-icons" class="lily-cst-toolbar-icons">
 		  <i class="lily-icon lily-icon-reduce"></i>		
 		</div>
@@ -34,25 +34,25 @@
 	<div id='lily-menu' class="snap-drawer snapdrawer-left scrollable lily-cts-menu"><!-- wrapper pour menu -->
 		<div class="lily-menu-body">
 			<ul>
-				{% if config.app.avi.active and config.client.avi %}
+				{% if config.avi.active %}
 				<li><a href="#/avi"><span class='lily-icon lily-icon-avatar'></span>Agent virtuel</a></li>			
 				{% endif %}
-				{% if config.app.chat.active and config.client.chat and chatAvailable %}
+				{% if config.chat.active and chatAvailable %}
 				<li><a href="#/chat" data-reverse="true"><span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller</a></li>
 				{% endif %}
-				{% if config.app.redirections.mail %}
+				{% if config.avi.redirections.mail %}
 				<li><a href="#/mail" data-reverse="true"><span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail</a></li>
 				{% endif %}
-				{% if config.app.redirections.phone and redirection is not null  %}
+				{% if config.avi.redirections.phone and redirection is not null  %}
 				<li><a href="tel:{{ redirection.phone }}"><span class='lily-icon lily-icon-phone'></span>Nous téléphoner</a></li>
 				{% endif %}
 				<div class="lily-menu-separator lily-cst-menu-separator"></div>
 				<li>
 					<ul class="lily-cst-menu-footer">
-					{% if config.app.faq and config.client.faq %}
+					{% if config.faq %}
 					<li><a href="#/faq" data-reverse="true"><span class='lily-icon lily-icon-faq'></span>FAQ Dynamique</a></li>
 					{% endif %}
-					{% if config.app.topquestions %}
+					{% if config.topquestions %}
 					<li><a href="#/top-questions" data-reverse="true"><span class='lily-icon lily-icon-favorite'></span>TOP des questions</a></li>
 					{% endif %}
 					</ul>

@@ -1,1 +1,30 @@
-#redirections-list li{border-right:4px solid transparent}#redirections-list .active{border-right:4px solid #63a5e1!important}.redirection-action{font-size:13px;text-align:right}.redirection-action .icon-check-sign.default,.redirection-action .icon-sign-blank:hover{color:#63a5e1}
+/*=======================================================================================================
+REDIRECTION
+=======================================================================================================*/
+
+#redirections-list li {
+  border-right: 4px solid transparent;
+}
+#redirections-list .active {
+  border-right: 4px solid #63a5e1 !important;
+}
+.redirection-action {
+  font-size: 13px;
+  text-align: right;
+}
+.redirection-action .icon-check-sign.default,
+.redirection-action .icon-sign-blank:hover {
+  color: #63a5e1;
+}
+.modal-dialog { /* extends bootstraps .modal-dialog class */
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+@media (max-width: 767px) {
+  .redirection-action,
+  .delete-action {
+    display: none;
+  }
+}

@@ -4,16 +4,16 @@
 	</header
 	<section class="lily-main-content">
 	  <div class="lily-contact-form">
-	    <h5>{{ config.app.chat.contactFormMsg }}</h5>
-	    {% if config.app.chat.contactLastNameField %}	
+	    <h5>{{ config.chat.contactFormMsg }}</h5>
+	    {% if config.chat.contactLastNameField %}	
 		<p>Nom: <label class="lastname" style="display:none">Ce champ ne peut pas être vide.</label></p>
 		<input id="lastname" class="lily-cst-form-color" type="text" name="lastname" placeholder="Votre Nom" size="30"/>
 		{% endif %}
-		{% if config.app.chat.contactFirstNameField %}
+		{% if config.chat.contactFirstNameField %}
 		<p>Prénom: <label class="firstname" style="display:none">Ce champ ne peut pas être vide.</label></p>
 		<input id="firstname" class="lily-cst-form-color" type="text" name="firstname" placeholder="Votre Prénom" size="30"/>
 		{% endif %}
-		{% if config.app.chat.contactEmailField %}
+		{% if config.chat.contactEmailField %}
 		<p>Email: <label class="email" style="display:none">Ce champ ne peut pas être vide.</label></p>
 	    <input id="email" class="lily-cst-form-color" type="text" name="email" placeholder="Votre Email" size="30"/>
 	    {% endif %}

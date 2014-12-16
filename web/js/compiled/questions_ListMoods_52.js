@@ -1,1 +1,4 @@
-lily.ListMoods=Backbone.Collection.extend({initialize:function(){}});
+lily.ListMoods=Backbone.Collection.extend({
+initialize:function(){
+}
+});

@@ -11,6 +11,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 use JMS\Serializer\SerializationContext;
 
+use Lily\ApiBundle\Entity\LogRequest;
 use Lily\ApiBundle\Controller\BaseController;
 
 class ApiController extends BaseController
@@ -19,16 +20,16 @@ class ApiController extends BaseController
     public function indexAction($licence) {
 
         // Services
-        $config = $this->getConfig($licence);
-        $redirection = $this->getRedirection($licence);
+        $config = $this->getAppConfig($licence);
+        $redirection = $this->getDefaultRedirection($licence);
+        $chatAvailable = $this->isChatAvailable($licence);
 
-        $cache = $this->get( 'aequasi_cache.instance.default' );
         $mobileDetector = $this->get('mobile_detect.mobile_detector');
-        $chatAvailable = $cache->fetch($licence.'_chat_available');
+        $cdn = $this->container->getParameter('cdn');
 
         $em = $this->getEntityManager($licence);
 
-        $avi = 'http://cdn.saio.fr/customer/'.$licence.'/js/avatar.js';
+        $avi = $cdn . '/customer/'.$licence.'/js/avatar.js';
         $avi = file_get_contents($avi);
 
         // Utilisateur
@@ -51,29 +52,21 @@ class ApiController extends BaseController
             $em->flush();
 
         }
-
         return $this->render('LilyApiBundle:themes:lily/index.html.twig', array('licence' => $licence, 'config' => $config, 'redirection' => $redirection, 'avatar' => $avi, 'chatAvailable' => $chatAvailable));
-
     }
 
     public function trackingAction($licence) {
       
-        $config = $this->getConfig($licence);
-        $cache = $this->get( 'aequasi_cache.instance.default' );
-        $available = $cache->fetch($licence.'_chat_available');
+        $config = $this->getAppConfig($licence);
+        $available = $this->isChatAvailable($licence);
         
-        return new Response(json_encode($available, true));
-        
-        $condition1 = $config['client']->getChat() && $config['app']->getChat()->getActive() && $available;
-        $condition2 = $config['app']->getAvi()->getActive() && $config['client']->getAvi();
+        $condition1 = $config->getChat()->getActive() && $available;
+        $condition2 = $config->getAvi()->getActive();
 
-        if ( // Return if Maintenance is On or Avi is off and no operators available to chat
-
-            $config['app']->getMaintenance() ||
-            $config['client']->getMaintenance() ||
-            !($condition1 || $condition2)
-
-        ) return new Response();
+        // Return if Maintenance is On or Avi is off and no operators available to chat
+        if ( $config->getMaintenance() || !($condition1 || $condition2) ) {
+            return new Response();
+        }
 
         $trackerJS = $this->render('LilyApiBundle::tracker.js.twig', array('licence' => $licence));
 
@@ -383,15 +376,13 @@ class ApiController extends BaseController
         if ($parent == 'NULL'  || $parent == 'null' ) $parent = NULL;
 
         // On récupère les catégories enfants
-        $faqs = $this->get('doctrine')->getManager($licence)
-        ->getRepository('LilyKnowledgeBundle:Faq')
+        $faqs = $em->getRepository('LilyKnowledgeBundle:Faq')
         ->findByParent($parent);
 
         if ($parent !== NULL) {
 
             // On récupère l'id du parent
-            $parent = $this->get('doctrine')->getManager($licence)
-            ->getRepository('LilyKnowledgeBundle:Faq')
+            $parent = $em->getRepository('LilyKnowledgeBundle:Faq')
             ->findOneById($parent);
 
             $request->setFaq($parent);
@@ -427,7 +418,9 @@ class ApiController extends BaseController
             // On récupère le top des questions
             $requests = $em->getRepository('LilyApiBundle:LogRequest')
             ->topQuestions($from, $to);
-
+            
+            $questions = [];
+            
             foreach ($requests as $item) {
                 $question = $item[0];
                 $questions[] = $question;
@@ -436,7 +429,6 @@ class ApiController extends BaseController
         } else {
             $questions = $em->getRepository('LilyKnowledgeBundle:Question')
             ->find($id);
-
         }
 
         return $questions;

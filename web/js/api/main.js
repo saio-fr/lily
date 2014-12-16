@@ -57,7 +57,7 @@ $(function() {
 			'skipSubprotocolCheck': true,
 			'maxRetries': 60,
 			'retryDelay': 2000
-	      }
+	  }
 	);
 	
 });

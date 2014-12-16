@@ -35,7 +35,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
         $this->socket->connect("tcp://127.0.0.1:".$zmq);
     
         $this->container = $container;  
-        $this->memcache = $this->container->get('memcache.default');
+        $this->cache = $this->container->get('aequasi_cache.instance.default');
     
         $this->app = $app;
         $this->app->clients = new \SplObjectStorage();
@@ -104,7 +104,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     }
     
     public function config($licence) {
-        $config = $this->memcache->get($licence.'_app_chat_config'.$licence);
+        $config = $this->cache->fetch($licence.'_config_app_chat');
 
         if (!$config) {			
             // Get the client' entity manager
@@ -121,10 +121,10 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     		    $refParams->setValue($connection, $params);
     				   	   		 	 	 
             $config = $this->container->get('doctrine')->getManager('client')
-    				->getRepository('LilyBackOfficeBundle:ChatConfig')
+    				->getRepository('LilyBackOfficeBundle:ConfigChat')
     				->findOneById(1);
     		   	  			  			
-    		    $this->memcache->set($licence.'_app_chat_config', $config, 0);
+    		    $this->cache->save($licence.'_config_app_chat', $config, 0);
 		    }		
         return $config;
     }
@@ -160,7 +160,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                     else $client->available = false;
       			    }			    
       			    // Set in the cache
-                $this->memcache->set('chat_available_'.$licence, $client->available, 3600);  
+                $this->cache->save('chat_available_'.$licence, $client->available, 3600);  
     		    }
     		}
     }
@@ -175,7 +175,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
             // Test if visitor is still connected
             foreach ($client->users as $item) {
                 // If the user is an visitor
-                $condition1 = item->lastConn < ( time() - 1200 );
+                $condition1 = $item->lastConn < ( time() - 1200 );
                 $condition2 = $item->lastMsgTime < ( time() - 1200 );
                 
                 if ($item->type === 'visitor' && $condition1 && $condition2) { 
