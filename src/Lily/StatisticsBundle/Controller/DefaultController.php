@@ -156,7 +156,7 @@ class DefaultController extends BaseController
     }
 
     /**
-     * @Get("/usage/footer/usage/{timestampfrom}/{timestampto}")
+     * @Get("/usage/footer/{timestampfrom}/{timestampto}")
      * @Secure(roles="ROLE_USER")
      * @View()
      */

@@ -9,6 +9,7 @@ require.config({
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'moment': 'bower_components/moment/moment',
     'moment-fr': 'bower_components/moment/locale/fr',
+    'statistics': 'utils/statistics',
     'flot': 'bower_components/flot.tooltip/js/jquery.flot',
     'flot-resize': 'bower_components/flot/jquery.flot.resize',
     'flot-tooltip': 'bower_components/flot.tooltip/js/jquery.flot.tooltip',
@@ -52,9 +53,10 @@ require([
   'todoTpl',
   'bootstrap',
   'moment',
-  'moment-fr'
+  'moment-fr',
+  'statistics'
   
-], function( $, _, Backbone, UserRouter, g ) {
+], function( $, _, Backbone, ProfileRouter, g ) {
 
   'use strict';
 
@@ -65,7 +67,7 @@ require([
   // Set locale in moment JS
   moment.locale('fr');
   
-  var router = new UserRouter();
+  var router = new ProfileRouter();
 
   // Start app router
   Backbone.history.start();

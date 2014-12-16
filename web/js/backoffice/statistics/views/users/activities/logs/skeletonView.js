@@ -8,9 +8,9 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      utils = require('utils/statistics'),
-      LogCollection = require('backoffice/profile/collections/logCollection'),
-      LogView = require('backoffice/profile/views/activities/logs/logView'),
+      utils = require('statistics'),
+      LogCollection = require('backoffice/statistics/collections/users/logCollection'),
+      LogView = require('backoffice/statistics/views/users/activities/logs/logView'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -18,7 +18,7 @@ define(function (require) {
   SkeletonView = Backbone.View.extend({
 
     el: '#logs',
-    template: _.template($('#activitiesLogsSkeletonTpl').html()),
+    template: _.template($('#usersActivitiesLogsSkeletonTpl').html()),
 
     events: {
       'hide.daterangepicker' : 'range',

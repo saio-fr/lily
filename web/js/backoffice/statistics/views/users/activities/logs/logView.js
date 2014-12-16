@@ -16,7 +16,7 @@ define(function (require) {
 
     tagName:  'li',
     className: 'list-group-item clear',
-    template: _.template($('#activitiesLogsLogTpl').html()),
+    template: _.template($('#usersActivitiesLogsLogTpl').html()),
 
     events: {
     },

@@ -1,13 +1,7 @@
 /* Plugin for jQuery for working with colors.
-<<<<<<< HEAD
  * 
  * Version 1.1.
  * 
-=======
- *
- * Version 1.1.
- *
->>>>>>> new bower components
  * Inspiration from jQuery color animation plugin by John Resig.
  *
  * Released under the MIT license by Ole Laursen, October 2009.
@@ -24,11 +18,7 @@
  *
  * V. 1.1: Fix error handling so e.g. parsing an empty string does
  * produce a color rather than just crashing.
-<<<<<<< HEAD
  */ 
-=======
- */
->>>>>>> new bower components
 
 (function($) {
     $.color = {};
@@ -46,21 +36,13 @@
                 o[c.charAt(i)] += d;
             return o.normalize();
         };
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         o.scale = function (c, f) {
             for (var i = 0; i < c.length; ++i)
                 o[c.charAt(i)] *= f;
             return o.normalize();
         };
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         o.toString = function () {
             if (o.a >= 1.0) {
                 return "rgb("+[o.r, o.g, o.b].join(",")+")";
@@ -73,11 +55,7 @@
             function clamp(min, value, max) {
                 return value < min ? min: (value > max ? max: value);
             }
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             o.r = clamp(0, parseInt(o.r), 255);
             o.g = clamp(0, parseInt(o.g), 255);
             o.b = clamp(0, parseInt(o.b), 255);
@@ -109,17 +87,10 @@
         // catch Safari's way of signalling transparent
         if (c == "rgba(0, 0, 0, 0)")
             c = "transparent";
-<<<<<<< HEAD
         
         return $.color.parse(c);
     }
     
-=======
-
-        return $.color.parse(c);
-    }
-
->>>>>>> new bower components
     // parse CSS color string (like "rgb(10, 32, 43)" or "#fff"),
     // returns color object, if parsing failed, you get black (0, 0,
     // 0) out
@@ -129,19 +100,11 @@
         // Look for rgb(num,num,num)
         if (res = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(str))
             return m(parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10));
-<<<<<<< HEAD
         
         // Look for rgba(num,num,num,num)
         if (res = /rgba\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))
             return m(parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10), parseFloat(res[4]));
             
-=======
-
-        // Look for rgba(num,num,num,num)
-        if (res = /rgba\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))
-            return m(parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10), parseFloat(res[4]));
-
->>>>>>> new bower components
         // Look for rgb(num%,num%,num%)
         if (res = /rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(str))
             return m(parseFloat(res[1])*2.55, parseFloat(res[2])*2.55, parseFloat(res[3])*2.55);
@@ -149,11 +112,7 @@
         // Look for rgba(num%,num%,num%,num)
         if (res = /rgba\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))
             return m(parseFloat(res[1])*2.55, parseFloat(res[2])*2.55, parseFloat(res[3])*2.55, parseFloat(res[4]));
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         // Look for #a0b1c2
         if (res = /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(str))
             return m(parseInt(res[1], 16), parseInt(res[2], 16), parseInt(res[3], 16));
@@ -172,11 +131,7 @@
             return m(res[0], res[1], res[2]);
         }
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> new bower components
     var lookupColors = {
         aqua:[0,255,255],
         azure:[240,255,255],

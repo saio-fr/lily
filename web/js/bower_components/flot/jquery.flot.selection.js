@@ -94,19 +94,11 @@ The plugin allso adds the following methods to the plot object:
         var savedhandlers = {};
 
         var mouseUpHandler = null;
-<<<<<<< HEAD
         
         function onMouseMove(e) {
             if (selection.active) {
                 updateSelection(e);
                 
-=======
-
-        function onMouseMove(e) {
-            if (selection.active) {
-                updateSelection(e);
-
->>>>>>> new bower components
                 plot.getPlaceholder().trigger("plotselecting", [ getSelection() ]);
             }
         }
@@ -114,11 +106,7 @@ The plugin allso adds the following methods to the plot object:
         function onMouseDown(e) {
             if (e.which != 1)  // only accept left-click
                 return;
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             // cancel out any text selections
             document.body.focus();
 
@@ -139,21 +127,13 @@ The plugin allso adds the following methods to the plot object:
             // this is a bit silly, but we have to use a closure to be
             // able to whack the same handler again
             mouseUpHandler = function (e) { onMouseUp(e); };
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             $(document).one("mouseup", mouseUpHandler);
         }
 
         function onMouseUp(e) {
             mouseUpHandler = null;
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             // revert drag stuff for old-school browsers
             if (document.onselectstart !== undefined)
                 document.onselectstart = savedhandlers.onselectstart;
@@ -178,21 +158,13 @@ The plugin allso adds the following methods to the plot object:
         function getSelection() {
             if (!selectionIsSane())
                 return null;
-<<<<<<< HEAD
             
-=======
-
->>>>>>> new bower components
             if (!selection.show) return null;
 
             var r = {}, c1 = selection.first, c2 = selection.second;
             $.each(plot.getAxes(), function (name, axis) {
                 if (axis.used) {
-<<<<<<< HEAD
                     var p1 = axis.c2p(c1[axis.direction]), p2 = axis.c2p(c2[axis.direction]); 
-=======
-                    var p1 = axis.c2p(c1[axis.direction]), p2 = axis.c2p(c2[axis.direction]);
->>>>>>> new bower components
                     r[name] = { from: Math.min(p1, p2), to: Math.max(p1, p2) };
                 }
             });
@@ -280,17 +252,10 @@ The plugin allso adds the following methods to the plot object:
                 from = to;
                 to = tmp;
             }
-<<<<<<< HEAD
             
             return { from: from, to: to, axis: axis };
         }
         
-=======
-
-            return { from: from, to: to, axis: axis };
-        }
-
->>>>>>> new bower components
         function setSelection(ranges, preventEvent) {
             var axis, range, o = plot.getOptions();
 
@@ -368,19 +333,11 @@ The plugin allso adds the following methods to the plot object:
                 ctx.restore();
             }
         });
-<<<<<<< HEAD
         
         plot.hooks.shutdown.push(function (plot, eventHolder) {
             eventHolder.unbind("mousemove", onMouseMove);
             eventHolder.unbind("mousedown", onMouseDown);
             
-=======
-
-        plot.hooks.shutdown.push(function (plot, eventHolder) {
-            eventHolder.unbind("mousemove", onMouseMove);
-            eventHolder.unbind("mousedown", onMouseDown);
-
->>>>>>> new bower components
             if (mouseUpHandler)
                 $(document).unbind("mouseup", mouseUpHandler);
         });

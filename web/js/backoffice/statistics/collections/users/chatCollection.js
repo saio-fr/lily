@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      g = require('globals'),
+      statistics = require('statistics'),
 
       // Object wrapper returned as a module
       ChatCollection;
@@ -21,8 +21,8 @@ define(function (require) {
     },
     
     initialize: function () {
-      this.start = g.date.start;
-      this.end = g.date.end;
+      this.start = statistics.date.start;
+      this.end = statistics.date.end;
     },
 
     comparator: function(item) {

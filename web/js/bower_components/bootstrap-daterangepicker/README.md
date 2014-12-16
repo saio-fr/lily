@@ -3,21 +3,12 @@
 ![Improvely.com](http://i.imgur.com/LbAMf3D.png)
 
 This date range picker component for Bootstrap creates a dropdown menu from which a user can
-<<<<<<< HEAD
 select a range of dates. I created it while building the UI for [Improvely](http://www.improvely.com), 
 which needed a way to select date ranges for reports.
 
 If invoked with no options, it will present two calendars to choose a start 
 and end date from. Optionally, you can provide a list of date ranges the user can select from instead 
 of choosing dates from the calendars. If attached to a text input, the selected dates will be inserted 
-=======
-select a range of dates. I created it while building the UI for [Improvely](http://www.improvely.com),
-which needed a way to select date ranges for reports.
-
-If invoked with no options, it will present two calendars to choose a start
-and end date from. Optionally, you can provide a list of date ranges the user can select from instead
-of choosing dates from the calendars. If attached to a text input, the selected dates will be inserted
->>>>>>> new bower components
 into the text box. Otherwise, you can provide a custom callback function to receive the selection.
 
 The component can also be used as a single date picker by setting the `singleDatePicker` option to `true`.
@@ -47,24 +38,14 @@ $(document).ready(function() {
 </script>
 ```
 
-<<<<<<< HEAD
 The constructor also takes an optional options object and callback function. The function will be called whenever 
 the selected date range has been changed by the user, and is passed the start and end dates (moment date objects)
 and the predefined range label chosen (if any), as parameters. It will not fire if the picker is closed without 
-=======
-The constructor also takes an optional options object and callback function. The function will be called whenever
-the selected date range has been changed by the user, and is passed the start and end dates (moment date objects)
-and the predefined range label chosen (if any), as parameters. It will not fire if the picker is closed without
->>>>>>> new bower components
 any change to the selected dates.
 
 ````
 $('input[name="daterange"]').daterangepicker(
-<<<<<<< HEAD
   { 
-=======
-  {
->>>>>>> new bower components
     format: 'YYYY-MM-DD',
     startDate: '2013-01-01',
     endDate: '2013-12-31'
@@ -162,11 +143,7 @@ Some applications need a "clear" instead of a "cancel" functionality, which can 
 
 ````
 $('#daterange').daterangepicker({
-<<<<<<< HEAD
   locale: { cancelLabel: 'Clear' }  
-=======
-  locale: { cancelLabel: 'Clear' }
->>>>>>> new bower components
 });
 
 $('#daterange').on('cancel.daterangepicker', function(ev, picker) {

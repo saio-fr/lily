@@ -37,11 +37,7 @@ can just fix the size of their placeholders.
             plot.setupGrid();
             plot.draw();
         }
-<<<<<<< HEAD
         
-=======
-
->>>>>>> new bower components
         function bindEvents(plot, eventHolder) {
             plot.getPlaceholder().resize(onResize);
         }
@@ -49,19 +45,11 @@ can just fix the size of their placeholders.
         function shutdown(plot, eventHolder) {
             plot.getPlaceholder().unbind("resize", onResize);
         }
-<<<<<<< HEAD
         
         plot.hooks.bindEvents.push(bindEvents);
         plot.hooks.shutdown.push(shutdown);
     }
     
-=======
-
-        plot.hooks.bindEvents.push(bindEvents);
-        plot.hooks.shutdown.push(shutdown);
-    }
-
->>>>>>> new bower components
     $.plot.plugins.push({
         init: init,
         options: options,

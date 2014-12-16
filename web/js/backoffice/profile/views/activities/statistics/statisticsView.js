@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      Utils = require('utils/statistics'),
+      Utils = require('statistics'),
       g = require('globals'),
 
       // Object wrapper returned as a module

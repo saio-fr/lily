@@ -10,10 +10,16 @@ define(function (require) {
       flotResize = require('flot-resize'),
       flotTooltip = require('flot-tooltip'),
       flotTime = require('flot-time'),
-      g = require('globals'),
+      moment = require('moment'),
       Statistics = {};
 
   _.extend(Statistics, Utils);
+  
+  Statistics.date = {
+    // Default period used to datepick
+    start: moment().subtract(6, 'days'),
+    end: moment().endOf('day'),
+  };
   
   // Daterange picker
   Statistics.daterangepicker = function (view) {
@@ -58,7 +64,7 @@ define(function (require) {
         }   
       }
     );
-    el.find('span').html(g.date.start.format('D MMMM YYYY') + ' - ' + g.date.end.format('D MMMM YYYY'));
+    el.find('span').html(Statistics.date.start.format('D MMMM YYYY') + ' - ' + Statistics.date.end.format('D MMMM YYYY'));
   }
   
   Statistics.renderFooter = function (view) {
@@ -66,7 +72,7 @@ define(function (require) {
       success: function(data) {
         view.$el.find('footer').remove();
         view.$el.append(view.templateFooter(view.model.footer.toJSON()));
-        view.$el.find('#'+view.model.graph.type).addClass('active');
+        view.$el.find('[data-type='+view.model.graph.type+']').addClass('active');
       }
     });
   },

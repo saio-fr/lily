@@ -12,20 +12,22 @@ define(function (require) {
       app = require('app'),
       SkeletonView = require('backoffice/statistics/views/skeletonView'),
       
-      UsageGraphModel = require('backoffice/statistics/models/usage/graphModel'),
-      UsageFooterModel = require('backoffice/statistics/models/usage/footerModel'),
+      UsageSkeletonView = require('backoffice/statistics/views/usage/skeletonView'),
       
       AviGraphModel = require('backoffice/statistics/models/avi/graphModel'),
       AviFooterModel = require('backoffice/statistics/models/avi/footerModel'),
+      AviSkeletonView = require('backoffice/statistics/views/avi/skeletonView'),
       
       ChatGraphModel = require('backoffice/statistics/models/chat/graphModel'),
       ChatFooterModel = require('backoffice/statistics/models/chat/footerModel'),
+      ChatSkeletonView = require('backoffice/statistics/views/chat/skeletonView'),
       
-      UsersGraphModel = require('backoffice/statistics/models/users/graphModel'),
-      UsersFooterModel = require('backoffice/statistics/models/users/footerModel'),
+      UserGraphModel = require('backoffice/statistics/models/users/graphModel'),
+      UserFooterModel = require('backoffice/statistics/models/users/footerModel'),
       UserCollection = require('backoffice/statistics/collections/users/userCollection'),       
       UserChatCollection = require('backoffice/statistics/collections/users/chatCollection'),    
-      UserLogCollection = require('backoffice/statistics/collections/users/logCollection'),    
+      UserLogCollection = require('backoffice/statistics/collections/users/logCollection'),
+      UserSkeletonView = require('backoffice/statistics/views/users/skeletonView'),  
       UserActivitiesView = require('backoffice/statistics/views/users/activities/skeletonView'),
       UserChatsSkeletonView = require('backoffice/statistics/views/users/activities/chats/skeletonView'),
       UserLogsSkeletonView = require('backoffice/statistics/views/users/activities/logs/skeletonView'),
@@ -43,26 +45,58 @@ define(function (require) {
 
     initialize: function () {
       
-      // Models & Collection
-      var usageGraphModel = new UsageGraphModel();
-      var usageFooterModel = new UsageFooterModel();
-      var aviGraphModel = new AviGraphModel();
-      var aviFooterModel = new AviFooterModel();
-      var chatGraphModel = new ChatGraphModel();
-      var chatFooterModel = new ChatFooterModel();
-      var userCollection = new UserCollection();
-      var userChatCollection = new UserChatCollection();
-      var userLogCollection = new UserLogCollection();
-      
       // Sekeleton
       var skeleton = new SkeletonView();
       app.skeleton  = skeleton;
-   
+      
+      this.usage();
+      this.avi();
+      this.chat();
+      this.users();
+      
+    },
+    
+    home: function () {
+      
     },
 
-    home: function () {
-    }
+    usage: function () {
+      // Skeleton
+      var usage = new UsageSkeletonView();
+      app.skeleton.usage = usage;
+    },
     
+    avi: function () {
+      // Models & Collection    
+      var aviGraphModel = new AviGraphModel();
+      var aviFooterModel = new AviFooterModel();
+      
+      // Skeleton
+      var avi = new AviSkeletonView();
+      app.skeleton.avi = avi;  
+    },
+    
+    chat: function () {
+      // Models & Collection 
+      var chatGraphModel = new ChatGraphModel();
+      var chatFooterModel = new ChatFooterModel();
+
+      // Skeleton
+      var chat = new ChatSkeletonView();
+      app.skeleton.chat = chat;
+    },
+    
+    users: function () {
+      // Models & Collection
+      var userGraphModel = new UserGraphModel();
+      var userFooterModel = new UserFooterModel();
+      var userCollection = new UserCollection();
+      var userChatCollection = new UserChatCollection();
+      var userLogCollection = new UserLogCollection();
+                 
+      var users = new UserSkeletonView();
+      app.skeleton.users = users;
+    }
     
   });
 

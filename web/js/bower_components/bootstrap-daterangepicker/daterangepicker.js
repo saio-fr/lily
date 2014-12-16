@@ -304,19 +304,11 @@
             //if no start/end dates set, check if an input element contains initial values
             if (typeof options.startDate === 'undefined' && typeof options.endDate === 'undefined') {
                 if ($(this.element).is('input[type=text]')) {
-<<<<<<< HEAD
                     var val = $(this.element).val(), 
                         split = val.split(this.separator);
                     
                     start = end = null;
                     
-=======
-                    var val = $(this.element).val(),
-                        split = val.split(this.separator);
-
-                    start = end = null;
-
->>>>>>> new bower components
                     if (split.length == 2) {
                         start = moment(split[0], this.format);
                         end = moment(split[1], this.format);

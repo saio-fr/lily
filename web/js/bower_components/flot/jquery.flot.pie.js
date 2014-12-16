@@ -182,11 +182,7 @@ More detail and specific examples can be found in the included HTML file.
 				// that the user may have stored in higher indexes.
 
 				if ($.isArray(value) && value.length == 1) {
-<<<<<<< HEAD
     				value = value[0];
-=======
-				value = value[0];
->>>>>>> new bower components
 				}
 
 				if ($.isArray(value)) {
