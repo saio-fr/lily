@@ -34,7 +34,7 @@ lily.Router = Backbone.Router.extend({
 		var view = new lily.Views.Avi();
 		lily.instance.goTo(view);
 		
-		this.welcome = new lily.Models.MessageLilySimple({message_content: config.aviWelcomeMsg});
+		this.welcome = new lily.Models.MessageLilySimple({message_content: config.avi.welcomeMsg});
 		this.message = new lily.Views.MessageLilySimple ({model: this.welcome}).render();
 
 	},
