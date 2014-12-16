@@ -7,8 +7,9 @@
 	</header>
 	<section class="lily-main-content">
 		<section class="lily-avatar-wrapper">
-			{# {% include '@customer/'~client.cname~'/templates/avatar-svg.html.twig' %}
-			<img src="{{asset('customer/'~enterprise.cname~'/images/universe.png')}}" class="lily-cst-universe" class="lily-cst-universe" /> #}
+			{# http://cdn.saio.fr/customer/{licence}/templates/avatar-svg.html.twig 
+			{% include '@customer/'~licence~'/templates/avatar-svg.html.twig' %}
+			<img src="{{asset('customer/'~licence~'/images/universe.png')}}" class="lily-cst-universe" class="lily-cst-universe" /> #}
 			<canvas id="canvas" width="380" height="460"></canvas>
 		</section>
 		<div id="lily-box-messages" class="scrollable">

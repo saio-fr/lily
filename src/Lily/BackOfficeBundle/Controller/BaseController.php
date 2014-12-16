@@ -65,5 +65,46 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 
         return $entity;
     }
+    
+    protected function publishConfig($config) {
+
+        $licence = $this->getLicence();
+        $cache = $this->get('aequasi_cache.instance.default');
+        
+        // Client Config
+  			$em = $this->getDoctrine()->getManager();
+  			$client = $em->getRepository('LilyUserBundle:Client')
+        ->findOneByLicence($licence)
+        ->getConfig();
+                    
+        $avi = $config->getAvi();
+        $redirections = $avi->getRedirections();
+        $chat = $config->getChat();
+        
+        $avi->setActive($avi->getActive() && $client->getAvi());  
+        $chat->setActive($chat->getActive() && $client->getChat());
+        // Little hack to persist entity into memcached
+        $redirections->setMail($redirections->getMail());
+        
+        $config->setMaintenance($config->getMaintenance() && $client->getMaintenance());
+        $config->setTopquestions($config->getTopquestions() && $client->getTopquestions());
+        $config->setFaq($config->getFaq() && $client->getFaq());
+        $config->setAvi($avi);
+        $config->setChat($chat);
+
+        // Save config for front app
+        $cache->save($licence.'_config_app', $config, 0);
+
+        // Save config for chat servers
+        $cache->save($licence.'_config_app_chat', $config->getChat(), 0);
+
+        // Tell our chat app that config changed
+        $context = new ZMQContext();
+        $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+        $socket->connect("tcp://ws.saio.fr:5555");
+
+        $socket->send(json_encode(array('action' => 'config', 'licence' => $licence)));
+
+    }
 
 }

@@ -32,7 +32,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       
     	  $context = new ZMQContext();
         $this->socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-        $this->socket->connect("tcp://127.0.0.1:".$zmq);
+        $this->socket->connect("tcp://ws.saio.fr:".$zmq);
     
         $this->container = $container;  
         $this->cache = $this->container->get('aequasi_cache.instance.default');
