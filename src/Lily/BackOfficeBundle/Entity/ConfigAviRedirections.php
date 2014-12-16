@@ -44,9 +44,9 @@ class ConfigAviRedirections
     
     public function __construct()
     {       
-		$this->chat = true;
-		$this->mail = true;
-		$this->phone = true;
+		    $this->chat = true;
+        $this->mail = true;
+        $this->phone = true;
 	  }
 
     /**
