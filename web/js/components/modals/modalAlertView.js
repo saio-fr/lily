@@ -19,7 +19,7 @@ define(function (require) {
     template: _.template( $('#modalTpl').html()),
 
     events: {
-      'click .modal-dialog .close' : 'destroy'
+      'click' : 'destroy'
     },
 
     initialize: function(options) {
@@ -41,11 +41,14 @@ define(function (require) {
       return this;
     },
 
-    destroy: function () {
-      // Bootstrap modal plugin takes care of the displaying non stuff,
-      // so we just remove the view and model.
-      this.model.destroy();
-      this.remove();
+    destroy: function (e) {
+      if ( e.target.classList.contains('close') ||
+           e.target.classList.contains('modal-backdrop') ) {
+        // Bootstrap modal plugin takes care of the displaying non stuff,
+        // so we just remove the view and model.
+        this.model.destroy();
+        this.remove();
+      }
     }
 
   });

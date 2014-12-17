@@ -17,6 +17,15 @@ define(function (require) {
 
     model: RedirectionModel,
     url: "/",
+
+    initialize: function () {
+      this.listenTo(this, 'change', this.onChange);
+    },
+
+    onChange: function (model) {
+      model.save();
+    }
+
   });
 
   return RedirectionCollection;

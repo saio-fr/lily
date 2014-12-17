@@ -15,7 +15,7 @@ define(function (require) {
 
   SkeletonView = Backbone.View.extend({
 
-    el: $('#faq'),
+    el: $('.js-app'),
 
     events: {
       "click .new-category"   : "createCategory",
@@ -23,24 +23,41 @@ define(function (require) {
     },
 
     createCategory: function() {
-
-      var faq = app.faqCollection.create({
-          "title": "Nouvelle Category",
-          "type": "category",
-        }, {
+      var faq;
+      if (this.faqCollection) {
+        faq = this.faqCollection.create({
+            "title": "Nouvelle Category",
+            "type": "category",
+          }, {
           wait: true
-      });
+        });
+      }
     },
 
     createContent: function() {
-
-      var faq = app.faqCollection.create({
-          "title": "Titre Contenu",
-          "type": "contenu",
-        }, {
-          wait:true
-      });
+      var faq;
+      if (this.faqCollection) {
+        faq = this.faqCollection.create({
+            "title": "Titre Contenu",
+            "type": "contenu",
+          }, {
+            wait:true
+        });
+      }
     },
+
+    unsetActive: function () {
+      this.$el
+        .find('.list-group-item.active')
+        .removeClass('active');
+    },
+
+    closeEditView: function () {
+      if (this.contentEditView) {
+        this.contentEditView.remove();
+        this.contentEditView = null;
+      }
+    }
 
   });
 

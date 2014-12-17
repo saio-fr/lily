@@ -16,10 +16,10 @@ define(function (require) {
 
   CollectionView = Backbone.View.extend({
 
-    el: '#redirection',
+    el: '.js-app',
 
     events: {
-      'click #redirection-new': 'add',
+      'click .js-redirection-new': 'add',
     },
 
     initialize: function (collection) {
@@ -46,22 +46,13 @@ define(function (require) {
       this.childViews.add(redirectionView);
 
       this.$el
-        .find('#redirections-list')
+        .find('.js-redirections-list')
         .append( redirectionView.render().el );
     },
 
     add: function () {
-
-      var model = this.collection.create({
-        "title": "Nouvelle redirection",
-        "frequency": 0,
-        "phone": "+33 4 00 00 00 00",
-        "mail": "Email@exemple.com",
-        "object":"Objet du mail"
-      }, {
-        wait:true
-      });
-
+      // Create new model with default properties
+      var model = this.collection.create({}, { wait:true });
       this.show(model);
     },
 

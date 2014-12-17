@@ -32,8 +32,8 @@ define(function (require) {
     initialize: function () {
 
       app.skeleton = new SkeletonView();
-      app.faqCollection = new FaqCollection();
-      app.breadcrumbs = new BreadcrumbCollection();
+      app.skeleton.faqCollection = new FaqCollection();
+      app.skeleton.breadcrumbs = new BreadcrumbCollection();
     },
 
     category: function (id) {
@@ -45,46 +45,47 @@ define(function (require) {
       var self = this;
       id = id  || null;
 
-      if (app.faqCollectionView) {
-        app.faqCollectionView.closeChildren();
+      if (app.skeleton.faqCollectionView) {
+        app.skeleton.faqCollectionView.closeChildren();
       }
 
-      if (app.breadcrumbsView) {
-        app.breadcrumbsView.closeChildren();
+      if (app.skeleton.breadcrumbsView) {
+        app.skeleton.breadcrumbsView.closeChildren();
       }
 
-      if (app.contentEditView) {
-        app.contentEditView.remove();
-        app.contentEditView = null;
+      if (app.skeleton.contentEditView) {
+        app.skeleton.closeEditView();
       }
 
-      app.faqCollection.url = "/" + id;
-      app.breadcrumbs.url = "/breadcrumbs/" + id;
+      app.skeleton.faqCollection.url = "/" + id;
+      app.skeleton.breadcrumbs.url = "/breadcrumbs/" + id;
 
       // Fetch breadcrumb models and init view
-      app.breadcrumbs.fetch({
+      app.skeleton.breadcrumbs.fetch({
         reset: true,
         success: function() {
-          app.breadcrumbsView = app.breadcrumbsView ||
+          app.skeleton.breadcrumbsView = app.skeleton.breadcrumbsView ||
             new BreadcrumbCollectionView({
-              collection: app.breadcrumbs
+              collection: app.skeleton.breadcrumbs
             });
 
           fetchItems();
-        }, error: function () {
+        }, error: function (model, err) {
           app.router.navigate('/', {trigger: true});
-          self.notFound();
+          if (err.status === 404) {
+            self.notFound();
+          }
         }
       });
 
       // Fetch faq models and init view.
       function fetchItems () {
-        app.faqCollection.fetch({
+        app.skeleton.faqCollection.fetch({
           reset: true,
           success: function() {
-            app.faqCollectionView = app.faqCollectionView ||
+            app.skeleton.faqCollectionView = app.skeleton.faqCollectionView ||
               new FaqCollectionView({
-                collection: app.faqCollection
+                collection: app.skeleton.faqCollection
               });
           }
         });
@@ -100,7 +101,7 @@ define(function (require) {
       }
       app.skeleton.modalView = new ModalView({
         model: modalModel,
-        appendEl: "#faq"
+        appendEl: ".js-app"
       });
     }
 

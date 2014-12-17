@@ -17,10 +17,10 @@ define(function (require) {
   BreadcrumbsView = Backbone.View.extend({
 
     className: 'breadcrumb m-n',
-
     tagName: 'ul',
 
     initialize: function () {
+
       this.listenTo(this.collection, 'reset', this.render);
       this.listenTo( this.collection, 'add', this.add );
 
@@ -29,8 +29,9 @@ define(function (require) {
     },
 
     render: function () {
+
       // render this view;
-      $("#breadcrumbs").html(this.$el);
+      $(".js-breadcrumbs-container").html(this.$el);
       // render subviews;
       this.collection.each(this.add, this);
       // set last as active;
@@ -49,6 +50,7 @@ define(function (require) {
     },
 
     closeChildren: function () {
+
       var self = this;
       this.childViews.forEach(function (view){
         // delete index for that view

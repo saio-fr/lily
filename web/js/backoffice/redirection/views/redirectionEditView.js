@@ -19,8 +19,7 @@ define(function (require) {
     model: RedirectionModel,
 
     tagName: 'aside',
-    className: 'aside-redirection bg-light lter b-l hide',
-    id: 'redirection-edit',
+    className: 'js-redirection-edit aside-redirection bg-light lter hide',
 
     template: _.template($('#editTpl').html()),
 
@@ -44,10 +43,10 @@ define(function (require) {
 
     update: function () {
 
-      var title = $(this.el).find('#title').val();
-      var object = $(this.el).find('#object').val();
-      var phone = $(this.el).find('#phone').val();
-      var mail = $(this.el).find('#mail').val();
+      var title = $(this.el).find('#titleForm').val();
+      var object = $(this.el).find('#objectForm').val();
+      var phone = $(this.el).find('#phoneForm').val();
+      var mail = $(this.el).find('#mailForm').val();
 
       this.model.set({
         'title': title,
@@ -56,18 +55,21 @@ define(function (require) {
         'mail': mail
       });
 
-      this.model.save();
+      this.hide();
+      this.remove();
+    },
+
+    hide: function () {
 
       this.$el.addClass('hide');
-      this.remove();
+      $('js-redirections-list .active').removeClass('active');
     },
 
     cancel: function () {
 
       this.model.cancel();
-      this.$el.addClass('hide');
+      this.hide();
       this.remove();
-      $('#list-redirections .active').removeClass('active');
     },
 
   });

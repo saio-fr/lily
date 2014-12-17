@@ -20,7 +20,7 @@ define(function (require) {
 
     className: "list-group-item faq-category hover",
 
-    template: _.template($('#category').html()),
+    template: _.template($('#categoryTpl').html()),
 
     events: {
 
@@ -44,14 +44,14 @@ define(function (require) {
 
       this.$el.html(this.template(this.model.toJSON()));
 
-      this.input = this.$('.edit');
+      this.$input = this.$('.edit');
       return this;
     },
 
     navigate: function (e) {
-      if ( e.target.className.indexOf('faq-name') === -1 &&
-           e.target.className.indexOf('edit') === -1 &&
-           e.target.className.indexOf('destroy') === -1) {
+      if ( !e.target.classList.contains('faq-name') &&
+           !e.target.classList.contains('edit') &&
+           !e.target.classList.contains('destroy') ) {
         app.router.navigate( "category/" + this.model.get('id'), {
           trigger: true
         });
@@ -60,14 +60,14 @@ define(function (require) {
 
     edit: function (e) {
 
-      if (app.contentEditView) {
-        app.contentEditView.close();
+      if (app.skeleton.contentEditView) {
+        app.skeleton.closeEditView();
       }
 
       this.$el.addClass("editing");
-      this.input.focus().select();
+      this.$input.focus().select();
 
-      this.$el.parent().find('.active').removeClass('active');
+      app.skeleton.unsetActive();
       this.$el.addClass('active');
     },
 
@@ -79,12 +79,13 @@ define(function (require) {
     },
 
     dropped: function (event, index) {
+
       this.model.set({ position: index });
     },
 
     leaveEdit: function () {
 
-      var value = this.input.val();
+      var value = this.$input.val();
       this.model.set({title: value});
       this.$el.removeClass("editing");
     },
