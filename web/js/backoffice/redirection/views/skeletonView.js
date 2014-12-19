@@ -13,6 +13,9 @@ define(function (require) {
       RedirectionCollectionView = require('backoffice/redirection/views/redirectionCollectionView'),
       RedirectionEditView = require('backoffice/redirection/views/redirectionEditView'),
       RedirectionCollection = require('backoffice/redirection/collections/redirectionCollection'),
+      globals = require('backoffice/globals'),
+      ModalView = require('components/modals/modalAlertView'),
+      ModalModel = require('components/modals/modalAlertModel'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -22,28 +25,42 @@ define(function (require) {
     initialize: function () {
 
       this.fetchRedirections();
-      app.on('itemView:select', this.selectItem, this);
+      app.on('itemView:select', this.onSelectItem, this);
+      app.on('itemView:deletePrevented', this.onDeletePrevented, this);
     },
 
     fetchRedirections: function () {
 
-      var collection = new RedirectionCollection();
+      var collection = new RedirectionCollection(),
+          listView;
 
       collection.fetch({
         success: function () {
-          var listView = new RedirectionCollectionView(collection);
+          listView = new RedirectionCollectionView(collection);
         }
       });
 
       this.collection = collection;
     },
 
-    selectItem: function (model) {
+    onSelectItem: function (model) {
+      // Rerender edit view
       if (this.editView) {
         this.editView.remove();
       }
       this.editView = new RedirectionEditView({model: model});
-      $('.main-container').append(this.editView.render().el);
+      $('.js-main-container').append(this.editView.render().el);
+    },
+
+    onDeletePrevented: function () {
+
+      var modalModel = new ModalModel(globals.modalAlert.redirection);
+
+      this.modalView = new ModalView({
+        model: modalModel ,
+        appendEl: ".js-app"
+      });
+      this.modalView.$el.modal('show');
     },
 
     getActiveItem: function () {

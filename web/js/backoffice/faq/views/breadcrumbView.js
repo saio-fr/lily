@@ -18,7 +18,7 @@ define(function (require) {
 
     tagName:  "li",
 
-    template: _.template($('#breadcrumbView').html()),
+    template: _.template($('#breadcrumbTpl').html()),
 
     events: {
       'click' : 'navigate',

@@ -18,12 +18,11 @@ define(function (require) {
   FaqCollectionView = Backbone.View.extend({
 
     tagName: 'ul',
-
-    className: 'js-faq-list list-group list-group-sp sortable',
+    className: 'list-group list-group-sp sortable',
 
     initialize: function () {
 
-      this.listenTo(this.collection, 'reset', this.render);
+      this.listenTo( this.collection, 'reset', this.render );
       this.listenTo( this.collection, 'add', this.add );
 
       this.childViews = new Backbone.ChildViewContainer();
@@ -31,8 +30,9 @@ define(function (require) {
     },
 
     render: function () {
+
       // render this view;
-      $("#faq-list").prepend(this.$el);
+      $(".js-faq-container").prepend(this.$el);
       // Render subviews
       this.collection.each(this.add, this);
       return this;
@@ -41,7 +41,6 @@ define(function (require) {
     add: function (model) {
 
       var view;
-
       if (model.get('type') === 'category') {
         view = new CategoryView({ model: model });
       } else {
@@ -50,13 +49,32 @@ define(function (require) {
 
       this.childViews.add(view);
       this.$el.append(view.render().el);
-      // bind drag events again on new list
+      // bind drag events again on new list,
+      // only once, or when an element is added to the list
       if (this.childViews.length === this.collection.length) {
         this.makeSortable();
       }
     },
 
+    makeSortable: function () {
+
+      this.$el
+        .off('sortupdate', this.triggerDrop)
+        .sortable('destroy')
+        // Unbind before rebinding to avoid shadow events
+        .sortable()
+        .on('sortupdate', this.triggerDrop);
+    },
+
+    triggerDrop: function (e, el) {
+
+      if (el && el.item) {
+        el.item.trigger('dropped', el.item.index());
+      }
+    },
+
     closeChildren: function () {
+
       var self = this;
       this.childViews.forEach(function (view){
         // delete index for that view
@@ -66,24 +84,9 @@ define(function (require) {
       });
     },
 
-    makeSortable: function () {
-      $('.js-faq-list')
-        .off('sortupdate', this.triggerDrop)
-        .sortable('destroy')
-        // Unbind before rebinding to avoid shadow events
-        .sortable()
-        .on('sortupdate', this.triggerDrop);
-    },
-
-    triggerDrop: function (e, el) {
-      if (el && el.item) {
-        el.item.trigger('dropped', el.item.index());
-      }
-    },
-
     close: function () {
       this.closeChildren();
-      $('.js-faq-list')
+      this.$el
         .off('sortupdate', this.triggerDrop)
         .sortable('destroy');
       this.remove();

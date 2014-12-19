@@ -14,6 +14,14 @@ define(function (require) {
 
   RedirectionModel = Backbone.Model.extend({
 
+    defaults: {
+      "title": "Nouvelle redirection",
+      "frequency": 0,
+      "phone": "+33 4 00 00 00 00",
+      "mail": "Email@exemple.com",
+      "object":"Objet du mail"
+    },
+
     initialize: function () {
         this.urlRoot = "/";
     },

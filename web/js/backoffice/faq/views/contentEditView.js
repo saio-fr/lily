@@ -10,6 +10,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
+      app = require('app'),
       globals = require('backoffice/globals'),
 
       // Object wrapper returned as a module
@@ -17,11 +18,10 @@ define(function (require) {
 
   ContentEditView = Backbone.View.extend({
 
-    id: '#faq-detail',
     tagName: "aside",
     className: "aside-faq bg-light lter b-l hide",
 
-    template: _.template($('#contentEdit').html()),
+    template: _.template($('#editTpl').html()),
 
     events: {
 
@@ -31,7 +31,7 @@ define(function (require) {
 
     initialize: function () {
 
-      this.listenTo(this.model, 'destroy', this.remove);
+      this.listenTo(this.model, 'destroy', this.cancel);
       this.render();
     },
 
@@ -41,29 +41,29 @@ define(function (require) {
         .removeClass('hide')
         .html(this.template(this.model.toJSON()));
 
-      $(".main-container").append(this.$el);
-
-      $('#faq-editor').wysihtml5(globals.faqWysiConfig);
+      $('.js-main-container').append(this.$el);
+      // init wysiwig on content editor using wysihtml5 lib.
+      $('.js-editor-input').wysihtml5(globals.faqWysiConfig);
 
       return this;
     },
 
     update: function () {
 
-      var content = $(this.$el).find('#faq-editor').val();
+      var content = $(this.$el).find('.js-faq-editor').val();
+      this.model.set({ 'content': content });
+      this.hide();
+      app.skeleton.closeEditView();
 
-      this.model.set({
-        'content': content,
-      });
-
-      this.remove();
-      $('#faq-list .active').removeClass('active');
+      // blur active item.
+      app.skeleton.unsetActive();
     },
 
     cancel: function () {
 
-      this.remove();
-      $('#faq-list .active').removeClass('active');
+      app.skeleton.unsetActive();
+      this.hide();
+      app.skeleton.closeEditView();
     },
 
     show: function () {
@@ -71,10 +71,9 @@ define(function (require) {
       this.$el.removeClass('hide');
     },
 
-    close: function () {
+    hide: function () {
 
       this.$el.addClass('hide');
-      this.remove();
     }
   });
 

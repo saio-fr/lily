@@ -17,98 +17,96 @@ define(function (require) {
 
   ContentView = Backbone.View.extend({
 
-      tagName:  "li",
+    tagName:  "li",
+    className: "list-group-item faq-content hover",
 
-      className: "list-group-item faq-content hover",
+    template: _.template($('#contentTpl').html()),
 
-      template: _.template($('#content').html()),
+    events: {
 
-      events: {
+        'click .destroy':   'destroy',
+        'click .view':      'select',
+        'click .faq-name':  'edit',
+        'blur .edit':       'leaveEdit',
+        'keypress .edit':   'updateOnEnter',
+        'dropped':          'dropped'
+    },
 
-          'click .destroy':   'destroy',
-          'click .view':      'select',
-          'click .faq-name':  'edit',
-          'blur .edit':       'leaveEdit',
-          'keypress .edit':   'updateOnEnter',
-          'dropped':          'dropped'
-      },
+    initialize: function () {
 
-      initialize: function () {
+      this.listenTo(this.model, 'select', this.select);
+      this.listenTo(this.model, 'change', this.render);
+    },
 
-        this.listenTo(this.model, 'select', this.select);
-        this.listenTo(this.model, 'change', this.render);
-      },
+    render: function () {
 
-      render: function () {
+        this.$el.html(this.template(this.model.toJSON()));
 
-          this.$el.html(this.template(this.model.toJSON()));
+        this.$input = this.$('.edit');
+        return this;
+    },
 
-          this.input = this.$('.edit');
-          return this;
-      },
+    select: function (e) {
 
-      select: function (e) {
+      e.preventDefault();
+      var id = this.model.id;
 
-        e.preventDefault();
+      if (app.skeleton.contentEditView) {
 
-        var id = this.model.id;
+        // edit view already exists for that item ?
+        if (app.skeleton.contentEditView.model.get('id') !== id) {
 
-        if (app.contentEditView) {
-
-          // edit view already exists for that item ?
-          if (app.contentEditView.model.get('id') !== id) {
-
-            app.contentEditView.remove();
-            app.contentEditView = new ContentEditView({
-              model: this.model
-            });
-
-          } else {
-            app.contentEditView.show();
-          }
-
-        } else {
-          app.contentEditView = new ContentEditView({
+          app.skeleton.contentEditView.remove();
+          app.skeleton.contentEditView = new ContentEditView({
             model: this.model
           });
+        } else {
+          app.skeleton.contentEditView.show();
         }
 
-        this.$el.parent().find('.active').removeClass('active');
-        this.$el.addClass('active');
-      },
+      } else {
+        app.skeleton.contentEditView = new ContentEditView({
+          model: this.model
+        });
+      }
 
-      edit: function (e) {
+      app.skeleton.unsetActive();
+      this.$el.addClass('active');
+    },
 
-        this.$el.addClass("editing");
-        this.input.focus().select();
+    edit: function (e) {
 
-        this.$el.parent().find('.active').removeClass('active');
-        this.$el.addClass('active');
-      },
+      this.$el.addClass("editing");
+      this.$input.focus().select();
 
-      leaveEdit: function() {
+      app.skeleton.unsetActive();
+      this.$el.addClass('active');
+    },
 
-        var value = this.input.val();
-        this.model.set({ title: value });
-        this.$el.removeClass("editing");
-      },
+    leaveEdit: function() {
 
-      updateOnEnter: function(e) {
+      var value = this.$input.val();
+      this.model.set({ title: value });
+      this.$el.removeClass("editing");
+    },
 
-        if (e.keyCode === 13) {
-          this.leaveEdit();
-        }
-      },
+    updateOnEnter: function(e) {
 
-      dropped: function(event, index) {
-        this.model.set({ position: index });
-      },
+      if (e.keyCode === 13) {
+        this.leaveEdit();
+      }
+    },
 
-      destroy: function () {
+    dropped: function(event, index) {
+      this.model.set({ position: index });
+    },
 
-        this.model.destroy();
-        this.remove();
-      },
+    destroy: function () {
+
+      this.model.destroy();
+      this.remove();
+    }
+
   });
 
   return ContentView;

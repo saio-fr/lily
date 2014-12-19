@@ -21,18 +21,18 @@
 
 	{% block content %}
     <!-- .vbox -->
-    <section id="redirection" class="vbox">
+    <section class="js-app vbox">
 
         <header class="blue-header dker header b-b">
           <p>Redirections</p>
-          <a id="redirection-new" class="btn btn-sm btn-primary pull-right">
-            <i class="icon-plus pull-left"></i>
+          <a class="js-redirection-new btn btn-sm btn-primary pull-right">
+            <span class="icon-plus pull-left"></span>
             Ajouter une redirection
           </a>
         </header>
 
         <section class="scrollable">
-          <section class="hbox stretch main-container">
+          <section class="js-main-container hbox stretch">
             <aside class="bg-white">
               <section class="vbox">
                 <section class="scrollable">
@@ -56,14 +56,14 @@
                     </div>
                   </header>
 
-                  <ul id="redirections-list" class="list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
+                  <ul class="js-redirections-list list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
                     <!-- Affichage de la liste des redirections -->
                   </ul>
 
                 </section>
               </section>
             </aside>
-            <!--<aside id="redirection-edit" class="aside-redirection bg-light lter b-l hide">
+            <!--<aside class="js-redirection-edit aside-redirection bg-light lter hide">
                 Affichage du panneau de modification
                 </aside>
             -->

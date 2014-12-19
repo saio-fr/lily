@@ -19,26 +19,34 @@
 
   {% block content %}
     <!-- .vbox -->
-  <section id="faq">
+  <section class="js-app">
     <section class="hbox stretch">
 
       <aside class="bg-light lter">
-	      <section id="faqs" class="vbox scrollable padder-b">
-	        <header id="breadcrumbs" class="bg-light dker header clearfix padder-t b-b">
-            <!-- Here go the breadcrumb items
+	      <section class="js-module-body vbox scrollable padder-b">
+
+          <!-- Header: holds the breadcrumbs -->
+	        <header class="js-breadcrumbs-container bg-light dker header clearfix padder-t b-b">
+            <!--
+              Here go the breadcrumb items
               will render as a <ul class="breadcrumb m-n">
             -->
           </header>
 
+          <!-- 
+            Main section: contains the faq category and contents
+            + "add" buttons + edit view
+          -->
           <section class="bg-light lter">
-            <section class="hbox stretch main-container">
+            <section class="js-main-container hbox stretch">
 
               <aside>
                 <section class="vbox">
-                  <section class="scrollable wrapper" id="faq-list">
-                      <!-- Here go the faq items -->
-
-                    <a class="btn btn-sm btn-white new-content faq-content pull-right-lg">
+                  <section class="js-faq-container scrollable wrapper">
+                    <!--
+                      Here go the faq items
+                    -->
+                    <a class="btn btn-sm btn-white new-content pull-right-lg">
                       <i class="icon-plus pull-left"></i>
                       Ajouter un contenu
                     </a>
@@ -49,17 +57,17 @@
                   </section>
                 </section>
               </aside>
-              <!-- /.aside -->
-<!--               <aside id="faq-detail" class="aside-faq bg-light lter b-l hide">
-                 Affichage du panneau de modification
-              </aside> -->
+              <!--
+                 Affichage du panneau de modification. Will render as:
+                 <aside class="aside-faq bg-light lter b-l hide">
+              -->
             </section>
           </section>
-      </section>
+
+        </section>
       </aside>
-        <!-- /.aside -->
-      </section>
     </section>
+  </section>
   {% endblock %}
 
 </section>
@@ -67,16 +75,16 @@
 {% block templates %}
 
 	<!-- L'appel des différents scripts de vue -->
-	<script type="text/template" id="category">
+	<script type="text/template" id="categoryTpl">
     {% include 'LilyKnowledgeBundle:Faq:category.html.twig' %}
   </script>
-  <script type="text/template" id="content">
+  <script type="text/template" id="contentTpl">
     {% include 'LilyKnowledgeBundle:Faq:content.html.twig' %}
   </script>
-  <script type="text/template" id="contentEdit">
+  <script type="text/template" id="editTpl">
     {% include 'LilyKnowledgeBundle:Faq:content_edit.html.twig' %}
   </script>
-  <script type="text/template" id="breadcrumbView">
+  <script type="text/template" id="breadcrumbTpl">
     {% include 'LilyKnowledgeBundle:Faq:breadcrumb.html.twig' %}
   </script>
   <script type="text/template" id="modalTpl">
