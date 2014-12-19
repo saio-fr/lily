@@ -12,6 +12,7 @@ require.config({
     'flot-resize': 'bower_components/flot/jquery.flot.resize',
     'flot-tooltip': 'bower_components/flot.tooltip/js/jquery.flot.tooltip',
     'flot-time': 'bower_components/flot/jquery.flot.time',
+    'flot-pie': 'bower_components/flot/jquery.flot.pie',
     'raphael': 'bower_components/raphael/raphael',
     'daterangepicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
     'todoTpl': 'todo',
@@ -36,6 +37,7 @@ require.config({
     'flot-time' : ['flot'],
     'flot-tooltip' : ['flot'],
     'flot-resize' : ['flot'],
+    'flot-pie' : ['flot'],
     'todoTpl' : ['jquery', 'bootstrap']
   }
 });
@@ -44,6 +46,8 @@ require([
   'jquery',
   'underscore',
   'backbone',
+  'app',
+  'backoffice/dashboard/views/skeletonView',
   'globals',
 
   // Libraries required at bootstrap for the UI.
@@ -52,7 +56,7 @@ require([
   'moment',
   'moment-fr',
   
-], function( $, _, Backbone, g ) {
+], function( $, _, Backbone, app, SkeletonView, g ) {
 
   'use strict';
 
@@ -62,6 +66,8 @@ require([
   
   // Set locale in moment JS
   moment.locale('fr');
+  
+  app.skeleton = new SkeletonView();
 
   // Start app router
   Backbone.history.start();

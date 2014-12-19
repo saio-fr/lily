@@ -36,7 +36,7 @@ define(function (require) {
     
     plot: function () {
       Utils.renderFooter(this);
-      Utils.renderGraph(this);
+      Utils.renderGraph(this, $('.icon-spinner'));
     }
 
   });

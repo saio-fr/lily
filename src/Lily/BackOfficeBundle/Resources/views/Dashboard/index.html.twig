@@ -26,16 +26,16 @@
 	    <section class="scrollable">
 		    <div class="wrapper row">
 		    
-		      <!-- Saving, usage graph, chat graph -->
-		      <div class="col-md-6"></div>
+		      <!-- usage graph, chat graph -->
+		      <div class="col-md-6">
+  		      <section class="chat-graph-wrapper panel"></section>
+  		      <section class="usage-graph-wrapper panel"></section>
+		      </div>
           
           <!-- Front & activities -->
 		      <div class="col-md-6">
-  		      <section class="panel">
-              <div class="panel-body lily-iframe">
-                <iframe src="{{ path('lily_api_index', {licence: app.user.client.licence } ) }}" width="100%" height="540" frameBorder="0"></iframe>
-              </div>
-		        </section>
+  		      <section class="iframe-wrapper panel"></section>
+		        <section class="logs-wrapper panel"></section>
 		      </div>
 		      
         </div>
@@ -54,10 +54,16 @@
     <script type="text/template" id="usageFooterTpl">
       {% include 'LilyBackOfficeBundle:Dashboard/Usage:footer.html.twig' %}
     </script>
-    <script type="text/template" id="savingTpl">
-      {% include 'LilyBackOfficeBundle:Dashboard/Saving:saving.html.twig' %}
+    <script type="text/template" id="chatGraphTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Chat:graph.html.twig' %}
     </script>
-    <script type="text/template" id="activitiesTpl">
+    <script type="text/template" id="chatFooterTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Chat:footer.html.twig' %}
+    </script>
+    <script type="text/template" id="aviFrameTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Avi:iframe.html.twig' %}
+    </script>
+    <script type="text/template" id="logsTpl">
       {% include 'LilyBackOfficeBundle:Dashboard/Activities:logs.html.twig' %}
     </script>
     
@@ -68,6 +74,8 @@
       <script type="text/javascript">
   	    var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
+        config.client = JSON.parse('{{ client | serialize('json') | raw }}');
+        config.userId = '{{ app.user.id }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}

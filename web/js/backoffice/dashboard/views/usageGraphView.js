@@ -15,19 +15,17 @@ define(function (require) {
 
   GraphView = Backbone.View.extend({
 
-    el: '#users-charts-skeleton',
-    template: _.template($('#usersActivitiesChartsGraphTpl').html()),
-    templateFooter: _.template($('#usersActivitiesChartsFooterTpl').html()),
+    el: '.usage-graph-wrapper',
+    template: _.template($('#usageGraphTpl').html()),
+    templateFooter: _.template($('#usageFooterTpl').html()),
 
     events: {
-      'click footer a': 'select',
-      'hide.daterangepicker' : 'plot'
+      'click footer a': 'select'
     },
 
     initialize: function() {
       this.render();
       this.plot();
-      Utils.daterangepicker(this);
     },
     
     render: function () {
@@ -38,13 +36,14 @@ define(function (require) {
     select: function (e) {  
       this.$el.find('footer .active').removeClass('active');
       $(e.currentTarget).addClass('active');
-      this.model.graph.type = $(e.currentTarget).attr('id');
-      Utils.renderGraph(this, $('.icon-spinner'));
+      this.model.graph.type = $(e.currentTarget).data('type');
+      var spinner = this.$el.find('.icon-spinner');
+      Utils.renderGraph(this, this.$el.find('.icon-spinner'));
     },
     
     plot: function () {
       Utils.renderFooter(this);
-      Utils.renderGraph(this, $('.icon-spinner'));
+      Utils.renderGraph(this, this.$el.find('.icon-spinner'));
     }
 
   });

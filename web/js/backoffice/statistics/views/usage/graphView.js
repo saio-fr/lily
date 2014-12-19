@@ -39,12 +39,12 @@ define(function (require) {
       this.$el.find('footer .active').removeClass('active');
       $(e.currentTarget).addClass('active');
       this.model.graph.type = $(e.currentTarget).data('type');
-      Utils.renderGraph(this, null);
+      Utils.renderGraph(this, $('.icon-spinner'));
     },
     
     plot: function () {
       Utils.renderFooter(this);
-      Utils.renderGraph(this);
+      Utils.renderGraph(this, $('.icon-spinner'));
     }
 
   });
