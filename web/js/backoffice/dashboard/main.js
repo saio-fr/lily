@@ -62,8 +62,6 @@ require([
   
   // Set locale in moment JS
   moment.locale('fr');
-  
-  var router = new StatisticsRouter();
 
   // Start app router
   Backbone.history.start();
