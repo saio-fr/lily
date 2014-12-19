@@ -11,5 +11,7 @@ class DashboardController extends BaseController
      */
     public function indexAction() 
     {
+        $client = $this->getClient()->getConfig();
+        return array('client' => $client);
     }
 }

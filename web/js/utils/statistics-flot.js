@@ -79,16 +79,16 @@ define(function (require) {
   },
   
   // Render footer and plot graph
-  Statistics.renderGraph = function (view) {
+  Statistics.renderGraph = function (view, spinner) {
     // Show loader
-    $('.icon-spinner').fadeIn();
+    spinner.fadeIn();
     // Fetch data
     view.model.graph.fetch({
       success: function(data) {
         var el = view.$el.find('.graph');
         Statistics.plot(data, el);
         // Remove loader
-        $('.icon-spinner').fadeOut();
+        spinner.fadeOut();
       }
     });
   }
