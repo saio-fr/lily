@@ -11,8 +11,9 @@ define(function (require) {
       utils = require('statistics'),
       LogCollection = require('backoffice/profile/collections/logCollection'),
       LogView = require('backoffice/profile/views/activities/logs/logView'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
-      // Object wrapper returned as a module
+      // Object wrapper returned as a modules
       SkeletonView;
 
   SkeletonView = Backbone.View.extend({
@@ -26,6 +27,7 @@ define(function (require) {
     },
 
     initialize: function() {
+      this.childViews = new Backbone.ChildViewContainer();
       this.filtered = new LogCollection();
       this.sortBy = 'all';
       this.filtered.reset(this.collection.toJSON());
@@ -36,17 +38,18 @@ define(function (require) {
     
     render: function () {
       var that = this;
-      $('.logs-list').empty();
+      this.closeChildren();
       this.filtered.each(this.add, this);
 	    if (!this.filtered.length) {
-		    $('.logs-list').html("<li class='list-group-item view'><h6>Aucun log d'activité.</h6></li>");
+		    $('.logs-list').html('<li class="list-group-item view"><h6>Aucun logs.</h6></li>');
 	    }
       $('.loader').fadeOut();
     },
     
     add: function (log) {
-      this.view = new LogView({model: log});
-      $('.logs-list').append(this.view.render().el);
+      var view = new LogView({model: log});
+      this.childViews.add(view);
+      $('.logs-list').append(view.render().el);
     },
     
     range: function () {
@@ -75,7 +78,18 @@ define(function (require) {
         this.filtered.reset(this.collection.toJSON());
       }
       this.render();
-    }
+    },
+    
+    closeChildren: function () {
+
+      var self = this;
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        self.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+    },
 
   });
 

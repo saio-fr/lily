@@ -8,20 +8,18 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      Utils = require('statistics'),
-      g = require('globals'),
+      Utils = require('statistics-flot'),
 
       // Object wrapper returned as a module
-      StatisticsView;
+      GraphView;
 
-  StatisticsView = Backbone.View.extend({
+  GraphView = Backbone.View.extend({
 
-    el: '#statistics',
-    template: _.template($('#usersActivitiesStatisticsGraphTpl').html()),
-    templateFooter: _.template($('#usersActivitiesStatisticsFooterTpl').html()),
+    el: '.avi-wrapper .graph-wrapper',
+    template: _.template($('#aviGraphTpl').html()),
+    templateFooter: _.template($('#aviFooterTpl').html()),
 
     events: {
-      'click footer a': 'select',
       'hide.daterangepicker' : 'plot'
     },
 
@@ -36,13 +34,6 @@ define(function (require) {
       return this;
     },
     
-    select: function (e) {  
-      this.$el.find('footer .active').removeClass('active');
-      $(e.currentTarget).addClass('active');
-      this.model.graph.type = $(e.currentTarget).attr('id');
-      Utils.renderGraph(this, null);
-    },
-    
     plot: function () {
       Utils.renderFooter(this);
       Utils.renderGraph(this);
@@ -50,5 +41,5 @@ define(function (require) {
 
   });
 
-  return StatisticsView;
+  return GraphView;
 });

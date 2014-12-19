@@ -12,9 +12,6 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Lily\BackOfficeBundle\Form\ConfigType;
 
-use \ZMQContext;
-use \ZMQ;
-
 class ConfigController extends BaseController
 {
 

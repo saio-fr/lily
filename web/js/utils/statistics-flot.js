@@ -10,6 +10,7 @@ define(function (require) {
       flotResize = require('flot-resize'),
       flotTooltip = require('flot-tooltip'),
       flotTime = require('flot-time'),
+      flotPie = require('flot-pie'),
       moment = require('moment'),
       Statistics = {};
 
@@ -92,19 +93,96 @@ define(function (require) {
     });
   }
   
+  Statistics.renderPie = function (view) {
+    // Show loader
+    $('.icon-spinner').fadeIn();
+    // Fetch data
+    view.model.fetch({
+      success: function(data) {
+        var el = view.$el.find('.redirections');
+        Statistics.plotPie(data, el);
+        // Remove loader
+        $('.icon-spinner').fadeOut();
+      }
+    });
+  }
+  
+  Statistics.plotPie = function (data, el) {
+    var da = [];
+		for (var i = 0; i < 2; i++) {
+			da[i] = {
+				label: data.attributes[i].label,
+				data: data.attributes[i].data
+			}
+		}
+		
+		var options = Statistics.plotPieOptions();
+		$.plot(el, da, options);
+  }
+  
+  Statistics.plotPieOptions = function () {
+    var options = {
+			series: {
+				pie: {
+					combine: {
+						color: "#999",
+						threshold: 0.05
+					},
+					show: true,
+					label: {
+						show: true,
+						formatter: function(label, series) {
+							return '<div style="font-size:8pt;text-align:center;padding:2px;color:#4c5567;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+						},
+					},
+				}
+			},
+			colors: ["#aeb6cb", "#f3f5f9"],
+			legend: {
+				show: false
+			},
+			grid: {
+				hoverable: false,
+				clickable: false
+			},
+			tooltip: true,
+			tooltipOpts: {
+				content: "%s: %p.0%"
+			}
+		}
+    return options;
+  }
+  
   // Plot graph
   Statistics.plot = function (data, el) {
-    var d1 = [];
+    var d = [];
+    var tables = [];
     var i = 0;
+    
     while (typeof data.attributes.values[i] != 'undefined') {
-      d1.push([data.attributes.values[i][0], data.attributes.values[i][1]]);
+      d[i] = [];
+      var j = 0;
+      while (typeof data.attributes.values[i][j] != 'undefined') {
+        d[i].push([data.attributes.values[i][j][0], data.attributes.values[i][j][1]]);
+        j++;
+      }
+      tables.push({ data: d[i] });
       i++;
     }
     
+    var options = Statistics.plotOptions(data, d[0]);
+      
+    $.plot(el, tables, options);
+    return this;
+  }
+  
+  // Plot options
+  Statistics.plotOptions = function (data, d) {
+       
     var type = data.attributes.type;
     var period = data.attributes.period;
     
-    var plotOptions={
+    var options = {
       series: {
         lines: {
           show: true,
@@ -127,10 +205,10 @@ define(function (require) {
         tickColor: "#fafafa",
         borderWidth: 0
       },
-      colors: ["#6eaee8"],
+      colors: ["#6eaee8", "#92d050"],
       xaxis: {
-        min: d1[d1.length - 1][0],
-        max: d1[0][0],
+        min: d[0][0],
+        max: d[d.length - 1][0],
         mode: "time",
         tickSize: [data.attributes.step, data.attributes.period],
         tickLength: 0,
@@ -153,7 +231,7 @@ define(function (require) {
         },
       }
     };
-    
+       
     // Set labels in tooltips
     function getTooltip(label, x, y) {
       var value;
@@ -162,13 +240,10 @@ define(function (require) {
           value = parseFloat(y).toFixed(2);
           break;
         case 'time':
-          value = parseInt(y/60) + ' min ' + parseInt(y%60)  + ' s';
-          break;
-        case 'time':
-          value = parseInt(y/60) + ' min ' + parseInt(y%60)  + ' s';
+          value = parseInt(y / 60) + ' min ' + parseInt(y % 60)  + ' s';
           break;
         case '%':
-          value = parseInt(y*100) + '%';
+          value = parseInt(y * 100) + '%';
           break;
         default:
           console.warn('Data type not recognized in getTooltip : ' + type);
@@ -177,15 +252,15 @@ define(function (require) {
       
       switch(period) {
         case 'houd':
-          var date = moment(x/1000, 'X').format('HH');
+          var date = moment(x / 1000, 'X').format('HH');
           return value + " à " + date + " heures";
           break;
         case 'day':
-          var date = moment(x/1000, 'X').format('DD/MM/YYYY');
+          var date = moment(x / 1000, 'X').format('DD/MM/YYYY');
           return value + " le " + date;
           break;
         case 'month':
-          var date = moment(x/1000, 'X').format('MMMM');
+          var date = moment(x / 1000, 'X').format('MMMM');
           return value + " en " + date;
           break;
       }
@@ -200,13 +275,13 @@ define(function (require) {
           value = parseFloat(y)
           break;
         case 'time':
-          value = parseInt(y/60) + ' min ' + parseInt(y%60)  + ' s';
+          value = parseInt(y / 60) + ' min ' + parseInt(y % 60)  + ' s';
           break;
         case 'time':
-          value = parseInt(y/60) + ' min ' + parseInt(y%60)  + ' s';
+          value = parseInt(y / 60) + ' min ' + parseInt(y % 60)  + ' s';
           break;
         case '%':
-          value = parseInt(y*100) + '%';
+          value = parseInt(y * 100) + '%';
           break;
         default:
           console.warn('Data type not recognized in yAxisTickFormatter : ' + type);
@@ -216,19 +291,19 @@ define(function (require) {
     
     // More options depandings on data type
     if(type == '%') {
-      plotOptions.yaxis.max = 1;
-      plotOptions.yaxis.tickSize = 0.5;
+      options.yaxis.max = 1;
+      options.yaxis.tickSize = 0.5;
     }
 
     if(type == 'time') {
-      plotOptions.xaxis.timeformat = '%H:%M';
+      options.xaxis.timeformat = '%H:%M';
     }
     else {
-      plotOptions.xaxis.timeformat = '%d %b';
+      options.xaxis.timeformat = '%d %b';
     }
-    
-    $.plot(el,[{ data: d1 }], plotOptions);
-    return this;
+
+    return options;
+ 
   }
 
   

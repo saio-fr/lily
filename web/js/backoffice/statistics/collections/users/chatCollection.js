@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      statistics = require('statistics'),
+      statistics = require('statistics-flot'),
 
       // Object wrapper returned as a module
       ChatCollection;

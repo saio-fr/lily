@@ -7,19 +7,19 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var NestedModel = require('backbone-nested'),
-      statistics = require('statistics'),
+  var statistics = require('statistics-flot'),
 
       // Object wrapper returned as a module
       GraphModel;
 
 
-  GraphModel = Backbone.NestedModel.extend({
+  GraphModel = Backbone.Model.extend({
 
     id: '',
     url: function() {
-      return '/statistics/' + 
-        this.type + '/' + 
+      return '/user/' + 
+        this.userId + '/chat/' + 
+        this.type + '/' +
         this.start + '/' + 
         this.end;
     },
@@ -27,7 +27,7 @@ define(function (require) {
     initialize: function () {
       this.start = statistics.date.start;
       this.end = statistics.date.end;
-      this.type = 'loadings';
+      this.type = 'conversations';
     }
 
   });

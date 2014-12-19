@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class LogRedirectionRepository extends EntityRepository
 {
 	
-	public function redirections($from, $to, $intervalSize=null) {
+	public function redirections($from, $to, $interval = null) {
 		
 		$qb = $this->createQueryBuilder('r');
         
@@ -24,9 +24,9 @@ class LogRedirectionRepository extends EntityRepository
            ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
            ->setParameter('end', $to);
 
-        if($intervalSize!==null) {
-           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
-              ->setParameter('intervalSize', $intervalSize)
+        if($interval) {
+           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:interval)) as intervalId')
+              ->setParameter('interval', $interval)
               ->groupBy('intervalId');
             return $qb->getQuery()->getResult();
         } else {
@@ -62,7 +62,7 @@ class LogRedirectionRepository extends EntityRepository
 		   ->andWhere('r.date <= :to')
 		   ->setParameter('to', $to)
 		   ->andWhere('r.canal = :canal')
-		   ->setParameter('canal', 'tel');
+		   ->setParameter('canal', 'phone');
 		
 		return $qb->getQuery()
 		          ->getSingleScalarResult();

@@ -8,16 +8,17 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      g = require('globals'),
+      UserModel = require('backoffice/statistics/models/users/userModel'),
 
       // Object wrapper returned as a module
       UserCollection;
 
   UserCollection = Backbone.Collection.extend({
-
+    
+    model: UserModel,
     sortCriteria : 'lastname',
     url: function () {
-      return '../user';
+      return '/../user';
     },
     
     initialize: function () {

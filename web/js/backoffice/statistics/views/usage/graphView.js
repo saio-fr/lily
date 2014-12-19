@@ -8,15 +8,14 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      Utils = require('statistics'),
-      g = require('globals'),
+      Utils = require('statistics-flot'),
 
       // Object wrapper returned as a module
-      StatisticsView;
+      GraphView;
 
-  StatisticsView = Backbone.View.extend({
+  GraphView = Backbone.View.extend({
 
-    el: '#usage .graph-wrapper',
+    el: '.usage-wrapper .graph-wrapper',
     template: _.template($('#usageGraphTpl').html()),
     templateFooter: _.template($('#usageGraphFooterTpl').html()),
 
@@ -50,5 +49,5 @@ define(function (require) {
 
   });
 
-  return StatisticsView;
+  return GraphView;
 });

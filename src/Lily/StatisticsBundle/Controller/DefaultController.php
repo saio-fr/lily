@@ -13,22 +13,8 @@ class DefaultController extends BaseController
 {
 
     public function indexAction()
-    {
-        $from = new \Datetime('-1 month');
-        $to = new \Datetime();
-        
-        $em = $this->getEntityManager();
-    
-        // Top categories
-        $categories = $em->getRepository('LilyApiBundle:LogRequest')
-        ->statsTopCategories($from, $to);
-    
-        // Top questions
-        $questions = $em->getRepository('LilyApiBundle:LogRequest')
-        ->statsTopQuestions($from, $to);
-        
-        return $this->render('LilyStatisticsBundle:Statistics:index.html.twig', 
-          array('categories' => $categories, 'questions' => $questions));
+    {   
+        return $this->render('LilyStatisticsBundle:Statistics:index.html.twig');
     }
     
     
@@ -40,30 +26,34 @@ class DefaultController extends BaseController
     public function getLoadingsAction($timestampfrom, $timestampto)
     {
         $em = $this->getEntityManager();
-        $timestampfrom = round($timestampfrom/1000);
-        $timestampto = round($timestampto/1000);
-        $interval = $this->getInterval($timestampfrom, $timestampto);
+        
+        $from = round($timestampfrom/1000);
+        $to = round($timestampto/1000);
+        $interval = $this->getInterval($from, $to);
+        $size = $interval['size'];
            
         $loadings = $em->getRepository('LilyApiBundle:LogConnection')
-        ->uniqueVisitors($timestampfrom, $timestampto, $interval['size']);
+        ->uniqueVisitors($from, $to, $size);
   
-        foreach ($loadings as $key => $entry) {
-            $nonzeroData[$entry['intervalId']] = $entry['value'];
+        foreach ($loadings as $item) {
+            $nzData[$item['intervalId']] = $item['value'];
         }
         
-        $from = round($timestampfrom/$interval['size']);
-        $to = round($timestampto/$interval['size']);
+        $from = round($from / $size);
+        $to = round($to / $size);
         
         for ($n = $from; $n < $to; $n++) { 
-            $data[] = [(string) ($n*$interval['size']), //x value: microtimestamp
-            (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data           
+            $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
+            (string) (isset($nzData[$n]) ? $nzData[$n] : 0)];  //y value : data           
         }
+        
+        $values[] = $data; 
         
         return array(
             'period' => $interval['period'], 
             'step' => $interval['step'], 
             'type' => 'int', 
-            'values' => $data
+            'values' => $values
         );
     }
     
@@ -75,39 +65,44 @@ class DefaultController extends BaseController
     public function getUsageAction($timestampfrom, $timestampto)
     {
         $em = $this->getEntityManager();
-        $timestampfrom = round($timestampfrom/1000);
-        $timestampto = round($timestampto/1000);
-        $interval = $this->getInterval($timestampfrom, $timestampto);
+        
+        $from = round($timestampfrom/1000);
+        $to = round($timestampto/1000);
+        $interval = $this->getInterval($from, $to);
+        $size = $interval['size'];
            
         $loadings = $em->getRepository('LilyApiBundle:LogConnection')
-        ->uniqueVisitors($timestampfrom, $timestampto, $intervalSize);
+        ->uniqueVisitors($from, $to, $size);
   
         $users = $em->getRepository('LilyApiBundle:LogRequest')
-        ->uniqueUsers($timestampfrom, $timestampto, $intervalSize);
+        ->uniqueUsers($from, $to, $size);
   
-        foreach ($loadings as $loading) {
-            foreach ($users as $user) {
-                if ($user['intervalId'] == $loading['intervalId']) {
-                    $nonzeroData[$loading['intervalId']]=round($user['value']*100/$loading['value']);
+        foreach ($loadings as $l) {
+            foreach ($users as $u) {
+                if ($u['intervalId'] == $l['intervalId']) {
+                    $nzData[$l['intervalId']] = round($u['value']*100/$l['value']);
                     break;
                 }
-                $nonzeroData[$loading['intervalId']] = 0;
+                $nzData[$l['intervalId']] = 0;
             }
         }
         
-        $from = round($timestampfrom/$interval['size']);
-        $to = round($timestampto/$interval['size']);
+        $from = round($from / $size);
+        $to = round($to / $size);
         
         for ($n = $from; $n < $to; $n++) { 
-            $data[] = [(string) ($n*$interval['size']*1000), //x value: microtimestamp
-            (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 100)];  //y value : data
-        } 
+            $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
+            (string) (isset($nz[$n]) ? $nz[$n] : 100)];  //y value : data
+        }
+        
+        // Wrap our data into an array
+        $values[] = $data;
         
         return array(
             'period' => $interval['period'], 
             'step' => $interval['step'], 
             'type' => '%', 
-            'values' => $data
+            'values' => $values
         );
     }
 
@@ -119,39 +114,43 @@ class DefaultController extends BaseController
     public function getSatisfactionAction($timestampfrom, $timestampto)
     {
         $em = $this->getEntityManager();
-        $timestampfrom = round($timestampfrom/1000);
-        $timestampto = round($timestampto/1000);
-        $interval = $this->getInterval($timestampfrom, $timestampto);
+        
+        $from = round($timestampfrom/1000);
+        $to = round($timestampto/1000);
+        $interval = $this->getInterval($from, $to);
+        $size = $interval['size'];
         
         $satisfied = $em->getRepository('LilyApiBundle:LogNotation')
-        ->satisfaction($timestampfrom, $timestampto, $intervalSize, true);
+        ->satisfaction($from, $to, $size, true);
   
         $notations = $em->getRepository('LilyApiBundle:LogNotation')
-        ->satisfaction($timestampfrom, $timestampto, $intervalSize, null);
+        ->satisfaction($from, $to, $size, null);
   
-        foreach ($notations as $notation) {
-            foreach ($satisfied as $item) {
-                if ($item['intervalId'] == $notation['intervalId']) {
-                    $nonzeroData[$notation['intervalId']]=round($item['value']*100/$notation['value']);
+        foreach ($notations as $n) {
+            foreach ($satisfied as $s) {
+                if ($n['intervalId'] == $n['intervalId']) {
+                    $nzData[$n['intervalId']] = round($s['value']*100/$n['value']);
                     break;
                 }
-                $nonzeroData[$notation['intervalId']]=100;
+                $nzData[$n['intervalId']] = 100;
             }
         }
         
-        $from = round($timestampfrom/$interval['size']);
-        $to = round($timestampto/$interval['size']);
+        $from = round($from/$size);
+        $to = round($to/$size);
         
         for ($n = $from; $n < $to; $n++) { 
-          $data[] = [(string) ($n*$interval['size']*1000), //x value: microtimestamp
-          (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 100)];  //y value : data
+          $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
+          (string) (isset($nzData[$n]) ? $nzData[$n] : 100)];  //y value : data
         }
+        
+        $values[] = $data;
         
         return array(
             'period' => $interval['period'], 
             'step' => $interval['step'], 
             'type' => '%', 
-            'values' => $data
+            'values' => $values
         );
     }
 
@@ -176,7 +175,7 @@ class DefaultController extends BaseController
         ->uniqueUsers($from, $to, null);
 
         if ($loadings > 0) $usage = round(($users/$loadings)*100);
-        else $usage = 0;
+        else $usage = 100;
 
         // SATISFACTION
         $satisfied = $em->getRepository('LilyApiBundle:LogNotation')
@@ -198,7 +197,6 @@ class DefaultController extends BaseController
      * @View()
      */
     public function getMediaAction() {
-  
         $em = $this->getEntityManager();
     
         // PERIODE
@@ -223,7 +221,6 @@ class DefaultController extends BaseController
         $data = [$mobiles, $tablets, $computers];
     
         return $data;
-  
     }
 
     protected function getInterval($timestampfrom, $timestampto) {
@@ -264,7 +261,6 @@ class DefaultController extends BaseController
         }
         
         return array('step' => $step, 'period' => $period, 'size' => $size);
-  
     }
 
 }

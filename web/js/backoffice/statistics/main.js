@@ -5,15 +5,18 @@ require.config({
     'underscore': 'bower_components/underscore/underscore',
     'backbone': 'bower_components/backbone/backbone',
     'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
-    'backbone-validation': 'bower_components/backbone-validation/index',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'moment': 'bower_components/moment/moment',
     'moment-fr': 'bower_components/moment/locale/fr',
-    'statistics': 'utils/statistics',
+    'statistics-flot': 'utils/statistics-flot',
+    'statistics-morris': 'utils/statistics-morris',
     'flot': 'bower_components/flot.tooltip/js/jquery.flot',
     'flot-resize': 'bower_components/flot/jquery.flot.resize',
     'flot-tooltip': 'bower_components/flot.tooltip/js/jquery.flot.tooltip',
     'flot-time': 'bower_components/flot/jquery.flot.time',
+    'flot-pie': 'bower_components/flot/jquery.flot.pie',
+    'morris': 'bower_components/morris/morris',
+    'raphael': 'bower_components/raphael/raphael',
     'daterangepicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
     'todoTpl': 'todo',
     'app': 'backoffice/app',
@@ -31,13 +34,14 @@ require.config({
       deps: ['backbone'],
       exports: 'Backbone.NestedModel'
     },
-    'backbone-validation': ['backbone'],
     'bootstrap' : ['jquery'],
     'daterangepicker' : ['jquery', 'bootstrap', 'moment'],
+    'morris' : ['raphael'],
     'flot' : ['jquery'],
     'flot-time' : ['flot'],
     'flot-tooltip' : ['flot'],
     'flot-resize' : ['flot'],
+    'flot-pie' : ['flot'],
     'todoTpl' : ['jquery', 'bootstrap']
   }
 });
@@ -54,7 +58,6 @@ require([
   'bootstrap',
   'moment',
   'moment-fr',
-  'statistics'
   
 ], function( $, _, Backbone, StatisticsRouter, g ) {
 

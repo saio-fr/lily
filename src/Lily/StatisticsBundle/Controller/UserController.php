@@ -31,14 +31,14 @@ class UserController extends DefaultController
         $rep = $this->getEntityManager()
         ->getRepository('LilyChatBundle:LogChat');
         
-        $timestampfrom = round($start/1000);
-        $timestampto = round($end/1000);
+        $from = round($start/1000);
+        $to = round($end/1000);
         
         $stats = array(
-            'conversations' => $rep->hourlyNumberOfConversation($id, $timestampfrom, $timestampto),
-            'duration' => $rep->averageConversationTime($id, $timestampfrom, $timestampto),
-            'waited' => $rep->averageWaited($id, $timestampfrom, $timestampto),
-            'satisfaction' => $rep->averageSatisfaction($id, $timestampfrom, $timestampto)
+            'conversations' => $rep->hourlyNumberOfConversation($id, $from, $to),
+            'duration' => $rep->averageConversationTime($id, $from, $to),
+            'waited' => $rep->averageWaited($id, $from, $to),
+            'satisfaction' => $rep->averageSatisfaction($id, $from, $to)
         );
 
         return $stats;
@@ -62,31 +62,32 @@ class UserController extends DefaultController
         }
         
         //Convert the microtimestamp to timestamp and then Datetime.
-        $timestampfrom = round($start/1000);
-        $timestampto = round($end/1000);
-        $interval = $this->getInterval($timestampfrom, $timestampto);
+        $from = round($start/1000);
+        $to = round($end/1000);
+        $interval = $this->getInterval($from, $to);
+        $size = $interval['size'];
         
         $rep = $this->getEntityManager()
         ->getRepository('LilyChatBundle:LogChat');
         
         switch($function) {
             case 'conversations':
-                $data = $rep->hourlyNumberOfConversation($id, $timestampfrom, $timestampto, $interval['size']);
+                $data = $rep->hourlyNumberOfConversation($id, $from, $to, $size);
                 $type = 'int';
                 break;
 
             case 'duration':
-                $data = $rep->averageConversationTime($id, $timestampto, $timestampto, $interval['size']);
+                $data = $rep->averageConversationTime($id, $from, $to, $size);
                 $type = 'time';
                 break;
 
             case 'waited':
-                $data = $rep->averageWaited($id, $timestampfrom, $timestampto, $interval['size']);
+                $data = $rep->averageWaited($id, $from, $to, $size);
                 $type = 'int';
                 break;
 
             case 'satisfaction':
-                $data = $rep->averageSatisfaction($id, $timestampfrom, $timestampto, $interval['size']);
+                $data = $rep->averageSatisfaction($id, $from, $to, $size);
                 $type = '%';
                 break;
 
@@ -96,20 +97,21 @@ class UserController extends DefaultController
         }
         
         foreach($data as $entry) {
-            $nonzeroData[$entry['intervalId']] = $entry['value'];
+            $nzData[$entry['intervalId']] = $entry['value'];
         }
         
-        $graph = [];
-        $from = round($timestampfrom/$interval['size']);
-        $to = round($timestampto/$interval['size']);
+        $data = [];
+        $from = round($from/$size);
+        $to = round($to/$size);
     
         for ($n = $from; $n < $to; $n++) { 
-            $graph[] = [(string) ($n*$interval['size']*1000),   //x value: microtimestamp
-                        (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
+            $data[] = [(string) ($n * $size * 1000),   //x value: microtimestamp
+                        (string) (isset($nzData[$n]) ? $nzData[$n] : 0)];  //y value : data
         }
         
-        $graph = array_reverse($graph);
-        return array('type' => $type, 'period' => $interval['period'], 'step' => $interval['step'], 'values' => $graph);
+        $values[] = $data;
+        
+        return array('type' => $type, 'period' => $interval['period'], 'step' => $interval['step'], 'values' => $values);
     }
     
     
@@ -130,11 +132,11 @@ class UserController extends DefaultController
             throw $this->createNotFoundException();
         }
         
-        $timestampfrom = round($start/1000);
-        $timestampto = round($end/1000);
+        $from = round($start/1000);
+        $to = round($end/1000);
                 
         $rep = $this->getEntityManager()->getRepository('LilyChatBundle:LogChat');
-        $conversations = $rep->conversations($id, $timestampfrom, $timestampto);
+        $conversations = $rep->conversations($id, $from, $to);
         
         return $conversations;
     }
@@ -156,11 +158,11 @@ class UserController extends DefaultController
             throw $this->createNotFoundException();
         }
         
-        $timestampfrom = round($start/1000);
-        $timestampto = round($end/1000);
+        $from = round($start/1000);
+        $to = round($end/1000);
                 
         $rep = $this->getEntityManager()->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry');
-        $activities = $rep->getLogs($user->getUsername(), $timestampfrom, $timestampto);
+        $activities = $rep->getLogs($user->getUsername(), $from, $to);
         
         return $activities;
     }
