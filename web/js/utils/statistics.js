@@ -4,6 +4,7 @@ define(function (require) {
 
   // Object wrapper returned as a module
   var _ = require('underscore'),
+      Backbone = require('backbone'),
       Utils = require('utils/default'),
       Daterangepicker = require('daterangepicker'),
       flot = require('flot'),
@@ -14,18 +15,18 @@ define(function (require) {
       Statistics = {};
 
   _.extend(Statistics, Utils);
-  
+
   Statistics.date = {
     // Default period used to datepick
     start: moment().subtract(6, 'days'),
     end: moment().endOf('day'),
   };
-  
+
   // Daterange picker
   Statistics.daterangepicker = function (view) {
     var el = view.$el.find('.reportrange');
     el.daterangepicker({
-      locale: { 
+      locale: {
         customRangeLabel: 'Personnaliser'
       },
       ranges: {
@@ -38,35 +39,35 @@ define(function (require) {
         endDate: moment(),
         dateLimit: { months: 36 }
       },
-      function(start, end) {  
+      function(start, end) {
         el.find('span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
-        
+
         if (view.model instanceof Backbone.Model) {
           view.model.start = start;
           view.model.end = end;
         }
-        
+
         if (view.collection instanceof Backbone.Collection) {
           view.collection.start = start;
           view.collection.end = end;
         }
-        
-        if (view.model && 
+
+        if (view.model &&
           view.model.graph instanceof Backbone.Model) {
             view.model.graph.start = start;
             view.model.graph.end = end;
         }
-                
-        if (view.model && 
+
+        if (view.model &&
           view.model.footer instanceof Backbone.Model) {
             view.model.footer.start = start;
             view.model.footer.end = end;
-        }   
+        }
       }
     );
     el.find('span').html(Statistics.date.start.format('D MMMM YYYY') + ' - ' + Statistics.date.end.format('D MMMM YYYY'));
-  }
-  
+  };
+
   Statistics.renderFooter = function (view) {
     view.model.footer.fetch({
       success: function(data) {
@@ -75,8 +76,8 @@ define(function (require) {
         view.$el.find('[data-type='+view.model.graph.type+']').addClass('active');
       }
     });
-  },
-  
+  };
+
   // Render footer and plot graph
   Statistics.renderGraph = function (view) {
     // Show loader
@@ -90,8 +91,8 @@ define(function (require) {
         $('.icon-spinner').fadeOut();
       }
     });
-  }
-  
+  };
+
   // Plot graph
   Statistics.plot = function (data, el) {
     var d1 = [];
@@ -100,10 +101,10 @@ define(function (require) {
       d1.push([data.attributes.values[i][0], data.attributes.values[i][1]]);
       i++;
     }
-    
+
     var type = data.attributes.type;
     var period = data.attributes.period;
-    
+
     var plotOptions={
       series: {
         lines: {
@@ -153,7 +154,7 @@ define(function (require) {
         },
       }
     };
-    
+
     // Set labels in tooltips
     function getTooltip(label, x, y) {
       var value;
@@ -174,24 +175,21 @@ define(function (require) {
           console.warn('Data type not recognized in getTooltip : ' + type);
         break;
       }
-      
+
       switch(period) {
         case 'houd':
           var date = moment(x/1000, 'X').format('HH');
           return value + " à " + date + " heures";
-          break;
         case 'day':
           var date = moment(x/1000, 'X').format('DD/MM/YYYY');
           return value + " le " + date;
-          break;
         case 'month':
           var date = moment(x/1000, 'X').format('MMMM');
           return value + " en " + date;
-          break;
       }
       return value;
     }
-    
+
     // Change y axis
     function yAxisTickFormatter(y, axis) {
       var value;
@@ -213,7 +211,7 @@ define(function (require) {
       }
       return value;
     }
-    
+
     // More options depandings on data type
     if(type == '%') {
       plotOptions.yaxis.max = 1;
@@ -226,11 +224,11 @@ define(function (require) {
     else {
       plotOptions.xaxis.timeformat = '%d %b';
     }
-    
+
     $.plot(el,[{ data: d1 }], plotOptions);
     return this;
-  }
+  };
 
-  
+
   return Statistics;
 });
