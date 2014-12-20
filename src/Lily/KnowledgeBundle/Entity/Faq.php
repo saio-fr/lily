@@ -75,7 +75,7 @@ class Faq
     private $position;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\ApiBundle\Entity\LogRequest", mappedBy="faq", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="faq", cascade={"remove"})
      **/
     protected $logRequests;
 
@@ -270,10 +270,10 @@ class Faq
     /**
      * Add logRequests
      *
-     * @param \Lily\ApiBundle\Entity\LogRequest $logRequests
+     * @param \Lily\AppBundle\Entity\LogRequest $logRequests
      * @return Faq
      */
-    public function addLogRequest(\Lily\ApiBundle\Entity\LogRequest $logRequests)
+    public function addLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
     {
         $this->logRequests[] = $logRequests;
 
@@ -283,9 +283,9 @@ class Faq
     /**
      * Remove logRequests
      *
-     * @param \Lily\ApiBundle\Entity\LogRequest $logRequests
+     * @param \Lily\AppBundle\Entity\LogRequest $logRequests
      */
-    public function removeLogRequest(\Lily\ApiBundle\Entity\LogRequest $logRequests)
+    public function removeLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
     {
         $this->logRequests->removeElement($logRequests);
     }

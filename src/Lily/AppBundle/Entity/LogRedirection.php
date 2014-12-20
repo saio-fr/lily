@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\ApiBundle\Entity;
+namespace Lily\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * LogRedirection
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Lily\ApiBundle\Entity\LogRedirectionRepository")
+ * @ORM\Entity(repositoryClass="Lily\AppBundle\Entity\LogRedirectionRepository")
  */
 class LogRedirection
 {

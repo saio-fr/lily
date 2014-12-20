@@ -25,10 +25,10 @@ class AviController extends DefaultController
   	    $to = new \Datetime();
       	
       	// REDIRECTIONS
-      	$mails = $em->getRepository('LilyApiBundle:LogRedirection')
+      	$mails = $em->getRepository('LilyAppBundle:LogRedirection')
         ->mails($from, $to); 
         
-        $phones = $em->getRepository('LilyApiBundle:LogRedirection')
+        $phones = $em->getRepository('LilyAppBundle:LogRedirection')
         ->phones($from, $to);
      				  	 
         $data[0] = array('label' => 'Mail', 'data' => $mails);		
@@ -51,7 +51,7 @@ class AviController extends DefaultController
         $size = $interval['size'];
         
         // QUESTIONS
-    		$questions = $em->getRepository('LilyApiBundle:LogRequest')
+    		$questions = $em->getRepository('LilyAppBundle:LogRequest')
     		->requests($from, $to, $size);
 			 	 	      
   	    foreach($questions as $item) {
@@ -59,7 +59,7 @@ class AviController extends DefaultController
   		  }				 	 	  	
 		
         // REPONDUES   		
-        $answered = $em->getRepository('LilyApiBundle:LogRequest')
+        $answered = $em->getRepository('LilyAppBundle:LogRequest')
         ->answered($timestampfrom, $timestampto, $size);
 		
     		foreach($answered as $item) {
@@ -98,11 +98,11 @@ class AviController extends DefaultController
         $to = round($timestampto/1000);
       	
       	// QUESTIONS   		
-        $requests = $em->getRepository('LilyApiBundle:LogRequest')
+        $requests = $em->getRepository('LilyAppBundle:LogRequest')
         ->requests($from, $to, null);	
         
         // ANSWERED  		
-        $answered = $em->getRepository('LilyApiBundle:LogRequest')
+        $answered = $em->getRepository('LilyAppBundle:LogRequest')
         ->answered($from, $to, null);
      							 
         // REUSSITE  
@@ -126,7 +126,7 @@ class AviController extends DefaultController
         $em = $this->getEntityManager();
     	
         // CATEGORIES    	
-        $categories = $em->getRepository('LilyApiBundle:LogRequest')
+        $categories = $em->getRepository('LilyAppBundle:LogRequest')
         ->topCategories($from, $to, 5); 
    					  	   
         return $categories;	        		
@@ -146,7 +146,7 @@ class AviController extends DefaultController
         $em = $this->getEntityManager();
     	
         // CATEGORIES    	
-        $questions = $em->getRepository('LilyApiBundle:LogRequest')
+        $questions = $em->getRepository('LilyAppBundle:LogRequest')
         ->topQuestions($from, $to, 5); 
    					  	   
         return $questions;	        		

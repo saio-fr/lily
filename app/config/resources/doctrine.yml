@@ -36,7 +36,7 @@ doctrine:
                 connection:       client
                 mappings:
                     LilyBackOfficeBundle: ~
-                    LilyApiBundle: ~
+                    LilyAppBundle: ~
                     LilyKnowledgeBundle: ~
                     LilyChatBundle: ~
                     gedmo_loggable:

@@ -1,9 +1,9 @@
 <?php
 
-namespace Lily\ApiBundle;
+namespace Lily\AppBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class LilyApiBundle extends Bundle
+class LilyAppBundle extends Bundle
 {
 }

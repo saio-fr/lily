@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\ApiBundle\DependencyInjection;
+namespace Lily\AppBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

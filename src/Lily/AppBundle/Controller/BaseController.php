@@ -1,12 +1,23 @@
 <?php
 
-namespace Lily\ApiBundle\Controller;
+namespace Lily\AppBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
 class BaseController extends FOSRestController implements ClassResourceInterface
 {	
+
+	  protected function setMedia($entity)
+    {
+        $mobileDetector = $this->get('mobile_detect.mobile_detector');
+        // Support d'utilisation
+        if ($mobileDetector->isMobile()) { $entity->setMedia('mobile'); }
+        if ($mobileDetector->isTablet()) { $entity->setMedia('tablet'); }
+        if (!$mobileDetector->isMobile() && !$mobileDetector->isTablet()) { $entity->setMedia('pc'); }
+        
+        return $entity;
+    }
     
 	  protected function getClient($licence)
     {

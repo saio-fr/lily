@@ -126,7 +126,7 @@ ab._matchRegex(c,ab._UA_WEBKIT))return-1<c.indexOf("Windows")&&"534+"==g||-1<c.i
 	
 		var i = document.createElement('iframe');
 		i.setAttribute('id', 'lilyApp');
-		i.setAttribute('src', '{{ path("lily_api_index", { licence: licence }) }}');
+		i.setAttribute('src', '{{ path("lily_app_index", { licence: licence }) }}');
 		i.setAttribute('frameborder', '0');
 		document.getElementById('lilyAppContainer').appendChild(i);
 		
@@ -150,7 +150,7 @@ ab._matchRegex(c,ab._UA_WEBKIT))return-1<c.indexOf("Windows")&&"534+"==g||-1<c.i
 	// Clicks events
 	w.onclick = function() { 
 	
-		if (mobile.phone) { window.open('{{ path("lily_api_index", { licence: licence }) }}'); }
+		if (mobile.phone) { window.open('{{ path("lily_app_index", { licence: licence }) }}'); }
 		else { c.style.opacity = 1; c.style.display = 'block'; w.style.opacity = 0; }
 	
 	}

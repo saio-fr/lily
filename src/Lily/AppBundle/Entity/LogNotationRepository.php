@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\ApiBundle\Entity;
+namespace Lily\AppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

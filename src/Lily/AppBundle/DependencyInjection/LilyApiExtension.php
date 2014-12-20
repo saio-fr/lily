@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\ApiBundle\DependencyInjection;
+namespace Lily\AppBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

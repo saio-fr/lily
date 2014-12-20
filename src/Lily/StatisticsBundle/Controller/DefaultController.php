@@ -32,7 +32,7 @@ class DefaultController extends BaseController
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
            
-        $loadings = $em->getRepository('LilyApiBundle:LogConnection')
+        $loadings = $em->getRepository('LilyAppBundle:LogConnection')
         ->uniqueVisitors($from, $to, $size);
   
         foreach ($loadings as $item) {
@@ -71,10 +71,10 @@ class DefaultController extends BaseController
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
            
-        $loadings = $em->getRepository('LilyApiBundle:LogConnection')
+        $loadings = $em->getRepository('LilyAppBundle:LogConnection')
         ->uniqueVisitors($from, $to, $size);
   
-        $users = $em->getRepository('LilyApiBundle:LogRequest')
+        $users = $em->getRepository('LilyAppBundle:LogRequest')
         ->uniqueUsers($from, $to, $size);
   
         foreach ($loadings as $l) {
@@ -120,10 +120,10 @@ class DefaultController extends BaseController
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
         
-        $satisfied = $em->getRepository('LilyApiBundle:LogNotation')
+        $satisfied = $em->getRepository('LilyAppBundle:LogNotation')
         ->satisfaction($from, $to, $size, true);
   
-        $notations = $em->getRepository('LilyApiBundle:LogNotation')
+        $notations = $em->getRepository('LilyAppBundle:LogNotation')
         ->satisfaction($from, $to, $size, null);
   
         foreach ($notations as $n) {
@@ -167,21 +167,21 @@ class DefaultController extends BaseController
         $to = round($timestampto/1000);
 
         // LOADINGS
-        $loadings = $em->getRepository('LilyApiBundle:LogConnection')
+        $loadings = $em->getRepository('LilyAppBundle:LogConnection')
         ->uniqueVisitors($from, $to, null);
 
         // USAGE
-        $users = $em->getRepository('LilyApiBundle:LogRequest')
+        $users = $em->getRepository('LilyAppBundle:LogRequest')
         ->uniqueUsers($from, $to, null);
 
         if ($loadings > 0) $usage = round(($users/$loadings)*100);
         else $usage = 100;
 
         // SATISFACTION
-        $satisfied = $em->getRepository('LilyApiBundle:LogNotation')
+        $satisfied = $em->getRepository('LilyAppBundle:LogNotation')
         ->satisfaction($from, $to, true, null);
 
-        $notations = $em->getRepository('LilyApiBundle:LogNotation')
+        $notations = $em->getRepository('LilyAppBundle:LogNotation')
         ->satisfaction($from, $to, null, null);
 
         if ($notations > 0) $satisfaction = round($satisfaction, 0);
@@ -204,17 +204,17 @@ class DefaultController extends BaseController
         $to = new \Datetime();
     
         // SUPPORTS
-        $mobiles = $em->getRepository('LilyApiBundle:LogConnection')
+        $mobiles = $em->getRepository('LilyAppBundle:LogConnection')
         ->mobiles($from, $to);
     
         $mobiles = array('x' => 'Mobile', 'y' => $mobiles);
     
-        $computers = $em->getRepository('LilyApiBundle:LogConnection')
+        $computers = $em->getRepository('LilyAppBundle:LogConnection')
         ->computers($from, $to);
     
         $computers = array('x' => 'Ordinateur', 'y' => $computers);
     
-        $tablets = $em->getRepository('LilyApiBundle:LogConnection')
+        $tablets = $em->getRepository('LilyAppBundle:LogConnection')
         ->tablets($from, $to);
     
         $tablets = array('x' => 'Tablette', 'y' => $tablets);

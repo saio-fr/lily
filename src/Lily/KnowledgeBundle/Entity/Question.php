@@ -51,13 +51,13 @@ class Question
     protected $children;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\ApiBundle\Entity\LogRequest", mappedBy="question", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="question", cascade={"remove"})
      * @Exclude
      **/
     protected $logRequests;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\ApiBundle\Entity\LogNotation", mappedBy="question", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogNotation", mappedBy="question", cascade={"remove"})
      * @Exclude
      **/
     protected $logNotations;
@@ -72,7 +72,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     * @Groups({"unique", "api", "precision", "list"})
+     * @Groups({"unique", "app", "precision", "list"})
      * @Gedmo\Versioned
      */
     protected $title;
@@ -81,7 +81,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="answer", type="string", length=1000, nullable=true)
-     * @Groups({"unique", "api", "answer", "precision"})
+     * @Groups({"unique", "app", "answer", "precision"})
      * @Gedmo\Versioned
      */
     protected $answer;
@@ -407,10 +407,10 @@ class Question
     /**
      * Add logRequests
      *
-     * @param \Lily\ApiBundle\Entity\LogRequete $logRequests
+     * @param \Lily\AppBundle\Entity\LogRequete $logRequests
      * @return Question
      */
-    public function addLogRequest(\Lily\ApiBundle\Entity\LogRequest $logRequests)
+    public function addLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
     {
         $this->logRequests[] = $logRequests;
     
@@ -420,9 +420,9 @@ class Question
     /**
      * Remove logRequests
      *
-     * @param \Lily\ApiBundle\Entity\LogRequest $logRequests
+     * @param \Lily\AppBundle\Entity\LogRequest $logRequests
      */
-    public function removeLogRequest(\Lily\ApiBundle\Entity\LogRequest $logRequests)
+    public function removeLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
     {
         $this->logRequests->removeElement($logRequests);
     }
@@ -440,10 +440,10 @@ class Question
     /**
      * Add logNotation
      *
-     * @param \Lily\ApiBundle\Entity\LogNotation $logNotation
+     * @param \Lily\AppBundle\Entity\LogNotation $logNotation
      * @return Question
      */
-    public function addLogNotation(\Lily\ApiBundle\Entity\LogNotation $logNotation)
+    public function addLogNotation(\Lily\AppBundle\Entity\LogNotation $logNotation)
     {
         $this->logNotations[] = $logNotation;
     
@@ -453,9 +453,9 @@ class Question
     /**
      * Remove logNotation
      *
-     * @param \Lily\ApiBundle\Entity\LogNotation $logNotation
+     * @param \Lily\AppBundle\Entity\LogNotation $logNotation
      */
-    public function removeLogNotation(\Lily\ApiBundle\Entity\LogNotation $logNotation)
+    public function removeLogNotation(\Lily\AppBundle\Entity\LogNotation $logNotation)
     {
         $this->logNotations->removeElement($logNotation);
     }

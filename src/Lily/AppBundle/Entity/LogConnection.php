@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\ApiBundle\Entity;
+namespace Lily\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Connection
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Lily\ApiBundle\Entity\LogConnectionRepository")
+ * @ORM\Entity(repositoryClass="Lily\AppBundle\Entity\LogConnectionRepository")
  */
 class LogConnection
 {

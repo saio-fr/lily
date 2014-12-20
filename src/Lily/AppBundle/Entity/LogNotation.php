@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\ApiBundle\Entity;
+namespace Lily\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Statistique
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Lily\ApiBundle\Entity\LogNotationRepository")
+ * @ORM\Entity(repositoryClass="Lily\AppBundle\Entity\LogNotationRepository")
  */
 class LogNotation
 {

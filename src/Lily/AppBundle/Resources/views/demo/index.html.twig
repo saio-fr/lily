@@ -10,7 +10,7 @@
 
 {% block stylesheets %}
 
-<link rel="stylesheet" href="{{ asset('css/api/demo.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('css/app/demo.css') }}" type="text/css" />
   
   <!--[if lt IE 9]>
     <script src="{{ asset('js/ie/respond.js') }}" cache="false"></script>
@@ -24,7 +24,7 @@
   (function() {
     var licence = '{{ licence }}';
     var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
-    lily.src = '{{ app.request.getBaseURL() }}/api/tracking/' + licence;
+    lily.src = '{{ app.request.getBaseURL() }}/app/tracking/' + licence;
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);
  })();
 </script>
