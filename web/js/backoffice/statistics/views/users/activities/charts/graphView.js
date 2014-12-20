@@ -38,7 +38,7 @@ define(function (require) {
     select: function (e) {  
       this.$el.find('footer .active').removeClass('active');
       $(e.currentTarget).addClass('active');
-      this.model.graph.type = $(e.currentTarget).attr('id');
+      this.model.graph.type = $(e.currentTarget).data('type');
       Utils.renderGraph(this, $('.icon-spinner'));
     },
     

@@ -31,7 +31,8 @@
         "jms/i18n-routing-bundle": "dev-master",
         "aequasi/cache-bundle": "~2.4.0",
         "oneup/flysystem-bundle": "~0.1",
-        "vich/uploader-bundle": "~0.11"
+        "vich/uploader-bundle": "~0.11",
+        "symfony/var-dumper": "~2.6"
     },
     "scripts": {
         "post-install-cmd": [
