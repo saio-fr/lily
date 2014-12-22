@@ -28,11 +28,11 @@ AviView = PageView.extend({
 
 		this.listenTo(this, 'render', this.avatar);
 
-		app.Events.on('precision', this.sendPrecision, this);
-		app.Events.on('satisfied', this.sendNotation, this);
-		app.Events.on('notSatisfied', this.sendNotation, this);
-		app.Events.on('redirectionTel', this.sendRedirectionTel, this);
-		app.Events.on('redirectionMail', this.sendRedirectionMail, this);
+		app.on('precision', this.sendPrecision, this);
+		app.on('satisfied', this.sendNotation, this);
+		app.on('notSatisfied', this.sendNotation, this);
+		app.on('redirectionTel', this.sendRedirectionTel, this);
+		app.on('redirectionMail', this.sendRedirectionMail, this);
 
 		$(this.render().el).appendTo('#lily-wrapper-page');
 	},
@@ -55,15 +55,15 @@ AviView = PageView.extend({
 
 		var query = this.$input.val(),
 				messageModel,
-				msgCollection = app.skeleton.messages;
+				msgCollection = app.skeleton.collectionView;
 
 		if ( $.trim(query).length > 0 ){
 		// Check for empty or
 		// ou contient uniquement des espaces
 			this.search( query );
 
-			messageModel = new Models.MessageUserSimple ({
-				messageContent: this.$input.val()
+			messageModel = new Models.MessageUser ({
+				message_content: this.$input.val()
 			});
 
 			msgCollection.addItem(messageModel, 'user-simple');
@@ -101,38 +101,38 @@ AviView = PageView.extend({
 
 					case 'insult':
 						messageType = 'lily-simple';
-						messageModel = new Models.MessageLilySimple ({messageContent: data});
+						messageModel = new Models.LilySimple ({message_content: data});
 						avi.mood = 'angry';
 						msgCollection.addItem( messageModel, messageType );
 						break;
 
 					case 'answer':
 						messageType = 'lily-simple';
-						messageModel = new Models.MessageLilySimple ({messageContent: data.answer});
+						messageModel = new Models.LilySimple ({message_content: data.answer});
 						msgCollection.addItem( messageModel, messageType );
 
 						messageType = 'lily-notation';
-						messageModel = new Models.MessageLilyNotation ({ id: data.id });
+						messageModel = new Models.LilyNotation ({ id: data.id });
 						avi.mood = data.mood;
 						msgCollection.addItem( messageModel, messageType );
 						break;
 
 					case 'personal':
 						messageType = 'lily-simple';
-						messageModel = new Models.MessageLilySimple ({messageContent: data.answer});
+						messageModel = new Models.LilySimple ({message_content: data.answer});
 						avi.mood = data.mood;
 						msgCollection.addItem( messageModel, messageType );
 						break;
 
 					case 'misunderstood':
 						messageType = 'lily-simple';
-						messageModel = new Models.MessageLilySimple ({
-							messageContent: "Désolé, je n\'ai pas compris votre question."
+						messageModel = new Models.LilySimple ({
+							message_content: "Désolé, je n\'ai pas compris votre question."
 						});
 						msgCollection.addItem( messageModel, messageType );
 
 						if (data.isMail || data.isTel || data.isChat) {
-							messageModel = new Models.MessageLilyRedirection ({data: data});
+							messageModel = new Models.LilyRedirection ({data: data});
 							messageType = 'lily-redirection';
 							avi.mood = 'sceptical';
 							msgCollection.addItem( messageModel, messageType );
@@ -141,7 +141,7 @@ AviView = PageView.extend({
 
 					case 'precision':
 						messageType = 'lily-precision';
-						messageModel = new Models.MessageLilyPrecision ({
+						messageModel = new Models.LilyPrecision ({
 							actions: data.actions,
 							precision: data.parent.answer,
 							idparent: data.parent.id
@@ -180,10 +180,10 @@ AviView = PageView.extend({
 					avi.clearLoading();
 				}
 				if ( type === 'answer' ) {
-					messageModel = new Models.MessageLilySimple ({messageContent: data.answer});
+					messageModel = new Models.LilySimple ({message_content: data.answer});
 					messageType = 'lily-simple';
 					msgCollection.addItem( messageModel, messageType );
-					messageModel = new Models.MessageLilyNotation ({ id: idparent });
+					messageModel = new Models.LilyNotation ({ id: idparent });
 					messageType = 'lily-notation';
 					msgCollection.addItem( messageModel, messageType );
 				}
@@ -226,13 +226,13 @@ AviView = PageView.extend({
 
 				if ( satisfied === true ){
 					messageType = 'lily-simple';
-					messageModel = new Models.MessageLilySimple ({
-						messageContent: "Merci pour votre réponse! N\'hesitez pas" +
+					messageModel = new Models.LilySimple ({
+						message_content: "Merci pour votre réponse! N\'hesitez pas" +
 							"à me poser d'autres questions"
 					});
 				} else {
 					messageType = 'lily-redirection';
-					messageModel = new Models.MessageLilyRedirection ({ data: data });
+					messageModel = new Models.LilyRedirection ({ data: data });
 				}
 
 				msgCollection.addItem( messageModel, messageType );
@@ -270,8 +270,8 @@ AviView = PageView.extend({
 
 		this.clearLoading();
 		// Append and display the new message.
-		var model = new Models.MessageLilySimple({
-			messageContent: config.emptySearch
+		var model = new Models.LilySimple({
+			message_content: config.emptySearch
 		});
 		app.skeleton.messages.addItem( model, 'lily-simple');
 	},

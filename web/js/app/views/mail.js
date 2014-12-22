@@ -36,11 +36,11 @@ MailPage = PageView.extend({
 
 	send: function () {
 
-		var from 	 	= this.$el.find('#from').val() || null,
-				object 	= this.$el.find('#object').val() || null,
-				msg 	 	= this.$el.find('#msg').val() || null,
+		this.from 	 	= this.$el.find('#from').val() || null;
+		this.object 	= this.$el.find('#object').val() || null;
+		this.msg 	 	= this.$el.find('#msg').val() || null;
 
-				$labeFrom 	= this.$el.find('label.from'),
+		var	$labeFrom 	= this.$el.find('label.from'),
 				$inputFrom 	= this.$el.find('input#from'),
 				$labeObj 		= this.$el.find('label.object'),
 				$inputObj 	= this.$el.find('input#object'),
@@ -49,7 +49,7 @@ MailPage = PageView.extend({
 
 				that = this;
 
-		if (from === null) {
+		if (this.from === null) {
 			$labeFrom.show();
 			$inputFrom.addClass('warning');
 			this.errors.from = true;
@@ -59,7 +59,7 @@ MailPage = PageView.extend({
 			this.errors.from = false;
 		}
 
-		if (object === null) {
+		if (this.object === null) {
 			$labeObj.show();
 			$inputObj.addClass('warning');
 			this.errors.object = true;
@@ -69,7 +69,7 @@ MailPage = PageView.extend({
 			this.errors.object = false;
 		}
 
-		if (msg === null) {
+		if (this.msg === null) {
 			$labeMsg.show();
 			$inputMsg.addClass('warning');
 			this.errors.msg = true;
@@ -86,8 +86,15 @@ MailPage = PageView.extend({
 		$.ajax({
 			type: 'POST',
 			url: config.root + '/send/mail',
-			data: { mail: that.from, object: that.object, msg: that.msg },
-			success:  function( data, textStatus, request ) {}
+			data: {
+				mail: that.from,
+				object: that.object,
+				msg: that.msg
+			},
+			success:  function( data, textStatus, request ) {},
+			error: function(err) {
+				// TODO: show error popup
+			}
 		});
 
 		app.router.navigate('mail/sent', {trigger: true});

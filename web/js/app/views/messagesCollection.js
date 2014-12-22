@@ -13,7 +13,7 @@ var Backbone = require('backbone'),
     MessageLilyRedirection = require('app/views/messageLilyRedirection'),
     MessageLilyPrecision = require('app/views/messageLilyPrecision'),
     MessageLilyNotation = require('app/views/messageLilyNotation'),
-    MessageUserCompletion = require('app/views/messageUserCompletion'),
+    MessageLilyCompletion = require('app/views/messageLilyCompletion'),
     // Object wrapper returned as a module
     MessagesCollectionView;
 
@@ -55,7 +55,7 @@ MessagesCollectionView = Backbone.View.extend({
 				}).render();
 				break;
 			case 'lily-completion':
-				message = new MessageUserCompletion({
+				message = new MessageLilyCompletion({
 					model: messageModel
 				}).render();
 				break;

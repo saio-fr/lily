@@ -39,13 +39,12 @@ ChatView = PageView.extend({
 		});
 
 		app.ws.call('chat/open');
-
 		$(this.render().el).appendTo('#lily-wrapper-page');
 	},
 
 	render: function () {
 
-		var template= _.template( $('#lily-page-chat-template').html());
+		var template = _.template( $('#lily-page-chat-template').html());
 		this.$el.html(template());
 		this.trigger('render');
 
@@ -71,17 +70,17 @@ ChatView = PageView.extend({
 		if ( $.trim(message).length > 0 ){
 			// On vérifie que le champ n'est pas vide
 			// ou contient uniquement des espaces
-			this.send( message );
+			this.send(message);
 		}
 		// clear the search field
 		this.clearInput();
 	},
 
-	send: function ( m ) {
-		app.ws.publish('operator/' + config.licence, m);
+	send: function (message) {
+		app.ws.publish('operator/' + config.licence, message);
 	},
 
-	addItem: function( message  ) {
+	addItem: function(message) {
 		var messageView;
 		// create an instance of the sub-view to render the single message item.
 		switch ( message.get('from') ) {

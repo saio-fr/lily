@@ -9,7 +9,7 @@ define(function (require) {
 // Require CommonJS like includes
 var _ = require('underscore'),
 		app = require('app/app'),
-    Models = require('app/models/models'),
+    Models = require('app/data/models'),
     MessageView = require('app/views/message'),
     // Object wrapper returned as a module
     MessageLilyCompletion;

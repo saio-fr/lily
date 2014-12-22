@@ -16,7 +16,7 @@ var _ = require('underscore'),
 MessageChatVisitor = MessageChatView.extend({
 
 	className: 'lily-msg-chat-visitor lily-cst-msg-chat-visitor',
-	model: Models.LilySimple,
+	model: Models.MessageUser,
 	template: _.template($('#chat-message-visitor').html())
 });
 

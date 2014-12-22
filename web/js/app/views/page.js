@@ -11,6 +11,7 @@ var _ = require('underscore'),
 		Backbone = require('backbone'),
     app = require('app/app'),
     config = require('app/globals'),
+    FastClick = require('FastClick'),
     // Object wrapper returned as a module
     PageView;
 
@@ -55,28 +56,36 @@ PageView = Backbone.View.extend({
 		var view = this,
 				$nextPage = view.$el.find('.lily-page-cont'),
 				$currPage = (previous) ? previous.$el.find('.lily-page-cont') : null,
-				inClass = reverse !== 'true' ? 'lily-page-moveFromRight': 'lily-page-moveFromLeft',
+				inClass = reverse !== 'true' ? 'lily-page-moveFromRight ': 'lily-page-moveFromLeft ',
 				visible = 'lily-page-visible';
 
-		$nextPage.addClass(inClass + visible).on(config.animEndEventName, function() {
+		$nextPage.addClass(inClass + visible)
+			.on(config.animEndEventName, {
+				$currPage: $currPage,
+				$nextPage: $nextPage,
+				inClass: inClass,
+				callback: callback,
 
-			$nextPage.off(config.animEndEventName);
-			app.endNextPage = true;
+			}, this.onTransitionIn);
+			// .off(config.animEndEventName, this.onTransitionIn);
+	},
 
-			// TODO: have a look at that!
-			FastClick.attach(document.body);
+	onTransitionIn: function (e) {
+		$(this).off(config.animEndEventName);
 
-			if (_.isFunction(callback)) {
-				callback();
-			}
+		app.endNextPage = true;
+		// TODO: have a look at that!
+		FastClick.attach(document.body);
 
-			if ($currPage){
-				$currPage.parent().remove();
-			}
-
-			$nextPage.removeClass(inClass);
-		});
-
+		if (_.isFunction(e.data.callback)) {
+			e.data.callback();
+		}
+		if (e.data.$currPage){
+			e.data.$currPage.parent().remove();
+		}
+		if (e.data.$nextPage) {
+			e.data.$nextPage.removeClass(e.data.inClass);
+		}
 	},
 
 	transitionOut: function (transition, reverse, callback) {
@@ -85,16 +94,27 @@ PageView = Backbone.View.extend({
 				$currPage = view.$el.find('.lily-page-cont'),
 				outClass = reverse !== 'true' ? 'lily-page-moveToLeft': 'lily-page-moveToRight';
 
-		$currPage.addClass( outClass ).on(config.animEndEventName, function() {
-			if (_.isFunction(callback)) {
-				callback();
-			}
-			view.$el.find('.lily-page-cont').removeClass( 'lily-page-visible' );
-			view.remove();
+		$currPage.addClass(outClass)
+			.on(config.animEndEventName, {
+				$currPage: $currPage,
+				outClass: outClass,
+				view: view,
+				callback: callback
+			}, this.onTransitionIn);
+	},
 
-			$currPage.off(config.animEndEventName );
-		});
-	}
+	onTransitionOut: function (e) {
+		$(this).off(config.animEndEventName);
+		if (_.isFunction(e.data.callback)) {
+			e.data.callback();
+		}
+
+		e.data.view.$el
+			.find('.lily-page-cont')
+			.removeClass( 'lily-page-visible' );
+
+		e.data.remove();
+	},
 
 });
 

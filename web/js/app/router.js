@@ -20,6 +20,7 @@ define(function (require) {
       TopQuestionsView = require('app/views/topQuestions'),
       MessageLilySimpleView = require('app/views/messageLilySimple'),
 			ChatWelcomeScreenView = require('app/views/welcomeScreen'),
+			MessagesCollectionView = require('app/views/messagesCollection'),
 
       // Object wrapper returned as a module
       Router;
@@ -29,14 +30,19 @@ define(function (require) {
 		url: '',
 
 		routes: {
-			'/': 'home',
-			'avi': 'avi',
-			'chat': 'chat',
-			'mail': 'mail',
-			'mail/sent': 'mailSent',
+			'top-questions': 'topQuestions',
+			'top-questions/': 'topQuestions',
 			'top-questions/:id': 'topQuestions',
+			'faq': 'faq',
+			'faq/': 'faq',
 			'faq/:id': 'faq',
-			'faq/content/:id': 'content'
+			'faq/content/:id': 'content',
+			'': 'home',
+			'home': 'home',
+			'chat': 'chat',
+			'avi' : 'avi',
+			'mail': 'mail',
+			'mail/sent': 'mailSent'
 		},
 
 		home: function () {
@@ -54,11 +60,12 @@ define(function (require) {
 
 		avi: function () {
 
+			app.skeleton.collectionView = new MessagesCollectionView();
 			var view = new AviView();
-			utils.goTo(view, utils.buttonCallback);
+			utils.goTo(view);
 
-			this.welcome = new Models.MessageLilySimpleModel({
-				messageContent: config.avi.welcomeMsg
+			this.welcome = new Models.LilySimple({
+				message_content: config.avi.welcomeMsg
 			});
 			this.message = new MessageLilySimpleView({
 				model: this.welcome
@@ -73,13 +80,13 @@ define(function (require) {
 			} else {
 				view = new ChatView();
 			}
-			utils.goTo(view, utils.buttonCallback);
+			utils.goTo(view);
 		},
 
 		mail: function () {
 
 			var view = new MailView();
-			utils.goTo(view, utils.buttonCallback);
+			utils.goTo(view);
 		},
 
 		mailSent: function () {
@@ -93,7 +100,7 @@ define(function (require) {
 
 			$.ajax({
 
-				url: config.root + '/faq/'+id,
+				url: config.root + '/faq/' + id,
 
 				success:  function ( data, textStatus, request ) {
 
@@ -114,7 +121,7 @@ define(function (require) {
 								}),
 								view = new FaqView({ model: model });
 
-						utils.goTo(view, utils.buttonCallback);
+						utils.goTo(view);
 
 					}
 				}
@@ -159,7 +166,7 @@ define(function (require) {
 
 											view = new ContentView({ model: model });
 
-									utils.goTo(view, utils.buttonCallback);
+									utils.goTo(view);
 								}
 							}
 						});
@@ -183,7 +190,7 @@ define(function (require) {
 							var model = new Models.TopQuestions({ data: data });
 							var view = new TopQuestionsView({ model: model });
 
-							utils.goTo(view, utils.buttonCallback);
+							utils.goTo(view);
 						}
 					}
 				});
@@ -199,13 +206,13 @@ define(function (require) {
 
 							var view = new AviView(),
 									question = new Models.MessageUserSimple({
-										messageContent: data.title
+										message_content: data.title
 									}),
 									reponse = new Models.MessageLilySimple ({
-										messageContent: data.answer
+										message_content: data.answer
 									});
 
-							utils.goTo(view, utils.buttonCallback);
+							utils.goTo(view);
 							view.addItem ( question, 'user-simple');
 							view.addItem ( reponse, 'lily-simple');
 						}

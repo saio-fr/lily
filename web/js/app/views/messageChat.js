@@ -21,11 +21,26 @@ MessageChatView = Backbone.View.extend({
 	render: function() {
 		this.$el.html(this.template( this.model.toJSON() ));
 		this.$el.appendTo('#chat-box-messages');
+    this.transitionInMessage();
 		$( '#chat-box-messages:last-child' ).scrollTop(10000);
 
-		this.trigger('render');
 		return this;
 	},
+
+  transitionInMessage: function (callback) {
+
+    var $message = this.$el,
+        $messageBox = $('#lily-box-messages'),
+        inClass = 'lily-message-show';
+
+    $message.addClass(inClass).on(config.animEndEventName, function() {
+
+      $message.off(config.animEndEventName);
+      $messageBox.animate({
+        scrollTop: $messageBox.get(0).scrollHeight
+      }, 500);
+    });
+  }
 
 });
 
