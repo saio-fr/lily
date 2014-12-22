@@ -3,9 +3,10 @@ set :domain,      "prod1.#{application}.fr"
 set :deploy_to,   "/var/www/vhosts/saio.fr/httpdocs"
 set :app_path,    "app"
 
-set :repository,  "file:///var/www/vhosts/saio.fr/dev2.saio.fr"
+set :repository,  "git@github.com-raphael-simon:saio-fr/lily.git"
 set :scm,         :git
-set   :deploy_via,    :copy
+set :branch,      "master"
+
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
 
 set :model_manager, "doctrine"
@@ -33,6 +34,7 @@ after "deploy" do
 
   # dump assets (if using assetic)
   run "cd /var/www/vhosts/#{application}.fr/httpdocs/current && php app/console assetic:dump"
+  
 end
 
 task :upload_parameters do
@@ -45,6 +47,7 @@ task :upload_parameters do
 end
 
 after "deploy:setup", "upload_parameters"
+after "deploy:setup", "deploy:cleanup"
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL

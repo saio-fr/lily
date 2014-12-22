@@ -76,17 +76,30 @@ class ChatService {
      * @param \StdClass $client
      */
     public function connect(Conn $conn, $params, \StdClass $client) {
-        echo 'connect';
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
-                if ($item->closed) $chatting = false;
-                else $chatting = true;
+                if ($item->closed) { $chatting = false; }
+                else { $chatting = true; }
+                if ($item->displayed) { $display = true; }
+                else { $display = false; }
                 $showContactForm = $item->showContactForm;
             }
         }
+        return array('display' => $display, 'chatting' => $chatting, 'showContactForm' => $showContactForm);
+    }
 
-        return array('chatting' => $chatting, 'showContactForm' => $showContactForm);
+    /**
+     * Set that visitors used the app (used in logConnection)
+     */
+    public function setDisplayed(Conn $conn, $params, \StdClass $client) {
+        foreach ($client->users as $item) {
+            if ($item->id === $conn->Session->getId()) {
+                $item->displayed = true;
+            }
+        }
+
+        return array('result' => true);
     }
 
     /**
@@ -152,7 +165,7 @@ class ChatService {
     public function open(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
 
-            if ($item->type === 'operator' && $item->available && ($item->chats < $client->config->max)) {
+            if ($item->type === 'operator' && $item->available && ($item->chats < $client->config->getMax())) {
 
                 $availables[] = $item;
 
@@ -168,7 +181,7 @@ class ChatService {
                     return;
                 }
 
-                if (!empty($availables) && $client->config->autoSetOperator) {
+                if (!empty($availables) && $client->config->getAutoSetOperator()) {
 
                     $key = array_rand($availables, 1);
                     $availables[$key]->chats += 1;

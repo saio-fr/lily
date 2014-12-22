@@ -74,21 +74,25 @@ class UserController extends DefaultController
             case 'conversations':
                 $data = $rep->hourlyNumberOfConversation($id, $from, $to, $size);
                 $type = 'int';
+                $default = 0;
                 break;
 
             case 'duration':
                 $data = $rep->averageConversationTime($id, $from, $to, $size);
                 $type = 'time';
+                $default = 0;
                 break;
 
             case 'waited':
                 $data = $rep->averageWaited($id, $from, $to, $size);
                 $type = 'int';
+                $default = 0;
                 break;
 
             case 'satisfaction':
                 $data = $rep->averageSatisfaction($id, $from, $to, $size);
                 $type = '%';
+                $default = 1;
                 break;
 
             default:
@@ -106,7 +110,7 @@ class UserController extends DefaultController
     
         for ($n = $from; $n < $to; $n++) { 
             $data[] = [(string) ($n * $size * 1000),   //x value: microtimestamp
-                        (string) (isset($nzData[$n]) ? $nzData[$n] : 0)];  //y value : data
+                        (string) (isset($nzData[$n]) ? $nzData[$n] : $default)];  //y value : data
         }
         
         $values[] = $data;

@@ -70,21 +70,12 @@ class DefaultController extends BaseController
         $to = round($timestampto/1000);
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
-           
-        $loadings = $em->getRepository('LilyAppBundle:LogConnection')
-        ->uniqueVisitors($from, $to, $size);
   
-        $users = $em->getRepository('LilyAppBundle:LogRequest')
-        ->uniqueUsers($from, $to, $size);
-  
-        foreach ($loadings as $l) {
-            foreach ($users as $u) {
-                if ($u['intervalId'] == $l['intervalId']) {
-                    $nzData[$l['intervalId']] = round($u['value']*100/$l['value']);
-                    break;
-                }
-                $nzData[$l['intervalId']] = 0;
-            }
+        $users = $em->getRepository('LilyAppBundle:LogConnection')
+        ->uniqueAppUsers($from, $to, $size);
+        
+        foreach($users as $entry) {
+            $nzData[$entry['intervalId']] = $entry['value'];
         }
         
         $from = round($from / $size);
@@ -92,7 +83,7 @@ class DefaultController extends BaseController
         
         for ($n = $from; $n < $to; $n++) { 
             $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
-            (string) (isset($nz[$n]) ? $nz[$n] : 100)];  //y value : data
+            (string) (isset($nzData[$n]) ? $nzData[$n] : 1)];  //y value : data
         }
         
         // Wrap our data into an array
@@ -120,20 +111,33 @@ class DefaultController extends BaseController
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
         
-        $satisfied = $em->getRepository('LilyAppBundle:LogNotation')
-        ->satisfaction($from, $to, $size, true);
-  
-        $notations = $em->getRepository('LilyAppBundle:LogNotation')
-        ->satisfaction($from, $to, $size, null);
-  
-        foreach ($notations as $n) {
-            foreach ($satisfied as $s) {
-                if ($n['intervalId'] == $n['intervalId']) {
-                    $nzData[$n['intervalId']] = round($s['value']*100/$n['value']);
-                    break;
+        // Satisfaction from AVI
+        $avi = $em->getRepository('LilyAppBundle:LogNotation')
+        ->satisfaction($from, $to, $size);
+        
+        // Satisfaction from Chat
+        $chat = $em->getRepository('LilyChatBundle:LogChat')
+        ->averageSatisfaction(null, $from, $to, $size);
+        
+        // Calcul satisfaction from Chat & Avi
+        foreach ($chat as $key1 => $c) {
+            foreach ($avi as $key2 => $a) {
+                if ($a['intervalId'] == $c['intervalId']) {
+                    $item = array('value' => ($a['value'] + $c['value'])/2, 'intervalId' => $a['intervalId']);
+                    $satisfaction[] = $item;
+                    unset($chat[$key1]);
+                    unset($avi[$key2]);
                 }
-                $nzData[$n['intervalId']] = 100;
             }
+        }
+        
+        $satisfaction = array_merge($satisfaction, $chat, $avi);
+        usort($satisfaction, function ($a, $b) {
+            return ($a['intervalId'] < $b['intervalId']) ? -1 : 1;
+        });
+        
+        foreach ($satisfaction as $item) {
+            $nzData[$item['intervalId']] = $item['value'];
         }
         
         $from = round($from/$size);
@@ -141,7 +145,7 @@ class DefaultController extends BaseController
         
         for ($n = $from; $n < $to; $n++) { 
           $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
-          (string) (isset($nzData[$n]) ? $nzData[$n] : 100)];  //y value : data
+          (string) (isset($nzData[$n]) ? $nzData[$n] : 1)];  //y value : data
         }
         
         $values[] = $data;
@@ -171,21 +175,23 @@ class DefaultController extends BaseController
         ->uniqueVisitors($from, $to, null);
 
         // USAGE
-        $users = $em->getRepository('LilyAppBundle:LogRequest')
-        ->uniqueUsers($from, $to, null);
+        $usage = $em->getRepository('LilyAppBundle:LogConnection')
+        ->uniqueAppUsers($from, $to, null);
 
-        if ($loadings > 0) $usage = round(($users/$loadings)*100);
-        else $usage = 100;
+        if ($usage) { $usage = $usage * 100; }
+        else { $usage = 100; }
 
-        // SATISFACTION
-        $satisfied = $em->getRepository('LilyAppBundle:LogNotation')
-        ->satisfaction($from, $to, true, null);
-
-        $notations = $em->getRepository('LilyAppBundle:LogNotation')
-        ->satisfaction($from, $to, null, null);
-
-        if ($notations > 0) $satisfaction = round($satisfaction, 0);
-        else $satisfaction = 100;
+        // Satisfaction from AVI
+        $avi = $em->getRepository('LilyAppBundle:LogNotation')
+        ->satisfaction($from, $to, null);
+        
+        // Satisfaction from Chat
+        $chat = $em->getRepository('LilyChatBundle:LogChat')
+        ->averageSatisfaction(null, $from, $to, null);
+        
+        $satisfaction = round(($avi + $chat)/2, 1);
+        if ($satisfaction) { $satisfaction *= 100; }
+        else { $satisfaction = 100; }
 
         return array('loadings' => $loadings, 'usage' => $usage, 'satisfaction' => $satisfaction);
 

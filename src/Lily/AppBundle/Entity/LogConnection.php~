@@ -31,9 +31,9 @@ class LogConnection
     /**
      * @var boolean
      *
-     * @ORM\Column(name="used", type="boolean")
+     * @ORM\Column(name="usage", type="boolean")
      */
-    protected $used;
+    protected $usage;
 
     /**
      * @var \DateTime
@@ -127,28 +127,5 @@ class LogConnection
     public function getSession()
     {
         return $this->session;
-    }
-
-    /**
-     * Set used
-     *
-     * @param boolean $used
-     * @return LogConnection
-     */
-    public function setUsed($used)
-    {
-        $this->used = $used;
-
-        return $this;
-    }
-
-    /**
-     * Get used
-     *
-     * @return boolean 
-     */
-    public function getUsed()
-    {
-        return $this->used;
     }
 }

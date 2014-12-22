@@ -292,7 +292,7 @@ define(function (require) {
     // More options depandings on data type
     if(type == '%') {
       options.yaxis.max = 1;
-      options.yaxis.tickSize = 0.5;
+      options.yaxis.tickSize = 1;
     }
 
     if(type == 'time') {
