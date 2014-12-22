@@ -1,6 +1,19 @@
 <header class="panel-heading font-bold">Catégories les plus fréquentes</header>
 <div class="panel-body no-padder">
-  <ul class="top-questions-list">
-    <li class="top-questions-item"></li>
+  <ul class="avi-top-list">
+    
+    <% if (!categories.length) { %>
+      <h6 class="text-center">Nous n'avons pas assez de statistiques pour générer une liste de categories les plus fréquentes</h6>
+    <% } else {
+    
+      _.each(categories, function(item, index) { %>
+      
+      <li class="avi-top-item">
+        <div class="avi-top-item-position"><%= index %></div>
+        <h6 class="avi-top-item-title"><span><%= item.title %></span></h6>
+      < /li>
+      
+    <% }); } %>
+    
   </ul>
 </div>

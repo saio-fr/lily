@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
+use \ZMQContext;
+use \ZMQ;
+
 class BaseController extends FOSRestController implements ClassResourceInterface
 {
     

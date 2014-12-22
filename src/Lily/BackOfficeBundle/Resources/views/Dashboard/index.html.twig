@@ -2,12 +2,13 @@
 
 {% block stylesheets %} 	   
 
-{{ parent() }} 	   
+  {{ parent() }} 	   
 
-{% stylesheets 'css/backoffice/dashboard.css' filter='cssrewrite' output='css/compiled/dashboard.css' %}      
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+  {% stylesheets 'css/backoffice/dashboard.css' filter='cssrewrite' output='css/compiled/dashboard.css' %}
+      
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
-{% endstylesheets %} 
+  {% endstylesheets %} 
 
 {% endblock %}
 
@@ -21,77 +22,23 @@
 
 	<section>
 	  <section class="vbox">
+  	  <header class="blue-header header"><p>Dashboard</p></header>
 	    <section class="scrollable">
-		  <header class="blue-header header"><p>Dashboard</p></header>
-		  <div class="wrapper">
-		    <div class="row">
+		    <div class="wrapper row">
 		    
-		      <!-- Saving -->
+		      <!-- usage graph, chat graph -->
 		      <div class="col-md-6">
-		      
-		        <section class="panel">
-                  <header class="panel-heading font-bold">Vous avez économisé: <span class="saved">{{ saving }} €</span></header>
-		        </section>
-			  
-		        <!-- Graphique Utilisation -->
-			    <section id="graph" class="panel"></section>
-			    <section class="panel">
-			    <header class="panel-heading font-bold">Activités</header>
-		          <div class="panel-body">
-		                      
-                    <ul class="timeline">
-                    {% if activities %}
-                      {% for activity in activities %}
-                      <li class="m-t">
-                        <span class="timeline-icon"><i class="time-icon bg-primary lt"></i></span>
-                        <h6 class="m-n m-l-xlg"><b></b>Vous avez {{ activity.action }} le {{ activity.loggedAt|date("d/m/Y") }} à {{ activity.loggedAt|date("H:i") }} la {{activity.type}}</h6>
-                        <small class="m-l-xlg">{{ activity.title }}</small>
-                      </li>
-                      {% endfor %}
-                    {% else %}
-                    <li class="m-t">
-                      <span class="timeline-icon"><i class="time-icon bg-primary"></i></span>
-                      <h6 class="m-n m-l-xlg"><b></b>Vous n'avez pas encore d'activités</h6>
-                    </li>
-                    {% endif %}
-                    </ul> 
-                    
-		          </div>
-		        </section>
+  		      <section class="chat-graph-wrapper panel"></section>
+  		      <section class="usage-graph-wrapper panel"></section>
+		      </div>
+          
+          <!-- Front & activities -->
+		      <div class="col-md-6">
+  		      <section class="iframe-wrapper panel"></section>
+		        <section class="logs-wrapper panel"></section>
 		      </div>
 		      
-		      <div class="col-md-6">
-		      
-		        <section class="panel">
-                  <div class="panel-body lily-iframe">
-                    <iframe src="{{ path('lily_api_index', {licence: app.user.client.licence } ) }}" width="100%" height="540" frameBorder="0"></iframe>
-                  </div>
-		        </section>	
-		        
-		        {% if app.user.client.config.avi %}
-                <section class="panel">
-                  <header class="panel-heading font-bold">Top des questions</header>
-                  <div class="panel-body no-padder">
-                    <ul class="top-questions-list">
-                      <li class="top-questions-item">
-                    	<div class="top-questions-number">1</div>
-                    	<h6 class="top-questions-title"><span>{% if top_questions[0][0].question.title is defined %} {{ top_questions[0][0].question.title }} {% else %} Vous n'avez pas encore de top question {% endif %}</span></h6>
-                      </li>
-                      <li class="top-questions-item">
-                    	<div class="top-questions-number">2</div>
-                    	<h6 class="top-questions-title"><span>{% if top_questions[1][0].question.title is defined %} {{ top_questions[1][0].question.title }} {% else %} Vous n'avez pas encore de top 2 question {% endif %}</span></h6>
-                      </li>
-                      <li class="top-questions-item">
-                    	<div class="top-questions-number">3</div>
-                    	<h6 class="top-questions-title"><span>{% if top_questions[2][0].question.title is defined %} {{ top_questions[2][0].question.title }} {% else %} Vous n'avez pas encore de top 3 question {% endif %}</span></h6>
-                      </li>
-                   	</ul>
-                  </div>
-				</section>
-				{% endif %}             	
-		      
-		    </div>
-          </div>
+        </div>
 	    </section>
 	  </section>
 	</section>
@@ -99,42 +46,44 @@
 	{% endblock %}
 	
 	{% block templates %}
+	
 		<!-- L'appel des différents scripts de vue -->
- 		<script type="text/template" id="usage">
-            {% include 'LilyBackOfficeBundle:Dashboard:usage.html.twig' with {'loadings': loadings} %}
-        </script>
-    {% endblock %}
+    <script type="text/template" id="usageGraphTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Usage:graph.html.twig' %}
+    </script>
+    <script type="text/template" id="usageFooterTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Usage:footer.html.twig' %}
+    </script>
+    <script type="text/template" id="chatGraphTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Chat:graph.html.twig' %}
+    </script>
+    <script type="text/template" id="chatFooterTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Chat:footer.html.twig' %}
+    </script>
+    <script type="text/template" id="aviFrameTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Avi:iframe.html.twig' %}
+    </script>
+    <script type="text/template" id="logsTpl">
+      {% include 'LilyBackOfficeBundle:Dashboard/Activities:logs.html.twig' %}
+    </script>
+    
+  {% endblock %}
 
 	{% block bootstrap %}
-	    {% autoescape false %}
-	    <script type="text/javascript">
-	        var root = '{{ path('lily_statistics') }}';
+    {% autoescape false %}
+      <script type="text/javascript">
+  	    var config = {};
+        config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
+        config.client = JSON.parse('{{ client | serialize('json') | raw }}');
+        config.userId = '{{ app.user.id }}';
 	    </script>
-	    {% endautoescape %}
+    {% endautoescape %}
 	{% endblock %}
 
 </section>
 
-{% endblock %}
-
-{% block javascripts %}
-
-{{ parent() }}
-
-{% javascripts 
-
-'js/vendor/jquery.min.js' 
-'js/vendor/bootstrap.js' 
-'js/vendor/bootstrap.js'  
-'js/vendor/underscore.min.js' 
-'js/vendor/backbone.min.js' 
-
-'js/todo.js' 
-
-'js/charts/flot/jquery.flot.min.js' 'js/charts/flot/jquery.flot.tooltip.min.js' 'js/charts/flot/jquery.flot.resize.js' 'js/charts/flot/jquery.flot.orderBars.js' 'js/charts/flot/jquery.flot.pie.min.js' 'js/charts/flot/jquery.flot.time.min.js' 'js/vendor/moment.js' 'js/backoffice/dashboard.js' output='js/compiled/dashboard.js' %}
-
-  <script type="text/javascript" src="{{ asset_url }}"></script>
-  
-{% endjavascripts %}
+<script src="{{ asset('js/bower_components/requirejs/require.js')}}" 
+  data-main="{{ asset('js/backoffice/dashboard/main.js')}}">
+</script>
 
 {% endblock %}

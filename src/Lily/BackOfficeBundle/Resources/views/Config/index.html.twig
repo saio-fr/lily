@@ -28,36 +28,36 @@
   {% block templates %} 		
 	<!-- L'appel des différents scripts de vue -->
 	<script type="text/template" id="skeletonTpl">
-        {% include 'LilyBackOfficeBundle:Config:skeleton.html.twig' %}
-    </script>
+    {% include 'LilyBackOfficeBundle:Config:skeleton.html.twig' %}
+  </script>
 	<script type="text/template" id="globalTpl">
-        {% include 'LilyBackOfficeBundle:Config:global.html.twig' %}
-    </script>
+    {% include 'LilyBackOfficeBundle:Config:global.html.twig' %}
+  </script>
 	<script type="text/template" id="aviTpl">
-        {% include 'LilyBackOfficeBundle:Config:avi.html.twig' %}
-    </script>
+    {% include 'LilyBackOfficeBundle:Config:avi.html.twig' %}
+  </script>
 	<script type="text/template" id="chatTpl">
-        {% include 'LilyBackOfficeBundle:Config:chat.html.twig' %}
-    </script>
+    {% include 'LilyBackOfficeBundle:Config:chat.html.twig' %}
+  </script>
 	<script type="text/template" id="modalTpl">
-        {% include 'LilyBackOfficeBundle:Config:modal.html.twig' %}
-    </script>		 
+    {% include 'LilyBackOfficeBundle:Config:modal.html.twig' %}
+  </script>		 
   {% endblock %}
 
 	{% block bootstrap %}
-	    {% autoescape false %}
-	    <script type="text/javascript">
-  	      var config = {};
-          config.root = '{{ app.request.getBaseURL() }}/lily/api/config';
-	        config.client = JSON.parse('{{ client | serialize('json') | raw }}');
+    {% autoescape false %}
+      <script type="text/javascript">
+  	    var config = {};
+        config.root = '{{ app.request.getBaseURL() }}/lily/api/config';
+        config.client = JSON.parse('{{ client | serialize('json') | raw }}');
 	    </script>
-	    {% endautoescape %}
+    {% endautoescape %}
 	{% endblock %}
 
 </section>
 
 <script src="{{ asset('js/bower_components/requirejs/require.js')}}" 
-        data-main="{{ asset('js/backoffice/config/main.js')}}">
+  data-main="{{ asset('js/backoffice/config/main.js')}}">
 </script>
 
 {% endblock %}

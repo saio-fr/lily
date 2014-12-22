@@ -8,7 +8,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [LilyBackOfficeBundle, LilyApiBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle, LilyStatisticsBundle, LilyHomePageBundle, LilyAdminBundle]
+    bundles:        [LilyBackOfficeBundle, LilyAppBundle, LilyChatBundle, LilyKnowledgeBundle, LilyUserBundle, LilyStatisticsBundle, LilyHomePageBundle, LilyAdminBundle]
     #node: /usr/local/bin/node
     filters:
         cssrewrite: ~

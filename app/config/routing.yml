@@ -18,9 +18,9 @@ lily_statistics:
     resource: "@LilyStatisticsBundle/Resources/config/routing.yml"
     prefix:   /lily
 
-lily_api:
-    resource: "@LilyApiBundle/Resources/config/routing.yml"
-    prefix:   /
+lily_app:
+    resource: "@LilyAppBundle/Resources/config/routing.yml"
+    prefix:   /app
 
 lily_admin:
     resource: "@LilyAdminBundle/Resources/config/routing.yml"

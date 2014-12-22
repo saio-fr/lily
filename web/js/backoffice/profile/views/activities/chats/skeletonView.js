@@ -10,6 +10,7 @@ define(function (require) {
   var app = require('app'),
       utils = require('statistics'),
       ChatView = require('backoffice/profile/views/activities/chats/chatView'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -25,6 +26,7 @@ define(function (require) {
     },
 
     initialize: function() {
+      this.childViews = new Backbone.ChildViewContainer();
       this.$el.html(this.template());
       utils.daterangepicker(this);
       var that = this;
@@ -32,7 +34,7 @@ define(function (require) {
     },
     
     render: function () {
-      $('.conversations-list').empty();
+      this.closeChildren();
       this.collection.each(this.add, this);
 	    if (!this.collection.length) {
 		    $('.conversations-list').html('<li class="list-group-item view"><h6>Aucune conversations.</h6></li>');
@@ -41,8 +43,9 @@ define(function (require) {
     },
     
     add: function (chat) {
-      this.view = new ChatView({model: chat});
-      $('.conversations-list').append(this.view.render().el);
+      var view = new ChatView({model: chat});
+      this.childViews.add(view);
+      $('.conversations-list').append(view.render().el);
     },
     
     range: function () {
@@ -66,6 +69,17 @@ define(function (require) {
       this.collection.sort();
       this.render();
     },
+    
+    closeChildren: function () {
+
+      var self = this;
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        self.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+    }
 
   });
 

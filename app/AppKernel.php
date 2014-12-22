@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new Lily\BackOfficeBundle\LilyBackOfficeBundle(),
             new Lily\AdminBundle\LilyAdminBundle(),
             new Lily\UserBundle\LilyUserBundle(),
-            new Lily\ApiBundle\LilyApiBundle(),
+            new Lily\AppBundle\LilyAppBundle(),
             new Lily\MediaBundle\LilyMediaBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Nelmio\SolariumBundle\NelmioSolariumBundle(),

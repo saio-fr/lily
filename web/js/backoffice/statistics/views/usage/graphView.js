@@ -8,15 +8,14 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      Utils = require('statistics'),
-      g = require('globals'),
+      Utils = require('statistics-flot'),
 
       // Object wrapper returned as a module
-      StatisticsView;
+      GraphView;
 
-  StatisticsView = Backbone.View.extend({
+  GraphView = Backbone.View.extend({
 
-    el: '#usage .graph-wrapper',
+    el: '.usage-wrapper .graph-wrapper',
     template: _.template($('#usageGraphTpl').html()),
     templateFooter: _.template($('#usageGraphFooterTpl').html()),
 
@@ -40,15 +39,15 @@ define(function (require) {
       this.$el.find('footer .active').removeClass('active');
       $(e.currentTarget).addClass('active');
       this.model.graph.type = $(e.currentTarget).data('type');
-      Utils.renderGraph(this, null);
+      Utils.renderGraph(this, $('.icon-spinner'));
     },
     
     plot: function () {
       Utils.renderFooter(this);
-      Utils.renderGraph(this);
+      Utils.renderGraph(this, $('.icon-spinner'));
     }
 
   });
 
-  return StatisticsView;
+  return GraphView;
 });

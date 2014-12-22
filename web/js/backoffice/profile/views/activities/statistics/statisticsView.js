@@ -39,13 +39,13 @@ define(function (require) {
     select: function (e) {  
       this.$el.find('footer .active').removeClass('active');
       $(e.currentTarget).addClass('active');
-      this.model.graph.type = $(e.currentTarget).attr('id');
-      Utils.renderGraph(this, null);
+      this.model.graph.type = $(e.currentTarget).data('type');
+      Utils.renderGraph(this, $('.icon-spinner'));
     },
     
     plot: function () {
       Utils.renderFooter(this);
-      Utils.renderGraph(this);
+      Utils.renderGraph(this, $('.icon-spinner'));
     }
 
   });

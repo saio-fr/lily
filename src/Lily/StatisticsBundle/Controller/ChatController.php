@@ -12,7 +12,7 @@ use Lily\StatisticsBundle\Controller\DefaultController;
 class ChatController extends DefaultController
 {
     /**
-     * @Get("/chat/footer/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Get("/graph/footer/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      * @Secure(roles="ROLE_USER")
      */
     public function getFooterAction($start, $end) {
@@ -20,47 +20,52 @@ class ChatController extends DefaultController
         $rep = $this->getEntityManager()
         ->getRepository('LilyChatBundle:LogChat');
         
-        $timestampfrom = round($start/1000);
-        $timestampto = round($end/1000);
+        $from = round($start/1000);
+        $to = round($end/1000);
         
         $stats = array(
-            'conversations' => $rep->hourlyNumberOfConversation(null, $timestampfrom, $endTimestamp),
-            'time' => $rep->averageConversationTime(null, $timestampfrom, $timestampto),
-            'waited' => $rep->averageWaited(null, $timestampfrom, $timestampto),
-            'satisfaction' => $rep->averageSatisfaction(null, $timestampfrom, $timestampto)
+            'conversations' => $rep->hourlyNumberOfConversation(null, $from, $to),
+            'duration' => $rep->averageConversationTime(null, $from, $to),
+            'waited' => $rep->averageWaited(null, $from, $to),
+            'satisfaction' => $rep->averageSatisfaction(null, $from, $to)
         );
 
         return $stats;
     }
 
     /**
-     * @Get("/{type}/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Get("/{function}/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      * @Secure(roles="ROLE_USER")
      */    
-    public function getConversationsAction($start, $end) {
+    public function getConversationsAction($function, $start, $end) {
         
         $em = $this->getEntityManager();
         $rep = $em->getRepository('LilyChatBundle:LogChat');
         
-        $timestampfrom = round($start/1000);
-        $timestampto = round($end/1000);
-        $interval = $this->getInterval($timestampfrom, $timestampto);
+        $from = round($start/1000);
+        $to = round($end/1000);
+        $interval = $this->getInterval($from, $to);
+        $size = $interval['size'];
         
-        switch($type) {
+        switch($function) {
             case 'conversations':
-                $data = $rep->hourlyNumberOfConversation(null, $timestampfrom, $timestampto, $interval->size);
+                $data = $rep->hourlyNumberOfConversation(null, $from, $to, $size);
+                $type = 'int';
                 break;
 
             case 'duration':
-                $data = $rep->averageConversationTime(null, $timestampfrom, $timestampto, $interval->size);
+                $data = $rep->averageConversationTime(null, $from, $to, $size);
+                $type = 'time';
                 break;
 
             case 'waited':
-                $data = $rep->averageWaited(null, $timestampfrom, $timestampto, $interval->size);
+                $data = $rep->averageWaited(null, $from, $to, $size);
+                $type = 'time';
                 break;
 
             case 'satisfaction':
-                $data = $rep->averageSatisfaction(null, $timestampfrom, $timestampto, $interval->size);
+                $data = $rep->averageSatisfaction(null, $from, $to, $size);
+                $type = '%';
                 break;
 
             default:
@@ -69,19 +74,20 @@ class ChatController extends DefaultController
         }
         
         foreach($data as $entry) {
-            $nonzeroData[$entry['intervalId']] = $entry['value'];
+            $nzData[$entry['intervalId']] = $entry['value'];
         }
         
-        $graph = [];
-        $from = round($timestampfrom/$interval['size']);
-        $to = round($timestampto/$interval['size']);
+        $data = [];
+        $from = round($from/$size);
+        $to = round($to/$size);
         
         for ($n = $from; $n < $to; $n++) { 
-            $graph[] = [(string) ($n*$interval['size']*1000),   //x value: microtimestamp
-                        (string) (isset($nonzeroData[$n]) ? $nonzeroData[$n] : 0)];  //y value : data
+            $data[] = [(string) ($n * $size * 1000),   //x value: microtimestamp
+                        (string) (isset($nzData[$n]) ? $nzData[$n] : 0)];  //y value : data
         }
         
-        $graph = array_reverse($graph);
-        return array('type' => $type, 'period' => $interval['period'], 'step' => $interval['step'], 'values' => $graph); 
+        $values[] = $data;
+        
+        return array('type' => $type, 'period' => $interval['period'], 'step' => $interval['step'], 'values' => $values); 
     }
 }

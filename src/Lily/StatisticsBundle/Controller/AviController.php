@@ -21,14 +21,14 @@ class AviController extends DefaultController
       	$em = $this->getEntityManager();
       	
       	// PERIODE
-  	    $from = new \Datetime('-4 month');	    
+  	    $from = new \Datetime('-1 month');	    
   	    $to = new \Datetime();
       	
       	// REDIRECTIONS
-      	$mails = $em->getRepository('LilyApiBundle:LogRedirection')
+      	$mails = $em->getRepository('LilyAppBundle:LogRedirection')
         ->mails($from, $to); 
         
-        $phones = $em->getRepository('LilyApiBundle:LogRedirection')
+        $phones = $em->getRepository('LilyAppBundle:LogRedirection')
         ->phones($from, $to);
      				  	 
         $data[0] = array('label' => 'Mail', 'data' => $mails);		
@@ -45,57 +45,43 @@ class AviController extends DefaultController
     {       	
       	$em = $this->getEntityManager();
       	
-      	$timestampfrom = round($timestampfrom/1000);
-        $timestampto = round($timestampto/1000);
-        $interval = $this->getInterval($timestampfrom, $timestampto);
+      	$from = round($timestampfrom/1000);
+        $to = round($timestampto/1000);
+        $interval = $this->getInterval($from, $to);
+        $size = $interval['size'];
         
         // QUESTIONS
-    		$questions = $em->getRepository('LilyApiBundle:LogRequest')
-    		->requests($timestampfrom, $timestampto, $interval->size);
+    		$questions = $em->getRepository('LilyAppBundle:LogRequest')
+    		->requests($from, $to, $size);
 			 	 	      
-  	    foreach($questions as $question) {
-  			    $nonzeroQuestions[$question['intervalId']]=round($question['value']);
+  	    foreach($questions as $item) {
+  			    $nzQuestions[$item['intervalId']] = round($item['value']);
   		  }				 	 	  	
 		
         // REPONDUES   		
-        $answered = $em->getRepository('LilyApiBundle:LogRequest')
-        ->answered($timestampfrom, $timestampto, $intervalSize);
+        $answered = $em->getRepository('LilyAppBundle:LogRequest')
+        ->answered($timestampfrom, $timestampto, $size);
 		
     		foreach($answered as $item) {
-    			  $nonzeroAnswered[$item['intervalId']]=round($item['value']);
+    			  $nzAnswered[$item['intervalId']] = round($item['value']);
     		}
-		   		
-        // REDIRECTION   					
-        $redirections = $em->getRepository('LilyApiBundle:LogRedirection')
-        ->redirections($timestampfrom, $timestampto, $intervalSize);
-		
-		foreach($redirections as $redirection) {
-  			foreach ($questions as $question) {
-				if ($question['intervalId'] == $redirection['intervalId']) {
-  					$nonzeroRedirections[$redirection['intervalId']] = round($redirection['value']/$question['value']);
-				} else {
-                    $nonzeroRedirections[$redirection['intervalId']] = 0;
-				}
-  			}
-		}
-	
         
-        $from = round($timestampfrom/$interval['size']);
-        $to = round($timestampto/$interval['size']);
+        $from = round($from / $size);
+        $to = round($to / $size);
         
-        for ($n = $from; $n < $to; $n++) { 
-	    	$dataQ[] = [(string) ($n*$interval['size']*1000), //x value: microtimestamp
-	        		(string) (isset($nonzeroQuestions[$n]) ? $nonzeroQuestions[$n] : 0)];  //y value : data
-	       
-	        $dataA[] = [(string) ($n*$intervalSize*1000), //x value: microtimestamp
-	        		(string) (isset($nonzeroAnswered[$n]) ? $nonzeroAnswered[$n] : 0)];  //y value : data
-	        
-	        $dataR[] = [(string) ($n*$intervalSize*1000), //x value: microtimestamp
-	        		(string) (isset($nonzeroRedirections[$n]) ? $nonzeroRedirections[$n] : 0)];  //y value : data
-	    }
+        for ($n = $from; $n < $to; $n++) {
+            // Questions
+	    	    $dataQ[] = [(string) ($n * $size * 1000), //x value: microtimestamp
+	        		(string) (isset($nzQuestions[$n]) ? $nzQuestions[$n] : 0)];  //y value : data
+            // Answered
+            $dataA[] = [(string) ($n * $size * 1000), //x value: microtimestamp
+	        		(string) (isset($nzAnswered[$n]) ? $nzAnswered[$n] : 0)];  //y value : data
+	      }
         
-        $values = array('questions' => $dataQ, 'answered' => $dataA, 'redirections' => $dataR);
-        return array('period' => $interval['period'], 'step' => $interval['step'], 'values' => $values);
+        $values[] = $dataQ;
+        $values[] = $dataA;
+        
+        return array('period' => $interval['period'], 'step' => $interval['step'], 'type' => 'int', 'values' => $values);
     		
     }
     
@@ -108,16 +94,16 @@ class AviController extends DefaultController
     {    
       	$em = $this->getEntityManager();
       	
-      	$timestampfrom = round($timestampfrom/1000);
-        $timestampto = round($timestampto/1000);
+      	$from = round($timestampfrom/1000);
+        $to = round($timestampto/1000);
       	
       	// QUESTIONS   		
-        $requests = $em->getRepository('LilyApiBundle:LogRequest')
-        ->requests($timestampfrom, $timestampto, null);	
+        $requests = $em->getRepository('LilyAppBundle:LogRequest')
+        ->requests($from, $to, null);	
         
         // ANSWERED  		
-        $answered = $em->getRepository('LilyApiBundle:LogRequest')
-        ->answered($timestampfrom, $timestampto, null);
+        $answered = $em->getRepository('LilyAppBundle:LogRequest')
+        ->answered($from, $to, null);
      							 
         // REUSSITE  
         if ($requests > 0) { $successrate = round(($answered/$requests),2) * 100; }
@@ -133,17 +119,37 @@ class AviController extends DefaultController
      */
     public function getTopCategoriesAction()
     {    
-    	// PERIODE
-	    $from = new \Datetime('-4 month');	    
-	    $to = new \Datetime();
+    	  // PERIODE
+        $from = new \Datetime('-1 month');	    
+        $to = new \Datetime();
 	    
-	    $em = $this->getEntityManager();
+        $em = $this->getEntityManager();
     	
-    	// CATEGORIES    	
-    	$categories = $em->getRepository('LilyApiBundle:LogRequest')
-        ->topCategories($from, $to); 
+        // CATEGORIES    	
+        $categories = $em->getRepository('LilyAppBundle:LogRequest')
+        ->topCategories($from, $to, 5); 
    					  	   
-      return $categories;	        		
+        return $categories;	        		
+    }
+    
+    /**
+     * @Get("/topquestions")
+     * @Secure(roles="ROLE_USER")
+     * @View()
+     */
+    public function getTopQuestionsAction()
+    {    
+    	  // PERIODE
+        $from = new \Datetime('-1 month');	    
+        $to = new \Datetime();
+	    
+        $em = $this->getEntityManager();
+    	
+        // CATEGORIES    	
+        $questions = $em->getRepository('LilyAppBundle:LogRequest')
+        ->topQuestions($from, $to, 5); 
+   					  	   
+        return $questions;	        		
     }
 
 }

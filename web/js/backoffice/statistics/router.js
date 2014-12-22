@@ -13,25 +13,9 @@ define(function (require) {
       SkeletonView = require('backoffice/statistics/views/skeletonView'),
       
       UsageSkeletonView = require('backoffice/statistics/views/usage/skeletonView'),
-      
-      AviGraphModel = require('backoffice/statistics/models/avi/graphModel'),
-      AviFooterModel = require('backoffice/statistics/models/avi/footerModel'),
       AviSkeletonView = require('backoffice/statistics/views/avi/skeletonView'),
-      
-      ChatGraphModel = require('backoffice/statistics/models/chat/graphModel'),
-      ChatFooterModel = require('backoffice/statistics/models/chat/footerModel'),
       ChatSkeletonView = require('backoffice/statistics/views/chat/skeletonView'),
-      
-      UserGraphModel = require('backoffice/statistics/models/users/graphModel'),
-      UserFooterModel = require('backoffice/statistics/models/users/footerModel'),
-      UserCollection = require('backoffice/statistics/collections/users/userCollection'),       
-      UserChatCollection = require('backoffice/statistics/collections/users/chatCollection'),    
-      UserLogCollection = require('backoffice/statistics/collections/users/logCollection'),
-      UserSkeletonView = require('backoffice/statistics/views/users/skeletonView'),  
-      UserActivitiesView = require('backoffice/statistics/views/users/activities/skeletonView'),
-      UserChatsSkeletonView = require('backoffice/statistics/views/users/activities/chats/skeletonView'),
-      UserLogsSkeletonView = require('backoffice/statistics/views/users/activities/logs/skeletonView'),
-      UserStatisticsView = require('backoffice/statistics/views/users/activities/statistics/statisticsView'),
+      UsersSkeletonView = require('backoffice/statistics/views/users/skeletonView'),  
 
       // Object wrapper returned as a module
       AppRouter;
@@ -39,20 +23,18 @@ define(function (require) {
   AppRouter = Backbone.Router.extend({
 
     routes: {
-      '': 'home',
-      '*path': 'home'
+      '': 'usage',
+      'avi': 'avi',
+      'chat': 'chat',
+      'users': 'users',
+      '*path': 'usage'
     },
 
     initialize: function () {
       
       // Sekeleton
       var skeleton = new SkeletonView();
-      app.skeleton  = skeleton;
-      
-      this.usage();
-      this.avi();
-      this.chat();
-      this.users();
+      app.skeleton = skeleton;
       
     },
     
@@ -61,41 +43,60 @@ define(function (require) {
     },
 
     usage: function () {
-      // Skeleton
-      var usage = new UsageSkeletonView();
-      app.skeleton.usage = usage;
+      $('.tab-content-wrapper').addClass('scrollable');
+      $('.tab-pane').removeClass('active');
+      $('.usage-wrapper').addClass('active');
+      $('.nav-tabs li').removeClass('active');
+      $('.usage-nav').addClass('active');
+
+      if (typeof app.skeleton.usage == 'undefined') {
+        // Skeleton
+        var usageView = new UsageSkeletonView();
+        app.skeleton.usage = usageView;
+      }
     },
     
     avi: function () {
-      // Models & Collection    
-      var aviGraphModel = new AviGraphModel();
-      var aviFooterModel = new AviFooterModel();
+      $('.tab-content-wrapper').addClass('scrollable');
+      $('.tab-pane').removeClass('active');
+      $('.avi-wrapper').addClass('active');
+      $('.nav-tabs li').removeClass('active');
+      $('.avi-nav').addClass('active');
       
-      // Skeleton
-      var avi = new AviSkeletonView();
-      app.skeleton.avi = avi;  
+      if (typeof app.skeleton.avi == 'undefined') {
+        // Skeleton
+        var aviView = new AviSkeletonView();
+        app.skeleton.avi = aviView;
+      }
     },
     
     chat: function () {
-      // Models & Collection 
-      var chatGraphModel = new ChatGraphModel();
-      var chatFooterModel = new ChatFooterModel();
-
-      // Skeleton
-      var chat = new ChatSkeletonView();
-      app.skeleton.chat = chat;
+      $('.tab-content-wrapper').addClass('scrollable'); 
+      $('.tab-pane').removeClass('active');
+      $('.chat-wrapper').addClass('active');
+      $('.nav-tabs-wrapper li').removeClass('active');
+      $('.chat-nav').addClass('active');
+      
+      if (typeof app.skeleton.chat == 'undefined') {
+        // Skeleton
+        var chatView = new ChatSkeletonView();
+        app.skeleton.chat = chatView;
+      }
     },
     
     users: function () {
-      // Models & Collection
-      var userGraphModel = new UserGraphModel();
-      var userFooterModel = new UserFooterModel();
-      var userCollection = new UserCollection();
-      var userChatCollection = new UserChatCollection();
-      var userLogCollection = new UserLogCollection();
-                 
-      var users = new UserSkeletonView();
-      app.skeleton.users = users;
+      $('.tab-content-wrapper').removeClass('scrollable');
+      $('.tab-pane').removeClass('active');
+      $('.users-wrapper').addClass('active');
+      $('.nav-tabs li').removeClass('active');
+      $('.users-nav').addClass('active');
+      $('.users-charts-nav').addClass('active');
+      $('#users-charts-skeleton').addClass('active');
+      
+      if (typeof app.skeleton.users == 'undefined') {           
+        var users = new UsersSkeletonView();
+        app.skeleton.users = users;
+      }
     }
     
   });

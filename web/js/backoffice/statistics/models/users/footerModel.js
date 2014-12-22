@@ -7,19 +7,18 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var NestedModel = require('backbone-nested'),
-      statistics = require('statistics'),
+  var statistics = require('statistics-flot'),
 
       // Object wrapper returned as a module
       FooterModel;
 
 
-  FooterModel = Backbone.NestedModel.extend({
+  FooterModel = Backbone.Model.extend({
 
     id: '',
     url: function(start, end) {
       return '/user/' + this.userId + 
-        '/footer/'+ this.start + '/' + this.end;
+        '/chat/footer/'+ this.start + '/' + this.end;
     },
 
     initialize: function () {

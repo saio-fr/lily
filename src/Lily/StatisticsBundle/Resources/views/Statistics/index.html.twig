@@ -47,6 +47,9 @@
     <script type="text/template" id="usageGraphFooterTpl">
       {% include 'LilyStatisticsBundle:Statistics/Usage:footer.html.twig' %}
     </script>
+    <script type="text/template" id="usageMediaTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Usage:media.html.twig' %}
+    </script>
     
     <!-- Avi -->
     
@@ -86,14 +89,17 @@
     <script type="text/template" id="usersSkeletonTpl">
 	    {% include 'LilyStatisticsBundle:Statistics/Users:skeleton.html.twig' %}
     </script>
+    <script type="text/template" id="usersUserTpl">
+	    {% include 'LilyStatisticsBundle:Statistics/Users:user.html.twig' %}
+    </script>
     <script type="text/template" id="usersActivitiesSkeletonTpl">
       {% include 'LilyStatisticsBundle:Statistics/Users/Activities:skeleton.html.twig' %}
     </script>
-    <script type="text/template" id="usersActivitiesStatisticsGraphTpl">
-      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Statistics:graph.html.twig' %}
+    <script type="text/template" id="usersActivitiesChartsGraphTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Charts:graph.html.twig' %}
     </script>
-    <script type="text/template" id="usersActivitiesStatisticsFooterTpl">
-      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Statistics:footer.html.twig' %}
+    <script type="text/template" id="usersActivitiesChartsFooterTpl">
+      {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Charts:footer.html.twig' %}
     </script>
     <script type="text/template" id="usersActivitiesLogsSkeletonTpl">
       {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Logs:skeleton.html.twig' %}

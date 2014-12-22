@@ -8,16 +8,18 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      UsageGraphModel = require('backoffice/statistics/models/usage/graphModel'),
-      UsageFooterModel = require('backoffice/statistics/models/usage/footerModel'),
-      UsageGraphView = require('backoffice/statistics/views/usage/graphView'),
+      GraphModel = require('backoffice/statistics/models/usage/graphModel'),
+      FooterModel = require('backoffice/statistics/models/usage/footerModel'),
+      MediaModel = require('backoffice/statistics/models/usage/mediaModel'),
+      GraphView = require('backoffice/statistics/views/usage/graphView'),
+      MediaView = require('backoffice/statistics/views/usage/mediaView'),
 
       // Object wrapper returned as a module
       SkeletonView;
 
   SkeletonView = Backbone.View.extend({
 
-    el: '#usage',
+    el: '.usage-wrapper',
     template: _.template($('#usageSkeletonTpl').html()),
 
     events: {
@@ -27,15 +29,21 @@ define(function (require) {
       this.render();
       
       // Models & Collection
-      var usageGraphModel = new UsageGraphModel();
-      var usageFooterModel = new UsageFooterModel();
+      var graphModel = new GraphModel();
+      var footerModel = new FooterModel();
+      var mediaModel = new MediaModel();
       
-      usage.graphView = new UsageGraphView({model:
-        {
-          graph: usageGraphModel,
-          footer: usageFooterModel
+      var graphView = new GraphView({
+        model: {
+          graph: graphModel,
+          footer: footerModel
         }
       });
+      
+      var mediaView = new MediaView({
+        model: mediaModel
+      });
+      
     },
     
     render: function () {

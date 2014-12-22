@@ -1,0 +1,23 @@
+<header class="panel-heading font-bold">Dernières activités</header>
+<div class="panel-body">
+  
+  <ul class="timeline">
+    <% if (!collection.length) { %>
+      <li class="m-t">
+        <span class="timeline-icon"><i class="time-icon bg-primary"></i></span>
+        <h6 class="text-center"><b>Vous n'avez pas de encore de log d'activité.</b></h6>
+      </li>
+    <% } else {
+  
+      _.each(collection, function(item, index) { %>
+        
+        <li class="m-t">
+          <span class="timeline-icon"><i class="time-icon bg-primary lt"></i></span>
+          <h6 class="m-n m-l-xlg"><b><%= item.type %></b>, <%= item.action %> le <%= moment(item.loggedAt).format('DD MMMM') %> à <%= moment(item.loggedAt).format('HH:mm') %></h6>
+          <small class="m-l-xlg"><%= item.title %></small>
+        </li>
+        
+    <% }); } %>
+  </ul>
+
+</div>

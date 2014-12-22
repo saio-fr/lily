@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var NestedModel = require('backbone-nested'),
-      statistics = require('statistics'),
+      statistics = require('statistics-flot'),
 
       // Object wrapper returned as a module
       GraphModel;
