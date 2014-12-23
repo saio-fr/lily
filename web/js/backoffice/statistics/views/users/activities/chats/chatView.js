@@ -39,10 +39,10 @@ define(function (require) {
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');
       
-      if (typeof app.skeleton.activities.chatDetails !== 'undefined') {
-        app.skeleton.activities.chatDetails.remove();
+      if (typeof app.skeleton.users.chatDetails !== 'undefined') {
+        app.skeleton.users.chatDetails.remove();
       }
-      app.skeleton.activities.chatDetails = new ChatDetailsView({model: this.model});
+      app.skeleton.users.chatDetails = new ChatDetailsView({model: this.model});
       $('.conversation-details').removeClass('hide');
       
     }

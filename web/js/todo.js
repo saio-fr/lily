@@ -82,13 +82,6 @@ Date.now = Date.now || function() { return +new Date; };
     // placeholder
     $('input[placeholder], textarea[placeholder]').placeholder();
 
-    // popover
-    $("[data-toggle=popover]").popover();
-    $(document).on('click', '.popover-title .close', function(e){
-      var $target = $(e.target), $popover = $target.closest('.popover').prev();
-      $popover && $popover.popover('hide');
-    });
-
     // ajax modal
     $('[data-toggle="ajaxModal"]').on('click',
                                       function(e) {

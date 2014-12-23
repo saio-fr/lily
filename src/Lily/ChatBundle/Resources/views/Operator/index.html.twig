@@ -68,10 +68,10 @@
         <script type="text/template" id="parameters">
             {% include 'LilyChatBundle:Operator/templates:parameters.html.twig' %}
         </script>
-		 <script type="text/template" id="live">
+        <script type="text/template" id="live">
             {% include 'LilyChatBundle:Operator/templates:live.html.twig' %}
         </script>
- 		<script type="text/template" id="conversation">
+        <script type="text/template" id="conversation">
             {% include 'LilyChatBundle:Operator/templates:conversation.html.twig' %}
         </script>
         <script type="text/template" id="informations">
@@ -117,19 +117,24 @@
 
 </section>
 
-{% endblock %}
-
 {% block javascripts %}
 
 {{ parent() }}
 
 {% javascripts 
 
+'js/vendor/jquery.min.js'
+'js/bower_components/underscore/underscore.js'
+'js/bower_components/backbone/backbone.js'
+'js/bower_components/bootstrap/dist/js/bootstrap.js'
+
+'js/todo.js'
+
 'js/charts/sparkline/jquery.sparkline.min.js' 
 'js/charts/easypiechart/jquery.easy-pie-chart.js'
 
 'js/wysiwyg/advanced_unwrap.js' 
-'js/wysiwyg/wysihtml5.js' 
+'js/bower_components/wysihtml5/src/wysihtml5.js' 
 
 'js/vendor/autobahn-v1.min.js' 
 
@@ -168,5 +173,7 @@
   <script type="text/javascript" src="{{ asset_url }}"></script>
   
 {% endjavascripts %}
+
+{% endblock %}
 
 {% endblock %}

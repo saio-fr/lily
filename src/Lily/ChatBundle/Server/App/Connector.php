@@ -32,7 +32,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       
     	  $context = new ZMQContext();
         $this->socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-        $this->socket->connect("tcp://ws.saio.fr:".$zmq);
+        $this->socket->connect("tcp://127.0.0.1:".$zmq);
     
         $this->container = $container;  
         $this->cache = $this->container->get('aequasi_cache.instance.default');
@@ -123,8 +123,11 @@ class Connector implements WampServerInterface, MessageComponentInterface {
             $config = $this->container->get('doctrine')->getManager('client')
     				->getRepository('LilyBackOfficeBundle:ConfigChat')
     				->findOneById(1);
+    				
+    				var_dump($config);
     		   	  			  			
     		    $this->cache->save($licence.'_config_app_chat', $config, 0);
+    		    var_dump($config);
 		    }		
         return $config;
     }
@@ -143,7 +146,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       			    	  if ($user->type == 'operator') {
       			    		    if ($user->available) {
                             ++$operators;
-                            if ($user->chats < $client->config->max) {
+                            if ($user->chats < $client->config->getMax()) {
                               $client->available = true;
       				    		      }
       			    		    }
@@ -154,8 +157,8 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       		    	}
       		
       			    if (!$client->available && $operators > 0) {
-        			      $condition1 = $client->config->chatQueue;
-        			      $condition2 = $queue < $client->config->maxQueue * $operators;
+        			      $condition1 = $client->config->getChatQueue();
+        			      $condition2 = $queue < $client->config->getMaxQueue() * $operators;
       					    if ($condition1 && $condition2) $client->available = true;
                     else $client->available = false;
       			    }			    
@@ -172,33 +175,47 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
         // For each clients
         foreach ($this->app->clients as $client) {
+          
+            $licence = $client->licence;
+            
             // Test if visitor is still connected
             foreach ($client->users as $item) {
-                // If the user is an visitor
-                $condition1 = $item->lastConn < ( time() - 1200 );
-                $condition2 = $item->lastMsgTime < ( time() - 1200 );
-                
-                if ($item->type === 'visitor' && $condition1 && $condition2) { 
-                    // If he is attached with an operator, decrease operator's chat counter
+                if ($item->type === 'visitor') {
+                      
+                    // If the user is an visitor
+                    $condition1 = $item->lastConn < ( time() - 12 );
+                    $condition2 = $item->lastMsgTime < ( time() - 12 );
                     
-                    if ($item->operator) {
-                        foreach ($client->users as $operator) {
-                            if ($operator->type === 'operator' && $operator->id == $item->operator) { 
-                                // Decrease chat numbers	
-                                $operator->chats -= 1;
-        							      }			
-        						    }  	
-					          }
-          					// If there was activity in chat, send a log to db
-          					if ($item->received > 0 && $item->sent > 0) {
-          						  $this->socket->send(json_encode(array('action' => 'log', 'item' => $item)));
-          					}
-          					// Close the chat
-          					$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => null, 'date' => time(), 'msg' => "La conversation a été terminé pour cause d'inactivité.");
-          					$item->topic->broadcast($item->messages);	
-          					
-          					// Detach the client	
-          					$client->users->detach($item); 					
+                    if ($condition1 && $condition2) {
+                      
+                        // If he is attached with an operator, decrease operator's chat counter
+                        if ($item->operator) {
+                            foreach ($client->users as $operator) {
+                                if ($operator->type === 'operator' && $operator->id == $item->operator) { 
+                                    // Decrease chat numbers	
+                                    $operator->chats -= 1;
+            							      }			
+            						    }  	
+    					          }
+      					          
+          						  // Close the connection
+                        $item->messages[] = array(
+                          'id' => uniqid(), 
+                          'from' => 'operator', 
+                          'operator' => null, 
+                          'date' => time(), 
+                          'msg' => "La connection a été terminé pour cause d'inactivité.");
+                          
+                        $item->topic->broadcast($item->messages);
+                          					          
+                        $this->socket->send(json_encode(array(
+    				              'licence' => $licence, 
+                          'action' => 'log', 
+                          'item' => $item)));
+              					
+              					// Detach the client	
+              					$client->users->detach($item);
+          					}			
 		            }
 			      }
             // Send users to client's operators

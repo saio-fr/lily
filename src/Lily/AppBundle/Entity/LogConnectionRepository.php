@@ -13,25 +13,47 @@ use Doctrine\ORM\EntityRepository;
 class LogConnectionRepository extends EntityRepository
 {
 	
-	public function uniqueVisitors($from, $to, $intervalSize) {
+	public function uniqueVisitors($from, $to, $interval) {
 			
-		$qb = $this->createQueryBuilder('c');
+		  $qb = $this->createQueryBuilder('c');
         
-        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
-        $qb->select('count(distinct c.session) as value')
-           ->andWhere('UNIX_TIMESTAMP(c.date) >= :from')
-           ->setParameter('from', $from)
-           ->andWhere('UNIX_TIMESTAMP(c.date) < :to')
-           ->setParameter('to', $to);
+      // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+      $qb->select('count(c.session) as value')
+         ->andWhere('UNIX_TIMESTAMP(c.date) >= :from')
+         ->setParameter('from', $from)
+         ->andWhere('UNIX_TIMESTAMP(c.date) < :to')
+         ->setParameter('to', $to);
 
-        if($intervalSize!==null) {
-           $qb->addSelect('ROUND(UNIX_TIMESTAMP(c.date)/(:intervalSize)) as intervalId')
-              ->setParameter('intervalSize', $intervalSize)
-              ->groupBy('intervalId');
-            return $qb->getQuery()->getResult();
-        } else {
-            return $qb->getQuery()->getSingleScalarResult() ?: 0;
-        }	          
+      if($interval) {
+         $qb->addSelect('ROUND(UNIX_TIMESTAMP(c.date)/(:interval)) as intervalId')
+            ->setParameter('interval', $interval)
+            ->groupBy('intervalId');
+          return $qb->getQuery()->getResult();
+      } else {
+          return $qb->getQuery()->getSingleScalarResult() ?: 0;
+      }	          
+	}
+	
+  public function uniqueAppUsers($from, $to, $interval) {
+			
+		  $qb = $this->createQueryBuilder('c');
+        
+      // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+      $qb->select('avg(c.used) as value')
+         ->andWhere('UNIX_TIMESTAMP(c.date) >= :from')
+         ->setParameter('from', $from)
+         ->andWhere('UNIX_TIMESTAMP(c.date) < :to')
+         ->setParameter('to', $to)
+         ->andWhere('c.used IS NOT NULL');
+
+      if($interval) {
+         $qb->addSelect('ROUND(UNIX_TIMESTAMP(c.date)/(:interval)) as intervalId')
+            ->setParameter('interval', $interval)
+            ->groupBy('intervalId');
+          return $qb->getQuery()->getResult();
+      } else {
+          return $qb->getQuery()->getSingleScalarResult() ?: 0;
+      }	          
 	}
 	
 	public function computers($from, $to) {

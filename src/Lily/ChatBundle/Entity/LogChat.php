@@ -38,7 +38,7 @@ class LogChat
     /**
      * @var boolean
      *
-     * @ORM\Column(name="transfered", type="boolean")
+     * @ORM\Column(name="transfered", type="boolean", nullable=true)
      */
     private $transfered;
 

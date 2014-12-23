@@ -9,7 +9,7 @@ use Ratchet\ConnectionInterface as Conn;
 class VisitorTopic implements TopicInterface
 {
 	
-	protected $container;
+	  protected $container;
 	
     public function setContainer($container)
     {
@@ -34,34 +34,44 @@ class VisitorTopic implements TopicInterface
      */
     public function onSubscribe(Conn $conn, $topic, $users)
     {
-    	// Session id
-    	$sid = $conn->Session->getId();
+    	  // Session id
+        $sid = $conn->Session->getId();
     	    			
-		// Delete the topic when the visitor leaves
-		$topic->autoDelete = true;
+        // Delete the topic when the visitor leaves
+        $topic->autoDelete = true;
     	
-    	// Test if visitor is already connected
-    	foreach ($users as $item) {
-			if ($item->id === $sid && $item->type === 'visitor') { 
+        // Test if visitor is already connected
+        foreach ($users as $item) {
+            if ($item->id === $sid && $item->type === 'visitor') { 
 				
-				$item->topic = $topic;
-				$item->lastConn = time();
+				        $item->topic = $topic;
+                $item->lastConn = time();
 				
-				// We send back the logged messages list
-				$topic->broadcast($item->messages);
-				return;
-			}
-		}
+                // We send back the logged messages list
+                $topic->broadcast($item->messages);
+                return;
+			      } 
+		    }
 
-		// Else we create a new visitor class
-    	$visitor = new \StdClass;
+        // Else we create a new visitor class
+        $visitor = new \StdClass;
         $visitor->id = $sid;
         $visitor->topic = $topic;
+        
+        // PERSONAL INFOS
         $visitor->name = 'ID'.substr($sid, 0, 9);
         $visitor->type = 'visitor';
         $visitor->firstname = null;
         $visitor->lastname = null;
         $visitor->email = null;
+        
+        // APP INFOS
+        $visitor->display = false; // Display the app ?
+        $visitor->displayed = false; // Is the app been displayed ?
+        $visitor->questions = array(); // Questions asked to the avatar
+        $visitor->pages = array(); // Pages seen by the visitor
+        
+        // CHAT INFOS
         $visitor->operator = null;
         $visitor->transfered = false;
         $visitor->satisfaction = null;
@@ -69,23 +79,13 @@ class VisitorTopic implements TopicInterface
         $visitor->closed = true;
         $visitor->startTime = time();
         $visitor->lastConn = time();
-        // Waited time in second
-        $visitor->waited = 0;
-        // Number of messages sent
-        $visitor->sent = 0;
-        // Number of operator's messages received
-        $visitor->received = 0;
+        $visitor->waited = 0; // Waited time in second
+        $visitor->sent = 0; // Number of messages sent
+        $visitor->received = 0; // Number of operator's messages received
         $visitor->lastMsgTime = time();
-        // Is the visitor writing ?
-        $visitor->writing = false;
-        // Messages sent
-        $visitor->messages = array();
-        // Questions asked to the avatar
-        $visitor->questions = array();
-        // Pages seen by the visitor
-        $visitor->pages = array();
-        // Did the visitor auth on contact form screen ?
-        $visitor->showContactForm = true;
+        $visitor->writing = false; // Is the visitor writing ?
+        $visitor->messages = array(); // Messages sent
+        $visitor->showContactForm = true; // Did the visitor auth on contact form screen ?
         
         $users->attach($visitor);
     }
@@ -116,27 +116,25 @@ class VisitorTopic implements TopicInterface
      */
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $users)
     {   	
-    	$visitorId = explode('/', $topic)[2];
+    	  $visitorId = explode('/', $topic)[2];
 
-    	$operator = array('id' => $conn->User->getId(), 'firstname' => $conn->User->getFirstname(), 'avatar' => $conn->User->getAvatar());
+        $operator = array('id' => $conn->User->getId(), 'firstname' => $conn->User->getFirstname(), 'avatar' => $conn->User->getAvatar());
     	
-		foreach ($users as $item) {
-			if ($item->id === $visitorId) { 
+        foreach ($users as $item) {
+            if ($item->id === $visitorId) { 
 
-				$item->received += 1;
+                $item->received += 1;
+
+                if (count($item->messages) > 0 && end($item->messages)['from'] == 'visitor') {
+                    $item->waited += time() - $item->lastMsgTime;
+				        }
 				
-				if (count($item->messages) >0 && end($item->messages)['from'] == 'visitor') {
-					
-					$item->waited += time() - $item->lastMsgTime;
-					
-				}
+                $item->lastMsgTime = time();						
+                $item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $operator, 'date' => time(), 'msg' => $event);	
 				
-				$item->lastMsgTime = time();						
-				$item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $operator, 'date' => time(), 'msg' => $event);	
-				
-				$topic->broadcast($item->messages);			
+                $topic->broadcast($item->messages);			
 								
-			}
-		}
+			      }
+		    }
     }  
 }

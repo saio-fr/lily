@@ -12,6 +12,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\SerializationContext;
 
 use Lily\AppBundle\Entity\LogRequest;
+use Lily\AppBundle\Entity\LogConnection;
 use Lily\AppBundle\Controller\BaseController;
 
 class AppController extends BaseController
@@ -24,25 +25,6 @@ class AppController extends BaseController
         $config = $this->getAppConfig($licence);
         $redirection = $this->getDefaultRedirection($licence);
         $chatAvailable = $this->isChatAvailable($licence);
-        $cdn = $this->container->getParameter('cdn');
-
-        // Utilisateur
-        $session = $this->container->get('session');
-
-        if (!$session->isStarted()) {
-
-            $session->start();
-
-            $connection = new LogConnection();
-            $connection->setSession($session->getId());
-            $connection->setDate(new \Datetime());
-            
-            $this->setMedia($connection);
-
-            $em->persist($connection);
-            $em->flush();
-
-        }
       
         return $this->render('LilyAppBundle:themes:lily/index.html.twig', 
           array('licence' => $licence, 
