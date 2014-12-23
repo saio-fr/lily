@@ -8,7 +8,7 @@ define(function (require) {
 
 // Require CommonJS like includes
 var Backbone = require('backbone'),
-	config =require('app/globals'),
+		config =require('app/globals'),
     // Object wrapper returned as a module
     MessageView;
 

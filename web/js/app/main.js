@@ -62,7 +62,6 @@ require([
 
 	  app.skeleton = new SkeletonView();
 		Backbone.history.start();
-
 	};
 
 	// Connect to our ws serv

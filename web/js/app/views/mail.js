@@ -9,8 +9,8 @@ define(function (require) {
 // Require CommonJS like includes
 var _ = require('underscore'),
 		app = require('app/app'),
-		config = require('app/globals'),
     Models = require('app/data/models'),
+    api = require('app/data/api'),
     PageView = require('app/views/page'),
     // Object wrapper returned as a module
     MailPage;
@@ -83,21 +83,17 @@ MailPage = PageView.extend({
 			return;
 		}
 
-		$.ajax({
-			type: 'POST',
-			url: config.root + '/send/mail',
-			data: {
-				mail: that.from,
-				object: that.object,
-				msg: that.msg
-			},
-			success:  function( data, textStatus, request ) {},
-			error: function(err) {
-				// TODO: show error popup
-			}
-		});
+		api.sendMail({
+			mail: that.from,
+			object: that.object,
+			msg: that.msg
+		})
+		.then(function (res) {
+			app.router.navigate('mail/sent', {trigger: true});
 
-		app.router.navigate('mail/sent', {trigger: true});
+		}, function (err) {
+			// TODO: show error popup
+		});
 	}
 
 });

@@ -67,10 +67,10 @@ PageView = Backbone.View.extend({
 				callback: callback,
 
 			}, this.onTransitionIn);
-			// .off(config.animEndEventName, this.onTransitionIn);
 	},
 
 	onTransitionIn: function (e) {
+
 		$(this).off(config.animEndEventName);
 
 		app.endNextPage = true;

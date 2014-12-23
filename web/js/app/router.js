@@ -9,6 +9,8 @@ define(function (require) {
   var Backbone = require('backbone'),
       _ = require('underscore'),
       app = require('app/app'),
+      api = require('app/data/api'),
+      when = require('when'),
       utils = require('utils/pages'),
       config = require('app/globals'),
       AviView = require('app/views/avi'),
@@ -35,8 +37,8 @@ define(function (require) {
 			'top-questions/:id': 'topQuestions',
 			'faq': 'faq',
 			'faq/': 'faq',
-			'faq/:id': 'faq',
-			'faq/content/:id': 'content',
+			'faq/:parent': 'faq',
+			'faq/:parent/content/:id': 'content',
 			'': 'home',
 			'home': 'home',
 			'chat': 'chat',
@@ -73,6 +75,7 @@ define(function (require) {
 		},
 
 		chat: function () {
+
 			var view;
 			if ( config.chat.contactForm &&
 					 app.chatContactForm) {
@@ -90,89 +93,55 @@ define(function (require) {
 		},
 
 		mailSent: function () {
-
 			this.home();
 		},
 
-		faq: function ( id ) {
+		faq: function ( parent ) {
 
-			id = (id && id !== '/') ? id : "NULL";
+			parent = parent || "NULL";
 
-			$.ajax({
+			api.getFaq(parent).then(function (data) {
+				if (data) {
+					var sortedData = _.indexBy(data.faqs, 'position'),
+							view;
 
-				url: config.root + '/faq/' + id,
+					app.skeleton.faqModel = new Models.Faq({
+						parent: data.parent,
+						title: data.title,
+						faqs: sortedData
+					});
+					view = new FaqView({ model: app.skeleton.faqModel });
 
-				success:  function ( data, textStatus, request ) {
-
-					if (data) {
-						/*Quand on a un enfant de type content, on change son id à content/id,
-						pour que l'url soit traitée différement par le router (methode content() */
-						_.each(data.faqs, function (faq) {
-							if (faq.type === 'content') {
-								faq.id = 'content/' + faq.id;
-							}
-						});
-
-						var sortedData = _.sortBy(data.faqs, data.faqs.position),
-								model = new Models.FaqModel({
-									parent: data.parent,
-									title: data.title,
-									faqs: sortedData
-								}),
-								view = new FaqView({ model: model });
-
-						utils.goTo(view);
-
-					}
+					utils.goTo(view);
 				}
+			}, function (err) {
+
 			});
 		},
 
-		content: function ( id ) {
+		content: function ( parent, id ) {
 
-			$.ajax({
+			var router = this,
+					faq, contentModel, view;
 
-				url: config.root + '/faq/' + id,
+		  api.getFaqList().then(function (faqs) {
 
-				success:  function( data, textStatus, request ) {
+	  		faq = _.find(faqs, function(faq) {
+	        return faq.id.toString() === id;
+	      });
 
-					if (data) {
-						var idParent = data.parent;
+	      contentModel = new Models.Content({
+	        parent: parent,
+	        title: faq.title,
+	        content: faq.content
+	      });
 
-						$.ajax({
-							url: config.root + '/faq/' + idParent,
+		    view = new ContentView({ model: contentModel });
 
-							success:  function( data, textStatus, request ) {
-
-								if (data) {
-									/*
-									We find in the array data.faqs,
-									children of the object "data",
-									the right "title" and the right "content"
-									 */
-									var content = _.find(data.faqs, function(obj) {
-												return obj.id === id;
-											}).content,
-
-											title = _.find(data.faqs, function(obj) {
-												return obj.id === id;
-											}).title,
-
-											model = new Models.ContentModel({
-												parent: idParent,
-												title: title,
-												content: content
-											}),
-
-											view = new ContentView({ model: model });
-
-									utils.goTo(view);
-								}
-							}
-						});
-					}
-				}
-			});
+		    utils.goTo(view);
+		  }, function (err) {
+		  	router.home();
+		  });
 		},
 
 		topQuestions: function ( id ) {

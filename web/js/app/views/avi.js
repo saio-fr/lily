@@ -81,7 +81,7 @@ AviView = PageView.extend({
 
 		$.ajax({
 			type: 'POST',
-			url: config.root + '/query',
+			url: '/api/' + config.licence + '/avi/query',
 			data: { query: question },
 
 			success:  function( data, textStatus, request ) {

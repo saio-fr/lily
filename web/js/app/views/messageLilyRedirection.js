@@ -10,6 +10,7 @@ define(function (require) {
 var _ = require('underscore'),
     app = require('app/app'),
     config = require('app/globals'),
+    api = require('app/data/api'),
     MessageView = require('app/views/message'),
     // Object wrapper returned as a module
     MessageLilyRedirection;
@@ -26,11 +27,7 @@ MessageLilyRedirection = MessageView.extend({
 	},
 
 	redirectionMail: function() {
-		$.ajax({
-			type: 'POST',
-			url: config.root + '/redirection/' + this.model.get('id') + '/mail',
-			data: 'mail',
-		});
+    api.redirectionMail('mail', this.model.get('id'));
 	},
 
 	triggerRedirectionTel: function () {

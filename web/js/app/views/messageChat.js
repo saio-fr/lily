@@ -8,6 +8,7 @@ define(function (require) {
 
 // Require CommonJS like includes
 var Backbone = require('backbone'),
+    config =require('app/globals'),
     // Object wrapper returned as a module
     MessageChatView;
 
@@ -19,6 +20,7 @@ MessageChatView = Backbone.View.extend({
 	},
 
 	render: function() {
+
 		this.$el.html(this.template( this.model.toJSON() ));
 		this.$el.appendTo('#chat-box-messages');
     this.transitionInMessage();

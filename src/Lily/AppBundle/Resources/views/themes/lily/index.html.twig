@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -9,13 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 {% block stylesheets %}
-<<<<<<< HEAD:src/Lily/ApiBundle/Resources/views/themes/lily/index.html.twig
 
-  <link rel="stylesheet" href="{{ asset('css/api/lily.css') }}" type="text/css" />
-=======
-  
   <link rel="stylesheet" href="{{ asset('css/app/lily.css') }}" type="text/css" />
->>>>>>> 0141ad5efc0dda8233c05515d5512112dd743562:src/Lily/AppBundle/Resources/views/themes/lily/index.html.twig
   <link rel="stylesheet" href="http://cdn.saio.fr/customer/{{ licence }}/css/lily-custom.css" type="text/css" />
 
   <!--[if lt IE 9]>
@@ -123,17 +118,10 @@
 	{% block bootstrap %}
 		{% autoescape false %}
 		<script type="text/javascript">
-<<<<<<< HEAD:src/Lily/ApiBundle/Resources/views/themes/lily/index.html.twig
 			var config = {{ config|serialize('json') }};
 	    config.licence = "{{ licence }}";
-	    config.root = "{{ path('lily_api_index', { licence: licence }) }}";
+    	config.root = '{{ app.request.getBaseURL() }}/app';
 	    config.chatAvailable = "{{ chatAvailable }}";
-=======
-		    var licence = "{{ licence }}";
-		    var root = "{{ path('lily_app_index', { licence: licence }) }}";
-		    var chatAvailable = "{{ chatAvailable }}";
-		    var config = {{ config|serialize('json') }};
->>>>>>> 0141ad5efc0dda8233c05515d5512112dd743562:src/Lily/AppBundle/Resources/views/themes/lily/index.html.twig
 		</script>
 		{% endautoescape %}
 	{% endblock %}
