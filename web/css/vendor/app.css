@@ -1184,7 +1184,7 @@ html.layout-box .vbox > footer {
     font-size: 11px;
     text-align: center;
   }
-  #nav.nav-vertical .nav-primary > ul > li > a.active {
+  .nav-primary > ul > li > a.active {
     background: #579ad7;
     color: white;
   }
