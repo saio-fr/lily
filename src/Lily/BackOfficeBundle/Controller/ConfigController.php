@@ -21,7 +21,7 @@ class ConfigController extends BaseController
      */
     public function indexAction() {
       
-        $client = $this->getUser()->getClient()->getConfig();     
+        $client = $this->getClient()->getConfig();     
         return array('client' => $client);
     }
 
