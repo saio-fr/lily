@@ -78,7 +78,7 @@ define(function (require) {
 		chat: function () {
 
 			var view;
-			if ( config.chat.contactForm ||
+			if ( config.chat.contactForm &&
 					 app.chatContactForm) {
 				view = new ChatWelcomeScreenView();
 			} else {
