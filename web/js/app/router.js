@@ -10,7 +10,6 @@ define(function (require) {
       _ = require('underscore'),
       app = require('app/app'),
       api = require('app/data/api'),
-      when = require('when'),
       utils = require('utils/pages'),
       config = require('app/globals'),
       AviView = require('app/views/avi'),
@@ -32,19 +31,19 @@ define(function (require) {
 		url: '',
 
 		routes: {
-			'top-questions': 'topQuestions',
-			'top-questions/': 'topQuestions',
-			'top-questions/:id': 'topQuestions',
-			'faq': 'faq',
-			'faq/': 'faq',
-			'faq/:parent': 'faq',
-			'faq/:parent/content/:id': 'content',
 			'': 'home',
 			'home': 'home',
 			'chat': 'chat',
 			'avi' : 'avi',
 			'mail': 'mail',
-			'mail/sent': 'mailSent'
+			'mail/sent': 'mailSent',
+      'faq': 'faq',
+      'faq/': 'faq',
+      'faq/:parent': 'faq',
+      'faq/:parent/content/:id': 'content',
+      'top-questions': 'topQuestions',
+      'top-questions/': 'topQuestions',
+      'top-questions/:id': 'topQuestions'
 		},
 
 		home: function () {
@@ -55,9 +54,11 @@ define(function (require) {
 					 app.chatting ) {
 
 				this.chat();
-			} else {
+			} else if (config.avi && config.avi.active){
 				this.avi();
-			}
+			} else {
+        this.mail();
+      }
 		},
 
 		avi: function () {
@@ -77,7 +78,7 @@ define(function (require) {
 		chat: function () {
 
 			var view;
-			if ( config.chat.contactForm &&
+			if ( config.chat.contactForm ||
 					 app.chatContactForm) {
 				view = new ChatWelcomeScreenView();
 			} else {
@@ -124,7 +125,7 @@ define(function (require) {
 			var router = this,
 					faq, contentModel, view;
 
-		  api.getFaqList().then(function (faqs) {
+		  api.getFaqList(parent).then(function (faqs) {
 
 	  		faq = _.find(faqs, function(faq) {
 	        return faq.id.toString() === id;
@@ -139,56 +140,50 @@ define(function (require) {
 		    view = new ContentView({ model: contentModel });
 
 		    utils.goTo(view);
+
 		  }, function (err) {
-		  	router.home();
+		  	router.navigate('/', {trigger: true});
 		  });
 		},
 
 		topQuestions: function ( id ) {
 
-			if ( !id || id === '/' ) {
-				$.ajax({
+      var router = this;
+      id = id || "NULL";
 
-					url: config.root + '/top-questions/NULL',
+			api.getTopQuestions(id).then(function (data) {
 
-					success:  function( data, textStatus, request ) {
-						// If there is no results we need to trigger a
-						// custom event to inform other objects.
+        var view, model, question, reponse;
 
-						if (data) {
-							var model = new Models.TopQuestions({ data: data });
-							var view = new TopQuestionsView({ model: model });
+        if (!data) {
+          router.navigate('/', {trigger: true});
+          return;
+        }
 
-							utils.goTo(view);
-						}
-					}
-				});
+        if (id.toString() === "NULL") {
 
-			} else {
+          model = new Models.TopQuestions({ data: data });
+          view = new TopQuestionsView({ model: model });
+        } else {
 
-				$.ajax({
+          view = new AviView();
+          question = new Models.MessageUserSimple({
+            message_content: data.title
+          });
+          reponse = new Models.MessageLilySimple ({
+            message_content: data.answer
+          });
+        }
 
-					url: config.root + '/top-questions/' + id,
+        utils.goTo(view);
 
-					success:  function( data, textStatus, request ) {
-						if (data) {
-
-							var view = new AviView(),
-									question = new Models.MessageUserSimple({
-										message_content: data.title
-									}),
-									reponse = new Models.MessageLilySimple ({
-										message_content: data.answer
-									});
-
-							utils.goTo(view);
-							view.addItem ( question, 'user-simple');
-							view.addItem ( reponse, 'lily-simple');
-						}
-					}
-				});
-			}
-
+        if (question && reponse) {
+          view.addItem ( question, 'user-simple');
+          view.addItem ( reponse, 'lily-simple');
+        }
+      }, function (err) {
+        router.navigate('/', {trigger: true});
+      });
 		},
 
 	});

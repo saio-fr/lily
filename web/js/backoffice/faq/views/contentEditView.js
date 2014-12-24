@@ -50,7 +50,7 @@ define(function (require) {
 
     update: function () {
 
-      var content = $(this.$el).find('.js-faq-editor').val();
+      var content = $(this.$el).find('.js-editor-input').val();
       this.model.set({ 'content': content });
       this.hide();
       app.skeleton.closeEditView();

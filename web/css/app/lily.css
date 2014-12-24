@@ -26,7 +26,7 @@ FONTS
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
-	
+
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -262,8 +262,8 @@ a{
 	bottom: 0;
 	left: 0;
 	padding-top: 40px !important;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	overflow-x: hidden;
 	-webkit-backface-visibility: hidden;
@@ -275,13 +275,13 @@ a{
 }
 
 .lily-page-visible {
-	
+
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
 	-o-transform: translate3d(0, 0, 0);
 	-ms-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
-	
+
 	visibility: visible;
 	opacity: 1;
 	z-index: 9999;
@@ -314,8 +314,8 @@ a{
 	padding-bottom: 90px;
 	padding-top: 60px;
 	*/
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	height: 100%;
 	position: static;
@@ -323,8 +323,8 @@ a{
 }
 
 .lily-main-content{
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	position: static;
 	clear: both;
@@ -352,7 +352,7 @@ a{
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
-	
+
 }
 
 #lily-avatar-bas {
@@ -360,7 +360,7 @@ a{
 }
 
 #lily-avatar-haut {
-	display: none;	
+	display: none;
 }
 
 #canvas{
@@ -373,7 +373,7 @@ a{
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
-	
+
 }
 
 /*********************
@@ -387,8 +387,8 @@ HEADER
 	width: 100%;
 	height: 45px;
 	margin: 0;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	z-index: 4;
 }
@@ -439,8 +439,8 @@ HEADER
 	left: 0;
 	width: 100%;
 	padding-left: 90px;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	padding-top: 10px;
 }
@@ -474,13 +474,13 @@ HEADER
 #lily-search, #lily-search-input-wrap{
 	width: 100%;
 	height: 50px;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
-	
+
 }
 
 #lily-search-input-wrap{
@@ -493,8 +493,8 @@ HEADER
 	height: 50px;
 	width: 100%;
 	padding: 0 45px 0 1em;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-webkit-user-drag: none;
 	font-family: 'Open Sans', sans-serif;
@@ -558,8 +558,8 @@ MESSAGES
 	padding-bottom: 250px;
 	padding-left: 20px;
 	padding-right: 20px;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	font-size: 0.85em;
 	z-index: 2;
@@ -570,19 +570,19 @@ MESSAGES
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
-	
+
 }
 
-#lily-box-messages .lily-msg-user, 
+#lily-box-messages .lily-msg-user,
 #lily-box-messages .lily-msg-avatar,
 #chat-box-messages .lily-msg-chat-visitor,
 #lily-box-messages .lily-msg-precision,
 #chat-box-messages .lily-msg-chat-operator,
 #lily-box-messages .lily-msg-redirection {
-	max-width: 85%;	
+	max-width: 85%;
 	border-radius: 5px;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	margin-bottom: 20px;
 	padding: 10px;
@@ -627,12 +627,12 @@ MESSAGES
 	text-decoration: underline;
 }
 
-#lily-box-messages .lily-msg-user p, 
+#lily-box-messages .lily-msg-user p,
 #lily-box-messages .lily-msg-avatar p,
 #lily-box-messages .lily-msg-redirection p,
 #chat-box-messages .lily-msg-chat-operator p,
 #chat-box-messages .lily-msg-chat-visitor p {
-	word-wrap: break-word; 
+	word-wrap: break-word;
 	text-overflow: ellipsis;
 }
 
@@ -674,7 +674,7 @@ MESSAGES
 	left: 10px;
 	border-width: 10px 10px 0 0px;
 	border-left: 0px solid transparent;
-	border-right: 10px solid transparent;	
+	border-right: 10px solid transparent;
 	width: 0;
 	height: 0;
 }
@@ -685,7 +685,7 @@ MESSAGES
 	bottom: -8px;
 	left: 11px;
 	border-left: 0px solid transparent;
-	border-right: 10px solid transparent;	
+	border-right: 10px solid transparent;
 	width: 0;
 	height: 0;
 }
@@ -787,7 +787,7 @@ MESSAGES
 	width: 0;
 	height: 0;
 	border-left: 0px solid transparent;
-	border-right: 10px solid transparent;	
+	border-right: 10px solid transparent;
 	position: absolute;
 }
 
@@ -820,7 +820,7 @@ MESSAGES
 
 
 .lily-loading {
-	text-align: center; 
+	text-align: center;
 	width: 50px;
 }
 
@@ -883,8 +883,8 @@ THEMATIQUE
 .lily-faq-link {
 	position: relative;
 	height: 52px;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	border-bottom: solid 1px #efefef;
 }
@@ -929,8 +929,8 @@ THEMATIQUE
 	vertical-align: middle;
 	padding-right: 40px;
 	line-height: 50px;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	font-size: 0.9em;
 	overflow: hidden;
@@ -951,9 +951,10 @@ MENU
 
 #lily-menu{
 	padding-top: 45px !important;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	border-right: solid 1px rgba(205, 205, 205, 0.4);
 }
 
 #lily-menu footer{
@@ -964,7 +965,7 @@ MENU
 }
 
 #lily-menu footer a{
-	color: #6cc0f5; 
+	color: #6cc0f5;
 }
 
 .lily-menu-body{
@@ -985,8 +986,8 @@ MENU
 }
 
 .lily-menu-body li a{
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	font-style: normal;
 	text-decoration: none;
@@ -1030,7 +1031,7 @@ MENU
 	left: 0;
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
-	transition: all 0.3s;	
+	transition: all 0.3s;
 }
 
 #lily-toolbar-name{
@@ -1130,8 +1131,8 @@ CONTACT FORM
 	width: 100%;
 	margin: 0;
 	padding: 0 12px;
-	box-sizing: border-box; 	
-	-moz-box-sizing: border-box; 	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
 
@@ -1190,7 +1191,7 @@ MEDIA QUERIES
 	#lily-box-messages {
 		width: 100%;
 	}
-}	
+}
 
 @media screen and (min-width: 480px) {
 
@@ -1201,8 +1202,8 @@ MEDIA QUERIES
 }
 
 #lily-box-messages .lily-msg-user,
-#chat-box-messages .lily-chat-msg-visitor, 
-#lily-box-messages .lily-msg-avatar, 
+#chat-box-messages .lily-chat-msg-visitor,
+#lily-box-messages .lily-msg-avatar,
 #chat-box-messages .lily-chat-msg-operator,
 #lily-box-messages .lily-msg-redirection{
 	padding: 12px;
@@ -1212,7 +1213,7 @@ MEDIA QUERIES
 	#lily-box-messages .lily-msg-reporting {
 		margin-top: 15px;
 	}
-}	
+}
 
 
 
@@ -1233,7 +1234,7 @@ MEDIA QUERIES
 		-webkit-backface-visibility: hidden;
 		-moz-backface-visibility: hidden;
 		-ms-backface-visibility: hidden;
-	} 
+	}
 
 	#canvas {
 	display: none;
@@ -1377,13 +1378,13 @@ ANIMATIONS
 	from { transform: translateX(-100%); }
 }
 
-@-webkit-keyframes moveToRight { 
+@-webkit-keyframes moveToRight {
 	to { -webkit-transform: translateX(100%); }
 }
-@-moz-keyframes moveToRight { 
+@-moz-keyframes moveToRight {
 	to { -moz-transform: translateX(100%); }
 }
-@keyframes moveToRight { 
+@keyframes moveToRight {
 	to { transform: translateX(100%); }
 }
 
