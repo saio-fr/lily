@@ -1,0 +1,11 @@
+/******************************
+
+  Styles global to all modules
+
+*******************************/
+
+.modal-dialog {
+  position: absolute;
+  left: 0;
+  right: 0;
+}

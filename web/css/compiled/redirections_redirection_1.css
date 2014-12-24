@@ -2,11 +2,18 @@
 REDIRECTION
 =======================================================================================================*/
 
-#redirections-list li {
-  border-right: 4px solid transparent;
+.icon-plus {
+  line-height: 1.55;
 }
-#redirections-list .active {
+.list-group-item.redirection-view {
+  border-right: 4px solid transparent !important;
+  cursor: pointer;
+}
+.list-group-item.redirection-view.active {
   border-right: 4px solid #63a5e1 !important;
+}
+.list-group-alt .list-group-item:nth-child(2n+2) {
+  background-color: rgba(219, 219, 219, 0.72);
 }
 .redirection-action {
   font-size: 13px;
@@ -15,6 +22,9 @@ REDIRECTION
 .redirection-action .icon-check-sign.default,
 .redirection-action .icon-sign-blank:hover {
   color: #63a5e1;
+}
+.aside-redirection {
+  border-left: 1px solid #D5D5D5;
 }
 .modal-dialog { /* extends bootstraps .modal-dialog class */
   position: absolute;
