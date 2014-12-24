@@ -48,18 +48,18 @@ ChatWelcomeScreen = PageView.extend({
 				$labeMail 	= this.$el.find('label.email'),
 				$inputMail 	= this.$el.find('input#email'),
 
-				firstname = $inputFirst.val() || null,
+				firstName = $inputFirst.val() || null,
 				lastName = $inputLast.val() || null,
 				email = $inputMail.val() || null;
 
 		if (!config.chatContactFormAvoidable) {
 			if (config.chatContactFirstNameField) {
-				if (firstname === null) {
+				if (firstName === null) {
 					$labeFirst.show();
-					$inputFirst .addClass('warning');
+					$inputFirst.addClass('warning');
 					this.errors.firstname = true;
 				} else {
-					$inputFirst .removeClass('warning');
+					$inputFirst.removeClass('warning');
 					$labeFirst.hide();
 					this.errors.firstname = false;
 				}
@@ -88,16 +88,15 @@ ChatWelcomeScreen = PageView.extend({
 			}
 		}
 
-		var that = this;
 		if (this.errors.firstname || this.errors.lastname || this.errors.email) {
 			return;
 		}
 
 		app.chatContactForm = false;
 		app.ws.call('chat/contactForm', {
-			'firstname': that.firstname,
-			'lastname': that.lastname,
-			'email': that.email
+			'firstname': firstName,
+			'lastname': lastName,
+			'email': email
 		});
 
 		app.router.navigate('chat', {trigger: true});

@@ -65,7 +65,7 @@ require([
 	};
 
 	// Connect to our ws serv
-	var sess = new ab.connect(
+	app.sess = ab.connect(
 
 		'ws://ws.saio.fr/' + config.licence + '/chat', // The host
 
