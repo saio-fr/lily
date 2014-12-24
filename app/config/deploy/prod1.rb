@@ -3,7 +3,7 @@ set :domain,      "prod1.#{application}.fr"
 set :deploy_to,   "/var/www/vhosts/saio.fr/httpdocs"
 set :app_path,    "app"
 
-set :repository,  "git@github.com-raphael-simon:saio-fr/lily.git"
+set :repository,  "git@github.com:saio-fr/lily.git"
 set :scm,         :git
 set :branch,      "master"
 
@@ -23,7 +23,6 @@ set :use_composer, true
 set :update_vendors, true
 
 set :user, "saio"
-set :password, "pV4r5a7?"
 set :use_sudo, false
 set :ssh_options, {:forward_agent => true}
 
