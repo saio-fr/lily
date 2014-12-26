@@ -51,6 +51,11 @@ define(function (require) {
     return this.send('GET', '/api/' + config.licence + '/faq/' + parent);
   };
 
+  api.getTopQuestions = function (id) {
+    return this.send('GET', '/api/' + config.licence + '/top-questions/' + id);
+  };
+
+
   // Returns the list of categories and contents for a given parent.
   // Looks for existing list in faqModel or gets from API
   api.getFaqList = function (parent) {
