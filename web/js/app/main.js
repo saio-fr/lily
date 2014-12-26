@@ -100,6 +100,7 @@ require([
     }
   );
 
+
   function getSessionId() {
     var id = document.cookie.match('PHPSESSID=([^;]*)');
     if (id !== null && id.length && id.length > 0) {
