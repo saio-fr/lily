@@ -59,6 +59,8 @@ require([
 	    options.url = config.root + options.url;
 	  });
 	  config.isMobile = isMobile;
+    config.sid = document.cookie.match('PHPSESSID=([^;]*)')[1];
+
 
 	  app.skeleton = new SkeletonView();
 		Backbone.history.start();
