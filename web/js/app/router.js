@@ -2,41 +2,41 @@
       Router
 =========================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app/app'),
-      api = require('app/data/api'),
-      utils = require('utils/pages'),
-      config = require('app/globals'),
-      AviView = require('app/views/avi'),
-      ChatView = require('app/views/chat'),
-      MailView = require('app/views/mail'),
-      FaqView = require('app/views/faq'),
-      Models = require('app/data/models'),
-      ContentView = require('app/views/content'),
-      TopQuestionsView = require('app/views/topQuestions'),
-      MessageLilySimpleView = require('app/views/messageLilySimple'),
-			ChatWelcomeScreenView = require('app/views/welcomeScreen'),
-			MessagesCollectionView = require('app/views/messagesCollection'),
+    _ = require('underscore'),
+    app = require('app/app'),
+    api = require('app/data/api'),
+    utils = require('utils/pages'),
+    config = require('app/globals'),
+    AviView = require('app/views/avi'),
+    ChatView = require('app/views/chat'),
+    MailView = require('app/views/mail'),
+    FaqView = require('app/views/faq'),
+    Models = require('app/data/models'),
+    ContentView = require('app/views/content'),
+    TopQuestionsView = require('app/views/topQuestions'),
+    MessageLilySimpleView = require('app/views/messageLilySimple'),
+    ChatWelcomeScreenView = require('app/views/welcomeScreen'),
+    MessagesCollectionView = require('app/views/messagesCollection'),
 
-      // Object wrapper returned as a module
-      Router;
+    // Object wrapper returned as a module
+    Router;
 
   Router = Backbone.Router.extend({
 
-		url: '',
+    url: '',
 
-		routes: {
-			'': 'home',
-			'home': 'home',
-			'chat': 'chat',
-			'avi' : 'avi',
-			'mail': 'mail',
-			'mail/sent': 'mailSent',
+    routes: {
+      '': 'home',
+      'home': 'home',
+      'chat': 'chat',
+      'avi': 'avi',
+      'mail': 'mail',
+      'mail/sent': 'mailSent',
       'faq': 'faq',
       'faq/': 'faq',
       'faq/:parent': 'faq',
@@ -44,149 +44,176 @@ define(function (require) {
       'top-questions': 'topQuestions',
       'top-questions/': 'topQuestions',
       'top-questions/:id': 'topQuestions'
-		},
+    },
 
-		home: function () {
+    home: function() {
 
-			if ( config.chat.active &&
-					 config.home === 'chat' &&
-					 config.chatAvailable ||
-					 app.chatting ) {
+      this.navigate('/');
+      if (config.chat.active &&
+        config.home === 'chat' &&
+        config.chatAvailable ||
+        app.chatting) {
 
-				this.chat();
-			} else if (config.avi && config.avi.active){
-				this.avi();
-			} else {
+        this.chat();
+        this.navigate('chat');
+      } else if (config.avi && config.avi.active) {
+        this.avi();
+        this.navigate('avi');
+      } else {
         this.mail();
+        this.mailOnly = true;
+        this.navigate('mail');
       }
-		},
+    },
 
-		avi: function () {
+    avi: function() {
 
-			app.skeleton.collectionView = new MessagesCollectionView();
-			var view = new AviView();
-			utils.goTo(view);
+      app.skeleton.collectionView = new MessagesCollectionView();
+      var view = new AviView();
+      utils.goTo(view);
 
-			this.welcome = new Models.LilySimple({
-				message_content: config.avi.welcomeMsg
-			});
-			this.message = new MessageLilySimpleView({
-				model: this.welcome
-			}).render();
-		},
+      this.welcome = new Models.LilySimple({
+        message_content: config.avi.welcomeMsg
+      });
+      this.message = new MessageLilySimpleView({
+        model: this.welcome
+      })
+        .render();
+    },
 
-		chat: function () {
+    chat: function() {
 
-			var view;
-			if ( config.chat.contactForm &&
-					 app.chatContactForm) {
-				view = new ChatWelcomeScreenView();
-			} else {
-				view = new ChatView();
-			}
-			utils.goTo(view);
-		},
+      var view;
+      if (config.chat.contactForm &&
+        app.chatContactForm) {
+        view = new ChatWelcomeScreenView();
+      } else {
+        view = new ChatView();
+      }
+      utils.goTo(view);
+    },
 
-		mail: function () {
+    mail: function() {
 
-			var view = new MailView();
-			utils.goTo(view);
-		},
+      var view = new MailView();
+      utils.goTo(view);
+    },
 
-		mailSent: function () {
-			this.home();
-		},
+    mailSent: function() {
 
-		faq: function ( parent ) {
+      if (this.mailOnly) {
+        return;
+      }
+      this.home();
+    },
 
-			parent = parent || "NULL";
+    faq: function(parent) {
 
-			api.getFaq(parent).then(function (data) {
-				if (data) {
-					var sortedData = _.indexBy(data.faqs, 'position'),
-							view;
+      parent = parent || "NULL";
 
-					app.skeleton.faqModel = new Models.Faq({
-						parent: data.parent,
-						title: data.title,
-						faqs: sortedData
-					});
-					view = new FaqView({ model: app.skeleton.faqModel });
+      api.getFaq(parent)
+        .then(function(data) {
+          if (data) {
+            var sortedData = _.indexBy(data.faqs, 'position'),
+              view;
 
-					utils.goTo(view);
-				}
-			}, function (err) {
+            app.skeleton.faqModel = new Models.Faq({
+              parent: data.parent,
+              title: data.title,
+              faqs: sortedData
+            });
+            view = new FaqView({
+              model: app.skeleton.faqModel
+            });
 
-			});
-		},
+            utils.goTo(view);
+          }
+        }, function(err) {
 
-		content: function ( parent, id ) {
+        });
+    },
 
-			var router = this,
-					faq, contentModel, view;
+    content: function(parent, id) {
 
-		  api.getFaqList(parent).then(function (faqs) {
+      var router = this,
+        faq, contentModel, view;
 
-	  		faq = _.find(faqs, function(faq) {
-	        return faq.id.toString() === id;
-	      });
+      api.getFaqList(parent)
+        .then(function(faqs) {
 
-	      contentModel = new Models.Content({
-	        parent: parent,
-	        title: faq.title,
-	        content: faq.content
-	      });
+          faq = _.find(faqs, function(faq) {
+            return faq.id.toString() === id;
+          });
 
-		    view = new ContentView({ model: contentModel });
+          contentModel = new Models.Content({
+            parent: parent,
+            title: faq.title,
+            content: faq.content
+          });
 
-		    utils.goTo(view);
+          view = new ContentView({
+            model: contentModel
+          });
 
-		  }, function (err) {
-			router.navigate('/', {trigger: true});
-		  });
-		},
+          utils.goTo(view);
 
-		topQuestions: function ( id ) {
+        }, function(err) {
+          router.navigate('/', {
+            trigger: true
+          });
+        });
+    },
+
+    topQuestions: function(id) {
 
       var router = this;
       id = id || "NULL";
 
-			api.getTopQuestions(id).then(function (data) {
+      api.getTopQuestions(id)
+        .then(function(data) {
 
-        var view, model, question, reponse;
+          var view, model, question, reponse;
 
-        if (!data) {
-          router.navigate('/', {trigger: true});
-          return;
-        }
+          if (!data) {
+            router.navigate('/', {
+              trigger: true
+            });
+            return;
+          }
 
-        if (id.toString() === "NULL") {
+          if (id.toString() === "NULL") {
 
-          model = new Models.TopQuestions({ data: data });
-          view = new TopQuestionsView({ model: model });
-        } else {
+            model = new Models.TopQuestions({
+              data: data
+            });
+            view = new TopQuestionsView({
+              model: model
+            });
+          } else {
 
-          view = new AviView();
-          question = new Models.MessageUserSimple({
-            message_content: data.title
+            view = new AviView();
+            question = new Models.MessageUserSimple({
+              message_content: data.title
+            });
+            reponse = new Models.MessageLilySimple({
+              message_content: data.answer
+            });
+          }
+
+          utils.goTo(view);
+
+          if (question && reponse) {
+            view.addItem(question, 'user-simple');
+            view.addItem(reponse, 'lily-simple');
+          }
+        }, function(err) {
+          router.navigate('/', {
+            trigger: true
           });
-          reponse = new Models.MessageLilySimple ({
-            message_content: data.answer
-          });
-        }
+        });
+    },
 
-        utils.goTo(view);
+  });
 
-        if (question && reponse) {
-          view.addItem ( question, 'user-simple');
-          view.addItem ( reponse, 'lily-simple');
-        }
-      }, function (err) {
-        router.navigate('/', {trigger: true});
-      });
-		},
-
-	});
-
-	return Router;
+  return Router;
 });

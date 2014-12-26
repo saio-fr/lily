@@ -25,20 +25,20 @@ class AppController extends BaseController
         $config = $this->getAppConfig($licence);
         $redirection = $this->getDefaultRedirection($licence);
         $chatAvailable = $this->isChatAvailable($licence);
-      
-        return $this->render('LilyAppBundle:themes:lily/index.html.twig', 
-          array('licence' => $licence, 
-                'config' => $config, 
-                'redirection' => $redirection, 
+
+        return $this->render('LilyAppBundle:themes:lily/index.html.twig',
+          array('licence' => $licence,
+                'config' => $config,
+                'redirection' => $redirection,
                 'chatAvailable' => $chatAvailable
         ));
     }
 
     public function trackingAction($licence) {
-      
+
         $config = $this->getAppConfig($licence);
         $available = $this->isChatAvailable($licence);
-        
+
         $condition1 = $config->getChat()->getActive() && $available;
         $condition2 = $config->getAvi()->getActive();
 
@@ -60,7 +60,7 @@ class AppController extends BaseController
      * @View()
      */
     public function getFaqAction($licence, $parent) {
-        
+
         // On initialise nos variables
         $em = $this->getEntityManager($licence);
         $session = $this->container->get('session');
@@ -83,7 +83,7 @@ class AppController extends BaseController
 
             $this->setMedia($request);
             $request->setFaq($parent);
-            
+
             $em->persist($request);
             $em->flush();
 
@@ -105,9 +105,9 @@ class AppController extends BaseController
      * @View()
      */
     public function getTopQuestionsAction($licence, $id) {
-      
+
         $em = $this->getEntityManager($licence);
-        
+
         $from = new \Datetime('-1 month');
         $to = new \Datetime();
 
@@ -115,9 +115,9 @@ class AppController extends BaseController
             // On récupère le top des questions
             $requests = $em->getRepository('LilyAppBundle:LogRequest')
             ->topQuestions($from, $to, 10);
-            
+
             $questions = [];
-            
+
             foreach ($requests as $item) {
                 $question = $item[0];
                 $questions[] = $question;
