@@ -12,9 +12,6 @@ define(function (require) {
 
     _.extend(g, window.config);
 
-
-  g.sid = document.cookie.match('PHPSESSID=([^;]*)')[1];
-
   g.inClass = '';
   g.outClass = '';
   g.animEndEventNames = {
