@@ -1,0 +1,55 @@
+<header class="header conversation-header">
+  <i class="status icon-stop text-answered"></i>
+  <p>
+    <input class="name-form-control" name="name" value="<%= name %>">
+  </p>
+  <i class="icon-remove conversation-close"></i>
+  <i class="icon-minus conversation-minus"></i>
+  <div class="conversation-header-control pull-right m-t">
+    <span class="transfer">
+      <i class="icon-share"></i>
+      Transférer
+    </span>
+    <span class="ban">
+      <i class="icon-ban-circle m-l-xs"></i>
+      Bannir
+    </span>
+  </div>
+</header>
+<section class="conversation-section scrollable">
+  <ul class="conversation-section-list">
+  <!-- 
+      user messages view 
+  -->
+  </ul>
+</section>
+<footer id="footer<%= id %>" class="conversation-footer footer ">
+  <span class="alert-writing animated fadeIn">
+    <i class="icon-pencil m-r-xs"></i>
+    Votre interlocuteur est en train d'écrire
+  </span>
+  <div class="conversation-form">
+    <section class="panel">
+      <form>
+        <textarea formtarget="_blank" class="form-control no-border" rows="5" placeholder="Votre message..."></textarea>
+      </form>
+      <footer class="panel-footer bg-light lter clearfix">
+        <button class="btn btn-info pull-right btn-sm send">ENVOYER</button>
+        <ul class="nav nav-pills nav-sm toolbar">
+          <li><a data-wysihtml5-command="bold" title="CTRL+B"><i class="icon-bold"></i></a></li>
+          <li><a data-wysihtml5-command="italic" title="CTRL+I"><i class="icon-italic"></i></a></li>
+          <li><a data-wysihtml5-command="underline" title="CTRL+U"><i class="icon-underline"></i></a></li>
+          <li><a><i class="icon-trash"></i></a></li>
+          <li><a data-wysihtml5-command="createLink"><i class="icon-link"></i></a></li>
+          <form data-wysihtml5-dialog="createLink" class="createLink input-group" style="display: none;">
+            <input data-wysihtml5-dialog-field="href" class="form-control input-sm" value="http://" class="text">
+            <div class="input-group-btn">
+              <a class="btn btn-sm btn-danger" data-wysihtml5-dialog-action="cancel">Annuler</a>
+              <a class="btn btn-sm btn-success" data-wysihtml5-dialog-action="save">Insérer</a>
+	          </div>
+	        </form>
+        </ul>
+      </footer>
+    </section>
+  </div>
+</footer>

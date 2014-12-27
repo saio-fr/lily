@@ -4,7 +4,6 @@ imports:
     - { resource: resources/solarium.yml }
     - { resource: resources/jms.yml }
     - { resource: resources/assetic.yml }
-    - { resource: resources/doctrine.yml }
     - { resource: resources/mailer.yml }
     - { resource: resources/fos.yml }
     - { resource: resources/sensio.yml }
@@ -16,6 +15,7 @@ imports:
     - { resource: parameters_dev.yml }
     - { resource: resources_dev/framework.yml }
     - { resource: resources_dev/cache.yml }
+    - { resource: resources_dev/doctrine.yml }
 
 framework:
     router:

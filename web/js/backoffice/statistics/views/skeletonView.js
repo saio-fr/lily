@@ -14,7 +14,7 @@ define(function (require) {
 
   SkeletonView = Backbone.View.extend({
 
-    el: '.content-wrapper',
+    el: '.js-skeleton-container',
     template: _.template($('#skeletonTpl').html()),
 
     events: {

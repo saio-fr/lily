@@ -73,14 +73,11 @@ i {
   background: #f3f5f9 !important;
 }
 
-.windows .dropdown-menu {
+.header .dropdown-menu {
   margin-top: 5px;
-  min-width: 138px;
-}
-
-.status .dropdown-menu {
-  margin-top: 5px;
-  min-width: 138px;
+  min-width: 125px;
+  right: 4px;
+  left: auto;
 }
 
 .windows .dropdown-menu a, .status .dropdown-menu a {
@@ -89,7 +86,7 @@ i {
 
 .windows .dropdown-menu a:hover, .status .dropdown-menu a:hover {
   background: #f3f5f9;
-  color: inherit;
+  color: #999999;
 }
 
 .status button .icon-stop {
@@ -285,35 +282,18 @@ i {
   margin-top: 0 !important;
 }
 
-.modal-close {
-  margin: 0;
-  position: absolute;
-  width: 500px;
-  height: 400px;
-  top: calc(50% - 100px) !important;
-  left: calc(50% - 250px) !important;
-}
-
-.modal-ban {
-  margin: 0;
-  position: absolute;
-  width: 500px;
-  height: 400px;
-  top: calc(50% - 100px) !important;
-  left: calc(50% - 250px) !important;
-}
-
 .modal-title {
   font-size: 14px;
 }
 
-.modal-transfer {
+.modal-transfer, .modal-close, .modal-ban {
   margin: 0;
-  position: absolute;
+  position: fixed;
   width: 500px;
-  height: 400px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
+  z-index: 9999;
+  outline: 0;
 }
 
 .modal-transfer .list-group-item {
@@ -587,7 +567,7 @@ i {
 .createLink {
   position: absolute;
   bottom: 31px;
-  margin-right: 30px;
+  margin-right: 70px;
 }
 
 .dropdown-select .disabled {
@@ -623,6 +603,7 @@ i {
     height: 100%;
     top: 0 !important;
     left: 0 !important;
+    z-index: 9999;
   }
   
   body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {

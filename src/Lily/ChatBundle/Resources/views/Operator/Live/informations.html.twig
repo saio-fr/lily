@@ -1,0 +1,48 @@
+<header class="header informations-header">
+  <h5 class="hide">INFORMATIONS</h5>
+  <icon class="icon-angle-right pull-right hide"></icon>
+  <icon class="icon-angle-left pull-right"></icon>
+</header>
+
+<section class="informations-section scrollable hide">
+  <!-- 
+      user informations 
+  -->
+  <p>
+    <b>Nom :</b>
+    <input class="informations-form-control" name="lastname" value="<% if (lastname !== null) { %><%= lastname %> <% } else { %> Inconnu <% } %>">
+  </p>
+  <p>
+    <b>Prenom :</b>
+    <input class="informations-form-control" name="firstname" value="<% if (firstname !== null) { %><%= firstname %> <% } else { %> Inconnu <% } %>">
+  </p>
+  <p>
+    <b>Email :</b>
+    <input class="informations-form-control" name="email" value="<% if (email !== null) { %><%= email %> <% } else { %> Inconnu <% } %>">
+  </p>
+
+  <p><b>Questions posées à l'avatar :</b></p>
+  
+  <% if (questions.length) { _.each(questions, function(question) { %>
+    <ul class="informations-list">
+  	  <li class="informations-item"><%= question %></li>
+    </ul> 
+  <% }); } %>
+  
+  <p><b>Page en cours :</b></p>
+  <ul class="informations-list">
+  	<li class="informations-item">
+  	  <a href="<%= _.first(pages).href %>" target="_blank"><%= _.first(pages).pathname %></a>
+    </li>
+  </ul>  
+  
+  <p><b>Pages vues :</b></p>
+  <% _.each(pages, function(page) { %>
+    <ul class="informations-list">
+  	  <li class="informations-item">
+  	    <a href="<%= page.href %>" target="_blank"><%= page.pathname %></a>
+      </li>
+    </ul> 
+  <% }); %>
+
+</section>

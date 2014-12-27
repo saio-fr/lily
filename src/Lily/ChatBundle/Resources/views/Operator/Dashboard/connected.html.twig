@@ -1,0 +1,12 @@
+<div class="media">
+  <span class="pull-left thumb-sm img-circle">
+    <img src="<%= avatar %>" alt="avatar">
+  </span>
+  <div class="pull-right <% if (available) { %>text-success <% } else { %> text-danger <% } %> m-t-sm">
+    <i class="icon-circle"></i>
+  </div>
+  <div class="media-body">
+    <div><a href="#"><%= firstname %> <%= lastname %></a></div>
+    <small class="text-muted"></small>
+  </div>
+</div>

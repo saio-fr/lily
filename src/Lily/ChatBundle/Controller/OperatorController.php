@@ -10,16 +10,14 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 
 class OperatorController extends BaseController
 {
-	/**
-	 * 
-	 * @View()
-	 * @Secure(roles="ROLE_CHAT_OPERATOR")
-	 */
+   /**
+    * @View()
+    * @Secure(roles="ROLE_CHAT_OPERATOR")
+    */
     public function indexAction()
     { 
         if (!$this->getClient()->getConfig()->getChat()) {
-	    	throw new AccessDeniedException();	
-    	}
-    	
+  	   	    throw new AccessDeniedException();	
+    	  }
     }        
 }
