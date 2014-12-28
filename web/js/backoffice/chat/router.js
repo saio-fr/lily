@@ -13,6 +13,8 @@ define(function (require) {
       SkeletonView = require('backoffice/chat/views/skeleton'),
       LiveSkeletonView = require('backoffice/chat/views/live/skeleton'),
       DashboardSkeletonView = require('backoffice/chat/views/dashboard/skeleton'),
+      ModalView = require('components/modals/modalConfirmView'),
+      ModalModel = require('components/modals/modalModel'),
       Collections = require('backoffice/chat/data/collections'),
 
       // Object wrapper returned as a module
@@ -30,14 +32,7 @@ define(function (require) {
 
 		initialize: function () {
       
-      app.ws.subscribe('operator/' + g.licence, function (topic, records) { 
-        app.users.set(records);
-        
-        // TO DELETE
-        console.log(records);
-      });
-      
-      app.users = new Collections.Users();     
+      app.users = new Collections.Users();
       app.skeleton = new SkeletonView();
   		app.skeleton.live = new LiveSkeletonView({
     		collection: app.users
@@ -45,16 +40,42 @@ define(function (require) {
   		app.skeleton.dashboard = new DashboardSkeletonView({
     		collection: app.users
   		});
+        
+      app.ws.subscribe('operator/' + g.licence, function (topic, records) { 
+        app.users.set(records);
+        
+        // TO DELETE
+        console.log(records);
+      });
 		},
 
 		live: function () {
+  		
   		if (app.skeleton.available) {
+    		
   		  $('.nav-tabs .active').removeClass('active');
         $('.live-nav').addClass('active');
         app.skeleton.dashboard.$el.addClass('hide');
         app.skeleton.live.$el.removeClass('hide');
+        
       } else {
+
         this.navigate('dashboard', {trigger: true});
+               
+        var modalModel = new ModalModel();
+    		modalModel.set(g.modalConfirm.chatUnavailable);
+        var modalUnavailableView = new ModalView({
+          model: modalModel,
+          appendEl: ".js-skeleton-container"
+        });
+       
+        /* Listen to modal that prompt when attempting to 
+        access live view when the operator is unavailable */
+  	    $('.modal-unavailable .js-modal-action').click(function() {
+          app.skeleton.setAvailable();
+          app.skeleton.available = true;
+          app.router.navigate('live', {trigger: true});
+    		}); 
       }
 		},
 		

@@ -47,7 +47,7 @@ define(function (require) {
       // Adjust windows on navigator resize
       $(window).resize(function() {
 			  that.setWindows();
-		  });   
+		  });
 
       app.on('change:windows', this.setWindows, this);
     },

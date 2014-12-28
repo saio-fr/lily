@@ -65,8 +65,11 @@
 		<script type="text/template" id="dashboardSkeletonTpl">
       {% include 'LilyChatBundle:Operator/Dashboard:skeleton.html.twig' %}
     </script>
-		<script type="text/template" id="dashboardConnectedTpl">
-      {% include 'LilyChatBundle:Operator/Dashboard:connected.html.twig' %}
+		<script type="text/template" id="dashboardConnectedOperatorTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard/Connected:operator.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardConnectedListTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard/Connected:list.html.twig' %}
     </script>
 		<script type="text/template" id="dashboardLoadingTpl">
       {% include 'LilyChatBundle:Operator/Dashboard:loading.html.twig' %}
@@ -80,6 +83,9 @@
     <!-- 
   		  Modals
     -->
+		<script type="text/template" id="modalConnectionLostTpl">
+      {% include 'LilyChatBundle:Connection:lost.html.twig' %}
+    </script>
 		<script type="text/template" id="modalAppTpl">
       {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
     </script>

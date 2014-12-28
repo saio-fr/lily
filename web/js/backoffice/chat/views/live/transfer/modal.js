@@ -65,7 +65,8 @@ define(function (require) {
     },
 
     remove: function (e) {
-      if ( e.target.classList.contains('btn-success') ||
+      if ( e.target.classList.contains('modal-backdrop') ||
+           e.target.classList.contains('btn-success') ||
            e.target.classList.contains('close') ) {
 
         // Bootstrap modal plugin takes care of the displaying non stuff,
@@ -80,6 +81,7 @@ define(function (require) {
         this.model.destroy();
         this.$el.remove();
         this.stopListening();
+        console.log(this);
         return this;
       }
     }

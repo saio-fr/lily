@@ -43,7 +43,14 @@ define(function (require) {
     body: "Nous vous avons redirigé vers l\'accueil"
   };
   
-
+  g.modalConfirm.chatUnavailable = {
+    name:       "modal-unavailable",
+    title:      "Vous n'êtes pas disponible pour converser.",
+    body:       "Afin de pouvoir accéder au live, vous devez passer votre " +
+                "statut en dispoible.",
+    cancel:     "Annuler",
+    confirm:    "Devenir disponible", 
+  };
   g.modalConfirm.chatClose = {
     name:       "modal-close",
     title:      "Etes-vous sur de vouloir fermer la conversation ?",

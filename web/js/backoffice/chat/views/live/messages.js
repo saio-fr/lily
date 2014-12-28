@@ -13,16 +13,21 @@ define(function (require) {
 
   Messages.template = Backbone.View.extend({
     
-    initialize: function() {
+    initialize: function () {
 		  this.render()
 	  },
 	  
-    render: function(section) {
+    render: function (section) {
   		this.$el.html(this.template(this.model.toJSON()));
   		this.$el.appendTo(section);
   		
   		this.trigger('render');
   		return this;
+	  },
+	  
+	  remove: function () {
+  	  this.$el.remove();
+      this.stopListening();
 	  }
 	  
   });

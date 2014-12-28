@@ -79,12 +79,14 @@ define(function (require) {
         useLineBreaks:  true
   		});
   		
-  		this.$el.find('.wysihtml5-sandbox').contents().find('body').on('click',function() {
+  		this.$editor = this.$el.find('.wysihtml5-sandbox').contents().find('body');
+  		
+  		this.$editor.on('click',function() {
         that.selected();
   		});
   		
   		// If the operator type enter, send the message
-  		this.$el.find('.wysihtml5-sandbox').contents().find('body').on('keydown',function(e) {
+  		this.$editor.on('keydown',function(e) {
   			that.sendOnEnter(e);
   		});
     },
@@ -188,7 +190,6 @@ define(function (require) {
   		this.model.trigger('unactive');
   		
   		live.windows.splice($.inArray(that, live.windows), 1);
-      app.trigger('change:windows');
   	 
 	  	if (live.informations.model.get('id') == this.model.get('id')) {
 
@@ -202,6 +203,7 @@ define(function (require) {
   	  	  }); 
 	  		}
 	  	}
+	  	app.trigger('change:windows');
   		this.remove();
     },
     
@@ -216,7 +218,7 @@ define(function (require) {
         appendEl: ".js-live-container"
       });
   		
-  		$('.js-modal-action').click(function() {
+  		$('.modal-close .js-modal-action').click(function() {
   			app.ws.call('chat/close', { sid: that.model.get('id') } );			
   			that.minus();
   		});
@@ -233,7 +235,7 @@ define(function (require) {
         appendEl: ".js-live-container"
       });
   		
-  		$('.js-modal-action').click(function() {
+  		$('.modal-ban .js-modal-action').click(function() {
   			app.ws.call('chat/ban', { sid: that.model.get('id') } );
   			that.minus();
   		});
@@ -301,9 +303,8 @@ define(function (require) {
   	
   	remove: function () {
     	
-    	var editor = this.$el.find('.wysihtml5-sandbox').contents().find('body');
-    	editor.unbind('click');
-    	editor.unbind('keydown');
+    	this.$editor.unbind('click');
+    	this.$editor.unbind('keydown');
     	
       var self = this;
       this.childViews.forEach(function (view){

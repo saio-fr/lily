@@ -11,6 +11,7 @@ require.config({
     'bootstrap'        : 'bower_components/bootstrap/dist/js/bootstrap',
     'moment'           : 'bower_components/moment/moment',
     'moment-fr'        : 'bower_components/moment/locale/fr',
+    'easypiechart'     : 'bower_components/easypie/dist/jquery.easypiechart',
     'autobahn'	       : 'vendor/autobahn-v1',
     'Modernizr'        : 'app/libs/modernizr-custom',
     'when'			       : 'vendor/when',
@@ -35,6 +36,9 @@ require.config({
     },
     'moment-fr': {
       deps: ["moment"],
+    },
+    'easypiechart': {
+      deps: ["jquery"],
     },
     'autobahn': {
     	deps: ['when'],
@@ -63,6 +67,7 @@ require([
   "when",
   "app",
   "backoffice/chat/router",
+  "backoffice/chat/views/connection/lost",
   "moment",
   "globals",
 
@@ -72,12 +77,14 @@ require([
   "wysihtml5",
   "todoTpl"
   // Autobahn V1 AMD broken.
-], function( $, _, Backbone, ab, when, app, ChatRouter, moment, globals) {
+], function( $, _, Backbone, ab, when, app, ChatRouter, ConnectionLostModal, moment, globals) {
 
   'use strict';
 
   // Set locale in moment JS
   moment.locale('fr');
+  
+  var connectionLostModal = new ConnectionLostModal();
 
   app.init = function () {
     app.router = new ChatRouter();
@@ -90,17 +97,23 @@ require([
 		'ws://ws.saio.fr/' + globals.licence + '/chat', // The host
 
 	  function(session) {  // Once the connection has been established
+  	  $('.js-modal-connection-lost').modal('hide');
 			app.ws = session;
-			app.init();
+			if (!Backbone.History.started) {
+  		  app.init();	
+			}
 		},
 
 	  function(code, reason, detail) { // When the connection is closed
-    	console.warn(code + reason + detail);
+    	$('.js-modal-connection-lost').modal({
+    	  show: true,
+    	  backdrop: 'static'
+      });
 	  },
 
     { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
 			'skipSubprotocolCheck': true,
-			'maxRetries': 60,
+			'maxRetries': 1000000,
 			'retryDelay': 2000
 	  }
 	);

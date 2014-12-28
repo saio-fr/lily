@@ -47,7 +47,8 @@ define(function (require) {
     },
 
     remove: function (e) {
-      if ( e.target.classList.contains('btn') ||
+      if ( e.target.classList.contains('modal-backdrop') ||
+           e.target.classList.contains('btn') ||
            e.target.classList.contains('close') ) {
 
         // Bootstrap modal plugin takes care of the displaying non stuff,
