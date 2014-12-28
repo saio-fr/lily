@@ -14,8 +14,8 @@ define(function (require) {
       RedirectionEditView = require('backoffice/redirection/views/redirectionEditView'),
       RedirectionCollection = require('backoffice/redirection/collections/redirectionCollection'),
       globals = require('backoffice/globals'),
-      ModalView = require('components/modals/modalAlertView'),
-      ModalModel = require('components/modals/modalAlertModel'),
+      ModalView = require('components/modals/alertView'),
+      ModalModel = require('components/modals/model'),
 
       // Object wrapper returned as a module
       SkeletonView;

@@ -15,8 +15,8 @@ define(function (require) {
       BreadcrumbCollectionView = require('backoffice/faq/views/breadcrumbCollectionView'),
       BreadcrumbCollection = require('backoffice/faq/collections/breadcrumbCollection'),
       FaqCollection = require('backoffice/faq/collections/faqCollection'),
-      ModalView = require('components/modals/modalAlertView'),
-      ModalModel = require('components/modals/modalAlertModel'),
+      ModalView = require('components/modals/alertView'),
+      ModalModel = require('components/modals/model'),
 
 
       // Object wrapper returned as a module

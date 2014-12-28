@@ -13,8 +13,8 @@ define(function (require) {
       SkeletonView = require('backoffice/chat/views/skeleton'),
       LiveSkeletonView = require('backoffice/chat/views/live/skeleton'),
       DashboardSkeletonView = require('backoffice/chat/views/dashboard/skeleton'),
-      ModalView = require('components/modals/modalConfirmView'),
-      ModalModel = require('components/modals/modalModel'),
+      ModalView = require('components/modals/confirmView'),
+      ModalModel = require('components/modals/model'),
       Collections = require('backoffice/chat/data/collections'),
 
       // Object wrapper returned as a module
