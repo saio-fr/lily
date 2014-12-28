@@ -33,12 +33,14 @@ define(function (require) {
   g.modalApp = {};
 
   g.modalAlert.redirection = {
+    name: "modal-default-redirection",
     title: "Attention",
     body: "Vous ne pouvez pas supprimer une redirection par défaut. " +
           "Vous devez d\'abord choisir une nouvelle redirection par " +
           "défaut avant de pouvoir supprimer celle-ci."
   };
   g.modalAlert.faq = {
+    name: "modal-redirection",
     title: "Cette catégorie n\'existe plus.",
     body: "Nous vous avons redirigé vers l\'accueil"
   };

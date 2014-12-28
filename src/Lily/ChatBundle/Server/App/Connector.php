@@ -154,7 +154,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       		    	}
       		
       			    if (!$client->available && $operators > 0) {
-        			      $condition1 = $client->config->getChatQueue();
+        			      $condition1 = $client->config->getQueue();
         			      $condition2 = $queue < $client->config->getMaxQueue() * $operators;
       					    if ($condition1 && $condition2) $client->available = true;
                     else $client->available = false;

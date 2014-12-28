@@ -16,10 +16,17 @@ define(function (require) {
 
   ModalAlert = Backbone.View.extend({
 
-    template: _.template( $('#modalTpl').html()),
+    attributes: {
+      'tabindex' : -1,
+      'role' : 'dialog',
+      'aria-labelledby' : 'close',
+      'aria-hidden' : 'true'
+    },
+    className: 'modal',
+    template: _.template( $('#modalAlertTpl').html()),
 
     events: {
-      'click' : 'destroy'
+      'click' : 'remove'
     },
 
     initialize: function(options) {
@@ -28,9 +35,7 @@ define(function (require) {
       }
 
       this.render();
-      this.$el
-        .find('.modal')
-        .modal('show');
+      this.$el.modal('show');
     },
 
     render: function() {
@@ -41,13 +46,17 @@ define(function (require) {
       return this;
     },
 
-    destroy: function (e) {
-      if ( e.target.classList.contains('close') ||
-           e.target.classList.contains('modal-backdrop') ) {
+
+    remove: function (e) {
+      if ( e.target.classList.contains('modal-backdrop') ||
+           e.target.classList.contains('close') ) {
+
         // Bootstrap modal plugin takes care of the displaying non stuff,
         // so we just remove the view and model.
         this.model.destroy();
-        this.remove();
+        this.$el.remove();
+        this.stopListening();
+        return this;
       }
     }
 

@@ -14,8 +14,8 @@ define(function (require) {
       InformationsView = require('backoffice/chat/views/live/informations'),
       MessagesView = require('backoffice/chat/views/live/messages'),
       ChildViewContainer = require('utils/backbone-childviewcontainer'),
-      ModalView = require('components/modals/modalConfirmView'),
-      ModalModel = require('components/modals/modalModel'),
+      ModalView = require('components/modals/confirmView'),
+      ModalModel = require('components/modals/model'),
       ModalTransferView = require('backoffice/chat/views/live/transfer/modal'),
 
       // Object wrapper returned as a module
