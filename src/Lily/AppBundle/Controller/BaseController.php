@@ -125,7 +125,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     protected function isChatAvailable($licence)
     {
         $cache = $this->get('aequasi_cache.instance.default');
-        $available = $cache->fetch($licence.'_chat_available');
+        $available = $cache->fetch('chat_available_'.$licence);
         return $available;
     }
     
