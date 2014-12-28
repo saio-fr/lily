@@ -29,12 +29,12 @@ class AvatarExtension extends \Twig_Extension
         $avatar = $user->getConfig()->getAvatar();
         
         if ($avatar) {
-          $url = $this->cdn . '/customer/' .
+          $url = 'http://' . $this->cdn . '/customer/' .
             $client->getLicence() .
             '/images/avatars/' .
             $avatar;
         } else {
-          $url = $this->cdn . '/images/default-avatar.png';
+          $url = 'http://' . $this->cdn . '/images/default-avatar.png';
         }
 
         return $url;

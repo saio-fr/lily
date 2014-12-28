@@ -118,7 +118,11 @@ class VisitorTopic implements TopicInterface
     {   	
     	  $visitorId = explode('/', $topic)[2];
 
-        $operator = array('id' => $conn->User->getId(), 'firstname' => $conn->User->getFirstname(), 'avatar' => $conn->User->getAvatar());
+        $operator = array(
+          'id' => $conn->User->getId(), 
+          'firstname' => $conn->User->getFirstname(), 
+          'avatar' => $conn->User->getConfig()->getAvatar()
+        );
     	
         foreach ($users as $item) {
             if ($item->id === $visitorId) { 
@@ -130,7 +134,12 @@ class VisitorTopic implements TopicInterface
 				        }
 				
                 $item->lastMsgTime = time();						
-                $item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => $operator, 'date' => time(), 'msg' => $event);	
+                $item->messages[] = array(
+                  'id' => uniqid(), 'from' => 
+                  'operator', 'operator' => $operator, 
+                  'date' => time(), 
+                  'msg' => $event
+                );	
 				
                 $topic->broadcast($item->messages);			
 								

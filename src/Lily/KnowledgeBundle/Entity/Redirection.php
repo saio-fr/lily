@@ -32,6 +32,12 @@ class Redirection
      * @Exclude
      */
     private $categories;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRedirection", mappedBy="redirection", cascade={"remove"})
+     * @Exclude
+     **/
+    protected $logsRedirections;
 
     /**
      * @var string

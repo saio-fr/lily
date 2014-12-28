@@ -9,6 +9,7 @@ parameters:
 
     # DB Clients
     database_name: lilynew
+    database_client_name: 548053c9a18e2
 
     # Mail
     mailer_transport: smtp

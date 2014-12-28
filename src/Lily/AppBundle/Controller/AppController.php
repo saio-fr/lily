@@ -12,7 +12,6 @@ use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\SerializationContext;
 
 use Lily\AppBundle\Entity\LogRequest;
-use Lily\AppBundle\Entity\LogConnection;
 use Lily\AppBundle\Controller\BaseController;
 
 class AppController extends BaseController
