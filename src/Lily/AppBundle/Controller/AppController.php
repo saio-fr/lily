@@ -63,8 +63,6 @@ class AppController extends BaseController
         // On initialise nos variables
         $em = $this->getEntityManager($licence);
         $session = $this->container->get('session');
-
-        var_dump(strtolower($parent));
           
         if (strtolower($parent) == 'null') { $parent = NULL; }
 
