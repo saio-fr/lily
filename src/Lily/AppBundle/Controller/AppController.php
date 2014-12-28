@@ -63,8 +63,8 @@ class AppController extends BaseController
         // On initialise nos variables
         $em = $this->getEntityManager($licence);
         $session = $this->container->get('session');
-
-        if (strtolower($parent) == 'null') { $parent = 'NULL'; }
+          
+        if (strtolower($parent) == 'null') { $parent = NULL; }
 
         // On récupère les catégories enfants
         $faqs = $em->getRepository('LilyKnowledgeBundle:Faq')
@@ -92,6 +92,7 @@ class AppController extends BaseController
             else { $parent = 'NULL'; }
 
         } else {
+            $parent = 'NULL';
             $title = 'NULL';
         }
 
