@@ -67,39 +67,44 @@ require([
   };
 
   // Connect to our ws serv
-  app.wsConnect = ab.connect(
+  app.wsConnect = function(callback) {
+    return ab.connect(
 
-    'ws://ws.saio.fr/' + config.licence + '/chat', // The host
+      'ws://ws.saio.fr/' + config.licence + '/chat', // The host
 
-    function(session) { // Once the connection has been established
-      app.ws = session;
-      app.ws.subscribe('visitor/' + config.licence + '/' + config.sid,
-        function(topic, payload) {});
-      app.ws.call('chat/connect', {
-        'href': top.location.href,
-        'pathname': top.location.pathname
-      }).then(function(result) {
-        app.chatting = result.chatting;
-        app.chatContactForm = result.showContactForm;
-        app.init();
-      }, function(err) {
-        console.warn(err);
-        app.init();
-      });
+      function onconnect(session) { // Once the connection has been established
 
-    },
+        app.ws = session;
+        app.ws.call('chat/connect', {
+          'href': top.location.href,
+          'pathname': top.location.pathname
+        }).then(function(result) {
+          callback(result);
+        }, function(err) {
+          console.warn(err);
+          app.init();
+        });
 
-    function(code, reason, detail) { // When the connection is closed
-      console.warn(code + reason + detail);
-    },
+      },
 
-    { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
-      'skipSubprotocolCheck': true,
-      'maxRetries': 60,
-      'retryDelay': 2000
-    }
-  );
+      function onhangup(code, reason, detail) { // When the connection is closed
+        console.warn(code + reason + detail);
+        if (app.router) {
+          app.router.navigate('/', {
+            trigger: true
+          });
+        } else {
+          app.init();
+        }
+      },
 
+      { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
+        'skipSubprotocolCheck': true,
+        'maxRetries': 60,
+        'retryDelay': 2000
+      }
+    );
+  };
 
   function getSessionId() {
     var id = document.cookie.match('PHPSESSID=([^;]*)');
@@ -112,6 +117,11 @@ require([
   }
 
   config.sid = getSessionId();
-  app.wsConnect();
+
+  app.wsConnect(function(result) {
+    app.chatting = result.chatting;
+    app.chatContactForm = result.showContactForm;
+    app.init();
+  });
 
 });

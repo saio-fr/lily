@@ -10,7 +10,7 @@ define(function(require) {
   var _ = require('underscore'),
     app = require('app/app'),
     config = require('app/globals'),
-    Messages = require('app/data/collection'),
+    Collections = require('app/data/collections'),
     PageView = require('app/views/page'),
     MessageChatOperator = require('app/views/messageChatOperator'),
     MessageChatVisitor = require('app/views/messageChatVisitor'),
@@ -31,15 +31,28 @@ define(function(require) {
 
       var chat = this;
 
-      this.messages = new Messages();
-      this.listenTo(this.messages, 'add', this.addItem);
+      app.skeleton.chatCollection = app.skeleton.chatCollection || new Collections
+        .Messages();
+      this.collection = app.skeleton.chatCollection;
+      this.listenTo(this.collection, 'add', this.addItem);
 
-      app.ws.subscribe('visitor/' + config.licence + '/' + config.sid,
-        function(topic, payload) {
-          chat.messages.set(payload);
-        });
+      if (app.ws) {
+        app.ws.subscribe('visitor/' + config.licence + '/' + config.sid,
+          function(topic, payload) {
+            chat.collection.set(payload);
+          });
+        app.ws.call('chat/open');
+      } else {
+        try {
+          app.wsConnect();
+        } catch (e) { // Won't connect to the websocket server
+          console.warn(e);
+          app.router.navigate('mail', {
+            trigger: true
+          });
+        }
+      }
 
-      app.ws.call('chat/open');
       $(this.render()
         .el)
         .appendTo('#lily-wrapper-page');

@@ -41,5 +41,9 @@ define(function(require) {
   g.emptySearch = 'Il semblerait qu\'il y ait un problème. ' +
     'Je n\'ai pas trouvé de réponse à votre question';
 
+  g.unknownAvatarUrl = 'http://cdn.saio.fr/images/default-avatar.png';
+  g.baseAvatarUrl = "http://cdn.saio.fr/customer/" + g.licence +
+    "/images/avatars/";
+
   return g;
 });

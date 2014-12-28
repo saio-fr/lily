@@ -566,7 +566,7 @@ MESSAGES
 	overflow-y: auto;
 	/*	overflow-x: hidden;*/
 	-webkit-user-select: initial;
-	-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(19%,rgba(255,255,255,0.3)), color-stop(29%,rgba(255,255,255,1)));
+	/*-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(19%,rgba(255,255,255,0.3)), color-stop(29%,rgba(255,255,255,1)));*/
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
