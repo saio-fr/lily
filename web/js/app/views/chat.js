@@ -2,15 +2,15 @@
     		Faq Page
    ========================== */
 
-define(function (require) {
+define(function(require) {
 
-'use strict';
+  'use strict';
 
-// Require CommonJS like includes
-var _ = require('underscore'),
-		app = require('app/app'),
-		config = require('app/globals'),
-    Messages = require('app/data/collection'),
+  // Require CommonJS like includes
+  var _ = require('underscore'),
+    app = require('app/app'),
+    config = require('app/globals'),
+    Collections = require('app/data/collections'),
     PageView = require('app/views/page'),
     MessageChatOperator = require('app/views/messageChatOperator'),
     MessageChatVisitor = require('app/views/messageChatVisitor'),
@@ -164,7 +164,4 @@ var _ = require('underscore'),
   });
 
   return ChatView;
-});
-
-return ChatView;
 });

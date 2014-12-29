@@ -2,12 +2,12 @@
     	Chat welcome screen
    ========================== */
 
-define(function (require) {
+define(function(require) {
 
-'use strict';
+  'use strict';
 
-// Require CommonJS like includes
-var _ = require('underscore'),
+  // Require CommonJS like includes
+  var _ = require('underscore'),
     Models = require('app/data/models'),
     PageView = require('app/views/page'),
     config = require('app/globals'),
