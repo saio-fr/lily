@@ -41,7 +41,7 @@ define(function(require) {
           function(topic, payload) {
             chat.collection.set(payload);
           });
-        app.ws.call('chat/open');
+        app.ws.call('visitor/open');
       } else {
         try {
           app.wsConnect();
@@ -76,12 +76,12 @@ define(function(require) {
     writing: function(e) {
 
       if (this.$input.val()) {
-        app.ws.call('chat/writing', {
+        app.ws.call('visitor/writing', {
           sid: config.sid,
           writing: true
         });
       } else {
-        app.ws.call('chat/writing', {
+        app.ws.call('visitor/writing', {
           sid: config.sid,
           writing: false
         });
@@ -155,7 +155,7 @@ define(function(require) {
         satisfaction = false;
       }
 
-      app.ws.call('chat/satisfaction', {
+      app.ws.call('visitor/satisfaction', {
         sid: config.sid,
         satisfaction: satisfaction
       });

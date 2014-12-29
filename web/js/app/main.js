@@ -75,7 +75,8 @@ require([
       function onconnect(session) { // Once the connection has been established
 
         app.ws = session;
-        app.ws.call('chat/connect', {
+        app.ws.subscribe('visitor/' + config.licence + '/' + config.sid, function (topic, payload) {});
+        app.ws.call('visitor/connect', {
           'href': top.location.href,
           'pathname': top.location.pathname
         }).then(function(result) {

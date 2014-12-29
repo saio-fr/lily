@@ -93,13 +93,13 @@ define(function(require) {
       }
 
       app.chatContactForm = false;
-      app.ws.call('chat/contactForm', {
+      app.ws.call('visitor/contactForm', {
         'firstname': firstName,
         'lastname': lastName,
         'email': email
       });
 
-      app.router.chat();
+      app.router.navigate('chat', {trigger: true});
     }
 
   });
