@@ -57,19 +57,11 @@ define(function(require) {
     },
 
     onSubscribedChat: function(payload) {
-      var i = 0,
-        models = [],
-        model;
 
-      if (payload && payload.length > 0) {
-        for (i = 0; i < payload.length; i++) {
-          if (!payload[i].action) {
-            model = new Models.ChatMessage(payload[i]);
-            models.push(model);
-          }
-        }
-        this.collection.set(models);
-      }
+      payload = _.filter(payload, function(msg) {
+        return !msg.action;
+      });
+      this.collection.set(payload);
     },
 
     addItem: function(message) {
