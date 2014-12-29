@@ -1,9 +1,10 @@
 parameters:
     lily_chat.rpc_services: 
-        - { name: chat, service: lily_chat.rpc_chat_service }
+        - { name: visitor, service: lily_chat.rpc_visitor_service }
+        - { name: operator, service: lily_chat.rpc_operator_service }
     lily_chat.topic_services:
-        - { name: visitor, service: lily_chat.topic_chat_visitor_services }
-        - { name: operator, service: lily_chat.topic_chat_operator_services }
+        - { name: visitor, service: lily_chat.topic_visitor_services }
+        - { name: operator, service: lily_chat.topic_operator_services }
     
 
 services:
@@ -30,17 +31,22 @@ services:
             - {name: kernel.event_listener, event: lily.client.disconnected, method: onClientDisconnect}
             - {name: kernel.event_listener, event: lily.client.error, method: onClientError}
             
-    lily_chat.rpc_chat_service:
-        class: Lily\ChatBundle\RPC\ChatService
+    lily_chat.rpc_visitor_service:
+        class: Lily\ChatBundle\RPC\VisitorService
+        calls: 
+            - [setContainer, [@service_container]]
+            
+    lily_chat.rpc_operator_service:
+        class: Lily\ChatBundle\RPC\OperatorService
         calls: 
             - [setContainer, [@service_container]]
 
-    lily_chat.topic_chat_visitor_services:
+    lily_chat.topic_visitor_services:
         class: Lily\ChatBundle\Topic\VisitorTopic
         calls: 
             - [setContainer, [@service_container]]
 
-    lily_chat.topic_chat_operator_services:
+    lily_chat.topic_operator_services:
         class: Lily\ChatBundle\Topic\OperatorTopic
         calls: 
             - [setContainer, [@service_container]]

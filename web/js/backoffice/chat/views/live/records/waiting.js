@@ -85,7 +85,7 @@ define(function (require) {
     		$('.aside-chat-left').css({display: 'none'});
       }
   		
-  		app.ws.call('chat/set_operator', { sid: this.model.get('id') } ).then(function (result) {
+  		app.ws.call('operator/set_operator', { sid: this.model.get('id') } ).then(function (result) {
      
   		   if (live.windows.length < live.maxWindows) {
   		   

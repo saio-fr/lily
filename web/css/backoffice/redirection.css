@@ -41,6 +41,10 @@ REDIRECTION
   z-index: 9999;
   outline: 0;
 }
+.modal-backdrop.in {
+  opacity: 0.94;
+}
+
 @media (max-width: 767px) {
   .redirection-action,
   .delete-action {

@@ -121,3 +121,6 @@ body {
   z-index: 9999;
   outline: 0;
 }
+.modal-backdrop.in {
+  opacity: 0.94;
+}

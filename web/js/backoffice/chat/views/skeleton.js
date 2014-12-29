@@ -24,19 +24,7 @@ define(function (require) {
   	},
 
     initialize: function() {
-
       this.render();
-      var that = this;
-      
-			app.ws.call('chat/isAvailable').then(function(event) {
-				if (event.result) {
-					that.available = true;
-					that.setAvailable();
-				} else {
-					that.available = false;
-					that.setUnavailable();
-				}
-			});
     },
     
     render: function () {
@@ -50,7 +38,7 @@ define(function (require) {
         
         e.preventDefault();
         // Set the operator available on the server
-        app.ws.call('chat/available');
+        app.ws.call('operator/available');
         this.available = true;
       }
 		
@@ -64,7 +52,7 @@ define(function (require) {
         
         e.preventDefault();
   		  // Set the operator unavailable on the server
-        app.ws.call('chat/unavailable'); 
+        app.ws.call('operator/unavailable'); 
         this.available = false;
         app.router.navigate('dashboard', {trigger: true, replace: true}); 
       }

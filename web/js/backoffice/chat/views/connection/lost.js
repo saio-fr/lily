@@ -19,7 +19,8 @@ define(function (require) {
     attributes: {
       'tabindex' : -1,
       'role' : 'dialog',
-      'aria-hidden' : 'true'
+      'aria-hidden' : 'true',
+      'data-backdrop' : 'static'
     },
     className: 'js-modal-connection-lost modal',
     template: _.template( $('#modalConnectionLostTpl').html()),
