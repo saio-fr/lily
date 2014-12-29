@@ -16,9 +16,8 @@ class AvatarType extends AbstractType
     {
       
         $builder
-            ->add('avatarFile', 'vich_file', array(
+            ->add('avatarFile', 'vich_image', array(
               'required'      => true,
-              'mapping'       => 'user_avatar',
               'allow_delete'  => true,
               'download_link' => true,
             ));

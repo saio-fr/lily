@@ -63,9 +63,10 @@ define(function (require) {
   				}
   				
   				// Start routing
-          if (!Backbone.History.started) {
-            Backbone.history.start();
+          if (Backbone.History.started) {
+            Backbone.history.stop();
 			    }
+			    Backbone.history.start();
   				
 			  },
         function (error) {
