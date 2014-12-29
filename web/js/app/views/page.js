@@ -55,10 +55,8 @@ define(function(require) {
 
       var view = this,
         $nextPage = view.$el.find('.lily-page-cont'),
-        $currPage = (previous) ? previous.$el.find('.lily-page-cont') :
-        null,
-        inClass = reverse !== 'true' ? 'lily-page-moveFromRight ' :
-        'lily-page-moveFromLeft ',
+        $currPage = (previous) ? previous.$el.find('.lily-page-cont') : null,
+        inClass = reverse !== 'true' ? 'lily-page-moveFromRight ' : 'lily-page-moveFromLeft ',
         visible = 'lily-page-visible',
         data = {
           $currPage: $currPage,
@@ -103,8 +101,7 @@ define(function(require) {
 
       var previous = this,
         $currPage = previous.$el.find('.lily-page-cont'),
-        outClass = reverse !== 'true' ? 'lily-page-moveToLeft' :
-        'lily-page-moveToRight',
+        outClass = reverse !== 'true' ? 'lily-page-moveToLeft' : 'lily-page-moveToRight',
         data = {
           $currPage: $currPage,
           outClass: outClass,

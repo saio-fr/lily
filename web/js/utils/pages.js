@@ -1,24 +1,23 @@
-
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Object wrapper returned as a module
 
   return {
-    goTo: function (view, transition, reverse, callback) {
+    goTo: function(view, transition, reverse, callback) {
       /* Déclenche les transitions entre pages */
 
       var previous = this.currentPage || null,
-          next = view;
+        next = view;
 
       if (previous) {
         reverse = previous.nextTransition.reverse;
         transition = previous.nextTransition.transition;
 
         //Get last transition information if exists
-        if(previous.nextTransition.type) {
-          if(previous.nextTransition.reverse) {
+        if (previous.nextTransition.type) {
+          if (previous.nextTransition.reverse) {
             reverse = true;
           }
           transition = previous.nextTransition.type;
@@ -27,7 +26,6 @@ define(function (require) {
         previous.transitionOut(transition, reverse);
       }
 
-      next.render({ page: true });
       next.transitionIn(previous, transition, reverse, callback);
       this.currentPage = next;
     },
@@ -35,5 +33,3 @@ define(function (require) {
   };
 
 });
-
-
