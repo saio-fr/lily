@@ -17,113 +17,153 @@ var _ = require('underscore'),
     // Object wrapper returned as a module
     ChatView;
 
-ChatView = PageView.extend({
+  ChatView = PageView.extend({
 
-	events: {
-		'keyup  #lily-search-form' : 'writing',
-		'submit #lily-search-form' : 'doChat',
-		'click  #lily-go' : 'doChat',
-		'click  .lily-icon-thumb-up'   : 'satisfaction',
-		'click  .lily-icon-thumb-down' : 'satisfaction'
-	},
+    events: {
+      'keyup  #lily-search-form': 'writing',
+      'submit #lily-search-form': 'doChat',
+      'click  #lily-go': 'doChat',
+      'click  .lily-icon-thumb-up': 'satisfaction',
+      'click  .lily-icon-thumb-down': 'satisfaction'
+    },
 
-	initialize: function() {
+    initialize: function() {
 
-		var chat = this;
+      var chat = this;
 
-		this.messages = new Messages();
-		this.listenTo(this.messages, 'add', this.addItem);
+      app.skeleton.chatCollection = app.skeleton.chatCollection || new Collections
+        .Messages();
+      this.collection = app.skeleton.chatCollection;
+      this.listenTo(this.collection, 'add', this.addItem);
 
-		app.ws.subscribe('visitor/' + config.licence + '/' + config.sid, function (topic, payload) {
-			chat.messages.set(payload);
-		});
+      if (app.ws) {
+        app.ws.subscribe('visitor/' + config.licence + '/' + config.sid,
+          function(topic, payload) {
+            chat.collection.set(payload);
+          });
+        app.ws.call('visitor/open');
+      } else {
+        try {
+          app.wsConnect();
+        } catch (e) { // Won't connect to the websocket server
+          console.warn(e);
+          app.router.navigate('mail', {
+            trigger: true
+          });
+        }
+      }
 
-		app.ws.call('chat/open');
-		$(this.render().el).appendTo('#lily-wrapper-page');
-	},
+      $(this.render()
+        .el)
+        .appendTo('#lily-wrapper-page');
+    },
 
-	render: function () {
+    render: function() {
 
-		var template = _.template( $('#lily-page-chat-template').html());
-		this.$el.html(template());
-		this.trigger('render');
+      var template = _.template($('#lily-page-chat-template')
+        .html());
+      this.$el.html(template());
+      this.trigger('render');
 
-		$('input, textarea').placeholder();
-		this.$input = this.$el.find('#lily-search-form input.lily-search-input');
+      $('input, textarea')
+        .placeholder();
+      this.$input = this.$el.find(
+        '#lily-search-form input.lily-search-input');
 
-		return PageView.prototype.render.apply(this, arguments);
-	},
+      return PageView.prototype.render.apply(this, arguments);
+    },
 
-	writing: function (e) {
+    writing: function(e) {
 
-		if( this.$input.val() ) {
-			app.ws.call('chat/writing', { sid: config.sid, writing: true });
-		} else {
-			app.ws.call('chat/writing', { sid: config.sid, writing: false });
-		}
-	},
+      if (this.$input.val()) {
+        app.ws.call('visitor/writing', {
+          sid: config.sid,
+          writing: true
+        });
+      } else {
+        app.ws.call('visitor/writing', {
+          sid: config.sid,
+          writing: false
+        });
+      }
+    },
 
-	doChat: function (e) {
-		e.preventDefault();
+    doChat: function(e) {
+      e.preventDefault();
 
-		var message = this.$input.val();
-		if ( $.trim(message).length > 0 ){
-			// On vérifie que le champ n'est pas vide
-			// ou contient uniquement des espaces
-			this.send(message);
-		}
-		// clear the search field
-		this.clearInput();
-	},
+      var message = this.$input.val();
+      if ($.trim(message)
+        .length > 0) {
+        // On vérifie que le champ n'est pas vide
+        // ou contient uniquement des espaces
+        this.send(message);
+      }
+      // clear the search field
+      this.clearInput();
+    },
 
-	send: function (message) {
-		app.ws.publish('operator/' + config.licence, message);
-	},
+    send: function(message) {
+      app.ws.publish('operator/' + config.licence, message);
+    },
 
-	addItem: function(message) {
-		var messageView;
-		// create an instance of the sub-view to render the single message item.
-		switch ( message.get('from') ) {
-			case 'visitor':
-				messageView = new MessageChatVisitor({
-					model: message,
-				}).render();
-				break;
-			case 'operator':
-				this.$el.find('.lily-msg-chat-wait').hide();
-				messageView = new MessageChatOperator({
-					model: message
-				}).render();
-				break;
-		}
-	},
+    addItem: function(message) {
+      var messageView;
+      // create an instance of the sub-view to render the single message item.
+      switch (message.get('from')) {
+        case 'visitor':
+          messageView = new MessageChatVisitor({
+            model: message,
+          })
+            .render();
+          break;
+        case 'operator':
+          this.$el.find('.lily-msg-chat-wait')
+            .hide();
+          messageView = new MessageChatOperator({
+            model: message
+          })
+            .render();
+          break;
+      }
+    },
 
-	clearInput: function() {
+    clearInput: function() {
 
-		if (config.isMobile.phone){
-			this.$input.val('').blur();
-		}
-		else {this.$input.val('').focus().select();}
-	},
+      // Automaticaly hide device keyboard
+      if (config.isMobile.phone) {
+        this.$input.val('')
+          .blur();
+      } else {
+        this.$input.val('')
+          .focus()
+          .select();
+      }
+    },
 
-	satisfaction: function(e) {
+    satisfaction: function(e) {
 
-		var target = $(e.target),
-				satisfaction;
+      var target = $(e.target),
+        satisfaction;
 
-		this.$el.find('#lily-chat-notation-wrapper i').removeClass('active');
+      this.$el.find('#lily-chat-notation-wrapper i').removeClass('active');
 
-		if (target.hasClass('lily-icon-thumb-up')) {
-			this.$el.find('.lily-icon-thumb-up').addClass('active');
-			satisfaction = true;
-		} else {
-			this.$el.find('.lily-icon-thumb-down').addClass('active');
-			satisfaction = false;
-		}
+      if (target.hasClass('lily-icon-thumb-up')) {
+        this.$el.find('.lily-icon-thumb-up').addClass('active');
+        satisfaction = true;
+      } else {
+        this.$el.find('.lily-icon-thumb-down').addClass('active');
+        satisfaction = false;
+      }
 
-		app.ws.call('chat/satisfaction', { sid: config.sid, satisfaction: satisfaction });
-	}
+      app.ws.call('visitor/satisfaction', {
+        sid: config.sid,
+        satisfaction: satisfaction
+      });
+    }
 
+  });
+
+  return ChatView;
 });
 
 return ChatView;
