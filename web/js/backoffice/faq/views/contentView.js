@@ -2,79 +2,82 @@
     View CONTENT
   =========================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
-      ContentEditView = require('backoffice/faq/views/contentEditView'),
+    _ = require('underscore'),
+    app = require('app'),
+    ContentEditView = require('backoffice/faq/views/contentEditView'),
 
-      // Object wrapper returned as a module
-      ContentView;
+    // Object wrapper returned as a module
+    ContentView;
 
   ContentView = Backbone.View.extend({
 
-    tagName:  "li",
+    tagName: "li",
     className: "list-group-item faq-content hover",
 
     template: _.template($('#contentTpl').html()),
 
     events: {
 
-        'click .destroy':   'destroy',
-        'click .view':      'select',
-        'click .faq-name':  'edit',
-        'blur .edit':       'leaveEdit',
-        'keypress .edit':   'updateOnEnter',
-        'dropped':          'dropped'
+      'click .destroy': 'destroy',
+      'click .view': 'select',
+      'click .faq-name': 'edit',
+      'blur .edit': 'leaveEdit',
+      'keypress .edit': 'updateOnEnter',
+      'dropped': 'dropped'
     },
 
-    initialize: function () {
+    initialize: function() {
 
       this.listenTo(this.model, 'select', this.select);
       this.listenTo(this.model, 'change', this.render);
     },
 
-    render: function () {
+    render: function() {
 
-        this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template(this.model.toJSON()));
 
-        this.$input = this.$('.edit');
-        return this;
+      this.$input = this.$('.edit');
+      return this;
     },
 
-    select: function (e) {
+    select: function(e) {
+      if (!e.target.classList.contains('faq-name') &&
+        !e.target.classList.contains('edit') &&
+        !e.target.classList.contains('destroy')) {
 
-      e.preventDefault();
-      var id = this.model.id;
+        var id = this.model.id;
 
-      if (app.skeleton.contentEditView) {
+        if (app.skeleton.contentEditView) {
 
-        // edit view already exists for that item ?
-        if (app.skeleton.contentEditView.model.get('id') !== id) {
+          // edit view already exists for that item ?
+          if (app.skeleton.contentEditView.model.get('id') !== id) {
 
-          app.skeleton.contentEditView.remove();
+            app.skeleton.closeEditView();
+            app.skeleton.contentEditView = new ContentEditView({
+              model: this.model
+            });
+          } else {
+            app.skeleton.contentEditView.show();
+          }
+
+        } else {
           app.skeleton.contentEditView = new ContentEditView({
             model: this.model
           });
-        } else {
-          app.skeleton.contentEditView.show();
         }
 
-      } else {
-        app.skeleton.contentEditView = new ContentEditView({
-          model: this.model
-        });
+        app.skeleton.unsetActive();
+        this.$el.addClass('active');
       }
-
-      app.skeleton.unsetActive();
-      this.$el.addClass('active');
     },
 
-    edit: function (e) {
+    edit: function(e) {
 
       this.$el.addClass("editing");
       this.$input.focus().select();
@@ -86,7 +89,9 @@ define(function (require) {
     leaveEdit: function() {
 
       var value = this.$input.val();
-      this.model.set({ title: value });
+      this.model.set({
+        title: value
+      });
       this.$el.removeClass("editing");
     },
 
@@ -98,10 +103,12 @@ define(function (require) {
     },
 
     dropped: function(event, index) {
-      this.model.set({ position: index });
+      this.model.set({
+        position: index
+      });
     },
 
-    destroy: function () {
+    destroy: function() {
 
       this.model.destroy();
       this.remove();
