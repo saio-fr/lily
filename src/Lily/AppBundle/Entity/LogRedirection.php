@@ -44,7 +44,7 @@ class LogRedirection
     
         
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Redirection")
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Redirection", inversedBy="logsRedirection")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $redirection;

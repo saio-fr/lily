@@ -7,3 +7,15 @@ services:
         tags:
             - { name: twig.extension }
         arguments: [ "@doctrine.orm.default_entity_manager", "%cdn%" ]
+
+    lily.twig.customerDir_extension:
+        class: Lily\BackOfficeBundle\Twig\CustomerDirExtension
+        tags:
+            - { name: twig.extension }
+        arguments: [ "%cdn%" ]
+
+    lily.twig.avatarDir_extension:
+        class: Lily\BackOfficeBundle\Twig\AvatarDirExtension
+        tags:
+            - { name: twig.extension }
+        arguments: [ "%cdn%" ]

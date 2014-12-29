@@ -10,7 +10,6 @@ define(function (require) {
 var Router = require('app/router'),
     config = require('app/globals'),
     app = require('app/app'),
-    utils = require('utils/pages'),
     Messages = require('app/data/collection'),
     PageView = require('app/views/page'),
     // Object wrapper returned as a module
@@ -33,7 +32,9 @@ Skeleton = PageView.extend({
       disable: 'right',
       slideIntent: 30,
       minDragDistance: 50,
-      touchToDrag: false
+      touchToDrag: false,
+      maxPosition: 230,
+      minPosition: -230,
     });
 
     $('#lily-wrapper-page').on('click', '.lily-bt-menu', function () {

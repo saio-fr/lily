@@ -1,0 +1,10 @@
+<% 
+var date = moment(date*1000);
+switch (action) {
+  case 'startChat': %>
+	  Conversation commencée le <%= date.format('DD MMMM') %> à <%= date.format('hh:mm') %>.
+  <% break;
+  case 'transfered': %>
+	  Conversation transférée le <%= date.format('DD MMMM') %> à <%= date.format('hh:mm') %>.
+  <% break;
+} %>

@@ -12,7 +12,6 @@ use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\SerializationContext;
 
 use Lily\AppBundle\Entity\LogRequest;
-use Lily\AppBundle\Entity\LogConnection;
 use Lily\AppBundle\Controller\BaseController;
 
 class AppController extends BaseController
@@ -64,8 +63,8 @@ class AppController extends BaseController
         // On initialise nos variables
         $em = $this->getEntityManager($licence);
         $session = $this->container->get('session');
-
-        if (strtolower($parent)  == 'null') { $parent = NULL; }
+          
+        if (strtolower($parent) == 'null') { $parent = NULL; }
 
         // On récupère les catégories enfants
         $faqs = $em->getRepository('LilyKnowledgeBundle:Faq')
@@ -90,11 +89,11 @@ class AppController extends BaseController
             $title = $parent->getTitle();
 
             if ($parent->getParent()) { $parent = $parent->getParent()->getId(); }
-            else { $parent = NULL; }
+            else { $parent = 'NULL'; }
 
         } else {
-            $title = 'NULL';
             $parent = 'NULL';
+            $title = 'NULL';
         }
 
         return array('parent' => $parent, 'title' => $title, 'faqs' => $faqs);

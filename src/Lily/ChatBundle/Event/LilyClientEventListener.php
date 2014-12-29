@@ -39,7 +39,9 @@ class LilyClientEventListener
         $conn = $event->getConnection();
         $e = $event->getException();
 
-        echo "connection error occurred: " . $e->getMessage() . PHP_EOL;
+        echo "error occurred! message:" . $e->getMessage() . 
+          " file:" . $e->getFile() . 
+          " line:" . $e->getLine() . PHP_EOL;
     }
 
 }

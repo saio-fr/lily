@@ -14,6 +14,21 @@
                 <%= content %>
               </textarea>
             </div>
+            <footer class="panel-footer bg-light lter clearfix">
+              <ul class="nav nav-pills nav-sm toolbar">
+                <li><a data-wysihtml5-command="bold" title="CTRL+B"><i class="icon-bold"></i></a></li>
+                <li><a data-wysihtml5-command="italic" title="CTRL+I"><i class="icon-italic"></i></a></li>
+                <li><a data-wysihtml5-command="underline" title="CTRL+U"><i class="icon-underline"></i></a></li>
+                <li><a data-wysihtml5-command="createLink"><i class="icon-link"></i></a></li>
+                <form data-wysihtml5-dialog="createLink" class="createLink input-group" style="display: none;">
+                  <input data-wysihtml5-dialog-field="href" class="form-control input-sm" value="http://" class="text">
+                  <div class="input-group-btn">
+                    <a class="btn btn-sm btn-danger" data-wysihtml5-dialog-action="cancel">Annuler</a>
+                    <a class="btn btn-sm btn-success" data-wysihtml5-dialog-action="save">Insérer</a>
+                  </div>
+                </form>
+              </ul>
+            </footer>
           </div>
         </div>
       </div>

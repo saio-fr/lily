@@ -9,6 +9,7 @@ parameters:
 
     # DB Clients
     database_name: lilynew
+    database_client_name: 548053c9a18e2
 
     # Mail
     mailer_transport: smtp
@@ -19,7 +20,7 @@ parameters:
     # Var
     locale: fr
     secret: e63298c3f103b670cb57be1596080ed94
-    cdn: http://cdn.saio.fr
+    cdn: cdn.saio.fr
     ftp_username: saio
     ftp_password: qyH26i$8
     ftp_root: /cdn.saio.fr

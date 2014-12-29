@@ -49,28 +49,30 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     public function onSubscribe(Conn $conn, $topic) {
 	    
 	      $licence = $conn->WebSocket->request->getQuery()->get('licence');
+	      $newclient = true;
 
         // Check if the client channel is not set
-        if (!array_key_exists($licence, $this->app->clients)) {
-		    
-		    $client = new \StdClass;
-		    $client->licence = $licence;
-		    $client->users = new \SplObjectStorage;
-		    $client->available = false;
-		    $client->config = $this->config($licence);
-		    $client->operator = new Topic('operator/'.$licence);
-		    $this->app->clients->attach($client);
-		    
-	      }
-	    
-  	    // Synchro the operator topic
-  	    if ($topic->getId() == 'operator/'.$licence) {
-    	      foreach ($this->app->clients as $client) {		
-                if ($client->licence === $licence) {
+        foreach ($this->app->clients as $client) {
+            if ($client->licence == $licence) {
+                // Synchro the operator topic
+                if ($topic->getId() == 'operator/'.$licence) {
                     $client->operator = $topic;
-  				      }
-  			    }
-  		  } 
+  		          }
+  		          $newclient = false;
+  		          break;
+            }
+	      }
+	      
+	      if ($newclient) {
+    		    $client = new \StdClass;
+    		    $client->licence = $licence;
+    		    $client->users = new \SplObjectStorage;
+    		    $client->available = false;
+    		    $client->config = $this->config($licence);
+    		    $client->operator = new Topic('operator/'.$licence);
+    		    $this->app->clients->attach($client);
+	      }
+	      
         $this->app->onSubscribe($conn, $topic);
     }
 
@@ -123,11 +125,8 @@ class Connector implements WampServerInterface, MessageComponentInterface {
             $config = $this->container->get('doctrine')->getManager('client')
     				->getRepository('LilyBackOfficeBundle:ConfigChat')
     				->findOneById(1);
-    				
-    				var_dump($config);
     		   	  			  			
     		    $this->cache->save($licence.'_config_app_chat', $config, 0);
-    		    var_dump($config);
 		    }		
         return $config;
     }
@@ -143,12 +142,10 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       		    	$queue = 0;
       		
       		    	foreach($client->users as $user) {
-      			    	  if ($user->type == 'operator') {
-      			    		    if ($user->available) {
-                            ++$operators;
-                            if ($user->chats < $client->config->getMax()) {
-                              $client->available = true;
-      				    		      }
+      			    	  if ($user->type == 'operator' && $user->available) {
+                          ++$operators;
+                          if ($user->chats < $client->config->getMax()) {
+                            $client->available = true;
       			    		    }
       			    	  }
                     if ($user->type == 'visitor' && !$user->operator && !$user->closed) {
@@ -157,13 +154,13 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       		    	}
       		
       			    if (!$client->available && $operators > 0) {
-        			      $condition1 = $client->config->getChatQueue();
+        			      $condition1 = $client->config->getQueue();
         			      $condition2 = $queue < $client->config->getMaxQueue() * $operators;
       					    if ($condition1 && $condition2) $client->available = true;
                     else $client->available = false;
       			    }			    
       			    // Set in the cache
-                $this->cache->save('chat_available_'.$licence, $client->available, 3600);  
+                $this->cache->save('chat_available_'.$licence, $client->available, 3600); 
     		    }
     		}
     }
@@ -175,16 +172,14 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
         // For each clients
         foreach ($this->app->clients as $client) {
-          
-            $licence = $client->licence;
             
             // Test if visitor is still connected
             foreach ($client->users as $item) {
                 if ($item->type === 'visitor') {
                       
                     // If the user is an visitor
-                    $condition1 = $item->lastConn < ( time() - 12 );
-                    $condition2 = $item->lastMsgTime < ( time() - 12 );
+                    $condition1 = $item->lastConn < ( time() - 1200 );
+                    $condition2 = $item->lastMsgTime < ( time() - 1200 );
                     
                     if ($condition1 && $condition2) {
                       
@@ -209,7 +204,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                         $item->topic->broadcast($item->messages);
                           					          
                         $this->socket->send(json_encode(array(
-    				              'licence' => $licence, 
+    				              'licence' => $client->licence, 
                           'action' => 'log', 
                           'item' => $item)));
               					
@@ -218,6 +213,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
           					}			
 		            }
 			      }
+
             // Send users to client's operators
             $client->operator->broadcast($this->app->toArray($client->users));		
 		    }   		     

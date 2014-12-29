@@ -1,20 +1,19 @@
-
 /*========================================
   Vue CONTENT EDIT
 =========================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
-      globals = require('backoffice/globals'),
+    _ = require('underscore'),
+    app = require('app'),
+    globals = require('backoffice/globals'),
 
-      // Object wrapper returned as a module
-      ContentEditView;
+    // Object wrapper returned as a module
+    ContentEditView;
 
   ContentEditView = Backbone.View.extend({
 
@@ -29,13 +28,14 @@ define(function (require) {
       'click .button-cancel': 'cancel',
     },
 
-    initialize: function () {
+    initialize: function() {
 
       this.listenTo(this.model, 'destroy', this.cancel);
       this.render();
     },
 
-    render: function () {
+    render: function() {
+      var that = this;
 
       this.$el
         .removeClass('hide')
@@ -43,15 +43,25 @@ define(function (require) {
 
       $('.js-main-container').append(this.$el);
       // init wysiwig on content editor using wysihtml5 lib.
-      $('.js-editor-input').wysihtml5(globals.faqWysiConfig);
+      // $('.js-editor-input').wysihtml5(globals.faqWysiConfig);
+
+      this.editor = new window.wysihtml5.Editor(that.$el.find(
+        '.js-editor-input').get(
+        0), {
+        toolbar: that.$el.find('.toolbar').get(0),
+        parserRules: wysihtml5ParserRules,
+        useLineBreaks: true
+      });
 
       return this;
     },
 
-    update: function () {
+    update: function() {
 
-      var content = $(this.$el).find('.js-faq-editor').val();
-      this.model.set({ 'content': content });
+      var content = $(this.$el).find('.js-editor-input').val();
+      this.model.set({
+        'content': content
+      });
       this.hide();
       app.skeleton.closeEditView();
 
@@ -59,19 +69,19 @@ define(function (require) {
       app.skeleton.unsetActive();
     },
 
-    cancel: function () {
+    cancel: function() {
 
       app.skeleton.unsetActive();
       this.hide();
       app.skeleton.closeEditView();
     },
 
-    show: function () {
+    show: function() {
 
       this.$el.removeClass('hide');
     },
 
-    hide: function () {
+    hide: function() {
 
       this.$el.addClass('hide');
     }
