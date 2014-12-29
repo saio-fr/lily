@@ -219,7 +219,7 @@ define(function (require) {
       });
   		
   		$('.modal-close .js-modal-action').click(function() {
-  			app.ws.call('chat/close', { sid: that.model.get('id') } );			
+  			app.ws.call('operator/close', { sid: that.model.get('id') } );			
   			that.minus();
   		});
   	},
@@ -236,7 +236,7 @@ define(function (require) {
       });
   		
   		$('.modal-ban .js-modal-action').click(function() {
-  			app.ws.call('chat/ban', { sid: that.model.get('id') } );
+  			app.ws.call('operator/ban', { sid: that.model.get('id') } );
   			that.minus();
   		});
   	},
@@ -298,7 +298,7 @@ define(function (require) {
       
     changeName: function(e) {
   		var name = this.$el.find('input[name="name"]').val();
-  		app.ws.call('chat/changeName', {sid: this.model.get('id'), name: name});
+  		app.ws.call('operator/changeName', {sid: this.model.get('id'), name: name});
   	},
   	
   	remove: function () {

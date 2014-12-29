@@ -32,14 +32,16 @@ class OperatorTopic implements TopicInterface
      * @return mixed|void
      */
     public function onSubscribe(Conn $conn, $topic, $users)
-    {
-    	
+    {	
+        // Security check
+        if (!isset($conn->User)) { return; }
+        
     	  // Test if opeartor is already connected
         foreach ($users as $item) {
-        if ($item->id === $conn->User->getId() && $item->type === 'operator') { 
-				    return;
-			  }
-		}
+            if ($item->id === $conn->User->getId() && $item->type === 'operator') { 
+				        return;
+			      }
+		    }
 		
     	  $operator = new \StdClass;
         $operator->id = $conn->User->getId();
@@ -47,7 +49,7 @@ class OperatorTopic implements TopicInterface
         $operator->avatar = $conn->User->getConfig()->getAvatar();
         $operator->firstname = $conn->User->getFirstname();
         $operator->lastname = $conn->User->getLastname();
-//         $operator->services = $conn->User->getServices();
+        // $operator->services = $conn->User->getServices();
         $operator->type = 'operator';
         $operator->messages = array();
         $operator->available = false;

@@ -74,7 +74,7 @@ define(function (require) {
   		this.lastname = this.$el.find('input[name="lastname"]').val();
   		this.email = this.$el.find('input[name="email"]').val();
   		
-  		app.ws.call('chat/updateInformations', {
+  		app.ws.call('operator/updateInformations', {
     		sid: this.model.get('id'), 
     		firstname: this.firstname, 
     		lastname: this.lastname, 

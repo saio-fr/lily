@@ -1,4 +1,3 @@
-
 require.config({
   baseUrl: '/js',
   paths: {
@@ -11,6 +10,7 @@ require.config({
     // 'wysihtml5': 'bower_components/wysihtml5/dist/wysihtml5-0.3.0.min',
     // 'bootstrap-wysihtml5': 'bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2',
     'wysihtml5': 'wysiwyg/wysihtml5',
+    'wysihtml5-parser': 'utils/wysihtml5-parser',
     'bootstrap-wysihtml5': 'wysiwyg/bootstrap-wysihtml5',
     'moment': 'bower_components/moment/moment',
     'todoTpl': 'todo',
@@ -25,25 +25,29 @@ require.config({
       deps: ["underscore", "jquery"],
       exports: 'Backbone'
     },
-    "bootstrap" : {
+    "bootstrap": {
       "deps": ['jquery']
     },
-    "todoTpl" : {
+    "todoTpl": {
       "deps": ['jquery', 'bootstrap']
     },
-    "dateRangePicker" : {
+    "dateRangePicker": {
       "deps": ['jquery', 'bootstrap']
     },
-    "sortable" : {
+    "sortable": {
       "deps": ['jquery']
     },
-    "bootstrap-wysihtml5" : {
+    "bootstrap-wysihtml5": {
       "deps": ['wysihtml5', 'bootstrap']
     },
-    "flot" : {
+    'wysihtml5': {
+      deps: ['wysihtml5-parser'],
+      exports: 'wysihtml5',
+    },
+    "flot": {
       "deps": ['jquery']
     },
-    "validator" : {
+    "validator": {
       "deps": ['jquery']
     }
   }
@@ -62,12 +66,12 @@ require([
   "todoTpl",
   "sortable",
   "wysihtml5",
-  "bootstrap-wysihtml5"
-], function( $, _, Backbone, globals, app, Router ) {
+  'wysihtml5-parser'
+], function($, _, Backbone, globals, app, Router) {
 
   'use strict';
 
-  $.ajaxPrefilter( function (options) {
+  $.ajaxPrefilter(function(options) {
     options.url = globals.root + options.url;
   });
 

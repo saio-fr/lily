@@ -28,11 +28,8 @@ require.config({
       exports: 'Backbone'
     },
     'wysihtml5': {
-    	deps: ['backbone', 'wysihtml5-parser'],
-    	exports: 'wysihtml5',
-    	init: function () {
-        $.fn.wysihtml5 = wysihtml5.constructor;
-      }
+    	deps: ['wysihtml5-parser'],
+    	exports: 'wysihtml5'
     },
     'moment-fr': {
       deps: ["moment"],
@@ -88,7 +85,6 @@ require([
 
   app.init = function () {
     app.router = new ChatRouter();
-		Backbone.history.start();
 	};
 
 	// Connect to our ws serv
@@ -99,16 +95,11 @@ require([
 	  function(session) {  // Once the connection has been established
   	  $('.js-modal-connection-lost').modal('hide');
 			app.ws = session;
-			if (!Backbone.History.started) {
-  		  app.init();	
-			}
+      app.init();	
 		},
 
 	  function(code, reason, detail) { // When the connection is closed
-    	$('.js-modal-connection-lost').modal({
-    	  show: true,
-    	  backdrop: 'static'
-      });
+    	$('.js-modal-connection-lost').modal('show');
 	  },
 
     { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers

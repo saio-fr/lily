@@ -46,7 +46,7 @@ define(function (require) {
     
     transfer: function () {
       var that = this;
-	    app.ws.call('chat/transfer', { 
+	    app.ws.call('operator/transfer', { 
   	    sid: that.visitor.get('id'), 
   	    operator: that.model.get('id')
   	  });

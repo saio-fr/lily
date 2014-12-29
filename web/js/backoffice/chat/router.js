@@ -47,6 +47,31 @@ define(function (require) {
         // TO DELETE
         console.log(records);
       });
+            
+			app.ws.call('operator/isAvailable').then(
+			
+  			function (event) {
+    			
+          $('.js-modal-connection-lost').modal('hide');
+          
+  				if (event.result) {
+  					app.skeleton.available = true;
+  					app.skeleton.setAvailable();
+  				} else {
+  					app.skeleton.available = false;
+  					app.skeleton.setUnavailable();
+  				}
+  				
+  				// Start routing
+          if (!Backbone.History.started) {
+            Backbone.history.start();
+			    }
+  				
+			  },
+        function (error) {
+          $('.js-modal-connection-lost').modal('show')
+        }
+      );
 		},
 
 		live: function () {
