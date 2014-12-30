@@ -93,13 +93,7 @@ require([
 
       function onhangup(code, reason, detail) { // When the connection is closed
         console.warn(code + reason + detail);
-        if (app.router) {
-          app.router.navigate('/', {
-            trigger: true
-          });
-        } else {
-          app.init();
-        }
+        app.trigger('ws:connectionHangup');
       },
 
       { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
@@ -113,7 +107,7 @@ require([
   function getSessionId() {
     var id = document.cookie.match('PHPSESSID=([^;]*)');
     if (id !== null && id.length && id.length > 0) {
-      id = id[0];
+      id = id[0].substring(11);
     } else {
       return '';
     }
