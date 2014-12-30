@@ -39,7 +39,7 @@ end
 namespace :ws do
   task :restart do
     # clear the cache
-    run "supervisorctl restart ws"
+    run "sudo supervisorctl restart wsserver"
   
   end
 end
