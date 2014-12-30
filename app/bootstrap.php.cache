@@ -732,6 +732,9 @@ $clientIps = array_map('trim', explode(',', $this->headers->get(self::$trustedHe
 $clientIps[] = $ip;
 $ip = $clientIps[0];
 foreach ($clientIps as $key => $clientIp) {
+if (preg_match('{((?:\d+\.){3}\d+)\:\d+}', $clientIp, $match)) {
+$clientIps[$key] = $clientIp = $match[1];
+}
 if (IpUtils::checkIp($clientIp, self::$trustedProxies)) {
 unset($clientIps[$key]);
 }
@@ -2567,7 +2570,7 @@ foreach ($this->bundles as $name => $bundle) {
 $bundles[$name] = get_class($bundle);
 }
 return array_merge(
-array('kernel.root_dir'=> $this->rootDir,'kernel.environment'=> $this->environment,'kernel.debug'=> $this->debug,'kernel.name'=> $this->name,'kernel.cache_dir'=> $this->getCacheDir(),'kernel.logs_dir'=> $this->getLogDir(),'kernel.bundles'=> $bundles,'kernel.charset'=> $this->getCharset(),'kernel.container_class'=> $this->getContainerClass(),
+array('kernel.root_dir'=> realpath($this->rootDir) ?: $this->rootDir,'kernel.environment'=> $this->environment,'kernel.debug'=> $this->debug,'kernel.name'=> $this->name,'kernel.cache_dir'=> realpath($this->getCacheDir()) ?: $this->getCacheDir(),'kernel.logs_dir'=> realpath($this->getLogDir()) ?: $this->getLogDir(),'kernel.bundles'=> $bundles,'kernel.charset'=> $this->getCharset(),'kernel.container_class'=> $this->getContainerClass(),
 ),
 $this->getEnvParameters()
 );

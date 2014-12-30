@@ -36,6 +36,14 @@ after "deploy" do
   
 end
 
+namespace :ws do
+  task :restart do
+    # clear the cache
+    run "supervisorctl restart ws"
+  
+  end
+end
+
 task :upload_parameters do
   origin_file = "app/config/parameters.yml"
   destination_file = shared_path + "/app/config/parameters.yml" # Notice the

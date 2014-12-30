@@ -100,14 +100,6 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\ManyToMany(targetEntity="Lily\UserBundle\Entity\Service", cascade={"persist"})
-     * @Expose
-     */
-    private $services;
-    
-    /**
-     * @var string
-     *
      * @ORM\Column(name="country", type="string", length=50, nullable=true)
      * @Assert\Length(
      *      max = "50",
@@ -134,7 +126,6 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->services = new \Doctrine\Common\Collections\ArrayCollection();
         $this->config = new UserConfig();
     }
 
@@ -309,36 +300,4 @@ class User extends BaseUser
         return $this->config;
     }
 
-    /**
-     * Add services
-     *
-     * @param \Lily\UserBundle\Entity\Service $services
-     * @return User
-     */
-    public function addService(\Lily\UserBundle\Entity\Service $services)
-    {
-        $this->services[] = $services;
-
-        return $this;
-    }
-
-    /**
-     * Remove services
-     *
-     * @param \Lily\UserBundle\Entity\Service $services
-     */
-    public function removeService(\Lily\UserBundle\Entity\Service $services)
-    {
-        $this->services->removeElement($services);
-    }
-
-    /**
-     * Get services
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getServices()
-    {
-        return $this->services;
-    }
 }
