@@ -24,6 +24,11 @@ class AppController extends BaseController
         $config = $this->getAppConfig($licence);
         $redirection = $this->getDefaultRedirection($licence);
         $chatAvailable = $this->isChatAvailable($licence);
+        
+        $session = $this->container->get('session');
+        if (!$session->isStarted()) {
+            $session->start();
+        }
 
         return $this->render('LilyAppBundle:themes:lily/index.html.twig',
           array('licence' => $licence,

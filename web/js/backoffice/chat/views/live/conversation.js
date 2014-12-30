@@ -133,7 +133,7 @@ define(function (require) {
   
   		this.message = this.editor.getValue(true);
   
-  		if ($.trim(this.message).length) {  			
+  		if ($.trim(this.message).length) {
   			app.ws.publish('visitor/' + g.licence + '/' + this.model.id, this.message);
   		}
   		// clear the search field
