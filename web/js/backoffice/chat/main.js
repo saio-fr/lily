@@ -89,8 +89,8 @@ require([
 
 	// Connect to our ws serv
 	var sess = new ab.connect(
-
-		'ws://ws.saio.fr/' + globals.licence + '/chat', // The host
+  	
+		globals.wsserver + '/chat/' + globals.licence, // The host
 
 	  function(session) {  // Once the connection has been established
   	  $('.js-modal-connection-lost').modal('hide');

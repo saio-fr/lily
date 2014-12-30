@@ -31,10 +31,15 @@ class RatchetChatCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+      	
+      	// Get environment
+        $env = $input->getParameterOption(
+            array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'dev');
 
       	$zmqConfig = $input->getArgument('zmqConfig');
       	$zmqLog = $input->getArgument('zmqLog');
       	$port = $input->getArgument('port');
+        $env == 'prod' ? $host = 'ws.saio.fr' : $host = 'develop.saio.fr';  
 
     		// Setup services
     		$handler = $this->getContainer()->get('session.handler');
@@ -69,11 +74,12 @@ class RatchetChatCommand extends ContainerAwareCommand
       				), $this->getContainer()
       			)
       		, $handler
-    		);
+    		); 
+        
+        $server = new App($host, $port, '0.0.0.0', $loop);
 
-        $server = new App('ws.saio.fr', $port, '0.0.0.0', $loop);
         // Domain that are able to connect to our chat
-        $server->route('/{licence}/chat', new WsServer($sessionProvider),
+        $server->route('/chat/{licence}', new WsServer($sessionProvider),
             array(
                 'dev2.saio.fr',
                 'bruno.saio.fr',
