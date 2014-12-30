@@ -1,5 +1,5 @@
 <?php
-namespace Lily\ChatBundle\Server;
+namespace Lily\ChatBundle\Server\App;
 
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;

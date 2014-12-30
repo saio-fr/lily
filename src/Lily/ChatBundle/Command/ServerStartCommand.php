@@ -16,13 +16,13 @@ use Ratchet\Session\SessionProvider;
 
 use Lily\ChatBundle\Server\App\App;
 use Lily\ChatBundle\Server\App\Connector;
-use Lily\ChatBundle\Server\FOSUserProvider;
+use Lily\ChatBundle\Server\App\FOSUserProvider;
 
 
-class RatchetChatCommand extends ContainerAwareCommand
+class ServerStartCommand extends ContainerAwareCommand
 {
     protected function configure(){
-        $this->setName('ratchet:start')
+        $this->setName('ws:start')
              ->setDescription('Start ratchet server')
              ->addArgument('zmqConfig', InputArgument::OPTIONAL, 'ZmqConfig')
              ->addArgument('zmqLog', InputArgument::OPTIONAL, 'ZmqLog')
