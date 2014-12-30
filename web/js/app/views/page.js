@@ -70,7 +70,7 @@ define(function(require) {
         $nextPage.addClass(inClass + visible)
           .on(config.animEndEventName, data, this.onTransitionIn);
       } else {
-        $currPage.addClass(inClass + visible);
+        $nextPage.addClass(inClass + visible);
         this.onTransitionIn({
           data: data
         });
