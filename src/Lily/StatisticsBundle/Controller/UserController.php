@@ -120,10 +120,11 @@ class UserController extends DefaultController
     
     
     /**
-     * @Get("/{id}/history/chats/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
-     * @Secure(roles="ROLE_ADMIN")
+     * @Get("/{id}/history/chats/{start}/{end}", 
+     *   requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      */
     public function getUserConversationsAction($id, $start, $end) {
+      
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->findUserBy(Array('id' => $id));
         
@@ -140,13 +141,14 @@ class UserController extends DefaultController
         $to = round($end/1000);
                 
         $rep = $this->getEntityManager()->getRepository('LilyChatBundle:LogChat');
-        $conversations = $rep->conversations($id, $from, $to);
+        $chats = $rep->conversations($id, $from, $to);
         
-        return $conversations;
+        return $chats;
     }
     
     /**
-     * @Get("/{id}/history/logs/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
+     * @Get("/{id}/history/logs/{start}/{end}", 
+     *  requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})
      */
     public function getUserActivitiesAction($id, $start, $end) {
     

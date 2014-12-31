@@ -173,7 +173,6 @@ class LogChatRepository extends EntityRepository
         // UNIX_TIMESTAMP and ROUND are personalized dql functions, calling the correspondant sql functions
         $qb->select('avg(r.satisfaction) as value');
         $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
-           ->andWhere('r.start IS NOT NULL')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
            ->setParameter('end', $end)
@@ -203,19 +202,19 @@ class LogChatRepository extends EntityRepository
      *
      */
     public function conversations($operator, $start, $end) {
-        $qb = $this->createQueryBuilder('r');
-        $qb->select('r');
-        $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
+      
+        $qb = $this->createQueryBuilder('l');
+        
+        $qb->where('UNIX_TIMESTAMP(l.start) >= :start')
            ->setParameter('start', $start)
-           ->andWhere('r.start IS NOT NULL')
-           ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
+           ->andWhere('UNIX_TIMESTAMP(l.start) < :end')
            ->setParameter('end', $end);
-        if ($operator !== null) {
-          $qb->andWhere('r.operator = :operator')
+        if ($operator) {
+          $qb->andWhere('l.operator = :operator')
              ->setParameter('operator', $operator);
         }
-        $qb->groupBy('r.start');
-		   
+        $qb->orderBy('l.start', 'DESC');
+		
         return $qb->getQuery()->getResult();
     }
 }

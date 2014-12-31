@@ -35,6 +35,7 @@ define(function (require) {
     
     render: function () {
       this.closeChildren();
+
       this.collection.each(this.add, this);
 	    if (!this.collection.length) {
 		    $('.conversations-list').html('<li class="list-group-item view"><h6>Aucune conversations.</h6></li>');

@@ -178,8 +178,8 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                 if ($item->type === 'visitor') {
                       
                     // If the user is an visitor
-                    $condition1 = $item->lastConn < ( time() - 1200 );
-                    $condition2 = $item->lastMsgTime < ( time() - 1200 );
+                    $condition1 = $item->lastConn < ( time() - 12 );
+                    $condition2 = $item->lastMsgTime < ( time() - 12 );
                     
                     if ($condition1 && $condition2) {
                       
