@@ -37,30 +37,38 @@ define(function (require) {
     validation: {
       'firstname': {
         required: true,
+        msg: 'Veuillez renseiger un prénom'
       },
       'lastname': {
-        required: true
+        required: true,
+        msg: 'Veuillez renseiger un nom'
       },
       'phone': {
         required: false,
-        minLength: 10
+        minLength: 10,
+        msg: 'Au moins 10 caractères'
       },
       'username': {
-        required: true
+        required: true,
+        msg: 'Veuillez renseiger un nom d\'utilisateur'
       },
       'email': {
         required: true,
-        pattern: 'email'
+        pattern: 'email',
+        msg: 'Adresse email non valide'
       },
       'roles': {
         required: true,
+        msg: 'Requis'
       },
       'plainPassword': {
         required: false,
-        minLength: 4
+        minLength: 4,
+        msg: 'Le mot de passe est trop court'
       },
       'plainPasswordRepeat': {
-        equalTo: 'plainPassword'
+        equalTo: 'plainPassword',
+        msg: 'Les mots de passes ne sont pas identiques'
       }
     },
     

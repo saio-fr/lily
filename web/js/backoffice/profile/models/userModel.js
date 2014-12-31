@@ -24,30 +24,30 @@ define(function (require) {
     validation: {
       'firstname': {
         required: true,
+        msg: 'Veuillez renseiger un prénom'
       },
       'lastname': {
-        required: true
+        required: true,
+        msg: 'Veuillez renseiger un nom'
       },
       'phone': {
         required: false,
-        minLength: 10
-      },
-      'username': {
-        required: true
+        minLength: 10,
+        msg: 'Au moins 10 caractères'
       },
       'email': {
         required: true,
-        pattern: 'email'
-      },
-      'roles': {
-        required: true,
+        pattern: 'email',
+        msg: 'Adresse email non valide'
       },
       'plainPassword': {
         required: false,
-        minLength: 4
+        minLength: 4,
+        msg: 'Le mot de passe est trop court'
       },
       'plainPasswordRepeat': {
-        equalTo: 'plainPassword'
+        equalTo: 'plainPassword',
+        msg: 'Les mots de passes ne sont pas identiques'
       }
     },
     
