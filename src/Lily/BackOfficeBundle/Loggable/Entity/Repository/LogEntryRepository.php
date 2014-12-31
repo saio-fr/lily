@@ -36,7 +36,8 @@ class LogEntryRepository extends EntityRepository
            ->andWhere('UNIX_TIMESTAMP(l.loggedAt) >= :start')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(l.loggedAt) < :end')
-           ->setParameter('end', $end);
+           ->setParameter('end', $end)
+           ->orderBy('l.loggedAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }
