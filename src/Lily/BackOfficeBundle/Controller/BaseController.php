@@ -46,7 +46,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     protected function getForm($type, $entity, $request) 
     {      
         $request = json_decode($request->getContent(), true);
-        $form = $this->createForm($type, $entity, array('csrf_protection' => false));
+        $form = $this->createForm($type, $entity);
         $form->bind($request);
         return $form;
     }

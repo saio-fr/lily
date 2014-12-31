@@ -28,7 +28,8 @@ class ClientType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\UserBundle\Entity\Client'
+            'data_class' => 'Lily\UserBundle\Entity\Client',
+            'allow_extra_fields' => true
         ));
     }
 

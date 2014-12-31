@@ -31,7 +31,7 @@ class AvatarType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Lily\UserBundle\Entity\UserConfig',
             'csrf_protection'   => false,
-            'allow_extra_fields' => true,
+            'allow_extra_fields' => true
         ));
     }
 

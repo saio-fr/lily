@@ -95,16 +95,13 @@ class RedirectionsController extends BaseController
     {
         $em = $this->getEntityManager();
         $cache = $this->get( 'aequasi_cache.instance.default' );
-        $data = json_decode($request->getContent(), true);
     	
         $redirection = $this->getEntityManager()
     		->getRepository('LilyKnowledgeBundle:Redirection')
     		->find($id); 	
 		
-        $form = $this->createForm(new RedirectionType(), $redirection);  
-           
-        $form->bind($data);
-        
+        $form = $this->getForm(new RedirectionType(), $redirection, $request);  
+
         $em->persist($redirection);
         $em->flush();
         
