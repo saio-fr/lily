@@ -101,10 +101,15 @@ define(function (require) {
     getFormRoles: function () {
       var roles = [];
       $('.btn-roles li.active a').each(function() {
-        if ($(this).attr('name') === 'admin') roles.push('ROLE_ADMIN');
-        else {
-          if ($(this).attr('name') === 'chat') roles.push('ROLE_CHAT_OPERATOR');
-          if ($(this).attr('name') === 'knowledge') roles.push('ROLE_KNOWLEDGE_OPERATOR');
+        if ($(this).attr('name') === 'admin') {
+          roles.push('ROLE_ADMIN');
+        } else {
+          if ($(this).attr('name') === 'chat') {
+            roles.push('ROLE_CHAT_OPERATOR');
+          }
+          if ($(this).attr('name') === 'knowledge')  {
+            roles.push('ROLE_KNOWLEDGE_OPERATOR');
+          }
         }
       });
       return roles;

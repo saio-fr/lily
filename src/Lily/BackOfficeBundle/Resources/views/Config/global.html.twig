@@ -67,7 +67,10 @@
         {% endif %}
         
         <!-- show if client.topquestions is enabled -->
-        {% if app.user.client.config.topquestions %}
+        {% if 
+          app.user.client.config.topquestions and 
+          app.user.client.config.avi
+        %}
         <div class="return">
             <label class="switch">
             	<input type="checkbox" name="topquestions" <% if (topquestions) { %> checked <% } %>>

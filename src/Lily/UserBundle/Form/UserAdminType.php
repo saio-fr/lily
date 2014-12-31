@@ -36,7 +36,7 @@ class UserAdminType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Lily\UserBundle\Entity\User',
             'csrf_protection'   => false,
-            'allow_extra_fields' => true,
+            'allow_extra_fields' => true
         ));
     }
 
