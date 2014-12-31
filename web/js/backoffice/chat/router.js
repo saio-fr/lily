@@ -53,7 +53,7 @@ define(function (require) {
   			function (event) {
     			
           $('.js-modal-connection-lost').modal('hide');
-          
+
   				if (event.result) {
   					app.skeleton.available = true;
   					app.skeleton.setAvailable();

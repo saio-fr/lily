@@ -198,7 +198,7 @@ define(function (require) {
 
 	  		if (live.windows.length == 1) {
 
-	  			live.informations = new Informations({
+	  			live.informations = new InformationsView({
   	  			model: live.windows[live.windows.length-1].model
   	  	  }); 
 	  		}
