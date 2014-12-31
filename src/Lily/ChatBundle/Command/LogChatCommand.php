@@ -68,7 +68,7 @@ class LogChatCommand extends ContainerAwareCommand
 	    	// Bind to our socket to communicate with our symfony app
     		$context = new Context($loop);
     		$pull = $context->getSocket(ZMQ::SOCKET_PULL);
-    		$pull->bind('tcp://127.0.0.1:'.$zmqLog);
+    		$pull->bind('tcp://*:'.$zmqLog);
     					
     		$pull->on('message', function ($params) {
     

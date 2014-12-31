@@ -32,6 +32,8 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       
     	  $context = new ZMQContext();
         $this->socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+        
+        // Connect on the same server to save log
         $this->socket->connect("tcp://127.0.0.1:".$zmq);
     
         $this->container = $container;  
@@ -106,6 +108,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     }
     
     public function config($licence) {
+      echo 'config';
         $config = $this->cache->fetch($licence.'_config_app_chat');
 
         if (!$config) {			

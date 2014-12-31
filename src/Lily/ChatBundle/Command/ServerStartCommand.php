@@ -51,16 +51,17 @@ class ServerStartCommand extends ContainerAwareCommand
 
     		$context = new Context($loop);
     		$pull = $context->getSocket(ZMQ::SOCKET_PULL);
-    		$pull->bind('tcp://127.0.0.1:'.$zmqConfig);
+    		$pull->bind('tcp://*:'.$zmqConfig);
 
     		$pull->on('message', function ($params) use ($connector) {
 
       			$params = json_decode($params, true);
+      			$licence = $params['licence'];
 
       			switch ($params['action']) {
 
       				  case 'config':
-      					    $connector->config();
+      					    $connector->config($licence);
                     break;
 
       			}

@@ -93,7 +93,6 @@ require([
 		globals.wsserver + '/chat/' + globals.licence, // The host
 
 	  function(session) {  // Once the connection has been established
-  	  $('.js-modal-connection-lost').modal('hide');
 			app.ws = session;
       app.init();	
 		},
