@@ -70,7 +70,7 @@ require([
   app.wsConnect = function(callback) {
     return ab.connect(
 
-      'ws://ws.saio.fr/' + config.licence + '/chat', // The host
+      config.wsserver + '/chat/' + config.licence, // The host
 
       function onconnect(session) { // Once the connection has been established
 
