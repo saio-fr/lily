@@ -24,7 +24,7 @@ class ChatController extends DefaultController
         $to = round($end/1000);
         
         $stats = array(
-            'conversations' => $rep->hourlyNumberOfConversation(null, $from, $to),
+            'conversations' => $rep->numberOfConversations(null, $from, $to),
             'duration' => $rep->averageConversationTime(null, $from, $to),
             'waited' => $rep->averageWaited(null, $from, $to),
             'satisfaction' => $rep->averageSatisfaction(null, $from, $to)
@@ -49,7 +49,7 @@ class ChatController extends DefaultController
         
         switch($function) {
             case 'conversations':
-                $data = $rep->hourlyNumberOfConversation(null, $from, $to, $size);
+                $data = $rep->numberOfConversations(null, $from, $to, $size);
                 $type = 'int';
                 break;
 
@@ -80,8 +80,8 @@ class ChatController extends DefaultController
         $data = [];
         $from = round($from/$size);
         $to = round($to/$size);
-        
-        for ($n = $from; $n < $to; $n++) { 
+
+        for ($n = $from; $n <= $to; $n++) { 
             $data[] = [(string) ($n * $size * 1000),   //x value: microtimestamp
                         (string) (isset($nzData[$n]) ? $nzData[$n] : 0)];  //y value : data
         }

@@ -69,7 +69,7 @@ class AviController extends DefaultController
         $from = round($from / $size);
         $to = round($to / $size);
         
-        for ($n = $from; $n < $to; $n++) {
+        for ($n = $from; $n <= $to; $n++) {
             // Questions
 	    	    $dataQ[] = [(string) ($n * $size * 1000), //x value: microtimestamp
 	        		(string) (isset($nzQuestions[$n]) ? $nzQuestions[$n] : 0)];  //y value : data

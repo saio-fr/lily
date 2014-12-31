@@ -39,11 +39,11 @@ end
 namespace :ws do
   task :stop do
     # clear the cache
-    run "sudo supervisorctl stop wsserver"
+    run "sudo supervisorctl stop all"
   end
   task :start do
     # clear the cache
-    run "sudo supervisorctl start wsserver"
+    run "sudo supervisorctl start all"
   end
 end
 

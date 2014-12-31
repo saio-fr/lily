@@ -35,7 +35,7 @@ class UserController extends DefaultController
         $to = round($end/1000);
         
         $stats = array(
-            'conversations' => $rep->hourlyNumberOfConversation($id, $from, $to),
+            'conversations' => $rep->numberOfConversations($id, $from, $to),
             'duration' => $rep->averageConversationTime($id, $from, $to),
             'waited' => $rep->averageWaited($id, $from, $to),
             'satisfaction' => $rep->averageSatisfaction($id, $from, $to)
@@ -72,7 +72,7 @@ class UserController extends DefaultController
         
         switch($function) {
             case 'conversations':
-                $data = $rep->hourlyNumberOfConversation($id, $from, $to, $size);
+                $data = $rep->numberOfConversations($id, $from, $to, $size);
                 $type = 'int';
                 $default = 0;
                 break;
@@ -108,7 +108,7 @@ class UserController extends DefaultController
         $from = round($from/$size);
         $to = round($to/$size);
     
-        for ($n = $from; $n < $to; $n++) { 
+        for ($n = $from; $n <= $to; $n++) { 
             $data[] = [(string) ($n * $size * 1000),   //x value: microtimestamp
                         (string) (isset($nzData[$n]) ? $nzData[$n] : $default)];  //y value : data
         }
