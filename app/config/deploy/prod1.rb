@@ -37,10 +37,13 @@ after "deploy" do
 end
 
 namespace :ws do
-  task :restart do
+  task :stop do
     # clear the cache
-    run "sudo supervisorctl restart wsserver"
-  
+    run "sudo supervisorctl stop wsserver"
+  end
+  task :start do
+    # clear the cache
+    run "sudo supervisorctl start wsserver"
   end
 end
 
