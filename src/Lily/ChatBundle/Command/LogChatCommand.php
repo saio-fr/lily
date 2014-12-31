@@ -51,7 +51,7 @@ class LogChatCommand extends ContainerAwareCommand
     
     protected function configure()
     {
-        $this->setName('ratchet:log:start')
+        $this->setName('ws:log:start')
              ->setDescription('Start logging for ratchet server')
              ->addArgument('zmqLog', InputArgument::OPTIONAL, 'ZmqLog');
     }

@@ -136,7 +136,7 @@ class AppController extends BaseController
     }
 
     /**
-     * @Post("/{licence}/sendmail")
+     * @Post("/{licence}/mail")
      */
     public function postEmailAction($licence, Request $request) {
 
