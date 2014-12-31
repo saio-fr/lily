@@ -93,7 +93,6 @@ define(function (require) {
         if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
           this.convertedRoles = (this.convertedRoles == '') ? 'Opérateur ' : ' et ';
           this.convertedRoles += 'base de connaissance';
-          console.log(this.convertedRoles);
         }
       }
       
