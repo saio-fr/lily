@@ -9,8 +9,8 @@ define(function (require) {
   Timers.status = function (record, type) {
     // Setting up timer variables
 		var now = new moment();
-		var start = moment(record.model.get('startTime')*1000-1000);
-		var last = moment(record.model.get('lastMsgTime')*1000-1000);
+		var start = moment(record.model.get('startTime')*1000);
+		var last = moment(record.model.get('lastMsgTime')*1000);
 		var timer;
     
     switch (type) {
@@ -46,8 +46,10 @@ define(function (require) {
 				seconds = timer.seconds();
 
 				if (record.model.get('messages').length) {
+  				
+  				var messages = record.model.get('messages');
 					// If the visitor waited over 2 minutes for an answer
-					if (timer.minutes() >= 2 && record.model.get('messages')[record.model.get('messages').length-1].from == 'visitor') {
+					if (timer.minutes() >= 2 && messages[messages.length-1].from == 'visitor') {
 						record.model.trigger('urgent');
 					}
 				}

@@ -2,12 +2,12 @@
     	Chat welcome screen
    ========================== */
 
-define(function (require) {
+define(function(require) {
 
-'use strict';
+  'use strict';
 
-// Require CommonJS like includes
-var _ = require('underscore'),
+  // Require CommonJS like includes
+  var _ = require('underscore'),
     Models = require('app/data/models'),
     PageView = require('app/views/page'),
     config = require('app/globals'),
@@ -30,7 +30,9 @@ var _ = require('underscore'),
       this.errors.firstname = false;
       this.errors.lastname = false;
       this.errors.email = false;
-      $(this.render().el).appendTo('#lily-wrapper-page');
+      $(this.render({
+        page: true
+      }).el).appendTo('#lily-wrapper-page');
     },
 
     render: function() {
@@ -92,14 +94,11 @@ var _ = require('underscore'),
         return;
       }
 
-      app.chatContactForm = false;
-      app.ws.call('visitor/contactForm', {
-        'firstname': firstName,
-        'lastname': lastName,
-        'email': email
+      app.trigger('welcomeScreen:submit', {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
       });
-
-      app.router.navigate('chat', {trigger: true});
     }
 
   });

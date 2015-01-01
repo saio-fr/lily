@@ -29,7 +29,8 @@ class RedirectionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\KnowledgeBundle\Entity\Redirection'
+            'data_class' => 'Lily\KnowledgeBundle\Entity\Redirection',
+            'csrf_protection' => false
         ));
     }
 

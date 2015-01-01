@@ -18,7 +18,7 @@ class LogConnectionRepository extends EntityRepository
 		  $qb = $this->createQueryBuilder('c');
         
       // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
-      $qb->select('count(c.session) as value')
+      $qb->select('count(distinct c.session) as value')
          ->andWhere('UNIX_TIMESTAMP(c.date) >= :from')
          ->setParameter('from', $from)
          ->andWhere('UNIX_TIMESTAMP(c.date) < :to')

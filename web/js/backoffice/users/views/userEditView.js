@@ -75,15 +75,6 @@ define(function (require) {
           error: function (model, response) {
             response = JSON.parse(response.responseText);
 
-            if (response.errors.children.username.errors) {
-              $('input[name="username"]')
-                .closest('.form-group')
-                .addClass('has-error has-feedback')
-                .find('.help-block')
-                .html(response.errors.children.username.errors)
-                .removeClass('hidden');
-            }
-
             if (response.errors.children.email.errors) {
               $('input[name="email"]')
                 .closest('.form-group')
@@ -101,10 +92,15 @@ define(function (require) {
     getFormRoles: function () {
       var roles = [];
       $('.btn-roles li.active a').each(function() {
-        if ($(this).attr('name') === 'admin') roles.push('ROLE_ADMIN');
-        else {
-          if ($(this).attr('name') === 'chat') roles.push('ROLE_CHAT_OPERATOR');
-          if ($(this).attr('name') === 'knowledge') roles.push('ROLE_KNOWLEDGE_OPERATOR');
+        if ($(this).attr('name') === 'admin') {
+          roles.push('ROLE_ADMIN');
+        } else {
+          if ($(this).attr('name') === 'chat') {
+            roles.push('ROLE_CHAT_OPERATOR');
+          }
+          if ($(this).attr('name') === 'knowledge')  {
+            roles.push('ROLE_KNOWLEDGE_OPERATOR');
+          }
         }
       });
       return roles;

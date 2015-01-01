@@ -31,7 +31,7 @@ define(function (require) {
 		},
 
 		initialize: function () {
-      
+
       app.users = new Collections.Users();
       app.skeleton = new SkeletonView();
   		app.skeleton.live = new LiveSkeletonView({
@@ -52,8 +52,6 @@ define(function (require) {
 			
   			function (event) {
     			
-          $('.js-modal-connection-lost').modal('hide');
-          
   				if (event.result) {
   					app.skeleton.available = true;
   					app.skeleton.setAvailable();
@@ -63,9 +61,10 @@ define(function (require) {
   				}
   				
   				// Start routing
-          if (!Backbone.History.started) {
-            Backbone.history.start();
+          if (Backbone.History.started) {
+            Backbone.history.stop();
 			    }
+			    Backbone.history.start();
   				
 			  },
         function (error) {

@@ -2,22 +2,27 @@
     		Faq Page
    ========================== */
 
-define(function (require) {
+define(function(require) {
 
-'use strict';
+  'use strict';
 
-// Require CommonJS like includes
-var _ = require('underscore'),
-		app = require('app/app'),
-		config = require('app/globals'),
-    Messages = require('app/data/collection'),
+  // Require CommonJS like includes
+  var _ = require('underscore'),
+    Backbone = require('backbone'),
+    app = require('app/app'),
+    config = require('app/globals'),
+    Models = require('app/data/models'),
+    Collections = require('app/data/collections'),
     PageView = require('app/views/page'),
     MessageChatOperator = require('app/views/messageChatOperator'),
     MessageChatVisitor = require('app/views/messageChatVisitor'),
+    ChildViewContainer = require('utils/backbone-childviewcontainer'),
     // Object wrapper returned as a module
     ChatView;
 
   ChatView = PageView.extend({
+
+    template: _.template($('#lily-page-chat-template').html()),
 
     events: {
       'keyup  #lily-search-form': 'writing',
@@ -29,63 +34,64 @@ var _ = require('underscore'),
 
     initialize: function() {
 
-      var chat = this;
+      this.collection = new Collections.Messages();
+      this.childViews = new Backbone.ChildViewContainer();
 
-      app.skeleton.chatCollection = app.skeleton.chatCollection || new Collections
-        .Messages();
-      this.collection = app.skeleton.chatCollection;
       this.listenTo(this.collection, 'add', this.addItem);
 
-      if (app.ws) {
-        app.ws.subscribe('visitor/' + config.licence + '/' + config.sid,
-          function(topic, payload) {
-            chat.collection.set(payload);
-          });
-        app.ws.call('visitor/open');
-      } else {
-        try {
-          app.wsConnect();
-        } catch (e) { // Won't connect to the websocket server
-          console.warn(e);
-          app.router.navigate('mail', {
-            trigger: true
-          });
-        }
-      }
+      this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
+      app.trigger('chat:open');
 
-      $(this.render()
-        .el)
-        .appendTo('#lily-wrapper-page');
+      $(this.render({
+        page: true
+      }).el).appendTo('#lily-wrapper-page');
     },
 
     render: function() {
 
-      var template = _.template($('#lily-page-chat-template')
-        .html());
-      this.$el.html(template());
-      this.trigger('render');
+      this.$el.html(this.template());
 
-      $('input, textarea')
-        .placeholder();
-      this.$input = this.$el.find(
-        '#lily-search-form input.lily-search-input');
+      $('input, textarea').placeholder();
+      this.$input = this.$el.find('#lily-search-form input.lily-search-input');
 
       return PageView.prototype.render.apply(this, arguments);
     },
 
-    writing: function(e) {
+    onSubscribedChat: function(payload) {
 
-      if (this.$input.val()) {
-        app.ws.call('visitor/writing', {
-          sid: config.sid,
-          writing: true
-        });
-      } else {
-        app.ws.call('visitor/writing', {
-          sid: config.sid,
-          writing: false
-        });
+      payload = _.filter(payload, function(msg) {
+        return !msg.action;
+      });
+      this.collection.set(payload);
+    },
+
+    addItem: function(message) {
+      var messageView;
+      // create an instance of the sub-view to render the single message item.
+      switch (message.get('from')) {
+        case 'visitor':
+          messageView = new MessageChatVisitor({
+            model: message,
+          }).render();
+          break;
+
+        case 'operator':
+          this.$el.find('.lily-msg-chat-wait').hide();
+
+          messageView = new MessageChatOperator({
+            model: message
+          }).render();
+          break;
       }
+      this.childViews.add(messageView);
+    },
+
+    send: function(message) {
+      app.trigger('chat:send', message);
+    },
+
+    writing: function(e) {
+      app.trigger('chat:writing', !!this.$input.val());
     },
 
     doChat: function(e) {
@@ -100,31 +106,6 @@ var _ = require('underscore'),
       }
       // clear the search field
       this.clearInput();
-    },
-
-    send: function(message) {
-      app.ws.publish('operator/' + config.licence, message);
-    },
-
-    addItem: function(message) {
-      var messageView;
-      // create an instance of the sub-view to render the single message item.
-      switch (message.get('from')) {
-        case 'visitor':
-          messageView = new MessageChatVisitor({
-            model: message,
-          })
-            .render();
-          break;
-        case 'operator':
-          this.$el.find('.lily-msg-chat-wait')
-            .hide();
-          messageView = new MessageChatOperator({
-            model: message
-          })
-            .render();
-          break;
-      }
     },
 
     clearInput: function() {
@@ -155,16 +136,31 @@ var _ = require('underscore'),
         satisfaction = false;
       }
 
-      app.ws.call('visitor/satisfaction', {
-        sid: config.sid,
-        satisfaction: satisfaction
+      app.trigger('chat:satisfaction', satisfaction);
+    },
+
+    closeChildren: function() {
+
+      var self = this;
+      this.childViews.forEach(function(view) {
+        // delete index for that view
+        self.childViews.remove(view);
+        // remove the view
+        view.remove();
       });
+    },
+
+    remove: function() {
+      this.closeChildren();
+      // destroy models in collection, reset collection and delete reference;
+      this.collection.reset();
+      this.collection = null;
+      app.off('ws:subscribedToChat', this.onSubscribedChat);
+      // app.skeleton.chatCollection = null;
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
 
   });
 
   return ChatView;
-});
-
-return ChatView;
 });

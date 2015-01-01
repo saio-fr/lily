@@ -33,18 +33,26 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     
     protected function setConnection($licence)
     {	   	  			  
-   		$connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
-	
-	    $refConn = new \ReflectionObject($connection);
-	    $refParams = $refConn->getProperty('_params');
-	    $refParams->setAccessible('public'); //we have to change it for a moment
-	
-	    $params = $refParams->getValue($connection);
-	    $params['dbname'] = $licence;
-	
-	    $refParams->setAccessible('private');
-	    $refParams->setValue($connection, $params);
-	    
+     		$connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
+  	
+  	    $refConn = new \ReflectionObject($connection);
+  	    $refParams = $refConn->getProperty('_params');
+  	    $refParams->setAccessible('public'); //we have to change it for a moment
+  	
+  	    $params = $refParams->getValue($connection);
+  	    $params['dbname'] = $licence;
+  	
+  	    $refParams->setAccessible('private');
+  	    $refParams->setValue($connection, $params); 
+    }
+    
+        
+    protected function getForm($type, $entity, $request) 
+    {      
+        $request = json_decode($request->getContent(), true);
+        $form = $this->createForm($type, $entity);
+        $form->bind($request);
+        return $form;
     }
 
 }

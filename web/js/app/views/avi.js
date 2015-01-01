@@ -34,7 +34,9 @@ define(function(require) {
       app.on('redirectionTel', this.sendRedirectionTel, this);
       app.on('redirectionMail', this.sendRedirectionMail, this);
 
-      $(this.render().el).appendTo('#lily-wrapper-page');
+      $(this.render({
+        page: true
+      }).el).appendTo('#lily-wrapper-page');
     },
 
     render: function() {

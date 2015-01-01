@@ -35,12 +35,12 @@ define(function (require) {
     setAvailable: function (e) {
 
       if (typeof(e) !== 'undefined') {
-        
         e.preventDefault();
-        // Set the operator available on the server
-        app.ws.call('operator/available');
-        this.available = true;
       }
+      
+      // Set the operator available on the server
+      app.ws.call('operator/available');
+      this.available = true;
 		
 		  $('.header .status icon').removeClass('unavailable').addClass('available');
       $('.header .status span').html('Disponible');   

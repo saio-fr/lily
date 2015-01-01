@@ -133,7 +133,7 @@ define(function (require) {
   
   		this.message = this.editor.getValue(true);
   
-  		if ($.trim(this.message).length) {  			
+  		if ($.trim(this.message).length) {
   			app.ws.publish('visitor/' + g.licence + '/' + this.model.id, this.message);
   		}
   		// clear the search field
@@ -198,7 +198,7 @@ define(function (require) {
 
 	  		if (live.windows.length == 1) {
 
-	  			live.informations = new Informations({
+	  			live.informations = new InformationsView({
   	  			model: live.windows[live.windows.length-1].model
   	  	  }); 
 	  		}

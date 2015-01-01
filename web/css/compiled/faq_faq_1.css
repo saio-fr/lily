@@ -112,3 +112,15 @@ body {
 .breadcrumb .breadcrumb-item:before {
   text-decoration: none;
 }
+.modal-redirection {
+  margin: 0;
+  position: fixed;
+  width: 500px;
+  top: calc(50% - 100px) !important;
+  left: calc(50% - 250px) !important;
+  z-index: 9999;
+  outline: 0;
+}
+.modal-backdrop.in {
+  opacity: 0.94;
+}

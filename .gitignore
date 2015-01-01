@@ -1,3 +1,4 @@
+/app/bootstrap*
 /app/cache/*
 /app/logs/*
 /vendor/*
@@ -10,3 +11,4 @@ compiled
 tmp
 temp
 ftpsync.settings
+.remote-sync.json

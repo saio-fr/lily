@@ -28,7 +28,7 @@ class LogEntryRepository extends EntityRepository
      */
     public function getLogs($username, $start, $end)
     {
-    	$qb = $this->createQueryBuilder('l');
+    	  $qb = $this->createQueryBuilder('l');
     	
         // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
         $qb->where('l.username = :username')
@@ -36,7 +36,8 @@ class LogEntryRepository extends EntityRepository
            ->andWhere('UNIX_TIMESTAMP(l.loggedAt) >= :start')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(l.loggedAt) < :end')
-           ->setParameter('end', $end);
+           ->setParameter('end', $end)
+           ->orderBy('l.loggedAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }

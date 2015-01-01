@@ -93,20 +93,22 @@ class RedirectionsController extends BaseController
      */
     public function updateAction($id, Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $em = $this->getEntityManager();
+        $cache = $this->get( 'aequasi_cache.instance.default' );
     	
         $redirection = $this->getEntityManager()
     		->getRepository('LilyKnowledgeBundle:Redirection')
     		->find($id); 	
 		
-        $form = $this->createForm(new RedirectionType(), 
-          $redirection, array('csrf_protection' => false));  
-           
-        $form->bind($data);
-        
-        $em = $this->getEntityManager();
+        $form = $this->getForm(new RedirectionType(), $redirection, $request);  
+
         $em->persist($redirection);
         $em->flush();
+        
+        if ($redirection->getBydefault()) {
+            $licence = $this->getUser()->getClient()->getLicence();
+            $cache->save( $licence.'_redirection', $redirection, 3600 );
+        }
 			
         $view = $this->view($redirection)->setFormat('json');
         return $this->handleView($view);			

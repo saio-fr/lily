@@ -2,15 +2,15 @@
   <div class="row text-center">
     <a data-type="conversations" class="col-xs-3 b-r">
       <p class="h3 font-bold m-t">
-        <%= parseFloat(conversations*1).toFixed(2) %>
+        <%= parseInt(conversations) %>
       </p>
-      <p class="text-muted">Conversations / heure</p>
+      <p class="text-muted">Conversations</p>
     </a>
     <a data-type="duration" class="col-xs-3 b-r">
       <p class="h3 font-bold m-t">
         <%= parseInt(duration/60) + ' min ' + parseInt(duration%60)  + ' s'  %>
       </p>
-      <p class="text-muted">Temps moyen par conversation</p>
+      <p class="text-muted">Moyenne par conversation</p>
     </a>
     <a data-type="waited" class="col-xs-3 b-r">
       <p class="h3 font-bold m-t">

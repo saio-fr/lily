@@ -2,13 +2,13 @@
 parameters:
     # Database
     database_driver: pdo_mysql
-    database_host: 172.16.0.6
+    database_host: 172.16.0.5
     database_port: 3306
     database_user: saio
     database_password: gW74uw?6
 
     # DB Clients
-    database_name: lilynew
+    database_name: clients
     database_client_name: 548053c9a18e2
 
     # Mail

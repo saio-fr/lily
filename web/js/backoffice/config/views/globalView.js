@@ -56,7 +56,7 @@ define(function (require) {
       }      
       
       // TOP QUESTIONS SERVICE
-      if (g.client.topquestions) {
+      if (g.client.topquestions && g.client.avi) {
 	      this.topquestions = this.$el.find('input[name="topquestions"]').is(':checked');
         this.model.set({'topquestions': this.topquestions});
 	    }

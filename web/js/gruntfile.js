@@ -9,24 +9,22 @@ module.exports = function(grunt) {
   grunt.initConfig({
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+
     // Task configuration.
     jshint: {
       options: {
         jshintrc: '.jshintrc'
       },
       gruntfile: {
-        src: 'Gruntfile.js'
+        src: 'gruntfile.js'
       },
       sourcefiles: {
         src: ['src/**/*.js', '!src/app/bower_components/**/*.js']
       }
     },
+
     requirejs: {
+
       options: {
         'appDir': 'src',
         'dir': 'build',
@@ -35,6 +33,7 @@ module.exports = function(grunt) {
         'normalizeDirDefines': 'skip',
         'skipDirOptimize': true,
       },
+
       independentAlmond: {
         options: {
           almond: true,
@@ -59,6 +58,7 @@ module.exports = function(grunt) {
           }]
         }
       },
+
       shared: {
         options: {
           'modules': [{
@@ -77,11 +77,35 @@ module.exports = function(grunt) {
           }]
         }
       }
+    },
+
+    requirejs: {
+      compile: {
+
+        // !! You can drop your app.build.js config wholesale into 'options'
+        options: {
+          appDir: "src/",
+          baseUrl: ".",
+          dir: "target/",
+          optimize: 'uglify',
+          mainConfigFile: './src/main.js',
+          modules: [
+            {
+              name: 'MyModule'
+            }
+          ],
+          logLevel: 0,
+          findNestedDependencies: true,
+          fileExclusionRegExp: /^\./,
+          inlineText: true
+        }
+      }
     }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-requirejs');
 
   // Default task.

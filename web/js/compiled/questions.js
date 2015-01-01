@@ -14528,522 +14528,206 @@ wysihtml5.views.View = Base.extend(
 })(wysihtml5);
 /*! jquery-dateFormat 10-01-2014 */
 var DateFormat={};!function(a){var b=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],c=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],d=["January","February","March","April","May","June","July","August","September","October","November","December"],e={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"},f=/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.?\d{0,3}[Z\-+]?(\d{2}:?\d{2})?/;a.format=function(){function a(a){return b[parseInt(a,10)]||a}function g(a){var b=parseInt(a,10)-1;return c[b]||a}function h(a){var b=parseInt(a,10)-1;return d[b]||a}function i(a){return e[a]||a}function j(a){var b,c,d,e,f,g=a,h="";return-1!==g.indexOf(".")&&(e=g.split("."),g=e[0],h=e[1]),f=g.split(":"),3===f.length?(b=f[0],c=f[1],d=f[2].replace(/\s.+/,"").replace(/[a-z]/gi,""),g=g.replace(/\s.+/,"").replace(/[a-z]/gi,""),{time:g,hour:b,minute:c,second:d,millis:h}):{time:"",hour:"",minute:"",second:"",millis:""}}function k(a,b){for(var c=b-String(a).length,d=0;c>d;d++)a="0"+a;return a}return{parseDate:function(a){var b={date:null,year:null,month:null,dayOfMonth:null,dayOfWeek:null,time:null};if("number"==typeof a)return this.parseDate(new Date(a));if("function"==typeof a.getFullYear)b.year=String(a.getFullYear()),b.month=String(a.getMonth()+1),b.dayOfMonth=String(a.getDate()),b.time=j(a.toTimeString());else if(-1!=a.search(f))values=a.split(/[T\+-]/),b.year=values[0],b.month=values[1],b.dayOfMonth=values[2],b.time=j(values[3].split(".")[0]);else switch(values=a.split(" "),values.length){case 6:b.year=values[5],b.month=i(values[1]),b.dayOfMonth=values[2],b.time=j(values[3]);break;case 2:subValues=values[0].split("-"),b.year=subValues[0],b.month=subValues[1],b.dayOfMonth=subValues[2],b.time=j(values[1]);break;case 7:case 9:case 10:b.year=values[3],b.month=i(values[1]),b.dayOfMonth=values[2],b.time=j(values[4]);break;case 1:subValues=values[0].split(""),b.year=subValues[0]+subValues[1]+subValues[2]+subValues[3],b.month=subValues[5]+subValues[6],b.dayOfMonth=subValues[8]+subValues[9],b.time=j(subValues[13]+subValues[14]+subValues[15]+subValues[16]+subValues[17]+subValues[18]+subValues[19]+subValues[20]);break;default:return null}return b.date=new Date(b.year,b.month-1,b.dayOfMonth),b.dayOfWeek=String(b.date.getDay()),b},date:function(b,c){try{var d=this.parseDate(b);if(null===d)return b;for(var e=(d.date,d.year),f=d.month,i=d.dayOfMonth,j=d.dayOfWeek,l=d.time,m="",n="",o="",p=!1,q=0;q<c.length;q++){var r=c.charAt(q),s=c.charAt(q+1);if(p)"'"==r?(n+=""===m?"'":m,m="",p=!1):m+=r;else switch(m+=r,o="",m){case"ddd":n+=a(j),m="";break;case"dd":if("d"===s)break;n+=k(i,2),m="";break;case"d":if("d"===s)break;n+=parseInt(i,10),m="";break;case"D":i=1==i||21==i||31==i?parseInt(i,10)+"st":2==i||22==i?parseInt(i,10)+"nd":3==i||23==i?parseInt(i,10)+"rd":parseInt(i,10)+"th",n+=i,m="";break;case"MMMM":n+=h(f),m="";break;case"MMM":if("M"===s)break;n+=g(f),m="";break;case"MM":if("M"===s)break;n+=k(f,2),m="";break;case"M":if("M"===s)break;n+=parseInt(f,10),m="";break;case"y":case"yyy":if("y"===s)break;n+=m,m="";break;case"yy":if("y"===s)break;n+=String(e).slice(-2),m="";break;case"yyyy":n+=e,m="";break;case"HH":n+=k(l.hour,2),m="";break;case"H":if("H"===s)break;n+=parseInt(l.hour,10),m="";break;case"hh":hour=0===parseInt(l.hour,10)?12:l.hour<13?l.hour:l.hour-12,n+=k(hour,2),m="";break;case"h":if("h"===s)break;hour=0===parseInt(l.hour,10)?12:l.hour<13?l.hour:l.hour-12,n+=parseInt(hour,10),m="";break;case"mm":n+=k(l.minute,2),m="";break;case"m":if("m"===s)break;n+=l.minute,m="";break;case"ss":n+=k(l.second.substring(0,2),2),m="";break;case"s":if("s"===s)break;n+=l.second,m="";break;case"S":case"SS":if("S"===s)break;n+=m,m="";break;case"SSS":n+=l.millis.substring(0,3),m="";break;case"a":n+=l.hour>=12?"PM":"AM",m="";break;case"p":n+=l.hour>=12?"p.m.":"a.m.",m="";break;case"'":m="",p=!0;break;default:n+=r,m=""}}return n+=o}catch(t){return console&&console.log&&console.log(t),b}},prettyDate:function(a){var b,c,d;return("string"==typeof a||"number"==typeof a)&&(b=new Date(a)),"object"==typeof a&&(b=new Date(a.toString())),c=((new Date).getTime()-b.getTime())/1e3,d=Math.floor(c/86400),isNaN(d)||0>d?void 0:60>c?"just now":120>c?"1 minute ago":3600>c?Math.floor(c/60)+" minutes ago":7200>c?"1 hour ago":86400>c?Math.floor(c/3600)+" hours ago":1===d?"Yesterday":7>d?d+" days ago":31>d?Math.ceil(d/7)+" weeks ago":d>=31?"more than 5 weeks ago":void 0},toBrowserTimeZone:function(a,b){return this.date(new Date(a),b||"MM/dd/yyyy HH:mm:ss")}}}()}(DateFormat),function(a){a.format=DateFormat.format}(jQuery);
-!function($, wysi) {
-    "use strict";
+/* http://github.com/mindmup/bootstrap-wysiwyg */
+/*global jQuery, $, FileReader*/
+/*jslint browser:true*/
+(function ($) {
+	'use strict';
+	var readFileIntoDataUrl = function (fileInfo) {
+		var loader = $.Deferred(),
+			fReader = new FileReader();
+		fReader.onload = function (e) {
+			loader.resolve(e.target.result);
+		};
+		fReader.onerror = loader.reject;
+		fReader.onprogress = loader.notify;
+		fReader.readAsDataURL(fileInfo);
+		return loader.promise();
+	};
+	$.fn.cleanHtml = function () {
+		var html = $(this).html();
+		return html && html.replace(/(<br>|\s|<div><br><\/div>|&nbsp;)*$/, '');
+	};
+	$.fn.wysiwyg = function (userOptions) {
+		var editor = this,
+			selectedRange,
+			options,
+			toolbarBtnSelector,
+			updateToolbar = function () {
+				if (options.activeToolbarClass) {
+					$(options.toolbarSelector).find(toolbarBtnSelector).each(function () {
+						var command = $(this).data(options.commandRole);
+						if (document.queryCommandState(command)) {
+							$(this).addClass(options.activeToolbarClass);
+						} else {
+							$(this).removeClass(options.activeToolbarClass);
+						}
+					});
+				}
+			},
+			execCommand = function (commandWithArgs, valueArg) {
+				var commandArr = commandWithArgs.split(' '),
+					command = commandArr.shift(),
+					args = commandArr.join(' ') + (valueArg || '');
+				document.execCommand(command, 0, args);
+				updateToolbar();
+			},
+			bindHotkeys = function (hotKeys) {
+				$.each(hotKeys, function (hotkey, command) {
+					editor.keydown(hotkey, function (e) {
+						if (editor.attr('contenteditable') && editor.is(':visible')) {
+							e.preventDefault();
+							e.stopPropagation();
+							execCommand(command);
+						}
+					}).keyup(hotkey, function (e) {
+						if (editor.attr('contenteditable') && editor.is(':visible')) {
+							e.preventDefault();
+							e.stopPropagation();
+						}
+					});
+				});
+			},
+			getCurrentRange = function () {
+				var sel = window.getSelection();
+				if (sel.getRangeAt && sel.rangeCount) {
+					return sel.getRangeAt(0);
+				}
+			},
+			saveSelection = function () {
+				selectedRange = getCurrentRange();
+			},
+			restoreSelection = function () {
+				var selection = window.getSelection();
+				if (selectedRange) {
+					try {
+						selection.removeAllRanges();
+					} catch (ex) {
+						document.body.createTextRange().select();
+						document.selection.empty();
+					}
 
-    var tpl = {
-        "font-styles": function(locale, options) {
-            var size = (options && options.size) ? ' btn-'+options.size : '';
-            return "<li class='dropdown'>" +
-              "<a class='btn dropdown-toggle" + size + "' data-toggle='dropdown' href='#'>" +
-              "<i class='icon-font'></i>&nbsp;<span class='current-font'>" + locale.font_styles.normal + "</span>&nbsp;<b class='caret'></b>" +
-              "</a>" +
-              "<ul class='dropdown-menu'>" +
-                "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='div' tabindex='-1'>" + locale.font_styles.normal + "</a></li>" +
-                "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='h1' tabindex='-1'>" + locale.font_styles.h1 + "</a></li>" +
-                "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='h2' tabindex='-1'>" + locale.font_styles.h2 + "</a></li>" +
-                "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='h3' tabindex='-1'>" + locale.font_styles.h3 + "</a></li>" +
-                "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='h4'>" + locale.font_styles.h4 + "</a></li>" +
-                "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='h5'>" + locale.font_styles.h5 + "</a></li>" +
-                "<li><a data-wysihtml5-command='formatBlock' data-wysihtml5-command-value='h6'>" + locale.font_styles.h6 + "</a></li>" +
-              "</ul>" +
-            "</li>";
-        },
+					selection.addRange(selectedRange);
+				}
+			},
+			insertFiles = function (files) {
+				editor.focus();
+				$.each(files, function (idx, fileInfo) {
+					if (/^image\//.test(fileInfo.type)) {
+						$.when(readFileIntoDataUrl(fileInfo)).done(function (dataUrl) {
+							execCommand('insertimage', dataUrl);
+						}).fail(function (e) {
+							options.fileUploadError("file-reader", e);
+						});
+					} else {
+						options.fileUploadError("unsupported-file-type", fileInfo.type);
+					}
+				});
+			},
+			markSelection = function (input, color) {
+				restoreSelection();
+				if (document.queryCommandSupported('hiliteColor')) {
+					document.execCommand('hiliteColor', 0, color || 'transparent');
+				}
+				saveSelection();
+				input.data(options.selectionMarker, color);
+			},
+			bindToolbar = function (toolbar, options) {
+				toolbar.find(toolbarBtnSelector).click(function () {
+					restoreSelection();
+					editor.focus();
+					execCommand($(this).data(options.commandRole));
+					saveSelection();
+				});
+				toolbar.find('[data-toggle=dropdown]').click(restoreSelection);
 
-        "emphasis": function(locale, options) {
-            var size = (options && options.size) ? ' btn-'+options.size : '';
-            return "<li>" +
-              "<div class='btn-group'>" +
-                "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='bold' title='CTRL+B' tabindex='-1'>" + locale.emphasis.bold + "</a>" +
-                "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='italic' title='CTRL+I' tabindex='-1'>" + locale.emphasis.italic + "</a>" +
-                "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='underline' title='CTRL+U' tabindex='-1'>" + locale.emphasis.underline + "</a>" +
-              "</div>" +
-            "</li>";
-        },
-
-        "lists": function(locale, options) {
-            var size = (options && options.size) ? ' btn-'+options.size : '';
-            return "<li>" +
-              "<div class='btn-group'>" +
-                "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='insertUnorderedList' title='" + locale.lists.unordered + "' tabindex='-1'><i class='icon-list'></i></a>" +
-                "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='insertOrderedList' title='" + locale.lists.ordered + "' tabindex='-1'><i class='icon-th-list'></i></a>" +
-                "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='Outdent' title='" + locale.lists.outdent + "' tabindex='-1'><i class='icon-indent-right'></i></a>" +
-                "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='Indent' title='" + locale.lists.indent + "' tabindex='-1'><i class='icon-indent-left'></i></a>" +
-              "</div>" +
-            "</li>";
-        },
-
-        "link": function(locale, options) {
-            var size = (options && options.size) ? ' btn-'+options.size : '';
-            return "<li>" +
-              "<div class='bootstrap-wysihtml5-insert-link-modal modal fade'>" +
-                "<div class='modal-dialog'>" +
-                  "<div class='modal-content'>" +
-	                "<div class='modal-header'>" +
-	                  "<a class='close' data-dismiss='modal'>&times;</a>" +
-	                  "<h3>" + locale.link.insert + "</h3>" +
-	                "</div>" +
-	                "<div class='modal-body'>" +
-	                  "<input value='http://' class='form-control bootstrap-wysihtml5-insert-link-url input-xlarge'>" +
-	                  "<label class='checkbox'> <input type='checkbox' class='bootstrap-wysihtml5-insert-link-target' checked>" + locale.link.target + "</label>" +
-	                "</div>" +
-	                "<div class='modal-footer'>" +
-	                  "<a href='#' class='btn' data-dismiss='modal'>" + locale.link.cancel + "</a>" +
-	                  "<a href='#' class='btn btn-primary' data-dismiss='modal'>" + locale.link.insert + "</a>" +
-	                "</div>" +
-	              "</div>" +
-	            "</div>" +
-	          "</div>" +
-	          "<a class='btn btn-white btn-sm" + size + "' data-wysihtml5-command='createLink' title='" + locale.link.insert + "' tabindex='-1'><i class='icon-share'></i></a>" +
-	        "</li>";
-	          
-        },
-
-        "image": function(locale, options) {
-            var size = (options && options.size) ? ' btn-'+options.size : '';
-            return "<li>" +
-              "<div class='bootstrap-wysihtml5-insert-image-modal modal hide fade'>" +
-                "<div class='modal-header'>" +
-                  "<a class='close' data-dismiss='modal'>&times;</a>" +
-                  "<h3>" + locale.image.insert + "</h3>" +
-                "</div>" +
-                "<div class='modal-body'>" +
-                  "<input value='http://' class='bootstrap-wysihtml5-insert-image-url input-xlarge'>" +
-                "</div>" +
-                "<div class='modal-footer'>" +
-                  "<a href='#' class='btn' data-dismiss='modal'>" + locale.image.cancel + "</a>" +
-                  "<a href='#' class='btn btn-primary' data-dismiss='modal'>" + locale.image.insert + "</a>" +
-                "</div>" +
-              "</div>" +
-              "<a class='btn" + size + "' data-wysihtml5-command='insertImage' title='" + locale.image.insert + "' tabindex='-1'><i class='icon-picture'></i></a>" +
-            "</li>";
-        },
-
-        "html": function(locale, options) {
-            var size = (options && options.size) ? ' btn-'+options.size : '';
-            return "<li>" +
-              "<div class='btn-group'>" +
-                "<a class='btn" + size + "' data-wysihtml5-action='change_view' title='" + locale.html.edit + "' tabindex='-1'><i class='icon-pencil'></i></a>" +
-              "</div>" +
-            "</li>";
-        },
-
-        "color": function(locale, options) {
-            var size = (options && options.size) ? ' btn-'+options.size : '';
-            return "<li class='dropdown'>" +
-              "<a class='btn dropdown-toggle" + size + "' data-toggle='dropdown' href='#' tabindex='-1'>" +
-                "<span class='current-color'>" + locale.colours.black + "</span>&nbsp;<b class='caret'></b>" +
-              "</a>" +
-              "<ul class='dropdown-menu'>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='black'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='black'>" + locale.colours.black + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='silver'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='silver'>" + locale.colours.silver + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='gray'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='gray'>" + locale.colours.gray + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='maroon'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='maroon'>" + locale.colours.maroon + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='red'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='red'>" + locale.colours.red + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='purple'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='purple'>" + locale.colours.purple + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='green'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='green'>" + locale.colours.green + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='olive'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='olive'>" + locale.colours.olive + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='navy'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='navy'>" + locale.colours.navy + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='blue'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='blue'>" + locale.colours.blue + "</a></li>" +
-                "<li><div class='wysihtml5-colors' data-wysihtml5-command-value='orange'></div><a class='wysihtml5-colors-title' data-wysihtml5-command='foreColor' data-wysihtml5-command-value='orange'>" + locale.colours.orange + "</a></li>" +
-              "</ul>" +
-            "</li>";
-        }
-    };
-
-    var templates = function(key, locale, options) {
-        return tpl[key](locale, options);
-    };
-
-
-    var Wysihtml5 = function(el, options) {
-        this.el = el;
-        var toolbarOpts = options || defaultOptions;
-        for(var t in toolbarOpts.customTemplates) {
-          tpl[t] = toolbarOpts.customTemplates[t];
-        }
-        this.toolbar = this.createToolbar(el, toolbarOpts);
-        this.editor =  this.createEditor(options);
-
-        window.editor = this.editor;
-
-        $('iframe.wysihtml5-sandbox').each(function(i, el){
-            $(el.contentWindow).off('focus.wysihtml5').on({
-                'focus.wysihtml5' : function(){
-                    $('li.dropdown').removeClass('open');
-                }
-            });
-        });
-    };
-
-    Wysihtml5.prototype = {
-
-        constructor: Wysihtml5,
-
-        createEditor: function(options) {
-            options = options || {};
-            
-            // Add the toolbar to a clone of the options object so multiple instances
-            // of the WYISYWG don't break because "toolbar" is already defined
-            options = $.extend(true, {}, options);
-            options.toolbar = this.toolbar[0];
-
-            var editor = new wysi.Editor(this.el[0], options);
-
-            if(options && options.events) {
-                for(var eventName in options.events) {
-                    editor.on(eventName, options.events[eventName]);
-                }
-            }
-            return editor;
-        },
-
-        createToolbar: function(el, options) {
-        
-            var self = this;
-            var toolbar = $("<ul/>", {
-                'class' : "wysihtml5-toolbar",
-                'style': "display:none"
-            });
-            var culture = options.locale || defaultOptions.locale || "en";
-            for(var key in defaultOptions) {
-                var value = false;
-
-                if(options[key] !== undefined) {
-                    if(options[key] === true) {
-                        value = true;
-                    }
-                } else {
-                    value = defaultOptions[key];
-                }
-
-                if(value === true) {
-                    toolbar.append(templates(key, locale[culture], options));
-
-                    if(key === "html") {
-                        this.initHtml(toolbar);
-                    }
-
-                    if(key === "link") {
-                        this.initInsertLink(toolbar);
-                    }
-
-                    if(key === "image") {
-                        this.initInsertImage(toolbar);
-                    }
-                }
-            }
-
-            if(options.toolbar) {
-                for(key in options.toolbar) {
-                    toolbar.append(options.toolbar[key]);
-                }
-            }
-
-            toolbar.find("a[data-wysihtml5-command='formatBlock']").click(function(e) {
-                var target = e.target || e.srcElement;
-                var el = $(target);
-                self.toolbar.find('.current-font').text(el.html());
-            });
-
-            toolbar.find("a[data-wysihtml5-command='foreColor']").click(function(e) {
-                var target = e.target || e.srcElement;
-                var el = $(target);
-                self.toolbar.find('.current-color').text(el.html());
-            });
-
-            this.el.before(toolbar);
-
-            return toolbar;
-        },
-
-        initHtml: function(toolbar) {
-            var changeViewSelector = "a[data-wysihtml5-action='change_view']";
-            toolbar.find(changeViewSelector).click(function(e) {
-                toolbar.find('a.btn').not(changeViewSelector).toggleClass('disabled');
-            });
-        },
-
-        initInsertImage: function(toolbar) {
-            var self = this;
-            var insertImageModal = toolbar.find('.bootstrap-wysihtml5-insert-image-modal');
-            var urlInput = insertImageModal.find('.bootstrap-wysihtml5-insert-image-url');
-            var insertButton = insertImageModal.find('a.btn-primary');
-            var initialValue = urlInput.val();
-            var caretBookmark;
-
-            var insertImage = function() {
-                var url = urlInput.val();
-                urlInput.val(initialValue);
-                self.editor.currentView.element.focus();
-                if (caretBookmark) {
-                  self.editor.composer.selection.setBookmark(caretBookmark);
-                  caretBookmark = null;
-                }
-                self.editor.composer.commands.exec("insertImage", url);
-            };
-
-            urlInput.keypress(function(e) {
-                if(e.which == 13) {
-                    insertImage();
-                    insertImageModal.modal('hide');
-                }
-            });
-
-            insertButton.click(insertImage);
-
-            insertImageModal.on('shown', function() {
-                urlInput.focus();
-            });
-
-            insertImageModal.on('hide', function() {
-                self.editor.currentView.element.focus();
-            });
-
-            toolbar.find('a[data-wysihtml5-command=insertImage]').click(function() {
-                var activeButton = $(this).hasClass("wysihtml5-command-active");
-
-                if (!activeButton) {
-                    self.editor.currentView.element.focus(false);
-                    caretBookmark = self.editor.composer.selection.getBookmark();
-                    insertImageModal.appendTo('body').modal('show');
-                    insertImageModal.on('click.dismiss.modal', '[data-dismiss="modal"]', function(e) {
-                        e.stopPropagation();
-                    });
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            });
-        },
-
-        initInsertLink: function(toolbar) {
-            var self = this;
-            var insertLinkModal = toolbar.find('.bootstrap-wysihtml5-insert-link-modal');
-            var urlInput = insertLinkModal.find('.bootstrap-wysihtml5-insert-link-url');
-            var targetInput = insertLinkModal.find('.bootstrap-wysihtml5-insert-link-target');
-            var insertButton = insertLinkModal.find('a.btn-primary');
-            var initialValue = urlInput.val();
-            var caretBookmark;
-
-            var insertLink = function() {
-                var url = urlInput.val();
-                urlInput.val(initialValue);
-                self.editor.currentView.element.focus();
-                if (caretBookmark) {
-                  self.editor.composer.selection.setBookmark(caretBookmark);
-                  caretBookmark = null;
-                }
-
-                var newWindow = targetInput.prop("checked");
-                self.editor.composer.commands.exec("createLink", {
-                    'href' : url,
-                    'target' : (newWindow ? '_blank' : '_self'),
-                    'rel' : (newWindow ? 'nofollow' : '')
-                });
-            };
-            var pressedEnter = false;
-
-            urlInput.keypress(function(e) {
-                if(e.which == 13) {
-                    insertLink();
-                    insertLinkModal.modal('hide');
-                }
-            });
-
-            insertButton.click(insertLink);
-
-            insertLinkModal.on('shown', function() {
-                urlInput.focus();
-            });
-
-            insertLinkModal.on('hide', function() {
-                self.editor.currentView.element.focus();
-            });
-
-            toolbar.find('a[data-wysihtml5-command=createLink]').click(function() {
-                var activeButton = $(this).hasClass("wysihtml5-command-active");
-
-                if (!activeButton) {
-                    self.editor.currentView.element.focus(false);
-                    caretBookmark = self.editor.composer.selection.getBookmark();
-                    insertLinkModal.appendTo('body').modal('show');
-                    insertLinkModal.on('click.dismiss.modal', '[data-dismiss="modal"]', function(e) {
-                        e.stopPropagation();
-                    });
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            });
-        }
-    };
-
-    // these define our public api
-    var methods = {
-        resetDefaults: function() {
-            $.fn.wysihtml5.defaultOptions = $.extend(true, {}, $.fn.wysihtml5.defaultOptionsCache);
-        },
-        bypassDefaults: function(options) {
-            return this.each(function () {
-                var $this = $(this);
-                $this.data('wysihtml5', new Wysihtml5($this, options));
-            });
-        },
-        shallowExtend: function (options) {
-            var settings = $.extend({}, $.fn.wysihtml5.defaultOptions, options || {}, $(this).data());
-            var that = this;
-            return methods.bypassDefaults.apply(that, [settings]);
-        },
-        deepExtend: function(options) {
-            var settings = $.extend(true, {}, $.fn.wysihtml5.defaultOptions, options || {});
-            var that = this;
-            return methods.bypassDefaults.apply(that, [settings]);
-        },
-        init: function(options) {
-            var that = this;
-            return methods.shallowExtend.apply(that, [options]);
-        }
-    };
-
-    $.fn.wysihtml5 = function ( method ) {
-        if ( methods[method] ) {
-            return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-        } else if ( typeof method === 'object' || ! method ) {
-            return methods.init.apply( this, arguments );
-        } else {
-            $.error( 'Method ' +  method + ' does not exist on jQuery.wysihtml5' );
-        }    
-    };
-
-    $.fn.wysihtml5.Constructor = Wysihtml5;
-
-    var defaultOptions = $.fn.wysihtml5.defaultOptions = {
-        "font-styles": true,
-        "color": false,
-        "emphasis": true,
-        "lists": true,
-        "html": false,
-        "link": true,
-        "image": true,
-        events: {},
-        parserRules: {
-            classes: {
-                "wysiwyg-color-silver" : 1,
-                "wysiwyg-color-gray" : 1,
-                "wysiwyg-color-white" : 1,
-                "wysiwyg-color-maroon" : 1,
-                "wysiwyg-color-red" : 1,
-                "wysiwyg-color-purple" : 1,
-                "wysiwyg-color-fuchsia" : 1,
-                "wysiwyg-color-green" : 1,
-                "wysiwyg-color-lime" : 1,
-                "wysiwyg-color-olive" : 1,
-                "wysiwyg-color-yellow" : 1,
-                "wysiwyg-color-navy" : 1,
-                "wysiwyg-color-blue" : 1,
-                "wysiwyg-color-teal" : 1,
-                "wysiwyg-color-aqua" : 1,
-                "wysiwyg-color-orange" : 1
-            },
-            tags: {
-                "b":  {},
-                "i":  {},
-                "br": {},
-                "ol": {},
-                "ul": {},
-                "li": {},
-                "h1": {},
-                "h2": {},
-                "h3": {},
-                "h4": {},
-                "h5": {},
-                "h6": {},
-                "blockquote": {},
-                "u": 1,
-                "img": {
-                    "check_attributes": {
-                        "width": "numbers",
-                        "alt": "alt",
-                        "src": "url",
-                        "height": "numbers"
-                    }
-                },
-                "a":  {
-                    check_attributes: {
-                        'href': "url", // important to avoid XSS
-                        'target': 'alt',
-                        'rel': 'alt'
-                    }
-                },
-                "span": 1,
-                "div": 1,
-                // to allow save and edit files with code tag hacks
-                "code": 1,
-                "pre": 1
-            }
-        },
-        stylesheets: false, // (path_to_project/lib/css/wysiwyg-color.css)
-        locale: "en"
-    };
-
-    if (typeof $.fn.wysihtml5.defaultOptionsCache === 'undefined') {
-        $.fn.wysihtml5.defaultOptionsCache = $.extend(true, {}, $.fn.wysihtml5.defaultOptions);
-    }
-
-    var locale = $.fn.wysihtml5.locale = {
-        en: {
-            font_styles: {
-                normal: "Normal text",
-                h1: "Heading 1",
-                h2: "Heading 2",
-                h3: "Heading 3",
-                h4: "Heading 4",
-                h5: "Heading 5",
-                h6: "Heading 6"
-            },
-            emphasis: {
-                bold: "Gras",
-                italic: "Italique",
-                underline: "Souligné"
-            },
-            lists: {
-                unordered: "Unordered list",
-                ordered: "Ordered list",
-                outdent: "Outdent",
-                indent: "Indent"
-            },
-            link: {
-                insert: "Insérer un lien",
-                cancel: "Annuler",
-                target: "Ouvrir le lien dans une nouvelle fenêtre"
-            },
-            image: {
-                insert: "Insert image",
-                cancel: "Cancel"
-            },
-            html: {
-                edit: "Edit HTML"
-            },
-            colours: {
-                black: "Black",
-                silver: "Silver",
-                gray: "Grey",
-                maroon: "Maroon",
-                red: "Red",
-                purple: "Purple",
-                green: "Green",
-                olive: "Olive",
-                navy: "Navy",
-                blue: "Blue",
-                orange: "Orange"
-            }
-        }
-    };
-
-}(window.jQuery, window.wysihtml5);
+				toolbar.find('input[type=text][data-' + options.commandRole + ']').on('webkitspeechchange change', function () {
+					var newValue = this.value; /* ugly but prevents fake double-calls due to selection restoration */
+					this.value = '';
+					restoreSelection();
+					if (newValue) {
+						editor.focus();
+						execCommand($(this).data(options.commandRole), newValue);
+					}
+					saveSelection();
+				}).on('focus', function () {
+					var input = $(this);
+					if (!input.data(options.selectionMarker)) {
+						markSelection(input, options.selectionColor);
+						input.focus();
+					}
+				}).on('blur', function () {
+					var input = $(this);
+					if (input.data(options.selectionMarker)) {
+						markSelection(input, false);
+					}
+				});
+				toolbar.find('input[type=file][data-' + options.commandRole + ']').change(function () {
+					restoreSelection();
+					if (this.type === 'file' && this.files && this.files.length > 0) {
+						insertFiles(this.files);
+					}
+					saveSelection();
+					this.value = '';
+				});
+			},
+			initFileDrops = function () {
+				editor.on('dragenter dragover', false)
+					.on('drop', function (e) {
+						var dataTransfer = e.originalEvent.dataTransfer;
+						e.stopPropagation();
+						e.preventDefault();
+						if (dataTransfer && dataTransfer.files && dataTransfer.files.length > 0) {
+							insertFiles(dataTransfer.files);
+						}
+					});
+			};
+		options = $.extend({}, $.fn.wysiwyg.defaults, userOptions);
+		toolbarBtnSelector = 'a[data-' + options.commandRole + '],button[data-' + options.commandRole + '],input[type=button][data-' + options.commandRole + ']';
+		bindHotkeys(options.hotKeys);
+		if (options.dragAndDropImages) {
+			initFileDrops();
+		}
+		bindToolbar($(options.toolbarSelector), options);
+		editor.attr('contenteditable', true)
+			.on('mouseup keyup mouseout', function () {
+				saveSelection();
+				updateToolbar();
+			});
+		$(window).bind('touchend', function (e) {
+			var isInside = (editor.is(e.target) || editor.has(e.target).length > 0),
+				currentRange = getCurrentRange(),
+				clear = currentRange && (currentRange.startContainer === currentRange.endContainer && currentRange.startOffset === currentRange.endOffset);
+			if (!clear || isInside) {
+				saveSelection();
+				updateToolbar();
+			}
+		});
+		return this;
+	};
+	$.fn.wysiwyg.defaults = {
+		hotKeys: {
+			'ctrl+b meta+b': 'bold',
+			'ctrl+i meta+i': 'italic',
+			'ctrl+u meta+u': 'underline',
+			'ctrl+z meta+z': 'undo',
+			'ctrl+y meta+y meta+shift+z': 'redo',
+			'ctrl+l meta+l': 'justifyleft',
+			'ctrl+r meta+r': 'justifyright',
+			'ctrl+e meta+e': 'justifycenter',
+			'ctrl+j meta+j': 'justifyfull',
+			'shift+tab': 'outdent',
+			'tab': 'indent'
+		},
+		toolbarSelector: '[data-role=editor-toolbar]',
+		commandRole: 'edit',
+		activeToolbarClass: 'btn-info',
+		selectionMarker: 'edit-focus-marker',
+		selectionColor: 'darkgrey',
+		dragAndDropImages: true,
+		fileUploadError: function (reason, detail) { console.log("File upload error", reason, detail); }
+	};
+}(window.jQuery));
 /*Main script for Questions*/
 $.ajaxPrefilter(function (options) {
     /*Test if redirection or other model*/

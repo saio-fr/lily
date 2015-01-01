@@ -29,42 +29,30 @@ class LogChatRepository extends EntityRepository
      * @return integer|array
      *
      */
-    public function hourlyNumberOfConversation($operator = null, $start, $end, $interval = null) {
-        //NB : Since DQL does not allow subrequest, we have to use native SQL.
-        $rsm = new ResultSetMapping;
-        $rsm->addScalarResult('avg', 'value');
-        $sq = $this->_em->createQueryBuilder();
+    public function numberOfConversations($operator = null, $start, $end, $interval = null) {
+        
+        $qb = $this->createQueryBuilder('l');
         
         // time_to_sec and timediff are personalized dql function, calling the correspondant sql function
-        
-        $sq->select('COUNT(*) AS conversations')
-           ->from('LogChat', 'c')
-           ->addSelect('ROUND(UNIX_TIMESTAMP(c.start) / 3600) AS hourId')
-           ->where('UNIX_TIMESTAMP(c.start) >= :start')
-           ->andWhere('UNIX_TIMESTAMP(c.end) <= :end');
-            
+        $qb->select('count(l) as value')
+           ->where('UNIX_TIMESTAMP(l.start) >= :start')
+           ->setParameter('start', $start)
+           ->andWhere('UNIX_TIMESTAMP(l.start) < :end')
+           ->setParameter('end', $end);
+
         if ($operator) {
-            $sq->andWhere('c.operator = :operator');
+           $qb->andWhere('l.operator = :operator')
+              ->setParameter('operator', $operator);
         }
-        
-        if (!$interval) {
-            $sql = 'SELECT AVG(conversations) as avg FROM ((' .$sq->getDql(). ')) AS T';
+
+        if($interval) {
+            $qb->addSelect('ROUND(UNIX_TIMESTAMP(l.start)/(:interval)) as intervalId')
+               ->setParameter('interval', $interval)
+               ->groupBy('intervalId');
+            return $qb->getQuery()->getResult();
         } else {
-            $rsm->addScalarResult('intervalId', 'intervalId');
-            $sql = 'SELECT AVG(conversations) as avg, ROUND(hourId/(:intervalInHours)) AS intervalId FROM ((' .$sq->getDql(). ')) AS T GROUP BY intervalId';
-        }
-        
-        $qb = $this->_em->createNativeQuery($sql, $rsm)
-          ->setParameter('start', $start)
-          ->setParameter('end', $end)
-          ->setParameter('operator', $operator)
-          ->setParameter('intervalInHours', $interval / 3600);
-             
-        if ($interval) {
-            return $qb->getResult();
-        } else {
-            return $qb->getSingleScalarResult() ?: 0;
-        }       
+            return $qb->getQuery()->getSingleScalarResult() ?: 0;
+        }    
     }
 
     /**
@@ -140,10 +128,10 @@ class LogChatRepository extends EntityRepository
               ->setParameter('operator', $operator);
         }
 
-        if($interval) {
-           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.start)/(:interval)) as intervalId')
-              ->setParameter('interval', $interval)
-              ->groupBy('intervalId');
+        if ($interval) {
+            $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.start)/(:interval)) as intervalId')
+               ->setParameter('interval', $interval)
+               ->groupBy('intervalId');
             return $qb->getQuery()->getResult();
         } else {
             return $qb->getQuery()->getSingleScalarResult() ?: 0;
@@ -173,7 +161,6 @@ class LogChatRepository extends EntityRepository
         // UNIX_TIMESTAMP and ROUND are personalized dql functions, calling the correspondant sql functions
         $qb->select('avg(r.satisfaction) as value');
         $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
-           ->andWhere('r.start IS NOT NULL')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
            ->setParameter('end', $end)
@@ -203,19 +190,19 @@ class LogChatRepository extends EntityRepository
      *
      */
     public function conversations($operator, $start, $end) {
-        $qb = $this->createQueryBuilder('r');
-        $qb->select('r');
-        $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
+      
+        $qb = $this->createQueryBuilder('l');
+        
+        $qb->where('UNIX_TIMESTAMP(l.start) >= :start')
            ->setParameter('start', $start)
-           ->andWhere('r.start IS NOT NULL')
-           ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
+           ->andWhere('UNIX_TIMESTAMP(l.start) < :end')
            ->setParameter('end', $end);
-        if ($operator !== null) {
-          $qb->andWhere('r.operator = :operator')
+        if ($operator) {
+          $qb->andWhere('l.operator = :operator')
              ->setParameter('operator', $operator);
         }
-        $qb->groupBy('r.start');
-		   
+        $qb->orderBy('l.start', 'DESC');
+		
         return $qb->getQuery()->getResult();
     }
 }

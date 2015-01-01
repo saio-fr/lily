@@ -23,7 +23,6 @@ class UserAdminType extends AbstractType
             ->add('roles')
             ->add('phone')
             ->add('email')
-            ->add('username')
             ->add('plainPassword')
             ->add('config', new AvatarType());
     }
@@ -36,7 +35,7 @@ class UserAdminType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Lily\UserBundle\Entity\User',
             'csrf_protection'   => false,
-            'allow_extra_fields' => true,
+            'allow_extra_fields' => true
         ));
     }
 

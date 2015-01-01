@@ -89,11 +89,10 @@ require([
 
 	// Connect to our ws serv
 	var sess = new ab.connect(
-
-		'ws://ws.saio.fr/' + globals.licence + '/chat', // The host
+  	
+		globals.wsserver + '/chat/' + globals.licence, // The host
 
 	  function(session) {  // Once the connection has been established
-  	  $('.js-modal-connection-lost').modal('hide');
 			app.ws = session;
       app.init();	
 		},
@@ -105,7 +104,7 @@ require([
     { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
 			'skipSubprotocolCheck': true,
 			'maxRetries': 1000000,
-			'retryDelay': 2000
+			'retryDelay': 20
 	  }
 	);
 

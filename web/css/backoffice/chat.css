@@ -542,7 +542,7 @@ i {
 }
 
 .js-dashboard-container {
-  padding: 30px 15px;
+  margin-top: 30px;
 }
 
 .js-dashboard-operators-info small {
