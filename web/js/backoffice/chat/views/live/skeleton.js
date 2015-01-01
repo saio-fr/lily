@@ -87,9 +87,10 @@ define(function (require) {
     
   	setWindows: function () {		
 
+      
   		// If there is more 1 windows, add "multiple" class to show them all
   		if (this.windows.length > 1) {
-  		
+
   			$('.conversations').children().addClass('multiple');
   			$('.conversations').children().addClass('half-width');
   			if (this.windows.length > 2) {
@@ -97,7 +98,7 @@ define(function (require) {
   			}
 
   		} else {
-  			
+
   			$('.conversations').children().removeClass('multiple');
   			$('.conversations').children().removeClass('half-width');
   		}
@@ -111,8 +112,8 @@ define(function (require) {
     		$('.btn-group.windows').show();
       } else { 
   		
-  			$('.windows .dropdown-select li:first-child a').trigger('click');
-  			this.$el.find('.btn-group.windows').hide(); 
+  			$('.windows .dropdown-menu li:first-child a').trigger('click');
+  			$('.btn-group.windows').hide(); 
   			$('.conversations').children().removeClass('multiple full-width half-width');
   		}
   		
