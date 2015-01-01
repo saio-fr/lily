@@ -75,15 +75,6 @@ define(function (require) {
           error: function (model, response) {
             response = JSON.parse(response.responseText);
 
-            if (response.errors.children.username.errors) {
-              $('input[name="username"]')
-                .closest('.form-group')
-                .addClass('has-error has-feedback')
-                .find('.help-block')
-                .html(response.errors.children.username.errors)
-                .removeClass('hidden');
-            }
-
             if (response.errors.children.email.errors) {
               $('input[name="email"]')
                 .closest('.form-group')

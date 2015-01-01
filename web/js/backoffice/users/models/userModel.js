@@ -48,10 +48,6 @@ define(function (require) {
         minLength: 10,
         msg: 'Au moins 10 caractères'
       },
-      'username': {
-        required: true,
-        msg: 'Veuillez renseiger un nom d\'utilisateur'
-      },
       'email': {
         required: true,
         pattern: 'email',
