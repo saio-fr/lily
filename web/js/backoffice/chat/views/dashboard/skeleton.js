@@ -19,7 +19,7 @@ define(function (require) {
   SkeletonView = Backbone.View.extend({
 
 	  tagName: 'section',
-    className: 'js-dashboard-container hbox stretch hide',
+    className: 'js-dashboard-container vbox hide',
     template: _.template($('#dashboardSkeletonTpl').html()),
 
     events: {
