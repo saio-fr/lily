@@ -51,10 +51,11 @@ class AppController extends BaseController
             return new Response();
         }
 
-        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', array('licence' => $licence));
+        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', 
+          array('licence' => $licence)
+        );
 
-        $response = new Response($trackerJS);
-        $response->headers->set('Content-Type', 'text/javascript');
+        $response = new Response($trackerJS->getContent(), 200, array('content-type' => 'text/javascript'));
 
         return $response;
     }
