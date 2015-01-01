@@ -26,7 +26,7 @@ define(function(require) {
   // support css animations
   g.support = window.Modernizr.cssanimations;
 
-  //
+  // AVI
   g.loadingTpl =
     '<div class="lily-msg-avatar lily-cst-msg-avatar lily-message-show">' +
     '<p class="lily-loading">' +
@@ -37,13 +37,16 @@ define(function(require) {
     '<i class="lily-avatar-bubble"></i>' +
     '</div>';
 
-  //
   g.emptySearch = 'Il semblerait qu\'il y ait un problème. ' +
     'Je n\'ai pas trouvé de réponse à votre question';
 
   g.unknownAvatarUrl = 'http://cdn.saio.fr/images/default-avatar.png';
   g.baseAvatarUrl = "http://cdn.saio.fr/customer/" + g.licence +
     "/images/avatars/";
+
+  // Mail
+  g.mailSentMsg = "Votre mail a bien été envoyé";
+  g.mailSentError = "Votre mail n'a pas pu être envoyé";
 
   return g;
 });

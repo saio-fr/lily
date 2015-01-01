@@ -9,6 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var _ = require('underscore'),
     app = require('app/app'),
+    config = require('app/globals'),
     Models = require('app/data/models'),
     api = require('app/data/api'),
     PageView = require('app/views/page'),
@@ -25,7 +26,9 @@ define(function(require) {
     template: _.template($('#lily-page-mail-template').html()),
 
     initialize: function() {
-      $(this.render().el).appendTo('#lily-wrapper-page');
+      $(this.render({
+        page: true
+      }).el).appendTo('#lily-wrapper-page');
       this.errors = {};
     },
 
@@ -87,15 +90,18 @@ define(function(require) {
         mail: that.from,
         object: that.object,
         msg: that.msg
-      })
-        .then(function(res) {
-          app.router.navigate('mail/sent', {
+      }).then(function(res) {
+        app.showInfo("success", config.mailSentMsg);
+        if (app.mailOnly) {
+          return;
+        } else {
+          app.router.navigate('home', {
             trigger: true
           });
-
-        }, function(err) {
-          // TODO: show error popup
-        });
+        }
+      }, function(err) {
+        app.showInfo("error", config.mailSentError);
+      });
     }
 
   });

@@ -22,6 +22,8 @@ define(function(require) {
 
   ChatView = PageView.extend({
 
+    template: _.template($('#lily-page-chat-template').html()),
+
     events: {
       'keyup  #lily-search-form': 'writing',
       'submit #lily-search-form': 'doChat',
@@ -47,8 +49,7 @@ define(function(require) {
 
     render: function() {
 
-      var template = _.template($('#lily-page-chat-template').html());
-      this.$el.html(template());
+      this.$el.html(this.template());
 
       $('input, textarea').placeholder();
       this.$input = this.$el.find('#lily-search-form input.lily-search-input');

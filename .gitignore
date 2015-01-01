@@ -11,3 +11,4 @@ compiled
 tmp
 temp
 ftpsync.settings
+.remote-sync.json

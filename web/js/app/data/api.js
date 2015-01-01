@@ -40,7 +40,7 @@ define(function(require) {
   };
 
   api.sendMail = function(data) {
-    return this.send('POST', '/api/' + config.licence + '/sendmail', data);
+    return this.send('POST', '/api/' + config.licence + '/mail', data);
   };
 
   api.redirectionMail = function(data, id) {

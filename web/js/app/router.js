@@ -34,9 +34,9 @@ define(function(require) {
       '': 'home',
       'home': 'home',
       'chat': 'chat',
+      'welcome-screen': 'welcomeScreen',
       'avi': 'avi',
       'mail': 'mail',
-      'mail/sent': 'mailSent',
       'faq': 'faq',
       'faq/': 'faq',
       'faq/:parent': 'faq',
@@ -54,15 +54,18 @@ define(function(require) {
         config.chatAvailable ||
         app.chatting) {
 
-        this.chat();
-        this.navigate('chat');
+        this.navigate('chat', {
+          trigger: true
+        });
       } else if (config.avi && config.avi.active) {
-        this.avi();
-        this.navigate('avi');
+        this.navigate('avi', {
+          trigger: true
+        });
       } else {
-        this.mail();
-        this.mailOnly = true;
-        this.navigate('mail');
+        app.mailOnly = true;
+        this.navigate('mail', {
+          trigger: true
+        });
       }
     },
 
@@ -77,19 +80,25 @@ define(function(require) {
       });
       this.message = new MessageLilySimpleView({
         model: this.welcome
-      })
-        .render();
+      }).render();
     },
 
     chat: function() {
 
       var view;
-      if (config.chat.contactForm &&
-        app.chatContactForm) {
-        view = new ChatWelcomeScreenView();
+      if (config.chat.contactForm && !app.sawContactForm) {
+        this.navigate('welcome-screen', {
+          trigger: true
+        });
       } else {
         view = new ChatView();
+        utils.goTo(view);
       }
+    },
+
+    welcomeScreen: function() {
+
+      var view = new ChatWelcomeScreenView();
       utils.goTo(view);
     },
 
@@ -97,14 +106,6 @@ define(function(require) {
 
       var view = new MailView();
       utils.goTo(view);
-    },
-
-    mailSent: function() {
-
-      if (this.mailOnly) {
-        return;
-      }
-      this.home();
     },
 
     faq: function(parent) {

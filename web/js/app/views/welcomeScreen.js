@@ -30,7 +30,9 @@ define(function(require) {
       this.errors.firstname = false;
       this.errors.lastname = false;
       this.errors.email = false;
-      $(this.render().el).appendTo('#lily-wrapper-page');
+      $(this.render({
+        page: true
+      }).el).appendTo('#lily-wrapper-page');
     },
 
     render: function() {
@@ -92,14 +94,11 @@ define(function(require) {
         return;
       }
 
-      app.chatContactForm = false;
-      app.ws.call('visitor/contactForm', {
-        'firstname': firstName,
-        'lastname': lastName,
-        'email': email
+      app.trigger('welcomeScreen:submit', {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
       });
-
-      app.router.navigate('chat', {trigger: true});
     }
 
   });
