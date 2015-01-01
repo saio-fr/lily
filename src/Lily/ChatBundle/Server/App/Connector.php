@@ -108,7 +108,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     }
     
     public function config($licence) {
-      echo 'config';
+
         $config = $this->cache->fetch($licence.'_config_app_chat');
 
         if (!$config) {			
