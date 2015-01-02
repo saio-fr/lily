@@ -9,27 +9,29 @@
       <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user">
         <i class="icon-comment-alt"></i>
       </a>
-    </header>        
-    <section class="scrollable bg-dark dk">
-      <!-- User section -->
-      <div class="lt nav-user hidden-xs pos-rlt">
-        <div class="nav-avatar pos-rlt">
-          <a href="#" class="thumb-sm avatar animated rollIn" data-toggle="dropdown">
-            <img src="{{ app.user|avatar }}" width="70" height="70">
-            <span class="caret caret-white"></span>
-          </a>
-          <ul class="dropdown-menu m-t-sm animated fadeInLeft">
-          	<span class="arrow top"></span>
-            <li>
-              <a href="{{ path('lily_profile') }}">Profil</a>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
-            </li>
-          </ul>
-        </div>            
+    </header>
+
+  <!-- User section -->
+    <div class="lt nav-user hidden-xs pos-rlt">
+      <div class="nav-avatar pos-rlt">
+        <a href="#" class="thumb-sm avatar animated rollIn" data-toggle="dropdown">
+          <img src="{{ app.user|avatar }}" width="70" height="70">
+          <span class="caret caret-white"></span>
+        </a>
+        <ul class="dropdown-menu m-t-sm animated fadeInLeft">
+          <span class="arrow top"></span>
+          <li>
+            <a href="{{ path('lily_profile') }}">Profil</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+          </li>
+        </ul>
       </div>
+    </div>
+
+    <section class="scrollable bg-dark dk navigation-container">
       <!-- nav -->
       <nav class="nav-primary hidden-xs">
         <ul class="nav">
@@ -46,21 +48,21 @@
               <i class="icon-book"></i>
               <span>Connaissances</span>
             </a>
-          </li> 
-            {% endif %} 
+          </li>
+            {% endif %}
           {% endif %}
-          
+
           {% if app.user.client.config.faq %}
-            {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %} 
+            {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
           <li>
             <a href="{{ path('lily_faq') }}" class="{% if app.request.attributes.get('_route') == 'lily_faq' %}active{% endif %}">
               <i class="icon-sort-by-attributes-alt"></i>
               <span>Faq</span>
             </a>
-          </li>  
-            {% endif %} 
+          </li>
+            {% endif %}
           {% endif %}
-          
+
           {% if app.user.client.config.chat %}
             {% if is_granted('ROLE_CHAT_OPERATOR') %}
           <li>
@@ -71,39 +73,39 @@
           </li>
             {% endif %}
           {% endif %}
-          
+
           {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
           <li>
             <a href="{{ path('lily_redirections') }}" class="{% if app.request.attributes.get('_route') == 'lily_redirections' %}active{% endif %}">
               <i class="icon-share-alt"></i>
               <span>Redirections</span>
             </a>
-          </li>  
+          </li>
           {% endif %}
-          
+
           <li>
             <a href="{{ path('lily_statistics') }}" class="{% if app.request.attributes.get('_route') == 'lily_statistics' %}active{% endif %}">
               <i class="icon-bar-chart"></i>
               <span>Statistiques</span>
             </a>
-          </li> 
+          </li>
           {% if is_granted('ROLE_ADMIN') %}
           <li>
             <a href="{{ path('lily_config') }}" class="{% if app.request.attributes.get('_route') == 'lily_config' %}active{% endif %}">
               <i class="icon-gear"></i>
               <span>Paramètres</span>
             </a>
-          </li> 
-          {% endif %}  
+          </li>
+          {% endif %}
           {% if is_granted('ROLE_ADMIN') %}
           <li>
             <a href="{{ path('lily_users_admin') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
               <i class="icon-group"></i>
               <span>Utilisateurs</span>
             </a>
-          </li> 
-          {% endif %}  
-        </ul>    
+          </li>
+          {% endif %}
+        </ul>
       </nav>
       <!-- / nav -->
     </section>
