@@ -18,7 +18,7 @@ define(function (require) {
 
     id: '',
     url: function() {
-      return '/user/' + g.userId;
+      return '/users/' + g.userId;
     },
     
     validation: {

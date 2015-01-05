@@ -57,8 +57,8 @@ define(function (require) {
         app.skeleton.closeEditView();
       }
 
-      app.skeleton.faqCollection.url = "/" + id;
-      app.skeleton.breadcrumbs.url = "/breadcrumbs/" + id;
+      app.skeleton.faqCollection.url = "/faqs/" + id;
+      app.skeleton.breadcrumbs.url = "/faqs/breadcrumbs/" + id;
 
       // Fetch breadcrumb models and init view
       app.skeleton.breadcrumbs.fetch({

@@ -9,7 +9,7 @@ lily_config:
 lily_config_api:
     resource: "@LilyBackOfficeBundle/Controller/ConfigController.php"
     type:     rest
-    prefix:   /api/config
+    prefix:   /api
     
 # lily_personnalisation:
 #     pattern:  /personnalisation

@@ -48,7 +48,7 @@
     {% autoescape false %}
       <script type="text/javascript">
   	    var config = {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api/config';
+        config.root = '{{ app.request.getBaseURL() }}/lily/api';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
 	    </script>
     {% endautoescape %}

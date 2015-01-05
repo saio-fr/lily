@@ -27,7 +27,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @Get("/")
+     * @Get("/users")
      * @Secure(roles="ROLE_USER")
      */
     public function getUsersAction() {
@@ -36,7 +36,7 @@ class UserController extends BaseController
     }
     
     /**
-     * @Get("/{id}")
+     * @Get("/users/{id}")
      */
     public function getUserAction($id) {
       
@@ -58,7 +58,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @Delete("/{id}", requirements={"id" = "\d+"})
+     * @Delete("/users/{id}", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
      * @View(statusCode=204)
      */
@@ -82,7 +82,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @Put("/{id}", requirements={"id" = "\d+"})
+     * @Put("/users/{id}", requirements={"id" = "\d+"})
      */
     public function putAction($id, Request $request) {
 
@@ -115,7 +115,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @Post("/")
+     * @Post("/users")
      */
     public function postAction(Request $request) {
 
@@ -148,7 +148,7 @@ class UserController extends BaseController
     } 
     
     /**
-     * @Post("/{id}/avatar", requirements={"id" = "\d+"})
+     * @Post("/users/{id}/avatar", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function putAvatarAction($id, Request $request) {

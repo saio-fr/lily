@@ -16,7 +16,7 @@ define(function (require) {
   RedirectionCollection = Backbone.Collection.extend({
 
     model: RedirectionModel,
-    url: "/",
+    url: "/redirections",
 
     initialize: function () {
       this.listenTo(this, 'change', this.onChange);

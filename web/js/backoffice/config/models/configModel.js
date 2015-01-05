@@ -13,7 +13,7 @@ define(function (require) {
 		ConfigModel;
 
   ConfigModel = Backbone.NestedModel.extend({
-		url: "/"
+		url: "/config"
   });
 
 	return ConfigModel;

@@ -26,7 +26,7 @@ class ConfigController extends BaseController
     }
 
     /**
-     * @Get("/")
+     * @Get("/config")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function getAction(Request $request) {
@@ -45,7 +45,7 @@ class ConfigController extends BaseController
     }
 
     /**
-     * @Put("/")
+     * @Put("/config")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function putAction(Request $request) {

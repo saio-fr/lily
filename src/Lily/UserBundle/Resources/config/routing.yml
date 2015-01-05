@@ -9,4 +9,4 @@ lily_users_admin:
 lily_user_api:
     resource: "@LilyUserBundle/Controller/UserController.php"
     type:     rest
-    prefix:   /api/user
+    prefix:   /api

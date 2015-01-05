@@ -16,7 +16,7 @@ define(function (require) {
 
     model : UserModel,
     sortCriteria : "lastname",
-    url: '/user',
+    url: '/users',
 
     comparator: function(item) {
 

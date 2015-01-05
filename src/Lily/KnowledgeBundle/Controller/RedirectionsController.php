@@ -31,23 +31,21 @@ class RedirectionsController extends BaseController
     }
     
     /**
-     * @Get("/")
+     * @Get("/redirections")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
     public function getRedirectionsAction()
-    {    
-
+    {
         $redirections = $this->getEntityManager()
     		->getRepository('LilyKnowledgeBundle:Redirection')
         ->findAll();
     	
         return $redirections;	
-        	
     }
     
     /**
-     * @Get("/{id}")
+     * @Get("/redirections/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -65,7 +63,7 @@ class RedirectionsController extends BaseController
     }
     
     /**
-     * @Post("/")
+     * @Post("/redirections")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction(Request $request)
@@ -88,7 +86,7 @@ class RedirectionsController extends BaseController
     }    
     
     /**
-     * @Put("/{id}")
+     * @Put("/redirections/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction($id, Request $request)
@@ -115,7 +113,7 @@ class RedirectionsController extends BaseController
     } 
     
     /**
-     * @Delete("/{id}")
+     * @Delete("/redirections/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */

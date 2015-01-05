@@ -34,7 +34,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @Get("/{parent}")
+     * @Get("/faqs/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -52,7 +52,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @Get("/breadcrumbs/{id}")
+     * @Get("/faqs/breadcrumbs/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getBreadcrumbsAction($id)
@@ -88,7 +88,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @Post("/{parent}")
+     * @Post("/faqs/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction($parent, Request $request)
@@ -118,7 +118,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @Put("/{id}")
+     * @Put("/faqs/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction($id, Request $request)
@@ -144,7 +144,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @Delete("/{id}")
+     * @Delete("/faqs/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
