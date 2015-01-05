@@ -6,43 +6,48 @@ use Ratchet\ConnectionInterface as Conn;
 
 class VisitorService {
 
-    protected $container;
-
-    public function setContainer($container) {
-        $this->container = $container;
-    }
-
-    public function getContainer() {
-        return $this->container;
-    }
-
     /**
      * When connect on ws, set current page + check if the visitor is already chatting
      */
     public function connect(Conn $conn, $params, \StdClass $client) {
+      
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
+              
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
-                if ($item->closed) { $chatting = false; }
-                else { $chatting = true; }
-                if ($item->displayed) { $display = true; }
-                else { $display = false; }
-                $showContactForm = $item->showContactForm;
             }
         }
-        return array('display' => $display, 'chatting' => $chatting, 'showContactForm' => $showContactForm);
+        
+        return array(
+          'display' => $item->display, 
+          'chatting' => !$item->closed, 
+          'showContactForm' => $item->showContactForm
+        );
     }
 
     /**
      * Set that visitors used the app (used in logConnection)
      */
+    public function display(Conn $conn, $params, \StdClass $client) {
+      
+        foreach ($client->users as $item) {
+            if ($item->id === $conn->Session->getId()) {
+                $item->display = $params['display'];
+            }
+        }
+        return array('result' => true);
+    }
+    
+    /**
+     * Open the app on new page ?
+     */
     public function displayed(Conn $conn, $params, \StdClass $client) {
+      
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->displayed = true;
             }
         }
-
         return array('result' => true);
     }
 
@@ -50,6 +55,7 @@ class VisitorService {
      * Set visitors' contact informations from contact from
      */
     public function contactForm(Conn $conn, $params, \StdClass $client) {
+      
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->firstname = $params['firstname'];
@@ -58,7 +64,6 @@ class VisitorService {
                 $item->showContactForm = false;
             }
         }
-
         return array('result' => true);
     }
 
@@ -66,6 +71,7 @@ class VisitorService {
      * Set asked question to the avatar
      */
     public function newAviQuestion(Conn $conn, $params, \StdClass $client) {
+      
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->questions[] = $params['question'];
@@ -79,6 +85,7 @@ class VisitorService {
      * Open the conversation with the visitor
      */
     public function open(Conn $conn, $params, \StdClass $client) {
+      
         foreach ($client->users as $item) {
 
             if ($item->type === 'operator' && 
@@ -131,8 +138,9 @@ class VisitorService {
      * Is the visitor writing ?
      */
     public function writing(Conn $conn, $params, \StdClass $client) {
+      
         foreach ($client->users as $item) {
-            if ($item->id === $params['sid']) {
+            if ($item->id === $conn->Session->getId()) {
                 $item->writing = $params['writing'];
             }
         }
@@ -143,8 +151,9 @@ class VisitorService {
      * Set chat satisfaction
      */
     public function satisfaction(Conn $conn, $params, \StdClass $client) {
+      
         foreach ($client->users as $item) {
-            if ($item->id === $params['sid']) {
+            if ($item->id === $conn->Session->getId()) {
                 $item->satisfaction = $params['satisfaction'];
             }
         }
