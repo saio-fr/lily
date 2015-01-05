@@ -87,7 +87,7 @@ define(function(require) {
       }
 
       api.sendMail({
-        mail: that.from,
+        from: that.from,
         object: that.object,
         msg: that.msg
       }).then(function(res) {

@@ -12,9 +12,9 @@ parameters:
 
     # Mail
     mailer_transport: smtp
-    mailer_host: 37.59.26.163
-    mailer_user: null
-    mailer_password: null
+    mailer_host: 172.16.0.2
+    mailer_user: noreply@saio.fr
+    mailer_password: 8Coi8s6~
 
     # Var
     locale: fr
