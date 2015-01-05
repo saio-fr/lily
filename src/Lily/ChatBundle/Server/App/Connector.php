@@ -163,7 +163,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                     else $client->available = false;
       			    }			    
       			    // Set in the cache
-                $this->cache->save('chat_available_'.$licence, $client->available, 3600); 
+                $this->cache->save('chat_available_'.$licence, $client->available, 0); 
     		    }
     		}
     }

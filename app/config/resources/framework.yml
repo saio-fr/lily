@@ -19,4 +19,5 @@ framework:
         #handler_id:   session.handler.memcached
         cookie_domain: .saio.fr
     fragments:       ~
-    http_method_override: true  
+    http_method_override: true
+    trusted_proxies:  [192.0.0.1, 10.0.0.0/8]
