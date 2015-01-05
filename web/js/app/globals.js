@@ -47,6 +47,8 @@ define(function(require) {
   // Mail
   g.mailSentMsg = "Votre mail a bien été envoyé";
   g.mailSentError = "Votre mail n'a pas pu être envoyé";
+  g.connexionIssue =
+    "Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur";
 
   return g;
 });
