@@ -36,7 +36,7 @@ class VisitorService {
     /**
      * Set that visitors used the app (used in logConnection)
      */
-    public function setDisplayed(Conn $conn, $params, \StdClass $client) {
+    public function displayed(Conn $conn, $params, \StdClass $client) {
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->displayed = true;
