@@ -9,8 +9,10 @@ define(function(require) {
   // Require CommonJS like includes
   var $ = require('jquery'),
     _ = require('underscore'),
+    Backbone = require('backbone'),
     app = require('app/app'),
     when = require('when'),
+    Models = require('app/data/models'),
     config = require('app/globals'),
     // Object wrapper returned as a module
     api = {};
@@ -48,27 +50,40 @@ define(function(require) {
       id + '/mail', data);
   };
 
-  api.getFaq = function(parent) {
-    return this.send('GET', '/api/' + config.licence + '/faq/' + parent);
-  };
-
   api.getTopQuestions = function(id) {
     return this.send('GET', '/api/' + config.licence + '/top-questions/' + id);
   };
 
+  api.getFaq = function(parent) {
+    return this.send('GET', '/api/' + config.licence + '/faq/' + parent);
+  };
 
-  // Returns the list of categories and contents for a given parent.
-  // Looks for existing list in faqModel or gets from API
-  api.getFaqList = function(parent) {
+  api.getFaqModel = function(id) {
     var deferred = when.defer(),
-      faqs;
+      faq;
 
-    if (app.skeleton.faqModel && app.skeleton.faqModel.get('faqs')) {
-      faqs = app.skeleton.faqModel.get('faqs');
-      deferred.resolve(faqs);
+    if (app.skeleton.faqCollection) {
+      faq = app.skeleton.faqCollection.findWhere({
+        id: id
+      }) || null;
+    }
+
+    if (faq) {
+      deferred.resolve(faq);
     } else {
-      faqs = api.getFaq(parent).then(function(data) {
-        deferred.resolve(data.faqs);
+      api.getFaq(id).then(function(data) {
+        var sortedData, model;
+
+        sortedData = _.indexBy(data.faqs, 'position');
+
+        model = new Models.Faq({
+          id: data.id,
+          parent: data.parent,
+          title: data.title,
+          faqs: sortedData
+        });
+
+        deferred.resolve(model);
       }, function(err) {
         deferred.reject(err);
       });

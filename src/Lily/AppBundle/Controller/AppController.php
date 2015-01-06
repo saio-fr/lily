@@ -24,7 +24,7 @@ class AppController extends BaseController
         $config = $this->getAppConfig($licence);
         $redirection = $this->getDefaultRedirection($licence);
         $chatAvailable = $this->isChatAvailable($licence);
-        
+
         $session = $this->container->get('session');
         if (!$session->isStarted()) {
             $session->start();
@@ -51,7 +51,7 @@ class AppController extends BaseController
             return new Response();
         }
 
-        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', 
+        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig',
           array('licence' => $licence)
         );
 
@@ -61,48 +61,54 @@ class AppController extends BaseController
     }
 
     /**
-     * @Get("/{licence}/faq/{parent}")
+     * @Get("/{licence}/faq/{id}")
      * @View()
      */
-    public function getFaqAction($licence, $parent) {
+    public function getFaqAction($licence, $id) {
 
         // On initialise nos variables
         $em = $this->getEntityManager($licence);
         $session = $this->container->get('session');
-          
-        if (strtolower($parent) == 'null') { $parent = NULL; }
+
+        if (strtolower($id) == 'null') { $id = NULL; }
 
         // On récupère les catégories enfants
         $faqs = $em->getRepository('LilyKnowledgeBundle:Faq')
-        ->findByParent($parent);
+        ->findByParent($id);
 
-        if ($parent) {
+        if ($id) {
 
             // On récupère l'id du parent
-            $parent = $em->getRepository('LilyKnowledgeBundle:Faq')
-            ->findOneById($parent);
+            $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
+            ->findOneById($id);
 
             // On crée un log de requete
             $request = new LogRequest();
             $request->setSession($session->getId());
 
             $this->setMedia($request);
-            $request->setFaq($parent);
+            $request->setFaq($faq);
 
             $em->persist($request);
             $em->flush();
 
-            $title = $parent->getTitle();
+            $title = $faq->getTitle();
 
-            if ($parent->getParent()) { $parent = $parent->getParent()->getId(); }
+            if ($faq->getParent()) { $parent = $faq->getParent()->getId(); }
             else { $parent = 'NULL'; }
 
         } else {
+            $id = 'NULL';
             $parent = 'NULL';
             $title = 'NULL';
         }
 
-        return array('parent' => $parent, 'title' => $title, 'faqs' => $faqs);
+        return array(
+            'parent' => $parent,
+            'id' => $id,
+            'title' => $title,
+            'faqs' => $faqs
+        );
     }
 
     /**

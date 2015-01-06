@@ -14,7 +14,11 @@ define(function(require) {
     Collections = {};
 
   Collections.Messages = Backbone.Collection.extend({
-    model: Models.ChatMessage,
+    model: Models.ChatMessage
+  });
+
+  Collections.Faqs = Backbone.Collection.extend({
+    model: Models.Faq
   });
 
   return Collections;

@@ -40,7 +40,7 @@ define(function(require) {
       var item = $(e.target),
         type = item.data("type") || null,
         id = item.data("id"),
-        parent = this.model.get('parent');
+        parent = item.data("parent");
 
       if (type && type === "contenu") {
         app.router.navigate('faq/' + parent + '/content/' + id, {
