@@ -23,7 +23,7 @@ lily_tags_api:
 lily_faq_api:
     resource: "@LilyKnowledgeBundle/Controller/FaqController.php"
     type:     rest
-    prefix:   /api/faq
+    prefix:   /api
 
 lily_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/QuestionsController.php"
@@ -33,12 +33,12 @@ lily_questions_api:
 lily_redirections_api:
     resource: "@LilyKnowledgeBundle/Controller/RedirectionsController.php"
     type:     rest
-    prefix:   /api/redirections
+    prefix:   /api
 
 lily_unsanswered_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/UnansweredQuestionsController.php"
     type:     rest
-    prefix:   /api/questions/unanswered
+    prefix:   /api/questions
 
 lily_personal_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/PersonalQuestionsController.php"

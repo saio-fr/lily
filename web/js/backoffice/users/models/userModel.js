@@ -19,7 +19,7 @@ define(function (require) {
 
     id: '',
     url: function() {
-      return '/user/' + this.id;
+      return '/users/' + this.id;
     },
     
     defaults: {

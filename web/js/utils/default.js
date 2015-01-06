@@ -85,7 +85,7 @@ define(function (require) {
     form.append('avatarFile', avatar);
 
     $.ajax({
-      url: '/user/' + user.get('id') + '/avatar',
+      url: '/users/' + user.get('id') + '/avatar',
       type: 'POST',
       data: form,
       processData: false,  // tell jQuery not to process the data

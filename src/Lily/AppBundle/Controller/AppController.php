@@ -48,14 +48,20 @@ class AppController extends BaseController
 
         // Return if Maintenance is On or Avi is off and no operators available to chat
         if ( $config->getMaintenance() || !($condition1 || $condition2) ) {
-            return new Response();
+            return new Response(null, 200, array(
+              'content-type'=> 'text/javascript')
+            );
         }
 
         $trackerJS = $this->render('LilyAppBundle::tracker.js.twig',
           array('licence' => $licence)
         );
 
-        $response = new Response($trackerJS->getContent(), 200, array('content-type' => 'text/javascript'));
+        $response = new Response(
+          $trackerJS->getContent(), 200, array(
+            'content-type' => 'text/javascript'
+          )
+        );
 
         return $response;
     }
