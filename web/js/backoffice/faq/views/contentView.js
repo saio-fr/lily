@@ -82,8 +82,14 @@ define(function(require) {
       this.$el.addClass("editing");
       this.$input.focus().select();
 
-      app.skeleton.unsetActive();
-      this.$el.addClass('active');
+      var id = this.model.id;
+
+      if (app.skeleton.contentEditView && app.skeleton.contentEditView.model.get('id') !== id) {
+        app.skeleton.closeEditView();
+      }
+      if (!this.$el.hasClass("active")) {
+        app.skeleton.unsetActive();
+      }
     },
 
     leaveEdit: function() {

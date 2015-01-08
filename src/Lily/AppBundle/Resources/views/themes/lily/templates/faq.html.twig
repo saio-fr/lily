@@ -3,26 +3,18 @@
 		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span><!--Icon du menu en haut à gauche -->
 	</header>
 	<section class="lily-main-content">
-				{%verbatim%}
-				<% if (( parent !== 'NULL' ) && ( title !== 'NULL' )) { %>
+{%verbatim%}
+				<% if ( id !== 'NULL' ) { %>
 					<div class="lily-faq-link lily-cst-faq-title-link lily-back-link"><a href="#/faq/<%=parent%>" data-reverse="true"><%=title%><p><i class="lily-icon lily-icon-arrow-left"></i>Retour</p></a></div>
 				<% } %>
 		<ul>
-				<% if (( parent == "NULL" ) && ( title == 'NULL' )) {
-				_.each(faqs, function(faq) { %>
+		<% _.each(faqs, function(faq) { %>
 			<li class="lily-faq-link lily-cst-faq-link">
-				<a href="javascript:;" data-id="<%=faq.id%>" data-type="<%=faq.type%>"><%=faq.title%><span class="lily-icon lily-icon-arrow-right"></span></a>
+				<a href="javascript:;" data-id="<%=faq.id%>" data-parent="<%=id%>" data-type="<%=faq.type%>"><%=faq.title%>
+				<span class="lily-icon lily-icon-arrow-right"></span></a>
 			</li>
-					<% }); %>
-				<% }
-				else {
-					_.each(faqs, function(faq) { %>
-			<li class="lily-faq-link lily-cst-faq-link">
-				<a href="javascript:;" data-id="<%=faq.id%>" data-type="<%=faq.type%>"><%=faq.title%><span class="lily-icon lily-icon-arrow-right"></span></a>
-			</li>
-					<% }); %>
-				<% } %>
-				{%endverbatim%}
+		<% }) %>
+{%endverbatim%}
 		</ul>
 	</section>
 </div>

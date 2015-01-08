@@ -17,6 +17,7 @@ define(function(require) {
     MailView = require('app/views/mail'),
     FaqView = require('app/views/faq'),
     Models = require('app/data/models'),
+    Collections = require('app/data/collections'),
     ContentView = require('app/views/content'),
     TopQuestionsView = require('app/views/topQuestions'),
     MessageLilySimpleView = require('app/views/messageLilySimple'),
@@ -108,30 +109,29 @@ define(function(require) {
       utils.goTo(view);
     },
 
-    faq: function(parent) {
+    faq: function(id) {
 
-      parent = parent || "NULL";
+      id = id || "NULL";
+      var router = this,
+        view;
 
-      api.getFaq(parent)
-        .then(function(data) {
-          if (data) {
-            var sortedData = _.indexBy(data.faqs, 'position'),
-              view;
+      app.skeleton.faqCollection = app.skeleton.faqCollection || new Collections.Faqs();
+      api.getFaqModel(id).then(function(model) {
 
-            app.skeleton.faqModel = new Models.Faq({
-              parent: data.parent,
-              title: data.title,
-              faqs: sortedData
-            });
-            view = new FaqView({
-              model: app.skeleton.faqModel
-            });
+        app.skeleton.faqCollection.add(model);
 
-            utils.goTo(view);
-          }
-        }, function(err) {
-
+        view = new FaqView({
+          model: model
         });
+
+        utils.goTo(view);
+      }, function(err) {
+        console.log(err);
+
+        router.navigate('faq', {
+          trigger: true
+        });
+      });
     },
 
     content: function(parent, id) {
@@ -139,30 +139,30 @@ define(function(require) {
       var router = this,
         faq, contentModel, view;
 
-      api.getFaqList(parent)
-        .then(function(faqs) {
+      api.getFaqModel(parent).then(function(model) {
 
-          faq = _.find(faqs, function(faq) {
-            return faq.id.toString() === id;
-          });
-
-          contentModel = new Models.Content({
-            parent: parent,
-            title: faq.title,
-            content: faq.content
-          });
-
-          view = new ContentView({
-            model: contentModel
-          });
-
-          utils.goTo(view);
-
-        }, function(err) {
-          router.navigate('/', {
-            trigger: true
-          });
+        faq = _.find(model.get('faqs'), function(faq) {
+          return faq.id.toString() === id;
         });
+
+        contentModel = new Models.Content({
+          parent: parent,
+          id: id,
+          title: faq.title,
+          content: faq.content
+        });
+
+        view = new ContentView({
+          model: contentModel
+        });
+
+        utils.goTo(view);
+
+      }, function(err) {
+        router.navigate('/', {
+          trigger: true
+        });
+      });
     },
 
     topQuestions: function(id) {

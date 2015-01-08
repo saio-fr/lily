@@ -70,7 +70,7 @@ define(function(require) {
         window.setTimeout(function() {
           $(".info-popup").fadeOut();
         }, 3000);
-      }
+      },
 
     };
 
