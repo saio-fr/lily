@@ -1,5 +1,5 @@
 {
-    "camelcase": true,
+    "camelcase": false,
     "curly": true,
     "eqeqeq": true,
     "undef": true,
@@ -31,7 +31,9 @@
     "jquery": true,
 
     "globals": {
+        "require": false,
         "define": false,
-        "require": false
+        "module": false,
+        "isMobile": false
     }
 }
