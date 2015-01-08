@@ -1,4 +1,4 @@
-<header class="blue-header dker header clearfix padder-t b-b">
+<header class="bg-white header clearfix padder-t b-b">
   <div class="btn-group sort-menu">
     <button class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown">Trier par <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -10,21 +10,20 @@
     </ul>
   </div>
   <div class="add-user">
-    <button class="btn btn-sm btn-default new-user">Ajouter un compte</button>
+    <button class="btn btn-sm btn-primary new-user">Ajouter un compte</button>
   </div>
-  <ul class="breadcrumb m-n">
-  </ul>
+  
 </header>
-<section class="bg-light lter">
+<section class="bg-white">
   <section class="hbox stretch">
     <!-- .aside -->
     <aside>
       <section class="vbox">
         <section class="scrollable">
           <!-- user list -->
-          <ul id="user-list" class="list-group"></ul>
+          <ul class="js-users-list list-group no-borders no-radius list-group-alt"></ul>
         </section>
-        <footer class="footer">
+        <footer class="footer bg-light lter">
           <p class="users-counter"></p>
           <p class="max-users-reached-alert" class="text-danger">Vous avez atteint la limite de création de comptes</p>
         </footer>

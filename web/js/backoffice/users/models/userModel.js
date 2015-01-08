@@ -16,11 +16,6 @@ define(function (require) {
 
 
   UserModel = Backbone.NestedModel.extend({
-
-    id: '',
-    url: function() {
-      return '/users/' + this.id;
-    },
     
     defaults: {
       'firstname': '',
@@ -69,6 +64,7 @@ define(function (require) {
     },
     
     initialize: function () {
+      this.urlRoot = "/users";
       this.listenTo(this, 'change', this.convert);
       // If the model isnt new, convert server's attributes
       if (!this.isNew()) {

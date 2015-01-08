@@ -1,7 +1,5 @@
 function __init() {
 	
-	var saio = {};
-	
 	// Detect if is ie < 10
 	if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) { 
 		var ieversion=new Number(RegExp.$1)
@@ -18,12 +16,12 @@ function __init() {
 	var s = document.createElement('link');
 	s.setAttribute('rel', 'stylesheet');
 	s.setAttribute('type', 'text/css');
-	s.setAttribute('href', 'http://cdn.saio.fr/customer/{{ licence }}/css/lily-float.css');
+	s.setAttribute('href', '{{ licence|customerDir|raw }}/css/lily-float.css');
 	head[0].appendChild(s);
 	
 	// Add widget container	
 	var w = document.createElement('div');
-	w.setAttribute('id', 'lily-widget-container');	
+	w.setAttribute('id', 'lily-widget-container');
 	w.innerHTML = '<h3>Vous avez une question ?</h3>';
 	body[0].appendChild(w);
 	if (mobile.phone) { w.style.opacity = 1; }
@@ -51,12 +49,10 @@ function __init() {
 			// Event listener 
 			if (!mobile.phone) {
 				
-				i.contentWindow.document.getElementsByClassName('lily-icon-reduce')[0].onclick = function() { c.style.opacity = 0; c.style.display = 'none'; w.style.opacity = 1; }
-			
+				i.contentWindow.document.getElementsByClassName('lily-icon-reduce')[0].onclick = function() { c.style.opacity = 0; c.style.display = 'none'; w.style.opacity = 1;
+  		  }
 			} 
-		
 		};
-	
 	}
 	
 	// Clicks events
@@ -64,7 +60,6 @@ function __init() {
 	
 		if (mobile.phone) { window.open('{{ path("lily_app_index", { licence: licence }) }}'); }
 		else { c.style.opacity = 1; c.style.display = 'block'; w.style.opacity = 0; }
-	
 	}
 	
 } __init();	

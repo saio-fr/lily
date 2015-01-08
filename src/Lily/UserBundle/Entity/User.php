@@ -48,7 +48,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=30, nullable=true)
+     * @ORM\Column(name="lastname", type="string", length=30)
      * @Assert\Length(
      *      max = "30",
      *      maxMessage = "La valeur ne peux excéder {{ limit }} caractères"
@@ -61,7 +61,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=30, nullable=true)
+     * @ORM\Column(name="firstname", type="string", length=30)
      * @Assert\Length(
      *      max = "30",
      *      maxMessage = "La valeur ne peux excéder {{ limit }} caractères"

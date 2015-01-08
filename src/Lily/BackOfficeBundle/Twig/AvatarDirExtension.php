@@ -18,7 +18,7 @@ class AvatarDirExtension extends \Twig_Extension
         );
     }
 
-    public function customerDirFilter($user)
+    public function avatarDirFilter($user)
     {
         
         $client = $user->getClient();

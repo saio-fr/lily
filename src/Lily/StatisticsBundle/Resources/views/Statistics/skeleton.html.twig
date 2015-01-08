@@ -1,4 +1,4 @@
-<header class="header bg-dark bg-gradient">
+<header class="header menu-header bg-light lter">
   <ul class="nav nav-tabs nav-tabs-wrapper">
     <li class="usage-nav"><a href="#usage">Utilisation</a></li>
     {% if (app.user.client.config.avi) %}
@@ -11,19 +11,19 @@
   </ul>
 </header>
 <section class="tab-content-wrapper scrollable">
-  <div class="hbox stretch tab-content">
-    <div class="tab-pane row wrapper usage-wrapper">
+  <section class="hbox stretch tab-content wrapper-lg bg-light">
+    <section class="tab-pane row usage-wrapper">
     <!-- Usage -->
-    </div>
-    <div class="tab-pane row wrapper avi-wrapper">
+    </section>
+    <section class="tab-pane row avi-wrapper">
     <!-- Avi -->
-    </div>
-    <div class="tab-pane row wrapper chat-wrapper">
+    </section>
+    <section class="tab-pane row chat-wrapper">
     <!-- Chat -->
-    </div>
-    <aside class="tab-pane users-wrapper">
+    </section>
+    <section class="tab-pane users-wrapper">
     <!-- Users -->
-    </aside>
+    </section>
     <div class="text-center wrapper">
       <i class="icon-spinner icon-spin icon-large"></i>
     </div>

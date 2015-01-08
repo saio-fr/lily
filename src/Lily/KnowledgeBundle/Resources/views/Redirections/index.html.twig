@@ -15,39 +15,32 @@
 
 {% block body %}
 
-<section class="hbox stretch">
+<section>
+  <section class="hbox stretch">
 
-  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+  {% include "LilyBackOfficeBundle::menu.html.twig" %}
 
 	{% block content %}
     <!-- .vbox -->
     <section class="js-app vbox">
-
-        <header class="blue-header dker header b-b">
-          <p>Redirections</p>
-          <a class="js-redirection-new btn btn-sm btn-primary pull-right">
-            <span class="icon-plus pull-left"></span>
-            Ajouter une redirection
-          </a>
-        </header>
-
+      
         <section class="scrollable">
           <section class="js-main-container hbox stretch">
             <aside class="bg-white">
               <section class="vbox">
                 <section class="scrollable">
 
-                  <header class="wrapper-sm clearfix b-b">
+                  <header class="bg-white wrapper-sm clearfix b-b">
                     <div class="col-sm-7 col-xs-9 redirection-view">
-	                   <span>Titre</span>
+	                   <h5>Titre</h5>
 	                  </div>
 
                     <div class="col-sm-2 col-xs-3 text-center">
-	                <span>Fréquence</span>
-	              </div>
+                      <h5>Fréquence</h5>
+	                  </div>
 
                     <div class="col-xs-2 redirection-action">
-                      <span>Défaut</span>
+                      <h5>Défaut</h5>
                     </div>
 
                     <div class="col-xs-1 redirection-delete">
@@ -59,6 +52,11 @@
                   <ul class="js-redirections-list list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
                     <!-- Affichage de la liste des redirections -->
                   </ul>
+                  
+                  <a class="js-redirection-new btn btn-sm btn-primary pull-right">
+                    <span class="icon-plus pull-left"></span>
+                    Ajouter une redirection
+                  </a>
 
                 </section>
               </section>
@@ -98,6 +96,7 @@
     {% endautoescape %}
 	{% endblock %}
 
+  </section>
 </section>
 
 <script

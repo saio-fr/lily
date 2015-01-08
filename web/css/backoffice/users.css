@@ -1,17 +1,26 @@
 .user-edit {
-  width: 150px;
+  width: 375px;
 }
 
 .user-name {
   color: #63a5e1;
+  margin: 5px 0 0 0;
+  font-size: 13px;
 }
 
-.user-info {
+.user-info-left {
   display: inline-block;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 23px;
   padding-left: 20px;
   vertical-align: top;
+}
+.user-info-right {
+  float: right;
+  display: inline-block;
+  font-size: 11px;
+  line-height: 43px;
+  padding-right: 50px;
 }
 
 .close {
@@ -20,7 +29,7 @@
 
 .destroy {
   position: absolute;
-  top: 30px;
+  top: 18px;
   right: 30px;
   z-index: 1;
   cursor: pointer;
@@ -33,11 +42,17 @@
 .list-group-item {
   border: none;
   border-radius: 0!important;
+  border-right: 4px solid transparent !important;
+}
+
+.list-group-item img {
+  width: 45px; 
+  height: 45px;
 }
 
 .list-group-item.active {
-  background: none repeat scroll 0 0 #579ad7;
-  color: white !important;
+  border-right: 4px solid #579ad7 !important;
+  color: #717171 !important;
 }
 
 .add-user {
@@ -54,6 +69,7 @@
 .users-counter {
   margin-left: 20px;
   margin-right: 35px;
+  color: #717171 !important;
 }
 
 .sort-menu {
@@ -63,23 +79,6 @@
 .sort-menu .dropdown-menu > li {
   padding: 5px 15px;
   cursor: pointer;
-}
-
-.sort-menu .dropdown-menu > li:hover,
-.sort-menu .dropdown-menu > li:focus,
-.sort-menu .dropdown-menu > .active,
-.sort-menu .dropdown-menu > .active:hover,
-.sort-menu .dropdown-menu > .active:focus {
-  background-color: #4c5566;
-  background-image: none;
-  color: #fff;
-  filter: none;
-}
-
-@media (min-width: 768px) {
-  .user-edit {
-    width: 33%;
-  }
 }
 
 @media (min-width: 530px) {
