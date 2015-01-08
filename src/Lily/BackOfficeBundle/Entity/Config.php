@@ -76,10 +76,11 @@ class Config
     
     public function __construct()
     {   
-		$this->theme = 'lily';
-		$this->faq = true;
-		$this->topquestions = true;
-		$this->maintenance = false;
+    		$this->theme = 'lily';
+    		$this->faq = true;
+    		$this->topquestions = true;
+    		$this->maintenance = false;
+        $this->widget = '<h3>Vous avez une question ?</h3>';
 	  }
    
 
