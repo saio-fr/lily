@@ -16,7 +16,7 @@ define(function (require) {
 
   BreadcrumbsView = Backbone.View.extend({
 
-    className: 'breadcrumb m-n',
+    className: 'breadcrumb',
     tagName: 'ul',
 
     initialize: function () {

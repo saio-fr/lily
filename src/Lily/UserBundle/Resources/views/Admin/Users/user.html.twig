@@ -1,9 +1,11 @@
 <div class="view">
   <button class="destroy close hover-action">×</button>
-  <img src="<%= converted.avatar %>" class="avatar" alt="Impossible d'afficher l'avatar" width="70" height="70"/>
-  <div class="user-info">
-  	<div class="user-name"><%=(lastname.toUpperCase()) %> <%= firstname %></div>
-  	<div class="user-role"><%= converted.roles %></div>
+  <img src="<%= converted.avatar %>" class="avatar" alt="Impossible d'afficher l'avatar"/>
+  <div class="user-info-left">
+  	<h5 class="user-name"><%=(lastname.toUpperCase()) %> <%= firstname %></h5>
+  	<span><%= converted.roles %></span>
+  </div>
+  <div class="user-info-right">
     <div class="user-last-login"><%= converted.last_login %></div>
   </div>
 </div>

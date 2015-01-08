@@ -5,6 +5,16 @@ namespace Lily\ChatBundle\RPC;
 use Ratchet\ConnectionInterface as Conn;
 
 class VisitorService {
+  
+    protected $container;
+
+    public function setContainer($container) {
+        $this->container = $container;
+    }
+
+    public function getContainer() {
+        return $this->container;
+    }
 
     /**
      * When connect on ws, set current page + check if the visitor is already chatting
