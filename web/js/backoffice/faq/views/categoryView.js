@@ -28,7 +28,7 @@ define(function (require) {
       'click .icon-reorder':  'navigate',
       'dblclick':             'navigate',
       'click .faq-name':      'edit',
-      'click .view':          'navigate',
+      'click':                'navigate',
       'blur .edit':           'leaveEdit',
       'keypress .edit':       'updateOnEnter',
       'dropped':              'dropped',
