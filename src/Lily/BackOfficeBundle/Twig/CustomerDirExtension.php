@@ -18,12 +18,9 @@ class CustomerDirExtension extends \Twig_Extension
         );
     }
 
-    public function customerDirFilter($user)
-    {
-        
-        $client = $user->getClient();
-        
-        $url = 'http://' . $this->cdn . '/customer/' . $client->getLicence();
+    public function customerDirFilter($licence)
+    {        
+        $url = 'http://'.$this->cdn.'/customer/'.$licence;
         return $url;
     }
 

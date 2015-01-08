@@ -22,7 +22,7 @@ define(function (require) {
     editedUserId : null,
 
     events: {
-      "click .add-user"   : "create",
+      "click .add-user"    : "create",
       'click .sort-menu li': 'sort',
     },
 

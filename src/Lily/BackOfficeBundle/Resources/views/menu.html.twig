@@ -1,37 +1,7 @@
 <!-- .aside -->
-<aside class="bg-black aside-sm nav-vertical" id="nav">
+<aside class="bg-light b-r lter nav-vertical" id="nav">
   <section class="vbox">
-    <header class="bg-dark dker nav-bar">
-      <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
-        <i class="icon-reorder"></i>
-      </a>
-      <a href="#" class="nav-brand" data-toggle="fullscreen">SAIO</a>
-      <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user">
-        <i class="icon-comment-alt"></i>
-      </a>
-    </header>
-
-  <!-- User section -->
-    <div class="lt nav-user hidden-xs pos-rlt">
-      <div class="nav-avatar pos-rlt">
-        <a href="#" class="thumb-sm avatar animated rollIn" data-toggle="dropdown">
-          <img src="{{ app.user|avatar }}" width="70" height="70">
-          <span class="caret caret-white"></span>
-        </a>
-        <ul class="dropdown-menu m-t-sm animated fadeInLeft">
-          <span class="arrow top"></span>
-          <li>
-            <a href="{{ path('lily_profile') }}">Profil</a>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <section class="scrollable bg-dark dk navigation-container">
+    <section class="scrollable">
       <!-- nav -->
       <nav class="nav-primary hidden-xs">
         <ul class="nav">
@@ -109,14 +79,6 @@
       </nav>
       <!-- / nav -->
     </section>
-    <footer class="footer bg-gradient hidden-xs">
-      <a href="{{ path('fos_user_security_logout') }}" class="btn btn-sm btn-link m-r-n-xs pull-right">
-        <i class="icon-off"></i>
-      </a>
-      <a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm">
-        <i class="icon-reorder"></i>
-      </a>
-    </footer>
   </section>
 </aside>
 <!-- /.aside -->

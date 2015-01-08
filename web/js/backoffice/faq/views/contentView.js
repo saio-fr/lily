@@ -25,8 +25,8 @@ define(function(require) {
     events: {
 
       'click .destroy': 'destroy',
-      'click .view': 'select',
       'click .faq-name': 'edit',
+      'click': 'select',
       'blur .edit': 'leaveEdit',
       'keypress .edit': 'updateOnEnter',
       'dropped': 'dropped'
@@ -47,6 +47,7 @@ define(function(require) {
     },
 
     select: function(e) {
+      
       if (!e.target.classList.contains('faq-name') &&
         !e.target.classList.contains('edit') &&
         !e.target.classList.contains('destroy')) {

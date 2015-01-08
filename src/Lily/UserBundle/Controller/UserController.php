@@ -128,6 +128,8 @@ class UserController extends BaseController
         
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->createUser();
+        
+        $user->setUsername(uniqid());
 
         $form = $this->getForm(new UserAdminType(), $user, $request);
         

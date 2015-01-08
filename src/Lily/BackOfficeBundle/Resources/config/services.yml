@@ -6,7 +6,7 @@ services:
         class: Lily\BackOfficeBundle\Twig\AvatarExtension
         tags:
             - { name: twig.extension }
-        arguments: [ "@doctrine.orm.default_entity_manager", "%cdn%" ]
+        arguments: [ "%cdn%" ]
 
     lily.twig.customerDir_extension:
         class: Lily\BackOfficeBundle\Twig\CustomerDirExtension

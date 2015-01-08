@@ -18,7 +18,7 @@ define(function (require) {
   FaqCollectionView = Backbone.View.extend({
 
     tagName: 'ul',
-    className: 'list-group list-group-sp sortable',
+    className: 'list-group no-radius list-group-lg',
 
     initialize: function () {
 

@@ -6,7 +6,7 @@ LIVE CHAT
   font-weight: 600;
 }
 
-i {
+.js-main-container i {
   font-weight: bold !important;
 }
 
@@ -15,7 +15,7 @@ i {
 }
 
 .live-nav.active a {
-  background: #626b7b !important;
+  background: #528DC3 !important;
   color: #f2f2f2 !important;
 }
 
@@ -539,10 +539,6 @@ i {
 
 .icon-gear.active, .icon-bar-chart.active, .icon-comments-alt.active {
   color: #fcc44d;
-}
-
-.js-dashboard-container {
-  margin-top: 30px;
 }
 
 .js-dashboard-operators-info small {
