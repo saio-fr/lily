@@ -89,11 +89,11 @@ define(function (require) {
 
       
   		// If there is more 1 windows, add "multiple" class to show them all
-  		if (this.windows.length > 1) {
+  		if (this.windows.length > 1) {
 
   			$('.conversations').children().addClass('multiple');
   			$('.conversations').children().addClass('half-width');
-  			if (this.windows.length > 2) {
+  			if (this.windows.length > 2) {
     			$('.conversations').children().addClass('half-height');
   			}
 

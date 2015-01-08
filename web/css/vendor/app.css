@@ -3200,3 +3200,12 @@ background-color: #ffffff;
 .js-main-container {
   top: 54px !important;
 }
+
+/******* CHAT ********/
+.status.available {
+  color: #31bf7a;
+}
+
+.status.unavailable {
+  color: #ff6455;
+}
