@@ -112,7 +112,7 @@
       global.isMobile = instantiate();
     }
 
-  })(this);
+  })(window);
 
   /*\
 |*|
@@ -210,34 +210,35 @@
     var hostHead = document.getElementsByTagName('head'),
       hostBody = document.getElementsByTagName('body');
 
+
     // Create stylesheet
     var $script = document.createElement('link'),
       $widget = document.createElement('div'),
       $iframe = document.createElement('iframe'),
       $container = document.createElement('div');
 
+
     $script.setAttribute('rel', 'stylesheet');
     $script.setAttribute('type', 'text/css');
-    $script.setAttribute('href',
-      'http://cdn.saio.fr/customer/{{ licence }}/scss/lily-float.css');
-    // Append to Host head
-    hostHead[0].appendChild($script);
-
-    // Create widget container
+    $script.setAttribute('href', '{{ licence|customerDir|raw }}/css/lily-float.css');
     $widget.setAttribute('id', 'lily-widget-container');
-    $widget.innerHTML = '<h3>Vous avez une question ?</h3>';
-    // Append to host page
-    hostBody[0].appendChild($widget);
-
-    // Create app container
+    $widget.innerHTML = '{{ widget }}';
     $container.setAttribute('id', 'lilyAppContainer');
+
     // Append to host page
+    hostHead[0].appendChild($script);
+    hostBody[0].appendChild($widget);
     hostBody[0].appendChild($container);
 
+    /**
+     * Initiation method:
+     * Appends iframe to host page and binds event listeners
+     */
     this.init = function() {
       // Instanciate Event Class;
+      var self = this;
       this.events = new Events();
-      this.lilyIframeSrc = '{{ path("lily_app_index", { licence: licence }) }}';
+      this.lilyIframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
       this.iframeHost = this.getIframeHost();
       // Create iframe if not mobile
       if (isMobile.phone) {
@@ -246,13 +247,18 @@
         this.appendIframe();
         this.iframe = window.open(this.lilyIframeSrc, "saio_lily_app");
         // Bind UI Events :
-        $widget.onclick = this.onWidgetClick;
+        $widget.addEventListener("click",function() {
+          self.onWidgetClick.apply(self, arguments);
+        },false);
         // The app has loaded all scripts, styles and markup
-        $iframe.onload = this.onIframeLoad;
+        $iframe.addEventListener("load",function() {
+          self.onIframeLoad.apply(self, arguments);
+        },false);
       }
     };
 
     this.onIframeLoad = function() {
+      this.showWidget();
       this.bindIframeDOMEvents();
     };
 
@@ -273,7 +279,6 @@
     };
 
     this.appendIframe = function() {
-      var self = this;
       $iframe.setAttribute('id', 'lilyApp');
       // $iframe.setAttribute('src', self.lilyIframeSrc);
       $iframe.setAttribute('frameborder', '0');
@@ -283,11 +288,13 @@
 
     this.bindIframeDOMEvents = function() {
       var _iframeDocument = $iframe.contentWindow.document,
-        $iconReduce = _iframeDocument
-        .getElementsByClassName('lily-icon-reduce')[0];
+        $iconReduce = _iframeDocument.getElementsByClassName('lily-icon-reduce')[0],
+        self= this;
       // Event listeners
       if (!isMobile.phone) {
-        $iconReduce.onclick = this.onIconReduceClick;
+        $iconReduce.addEventListener("click",function() {
+          self.onIconReduceClick.apply(self, arguments);
+        },false);
       }
     };
 
