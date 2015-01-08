@@ -245,6 +245,8 @@
       } else {
         this.appendIframe();
         this.iframe = window.open(this.lilyIframeSrc, "saio_lily_app");
+        // Listen to messages comming from Iframe:
+        window.addEventListener("message", this.events.receiveFromIframe, false);
         // Bind UI Events :
         $widget.addEventListener("click",function() {
           self.onWidgetClick.apply(self, arguments);
@@ -257,7 +259,9 @@
     };
 
     this.onIframeLoad = function() {
-      this.showWidget();
+      // (Waiting for iframe message triggering showWidget method;)
+      // Handshake to give iframe the host domain url:
+      this.events.send({'title': 'Hello!'});
       this.bindIframeDOMEvents();
     };
 
@@ -268,7 +272,10 @@
         this.showIframe();
         this.hideWidget();
       }
-      this.events.send("coucou");
+      this.events.send({
+        title: "widget:click",
+        callback: "onWidgetClick",
+      });
 
     };
 
@@ -279,7 +286,6 @@
 
     this.appendIframe = function() {
       $iframe.setAttribute('id', 'lilyApp');
-      // $iframe.setAttribute('src', self.lilyIframeSrc);
       $iframe.setAttribute('frameborder', '0');
       $iframe.setAttribute('name', 'saio_lily_app');
       document.getElementById('lilyAppContainer').appendChild($iframe);
@@ -340,17 +346,19 @@
       app.iframe.postMessage(msg, app.lilyIframeSrc);
     };
 
-    function receiveMessage(event) {
-
-      if (event.origin !== app.iframeHost) {
-        return;
+    this.receiveFromIframe = function(message, response) {
+      if (message.data && message.data.title) {
+        console.log("iframe:: " + message.data.title + " processed");
       }
-
-      console.log(event.data);
-      // event.source is popup
-      // event.data is "hi there yourself!  the secret response is: rheeeeet!"
-    }
-    window.addEventListener("message", receiveMessage, false);
+      // Call callback if exists, and apply eventual arguments:
+      if (message.data.callback) {
+        var callbackName = message.data.callback.toString(),
+          callbackArgs = message.data.args;
+        if (typeof /./ !== 'function' && typeof app[callbackName] == 'function') {
+          app[callbackName].apply(app, callbackArgs);
+        }
+      }
+    };
 
     return this;
   }
