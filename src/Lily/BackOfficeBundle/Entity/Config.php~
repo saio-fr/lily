@@ -253,27 +253,4 @@ class Config
     {
         return $this->avi;
     }
-
-    /**
-     * Set widget
-     *
-     * @param string $widget
-     * @return Config
-     */
-    public function setWidget($widget)
-    {
-        $this->widget = $widget;
-
-        return $this;
-    }
-
-    /**
-     * Get widget
-     *
-     * @return string 
-     */
-    public function getWidget()
-    {
-        return $this->widget;
-    }
 }

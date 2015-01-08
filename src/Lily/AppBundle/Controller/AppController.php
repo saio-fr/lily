@@ -53,8 +53,10 @@ class AppController extends BaseController
             );
         }
 
-        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig',
-          array('licence' => $licence)
+        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', array(
+          'licence' => $licence,
+          'widget' => $config->getWidget()
+          )
         );
 
         $response = new Response(
