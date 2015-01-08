@@ -14,7 +14,8 @@
 
 {% block body %} 
 
-<section class="hbox stretch">
+<section>
+  <section class="hbox stretch">
 
   {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
@@ -130,6 +131,7 @@
     {% endautoescape %}
   {% endblock %}
 
+  </section>
 </section>
 
 <script
