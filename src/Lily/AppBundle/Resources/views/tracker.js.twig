@@ -275,6 +275,7 @@
       this.events.send({
         title: "widget:click",
         callback: "onWidgetClick",
+        args: ["true"]
       });
 
     };
@@ -282,6 +283,11 @@
     this.onIconReduceClick = function() {
       this.hideIframe();
       this.showWidget();
+      this.events.send({
+        title: "widget:click",
+        callback: "onWidgetClick",
+        args: ["false"]
+      });
     };
 
     this.appendIframe = function() {

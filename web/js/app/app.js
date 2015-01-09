@@ -22,7 +22,7 @@ define(function(require) {
           callback: "showWidget"
         });
 
-        if (info.display == true) {
+        if (info.display === true) {
           app.sendToHost({
             title: "app:display",
             callback: "showIframe"
@@ -77,8 +77,11 @@ define(function(require) {
         }
       },
 
-      onWidgetClick: function() {
-        app.ws.call('visitor/displayed');
+      onWidgetClick: function(visible) {
+        visible = visible === "true" ? true : false;
+        app.ws.call('visitor/display', {
+          display: visible
+        });
       },
 
       showInfo: function(type, info) {
