@@ -42,20 +42,13 @@ class VisitorService {
       
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
+              
+                // Set displayed to true for usage statistics
+                if ($params['display']) {
+                  $item->displayed = true;
+                }
+                // Show or not the app on new page
                 $item->display = $params['display'];
-            }
-        }
-        return array('result' => true);
-    }
-    
-    /**
-     * Open the app on new page ?
-     */
-    public function displayed(Conn $conn, $params, \StdClass $client) {
-      
-        foreach ($client->users as $item) {
-            if ($item->id === $conn->Session->getId()) {
-                $item->displayed = true;
             }
         }
         return array('result' => true);
