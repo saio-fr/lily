@@ -107,6 +107,14 @@ class VisitorService {
                     $item->topic->broadcast($item->messages);
                     return;
                 }
+                
+                // Start chat
+                $item->messages[] = array(
+                  'id' => uniqid(), 
+                  'from' => 'server', 
+                  'date' => time(), 
+                  'action' => 'startChat'
+                );
 
                 if (!empty($availables) && $client->config->getAutoSetOperator()) {
 
@@ -121,7 +129,6 @@ class VisitorService {
                     $item->operator = $availables[$key]->id;
                     $item->startChatTime = time();
                     $item->received += 1;
-                    $item->messages[] = array('id' => uniqid(), 'from' => 'server', 'date' => time(), 'action' => 'startChat');
                     $item->messages[] = array(
                         'id' => uniqid(),
                         'from' => 'operator',

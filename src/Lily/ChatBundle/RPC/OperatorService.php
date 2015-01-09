@@ -28,12 +28,6 @@ class OperatorService {
 
                 $item->operator = $conn->User->getId();
                 $item->startChatTime = time();
-                $item->messages[] = array(
-                    'id' => uniqid(), 
-                    'from' => 'server', 
-                    'date' => time(), 
-                    'action' => 'startChat'
-                );
 
             }
             // Increase the operator' active chats
@@ -55,7 +49,7 @@ class OperatorService {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->banned = true;
-                $item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => null, 'date' => time(), 'msg' => "Vous avez été banni du chat par l'opérateur.");
+                $item->messages[] = array('id' => uniqid(), 'from' => 'server', 'operator' => null, 'date' => time(), 'msg' => "Vous avez été banni du chat par l'opérateur.");
                 $item->topic->broadcast($item->messages);
             }
             // Decrease the operator' active chats
@@ -114,7 +108,7 @@ class OperatorService {
                 $item->operator = null;
                 $item->lastMsgTime = time();
                 $item->closed = true;
-                $item->messages[] = array('id' => uniqid(), 'from' => 'operator', 'operator' => null, 'date' => time(), 'msg' => "L'opérateur a clôt la conversation.");
+                $item->messages[] = array('id' => uniqid(), 'from' => 'server', 'operator' => null, 'date' => time(), 'msg' => "L'opérateur a clôt la conversation.");
                 $item->topic->broadcast($item->messages);
 
             }

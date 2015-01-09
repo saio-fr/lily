@@ -202,7 +202,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
           						  // Close the connection
                         $item->messages[] = array(
                           'id' => uniqid(), 
-                          'from' => 'operator', 
+                          'from' => 'server', 
                           'operator' => null, 
                           'date' => time(), 
                           'msg' => "La connection a été terminé pour cause d'inactivité.");
