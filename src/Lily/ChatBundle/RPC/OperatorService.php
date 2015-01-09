@@ -49,7 +49,15 @@ class OperatorService {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->banned = true;
-                $item->messages[] = array('id' => uniqid(), 'from' => 'server', 'operator' => null, 'date' => time(), 'msg' => "Vous avez été banni du chat par l'opérateur.");
+                
+                $item->messages[] = array(
+                  'id' => uniqid(), 
+                  'from' => 'server', 
+                  'action' => 'ban', 
+                  'date' => time(), 
+                  'msg' => "Vous avez été banni du chat par l'opérateur."
+                );
+                
                 $item->topic->broadcast($item->messages);
             }
             // Decrease the operator' active chats
@@ -98,6 +106,7 @@ class OperatorService {
      * Close the conversation with the visitor
      */
     public function close(Conn $conn, $params, \StdClass $client) {
+      
         // Security check
         if (!isset($conn->User)) { return; }
         
@@ -108,7 +117,15 @@ class OperatorService {
                 $item->operator = null;
                 $item->lastMsgTime = time();
                 $item->closed = true;
-                $item->messages[] = array('id' => uniqid(), 'from' => 'server', 'operator' => null, 'date' => time(), 'msg' => "L'opérateur a clôt la conversation.");
+                
+                $item->messages[] = array(
+                  'id' => uniqid(), 
+                  'from' => 'server', 
+                  'server' => 'close', 
+                  'date' => time(), 
+                  'msg' => "L'opérateur a clôt la conversation."
+                );
+                
                 $item->topic->broadcast($item->messages);
 
             }
@@ -125,22 +142,51 @@ class OperatorService {
      * Transfer the visitor to another operator
      */
     public function transfer(Conn $conn, $params, \StdClass $client) {
+      
         // Security check
         if (!isset($conn->User)) { return; }
         
-        foreach ($client->users as $item) {
-            // Close the conversation
-            if ($item->id === $params['sid']) {
-                $item->operator = $params['operator'];
-                $item->transfered = true;
-                $item->messages[] = array('id' => uniqid(), 'from' => 'server', 'date' => time(), 'action' => 'transfered', 'transfer_from' => $conn->User->getFirstname() . ' ' . $conn->User->getLastname());
+        foreach ($client->users as $operator) {
+          
+            // Decrease the operator' active chats
+            if ($operator->id === $conn->User->getId()) {
+                
+                $from = $operator;
+                $operator->chats -= 1;
             }
 
-            // Decrease the operator' active chats
-            if ($item->id === $conn->User->getId()) $item->chats -= 1;
-
             // Increase the new operator' active chats
-            if ($item->id === $params['operator']) $item->chats += 1;
+            if ($operator->id === $params['operator']) {
+                
+                $to = $operator;
+                $operator->chats += 1;
+            }
+        }
+        
+        foreach ($client->users as $item) {
+          
+            // Close the conversation
+            if ($item->id === $params['sid']) {
+              
+                $item->operator = $params['operator'];
+                $item->transfered = true;
+                
+                $item->messages[] = array(
+                  
+                  'id' => uniqid(), 
+                  'from' => 'server', 
+                  'date' => time(), 
+                  'action' => 'transfered',
+                  'transfer_from' => array(
+                    'firstname' => $from->firstname,
+                    'lastname' => $from->lastname
+                  ),
+                  'transfer_to' => array(           
+                    'firstname' => $to->firstname,
+                    'lastname' => $to->lastname
+                  )
+                );
+            }
         }
 
         return array('result' => true);
