@@ -50,6 +50,10 @@ define(function(require) {
         snapper.close();
       });
 
+      $('.lily-icon-reduce').click(function() {
+        app.onReduceClick();
+      });
+
       // Event listener for mobile
       if (config.isMobile.phone) {
         $('#icon-iframe-close').click(function() {
