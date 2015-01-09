@@ -244,7 +244,7 @@
         this.showWidget();
       } else {
         this.appendIframe();
-        this.iframe = window.open(this.lilyIframeSrc, "saio_lily_app");
+        this.iframe = document.getElementById('lilyApp').contentWindow;
         // Listen to messages comming from Iframe:
         window.addEventListener("message", this.events.receiveFromIframe, false);
         // Bind UI Events :
@@ -262,7 +262,6 @@
       // (Waiting for iframe message triggering showWidget method;)
       // Handshake to give iframe the host domain url:
       this.events.send({'title': 'Hello!'});
-      this.bindIframeDOMEvents();
     };
 
     this.onWidgetClick = function() {
@@ -270,7 +269,6 @@
         this.openMobileWindow();
       } else {
         this.showIframe();
-        this.hideWidget();
       }
       this.events.send({
         title: "widget:click",
@@ -293,25 +291,15 @@
     this.appendIframe = function() {
       $iframe.setAttribute('id', 'lilyApp');
       $iframe.setAttribute('frameborder', '0');
+      $iframe.setAttribute('src', this.lilyIframeSrc);
       $iframe.setAttribute('name', 'saio_lily_app');
       document.getElementById('lilyAppContainer').appendChild($iframe);
-    };
-
-    this.bindIframeDOMEvents = function() {
-      var _iframeDocument = $iframe.contentWindow.document,
-        $iconReduce = _iframeDocument.getElementsByClassName('lily-icon-reduce')[0],
-        self= this;
-      // Event listeners
-      if (!isMobile.phone) {
-        $iconReduce.addEventListener("click",function() {
-          self.onIconReduceClick.apply(self, arguments);
-        },false);
-      }
     };
 
     this.showIframe = function() {
       $container.style.opacity = 1;
       $container.style.visibility = 'visible';
+      this.hideWidget();
     };
 
     this.showWidget = function() {
@@ -320,8 +308,11 @@
     };
 
     this.hideIframe = function() {
-      $container.style.opacity = 0;
-      $container.style.visibility = "hidden";
+      if(!isMobile.phone) {
+        $container.style.opacity = 0;
+        $container.style.visibility = "hidden";
+        this.showWidget();
+      }
     };
 
     this.hideWidget = function() {

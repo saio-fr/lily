@@ -80,8 +80,10 @@ require([
             app.trigger('ws:subscribedToChat', payload);
           });
         app.ws.call('visitor/connect', {
-          'href': top.location.href,
-          'pathname': top.location.pathname
+          // top.location.href can't be accessed from iframe
+          // with a domain tha differs from the host
+          'href': app.hostHref,
+          'pathname': app.hostPathName
         }).then(function(result) {
           callback(result);
           // Successfuly connected to ws server;

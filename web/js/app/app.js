@@ -84,6 +84,16 @@ define(function(require) {
         });
       },
 
+      onReduceClick: function() {
+        app.ws.call('visitor/display', {
+          display: false
+        });
+        app.sendToHost({
+          title: "app:hide",
+          callback: "hideIframe"
+        });
+      },
+
       showInfo: function(type, info) {
         var typeClass = type + "-info";
         $("#lily-wrapper-page").append(
@@ -137,6 +147,13 @@ define(function(require) {
   window.addEventListener("message", function() {
     app.receiveFromHost.apply(app, arguments);
   }, false);
+
+  // get parent href and pathnames:
+  var a = document.createElement('a');
+  a.href = document.referrer;
+
+  app.hostPathName = a.pathname + a.search;
+  app.hostHref = a.href;
 
   return app;
 });
