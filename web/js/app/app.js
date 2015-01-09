@@ -15,6 +15,21 @@ define(function(require) {
     config = require('app/globals'),
 
     app = {
+
+      onConnect: function(info) {
+        app.sendToHost({
+          title: "ws:connect:success",
+          callback: "showWidget"
+        });
+
+        if (info.display == true) {
+          app.sendToHost({
+            title: "app:display",
+            callback: "showIframe"
+          });
+        }
+      },
+
       onChatOpen: function() {
         app.ws.call('visitor/open');
       },
@@ -62,6 +77,10 @@ define(function(require) {
         }
       },
 
+      onWidgetClick: function() {
+        app.ws.call('visitor/displayed');
+      },
+
       showInfo: function(type, info) {
         var typeClass = type + "-info";
         $("#lily-wrapper-page").append(
@@ -72,6 +91,36 @@ define(function(require) {
         }, 3000);
       },
 
+      receiveFromHost: function(message, response) {
+        if (message.data && message.data.title) {
+          console.log("iframe:: " + message.data.title + " processed");
+        }
+        // Call callback if exists, and apply eventual arguments:
+        if (message.data.callback) {
+          var callbackName = message.data.callback.toString(),
+            callbackArgs = message.data.args;
+          if (_.isFunction(this[callbackName])) {
+            this[callbackName].apply(this, callbackArgs);
+          }
+        }
+        // Assuming you've verified the origin of the received message (which
+        // you must do in any case), a convenient idiom for replying to a
+        // message is to call postMessage on message.source and provide
+        // message.origin as the targetOrigin.
+        if (response) {
+          message.source.postMessage(response, message.origin);
+        }
+        // On first handshake, we store the host domain url:
+        if (!app.hostDomain) {
+          app.hostDomain = message.origin;
+        }
+      },
+
+      sendToHost: function(message) {
+        window.parent.postMessage(message, document.referrer || app.hostDomain);
+      },
+
+
     };
 
   _.extend(app, Backbone.Events);
@@ -81,6 +130,10 @@ define(function(require) {
   app.on('chat:writing', app.onChatWriting);
   app.on('chat:satisfaction', app.onChatSatisfaction);
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
+
+  window.addEventListener("message", function() {
+    app.receiveFromHost.apply(app, arguments);
+  }, false);
 
   return app;
 });

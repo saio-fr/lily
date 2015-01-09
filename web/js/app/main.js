@@ -84,6 +84,9 @@ require([
           'pathname': top.location.pathname
         }).then(function(result) {
           callback(result);
+          // Successfuly connected to ws server;
+          // Show widget on host site:
+          app.onConnect(result);
         }, function(err) {
           console.warn(err);
           app.init();
