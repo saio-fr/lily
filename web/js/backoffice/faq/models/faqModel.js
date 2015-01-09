@@ -18,10 +18,10 @@ define(function (require) {
       return this.collection.url;
     },
     updateUrl: function () {
-      return "/" + this.id;
+      return "/faqs/" + this.id;
     },
     deleteUrl: function () {
-      return "/" + this.id;
+      return "/faqs/" + this.id;
     },
     readUrl: function () {
       return this.collection.url;
