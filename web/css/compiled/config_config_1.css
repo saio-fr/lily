@@ -2,22 +2,14 @@
 CONFIG
 =======================================================================================================*/
 
-#administration-wrapper header h6 {
-  display: inline-block;
-}
-
-#header-global h6 {
-  margin-top: 20px;
-}
-
 h5 {
+  margin-top: 0;
   margin-bottom: 20px;
   margin-left: 14px;
   font-weight: 600;
 }
 
 .row {
-  background-color: #f9fafc;
   padding-top: 10px;
   padding-left: 30px;
   margin-top: 10px;

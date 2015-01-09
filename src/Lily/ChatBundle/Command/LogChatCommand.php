@@ -18,8 +18,6 @@ class LogChatCommand extends ContainerAwareCommand
 
     protected function setMedia($log) 
     {
-        // Get the client' entity manager
-     		$connection = $this->getContainer()->get(sprintf('doctrine.dbal.%s_connection', 'client'));
         $mobileDetector = $this->getContainer()->get('mobile_detect.mobile_detector');
         
         // Support d'utilisation
@@ -52,7 +50,7 @@ class LogChatCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('ws:log:start')
-             ->setDescription('Start logging for ratchet server')
+             ->setDescription('Start logging for ws server')
              ->addArgument('zmqLog', InputArgument::OPTIONAL, 'ZmqLog');
     }
 

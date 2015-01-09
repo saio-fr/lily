@@ -2348,17 +2348,17 @@
         },
         {
             "name": "oneup/flysystem-bundle",
-            "version": "v0.4.1",
+            "version": "v0.4.2",
             "target-dir": "Oneup/FlysystemBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupFlysystemBundle.git",
-                "reference": "75ca2101e7561384a258efc8ac6d10b5bd97dc90"
+                "reference": "c1fc28faed43ddd1168fcce654876a70f7e07925"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/75ca2101e7561384a258efc8ac6d10b5bd97dc90",
-                "reference": "75ca2101e7561384a258efc8ac6d10b5bd97dc90",
+                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/c1fc28faed43ddd1168fcce654876a70f7e07925",
+                "reference": "c1fc28faed43ddd1168fcce654876a70f7e07925",
                 "shasum": ""
             },
             "require": {
@@ -2396,7 +2396,7 @@
                 "abstraction",
                 "filesystem"
             ],
-            "time": "2014-07-18 14:44:00"
+            "time": "2015-01-07 16:01:59"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2712,17 +2712,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.14",
+            "version": "v3.0.15",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "dc20d5ab3251587b047859ca2fc06c1b88a38d00"
+                "reference": "0692cd6a8fcf645abce8ea45f7cbbd1942e2b23c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/dc20d5ab3251587b047859ca2fc06c1b88a38d00",
-                "reference": "dc20d5ab3251587b047859ca2fc06c1b88a38d00",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/0692cd6a8fcf645abce8ea45f7cbbd1942e2b23c",
+                "reference": "0692cd6a8fcf645abce8ea45f7cbbd1942e2b23c",
                 "shasum": ""
             },
             "require": {
@@ -2761,7 +2761,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2014-12-30 08:41:47"
+            "time": "2015-01-07 07:13:43"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -3317,12 +3317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "a7fd55a7d322b1f74f01c0248b63997605a1c220"
+                "reference": "ccee4ea91def7e1907620760867ab68e958a41c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/a7fd55a7d322b1f74f01c0248b63997605a1c220",
-                "reference": "a7fd55a7d322b1f74f01c0248b63997605a1c220",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/ccee4ea91def7e1907620760867ab68e958a41c1",
+                "reference": "ccee4ea91def7e1907620760867ab68e958a41c1",
                 "shasum": ""
             },
             "require": {
@@ -3425,7 +3425,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-01-05 20:59:13"
+            "time": "2015-01-08 10:46:13"
         },
         {
             "name": "twig/extensions",
