@@ -15,8 +15,8 @@ define(function (require) {
       BreadcrumbCollectionView = require('backoffice/faq/views/breadcrumbCollectionView'),
       BreadcrumbCollection = require('backoffice/faq/collections/breadcrumbCollection'),
       FaqCollection = require('backoffice/faq/collections/faqCollection'),
-      ModalView = require('components/modals/modalAlertView'),
-      ModalModel = require('components/modals/modalAlertModel'),
+      ModalView = require('components/modals/alertView'),
+      ModalModel = require('components/modals/model'),
 
 
       // Object wrapper returned as a module
@@ -57,8 +57,8 @@ define(function (require) {
         app.skeleton.closeEditView();
       }
 
-      app.skeleton.faqCollection.url = "/" + id;
-      app.skeleton.breadcrumbs.url = "/breadcrumbs/" + id;
+      app.skeleton.faqCollection.url = "/faqs/" + id;
+      app.skeleton.breadcrumbs.url = "/faqs/breadcrumbs/" + id;
 
       // Fetch breadcrumb models and init view
       app.skeleton.breadcrumbs.fetch({

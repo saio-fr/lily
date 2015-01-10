@@ -18,8 +18,6 @@ class LogChatCommand extends ContainerAwareCommand
 
     protected function setMedia($log) 
     {
-        // Get the client' entity manager
-     		$connection = $this->getContainer()->get(sprintf('doctrine.dbal.%s_connection', 'client'));
         $mobileDetector = $this->getContainer()->get('mobile_detect.mobile_detector');
         
         // Support d'utilisation
@@ -51,8 +49,8 @@ class LogChatCommand extends ContainerAwareCommand
     
     protected function configure()
     {
-        $this->setName('ratchet:log:start')
-             ->setDescription('Start logging for ratchet server')
+        $this->setName('ws:log:start')
+             ->setDescription('Start logging for ws server')
              ->addArgument('zmqLog', InputArgument::OPTIONAL, 'ZmqLog');
     }
 
@@ -68,7 +66,7 @@ class LogChatCommand extends ContainerAwareCommand
 	    	// Bind to our socket to communicate with our symfony app
     		$context = new Context($loop);
     		$pull = $context->getSocket(ZMQ::SOCKET_PULL);
-    		$pull->bind('tcp://127.0.0.1:'.$zmqLog);
+    		$pull->bind('tcp://*:'.$zmqLog);
     					
     		$pull->on('message', function ($params) {
     
@@ -103,7 +101,10 @@ class LogChatCommand extends ContainerAwareCommand
               					$logChat->setStart(new \DateTime('@'.$item->startTime));
               					$logChat->setEnd(new \DateTime('@'.$item->lastMsgTime));
               					$logChat->setWaited(round($item->waited/$item->received));
-              					$logChat->setMessages($item->messages);
+              					
+              					// Convert messages to array
+              					$messages = json_decode(json_encode($item->messages), true);
+              					$logChat->setMessages($messages);
                         $em->persist($logChat);
                     }
                     

@@ -1,4 +1,3 @@
-
 require.config({
   baseUrl: '/js',
   paths: {
@@ -11,6 +10,7 @@ require.config({
     // 'wysihtml5': 'bower_components/wysihtml5/dist/wysihtml5-0.3.0.min',
     // 'bootstrap-wysihtml5': 'bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2',
     'wysihtml5': 'wysiwyg/wysihtml5',
+    'wysihtml5-parser': 'utils/wysihtml5-parser',
     'bootstrap-wysihtml5': 'wysiwyg/bootstrap-wysihtml5',
     'moment': 'bower_components/moment/moment',
     'todoTpl': 'todo',
@@ -25,25 +25,29 @@ require.config({
       deps: ["underscore", "jquery"],
       exports: 'Backbone'
     },
-    "bootstrap" : {
+    "bootstrap": {
       "deps": ['jquery']
     },
-    "todoTpl" : {
+    "todoTpl": {
       "deps": ['jquery', 'bootstrap']
     },
-    "dateRangePicker" : {
+    "dateRangePicker": {
       "deps": ['jquery', 'bootstrap']
     },
-    "sortable" : {
+    "sortable": {
       "deps": ['jquery']
     },
-    "bootstrap-wysihtml5" : {
+    "bootstrap-wysihtml5": {
       "deps": ['wysihtml5', 'bootstrap']
     },
-    "flot" : {
+    'wysihtml5': {
+      deps: ['wysihtml5-parser'],
+      exports: 'wysihtml5',
+    },
+    "flot": {
       "deps": ['jquery']
     },
-    "validator" : {
+    "validator": {
       "deps": ['jquery']
     }
   }
@@ -62,33 +66,12 @@ require([
   "todoTpl",
   "sortable",
   "wysihtml5",
-  "bootstrap-wysihtml5"
-], function( $, _, Backbone, globals, app, Router ) {
+  'wysihtml5-parser'
+], function($, _, Backbone, globals, app, Router) {
 
   'use strict';
 
-  // Track Js Backbone wrapper
-  if (!window.trackJs) return;
-  ["View","Model","Collection","Router"].forEach(function(klass) {
-    var Klass = Backbone[klass];
-    Backbone[klass] = Klass.extend({
-      constructor: function() {
-        // NOTE: This allows you to set _trackJs = false for any individual object
-        // that you want excluded from tracking
-        if (typeof this._trackJs === "undefined") {
-          this._trackJs = true;
-        }
-        if (this._trackJs) {
-          // Additional parameters are excluded from watching. Constructors and Comparators
-          // have a lot of edge-cases that are difficult to wrap so we'll ignore them.
-          window.trackJs.watchAll(this, "model", "constructor", "comparator");
-        }
-        return Klass.prototype.constructor.apply(this, arguments);
-      }
-    });
-  });
-
-  $.ajaxPrefilter( function (options) {
+  $.ajaxPrefilter(function(options) {
     options.url = globals.root + options.url;
   });
 

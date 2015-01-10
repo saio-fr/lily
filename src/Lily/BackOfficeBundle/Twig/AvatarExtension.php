@@ -5,11 +5,9 @@ namespace Lily\BackOfficeBundle\Twig;
 class AvatarExtension extends \Twig_Extension
 {
   
-    private $em;
     private $cdn;
   
-    public function __construct(\Doctrine\ORM\EntityManager $em, $cdn) {
-        $this->em = $em;
+    public function __construct($cdn) {
         $this->cdn = $cdn;
     }
     
@@ -22,19 +20,16 @@ class AvatarExtension extends \Twig_Extension
 
     public function avatarFilter($user)
     {
-        $user = $this->em->getRepository('LilyUserBundle:User')
-        ->find($user);
-        
         $client = $user->getClient();
         $avatar = $user->getConfig()->getAvatar();
         
         if ($avatar) {
-          $url = $this->cdn . '/customer/' .
+          $url = 'http://' . $this->cdn . '/customer/' .
             $client->getLicence() .
             '/images/avatars/' .
             $avatar;
         } else {
-          $url = $this->cdn . '/images/default-avatar.png';
+          $url = 'http://' . $this->cdn . '/images/default-avatar.png';
         }
 
         return $url;

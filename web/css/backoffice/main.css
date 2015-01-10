@@ -9,3 +9,9 @@
   left: 0;
   right: 0;
 }
+.navigation-container {
+  margin-top: 50px;
+}
+.nav-vertical .navigation-container {
+  margin-top: 90px;
+}

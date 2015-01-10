@@ -1,124 +1,84 @@
+<!-- .aside -->
+<aside class="bg-light b-r lter nav-vertical" id="nav">
+  <section class="vbox">
+    <section class="scrollable">
+      <!-- nav -->
+      <nav class="nav-primary hidden-xs">
+        <ul class="nav">
+          <li>
+            <a href="{{ path('lily_dashboard') }}" class="{% if app.request.attributes.get('_route') == 'lily_dashboard' %}active{% endif %}">
+              <i class="icon-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          {% if app.user.client.config.avi %}
+            {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
+          <li>
+            <a href="{{ path('lily_questions') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
+              <i class="icon-book"></i>
+              <span>Connaissances</span>
+            </a>
+          </li>
+            {% endif %}
+          {% endif %}
 
-    <!-- .aside -->
-    <aside class="bg-black aside-sm nav-vertical" id="nav">
-      <section class="vbox">
-        <header class="bg-dark dker nav-bar">
-          <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
-            <i class="icon-reorder"></i>
-          </a>
-          <a href="#" class="nav-brand" data-toggle="fullscreen">SAIO</a>
-          <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user">
-            <i class="icon-comment-alt"></i>
-          </a>
-        </header>        
-        <section>
-          <!-- User section -->
-          <div class="lt nav-user hidden-xs pos-rlt ">
-            <div class="nav-avatar pos-rlt">
-              <a href="#" class="thumb-sm avatar animated rollIn" data-toggle="dropdown">
-                <img src="{{ app.user|avatar }}" width="70" height="70">
-                <span class="caret caret-white"></span>
-              </a>
-              <ul class="dropdown-menu m-t-sm animated fadeInLeft">
-              	<span class="arrow top"></span>
-                <li>
-                  <a href="{{ path('lily_profile') }}">Profil</a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                  <a href="#">Aide</a>
-                </li>
-                <li>
-                  <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
-                </li>
-              </ul>
-            </div>            
-          </div>
-          <!-- nav -->
-          <nav class="nav-primary hidden-xs">
-            <ul class="nav">
-              <li>
-                <a href="{{ path('lily_dashboard') }}" class="{% if app.request.attributes.get('_route') == 'lily_dashboard' %}active{% endif %}">
-                  <i class="icon-dashboard"></i>
-                  <span>Dashboard</span>
-                </a>
-              </li>
-              {% if app.user.client.config.avi %}
-                {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
-              <li>
-                <a href="{{ path('lily_questions') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
-                  <i class="icon-book"></i>
-                  <span>Connaissances</span>
-                </a>
-              </li> 
-                {% endif %} 
-              {% endif %}
-              
-              {% if app.user.client.config.faq %}
-                {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %} 
-              <li>
-                <a href="{{ path('lily_faq') }}" class="{% if app.request.attributes.get('_route') == 'lily_faq' %}active{% endif %}">
-                  <i class="icon-sort-by-attributes-alt"></i>
-                  <span>Faq</span>
-                </a>
-              </li>  
-                {% endif %} 
-              {% endif %}
-              
-              {% if app.user.client.config.chat %}
-                {% if is_granted('ROLE_CHAT_OPERATOR') %}
-              <li>
-                <a href="{{ path('lily_chat') }}" class="{% if app.request.attributes.get('_route') == 'lily_chat' %}active{% endif %}">
-                  <i class="icon-comments-alt"></i>
-                  <span>Live chat</span>
-                </a>
-              </li>
-                {% endif %}
-              {% endif %}
-              
-              {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
-              <li>
-                <a href="{{ path('lily_redirections') }}" class="{% if app.request.attributes.get('_route') == 'lily_redirections' %}active{% endif %}">
-                  <i class="icon-share-alt"></i>
-                  <span>Redirections</span>
-                </a>
-              </li>  
-              {% endif %}
-              
-              <li>
-                <a href="{{ path('lily_statistics') }}" class="{% if app.request.attributes.get('_route') == 'lily_statistics' %}active{% endif %}">
-                  <i class="icon-bar-chart"></i>
-                  <span>Statistiques</span>
-                </a>
-              </li> 
-              {% if is_granted('ROLE_ADMIN') %}
-              <li>
-                <a href="{{ path('lily_config') }}" class="{% if app.request.attributes.get('_route') == 'lily_config' %}active{% endif %}">
-                  <i class="icon-gear"></i>
-                  <span>Paramètres</span>
-                </a>
-              </li> 
-              {% endif %}  
-              {% if is_granted('ROLE_ADMIN') %}
-              <li>
-                <a href="{{ path('lily_users_admin') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
-                  <i class="icon-group"></i>
-                  <span>Utilisateurs</span>
-                </a>
-              </li> 
-              {% endif %}  
-            </ul>    
-          </nav>
-          <!-- / nav -->
-        </section>
-        <footer class="footer bg-gradient hidden-xs">
-          <a href="{{ path('fos_user_security_logout') }}" class="btn btn-sm btn-link m-r-n-xs pull-right">
-            <i class="icon-off"></i>
-          </a>
-          <a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm">
-            <i class="icon-reorder"></i>
-          </a>
-        </footer>
-      </section>
-    </aside>
-    <!-- /.aside -->
+          {% if app.user.client.config.faq %}
+            {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
+          <li>
+            <a href="{{ path('lily_faq') }}" class="{% if app.request.attributes.get('_route') == 'lily_faq' %}active{% endif %}">
+              <i class="icon-sort-by-attributes-alt"></i>
+              <span>Faq</span>
+            </a>
+          </li>
+            {% endif %}
+          {% endif %}
+
+          {% if app.user.client.config.chat %}
+            {% if is_granted('ROLE_CHAT_OPERATOR') %}
+          <li>
+            <a href="{{ path('lily_chat') }}" class="{% if app.request.attributes.get('_route') == 'lily_chat' %}active{% endif %}">
+              <i class="icon-comments-alt"></i>
+              <span>Live chat</span>
+            </a>
+          </li>
+            {% endif %}
+          {% endif %}
+
+          {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
+          <li>
+            <a href="{{ path('lily_redirections') }}" class="{% if app.request.attributes.get('_route') == 'lily_redirections' %}active{% endif %}">
+              <i class="icon-share-alt"></i>
+              <span>Redirections</span>
+            </a>
+          </li>
+          {% endif %}
+
+          <li>
+            <a href="{{ path('lily_statistics') }}" class="{% if app.request.attributes.get('_route') == 'lily_statistics' %}active{% endif %}">
+              <i class="icon-bar-chart"></i>
+              <span>Statistiques</span>
+            </a>
+          </li>
+          {% if is_granted('ROLE_ADMIN') %}
+          <li>
+            <a href="{{ path('lily_config') }}" class="{% if app.request.attributes.get('_route') == 'lily_config' %}active{% endif %}">
+              <i class="icon-gear"></i>
+              <span>Paramètres</span>
+            </a>
+          </li>
+          {% endif %}
+          {% if is_granted('ROLE_ADMIN') %}
+          <li>
+            <a href="{{ path('lily_users_admin') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
+              <i class="icon-group"></i>
+              <span>Utilisateurs</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      <!-- / nav -->
+    </section>
+  </section>
+</aside>
+<!-- /.aside -->

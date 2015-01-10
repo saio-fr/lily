@@ -14,14 +14,15 @@
 
 {% block body %} 
 
-<section class="hbox stretch">
+<section>
+  <section class="hbox stretch">
 
   {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
 	{% block content %}
     
     <!-- .vbox -->
-    <section class="vbox content-wrapper">
+    <section class="vbox js-skeleton-container">
     </section>
     <!-- /.vbox -->
 
@@ -130,6 +131,7 @@
     {% endautoescape %}
   {% endblock %}
 
+  </section>
 </section>
 
 <script

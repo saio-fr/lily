@@ -37,6 +37,7 @@ class ClientController extends BaseController
             $view = $this->view(array('client' => $client, 'config' => $config), 400);
             return $this->handleView($view);
         }
+        
         $licence = uniqid();
         $client->setLicence($licence);
         $client->setConfig($config);

@@ -13,7 +13,8 @@
 
 {% block body %}
 
-<section class="hbox stretch">
+<section>
+  <section class="hbox stretch">
 
   {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
@@ -48,13 +49,14 @@
     {% autoescape false %}
     <script type="text/javascript">
       var config = {};
-      config.root = '{{ app.request.getBaseURL() }}/lily/api/user';
+      config.root = '{{ app.request.getBaseURL() }}/lily/api';
       config.licence = '{{ app.user.client.licence }}';
       config.maxusers = '{{ app.user.client.config.maxusers }}';
     </script>
     {% endautoescape %}
   {% endblock %}
 
+  </section>
 </section>
 
 <script src="{{ asset('js/bower_components/requirejs/require.js')}}"

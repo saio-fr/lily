@@ -31,7 +31,7 @@ define(function (require) {
 
     render: function () {
 	    this.$el.html(this.template());
-      this.$el.appendTo('#wrapper');
+      this.$el.appendTo('.js-app');
     },
 	
     save: function () {

@@ -12,7 +12,6 @@ use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\SerializationContext;
 
 use Lily\AppBundle\Entity\LogRequest;
-use Lily\AppBundle\Entity\LogConnection;
 use Lily\AppBundle\Controller\BaseController;
 
 class AppController extends BaseController
@@ -25,79 +24,99 @@ class AppController extends BaseController
         $config = $this->getAppConfig($licence);
         $redirection = $this->getDefaultRedirection($licence);
         $chatAvailable = $this->isChatAvailable($licence);
-      
-        return $this->render('LilyAppBundle:themes:lily/index.html.twig', 
-          array('licence' => $licence, 
-                'config' => $config, 
-                'redirection' => $redirection, 
+
+        $session = $this->container->get('session');
+        if (!$session->isStarted()) {
+            $session->start();
+        }
+
+        return $this->render('LilyAppBundle:themes:lily/index.html.twig',
+          array('licence' => $licence,
+                'config' => $config,
+                'redirection' => $redirection,
                 'chatAvailable' => $chatAvailable
         ));
     }
 
     public function trackingAction($licence) {
-      
+
         $config = $this->getAppConfig($licence);
         $available = $this->isChatAvailable($licence);
-        
+
         $condition1 = $config->getChat()->getActive() && $available;
         $condition2 = $config->getAvi()->getActive();
 
         // Return if Maintenance is On or Avi is off and no operators available to chat
         if ( $config->getMaintenance() || !($condition1 || $condition2) ) {
-            return new Response();
+            return new Response(null, 200, array(
+              'content-type'=> 'text/javascript')
+            );
         }
 
-        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', array('licence' => $licence));
+        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', array(
+          'licence' => $licence,
+          'widget' => $config->getWidget()
+          )
+        );
 
-        $response = new Response($trackerJS);
-        $response->headers->set('Content-Type', 'text/javascript');
+        $response = new Response(
+          $trackerJS->getContent(), 200, array(
+            'content-type' => 'text/javascript'
+          )
+        );
 
         return $response;
     }
 
     /**
-     * @Get("/{licence}/faq/{parent}")
+     * @Get("/{licence}/faq/{id}")
      * @View()
      */
-    public function getFaqAction($licence, $parent) {
-        
+    public function getFaqAction($licence, $id) {
+
         // On initialise nos variables
         $em = $this->getEntityManager($licence);
         $session = $this->container->get('session');
 
-        if (strtolower($parent)  == 'null') { $parent = NULL; }
+        if (strtolower($id) == 'null') { $id = NULL; }
 
         // On récupère les catégories enfants
         $faqs = $em->getRepository('LilyKnowledgeBundle:Faq')
-        ->findByParent($parent);
+        ->findByParent($id);
 
-        if ($parent) {
+        if ($id) {
 
             // On récupère l'id du parent
-            $parent = $em->getRepository('LilyKnowledgeBundle:Faq')
-            ->findOneById($parent);
+            $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
+            ->findOneById($id);
 
             // On crée un log de requete
             $request = new LogRequest();
             $request->setSession($session->getId());
 
             $this->setMedia($request);
-            $request->setFaq($parent);
-            
+            $request->setFaq($faq);
+
             $em->persist($request);
             $em->flush();
 
-            $title = $parent->getTitle();
+            $title = $faq->getTitle();
 
-            if ($parent->getParent()) { $parent = $parent->getParent()->getId(); }
-            else { $parent = NULL; }
+            if ($faq->getParent()) { $parent = $faq->getParent()->getId(); }
+            else { $parent = 'NULL'; }
 
         } else {
-            $title = 'NULL';
+            $id = 'NULL';
             $parent = 'NULL';
+            $title = 'NULL';
         }
 
-        return array('parent' => $parent, 'title' => $title, 'faqs' => $faqs);
+        return array(
+            'parent' => $parent,
+            'id' => $id,
+            'title' => $title,
+            'faqs' => $faqs
+        );
     }
 
     /**
@@ -105,9 +124,9 @@ class AppController extends BaseController
      * @View()
      */
     public function getTopQuestionsAction($licence, $id) {
-      
+
         $em = $this->getEntityManager($licence);
-        
+
         $from = new \Datetime('-1 month');
         $to = new \Datetime();
 
@@ -115,9 +134,9 @@ class AppController extends BaseController
             // On récupère le top des questions
             $requests = $em->getRepository('LilyAppBundle:LogRequest')
             ->topQuestions($from, $to, 10);
-            
+
             $questions = [];
-            
+
             foreach ($requests as $item) {
                 $question = $item[0];
                 $questions[] = $question;
@@ -132,7 +151,7 @@ class AppController extends BaseController
     }
 
     /**
-     * @Post("/{licence}/sendmail")
+     * @Post("/{licence}/mail")
      */
     public function postEmailAction($licence, Request $request) {
 

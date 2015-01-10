@@ -42,7 +42,7 @@ class DefaultController extends BaseController
         $from = round($from / $size);
         $to = round($to / $size);
         
-        for ($n = $from; $n < $to; $n++) { 
+        for ($n = $from; $n <= $to; $n++) { 
             $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
             (string) (isset($nzData[$n]) ? $nzData[$n] : 0)];  //y value : data           
         }
@@ -81,7 +81,7 @@ class DefaultController extends BaseController
         $from = round($from / $size);
         $to = round($to / $size);
         
-        for ($n = $from; $n < $to; $n++) { 
+        for ($n = $from; $n <= $to; $n++) { 
             $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
             (string) (isset($nzData[$n]) ? $nzData[$n] : 1)];  //y value : data
         }
@@ -110,6 +110,7 @@ class DefaultController extends BaseController
         $to = round($timestampto/1000);
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
+        $satisfaction = [];
         
         // Satisfaction from AVI
         $avi = $em->getRepository('LilyAppBundle:LogNotation')
@@ -143,7 +144,7 @@ class DefaultController extends BaseController
         $from = round($from/$size);
         $to = round($to/$size);
         
-        for ($n = $from; $n < $to; $n++) { 
+        for ($n = $from; $n <= $to; $n++) { 
           $data[] = [(string) ($n * $size * 1000), //x value: microtimestamp
           (string) (isset($nzData[$n]) ? $nzData[$n] : 1)];  //y value : data
         }
@@ -189,11 +190,22 @@ class DefaultController extends BaseController
         $chat = $em->getRepository('LilyChatBundle:LogChat')
         ->averageSatisfaction(null, $from, $to, null);
         
-        $satisfaction = round(($avi + $chat)/2, 1);
-        if ($satisfaction) { $satisfaction *= 100; }
-        else { $satisfaction = 100; }
+        if ($chat && $avi) {
+                           
+            $satisfaction = round(($avi + $chat)/2, 1);
+            if ($satisfaction) { $satisfaction *= 100; }
+            else { $satisfaction = 100; }
+        } else {
+          
+          ($chat) ? $satisfaction = round($chat*100, 1) 
+                  : $satisfaction = round($avi*100, 1);
+        }
 
-        return array('loadings' => $loadings, 'usage' => $usage, 'satisfaction' => $satisfaction);
+        return array(
+          'loadings' => $loadings, 
+          'usage' => $usage, 
+          'satisfaction' => $satisfaction
+        );
 
     }
 
@@ -248,7 +260,7 @@ class DefaultController extends BaseController
             $size = 1*24*60*60; // (1 day)
             $step = 1;
             $period = 'day';
-        } elseif ($diff <= 40) {
+        } elseif ($diff <= 31) {
             $size = 1*24*60*60; // (1 days)
             $step = 4;
             $period = 'day';

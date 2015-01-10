@@ -46,7 +46,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     protected function getForm($type, $entity, $request) 
     {      
         $request = json_decode($request->getContent(), true);
-        $form = $this->createForm($type, $entity, array('csrf_protection' => false));
+        $form = $this->createForm($type, $entity);
         $form->bind($request);
         return $form;
     }
@@ -104,7 +104,9 @@ class BaseController extends FOSRestController implements ClassResourceInterface
         // Tell our chat app that config changed
         $context = new ZMQContext();
         $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
-        $socket->connect("tcp://ws.saio.fr:5555");
+        $socket->connect("tcp://172.16.0.2:5555");
+        $socket->connect("tcp://172.16.0.3:5555");
+        $socket->connect("tcp://172.16.0.4:5555");
 
         $socket->send(json_encode(array('action' => 'config', 'licence' => $licence)));
 

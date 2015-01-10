@@ -31,23 +31,21 @@ class RedirectionsController extends BaseController
     }
     
     /**
-     * @Get("/")
+     * @Get("/redirections")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
     public function getRedirectionsAction()
-    {    
-
+    {
         $redirections = $this->getEntityManager()
     		->getRepository('LilyKnowledgeBundle:Redirection')
         ->findAll();
     	
         return $redirections;	
-        	
     }
     
     /**
-     * @Get("/{id}")
+     * @Get("/redirections/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
@@ -65,7 +63,7 @@ class RedirectionsController extends BaseController
     }
     
     /**
-     * @Post("/")
+     * @Post("/redirections")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function createAction(Request $request)
@@ -88,32 +86,34 @@ class RedirectionsController extends BaseController
     }    
     
     /**
-     * @Put("/{id}")
+     * @Put("/redirections/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function updateAction($id, Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $em = $this->getEntityManager();
+        $cache = $this->get( 'aequasi_cache.instance.default' );
     	
         $redirection = $this->getEntityManager()
     		->getRepository('LilyKnowledgeBundle:Redirection')
     		->find($id); 	
 		
-        $form = $this->createForm(new RedirectionType(), 
-          $redirection, array('csrf_protection' => false));  
-           
-        $form->bind($data);
-        
-        $em = $this->getEntityManager();
+        $form = $this->getForm(new RedirectionType(), $redirection, $request);  
+
         $em->persist($redirection);
         $em->flush();
+        
+        if ($redirection->getBydefault()) {
+            $licence = $this->getUser()->getClient()->getLicence();
+            $cache->save( $licence.'_redirection', $redirection, 3600 );
+        }
 			
         $view = $this->view($redirection)->setFormat('json');
         return $this->handleView($view);			
     } 
     
     /**
-     * @Delete("/{id}")
+     * @Delete("/redirections/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */

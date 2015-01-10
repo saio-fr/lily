@@ -2,196 +2,219 @@
       Router
 =========================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app/app'),
-      api = require('app/data/api'),
-      when = require('when'),
-      utils = require('utils/pages'),
-      config = require('app/globals'),
-      AviView = require('app/views/avi'),
-      ChatView = require('app/views/chat'),
-      MailView = require('app/views/mail'),
-      FaqView = require('app/views/faq'),
-      Models = require('app/data/models'),
-      ContentView = require('app/views/content'),
-      TopQuestionsView = require('app/views/topQuestions'),
-      MessageLilySimpleView = require('app/views/messageLilySimple'),
-			ChatWelcomeScreenView = require('app/views/welcomeScreen'),
-			MessagesCollectionView = require('app/views/messagesCollection'),
+    _ = require('underscore'),
+    app = require('app/app'),
+    api = require('app/data/api'),
+    utils = require('utils/pages'),
+    config = require('app/globals'),
+    AviView = require('app/views/avi'),
+    ChatView = require('app/views/chat'),
+    MailView = require('app/views/mail'),
+    FaqView = require('app/views/faq'),
+    Models = require('app/data/models'),
+    Collections = require('app/data/collections'),
+    ContentView = require('app/views/content'),
+    TopQuestionsView = require('app/views/topQuestions'),
+    MessageLilySimpleView = require('app/views/messageLilySimple'),
+    ChatWelcomeScreenView = require('app/views/welcomeScreen'),
+    MessagesCollectionView = require('app/views/messagesCollection'),
 
-      // Object wrapper returned as a module
-      Router;
+    // Object wrapper returned as a module
+    Router;
 
   Router = Backbone.Router.extend({
 
-		url: '',
+    url: '',
 
-		routes: {
-			'top-questions': 'topQuestions',
-			'top-questions/': 'topQuestions',
-			'top-questions/:id': 'topQuestions',
-			'faq': 'faq',
-			'faq/': 'faq',
-			'faq/:parent': 'faq',
-			'faq/:parent/content/:id': 'content',
-			'': 'home',
-			'home': 'home',
-			'chat': 'chat',
-			'avi' : 'avi',
-			'mail': 'mail',
-			'mail/sent': 'mailSent'
-		},
+    routes: {
+      '': 'home',
+      'home': 'home',
+      'chat': 'chat',
+      'welcome-screen': 'welcomeScreen',
+      'avi': 'avi',
+      'mail': 'mail',
+      'faq': 'faq',
+      'faq/': 'faq',
+      'faq/:parent': 'faq',
+      'faq/:parent/content/:id': 'content',
+      'top-questions': 'topQuestions',
+      'top-questions/': 'topQuestions',
+      'top-questions/:id': 'topQuestions'
+    },
 
-		home: function () {
+    home: function() {
 
-			if ( config.chat.active &&
-					 config.home === 'chat' &&
-					 config.chatAvailable ||
-					 app.chatting ) {
+      this.navigate('/');
+      if (config.chat.active &&
+        config.home === 'chat' &&
+        config.chatAvailable ||
+        app.chatting) {
 
-				this.chat();
-			} else {
-				this.avi();
-			}
-		},
+        this.navigate('chat', {
+          trigger: true
+        });
+      } else if (config.avi && config.avi.active) {
+        this.navigate('avi', {
+          trigger: true
+        });
+      } else {
+        app.mailOnly = true;
+        this.navigate('mail', {
+          trigger: true
+        });
+      }
+    },
 
-		avi: function () {
+    avi: function() {
 
-			app.skeleton.collectionView = new MessagesCollectionView();
-			var view = new AviView();
-			utils.goTo(view);
+      app.skeleton.collectionView = new MessagesCollectionView();
+      var view = new AviView();
+      utils.goTo(view);
 
-			this.welcome = new Models.LilySimple({
-				message_content: config.avi.welcomeMsg
-			});
-			this.message = new MessageLilySimpleView({
-				model: this.welcome
-			}).render();
-		},
+      this.welcome = new Models.LilySimple({
+        message_content: config.avi.welcomeMsg
+      });
+      this.message = new MessageLilySimpleView({
+        model: this.welcome
+      }).render();
+    },
 
-		chat: function () {
+    chat: function() {
 
-			var view;
-			if ( config.chat.contactForm &&
-					 app.chatContactForm) {
-				view = new ChatWelcomeScreenView();
-			} else {
-				view = new ChatView();
-			}
-			utils.goTo(view);
-		},
+      var view;
+      if (config.chat.contactForm && !app.sawContactForm) {
+        this.navigate('welcome-screen', {
+          trigger: true
+        });
+      } else {
+        view = new ChatView();
+        utils.goTo(view);
+      }
+    },
 
-		mail: function () {
+    welcomeScreen: function() {
 
-			var view = new MailView();
-			utils.goTo(view);
-		},
+      var view = new ChatWelcomeScreenView();
+      utils.goTo(view);
+    },
 
-		mailSent: function () {
-			this.home();
-		},
+    mail: function() {
 
-		faq: function ( parent ) {
+      var view = new MailView();
+      utils.goTo(view);
+    },
 
-			parent = parent || "NULL";
+    faq: function(id) {
 
-			api.getFaq(parent).then(function (data) {
-				if (data) {
-					var sortedData = _.indexBy(data.faqs, 'position'),
-							view;
+      id = id || "NULL";
+      var router = this,
+        view;
 
-					app.skeleton.faqModel = new Models.Faq({
-						parent: data.parent,
-						title: data.title,
-						faqs: sortedData
-					});
-					view = new FaqView({ model: app.skeleton.faqModel });
+      app.skeleton.faqCollection = app.skeleton.faqCollection || new Collections.Faqs();
+      api.getFaqModel(id).then(function(model) {
 
-					utils.goTo(view);
-				}
-			}, function (err) {
+        app.skeleton.faqCollection.add(model);
 
-			});
-		},
+        view = new FaqView({
+          model: model
+        });
 
-		content: function ( parent, id ) {
+        utils.goTo(view);
+      }, function(err) {
+        console.log(err);
 
-			var router = this,
-					faq, contentModel, view;
+        router.navigate('faq', {
+          trigger: true
+        });
+      });
+    },
 
-		  api.getFaqList().then(function (faqs) {
+    content: function(parent, id) {
 
-	  		faq = _.find(faqs, function(faq) {
-	        return faq.id.toString() === id;
-	      });
+      var router = this,
+        faq, contentModel, view;
 
-	      contentModel = new Models.Content({
-	        parent: parent,
-	        title: faq.title,
-	        content: faq.content
-	      });
+      api.getFaqModel(parent).then(function(model) {
 
-		    view = new ContentView({ model: contentModel });
+        faq = _.find(model.get('faqs'), function(faq) {
+          return faq.id.toString() === id;
+        });
 
-		    utils.goTo(view);
-		  }, function (err) {
-		  	router.home();
-		  });
-		},
+        contentModel = new Models.Content({
+          parent: parent,
+          id: id,
+          title: faq.title,
+          content: faq.content
+        });
 
-		topQuestions: function ( id ) {
+        view = new ContentView({
+          model: contentModel
+        });
 
-			if ( !id || id === '/' ) {
-				$.ajax({
+        utils.goTo(view);
 
-					url: config.root + '/top-questions/NULL',
+      }, function(err) {
+        router.navigate('/', {
+          trigger: true
+        });
+      });
+    },
 
-					success:  function( data, textStatus, request ) {
-						// If there is no results we need to trigger a
-						// custom event to inform other objects.
+    topQuestions: function(id) {
 
-						if (data) {
-							var model = new Models.TopQuestions({ data: data });
-							var view = new TopQuestionsView({ model: model });
+      var router = this;
+      id = id || "NULL";
 
-							utils.goTo(view);
-						}
-					}
-				});
+      api.getTopQuestions(id)
+        .then(function(data) {
 
-			} else {
+          var view, model, question, reponse;
 
-				$.ajax({
+          if (!data) {
+            router.navigate('/', {
+              trigger: true
+            });
+            return;
+          }
 
-					url: config.root + '/top-questions/' + id,
+          if (id.toString() === "NULL") {
 
-					success:  function( data, textStatus, request ) {
-						if (data) {
+            model = new Models.TopQuestions({
+              data: data
+            });
+            view = new TopQuestionsView({
+              model: model
+            });
+          } else {
 
-							var view = new AviView(),
-									question = new Models.MessageUserSimple({
-										message_content: data.title
-									}),
-									reponse = new Models.MessageLilySimple ({
-										message_content: data.answer
-									});
+            view = new AviView();
+            question = new Models.MessageUserSimple({
+              message_content: data.title
+            });
+            reponse = new Models.MessageLilySimple({
+              message_content: data.answer
+            });
+          }
 
-							utils.goTo(view);
-							view.addItem ( question, 'user-simple');
-							view.addItem ( reponse, 'lily-simple');
-						}
-					}
-				});
-			}
+          utils.goTo(view);
 
-		},
+          if (question && reponse) {
+            view.addItem(question, 'user-simple');
+            view.addItem(reponse, 'lily-simple');
+          }
+        }, function(err) {
+          router.navigate('/', {
+            trigger: true
+          });
+        });
+    },
 
-	});
+  });
 
-	return Router;
+  return Router;
 });

@@ -4,7 +4,7 @@
 
 {{ parent() }} 	   
 
-{% stylesheets 'css/backoffice/config.css' 'js/fuelux/fuelux.css' filter='cssrewrite' output='css/compiled/config.css' %}      
+{% stylesheets 'css/backoffice/config.css' filter='cssrewrite' output='css/compiled/config.css' %}      
 <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
 {% endstylesheets %} 
@@ -13,17 +13,20 @@
 
 {% block body %}
 
-<section class="hbox stretch">
+	<section>
+  	<section class="hbox stretch">
 
-	{% include "LilyBackOfficeBundle::menu.html.twig" %}
+    {% include "LilyBackOfficeBundle::menu.html.twig" %}
 
-{% block content %} 	 	
-  <!-- .vbox -->      
-  <section id="wrapper">     
+    {% block content %} 	 	
+      <!-- .vbox -->      
+      <section class="js-app">     
+      
+      </section>    
+      <!-- /.vbox -->
+    {% endblock %} 
   
-  </section>    
-  <!-- /.vbox -->
-  {% endblock %} 	
+  	</section>	
   
   {% block templates %} 		
 	<!-- L'appel des différents scripts de vue -->
@@ -48,13 +51,13 @@
     {% autoescape false %}
       <script type="text/javascript">
   	    var config = {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api/config';
+        config.root = '{{ app.request.getBaseURL() }}/lily/api';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
 	    </script>
     {% endautoescape %}
 	{% endblock %}
-
-</section>
+	
+	</section>
 
 <script src="{{ asset('js/bower_components/requirejs/require.js')}}" 
   data-main="{{ asset('js/backoffice/config/main.js')}}">

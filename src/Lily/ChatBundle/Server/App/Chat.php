@@ -25,9 +25,9 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible) {
 	    
-	    // Get the conn licence
-	    $licence = $conn->WebSocket->request->getQuery()->get('licence');
-	    $client = $this->getClient($licence);
+	      // Get the conn licence
+        $licence = $conn->WebSocket->request->getQuery()->get('licence');
+        $client = $this->getClient($licence);
 	    
         $this->topicHandler->onPublish($conn, $topic, $event, $exclude, $eligible, $client->users);
         $client->operator->broadcast($this->toArray($client->users));
@@ -35,9 +35,9 @@ class Chat implements WampServerInterface, MessageComponentInterface {
 
     public function onCall(Conn $conn, $id, $topic, array $params) {
 	    
-	    // Get the conn licence
-	    $licence = $conn->WebSocket->request->getQuery()->get('licence');
-	    $client = $this->getClient($licence);
+	      // Get the conn licence
+        $licence = $conn->WebSocket->request->getQuery()->get('licence');
+        $client = $this->getClient($licence);
 	    
         $this->rpcHandler->dispatch($conn, $id, $topic, $params, $client);
         $client->operator->broadcast($this->toArray($client->users));
@@ -46,25 +46,26 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     // WampServer adds and removes subscribers to Topics automatically, this is for further optional events.
     public function onSubscribe(Conn $conn, $topic) {
 	    
-	    // Get the conn licence
-	    $licence = $conn->WebSocket->request->getQuery()->get('licence');
-	    $client = $this->getClient($licence);
+	      // Get the conn licence
+        $licence = $conn->WebSocket->request->getQuery()->get('licence');
+        $client = $this->getClient($licence);
 	       
         $this->topicHandler->onSubscribe($conn, $topic, $client->users);
         $client->operator->broadcast($this->toArray($client->users));
         
     }
     public function onUnSubscribe(Conn $conn, $topic) {
-	    
-	    // Get the conn licence
-	    $licence = $conn->WebSocket->request->getQuery()->get('licence');
-	    $client = $this->getClient($licence);
+
+  	    // Get the conn licence
+  	    $licence = $conn->WebSocket->request->getQuery()->get('licence');
+  	    $client = $this->getClient($licence);
 	      	
         $this->topicHandler->onUnSubscribe($conn, $topic, $client->users);
         $client->operator->broadcast($this->toArray($client->users));
     }
 
     public function onOpen(Conn $conn) {
+      
         $event = new ClientEvent($conn, ClientEvent::$connected);             
         $this->eventDispatcher->dispatch("lily.client.connected", $event); 
     }
@@ -73,11 +74,13 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     }
 
     public function onClose(Conn $conn) {
+      
         $event = new ClientEvent($conn, ClientEvent::$disconnected);
         $this->eventDispatcher->dispatch("lily.client.disconnected", $event);        
     }
 
     public function onError(Conn $conn, \Exception $e) {
+      
         $event = new ClientErrorEvent($conn, ClientEvent::$error);
 
         $event->setException($e);
@@ -85,23 +88,24 @@ class Chat implements WampServerInterface, MessageComponentInterface {
     }
     
    /**
-	* Get client's users
-	*/
-	public function getClient($licence) {
-		foreach ($this->clients as $client) {		
-			if ($client->licence === $licence) {
-				return $client;
-			}
-		}        
-	}
+    * Get client's users
+	  */
+    	public function getClient($licence) {
+      	
+    		foreach ($this->clients as $client) {		
+    			if ($client->licence === $licence) {
+    				return $client;
+    			}
+    		}        
+    	}
     
    /**
     * Convert our clients to array
     */
-	public function toArray($data)
-	{
+  	public function toArray($data)
+  	{
         $result = array();
         foreach ($data as $key => $value) { $result[$key] = (array) $value; }
         return $result;
-	}
+  	}
 }

@@ -2,20 +2,20 @@
       Redirection View
 =========================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      app = require('app'),
-      RedirectionModel = require('backoffice/redirection/models/redirectionModel'),
+    _ = require('underscore'),
+    app = require('app'),
+    RedirectionModel = require('backoffice/redirection/models/redirectionModel'),
 
-      // Object wrapper returned as a module
-      RedirectionItemView;
+    // Object wrapper returned as a module
+    RedirectionItemView;
 
-    RedirectionItemView = Backbone.View.extend({
+  RedirectionItemView = Backbone.View.extend({
 
     model: RedirectionModel,
 
@@ -30,13 +30,13 @@ define(function (require) {
       'click .icon-sign-blank': 'selectdefault',
     },
 
-    initialize: function () {
+    initialize: function() {
 
       this.listenTo(this.model, 'select', this.select);
       this.listenTo(this.model, 'change', this.render);
     },
 
-    render: function () {
+    render: function() {
 
       this.$el.html(this.template(this.model.toJSON()));
 
@@ -50,9 +50,9 @@ define(function (require) {
       return this;
     },
 
-    select: function (e) {
-      if ( !e.target.classList.contains('icon-check-sign') &&
-           !e.target.classList.contains('delete-action') ) {
+    select: function(e) {
+      if (!e.target.classList.contains('icon-sign-blank') &&
+        !e.target.classList.contains('icon-remove')) {
         app.trigger('itemView:select', this.model);
 
         this.$el
@@ -64,15 +64,19 @@ define(function (require) {
       }
     },
 
-    selectdefault: function () {
+    selectdefault: function() {
 
       if (this.model.get('bydefault') === false) {
         var active = app.skeleton.getActiveItem();
 
         if (active.length !== 0) {
-          active[0].set({ 'bydefault': false });
+          active[0].set({
+            'bydefault': false
+          });
         }
-        this.model.set({ 'bydefault': true });
+        this.model.set({
+          'bydefault': true
+        });
         // change icon to reflect state
         this.$el
           .find('.icon-sign-blank')
@@ -81,7 +85,7 @@ define(function (require) {
       }
     },
 
-    todelete: function () {
+    todelete: function() {
       // Can't delete a default redirection.
       // Showing an alert modal.
       if (this.model.get('bydefault') === true) {

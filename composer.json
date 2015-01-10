@@ -1,65 +1,67 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
-    "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
-    "autoload": {
-        "psr-0": { "": "src/" }
-    },
-    "require": {    
-        "php": ">=5.3.3",
-        "symfony/symfony": "2.6.x-dev",
-        "doctrine/orm": "~2.2,>=2.2.3",
-        "doctrine/doctrine-bundle": "~1.2",
-        "twig/extensions": "~1.0",
-        "symfony/assetic-bundle": "~2.3",
-        "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~3.0",
-        "sensio/framework-extra-bundle": "~3.0",
-        "incenteev/composer-parameter-handler": "~2.0",
-        "sensio/generator-bundle": "2.3.*",
-	    "friendsofsymfony/user-bundle": "dev-master",
-	    "nelmio/solarium-bundle": "2.*",
-        "jms/serializer-bundle": "dev-master",
-        "friendsofsymfony/rest-bundle": "1.0.*",
-        "jms/security-extra-bundle": "dev-master",
-        "stof/doctrine-extensions-bundle": "~1.1@dev",
-        "suncat/mobile-detect-bundle": "0.9.*",
-        "cboden/Ratchet": "0.3.*",
-        "react/zmq": "0.2.*",
-        "jms/i18n-routing-bundle": "dev-master",
-        "aequasi/cache-bundle": "~2.4.0",
-        "oneup/flysystem-bundle": "~0.1",
-        "vich/uploader-bundle": "~0.11",
-        "symfony/var-dumper": "~2.6"
-    },
-    "scripts": {
-        "post-install-cmd": [
+  "name": "symfony/framework-standard-edition",
+  "license": "MIT",
+  "type": "project",
+  "description": "The \"Symfony Standard Edition\" distribution",
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/symfony": "2.6.x-dev",
+    "doctrine/orm": "~2.2,>=2.2.3",
+    "doctrine/doctrine-bundle": "~1.2",
+    "twig/extensions": "~1.0",
+    "symfony/assetic-bundle": "~2.3",
+    "symfony/swiftmailer-bundle": "~2.3",
+    "symfony/monolog-bundle": "~2.4",
+    "sensio/distribution-bundle": "~3.0",
+    "sensio/framework-extra-bundle": "~3.0",
+    "incenteev/composer-parameter-handler": "~2.0",
+    "sensio/generator-bundle": "2.3.*",
+    "friendsofsymfony/user-bundle": "dev-master",
+    "nelmio/solarium-bundle": "2.*",
+    "jms/serializer-bundle": "dev-master",
+    "friendsofsymfony/rest-bundle": "1.0.*",
+    "jms/security-extra-bundle": "dev-master",
+    "stof/doctrine-extensions-bundle": "~1.1@dev",
+    "suncat/mobile-detect-bundle": "0.9.*",
+    "cboden/Ratchet": "0.3.*",
+    "react/zmq": "0.2.*",
+    "jms/i18n-routing-bundle": "dev-master",
+    "aequasi/cache-bundle": "~2.4.0",
+    "oneup/flysystem-bundle": "~0.1",
+    "vich/uploader-bundle": "~0.11",
+    "symfony/var-dumper": "~2.6"
+  },
+  "scripts": {
+    "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ],
-        "post-update-cmd": [
+    "post-update-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "minimum-stability": "stable",
+  "extra": {
+    "symfony-app-dir": "app",
+    "symfony-web-dir": "web",
+    "incenteev-parameters": {
+      "file": "app/config/parameters.yml"
     },
-    "config": {
-        "bin-dir": "bin"
-    },
-    "minimum-stability": "stable",
-    "extra": {
-        "symfony-app-dir": "app",
-        "symfony-web-dir": "web",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
-        },
-        "branch-alias": {
-            "dev-master": "2.3-dev"
-        }
+    "branch-alias": {
+      "dev-master": "2.3-dev"
     }
+  }
 }

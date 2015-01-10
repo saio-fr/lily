@@ -4,8 +4,9 @@
 
 {{ parent() }} 	   
 
-{% stylesheets 'css/backoffice/chat.css' filter='cssrewrite'  output='css/compiled/chat.css'%}      
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+{% stylesheets 'css/backoffice/chat.css' filter='cssrewrite'  output='css/compiled/chat.css'%} 
+     
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
 {% endstylesheets %} 
 
@@ -13,167 +14,117 @@
 
 {% block body %}
 
-<section class="hbox stretch">
+<section>
+  <section class="hbox stretch">
 
-  	{% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
 	{% block content %}
 	
 	<section>
-	  <section id="chat" class="vbox">
-		<header class="header bg-dark bg-gradient">
-		  <div class="header-control pull-right">
-		    <div class="btn-group windows">
-			  <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
-			    <span class="dropdown-label">1 conversation</span>
-			  </button>
-			  <ul class="dropdown-menu dropdown-select">
-				<li class="active"><a href="#" data="1"><input type="radio" name="d-s-r">1 conversation</a></li>
-				<li><a href="#" data="2"><input type="radio" name="d-s-r">2 conversations</a></li>
-				<li><a href="#" data="4"><input type="radio" name="d-s-r">4 conversations</a></li>
-			  </ul>
-		    </div>
-		    <div class="btn-group status">
-		      <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
-		        <i class="icon-stop"></i><span class="dropdown-label"></span>		        
-		      </button>
-		      <ul class="dropdown-menu dropdown-select">
-		        <li><a href="#" data="available"><input type="radio" name="d-s-r">Disponible</a></li>
-		        <li class="active"><a href="#" data="unavailable"><input type="radio" name="d-s-r">Indisponible</a></li>
-		      </ul>
-		    </div>
-		  </div>
-		  <ul id="chat-nav" class="nav nav-tabs">
-		    <li class="dashboard-nav active"><a href="#dashboard">Dashboard</a></li>
-		    <li class="live-nav"><a href="#chat">Discussions<b class="badge bg-warning pull-right hide">0</b></a></li>
-		  </ul>
-        </header>
-		<section id="chat-section">
-		<!-- Live view -->
-		</section>
-		</section>
+	  <section class="js-skeleton-container vbox">
+    <!--
+      Here start our application
+      Main Skelton View
+    -->  	  
 	  </section>
 	</section>
 
 	{% endblock %}
 	
 	{% block templates %}
-		<!-- L'appel des différents scripts de vue -->
-		<script type="text/template" id="dashboard">
-            {% include 'LilyChatBundle:Operator/templates:dashboard.html.twig' %}
-        </script>
-        <script type="text/template" id="dashboard_connected">
-            {% include 'LilyChatBundle:Operator/templates:dashboard_connected.html.twig' %}
-        </script>
-        <script type="text/template" id="parameters">
-            {% include 'LilyChatBundle:Operator/templates:parameters.html.twig' %}
-        </script>
-        <script type="text/template" id="live">
-            {% include 'LilyChatBundle:Operator/templates:live.html.twig' %}
-        </script>
-        <script type="text/template" id="conversation">
-            {% include 'LilyChatBundle:Operator/templates:conversation.html.twig' %}
-        </script>
-        <script type="text/template" id="informations">
-            {% include 'LilyChatBundle:Operator/templates:informations.html.twig' %}
-        </script>
-        <script type="text/template" id="message-visitor">
-            {% include 'LilyChatBundle:Operator/templates:message_visitor.html.twig' %}
-        </script>
-        <script type="text/template" id="message-operator">
-            {% include 'LilyChatBundle:Operator/templates:message_operator.html.twig' %}
-        </script>
-        <script type="text/template" id="message-server">
-            {% include 'LilyChatBundle:Operator/templates:message_server.html.twig' %}
-        </script>
-        <script type="text/template" id="record">
-            {% include 'LilyChatBundle:Operator/templates:record.html.twig' %}
-        </script>
-        <script type="text/template" id="modal-close">
-            {% include 'LilyChatBundle:Operator/templates:modal_close.html.twig' %}
-        </script>
-        <script type="text/template" id="modal-ban">
-            {% include 'LilyChatBundle:Operator/templates:modal_ban.html.twig' %}
-        </script>
-        <script type="text/template" id="modal-transfer">
-            {% include 'LilyChatBundle:Operator/templates:modal_transfer.html.twig' %}
-        </script>
-        <script type="text/template" id="transfer-view">
-            {% include 'LilyChatBundle:Operator/templates:transfer.html.twig' %}
-        </script>
-    {% endblock %}
+		<script type="text/template" id="skeletonTpl">
+      {% include 'LilyChatBundle:Operator:skeleton.html.twig' %}
+    </script>
+    <!-- 
+  		  Live
+    -->
+		<script type="text/template" id="liveSkeletonTpl">
+      {% include 'LilyChatBundle:Operator/Live:skeleton.html.twig' %}
+    </script>
+		<script type="text/template" id="liveConversationTpl">
+      {% include 'LilyChatBundle:Operator/Live:conversation.html.twig' %}
+    </script>
+		<script type="text/template" id="liveInformationsTpl">
+      {% include 'LilyChatBundle:Operator/Live:informations.html.twig' %}
+    </script>
+		<script type="text/template" id="liveRecordTpl">
+      {% include 'LilyChatBundle:Operator/Live:record.html.twig' %}
+    </script>
+		<script type="text/template" id="liveMessageOperatorTpl">
+      {% include 'LilyChatBundle:Operator/Live/Message:operator.html.twig' %}
+    </script>
+		<script type="text/template" id="liveMessageServerTpl">
+      {% include 'LilyChatBundle:Operator/Live/Message:server.html.twig' %}
+    </script>
+		<script type="text/template" id="liveMessageVisitorTpl">
+      {% include 'LilyChatBundle:Operator/Live/Message:visitor.html.twig' %}
+    </script>
+    <!-- 
+  		  Dashboard
+    -->
+		<script type="text/template" id="dashboardSkeletonTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard:skeleton.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardConnectedOperatorTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard/Connected:operator.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardConnectedListTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard/Connected:list.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardLoadingTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard:loading.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardOperatorsTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard:operators.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardVisitorsTpl">
+      {% include 'LilyChatBundle:Operator/Dashboard:visitors.html.twig' %}
+    </script>
+    <!-- 
+  		  Modals
+    -->
+		<script type="text/template" id="modalConnectionLostTpl">
+      {% include 'LilyChatBundle:Connection:lost.html.twig' %}
+    </script>
+		<script type="text/template" id="modalAppTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
+    </script>
+		<script type="text/template" id="modalConfirmTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
+    </script>
+		<script type="text/template" id="modalTransferOperatorTpl">
+      {% include 'LilyChatBundle:Operator/Live/Modals/Transfer:operator.html.twig' %}
+    </script>
+    
+    
+  {% endblock %}
 
 	{% block bootstrap %}
-	    {% autoescape false %}
+    {% autoescape false %}
 	    <script type="text/javascript">
-	        var root = '{{ path('lily_chat') }}';
-	        var licence = '{{ app.user.client.licence }}';
-	        var user = {
-	        	id: '{{ app.user.id }}',
-	        };
+  	    
+  	    var config = {};
+  	    
+  	    {% if app.environment == 'dev' %}
+  	      config.wsserver = 'ws://develop.saio.fr';
+  	    {% else %}
+  	      config.wsserver = 'ws://ws.saio.fr';
+        {% endif %}
+  	    
+        config.root = '{{ app.request.getBaseURL() }}/lily/api/chat';
+        config.licence = '{{ app.user.client.licence }}';
+        config.userId = '{{ app.user.id }}';
 	    </script>
-	    {% endautoescape %}
+    {% endautoescape %}
 	{% endblock %}
-
+	
+  </section>
 </section>
 
-{% block javascripts %}
-
-{{ parent() }}
-
-{% javascripts 
-
-'js/vendor/jquery.min.js'
-'js/bower_components/underscore/underscore.js'
-'js/bower_components/backbone/backbone.js'
-'js/bower_components/bootstrap/dist/js/bootstrap.js'
-
-'js/todo.js'
-
-'js/charts/sparkline/jquery.sparkline.min.js' 
-'js/charts/easypiechart/jquery.easy-pie-chart.js'
-
-'js/wysiwyg/advanced_unwrap.js' 
-'js/bower_components/wysihtml5/src/wysihtml5.js' 
-
-'js/vendor/autobahn-v1.min.js' 
-
-'js/backoffice/chat/libs/modernizr-custom.js' 
-'js/vendor/moment.js' 
-
-'js/backoffice/chat/main.js' 
-'js/backoffice/chat/app.js' 
-
-'js/backoffice/chat/models/MessageModel.js' 
-'js/backoffice/chat/models/Messages.js'
-'js/backoffice/chat/models/OperatorModel.js' 
-'js/backoffice/chat/models/Operators.js' 
-'js/backoffice/chat/models/RecordModel.js' 
-'js/backoffice/chat/models/Records.js' 
-'js/backoffice/chat/models/Parameters.js' 
-
-'js/backoffice/chat/views/RecordCurrentView.js' 
-'js/backoffice/chat/views/RecordWaitingView.js' 
-'js/backoffice/chat/views/LiveView.js' 
-'js/backoffice/chat/views/ConversationView.js' 
-'js/backoffice/chat/views/InformationsView.js'
-'js/backoffice/chat/views/MessageView.js' 
-'js/backoffice/chat/views/MessageServerView.js'
-'js/backoffice/chat/views/MessageOperatorView.js'
-'js/backoffice/chat/views/MessageVisitorView.js' 
-'js/backoffice/chat/views/ModalCloseView.js' 
-'js/backoffice/chat/views/ModalBanView.js' 
-'js/backoffice/chat/views/ModalTransferView.js'
-'js/backoffice/chat/views/TransferView.js' 
-'js/backoffice/chat/views/ParametersView.js' 
-'js/backoffice/chat/views/DashboardView.js'
-'js/backoffice/chat/views/DashboardListConnectedView.js'
-'js/backoffice/chat/views/DashboardConnectedView.js' output='js/compiled/chat.js' %}
-
-  <script type="text/javascript" src="{{ asset_url }}"></script>
-  
-{% endjavascripts %}
-
-{% endblock %}
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/chat/main.js')}}">
+</script>
 
 {% endblock %}

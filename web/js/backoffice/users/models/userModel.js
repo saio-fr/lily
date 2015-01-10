@@ -16,11 +16,6 @@ define(function (require) {
 
 
   UserModel = Backbone.NestedModel.extend({
-
-    id: '',
-    url: function() {
-      return '/' + this.id;
-    },
     
     defaults: {
       'firstname': '',
@@ -37,34 +32,39 @@ define(function (require) {
     validation: {
       'firstname': {
         required: true,
+        msg: 'Veuillez renseiger un prénom'
       },
       'lastname': {
-        required: true
+        required: true,
+        msg: 'Veuillez renseiger un nom'
       },
       'phone': {
         required: false,
-        minLength: 10
-      },
-      'username': {
-        required: true
+        minLength: 10,
+        msg: 'Au moins 10 caractères'
       },
       'email': {
         required: true,
-        pattern: 'email'
+        pattern: 'email',
+        msg: 'Adresse email non valide'
       },
       'roles': {
         required: true,
+        msg: 'Requis'
       },
       'plainPassword': {
         required: false,
-        minLength: 4
+        minLength: 4,
+        msg: 'Le mot de passe est trop court'
       },
       'plainPasswordRepeat': {
-        equalTo: 'plainPassword'
+        equalTo: 'plainPassword',
+        msg: 'Les mots de passes ne sont pas identiques'
       }
     },
     
     initialize: function () {
+      this.urlRoot = "/users";
       this.listenTo(this, 'change', this.convert);
       // If the model isnt new, convert server's attributes
       if (!this.isNew()) {
@@ -81,6 +81,7 @@ define(function (require) {
 
     convertRoles: function () {
       var roles = this.get('roles');
+      this.convertedRoles = '';
       
       if (roles.indexOf('ROLE_ADMIN') !== -1) { 
         this.convertedRoles = 'Administrateur';
@@ -90,8 +91,8 @@ define(function (require) {
           this.convertedRoles = 'Opérateur Live chat';
         }
         if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
-          this.convertedRoles += (this.convertedRoles == '') ? 'Opérateur ' : ' et ';
-          this.convertedRoles += 'Base de connaissance';
+          this.convertedRoles = (this.convertedRoles == '') ? 'Opérateur ' : ' et ';
+          this.convertedRoles += 'base de connaissance';
         }
       }
       

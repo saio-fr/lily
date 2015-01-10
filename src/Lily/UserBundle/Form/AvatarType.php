@@ -16,9 +16,8 @@ class AvatarType extends AbstractType
     {
       
         $builder
-            ->add('avatarFile', 'vich_file', array(
+            ->add('avatarFile', 'vich_image', array(
               'required'      => true,
-              'mapping'       => 'user_avatar',
               'allow_delete'  => true,
               'download_link' => true,
             ));
@@ -32,7 +31,7 @@ class AvatarType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Lily\UserBundle\Entity\UserConfig',
             'csrf_protection'   => false,
-            'allow_extra_fields' => true,
+            'allow_extra_fields' => true
         ));
     }
 

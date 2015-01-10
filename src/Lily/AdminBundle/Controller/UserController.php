@@ -3,7 +3,7 @@
 namespace Lily\AdminBundle\Controller;
 
 use Lily\AdminBundle\Controller\BaseController;
-use Lily\UserBundle\Form\UserManagementType;
+use Lily\UserBundle\Form\UserAdminType;
 use Lily\UserBundle\Entity\Client;
 use Lily\UserBundle\Entity\User;
 use Lily\UserBundle\Entity\UserConfig;
@@ -25,10 +25,9 @@ class UserController extends BaseController
     
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->createUser();
+        $user->setUsername(uniqid());
         
-        $data = json_decode($request->getContent(), true);
-        $form = $this->createForm(new UserManagementType, $user, array('csrf_protection' => false));
-        $form->submit($data);
+        $form = $this->getForm(new UserAdminType, $user, $request);
         
         if ($form->isValid()) {
               
@@ -42,17 +41,13 @@ class UserController extends BaseController
             // Persist user entity
             $user->setEnabled($user);
             $manager->updateUser($user);
+            
+            $view = $this->view($user);
+            return $this->handleView($view);
               
-        } else {
-          
-            $serializer = $this->get('jms_serializer');
-            $form = $serializer->serialize($form, 'json');
-            $data = array('success' => false, 'errorList' => $form);
-            $view = $this->view($data)->setFormat('json');
-          
-        }
+        } 
         
-        $view = $this->view($user)->setFormat('json');
+        $view = $this->view($form, 400);
         return $this->handleView($view);
 
     }

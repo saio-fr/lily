@@ -32,22 +32,24 @@ class OperatorTopic implements TopicInterface
      * @return mixed|void
      */
     public function onSubscribe(Conn $conn, $topic, $users)
-    {
-    	
-    	// Test if opeartor is already connected
-    	foreach ($users as $item) {
-			if ($item->id === $conn->User->getId() && $item->type === 'operator') { 
-				return;
-			}
-		}
+    {	
+        // Security check
+        if (!isset($conn->User)) { return; }
+        
+    	  // Test if opeartor is already connected
+        foreach ($users as $item) {
+            if ($item->id === $conn->User->getId() && $item->type === 'operator') { 
+				        return;
+			      }
+		    }
 		
-    	$operator = new \StdClass;
+    	  $operator = new \StdClass;
         $operator->id = $conn->User->getId();
         $operator->welcome = $conn->User->getConfig()->getWelcomeMsg();
         $operator->avatar = $conn->User->getConfig()->getAvatar();
         $operator->firstname = $conn->User->getFirstname();
         $operator->lastname = $conn->User->getLastname();
-        $operator->services = $conn->User->getServices();
+        // $operator->services = $conn->User->getServices();
         $operator->type = 'operator';
         $operator->messages = array();
         $operator->available = false;
@@ -66,11 +68,11 @@ class OperatorTopic implements TopicInterface
      */
     public function onUnSubscribe(Conn $conn, $topic, $users)
     {
-    	foreach ($users as $item) {
-			if ($item->id === $conn->User->getId() && $item->type === 'operator') {
-				$users->detach($item);
-			}
-		}
+    	  foreach ($users as $item) {
+            if ($item->id === $conn->User->getId() && $item->type === 'operator') {
+				        $users->detach($item);
+			      }
+		    }
     }
 
 
@@ -87,18 +89,18 @@ class OperatorTopic implements TopicInterface
      */
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $users)
     {   
-		foreach ($users as $item) {
+		    foreach ($users as $item) {
 		
-			if ($item->id === $conn->Session->getId()) { 
+            if ($item->id === $conn->Session->getId()) { 
 				
-				$item->closed = false;
-				$item->sent += 1;
-				$item->lastMsgTime = time();
-				$item->messages[] = array('id' => uniqid(), 'from' => 'visitor', 'date' => time(), 'msg' => $event);
-				$item->topic->broadcast($item->messages);
+                $item->closed = false;
+                $item->sent += 1;
+                $item->lastMsgTime = time();
+                $item->messages[] = array('id' => uniqid(), 'from' => 'visitor', 'date' => time(), 'msg' => $event);
+                $item->topic->broadcast($item->messages);
 				
-			}
-		}
+			      }
+		    }
     }
 
 }

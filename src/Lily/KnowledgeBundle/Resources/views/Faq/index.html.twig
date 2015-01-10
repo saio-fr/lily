@@ -13,63 +13,65 @@
 
 {% block body %}
 
-<section class="hbox stretch">
-
-{% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
-
-  {% block content %}
-    <!-- .vbox -->
-  <section class="js-app">
-    <section class="hbox stretch">
-
-      <aside class="bg-light lter">
-	      <section class="js-module-body vbox scrollable padder-b">
-
-          <!-- Header: holds the breadcrumbs -->
-	        <header class="js-breadcrumbs-container bg-light dker header clearfix padder-t b-b">
-            <!--
-              Here go the breadcrumb items
-              will render as a <ul class="breadcrumb m-n">
-            -->
-          </header>
-
-          <!-- 
-            Main section: contains the faq category and contents
-            + "add" buttons + edit view
-          -->
-          <section class="bg-light lter">
-            <section class="js-main-container hbox stretch">
-
-              <aside>
-                <section class="vbox">
-                  <section class="js-faq-container scrollable wrapper">
-                    <!--
-                      Here go the faq items
-                    -->
-                    <a class="btn btn-sm btn-white new-content pull-right-lg">
-                      <i class="icon-plus pull-left"></i>
-                      Ajouter un contenu
-                    </a>
-                    <a class="btn btn-sm btn-white new-category pull-right-lg m-l-sm">
-                      <i class="icon-plus pull-left"></i>
-                      Ajouter une catégorie
-                    </a>
-                  </section>
-                </section>
-              </aside>
+<section>
+  <section class="hbox stretch">
+  
+  {% include "LilyBackOfficeBundle::menu.html.twig" %}
+  
+    {% block content %}
+      <!-- .vbox -->
+    <section class="js-app">
+      <section class="hbox stretch">
+  
+        <aside class="bg-white">
+  	      <section class="js-module-body vbox scrollable padder-b">
+  
+            <!-- Header: holds the breadcrumbs -->
+  	        <header class="js-breadcrumbs-container header clearfix padder-t b-b">
               <!--
-                 Affichage du panneau de modification. Will render as:
-                 <aside class="aside-faq bg-light lter b-l hide">
+                Here go the breadcrumb items
+                will render as a <ul class="breadcrumb m-n">
               -->
+            </header>
+  
+            <!-- 
+              Main section: contains the faq category and contents
+              + "add" buttons + edit view
+            -->
+            <section>
+              <section class="js-main-container hbox stretch">
+  
+                <aside>
+                  <section class="vbox">
+                    <section class="js-faq-container bg-light wrapper scrollable">
+                      <!--
+                        Here go the faq items
+                      -->
+                      <a class="btn btn-sm btn-white new-content pull-right-lg">
+                        <i class="icon-plus pull-left"></i>
+                        Ajouter un contenu
+                      </a>
+                      <a class="btn btn-sm btn-white new-category pull-right-lg m-l-sm">
+                        <i class="icon-plus pull-left"></i>
+                        Ajouter une catégorie
+                      </a>
+                    </section>
+                  </section>
+                </aside>
+                <!--
+                   Affichage du panneau de modification. Will render as:
+                   <aside class="aside-faq bg-light lter b-l hide">
+                -->
+              </section>
             </section>
+  
           </section>
-
-        </section>
-      </aside>
+        </aside>
+      </section>
     </section>
+    {% endblock %}
+  
   </section>
-  {% endblock %}
-
 </section>
 
 {% block templates %}
@@ -87,8 +89,8 @@
   <script type="text/template" id="breadcrumbTpl">
     {% include 'LilyKnowledgeBundle:Faq:breadcrumb.html.twig' %}
   </script>
-  <script type="text/template" id="modalTpl">
-    {% include 'LilyBackOfficeBundle:Utils:modalAlert.html.twig' %}
+  <script type="text/template" id="modalAlertTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Modal:alert.html.twig' %}
   </script>
 
 {% endblock %}
@@ -98,7 +100,7 @@
 
   <script type="text/javascript">
     var config = {};
-    config.root = '{{ app.request.getBaseURL() }}/lily/api/faq';
+    config.root = '{{ app.request.getBaseURL() }}/lily/api';
   </script>
 
   {% endautoescape %}

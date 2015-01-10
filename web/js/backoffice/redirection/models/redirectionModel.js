@@ -23,7 +23,7 @@ define(function (require) {
     },
 
     initialize: function () {
-        this.urlRoot = "/";
+        this.urlRoot = "/redirections";
     },
 
     cancel: function() {

@@ -58,6 +58,13 @@ class Config
      * @ORM\Column(name="theme", type="string", length=20)
      */
     protected $theme; 
+        
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="widget", type="text")
+     */
+    protected $widget; 
      
     
     /**
@@ -69,10 +76,11 @@ class Config
     
     public function __construct()
     {   
-		$this->theme = 'lily';
-		$this->faq = true;
-		$this->topquestions = true;
-		$this->maintenance = false;
+    		$this->theme = 'lily';
+    		$this->faq = true;
+    		$this->topquestions = true;
+    		$this->maintenance = false;
+        $this->widget = '<h3>Vous avez une question ?</h3>';
 	  }
    
 
@@ -245,5 +253,28 @@ class Config
     public function getAvi()
     {
         return $this->avi;
+    }
+
+    /**
+     * Set widget
+     *
+     * @param string $widget
+     * @return Config
+     */
+    public function setWidget($widget)
+    {
+        $this->widget = $widget;
+
+        return $this;
+    }
+
+    /**
+     * Get widget
+     *
+     * @return string 
+     */
+    public function getWidget()
+    {
+        return $this->widget;
     }
 }

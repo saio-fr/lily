@@ -5,7 +5,7 @@ set :app_path,    "app"
 
 set :repository,  "git@github.com:saio-fr/lily.git"
 set :scm,         :git
-set :branch,      "master"
+set :branch,      "develop"
 
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
 
@@ -29,11 +29,22 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=prod"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
   
+end
+
+namespace :ws do
+  task :stop do
+    # clear the cache
+    run "sudo supervisorctl stop all"
+  end
+  task :start do
+    # clear the cache
+    run "sudo supervisorctl start all"
+  end
 end
 
 task :upload_parameters do

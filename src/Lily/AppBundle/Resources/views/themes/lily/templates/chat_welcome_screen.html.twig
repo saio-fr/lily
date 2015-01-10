@@ -1,11 +1,11 @@
-<div class="lily-page-cont"> <!--wrapper page les différentes pages--> 
+<div class="lily-page-cont"> <!--wrapper page les différentes pages-->
 	<header id="lily-header" class="lily-cst-header">
 	  <span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
-	</header
+	</header>
 	<section class="lily-main-content">
 	  <div class="lily-contact-form">
 	    <h5>{{ config.chat.contactFormMsg }}</h5>
-	    {% if config.chat.contactLastNameField %}	
+	    {% if config.chat.contactLastNameField %}
 		<p>Nom: <label class="lastname" style="display:none">Ce champ ne peut pas être vide.</label></p>
 		<input id="lastname" class="lily-cst-form-color" type="text" name="lastname" placeholder="Votre Nom" size="30"/>
 		{% endif %}

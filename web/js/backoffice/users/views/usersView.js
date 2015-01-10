@@ -15,7 +15,7 @@ define(function (require) {
 
   UsersView = Backbone.View.extend({
 
-    el: '#user-list',
+    el: '.js-users-list',
 
     initialize: function () {
       // Associated collection events

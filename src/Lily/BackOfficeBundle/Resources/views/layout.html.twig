@@ -8,13 +8,16 @@
 
 {% block stylesheets %}
 
-{% stylesheets 'css/vendor/bootstrap.css'
-               'css/vendor/animate.css'
-               'css/vendor/font-awesome.min.css'
-               'css/vendor/font.css'
-               'css/vendor/plugin.css'
-               'css/vendor/app.css'
-               'css/backoffice/main.css'
+{% stylesheets 
+
+  'css/vendor/bootstrap.css'
+  'css/vendor/animate.css'
+  'css/vendor/font-awesome.min.css'
+  'css/vendor/font.css'
+  'css/vendor/plugin.css'
+  'css/vendor/app.css'
+  'css/backoffice/main.css'
+  
 filter='cssrewrite' %}
 
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -29,13 +32,18 @@ filter='cssrewrite' %}
     <script src="{{ asset('js/ie/fix.js') }}" cache="false"></script>
   <![endif]-->
 
-  <!-- Track.js script -->
-  <script type="text/javascript" src="//d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js" data-token="55945a6850454d3d8ecba78c5b307b8a"></script>
+  <link rel="icon" href="{{ asset('images/home/favicon-saio.png') }}" />
 
 </head>
 <body>
 
-{% block body %}{% endblock %}
+  <section class="vbox">
+    
+    {% include "LilyBackOfficeBundle::header.html.twig" %}
+
+    {% block body %}{% endblock %}
+
+  </section>
 
 </body>
 </html>
