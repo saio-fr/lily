@@ -8,8 +8,8 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      ModalDeleteView = require('backoffice/users/views/users/modalDeleteView'),
-      UserEditView = require('backoffice/users/views/users/editView'),
+      ModalDeleteView = require('backoffice/users/views/modalDeleteView'),
+      UserEditView = require('backoffice/users/views/userEditView'),
 
       // Object wrapper returned as a module
       UserView;

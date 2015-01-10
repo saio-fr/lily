@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      UserView = require('backoffice/users/views/users/userView'),
+      UserView = require('backoffice/users/views/userView'),
 
       // Object wrapper returned as a module
       UsersView;
