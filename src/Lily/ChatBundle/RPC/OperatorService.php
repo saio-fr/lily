@@ -176,7 +176,7 @@ class OperatorService {
                   'id' => uniqid(), 
                   'from' => 'server', 
                   'date' => time(), 
-                  'action' => 'transfered',
+                  'action' => 'transfer',
                   'transfer_from' => array(
                     'firstname' => $from->firstname,
                     'lastname' => $from->lastname

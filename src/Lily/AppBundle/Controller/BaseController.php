@@ -21,8 +21,8 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     
 	  protected function getClient($licence)
     {
-    	  $cache = $this->get( 'aequasi_cache.instance.default' );
-        $client = $cache->fetch( $licence.'_client' );
+    	  $cache = $this->get('aequasi_cache.instance.default');
+        $client = $cache->fetch($licence.'_client');
 		
         if (!$client) {
 		
@@ -31,7 +31,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
             ->getRepository('LilyUserBundle:Client')
             ->findOneByLicence($licence);     	  			  
 			
-            $cache->save( $licence.'_client', $client, 0);
+            $cache->save($licence.'_client', $client, 0);
 		
 		    }
         return $client;
