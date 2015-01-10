@@ -47,10 +47,6 @@ class User extends BaseUser
     
     /**
      * @ORM\ManyToMany(targetEntity="Lily\UserBundle\Entity\UserGroup")
-     * @ORM\JoinTable(name="UserGroupJoinTable",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
      */
     protected $groups;
     
