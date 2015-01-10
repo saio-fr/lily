@@ -2,6 +2,9 @@
 
 namespace Lily\UserBundle\Entity;
 
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
+
 use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,4 +20,18 @@ class UserGroup extends BaseGroup
      * @ORM\GeneratedValue(strategy="AUTO")
      */
      protected $id;
+     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color", type="string", length=10)
+     * @Expose
+     */
+    protected $color;
+    
+    public function __construct()
+    {       
+        $this->color = "#4c5566";
+	  }
+     
 }
