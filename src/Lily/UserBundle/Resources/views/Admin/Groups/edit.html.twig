@@ -1,0 +1,55 @@
+	<section class="scrollable">
+		<div class="wrapper">
+			<div class="clearfix m-b-xlg">
+				<div class="clear">
+					<h5>
+						<% if(name) { %>
+							Modifier un groupe
+						<% } else { %>
+							Ajouter un groupe
+						<% } %>
+					</h5> 
+					<form class="group-editor m-t">
+            
+            <div class="form-group form-roles">
+              <label>Nom</label>
+              <input type="text" name="name" class="form-control input-sm" value="<%= name %>">
+              <p class="help-block hidden"></p>
+  					</div>
+  					
+  					<div class="form-group form-roles">
+    					<label>Droits d'accès</label>
+    					<div class="checkbox">
+                <label>
+                  <input type="checkbox" name="admin"
+                  <% if (roles && roles.indexOf('ROLE_ADMIN') !== -1) { %> checked <% } %> >
+                  Administrateur
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="chat"
+                  <% if (roles && roles.indexOf('ROLE_CHAT_OPERATOR') !== -1) { %> checked <% } %> >
+                  Opérateur live chat
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="knowledge"
+                  <% if (roles && roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) { %> checked <% } %>>
+                  Opérateur base de connaissances
+                </label>
+              </div>
+  					</div>
+  					  					
+          </form>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<footer class="dk footer text-center">
+		<button class="btn btn-sm btn-success button-update">Sauvegarder</button>
+		<button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
+	</footer>
+	

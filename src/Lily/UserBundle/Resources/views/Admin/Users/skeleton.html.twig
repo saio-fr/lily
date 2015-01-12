@@ -1,36 +1,39 @@
-<header class="bg-white header clearfix padder-t b-b">
-  <div class="btn-group sort-menu">
-    <button class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown">Trier par <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li data-criteria="lastname" class="active">Nom</li>
-      <li data-criteria="roles">Permissions</li>
-      <!-- <li data-criteria="services">Services</li> -->
-      <li data-criteria="last_login">Dernière connexion</li>
-      <li data-criteria="id">Date de création</li>
-    </ul>
-  </div>
-  <div class="add-user">
-    <button class="btn btn-sm btn-primary new-user">Ajouter un compte</button>
-  </div>
+<section class="vbox">
   
-</header>
-<section class="bg-white">
-  <section class="hbox stretch">
-    <!-- .aside -->
-    <aside>
-      <section class="vbox">
-        <section class="scrollable">
-          <!-- user list -->
-          <ul class="js-users-list list-group no-borders no-radius list-group-alt"></ul>
+  <header class="bg-white header clearfix wrapper b-b">
+    <div class="add-user">
+      <button class="btn btn-sm btn-primary new-user">Ajouter un compte</button>
+    </div>
+    <div class="btn-group sort-menu">
+      <button class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown">Trier par <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li data-criteria="lastname" class="active">Nom</li>
+        <li data-criteria="roles">Permissions</li>
+        <!-- <li data-criteria="services">Services</li> -->
+        <li data-criteria="last_login">Dernière connexion</li>
+        <li data-criteria="id">Date de création</li>
+      </ul>
+    </div>
+    <div class="users-counter-container">
+      <p class="users-counter"></p>
+      <p class="max-users-reached-alert" class="text-danger">Vous avez atteint la limite de création de comptes</p>
+    </div>
+  </header>
+  
+  <section class="js-users bg-white">
+    <section class="hbox stretch">
+      <!-- .aside -->
+      <aside>
+        <section class="vbox">
+          <section class="scrollable">
+            <!-- user list -->
+            <ul class="js-users-list list-group no-borders no-radius list-group-alt"></ul>
+          </section>
         </section>
-        <footer class="footer bg-light lter">
-          <p class="users-counter"></p>
-          <p class="max-users-reached-alert" class="text-danger">Vous avez atteint la limite de création de comptes</p>
-        </footer>
-      </section>
-    </aside>
-    <!-- /.aside -->
-    <aside class="user-edit bg-light lter b-l hide"></aside>
-    <!-- Affichage du panneau de modification-->
+      </aside>
+      <!-- /.aside -->
+      <aside class="user-edit bg-light lter b-l hide"></aside>
+      <!-- Affichage du panneau de modification-->
+    </section>
   </section>
 </section>

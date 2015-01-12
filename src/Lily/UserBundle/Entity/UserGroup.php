@@ -2,8 +2,8 @@
 
 namespace Lily\UserBundle\Entity;
 
+use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation as JMS;
 
 use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +11,18 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table()
+ * @ORM\AttributeOverrides({
+ *     @ORM\AttributeOverride(name="name",
+ *          column=@ORM\Column(
+ *              name     = "name",
+ *              type     = "string",
+ *              length   = 255,
+ *              unique   = false
+ *          )
+ *      )
+ * })
+ *
+ * @ExclusionPolicy("all")
  */
 class UserGroup extends BaseGroup
 {
@@ -19,7 +31,12 @@ class UserGroup extends BaseGroup
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-     protected $id;
+    protected $id;
+     
+    /**
+     * @ORM\ManyToOne(targetEntity="Lily\UserBundle\Entity\Client", inversedBy="groups")
+     */
+    private $client;
      
     /**
      * @var string
@@ -66,5 +83,28 @@ class UserGroup extends BaseGroup
     public function getColor()
     {
         return $this->color;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \Lily\UserBundle\Entity\Client $client
+     * @return UserGroup
+     */
+    public function setClient(\Lily\UserBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \Lily\UserBundle\Entity\Client 
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }

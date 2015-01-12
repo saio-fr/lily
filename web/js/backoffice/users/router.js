@@ -10,10 +10,16 @@ define(function (require) {
   var _ = require('underscore'),
       Backbone = require('backbone'),
       app = require('app'),
+      
       UserCollection = require('backoffice/users/collections/userCollection'),
-      UsersView = require('backoffice/users/views/usersView'),
-      SkeletonView = require('backoffice/users/views/skeletonView'),
-      ModalDeleteView = require('backoffice/users/views/modalDeleteView'),
+      UsersView = require('backoffice/users/views/users/usersView'),
+      UsersSkeletonView = require('backoffice/users/views/users/skeletonView'),
+      UsersModalDeleteView = require('backoffice/users/views/users/modalDeleteView'),
+      
+      GroupCollection = require('backoffice/users/collections/groupCollection'),
+      GroupsView = require('backoffice/users/views/groups/groupsView'),
+      GroupsSkeletonView = require('backoffice/users/views/groups/skeletonView'),
+      GroupsModalDeleteView = require('backoffice/users/views/groups/modalDeleteView'),
 
       // Object wrapper returned as a module
       AppRouter;
@@ -21,27 +27,63 @@ define(function (require) {
   AppRouter = Backbone.Router.extend({
 
     routes: {
-      '': 'home',
-      '*path': 'home'
+      '': 'users',
+      'groups': 'groups',
+      '*path': 'users'
     },
 
     initialize: function () {
-      
-      var userCollection = new UserCollection();
-          
-      userCollection.fetch().success(function() {
-
-        var skeleton = new SkeletonView({collection: userCollection});
-        app.skeleton  = skeleton;
-        skeleton.usersView = new UsersView({collection: userCollection});
-        
-      });
-   
+      var skeletons = {};
+      app.skeletons = skeletons;
     },
 
-    home: function() {
-      // todo: Adding more logic to the router (sort based on url...)
+    users: function() {
+      
+      $('.nav-tabs li').removeClass('active');
+      $('.users-nav').addClass('active');
+        
+      $('.js-groups-container').addClass('hide');
+      $('.js-users-container').removeClass('hide');
+      
+      if (typeof(app.skeletons.users) == 'undefined') {
+        
+        var userCollection = new UserCollection();
+          
+        userCollection.fetch().success(function() {
+  
+          var skeleton = new UsersSkeletonView({collection: userCollection});
+          app.skeletons.users  = skeleton;
+          var usersView = new UsersView({collection: userCollection});
+          
+        });
+      }
+          
+    },
+    
+    groups: function() {
+            
+      $('.nav-tabs li').removeClass('active');
+      $('.groups-nav').addClass('active');
+        
+      $('.js-users-container').addClass('hide');
+      $('.js-groups-container').removeClass('hide');
+      
+      if (typeof(app.skeletons.groups) == 'undefined') {
+      
+        var groupCollection = new GroupCollection();
+            
+        groupCollection.fetch().success(function() {
+          
+          var skeleton = new GroupsSkeletonView({collection: groupCollection});
+          app.skeletons.groups  = skeleton;
+          var groupsView = new GroupsView({collection: groupCollection});
+          
+        });
+      
+      }
+      
     }
+    
   });
 
   return AppRouter;

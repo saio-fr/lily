@@ -10,3 +10,8 @@ lily_user_api:
     resource: "@LilyUserBundle/Controller/UserController.php"
     type:     rest
     prefix:   /api
+    
+lily_group_api:
+    resource: "@LilyUserBundle/Controller/GroupController.php"
+    type:     rest
+    prefix:   /api

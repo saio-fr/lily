@@ -1,17 +1,32 @@
-.user-edit {
+.header .nav-tabs > li.active a, .header .nav-tabs > li.active a:hover, .footer .nav-tabs > li.active a, .footer .nav-tabs > li.active a:hover {
+  background-color: white;
+  box-shadow: none;
+  font-size: 13px;
+  color: #444C5C;
+}
+
+.user-edit, .group-edit {
   width: 375px;
+}
+
+.js-users, .js-groups {
+  top: 61px !important;
 }
 
 .user-name {
   color: #63a5e1;
-  margin: 5px 0 0 0;
-  font-size: 13px;
+  margin: 0;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.group-name {
+  font-size: 12px;
 }
 
 .user-info-left {
   display: inline-block;
   font-size: 11px;
-  line-height: 23px;
   padding-left: 20px;
   vertical-align: top;
 }
@@ -29,13 +44,9 @@
 
 .destroy {
   position: absolute;
-  top: 18px;
-  right: 30px;
+  top: 10px;
+  right: 20px;
   z-index: 1;
-  cursor: pointer;
-}
-
-.view {
   cursor: pointer;
 }
 
@@ -43,11 +54,12 @@
   border: none;
   border-radius: 0!important;
   border-right: 4px solid transparent !important;
+  cursor: pointer;
 }
 
 .list-group-item img {
-  width: 45px; 
-  height: 45px;
+  width: 35px; 
+  height: 35px;
 }
 
 .list-group-item.active {
@@ -60,6 +72,10 @@
   display:none;
 }
 
+.add-group {
+  float:right;
+}
+
 .dropdown-label {
   display: block;
   margin-right: 9px;
@@ -67,30 +83,37 @@
 }
 
 .users-counter {
-  margin-left: 20px;
-  margin-right: 35px;
-  color: #717171 !important;
+  margin: 10px 0 0 0;
+  font-size: 12px;
+}
+
+.users-counter.with-alert {
+  margin: 0;
+}
+
+.max-users-reached-alert {
+  margin: 0;
+  color: #f16b3c;
 }
 
 .sort-menu {
-    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-right: 10px;
+    float: right;
+}
+
+.sort-menu.with-alert {
+    margin-right: 5px;
+}
+
+.sort-menu .dropdown-menu {
+  left: auto;
+  right: 0;
 }
 
 .sort-menu .dropdown-menu > li {
   padding: 5px 15px;
   cursor: pointer;
-}
-
-@media (min-width: 530px) {
-  .users-counter {
-    float: right;
-  }
-}
-
-@media (max-width: 530px) {
-  .users-counter {
-    text-align: right;
-  }
 }
 
 .modal-content {
@@ -123,8 +146,11 @@
 }
 
 .user-editor .dropdown-menu > li > a:hover,
-.user-editor .dropdown-menu > .active > a:hover {
+.user-editor .dropdown-menu > .active > a:hover,
+.sort-menu .dropdown-menu > li:hover,
+.sort-menu .dropdown-menu > li.active:hover {
   background-color: #6A7281;
+  color: white;
 }
 
 .user-editor .dropdown-menu > li.active > a:hover {

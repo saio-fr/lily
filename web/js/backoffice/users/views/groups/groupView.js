@@ -1,5 +1,5 @@
 /*======================================
-              USER VIEW
+              Group VIEW
 =======================================*/
 
 define(function (require) {
@@ -8,21 +8,21 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      ModalDeleteView = require('backoffice/users/views/users/modalDeleteView'),
-      UserEditView = require('backoffice/users/views/users/userEditView'),
+      ModalDeleteView = require('backoffice/users/views/groups/modalDeleteView'),
+      GroupEditView = require('backoffice/users/views/groups/groupEditView'),
 
       // Object wrapper returned as a module
-      UserView;
+      GroupView;
 
-  UserView = Backbone.View.extend({
+  GroupView = Backbone.View.extend({
 
     tagName:  "li",
     className: "list-group-item hover animated bounceInLeft",
-    template: _.template($('#userTpl').html()),
+    template: _.template($('#groupTpl').html()),
 
     events: {
-      'click .destroy': 'destroy',
-      'click .view'   : 'edit'
+      'click .destroy' : 'destroy',
+      'click' : 'edit'
     },
     
     initialize: function () {
@@ -39,14 +39,14 @@ define(function (require) {
     destroy: function (e) {
 
       e.stopPropagation();
-      if (typeof(app.skeletons.users.modalDeleteView) !== undefined)
-      app.skeletons.users.modalDeleteView = new ModalDeleteView({model: this.model});
+      if (typeof(app.skeletons.groups.modalDeleteView) !== undefined)
+      app.skeletons.groups.modalDeleteView = new ModalDeleteView({model: this.model});
 
     },
 
     edit: function() {
       app.trigger('closeEditView', this);
-      app.skeletons.users.editView = new UserEditView({model: this.model});
+      app.skeletons.groups.editView = new GroupEditView({model: this.model});
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');
@@ -55,5 +55,5 @@ define(function (require) {
     
   });
 
-  return UserView;
+  return GroupView;
 });

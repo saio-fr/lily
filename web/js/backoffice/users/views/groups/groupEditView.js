@@ -1,5 +1,5 @@
 /*========================================
-      User Edit View
+      Group Edit View
 =========================================*/
 
 define(function (require) {
@@ -14,23 +14,17 @@ define(function (require) {
       validation = require('utils/backbone-validation'),
 
       // Object wrapper returned as a module
-      UserEditView;
+      GroupEditView;
 
-  UserEditView = Backbone.View.extend({
+  GroupEditView = Backbone.View.extend({
 
     className: 'vbox',
-    template: _.template($('#usersEditTpl').html()),
+    template: _.template($('#groupsEditTpl').html()),
 
     events: {
       'submit': 'noSubmit',
       'click .button-update': 'update',
-      'click .button-cancel': 'close',
-      'click .uploader': function () {
-        this.$el.find('input[name="avatarFile"]').click();
-      },
-      'change input[name="avatarFile"]': function (e) {
-        utils.previewAvatar(e.target, 1);
-      }
+      'click .button-cancel': 'close'
     },
 
     initialize: function () {
@@ -46,8 +40,8 @@ define(function (require) {
     render: function () {
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('.user-edit');
-      $('.user-edit').removeClass('hide');
+      this.$el.appendTo('.group-edit');
+      $('.group-edit').removeClass('hide');
 
       return this;
     },
@@ -55,37 +49,28 @@ define(function (require) {
     update: function () {
       
       var that = this;
-      var data = utils.serializeObject(this.$el.find('form'));
 
-      data.roles = this.getFormRoles();
-      this.model.set(data);
+      var name = $('input[name="name"]').val();
+      var roles = this.getFormRoles();
+
+      this.model.set({
+        'name' : name,
+        'roles' : roles
+      });
+      
+      console.log(this.model);
 
       if (this.model.isValid(true)) {
 
-        app.skeletons.users.collection.create(this.model, {
+        app.skeletons.groups.collection.create(this.model, {
           wait: true,
           success: function (model) {
-            var avatar = that.$el.find('input[name="avatarFile"]')[0].files[0];
-            utils.uploadAvatar(model, avatar);
             that.close();
-          },
-
-          error: function (model, response) {
-            response = JSON.parse(response.responseText);
-
-            if (response.errors.children.email.errors) {
-              $('input[name="email"]')
-                .closest('.form-group')
-                .addClass('has-error has-feedback')
-                .find('.help-block')
-                .html(response.errors.children.email.errors)
-                .removeClass('hidden');
-            }
           }
         });
       }
     },
-
+    
     // Get roles and convert to save model
     getFormRoles: function () {
       
@@ -113,14 +98,14 @@ define(function (require) {
     },
 
     close: function () {
-      $('.js-users-container .list-group-item.active').removeClass('active');
-      $('.user-edit').addClass('hide');
+      $('.js-groups-container .list-group-item.active').removeClass('active');
+      $('.group-edit').addClass('hide');
       Backbone.Validation.unbind(this);
       this.remove();
     }
 
   });
 
-  return UserEditView;
+  return GroupEditView;
 });
 

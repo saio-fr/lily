@@ -106,7 +106,6 @@ class UserController extends BaseController
             
             $view = $this->view($user);
             return $this->handleView($view);
-        
         } 
         
         $view = $this->view($form, 400);

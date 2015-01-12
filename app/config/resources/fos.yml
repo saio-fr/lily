@@ -6,7 +6,10 @@ fos_user:
     use_username_form_type: false
     from_email:
         address:        jeanclaude.giron@saio.fr
-        sender_name:    Jean Claude GIRON 
+        sender_name:    Jean Claude GIRON
+    group:
+        group_class: Lily\UserBundle\Entity\UserGroup
+        group_manager:  fos_user.group_manager.default
 
 # Fos rest            
 fos_rest:

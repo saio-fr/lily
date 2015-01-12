@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var app = require('app'),
       UserModel = require('backoffice/users/models/userModel'),
-      UserEditView = require('backoffice/users/views/userEditView'),
+      UserEditView = require('backoffice/users/views/users/userEditView'),
       g = require('globals'),
 
       // Object wrapper returned as a module
@@ -17,9 +17,8 @@ define(function (require) {
 
   SkeletonView = Backbone.View.extend({
 
-    el: '#wrapper',
-    template: _.template($('#skeletonTpl').html()),
-    editedUserId : null,
+    el: '.js-users-container',
+    template: _.template($('#usersSkeletonTpl').html()),
 
     events: {
       "click .add-user"    : "create",
@@ -54,20 +53,24 @@ define(function (require) {
       target.addClass('active');
       
       // Listen in userCollection
-      app.trigger("skeleton:sort", target.data('criteria'));
+      app.trigger("users:sort", target.data('criteria'));
     },
 
     checkMaxUsers: function() {
       if( this.collection.length >= g.maxusers ) {
         $('.max-users-reached-alert').show();
+        $('.users-counter').addClass('with-alert');
+        $('.sort-menu').addClass('with-alert');
         $('.add-user').hide();
       } else {
         $('.max-users-reached-alert').hide();
+        $('.users-counter').removeClass('with-alert');
+        $('.sort-menu').removeClass('with-alert');
         $('.add-user').show();
       }
 
       this.counter = this.collection.length +
-        (this.collection.length <= 1 ? " compte" : " comptes") +
+        (this.collection.length <= 1 ? " compte utilisé" : " comptes utilisés") +
         " sur " + g.maxusers +
         (g.maxusers <= 1 ? " disponible" : " disponibles");
 

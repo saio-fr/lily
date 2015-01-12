@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      UserView = require('backoffice/users/views/userView'),
+      UserView = require('backoffice/users/views/users/userView'),
 
       // Object wrapper returned as a module
       UsersView;
@@ -25,13 +25,12 @@ define(function (require) {
       this.render();
 
       // Listen to event triggered by skeleton
-      app.on('skeleton:sort', _.bind(this.sort, this));
+      app.on('users:sort', _.bind(this.sort, this));
     },
 
     render: function () {
       this.$el.empty();
       this.collection.each(this.add, this);
-
       return this;
     },
 
@@ -40,11 +39,11 @@ define(function (require) {
       var view = new UserView({model: user});
       this.$el.append(view.render().el);
 
-      app.skeleton.checkMaxUsers();
+      app.skeletons.users.checkMaxUsers();
     },
 
     remove: function () {
-      app.skeleton.checkMaxUsers();
+      app.skeletons.users.checkMaxUsers();
     },
 
     sort: function (criteria) {

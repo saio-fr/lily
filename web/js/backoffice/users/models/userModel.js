@@ -91,7 +91,7 @@ define(function (require) {
           this.convertedRoles = 'Opérateur Live chat';
         }
         if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
-          this.convertedRoles = (this.convertedRoles == '') ? 'Opérateur ' : ' et ';
+          this.convertedRoles = (this.convertedRoles == '') ? 'Opérateur ' : this.convertedRoles + ' et ';
           this.convertedRoles += 'base de connaissance';
         }
       }

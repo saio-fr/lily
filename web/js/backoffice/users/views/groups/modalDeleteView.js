@@ -17,7 +17,7 @@ define(function (require) {
   ModalDelete = Backbone.View.extend({
 
     className: 'modal fade',
-    template: _.template( $('#usersModalTpl').html()),
+    template: _.template( $('#groupsModalTpl').html()),
 
     events: {
       'click .modal-close-confirm' : 'destroy'
@@ -36,6 +36,8 @@ define(function (require) {
     },
 
     destroy: function () {
+      console.log(this.model);
+      console.log(this);
       this.model.destroy();
       this.remove();
     }
