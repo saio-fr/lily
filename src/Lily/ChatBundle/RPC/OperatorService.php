@@ -54,8 +54,7 @@ class OperatorService {
                   'id' => uniqid(), 
                   'from' => 'server', 
                   'action' => 'ban', 
-                  'date' => time(), 
-                  'msg' => "Vous avez été banni du chat par l'opérateur."
+                  'date' => time()
                 );
                 
                 $item->topic->broadcast($item->messages);
@@ -121,9 +120,8 @@ class OperatorService {
                 $item->messages[] = array(
                   'id' => uniqid(), 
                   'from' => 'server', 
-                  'server' => 'close', 
-                  'date' => time(), 
-                  'msg' => "L'opérateur a clôt la conversation."
+                  'action' => 'close', 
+                  'date' => time()
                 );
                 
                 $item->topic->broadcast($item->messages);

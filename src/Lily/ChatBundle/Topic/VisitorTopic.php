@@ -43,7 +43,7 @@ class VisitorTopic implements TopicInterface
         // Test if visitor is already connected
         foreach ($users as $item) {
             if ($item->id === $sid && $item->type === 'visitor') { 
-				
+              
 				        $item->topic = $topic;
                 $item->lastConn = time();
 				
