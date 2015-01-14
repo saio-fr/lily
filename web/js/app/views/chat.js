@@ -99,8 +99,6 @@ define(function(require) {
       // create an instance of the sub-view to render the single message item.
       switch (message.get('from')) {
         case 'visitor':
-          this.$el.find('.lily-msg-server').hide();
-
           messageView = new MessageChatVisitor({
             model: message,
           }).render();
