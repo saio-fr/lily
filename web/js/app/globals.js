@@ -50,5 +50,9 @@ define(function(require) {
   g.connexionIssue =
     "Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur";
 
+  g.inactivityAction = "Reconnecter";
+  g.inactivityMsg = "La connexion a été interrompue pour cause d'inactivité";
+
+  g.unableToConnectError = "La connexion a été interrompue";
   return g;
 });
