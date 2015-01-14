@@ -5,7 +5,7 @@
 FONTS
 *********************/
 
-@import url("http://fonts.googleapis.com/css?family=Open+Sans: 200,400,300,600");
+@import url("http://fonts.googleapis.com/css?family=Open+Sans: 300,600");
 @import url(http://fonts.googleapis.com/css?family=Roboto:300,100);
 
 @font-face {
@@ -30,6 +30,14 @@ FONTS
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.lily-icon-refresh {
+	height: 1em;
+	vertical-align: text-top;
+	margin-right: 3px;
+	stroke: rgba(206, 206, 206, 0.28);
+	opacity: .94;
 }
 
 /*Avatar icons*/
@@ -244,6 +252,10 @@ body{
 	-webkit-user-select: none;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+}
+
 * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 
 a{
@@ -437,7 +449,7 @@ HEADER
 	text-transform: uppercase;
 	vertical-align: top;
 	letter-spacing: 1px;
-	font-weight: 500;
+	font-weight: 600;
 	outline: none;
 	position: relative;
 	height: 40px;
@@ -623,6 +635,53 @@ MESSAGES
 	margin-top: 15px;
 }
 
+#chat-box-messages .lily-msg-server {
+	display: block;
+  clear: both;
+}
+
+.lily-msg-server-title {
+  color: #575757;
+  font-size: 12px;
+  width: 200px;
+	text-align: center;
+	margin: 30px auto 0;
+  font-style: italic;
+  position: relative;
+}
+
+.lily-msg-server .lily-msg-server-title:before ,
+.lily-msg-server .lily-msg-server-title:after {
+	content: '';
+	display: block;
+	height: 1px;
+	width: 33px;
+	background: #575757;
+	position: absolute;
+	top: .7em;
+}
+
+.lily-msg-server .lily-msg-server-title:before {
+	left: -30px;
+}
+
+.lily-msg-server .lily-msg-server-title:after {
+	right: -30px;
+}
+
+.lily-msg-server-action {
+	-webkit-appearance: none;
+	border: solid 1px #575757;
+	background-color: #fff;
+	border-radius: 3px;
+	vertical-align: middle;
+	line-height: 1em;
+	font-size: 12px;
+	padding: 3px 5px;
+	margin: 10px auto;
+	display: block;
+}
+
 #chat-box-messages .lily-msg-chat-wait {
 	margin-left: 5px;
 }
@@ -753,16 +812,17 @@ MESSAGES
 #lily-chat-notation-wrapper{
 	position: relative;
 	z-index: 4;
-	background: #fcfcfc;
+	background: rgba(68, 68, 68, 1);
 	width: 100%;
 	text-align: right;
 	margin-right: 15px;
-	height: 45px;
+	height: 40px;
+	box-shadow: 0px 1px 0px 0px rgba(39, 39, 39, 0.46);
 }
 
 #lily-chat-notation-wrapper p{
 	display: inline-block;
-	color: #747172;
+	color: #E4E4E4;
 	font-size: 11px;
 }
 
@@ -963,7 +1023,6 @@ THEMATIQUE
 }
 
 .lily-wrapper-faq-content{
-	color: #5E5E5E;
 	margin: 20px 15px;
 	border-bottom: solid 1px #c0C0C0;
 	padding-bottom: 20px;
@@ -1136,18 +1195,17 @@ SNAP.JS
 CONTACT FORM
 *******************/
 
-.lily-contact-form h5{
-	color: #404040;
-	font-weight: 400;
-	font-size: 15px;
+.lily-contact-form .lily-contact-form-label {
+	margin-top: 17px;
+	margin-bottom: 6px;
+	font-size: 12px;
+	font-weight: 600;
 }
 
-.lily-contact-form p{
-	color: #404040;
-	margin-top: 12px;
-	margin-bottom: 10px;
-	font-size: 13px;
-	font-weight: 600;
+.lily-contact-form .lily-contact-form-title {
+	font-size: 14px;
+	line-height: 20px;
+	margin: 20px auto 15px;
 }
 
 .lily-contact-form {
@@ -1158,6 +1216,7 @@ CONTACT FORM
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	color: #404040;
 }
 
 .lily-contact-form input,
@@ -1203,7 +1262,7 @@ CONTACT FORM
 	text-align: center;
 	line-height: 40px;
 	margin-top: 15px;
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 	outline: 0;
 }
 
@@ -1340,7 +1399,6 @@ USEFUL
 ANIMATIONS
 *******************/
 
-
 .lily-message-show{
 	-webkit-animation: showFromBottom .3s ease both;
 	-moz-animation: showFromBottom .3s ease both;
@@ -1369,6 +1427,22 @@ ANIMATIONS
 	-webkit-animation: moveFromRight .5s ease both;
 	-moz-animation: moveFromRight .6s ease both;
 	animation: moveFromRight .6s ease both;
+}
+
+.lily-async-action {
+	-webkit-animation: halfFade .3s ease both;
+	-moz-animation: halfFade .3s ease both;
+	animation: halfFade .3s ease both;
+}
+
+@-webkit-keyframes halfFade {
+	to { opacity: 0.5; }
+}
+@-moz-keyframes halfFade {
+	to { opacity: 0.5; }
+}
+@keyframes halfFade {
+	to { opacity: 0.5; }
 }
 
 @-webkit-keyframes showFromBottom {

@@ -74,17 +74,10 @@ require([
 
       function onconnect(session) { // Once the connection has been established
 
+        // session stored and used in the "app" namespace;
         app.ws = session;
-        app.ws.subscribe('visitor/' + config.licence + '/' + config.sid,
-          function(topic, payload) {
-            app.trigger('ws:subscribedToChat', payload);
-          });
-        app.ws.call('visitor/connect', {
-          // top.location.href can't be accessed from iframe
-          // with a domain tha differs from the host
-          'href': app.hostHref,
-          'pathname': app.hostPathName
-        }).then(function(result) {
+
+        app.connect().then(function(result) {
           callback(result);
           // Successfuly connected to ws server;
           // Show widget on host site:
@@ -122,6 +115,7 @@ require([
   config.sid = getSessionId();
 
   app.wsConnect(function(result) {
+    app.isUserInactive = false;
     app.chatting = result.chatting;
     app.chatContactForm = result.showContactForm;
     app.init();
