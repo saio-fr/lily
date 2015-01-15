@@ -638,6 +638,7 @@ MESSAGES
 #chat-box-messages .lily-msg-server {
 	display: block;
   clear: both;
+  padding: 1px;
 }
 
 .lily-msg-server-title {

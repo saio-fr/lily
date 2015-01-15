@@ -15,9 +15,9 @@ define(function(require) {
 
   MessageChatServer = MessageChatView.extend({
 
-    className: 'lily-msg-server lily-cst-msg-server lily-msg-reconnect animated',
+    className: 'lily-msg-server lily-cst-msg-server lily-msg-close animated',
     model: Models.ServerMessages,
-    template: _.template($('#chat-message-reconnect').html()),
+    template: _.template($('#chat-message-close').html()),
 
   });
 

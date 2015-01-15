@@ -53,6 +53,10 @@ define(function(require) {
   g.inactivityAction = "Reconnecter";
   g.inactivityMsg = "La connexion a été interrompue pour cause d'inactivité";
 
+  g.transferMsg = "has transfered the conversation to";
+  g.banMsg = "has transfered the conversation to";
+  g.closeMsg = "L'opérateur a clôt la conversation";
+
   g.unableToConnectError = "La connexion a été interrompue";
   return g;
 });

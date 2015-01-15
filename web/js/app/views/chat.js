@@ -17,6 +17,9 @@ define(function(require) {
     MessageChatOperator = require('app/views/messageChatOperator'),
     MessageChatVisitor = require('app/views/messageChatVisitor'),
     MessageChatReconnect = require('app/views/messageChatReconnect'),
+    MessageChatTransfer = require('app/views/messageChatTransfer'),
+    MessageChatBan = require('app/views/messageChatBan'),
+    MessageChatClose = require('app/views/messageChatClose'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     // Object wrapper returned as a module
     ChatView;
@@ -67,31 +70,30 @@ define(function(require) {
     },
 
     processMessage: function(message) {
-      if (message.get("msg")) {
-
-        switch (message.get("action")) {
-          case "close":
-            // Todo
-            break;
-          case "inactivity":
-            message.set("msg", config.inactivityMsg);
-            message.set("userAction", config.inactivityAction);
-            message.set("info", "");
-            break;
-          case "transfer":
-            // Todo
-            break;
-          case "ban":
-            // Todo
-            break;
-          case undefined:
-            break;
-        }
-        this.addItem(message);
-
-      } else {
-        return;
+      switch (message.get("action")) {
+        case "close":
+          // Todo
+          break;
+        case "inactivity":
+          message.set("msg", config.inactivityMsg);
+          message.set("userAction", config.inactivityAction);
+          message.set("info", "");
+          break;
+        case "transfer":
+          message.set("msg", config.transferMsg);
+          break;
+        case "ban":
+          message.set("msg", config.banMsg);
+          message.set("info", "");
+          break;
+        case "close":
+          message.set("msg", config.closeMsg);
+          break;
+        case undefined:
+          break;
       }
+
+      this.addItem(message);
     },
 
     addItem: function(message) {
@@ -115,12 +117,37 @@ define(function(require) {
         case 'server':
           this.$el.find('.lily-msg-chat-wait').hide();
 
-          messageView = new MessageChatReconnect({
-            model: message
-          }).render();
+          switch (message.get("action")) {
+            case "inactivity":
+              messageView = new MessageChatReconnect({
+                model: message
+              }).render();
+              break;
+
+            case "ban":
+              messageView = new MessageChatBan({
+                model: message
+              }).render();
+              break;
+
+            case "close":
+              messageView = new MessageChatClose({
+                model: message
+              }).render();
+              break;
+
+            case "transfer":
+              messageView = new MessageChatTransfer({
+                model: message
+              }).render();
+              break;
+          }
           break;
       }
-      this.childViews.add(messageView);
+
+      if (messageView) {
+        this.childViews.add(messageView);
+      }
     },
 
     send: function(message) {
