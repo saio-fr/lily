@@ -22,6 +22,7 @@ define(function(require) {
   Models.LilyCompletion = Backbone.Model.extend({});
   Models.LilySimple = Backbone.Model.extend({});
   Models.ChatMessage = Backbone.Model.extend({});
+  Models.ServerMessage = Backbone.Model.extend({});
 
   return Models;
 });

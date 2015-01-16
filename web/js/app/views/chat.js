@@ -16,6 +16,10 @@ define(function(require) {
     PageView = require('app/views/page'),
     MessageChatOperator = require('app/views/messageChatOperator'),
     MessageChatVisitor = require('app/views/messageChatVisitor'),
+    MessageChatReconnect = require('app/views/messageChatReconnect'),
+    MessageChatTransfer = require('app/views/messageChatTransfer'),
+    MessageChatBan = require('app/views/messageChatBan'),
+    MessageChatClose = require('app/views/messageChatClose'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     // Object wrapper returned as a module
     ChatView;
@@ -29,7 +33,8 @@ define(function(require) {
       'submit #lily-search-form': 'doChat',
       'click  #lily-go': 'doChat',
       'click  .lily-icon-thumb-up': 'satisfaction',
-      'click  .lily-icon-thumb-down': 'satisfaction'
+      'click  .lily-icon-thumb-down': 'satisfaction',
+      'click  .js-reconnect-action': 'reconnect'
     },
 
     initialize: function() {
@@ -37,9 +42,12 @@ define(function(require) {
       this.collection = new Collections.Messages();
       this.childViews = new Backbone.ChildViewContainer();
 
-      this.listenTo(this.collection, 'add', this.addItem);
+      this.listenTo(this.collection, 'add', this.processMessage);
 
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
+      this.listenTo(app, 'chat:reconnected', this.onReconnected, this);
+      this.listenTo(app, 'chat:resetConversation', this.onResetConversation, this);
+
       app.trigger('chat:open');
 
       $(this.render({
@@ -58,11 +66,34 @@ define(function(require) {
     },
 
     onSubscribedChat: function(payload) {
-
-      payload = _.filter(payload, function(msg) {
-        return !msg.action;
-      });
       this.collection.set(payload);
+    },
+
+    processMessage: function(message) {
+      switch (message.get("action")) {
+        case "close":
+          // Todo
+          break;
+        case "inactivity":
+          message.set("msg", config.inactivityMsg);
+          message.set("userAction", config.inactivityAction);
+          message.set("info", "");
+          break;
+        case "transfer":
+          message.set("msg", config.transferMsg);
+          break;
+        case "ban":
+          message.set("msg", config.banMsg);
+          message.set("info", "");
+          break;
+        case "close":
+          message.set("msg", config.closeMsg);
+          break;
+        case undefined:
+          break;
+      }
+
+      this.addItem(message);
     },
 
     addItem: function(message) {
@@ -82,8 +113,41 @@ define(function(require) {
             model: message
           }).render();
           break;
+
+        case 'server':
+          this.$el.find('.lily-msg-chat-wait').hide();
+
+          switch (message.get("action")) {
+            case "inactivity":
+              messageView = new MessageChatReconnect({
+                model: message
+              }).render();
+              break;
+
+            case "ban":
+              messageView = new MessageChatBan({
+                model: message
+              }).render();
+              break;
+
+            case "close":
+              messageView = new MessageChatClose({
+                model: message
+              }).render();
+              break;
+
+            case "transfer":
+              messageView = new MessageChatTransfer({
+                model: message
+              }).render();
+              break;
+          }
+          break;
       }
-      this.childViews.add(messageView);
+
+      if (messageView) {
+        this.childViews.add(messageView);
+      }
     },
 
     send: function(message) {
@@ -137,6 +201,24 @@ define(function(require) {
       }
 
       app.trigger('chat:satisfaction', satisfaction);
+    },
+
+    reconnect: function() {
+      this.$el.find(".lily-msg-reconnect").addClass("lily-async-action");
+      app.trigger("chat:reconnect");
+    },
+
+    onReconnected: function() {
+      var self = this;
+      // Add a 500ms delay to show user something has happenned.
+      window.setTimeout(function() {
+        self.$el.find(".lily-msg-reconnect").hide();
+      }, 500);
+    },
+
+    onResetConversation: function() {
+      this.collection.reset();
+      this.closeChildren();
     },
 
     closeChildren: function() {
