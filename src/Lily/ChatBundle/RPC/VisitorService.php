@@ -25,14 +25,16 @@ class VisitorService {
             if ($item->id === $conn->Session->getId()) {
               
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
+                
+                $result = array(
+                    'display' => $item->display, 
+                    'chatting' => !$item->closed, 
+                    'showContactForm' => $item->showContactForm
+                ); 
+                
+                return $result;
             }
         }
-        
-        return array(
-          'display' => $item->display, 
-          'chatting' => !$item->closed, 
-          'showContactForm' => $item->showContactForm
-        );
     }
 
     /**
