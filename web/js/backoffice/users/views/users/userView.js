@@ -59,11 +59,20 @@ define(function (require) {
     select: function (e) {
       
       e.stopPropagation();
+      var btn = $('.groups-widget button');
+      
       if (this.$el.find('.checkbox input').is(':checked')) {
         $.each(this.model.get('groups'), function(index, group) {
           app.trigger('users:groups:select', group.id);
         });
       }
+      
+      if ($('.js-users-list .checkbox input:checked').length) {
+        btn.removeClass('disabled');
+      } else {
+        btn.addClass('disabled');
+      }
+      
     },
     
     updateGroups: function (groups) {
