@@ -185,4 +185,54 @@ class UserController extends BaseController
         return $this->handleView($view);
         
     }
+    
+    
+    /**
+     * @Put("/users/{userId}/groups/{groupId}", requirements={"id" = "\d+"})
+     */
+    public function putGroupAction($userId, $groupId, Request $request) {
+
+        $user = $this->get('fos_user.user_manager')->findUserBy(Array('id' => $userId));
+        $group = $this->get('fos_user.group_manager')->findGroupBy(Array('id' => $groupId));
+        
+        // conditions
+        $admin = $this->get('security.context')->isGranted('ROLE_ADMIN');
+        $conditions1 = !$admin && $user !== $this->getUser();
+        $conditions2 = $user->getClient() !== $this->getClient();       
+        
+        if (!$user || !$group || $conditions1 || $conditions2) {
+            throw $this->createNotFoundException();
+        }
+
+        $user->addGroup($group);
+        $manager->updateUser($user);
+        
+        $view = $this->view($user);
+        return $this->handleView($view);
+    }
+    
+    /**
+     * @Delete("/users/{userId}/groups/{groupId}", requirements={"id" = "\d+"})
+     */
+    public function deleteGroupAction($userId, $groupId, Request $request) {
+
+        $user = $this->get('fos_user.user_manager')->findUserBy(Array('id' => $userId));
+        $group = $this->get('fos_user.group_manager')->findGroupBy(Array('id' => $groupId));
+        
+        // conditions
+        $admin = $this->get('security.context')->isGranted('ROLE_ADMIN');
+        $conditions1 = !$admin && $user !== $this->getUser();
+        $conditions2 = $user->getClient() !== $this->getClient();       
+        
+        if (!$user || !$group || $conditions1 || $conditions2) {
+            throw $this->createNotFoundException();
+        }
+
+        $user->removeGroup($group);
+        $manager->updateUser($user);
+        
+        $view = $this->view($user);
+        return $this->handleView($view);
+    }
+    
 }

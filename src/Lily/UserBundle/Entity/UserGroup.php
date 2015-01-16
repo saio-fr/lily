@@ -49,6 +49,7 @@ class UserGroup extends BaseGroup
     public function __construct()
     {       
         $this->color = "#4c5566";
+        $this->roles = ['ROLE_USER'];
 	  }
      
 

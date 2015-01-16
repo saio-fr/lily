@@ -1,11 +1,17 @@
 <div class="view">
   <button class="destroy close hover-action">×</button>
+  <div class="checkbox">
+    <input type="checkbox" name="select">
+  </div>
   <img src="<%= converted.avatar %>" class="avatar" alt="Impossible d'afficher l'avatar"/>
   <div class="user-info-left">
   	<h5 class="user-name"><%=(lastname.toUpperCase()) %> <%= firstname %></h5>
   	<span><%= converted.roles %></span>
   </div>
   <div class="user-info-right">
-    <div class="user-last-login"><%= converted.last_login %></div>
+    <p class="user-last-login <% if (groups.length) { %> with-groups <% } %>"><%= converted.last_login %></p>
+    <% _.each(groups, function (item) { %>
+      <span class="label bg-light user-group"><%= item.name %></span>
+    <% }); %>
   </div>
 </div>

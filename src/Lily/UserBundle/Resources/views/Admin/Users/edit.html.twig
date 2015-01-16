@@ -40,23 +40,24 @@
   					
   					<div class="form-group form-roles">
     					<label>Droits d'accès</label>
+    					<p class="help-block hidden"></p>
     					<div class="checkbox">
                 <label>
-                  <input type="checkbox" name="admin"
+                  <input type="checkbox" name="roles" id="admin"
                   <% if (roles.indexOf('ROLE_ADMIN') !== -1) { %> checked <% } %> >
                   Administrateur
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="chat"
+                  <input type="checkbox" name="roles" id="chat"
                   <% if (roles.indexOf('ROLE_CHAT_OPERATOR') !== -1) { %> checked <% } %> >
                   Opérateur live chat
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="knowledge"
+                  <input type="checkbox" name="roles" id="knowledge"
                   <% if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) { %> checked <% } %>>
                   Opérateur base de connaissances
                 </label>

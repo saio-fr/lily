@@ -23,7 +23,7 @@ class GroupController extends BaseController
      * @Secure(roles="ROLE_USER")
      */
     public function getGroupsAction() {
-        $groups = $this->get('fos_user.group_manager')->findGroups();
+        $groups = $this->getClient()->getGroups();
         return $groups;
     }
     
@@ -44,7 +44,6 @@ class GroupController extends BaseController
     
         $view = $this->view($group);
         return $this->handleView($view);
-        
     }
 
     /**
@@ -56,7 +55,7 @@ class GroupController extends BaseController
     
         $group = $this->findGroupBy('id', $id);
 
-        //Security check
+        // Security check
         $client = $this->getClient();
         
         if(!$group || $group->getClient() !== $client) {
@@ -64,7 +63,6 @@ class GroupController extends BaseController
         }
 		
         $this->get('fos_user.group_manager')->deleteGroup($group);
-       
     }
 
     /**
@@ -93,7 +91,6 @@ class GroupController extends BaseController
         
         $view = $this->view($form, 400);
         return $this->handleView($view);
-     
     }
 
     /**
@@ -113,12 +110,10 @@ class GroupController extends BaseController
             
             $view = $this->view($group);
             return $this->handleView($view);
-        
         } 
         
         $view = $this->view($form, 400);
         return $this->handleView($view);
-
     } 
     
     /**

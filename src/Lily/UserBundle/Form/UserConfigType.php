@@ -18,7 +18,6 @@ class UserConfigType extends AbstractType
             ->add('welcomeMsg')
             ->add('avatar')
             ->add('updatedAt')
-            ->add('user')
         ;
     }
     

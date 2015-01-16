@@ -35,6 +35,29 @@ define(function (require) {
     initialize: function () {
       var skeletons = {};
       app.skeletons = skeletons;
+      
+      var groupCollection = new GroupCollection();
+      var userCollection = new UserCollection();
+            
+      groupCollection.fetch().success(function() {
+        
+        var skeleton = new GroupsSkeletonView({collection: groupCollection});
+        app.skeletons.groups  = skeleton;
+        var groupsView = new GroupsView({collection: groupCollection});
+        
+      });
+      
+      userCollection.fetch().success(function() {
+
+      var skeleton = new UsersSkeletonView({
+        collection: userCollection,
+        groups: groupCollection
+      });
+      app.skeletons.users  = skeleton;
+      var usersView = new UsersView({collection: userCollection});
+      
+    });
+      
     },
 
     users: function() {
@@ -43,21 +66,7 @@ define(function (require) {
       $('.users-nav').addClass('active');
         
       $('.js-groups-container').addClass('hide');
-      $('.js-users-container').removeClass('hide');
-      
-      if (typeof(app.skeletons.users) == 'undefined') {
-        
-        var userCollection = new UserCollection();
-          
-        userCollection.fetch().success(function() {
-  
-          var skeleton = new UsersSkeletonView({collection: userCollection});
-          app.skeletons.users  = skeleton;
-          var usersView = new UsersView({collection: userCollection});
-          
-        });
-      }
-          
+      $('.js-users-container').removeClass('hide');  
     },
     
     groups: function() {
@@ -67,21 +76,6 @@ define(function (require) {
         
       $('.js-users-container').addClass('hide');
       $('.js-groups-container').removeClass('hide');
-      
-      if (typeof(app.skeletons.groups) == 'undefined') {
-      
-        var groupCollection = new GroupCollection();
-            
-        groupCollection.fetch().success(function() {
-          
-          var skeleton = new GroupsSkeletonView({collection: groupCollection});
-          app.skeletons.groups  = skeleton;
-          var groupsView = new GroupsView({collection: groupCollection});
-          
-        });
-      
-      }
-      
     }
     
   });

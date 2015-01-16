@@ -17,7 +17,6 @@
   color: #63a5e1;
   margin: 0;
   font-size: 12px;
-  margin-top: 3px;
 }
 
 .group-name {
@@ -27,15 +26,31 @@
 .user-info-left {
   display: inline-block;
   font-size: 11px;
-  padding-left: 20px;
+  padding-top: 5px;
+  padding-left: 5px;
   vertical-align: top;
 }
 .user-info-right {
   float: right;
   display: inline-block;
   font-size: 11px;
-  line-height: 43px;
+  text-align: right;
   padding-right: 50px;
+}
+
+.user-info-right .user-group {
+  font-size: 11px;
+}
+
+.user-info-right p {
+  position: absolute;
+  top: 20px;
+  right: 65px;
+  margin: 0;
+}
+
+.user-info-right p.with-groups {
+  top: 30px;
 }
 
 .close {
@@ -60,6 +75,12 @@
 .list-group-item img {
   width: 35px; 
   height: 35px;
+  margin-left: 10px;
+}
+
+
+.list-group-item .checkbox {
+  display: inline-block;
 }
 
 .list-group-item.active {
@@ -82,6 +103,10 @@
   overflow: hidden;
 }
 
+.users-counter-container {
+  position: absolute;
+}
+
 .users-counter {
   margin: 10px 0 0 0;
   font-size: 12px;
@@ -96,17 +121,43 @@
   color: #f16b3c;
 }
 
-.sort-menu {
-    margin-top: 0 !important;
-    margin-right: 10px;
-    float: right;
+.sort-menu, .groups-widget {
+  margin-top: 0 !important;
+  margin-right: 10px;
+  float: right;
 }
 
-.sort-menu.with-alert {
+.groups-widget .dropdown-menu {
+  min-width: 200px;
+  font-size: 11px;
+  padding-bottom: 0;
+}
+
+.groups-widget .checkbox {
+  margin: 0;
+  padding 5px;
+}
+
+.groups-widget .divider {
+  margin-bottom: 0;
+}
+
+.groups-widget .btn-update {
+  font-size: 13px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.groups-widget .btn-update:hover {
+  background: #f0f0f0;
+}
+
+.groups-widget.with-alert {
     margin-right: 5px;
 }
 
-.sort-menu .dropdown-menu {
+.sort-menu .dropdown-menu, .groups-widget .dropdown-menu {
   left: auto;
   right: 0;
 }
@@ -114,6 +165,10 @@
 .sort-menu .dropdown-menu > li {
   padding: 5px 15px;
   cursor: pointer;
+}
+
+.groups-widget .dropdown-menu > li {
+  padding: 5px 15px;
 }
 
 .modal-content {
@@ -148,7 +203,7 @@
 .user-editor .dropdown-menu > li > a:hover,
 .user-editor .dropdown-menu > .active > a:hover,
 .sort-menu .dropdown-menu > li:hover,
-.sort-menu .dropdown-menu > li.active:hover {
+.sort-menu .dropdown-menu > li.active:hover  {
   background-color: #6A7281;
   color: white;
 }

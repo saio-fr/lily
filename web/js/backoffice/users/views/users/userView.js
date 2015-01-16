@@ -21,11 +21,13 @@ define(function (require) {
     template: _.template($('#userTpl').html()),
 
     events: {
-      'click .destroy': 'destroy',
-      'click .view'   : 'edit'
+      'click .destroy' : 'destroy',
+      'click .checkbox' : 'select',
+      'click' : 'edit'
     },
     
     initialize: function () {
+      this.listenTo(app, 'users:groups:update', this.updateGroups);
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'destroy', this.remove);
       this.render();    
@@ -44,13 +46,32 @@ define(function (require) {
 
     },
 
-    edit: function() {
+    edit: function () {
+      
       app.trigger('closeEditView', this);
       app.skeletons.users.editView = new UserEditView({model: this.model});
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');
       return this;
+    },
+    
+    select: function (e) {
+      
+      e.stopPropagation();
+      if (this.$el.find('.checkbox input').is(':checked')) {
+        $.each(this.model.get('groups'), function(index, group) {
+          app.trigger('users:groups:select', group.id);
+        });
+      }
+    },
+    
+    updateGroups: function (groups) {
+
+      if (this.$el.find('.checkbox input').is(':checked')) {
+        this.model.set({groups: groups}, {silent:true});
+        this.model.save();
+      }
     }
     
   });

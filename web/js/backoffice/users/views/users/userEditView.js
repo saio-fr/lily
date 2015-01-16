@@ -53,12 +53,14 @@ define(function (require) {
     },
 
     update: function () {
-      
+
       var that = this;
       var data = utils.serializeObject(this.$el.find('form'));
 
       data.roles = this.getFormRoles();
       this.model.set(data);
+      // Silent to not trigger userView render with an tmp groups array
+      this.model.set({'groups': this.getGroups()}, {silent:true});
 
       if (this.model.isValid(true)) {
 
@@ -86,21 +88,33 @@ define(function (require) {
       }
     },
 
+    // Get groups and convert to save model
+    getGroups: function () {
+      
+      var groups = [];
+
+      $.each(this.model.get('groups'), function (key, item) {
+        groups.push(item.id);
+      });
+      
+      return groups;
+    },
+
     // Get roles and convert to save model
     getFormRoles: function () {
       
       var roles = [];
       
       $('.form-roles input:checked').each(function(index, item) {
-        var name = $(item).attr('name');
+        var id = $(item).attr('id');
         
-        if (name === 'admin') {
+        if (id === 'admin') {
           roles.push('ROLE_ADMIN');
         } else {
-          if (name === 'chat') {
+          if (id === 'chat') {
             roles.push('ROLE_CHAT_OPERATOR');
           }
-          if (name === 'knowledge')  {
+          if (id === 'knowledge')  {
             roles.push('ROLE_KNOWLEDGE_OPERATOR');
           }
         }

@@ -1,0 +1,17 @@
+  <button class="btn btn-sm btn-white dropdown-toggle">
+    Attribuer un groupe <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <% _.each(groups, function (item) { %>
+      <li>
+  		  <div class="checkbox">
+          <label>
+            <input type="checkbox" name="select" data-id="<%= item.id %>">
+            <%= item.name %>
+          </label>
+        </div>
+      </li>
+    <% }); %>
+    <div class="divider"></div>
+    <div class="btn-update">Appliquer</div>
+  </ul>

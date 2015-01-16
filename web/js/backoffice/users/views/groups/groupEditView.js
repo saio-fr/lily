@@ -51,14 +51,10 @@ define(function (require) {
       var that = this;
 
       var name = $('input[name="name"]').val();
-      var roles = this.getFormRoles();
 
       this.model.set({
         'name' : name,
-        'roles' : roles
       });
-      
-      console.log(this.model);
 
       if (this.model.isValid(true)) {
 
@@ -69,28 +65,6 @@ define(function (require) {
           }
         });
       }
-    },
-    
-    // Get roles and convert to save model
-    getFormRoles: function () {
-      
-      var roles = [];
-      
-      $('.form-roles input:checked').each(function(index, item) {
-        var name = $(item).attr('name');
-        
-        if (name === 'admin') {
-          roles.push('ROLE_ADMIN');
-        } else {
-          if (name === 'chat') {
-            roles.push('ROLE_CHAT_OPERATOR');
-          }
-          if (name === 'knowledge')  {
-            roles.push('ROLE_KNOWLEDGE_OPERATOR');
-          }
-        }
-      });
-      return roles;
     },
 
     noSubmit: function (e) {
