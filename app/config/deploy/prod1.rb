@@ -34,6 +34,9 @@ after "deploy" do
   # dump assets (if using assetic)
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
   
+  # update bower components
+  run "bower update"
+  
 end
 
 namespace :ws do

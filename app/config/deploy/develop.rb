@@ -34,6 +34,9 @@ after "deploy" do
   # dump assets (if using assetic)
   run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console assetic:dump"
   
+  # update bower components
+  run "bower update"
+  
 end
 
 task :upload_parameters do
