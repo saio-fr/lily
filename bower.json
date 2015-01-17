@@ -32,7 +32,7 @@
     "isMobile": "~0.3.5",
     "snapjs": "~1.9.3",
     "fastclick": "~1.0.3",
-    "morris": "~0.5.2",
-    "easypie": "~2.1.6"
+    "easypie": "~2.1.6",
+    "morris": "https://github.com/morrisjs/morris.js/"
   }
 }

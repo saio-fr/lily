@@ -18,7 +18,7 @@ role :app,        domain, :primary => true       # This may be the same as your 
 set :keep_releases,  3
 set :shared_files,      ["app/config/parameters.yml"]
 set :shared_children,     ["vendor"]
-set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy/deploy.rb", "config/deploy/prod1.rb", "config/deploy/prod2.rb"]
+set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy"]
 set :use_composer, true
 set :update_vendors, true
 
@@ -35,7 +35,7 @@ after "deploy" do
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
   
   # update bower components
-  run "bower update"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
   
 end
 
