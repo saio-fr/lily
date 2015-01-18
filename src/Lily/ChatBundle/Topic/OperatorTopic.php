@@ -8,7 +8,7 @@ use Ratchet\ConnectionInterface as Conn;
 
 class OperatorTopic implements TopicInterface
 {
-	protected $container;
+	  protected $container;
 	
     public function setContainer($container)
     {
@@ -68,6 +68,10 @@ class OperatorTopic implements TopicInterface
      */
     public function onUnSubscribe(Conn $conn, $topic, $users)
     {
+      
+        // Security check
+        if (!isset($conn->User)) { return; }
+        
     	  foreach ($users as $item) {
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
 				        $users->detach($item);
