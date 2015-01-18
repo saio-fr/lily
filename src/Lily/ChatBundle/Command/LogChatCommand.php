@@ -92,7 +92,6 @@ class LogChatCommand extends ContainerAwareCommand
           					    $logChat = new LogChat();
                         $logChat->setSession($item->id);
               					$logChat->setName($item->name);
-              					$logChat->setOperator($item->operator);
               					$logChat->setTransfered($item->transfered);
               					$logChat->setFirstname($item->firstname);
               					$logChat->setLastname($item->lastname);
@@ -101,6 +100,10 @@ class LogChatCommand extends ContainerAwareCommand
               					$logChat->setStart(new \DateTime('@'.$item->startTime));
               					$logChat->setEnd(new \DateTime('@'.$item->lastMsgTime));
               					$logChat->setWaited(round($item->waited/$item->received));
+              					
+              					// Convert operators to array
+                        $operators = json_decode(json_encode($item->operators), true);
+              					$logChat->setOperators($operators);
               					
               					// Convert messages to array
               					$messages = json_decode(json_encode($item->messages), true);

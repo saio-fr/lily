@@ -29,11 +29,11 @@ class LogChat
     private $name;
     
     /**
-     * @var integer
+     * @var array $operators
      *
-     * @ORM\Column(name="operator", type="integer", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
-    private $operator;
+    private $operators;
     
     /**
      * @var boolean
@@ -200,29 +200,6 @@ class LogChat
     public function getWaited()
     {
         return $this->waited;
-    }
-
-    /**
-     * Set operator
-     *
-     * @param integer $operator
-     * @return LogChat
-     */
-    public function setOperator($operator)
-    {
-        $this->operator = $operator;
-    
-        return $this;
-    }
-
-    /**
-     * Get operator
-     *
-     * @return integer 
-     */
-    public function getOperator()
-    {
-        return $this->operator;
     }
 
     /**
@@ -433,5 +410,28 @@ class LogChat
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set operators
+     *
+     * @param array $operators
+     * @return LogChat
+     */
+    public function setOperators($operators)
+    {
+        $this->operators = $operators;
+
+        return $this;
+    }
+
+    /**
+     * Get operators
+     *
+     * @return array 
+     */
+    public function getOperators()
+    {
+        return $this->operators;
     }
 }

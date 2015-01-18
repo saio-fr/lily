@@ -41,8 +41,8 @@ class LogChatRepository extends EntityRepository
            ->setParameter('end', $end);
 
         if ($operator) {
-           $qb->andWhere('l.operator = :operator')
-              ->setParameter('operator', $operator);
+            $qb->andWhere('l.operators LIKE :operator')
+               ->setParameter('operator', '%'.$operator.'%');
         }
 
         if($interval) {
@@ -82,8 +82,8 @@ class LogChatRepository extends EntityRepository
            ->setParameter('end', $end);
 
         if ($operator) {
-           $qb->andWhere('r.operator = :operator')
-              ->setParameter('operator', $operator);
+            $qb->andWhere('r.operators LIKE :operator')
+               ->setParameter('operator', '%'.$operator.'%');
         }
 
         if($interval) {
@@ -124,8 +124,8 @@ class LogChatRepository extends EntityRepository
            ->setParameter('end', $end);
            
         if ($operator) {
-           $qb->andWhere('r.operator = :operator')
-              ->setParameter('operator', $operator);
+            $qb->andWhere('r.operators LIKE :operator')
+               ->setParameter('operator', '%'.$operator.'%');
         }
 
         if ($interval) {
@@ -167,8 +167,8 @@ class LogChatRepository extends EntityRepository
            ->andWhere('r.satisfaction IS NOT NULL');
            
         if ($operator) {
-        $qb->andWhere('r.operator = :operator')
-           ->setParameter('operator', $operator);
+            $qb->andWhere('r.operators LIKE :operator')
+               ->setParameter('operator', '%'.$operator.'%');
         }
 
         if($interval) {
@@ -197,10 +197,12 @@ class LogChatRepository extends EntityRepository
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(l.start) < :end')
            ->setParameter('end', $end);
+           
         if ($operator) {
-          $qb->andWhere('l.operator = :operator')
-             ->setParameter('operator', $operator);
+            $qb->andWhere('l.operators LIKE :operator')
+               ->setParameter('operator', '%'.$operator.'%');
         }
+        
         $qb->orderBy('l.start', 'DESC');
 		
         return $qb->getQuery()->getResult();

@@ -49,6 +49,7 @@ class OperatorTopic implements TopicInterface
         $operator->avatar = $conn->User->getConfig()->getAvatar();
         $operator->firstname = $conn->User->getFirstname();
         $operator->lastname = $conn->User->getLastname();
+        $operator->groups = $conn->User->getGroups();
         // $operator->services = $conn->User->getServices();
         $operator->type = 'operator';
         $operator->messages = array();

@@ -27,6 +27,7 @@ class OperatorService {
             if ($item->id === $params['sid']) {
 
                 $item->operator = $conn->User->getId();
+                $item->operators[] = $conn->User->getId();
                 $item->startChatTime = time();
 
             }
@@ -167,6 +168,7 @@ class OperatorService {
             if ($item->id === $params['sid']) {
               
                 $item->operator = $params['operator'];
+                $item->operators[] = $params['operator'];
                 $item->transfered = true;
                 
                 $item->messages[] = array(
