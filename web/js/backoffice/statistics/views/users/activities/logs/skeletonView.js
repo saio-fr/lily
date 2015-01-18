@@ -39,9 +39,11 @@ define(function (require) {
     render: function () {
       var that = this;
       this.closeChildren();
+      $('.logs-list').empty();
+      
       this.filtered.each(this.add, this);
 	    if (!this.filtered.length) {
-		    $('.logs-list').html('<li class="list-group-item view"><h6>Aucun logs.</h6></li>');
+		    $('.logs-list').html('<li class="list-group-item view"><h6>Aucun log.</h6></li>');
 	    }
       $('.loader').fadeOut();
     },
