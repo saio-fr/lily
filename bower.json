@@ -33,6 +33,11 @@
     "snapjs": "~1.9.3",
     "fastclick": "~1.0.3",
     "easypie": "~2.1.6",
-    "morris": "https://github.com/morrisjs/morris.js/"
+    "flot.tooltip": "~0.8.4",
+    "html5sortable": "*",
+    "backbone-nested-model": "~2.0.1",
+    "raphael": "~2.1.2",
+    "morrisjs": "~0.5.1",
+    "backbone-validation": "~0.9.1"
   }
 }
