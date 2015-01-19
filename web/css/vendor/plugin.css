@@ -144,9 +144,6 @@
 .parsley-error {
   border-color: #ff5f5f !important;
 }
-.graph {
-  height: 250px;
-}
 .graph tspan {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
