@@ -3212,3 +3212,8 @@ background-color: #ffffff;
 .status.unavailable {
   color: #ff6455;
 }
+
+.graph {
+  height: 250px;
+  width: 100%;
+}
