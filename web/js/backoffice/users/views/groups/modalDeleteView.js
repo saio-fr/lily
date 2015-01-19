@@ -9,6 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
+      app = require('app'),
 
       // Object wrapper returned as a module
       ModalDelete;
@@ -36,8 +37,6 @@ define(function (require) {
     },
 
     destroy: function () {
-      console.log(this.model);
-      console.log(this);
       this.model.destroy();
       this.remove();
     }

@@ -5,7 +5,7 @@ require.config({
     'underscore': 'bower_components/underscore/underscore',
     'backbone': 'bower_components/backbone/backbone',
     'backbone-nested': 'bower_components/backbone-nested-model/backbone-nested',
-    'backbone-validation': 'bower_components/backbone-validation/index',
+    'backbone-validation': 'bower_components/backbone-validation/dist/backbone-validation',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'moment': 'bower_components/moment/moment',
     'moment-fr': 'bower_components/moment/locale/fr',

@@ -27,6 +27,7 @@ class OperatorService {
             if ($item->id === $params['sid']) {
 
                 $item->operator = $conn->User->getId();
+                $item->operators[] = $conn->User->getId();
                 $item->startChatTime = time();
 
             }
@@ -167,6 +168,7 @@ class OperatorService {
             if ($item->id === $params['sid']) {
               
                 $item->operator = $params['operator'];
+                $item->operators[] = $params['operator'];
                 $item->transfered = true;
                 
                 $item->messages[] = array(
@@ -176,12 +178,14 @@ class OperatorService {
                   'date' => time(), 
                   'action' => 'transfer',
                   'transfer_from' => array(
-                    'firstname' => $from->firstname,
-                    'lastname' => $from->lastname
+                      'id' => $from->id,
+                      'firstname' => $from->firstname,
+                      'lastname' => $from->lastname
                   ),
-                  'transfer_to' => array(           
-                    'firstname' => $to->firstname,
-                    'lastname' => $to->lastname
+                  'transfer_to' => array(
+                      'id' => $to->id,    
+                      'firstname' => $to->firstname,
+                      'lastname' => $to->lastname
                   )
                 );
             }
@@ -195,6 +199,7 @@ class OperatorService {
      * Set the operator as unavailable
      */
     public function unavailable(Conn $conn, $params, \StdClass $client) {
+      
         // Security check
         if (!isset($conn->User)) { return; }
         
@@ -223,6 +228,7 @@ class OperatorService {
      * Set the operator as available
      */
     public function available(Conn $conn, $params, \StdClass $client) {
+      
         // Security check
         if (!isset($conn->User)) { return; }
 
@@ -239,6 +245,7 @@ class OperatorService {
      * Is the operator available ?
      */
     public function isAvailable(Conn $conn, $params, \StdClass $client) {
+      
         // Security check
         if (!isset($conn->User)) { return; }
         

@@ -67,8 +67,6 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
 	      if ($newclient) {
 
-  	        echo 'new client';
-
     		    $client = new \StdClass;
     		    $client->licence = $licence;
     		    $client->users = new \SplObjectStorage;

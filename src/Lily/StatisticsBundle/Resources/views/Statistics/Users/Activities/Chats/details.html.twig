@@ -21,10 +21,11 @@
   										  </p>
                         <% break;
                         
-											case 'transfered': %>
-												<p class="msg-server">Conversation transférée le 
-                          <%= moment(item.date*1000).format('DD MMMM') %> à 
-                          <%= moment(item.date*1000).format('HH:mm') %>
+											case 'transfer': %>
+												<p class="msg-server">Transférée le 
+                          <%= moment(item.date*1000).format('DD MMMM HH:mm') %> de
+                          <%= item.transfer_from.firstname %> <%= item.transfer_from.lastname %> à 
+                          <%= item.transfer_to.firstname %> <%= item.transfer_to.lastname %>
                         </p>
                         <% break;
                         

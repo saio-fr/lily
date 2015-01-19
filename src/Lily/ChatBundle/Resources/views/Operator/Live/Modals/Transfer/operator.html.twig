@@ -5,7 +5,11 @@
   </div>
   <div class="media-body">
     <div><a><%= firstname %> <%= lastname %></a></div>
-    <small class="text-muted"></small>
+    <small class="text-muted">
+      <% _.each(groups, function(group) { %>
+        <%= group %>
+      <% }); %>
+    </small>
   </div>
 </div>
 

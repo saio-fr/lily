@@ -15,7 +15,7 @@ require.config({
     'flot-tooltip': 'bower_components/flot.tooltip/js/jquery.flot.tooltip',
     'flot-time': 'bower_components/flot/jquery.flot.time',
     'flot-pie': 'bower_components/flot/jquery.flot.pie',
-    'morris': 'bower_components/morris/morris',
+    'morris': 'bower_components/morrisjs/morris',
     'raphael': 'bower_components/raphael/raphael',
     'daterangepicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
     'todoTpl': 'todo',

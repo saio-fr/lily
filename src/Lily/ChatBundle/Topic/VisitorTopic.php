@@ -73,6 +73,7 @@ class VisitorTopic implements TopicInterface
         
         // CHAT INFOS
         $visitor->operator = null;
+        $visitor->operators = array();
         $visitor->transfered = false;
         $visitor->satisfaction = null;
         $visitor->banned = false;
@@ -119,9 +120,9 @@ class VisitorTopic implements TopicInterface
     	  $visitorId = explode('/', $topic)[2];
 
         $operator = array(
-          'id' => $conn->User->getId(), 
-          'firstname' => $conn->User->getFirstname(), 
-          'avatar' => $conn->User->getConfig()->getAvatar()
+            'id' => $conn->User->getId(), 
+            'firstname' => $conn->User->getFirstname(), 
+            'avatar' => $conn->User->getConfig()->getAvatar()
         );
     	
         foreach ($users as $item) {
@@ -135,14 +136,13 @@ class VisitorTopic implements TopicInterface
 				
                 $item->lastMsgTime = time();						
                 $item->messages[] = array(
-                  'id' => uniqid(), 'from' => 
-                  'operator', 'operator' => $operator, 
-                  'date' => time(), 
-                  'msg' => $event
+                    'id' => uniqid(), 'from' => 
+                    'operator', 'operator' => $operator, 
+                    'date' => time(), 
+                    'msg' => $event
                 );	
 				
                 $topic->broadcast($item->messages);			
-								
 			      }
 		    }
     }  

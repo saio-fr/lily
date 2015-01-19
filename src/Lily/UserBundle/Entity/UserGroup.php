@@ -37,6 +37,11 @@ class UserGroup extends BaseGroup
      * @ORM\ManyToOne(targetEntity="Lily\UserBundle\Entity\Client", inversedBy="groups")
      */
     private $client;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Lily\UserBundle\Entity\User", mappedBy="groups", cascade={"persist"})
+     */
+    private $users;
      
     /**
      * @var string
@@ -49,7 +54,7 @@ class UserGroup extends BaseGroup
     public function __construct()
     {       
         $this->color = "#4c5566";
-        $this->roles = ['ROLE_USER'];
+        $this->roles = array();
 	  }
      
 
@@ -107,5 +112,38 @@ class UserGroup extends BaseGroup
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \Lily\UserBundle\Entity\User $users
+     * @return UserGroup
+     */
+    public function addUser(\Lily\UserBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Lily\UserBundle\Entity\User $users
+     */
+    public function removeUser(\Lily\UserBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

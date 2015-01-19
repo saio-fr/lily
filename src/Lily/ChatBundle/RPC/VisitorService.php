@@ -129,6 +129,7 @@ class VisitorService {
                         'avatar' => $availables[$key]->avatar);
 
                     $item->operator = $availables[$key]->id;
+                    $item->operators[] = $availables[$key]->id;
                     $item->startChatTime = time();
                     $item->received += 1;
                     $item->messages[] = array(
