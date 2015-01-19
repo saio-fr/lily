@@ -11,8 +11,13 @@
             <button class="btn btn-sm btn-white uploader">Modifier</button>
   				</div>
           <div class="user-info clear">
-            <div class="h4">{{ app.user.lastname }} {{ app.user.firstname }}</div>
-            <small class="text-muted m-n">{{ app.user.client.name }}</small>
+            <h4>{{ app.user.lastname }} {{ app.user.firstname }}</h4>
+            <h5 class="m-n">{{ app.user.client.name }}</h5>
+            <small class="text-muted">
+              <% _.each(groups, function(group) { %>
+                <%= group.name %>
+              <% }); %>
+            </small>
           </div>             
         </div>
         

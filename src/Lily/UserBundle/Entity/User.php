@@ -46,7 +46,7 @@ class User extends BaseUser
     private $config;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Lily\UserBundle\Entity\UserGroup", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Lily\UserBundle\Entity\UserGroup", inversedBy="users", cascade={"persist"})
      * @ORM\JoinTable(name="UserGroupJoinTable",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
