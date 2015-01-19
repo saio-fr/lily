@@ -631,7 +631,7 @@ MESSAGES
 
 #chat-box-messages .lily-msg-chat-operator {
 	float: left;
-	margin-left: 70px;
+	margin-left: 55px;
 	margin-top: 15px;
 }
 
@@ -689,16 +689,21 @@ MESSAGES
 
 #chat-box-messages .lily-msg-chat-operator-info {
 	position: absolute;
-	left: -70px;
+	left: -65px;
 	top: 0;
 	text-align: center;
+}
+
+#chat-box-messages .thumb-sm.avatar {
+	width: 38px;
+	height: 38px;
 }
 
 #chat-box-messages .lily-msg-chat-operator-info p {
 	width: 60px;
 	font-size: 9px;
 	color: #b8b8b8;
-	text-align:center;
+	text-align: center;
 	line-height: 10px;
 	margin-top: 3px;
 }
@@ -728,12 +733,22 @@ MESSAGES
 
 #lily-box-messages .lily-msg-user:before,
 #chat-box-messages .lily-msg-chat-visitor:before {
-	content: "";
+/*	content: "";
 	position: absolute;
 	bottom: -10px;
 	right: 10px;
 	border-width: 10px 0 0 10px;
 	border-style: solid;
+	display: block;
+	width: 0;*/
+
+	content: "";
+	position: absolute;
+	bottom: -8px;
+	right: 11px;
+	border-width: 8px 0 0 8px;
+	border-style: solid;
+	border-color: rgba(255, 255, 255, 0.97) rgba(255, 255, 255, 0);
 	display: block;
 	width: 0;
 }
