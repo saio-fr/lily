@@ -54,7 +54,7 @@ define(function(require) {
   g.inactivityMsg = "La connexion a été interrompue pour cause d'inactivité";
 
   g.transferMsg = "has transfered the conversation to";
-  g.banMsg = "has transfered the conversation to";
+  g.banMsg = "Vous avez été banni du chat par l'opérateur";
   g.closeMsg = "L'opérateur a clôt la conversation";
 
   g.unableToConnectError = "La connexion a été interrompue";

@@ -50,7 +50,7 @@ define(function(require) {
         snapper.close();
       });
 
-      $('.lily-icon-reduce').click(function() {
+      $('#lily-toolbar-icons').click(function() {
         app.onReduceClick();
       });
 
