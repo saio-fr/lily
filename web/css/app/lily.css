@@ -526,6 +526,10 @@ HEADER
 	font-family: 'Open Sans', sans-serif;
 }
 
+.placeholder {
+	color: #777;
+}
+
 .lily-search-input:active,
 .lily-search-input:focus{
 	opacity: 0.95;
@@ -534,10 +538,11 @@ HEADER
 	outline: none;
 }
 
-.lily-search-input::-webkit-input-placeholder {color: #fff;}
-.lily-search-input:-moz-placeholder {color: #fff;}
-.lily-search-input::-moz-placeholder {color: #fff;}
-.lily-search-input:ms-input-placeholder {color: #fff;}
+:-moz-placeholder {color: #575757;}
+::-moz-placeholder {color: #575757;}
+:ms-input-placeholder {color: #575757;}
+::-webkit-input-placeholder {color: #575757;}
+
 
 .lily-search-submit{
 	border: none;
@@ -623,12 +628,15 @@ MESSAGES
 	float: left;
 	margin-left: 55px;
 	margin-top: 15px;
+	border: solid 1px rgba(206, 206, 206, 0.8);
+	color: #424242;
 }
 
 #chat-box-messages .lily-msg-server {
 	display: block;
   clear: both;
   padding: 1px;
+  color: #424242;
 }
 
 .lily-msg-server-title {
@@ -687,6 +695,7 @@ MESSAGES
 #chat-box-messages .thumb-sm.avatar {
 	width: 38px;
 	height: 38px;
+	border-radius: 50%;
 }
 
 #chat-box-messages .lily-msg-chat-operator-info p {
@@ -823,7 +832,7 @@ MESSAGES
 	text-align: right;
 	margin-right: 15px;
 	height: 40px;
-	box-shadow: 1px 1px 2px 0px rgba(182, 182, 182, 0.46);
+	box-shadow: 0px 2px 6px 0px rgba(155, 155, 155, 0.38);
 }
 
 #lily-chat-notation-wrapper p{
