@@ -48,6 +48,7 @@
                   Administrateur
                 </label>
               </div>
+              {% if app.user.client.config.chat %}
               <div class="checkbox">
                 <label>
                   <input type="checkbox" name="roles" id="chat"
@@ -55,6 +56,8 @@
                   Opérateur live chat
                 </label>
               </div>
+              {% endif %}
+              {% if app.user.client.config.avi %}
               <div class="checkbox">
                 <label>
                   <input type="checkbox" name="roles" id="knowledge"
@@ -62,6 +65,7 @@
                   Opérateur base de connaissances
                 </label>
               </div>
+              {% endif %}
   					</div>
   					
             <div class="form-group">
