@@ -24,6 +24,7 @@ define(function (require) {
     events: {
       'submit': 'noSubmit',
       'click .button-update': 'update',
+      'keypress' : 'updateOnEnter',
       'click .button-cancel': 'close'
     },
 
@@ -64,6 +65,13 @@ define(function (require) {
             that.close();
           }
         });
+      }
+    },
+       
+    updateOnEnter: function (e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        this.update();
       }
     },
 

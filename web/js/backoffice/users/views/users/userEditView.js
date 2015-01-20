@@ -25,6 +25,7 @@ define(function (require) {
       'submit': 'noSubmit',
       'click .button-update': 'update',
       'click .button-cancel': 'close',
+      'keypress' : 'updateOnEnter',
       'click .uploader': function () {
         this.$el.find('input[name="avatarFile"]').click();
       },
@@ -85,6 +86,13 @@ define(function (require) {
             }
           }
         });
+      }
+    },
+    
+    updateOnEnter: function (e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        this.update();
       }
     },
 
