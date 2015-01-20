@@ -29,7 +29,8 @@ class VisitorService {
                 $result = array(
                     'display' => $item->display, 
                     'chatting' => !$item->closed, 
-                    'showContactForm' => $item->showContactForm
+                    'showContactForm' => $item->showContactForm,
+                    'time' => time()
                 ); 
                 
                 return $result;

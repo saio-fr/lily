@@ -8,8 +8,10 @@ define(function (require) {
 
   var Backbone = require('backbone'),
       _ = require('underscore'),
+      moment = require('moment'),
       g = require('globals'),
       app = require('app'),
+      timers = require('backoffice/chat/utils/timers'),
       SkeletonView = require('backoffice/chat/views/skeleton'),
       LiveSkeletonView = require('backoffice/chat/views/live/skeleton'),
       DashboardSkeletonView = require('backoffice/chat/views/dashboard/skeleton'),
@@ -40,25 +42,21 @@ define(function (require) {
   		app.skeleton.dashboard = new DashboardSkeletonView({
     		collection: app.users
   		});
-        
-      app.ws.subscribe('operator/' + g.licence, function (topic, records) { 
-        app.users.set(records);
-        
-        // TO DELETE
-        console.log(records);
-      });
-            
-			app.ws.call('operator/isAvailable').then(
+  		
+  		app.ws.call('operator/connect').then(
 			
-  			function (event) {
+  			function (result) {
     			
-  				if (event.result) {
+  				if (result.available) {
   					app.skeleton.available = true;
   					app.skeleton.setAvailable();
   				} else {
   					app.skeleton.available = false;
   					app.skeleton.setUnavailable();
   				}
+  				
+  				// Get diff between server time and user to sync timers
+  				timers.serverTime = result.time - new moment().unix();
   				
   				// Start routing
           if (Backbone.History.started) {
@@ -71,6 +69,14 @@ define(function (require) {
           $('.js-modal-connection-lost').modal('show')
         }
       );
+        
+      app.ws.subscribe('operator/' + g.licence, function (topic, records) { 
+        app.users.set(records);
+        
+        // TO DELETE
+        console.log(records);
+      });
+  
 		},
 
 		live: function () {

@@ -7,17 +7,18 @@ define(function (require) {
       Timers = {};
 
   Timers.status = function (record, type) {
+    
     // Setting up timer variables
-		var now = new moment();
-		var start = moment(record.model.get('startTime')*1000);
-		var last = moment(record.model.get('lastMsgTime')*1000);
+		var now = new moment().unix();
+		var start = record.model.get('startTime');
+		var last = record.model.get('lastMsgTime');
 		var timer;
     
     switch (type) {
 			// Timer for chat			
 			case 'chat':
-			  
-			  (now.diff(start)) ? timer = moment(now.diff(start)) : timer = moment(0);
+
+			  timer = moment((now - start + Timers.serverTime) * 1000);
 
 				var hours = timer.hours()-1;
 				var minutes = timer.minutes();
@@ -39,7 +40,7 @@ define(function (require) {
 			// Timer for last msg
 			case 'lastMsg':	
 
-			  (now.diff(last)) ? timer = moment(now.diff(last)) : timer = moment(0);
+			  timer = moment((now - last + Timers.serverTime) * 1000);
 
 				hours = timer.hours()-1;
 				minutes = timer.minutes();

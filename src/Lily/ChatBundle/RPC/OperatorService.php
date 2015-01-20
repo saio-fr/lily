@@ -244,7 +244,7 @@ class OperatorService {
     /**
      * Is the operator available ?
      */
-    public function isAvailable(Conn $conn, $params, \StdClass $client) {
+    public function connect(Conn $conn, $params, \StdClass $client) {
       
         // Security check
         if (!isset($conn->User)) { return; }
@@ -255,7 +255,10 @@ class OperatorService {
                 else { $available = false; }
             }
         }
-        return array('result' => $available);
+        return array(
+            'available' => $available,
+            'time' => time()
+        );
     }
 
 }
