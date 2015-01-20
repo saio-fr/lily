@@ -89,7 +89,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
         // Little hack to persist entity into memcached
         $redirections->setMail($redirections->getMail());
         
-        $config->setMaintenance($config->getMaintenance() && $client->getMaintenance());
+        $config->setMaintenance($config->getMaintenance() || $client->getMaintenance());
         $config->setTopquestions($config->getTopquestions() && $client->getTopquestions());
         $config->setFaq($config->getFaq() && $client->getFaq());
         $config->setAvi($avi);

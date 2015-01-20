@@ -1,13 +1,15 @@
 <header class="header menu-header bg-light lter">
   <ul class="nav nav-tabs nav-tabs-wrapper">
     <li class="usage-nav"><a href="#usage">Utilisation</a></li>
-    {% if (app.user.client.config.avi) %}
+    {% if app.user.client.config.avi %}
     <li class="avi-nav"><a href="#avi">Avatar</a></li>
     {% endif %}
-    {% if (app.user.client.config.chat) %}
+    {% if app.user.client.config.chat %}
     <li class="chat-nav"><a href="#chat">Chat</a></li>
     {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
     <li class="users-nav"><a href="#users">Opérateurs</a></li>
+    {% endif %}
   </ul>
 </header>
 <section class="tab-content-wrapper scrollable">
