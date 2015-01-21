@@ -84,6 +84,7 @@ require([
           app.onConnect(result);
         }, function(err) {
           console.warn(err);
+          app.trigger("status:connectionError");
           app.init();
         });
 

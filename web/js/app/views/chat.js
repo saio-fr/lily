@@ -170,6 +170,7 @@ define(function(require) {
       }
       // clear the search field
       this.clearInput();
+      this.writing();
     },
 
     clearInput: function() {
