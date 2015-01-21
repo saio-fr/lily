@@ -51,10 +51,10 @@ define(function(require) {
 
       // Listen to new messages
       this.listenTo(this.model, 'change:messages', this.getMessages);
+      this.listenTo(this.model, 'change:writing', this.writing);
       this.listenTo(this.model, 'urgent', this.urgent);
       this.listenTo(this.model, 'render', this.active);
       this.listenTo(this.model, 'minus', this.minus);
-      this.listenTo(this.model, 'change:writing', this.writing);
       this.listenTo(this.messages, 'add', this.addMsg);
       this.listenTo(this.messages, 'add', this.status);
 

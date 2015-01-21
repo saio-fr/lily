@@ -28,8 +28,6 @@ define(function(require) {
 
     initialize: function() {
 
-      this.render();
-
       // Get the messages list
       this.listenTo(this.model, 'change:messages', this.status);
       this.listenTo(this.model, 'change:operator', this.close);
@@ -42,6 +40,8 @@ define(function(require) {
 
       // After an half hour of inactivity, the model is removed on the server
       this.listenTo(this.model, 'remove', this.close);
+
+      this.render();
     },
 
     render: function() {

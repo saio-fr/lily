@@ -7,13 +7,10 @@ define(function(require) {
   'use strict';
 
   var Backbone = require('backbone'),
-    moment = require('moment'),
     globals = require('globals'),
     app = require('app'),
-    timers = require('backoffice/chat/utils/timers'),
     LiveSkeletonView = require('backoffice/chat/views/live/skeleton'),
     DashboardSkeletonView = require('backoffice/chat/views/dashboard/skeleton'),
-    Collections = require('backoffice/chat/data/collections'),
 
     // Object wrapper returned as a module
     Router;
@@ -31,7 +28,6 @@ define(function(require) {
     initialize: function() {
 
       // Initialize Users Collection and global views
-      app.users = new Collections.Users();
       app.skeleton.live = new LiveSkeletonView({
         collection: app.users
       });

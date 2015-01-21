@@ -65,7 +65,7 @@ define(function(require) {
         return;
       }
 
-      if (user.get('operator') === g.userId) {
+      if (user.get('operator').toString() === g.userId) {
         recordView = new RecordCurrent({
           model: user
         });

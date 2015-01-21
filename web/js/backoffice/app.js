@@ -13,7 +13,6 @@ define(function(require) {
   var _ = require('underscore'),
     Backbone = require('backbone'),
     config = require('globals'),
-    timers = require('backoffice/chat/utils/timers'),
 
     app = {
 
@@ -21,6 +20,7 @@ define(function(require) {
         app.ws.subscribe('operator/' + config.licence, function(topic, records) {
           if (app.users) {
             app.users.set(records);
+            console.log(records);
           }
         });
       },

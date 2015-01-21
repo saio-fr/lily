@@ -62,6 +62,7 @@ require([
   "autobahn",
   "when",
   "app",
+  "backoffice/chat/data/collections",
   "backoffice/chat/router",
   'backoffice/chat/views/skeleton',
   "components/modals/confirmView",
@@ -77,8 +78,8 @@ require([
   "wysihtml5",
   "todoTpl"
   // Autobahn V1 AMD broken.
-], function($, _, Backbone, ab, when, app, ChatRouter, SkeletonView, ModalView, ModalModel,
-  ConnectionLostModal, timers, moment, globals) {
+], function($, _, Backbone, ab, when, app, Collections, ChatRouter, SkeletonView, ModalView,
+  ModalModel, ConnectionLostModal, timers, moment, globals) {
 
   'use strict';
 
@@ -89,6 +90,7 @@ require([
 
   app.init = function() {
     app.skeleton = new SkeletonView();
+    app.users = new Collections.Users();
     app.router = new ChatRouter();
   };
 

@@ -8,6 +8,8 @@ define(function(require) {
 
   // Require CommonJS like includes
   var app = require('app'),
+    Backbone = require('backbone'),
+    _ = require('underscore'),
     g = require('globals'),
     utils = require('backoffice/chat/utils/timers'),
     ConversationView = require('backoffice/chat/views/live/conversation'),
@@ -35,7 +37,7 @@ define(function(require) {
       this.listenTo(this.model, 'change:name', this.render);
       // The visitor has been waiting over 2 minutes without reply
       this.listenTo(this.model, 'urgent', this.urgent);
-      // After an half hour of inactivity, the model is removed on the server
+      // After an 20min of inactivity, the model is removed on the server
       this.listenTo(this.model, 'remove', this.remove);
     },
 
