@@ -64,7 +64,6 @@ require([
   "app",
   "backoffice/chat/router",
   'backoffice/chat/views/skeleton',
-  "backoffice/chat/views/connection/lost",
   "components/modals/confirmView",
   "components/modals/model",
   "backoffice/chat/views/connection/lost",
@@ -136,7 +135,7 @@ require([
       appendEl: ".js-skeleton-container"
     });
 
-    $('.modal-close .js-modal-action').click(function() {
+    $('.js-modal-action').click(function() {
       if (_.isFunction(callback)) {
         callback();
       }
