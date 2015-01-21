@@ -21,10 +21,21 @@ class LogChatCommand extends ContainerAwareCommand
         $mobileDetector = $this->getContainer()->get('mobile_detect.mobile_detector');
         
         // Support d'utilisation
-        if ($mobileDetector->isMobile()) { $log->setMedia('mobile'); }
-        if ($mobileDetector->isTablet()) { $log->setMedia('tablet'); }
-        if (!$mobileDetector->isMobile() && !$mobileDetector->isTablet()) { $log->setMedia('pc'); }
-        
+        switch ($mobileDetector->isMobile()) {
+          
+            case 'mobile' : 
+                $log->setMedia('mobile');
+                break;
+                
+            case 'tablet' : 
+                $log->setMedia('tablet');
+                break;
+
+            default : 
+                $log->setMedia('pc');
+                break;    
+            
+        }
         return $log;
     }
 
