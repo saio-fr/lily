@@ -66,7 +66,7 @@ define(function(require) {
         this.live.maxWindows = $(e.target).attr('data');
 
         this.$el.find('.windows span').html(
-          this.live.maxWindows == 1 ?
+          this.live.maxWindows === 1 ?
           this.live.maxWindows + ' Conversation' :
           this.live.maxWindows + ' Conversations'
         );

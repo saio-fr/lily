@@ -15,7 +15,6 @@ define(function(require) {
     InformationsView = require('backoffice/chat/views/live/informations'),
     MessagesView = require('backoffice/chat/views/live/messages'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    ModalView = require('components/modals/confirmView'),
     ModalModel = require('components/modals/model'),
     ModalTransferView = require('backoffice/chat/views/live/transfer/modal'),
 
@@ -52,12 +51,12 @@ define(function(require) {
 
       // Listen to new messages
       this.listenTo(this.model, 'change:messages', this.getMessages);
-      this.listenTo(this.messages, 'add', this.addMsg);
-      this.listenTo(this.messages, 'add', this.status);
       this.listenTo(this.model, 'urgent', this.urgent);
       this.listenTo(this.model, 'render', this.active);
       this.listenTo(this.model, 'minus', this.minus);
       this.listenTo(this.model, 'change:writing', this.writing);
+      this.listenTo(this.messages, 'add', this.addMsg);
+      this.listenTo(this.messages, 'add', this.status);
 
       // If the visitor is writing, show it
       this.$writing = this.$el.find('.alert-writing');
@@ -139,7 +138,10 @@ define(function(require) {
       this.message = this.editor.getValue(true);
 
       if ($.trim(this.message).length) {
-        app.ws.publish('visitor/' + globals.licence + '/' + this.model.id, this.message);
+        app.trigger("chat:send", {
+          message: this.message,
+          id: this.model.id
+        });
       }
       // clear the search field
       this.clearInput();
@@ -147,24 +149,28 @@ define(function(require) {
 
     addMsg: function(msg) {
 
-      var view;
+      var view,
+        conversations = this.$el.find('.conversation-section-list');
       // create an instance of the sub-view to render the single message item.
       switch (msg.get('from')) {
+
         case 'operator':
           view = new MessagesView.Operator({
             model: msg
-          }).render(this.$el.find('.conversation-section-list'));
+          }).render(conversations);
           this.$el.find('.status').removeClass('text-urgent');
           break;
+
         case 'visitor':
           view = new MessagesView.Visitor({
             model: msg
-          }).render(this.$el.find('.conversation-section-list'));
+          }).render(conversations);
           break;
+
         case 'server':
           view = new MessagesView.Server({
             model: msg
-          }).render(this.$el.find('.conversation-section-list'));
+          }).render(conversations);
           break;
       }
 
@@ -188,6 +194,7 @@ define(function(require) {
         $('.aside-chat-left').css({
           display: 'block'
         });
+
       } else {
         $('.aside-chat-left').css({
           display: 'table-cell'
@@ -201,12 +208,12 @@ define(function(require) {
 
       live.windows.splice($.inArray(that, live.windows), 1);
 
-      if (live.informations.model.get('id') == this.model.get('id')) {
+      if (live.informations.model.get('id') === this.model.get('id')) {
 
         live.informations.remove();
         live.informations = undefined;
 
-        if (live.windows.length == 1) {
+        if (live.windows.length === 1) {
 
           live.informations = new InformationsView({
             model: live.windows[live.windows.length - 1].model
@@ -218,52 +225,32 @@ define(function(require) {
     },
 
     close: function() {
-
       var that = this;
 
-      var modalModel = new ModalModel();
-      modalModel.set(g.modalConfirm.chatClose);
-      var modalView = new ModalView({
-        model: modalModel,
-        appendEl: ".js-live-container"
-      });
-
-      $('.modal-close .js-modal-action').click(function() {
-        app.ws.call('operator/close', {
-          sid: that.model.get('id')
-        });
+      app.createModal(globals.modalConfirm.chatClose, function() {
+        app.trigger("operator:close", that.model.get('id'));
         that.minus();
       });
     },
 
     ban: function() {
-
       var that = this;
 
-      var modalModel = new ModalModel();
-      modalModel.set(g.modalConfirm.chatBan);
-      var modalView = new ModalView({
-        model: modalModel,
-        appendEl: ".js-live-container"
-      });
-
-      $('.modal-ban .js-modal-action').click(function() {
-        app.ws.call('operator/ban', {
-          sid: that.model.get('id')
-        });
+      app.createModal(globals.modalConfirm.chatBan, function() {
+        app.trigger("operator:ban", that.model.get('id'));
         that.minus();
       });
     },
 
     transfer: function() {
       var operators = app.users.filter(function(model) {
-        return model.get('type') == 'operator' &&
+        return model.get('type') === 'operator' &&
           model.get('available') &&
-          model.get('id') != g.userId;
+          model.get('id') !== globals.userId;
       });
 
       var modalModel = new ModalModel();
-      modalModel.set(g.modalApp.chatTransfer);
+      modalModel.set(globals.modalApp.chatTransfer);
 
       var modalTransfer = new ModalTransferView({
         model: modalModel,
@@ -284,7 +271,7 @@ define(function(require) {
     status: function() {
 
       // Test if status is unanswered
-      if (this.messages.at(this.messages.length - 1).get('from') == 'visitor') {
+      if (this.messages.at(this.messages.length - 1).get('from') === 'visitor') {
         this.$el.find('.status').removeClass('text-answered').addClass('text-unanswered');
       } else {
         this.$el.find('.status').removeClass('text-unanswered').addClass('text-answered');
@@ -303,7 +290,7 @@ define(function(require) {
     },
 
     changeNameOnEnter: function(e) {
-      if (e.keyCode == 13 && !e.shiftKey) {
+      if (e.keyCode === 13 && !e.shiftKey) {
         this.$el.find('input[name=name]').blur();
         this.$el.find('input[name=name]').focusout();
       }
@@ -311,10 +298,7 @@ define(function(require) {
 
     changeName: function(e) {
       var name = this.$el.find('input[name="name"]').val();
-      app.ws.call('operator/changeName', {
-        sid: this.model.get('id'),
-        name: name
-      });
+      app.trigger('operator:changeName', this.model.get('id'), name);
     },
 
     remove: function() {
@@ -330,8 +314,7 @@ define(function(require) {
         view.remove();
       });
 
-      this.$el.remove();
-      this.stopListening();
+      Backbone.View.prototype.remove.call(this);
     }
 
   });

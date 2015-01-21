@@ -63,7 +63,12 @@ require([
   "when",
   "app",
   "backoffice/chat/router",
+  'backoffice/chat/views/skeleton',
   "backoffice/chat/views/connection/lost",
+  "components/modals/confirmView",
+  "components/modals/model",
+  "backoffice/chat/views/connection/lost",
+  'backoffice/chat/utils/timers',
   "moment",
   "globals",
 
@@ -73,7 +78,8 @@ require([
   "wysihtml5",
   "todoTpl"
   // Autobahn V1 AMD broken.
-], function($, _, Backbone, ab, when, app, ChatRouter, ConnectionLostModal, moment, globals) {
+], function($, _, Backbone, ab, when, app, ChatRouter, SkeletonView, ModalView, ModalModel,
+  ConnectionLostModal, timers, moment, globals) {
 
   'use strict';
 
@@ -83,6 +89,7 @@ require([
   var connectionLostModal = new ConnectionLostModal();
 
   app.init = function() {
+    app.skeleton = new SkeletonView();
     app.router = new ChatRouter();
   };
 
@@ -94,7 +101,14 @@ require([
 
       function onconnect(session) { // Once the connection has been established
         app.ws = session;
-        callback();
+
+        app.connect().then(function(result) {
+          callback(result);
+          app.onConnect(result);
+        }, function(err) {
+          console.warn(err);
+          app.trigger("status:connectionError");
+        });
       },
 
       function onhangup(code, reason, detail) { // When the connection is closed
@@ -111,8 +125,41 @@ require([
     );
   };
 
+  app.createModal = function(content, callback) {
+    var modalModel, modalView;
+
+    modalModel = new ModalModel();
+    modalModel.set(content);
+
+    modalView = new ModalView({
+      model: modalModel,
+      appendEl: ".js-skeleton-container"
+    });
+
+    $('.modal-close .js-modal-action').click(function() {
+      if (_.isFunction(callback)) {
+        callback();
+      }
+    });
+  };
+
   app.wsConnect(function(result) {
     app.init();
+
+    if (result.available) {
+      app.skeleton.setAvailable();
+    } else {
+      app.skeleton.setUnavailable();
+    }
+
+    // Get diff between server time and user to sync timers
+    timers.serverTime = result.time - new moment().unix();
+
+    // Start routing
+    if (Backbone.History.started) {
+      Backbone.history.stop();
+    }
+    Backbone.history.start();
   });
 
 });
