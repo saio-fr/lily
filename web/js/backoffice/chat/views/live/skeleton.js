@@ -65,7 +65,7 @@ define(function(require) {
         return;
       }
 
-      if (user.get('operator').toString() === g.userId) {
+      if (user.get('operator') === parseInt(g.userId, 10)) {
         recordView = new RecordCurrent({
           model: user
         });

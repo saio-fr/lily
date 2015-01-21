@@ -38,6 +38,8 @@ define(function(require) {
 
     live: function() {
 
+      var that = this;
+
       if (app.available) {
         this.toggleActiveTab("live");
       } else {
@@ -51,7 +53,7 @@ define(function(require) {
           app.router.navigate('live', {
             trigger: true
           });
-        });
+        }, that);
       }
     },
 

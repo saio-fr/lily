@@ -120,13 +120,13 @@ require([
 
       { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
         'skipSubprotocolCheck': true,
-        'maxRetries': 1000000,
-        'retryDelay': 20
+        'maxRetries': 10000,
+        'retryDelay': 1000
       }
     );
   };
 
-  app.createModal = function(content, callback) {
+  app.createModal = function(content, callback, context) {
     var modalModel, modalView;
 
     modalModel = new ModalModel();
@@ -137,9 +137,10 @@ require([
       appendEl: ".js-skeleton-container"
     });
 
-    $('.js-modal-action').click(function() {
+    $('.js-modal-action').on('click', function() {
       if (_.isFunction(callback)) {
-        callback();
+        callback.apply(context, arguments);
+        $('.js-modal-action').off('click');
       }
     });
   };

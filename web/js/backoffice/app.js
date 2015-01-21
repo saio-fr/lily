@@ -126,14 +126,14 @@ define(function(require) {
 
   app.on('chat:open', app.onChatOpen);
   app.on('chat:send', app.onChatSend);
-  app.on('chat:writing',
-    app.onChatWriting);
+  app.on('chat:writing', app.onChatWriting);
   app.on('chat:satisfaction', app.onChatSatisfaction);
-  app.on(
-    'operator:unavailable', app.onSetUnAvailable);
+  app.on('operator:unavailable', app.onSetUnAvailable);
   app.on('operator:available', app.onSetAvailable);
-  app
-    .on('operator:updateInformations', app.onUpdateInfos);
+  app.on('operator:close', app.onConversationClose);
+  app.on('operator:transfer', app.onConversationTransfer);
+  app.on('operator:ban', app.onConversationBan);
+  app.on('operator:updateInformations', app.onUpdateInfos);
   app.on('status:connectionError', app.onConnectionError);
 
   return app;

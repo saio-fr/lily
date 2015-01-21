@@ -230,7 +230,7 @@ define(function(require) {
       app.createModal(globals.modalConfirm.chatClose, function() {
         app.trigger("operator:close", that.model.get('id'));
         that.minus();
-      });
+      }, that);
     },
 
     ban: function() {
@@ -239,14 +239,14 @@ define(function(require) {
       app.createModal(globals.modalConfirm.chatBan, function() {
         app.trigger("operator:ban", that.model.get('id'));
         that.minus();
-      });
+      }, that);
     },
 
     transfer: function() {
       var operators = app.users.filter(function(model) {
         return model.get('type') === 'operator' &&
           model.get('available') &&
-          model.get('id') !== globals.userId;
+          model.get('id') !== parseInt(globals.userId, 10);
       });
 
       var modalModel = new ModalModel();
