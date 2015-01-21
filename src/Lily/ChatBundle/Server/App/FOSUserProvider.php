@@ -38,23 +38,24 @@ class FOSUserProvider implements MessageComponentInterface, WsServerInterface
      */
     public function onOpen(ConnectionInterface $conn)
     {
+
         if (!isset ($conn->Session) || !$conn->Session instanceof Session) {
             throw new \RuntimeException('Session is not defined. Make sure that SessionProvider is executed before FOSUserProvider.');
         }
-		
-		if ($conn->Session->get('_security_main')) {
-		
-	        try {
-	            $token      = unserialize($conn->Session->get('_security_main'));
-	            $user       = $token->getUser();
-	            $provider   = $this->_container->get('fos_user.user_provider.username_email');
-	            $conn->User = $provider->refreshUser($user);
-	        } catch (Exception $ex) {
-	            $conn->User = null;
-	        }
+
+        if ($conn->Session->get('_security_main')) {
+
+  	        try {
+  	            $token      = unserialize($conn->Session->get('_security_main'));
+  	            $user       = $token->getUser();
+  	            $provider   = $this->_container->get('fos_user.user_provider.username_email');
+  	            $conn->User = $provider->refreshUser($user);
+  	        } catch (\Exception $e) {
+  	            $conn->User = null;
+	          }
 	        
-		}
-		
+		    }
+
         return $this->_app->onOpen($conn);
     }
 

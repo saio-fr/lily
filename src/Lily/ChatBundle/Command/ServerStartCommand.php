@@ -63,7 +63,9 @@ class ServerStartCommand extends ContainerAwareCommand
       				  case 'config':
       					    $connector->config($licence);
                     break;
-
+                    
+                case 'removeOperator':
+                    $connector->removeOperator($licence, $params['id']);
       			}
 
     		});

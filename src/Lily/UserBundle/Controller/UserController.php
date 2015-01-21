@@ -16,6 +16,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
+use \ZMQContext;
+use \ZMQ;
+
 class UserController extends BaseController
 {
     /**
@@ -69,16 +72,31 @@ class UserController extends BaseController
 
         //Security check
         $client = $this->getClient();
-        if($user === null || $user->getClient() !== $client) {
+        if ($user === null || $user->getClient() !== $client) {
             throw $this->createNotFoundException();
         }
 
-        if($user === $this->getUser()) {
+        if ($user === $this->getUser()) {
             throw new \Exception("You cannot delete your own account.");
         }
 		
         $manager->deleteUser($user);
-       
+        
+        // Publish to chat servers
+        $licence = $this->getLicence();
+        $cache = $this->get('aequasi_cache.instance.default');
+
+        $context = new ZMQContext();
+        $socket = $context->getSocket(ZMQ::SOCKET_PUSH, 'pusher');
+        $socket->connect("tcp://172.16.0.2:5555");
+        $socket->connect("tcp://172.16.0.3:5555");
+        $socket->connect("tcp://172.16.0.4:5555");
+
+        $socket->send(json_encode(array(
+            'action' => 'removeOperator', 
+            'licence' => $licence,
+            'id' => $id
+        )));
     }
 
     /**

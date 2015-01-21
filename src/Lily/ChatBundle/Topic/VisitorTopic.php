@@ -45,6 +45,7 @@ class VisitorTopic implements TopicInterface
             if ($item->id === $sid && $item->type === 'visitor') { 
               
 				        $item->topic = $topic;
+				        $item->conn = $conn;
                 $item->lastConn = time();
 				
                 // We send back the logged messages list
@@ -57,6 +58,7 @@ class VisitorTopic implements TopicInterface
         $visitor = new \StdClass;
         $visitor->id = $sid;
         $visitor->topic = $topic;
+        $visitor->conn = $conn;
         
         // PERSONAL INFOS
         $visitor->name = 'ID'.substr($sid, 0, 9);

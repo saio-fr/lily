@@ -41,7 +41,6 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
         $this->app = $app;
         $this->app->clients = new \SplObjectStorage();
-
     }
 
     public function onOpen(Conn $conn) {
@@ -92,7 +91,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 	    $licence = $conn->WebSocket->request->getQuery()->get('licence');
       $this->app->onCall($conn, $id, $topic, $params);
 
-      // Check if there is operator available for the client
+      // Check if there is operator available to chat
       $this->isAvailable($licence);
     }
 
@@ -105,7 +104,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     }
 
     public function onMessage(Conn $from, $msg) {
-    	$this->app->onMessage($from, $msg);
+        $this->app->onMessage($from, $msg);
     }
 
     public function config($licence) {
@@ -113,8 +112,9 @@ class Connector implements WampServerInterface, MessageComponentInterface {
         $config = $this->cache->fetch($licence.'_config_app_chat');
 
         if (!$config) {
+          
             // Get the client' entity manager
-    	   		$connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
+            $connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
 
     		    $refConn = new \ReflectionObject($connection);
     		    $refParams = $refConn->getProperty('_params');
@@ -134,6 +134,23 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 		    }
         return $config;
     }
+    
+    public function removeOperator($licence, $id) {
+
+        // For each clients
+    		foreach ($this->app->clients as $client) {
+      			if ($client->licence === $licence) {
+        		    foreach ($client->users as $user) {
+
+            		    if ($user->id == $id) {
+              		      $user->available = false;
+              		      $user->conn->close();
+              		      $client->users->detach($user);
+            		    }
+        		    }
+        		}
+        }  
+    }
 
     public function isAvailable($licence) {
 
@@ -145,7 +162,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
       		    	$operators = 0;
       		    	$queue = 0;
 
-      		    	foreach($client->users as $user) {
+      		    	foreach ($client->users as $user) {
       			    	  if ($user->type == 'operator' && $user->available) {
                           ++$operators;
                           if ($user->chats < $client->config->getMax()) {
@@ -179,6 +196,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
             // Test if visitor is still connected
             foreach ($client->users as $item) {
+              
                 if ($item->type === 'visitor') {
 
                     // If the user is an visitor
@@ -213,9 +231,31 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                           'item' => $item)));
 
               					// Detach the client
+              					$item->conn->close();
               					$client->users->detach($item);
           					}
 		            }
+                
+                if ($item->type === 'operator') {
+
+                    // Set the operator unavailable if he is disconnected
+                    if ($item->lastPing < ( time() - 60 )) {
+
+                        $chats = 0;
+
+                        foreach ($client->users as $user) {
+                
+                            if (isset($user->operator) && $user->operator == $item->id) {
+                
+                                $user->operator = null;
+                                $chats += 1;
+                            }
+                        }
+                        
+                        $item->available = false;
+                        $item->chats -= $chats;
+                    }
+                }
 			      }
 
             // Send users to client's operators

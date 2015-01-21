@@ -38,20 +38,23 @@ class OperatorTopic implements TopicInterface
         
     	  // Test if opeartor is already connected
         foreach ($users as $item) {
-            if ($item->id === $conn->User->getId() && $item->type === 'operator') { 
+            if ($item->id === $conn->User->getId() && $item->type === 'operator') {
+                $item->lastPing = time();
+                $item->conn = $conn; 
 				        return;
 			      }
 		    }
 		
     	  $operator = new \StdClass;
         $operator->id = $conn->User->getId();
+        $operator->conn = $conn;
+        $operator->lastPing = time();
+        $operator->type = 'operator';
         $operator->welcome = $conn->User->getConfig()->getWelcomeMsg();
         $operator->avatar = $conn->User->getConfig()->getAvatar();
         $operator->firstname = $conn->User->getFirstname();
         $operator->lastname = $conn->User->getLastname();
         $operator->groups = $conn->User->getGroupNames();
-        // $operator->services = $conn->User->getServices();
-        $operator->type = 'operator';
         $operator->messages = array();
         $operator->available = false;
         $operator->chats = 0;

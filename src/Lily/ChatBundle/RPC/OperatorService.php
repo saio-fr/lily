@@ -251,8 +251,7 @@ class OperatorService {
         
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
-                if ($item->available) { $available = true; }
-                else { $available = false; }
+                $item->available ? $available = true : $available = false;
             }
         }
         return array(
@@ -260,5 +259,20 @@ class OperatorService {
             'time' => time()
         );
     }
-
+    
+    /**
+     * Heartbeat to ensure operator is still connected
+     */
+    public function ping(Conn $conn, $params, \StdClass $client) {
+      
+        // Security check
+        if (!isset($conn->User)) { return; }
+        
+        foreach ($client->users as $item) {
+            if ($item->id === $conn->User->getId()) {
+                $item->lastPing = time();
+            }
+        }
+        return true;
+    } 
 }
