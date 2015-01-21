@@ -64,7 +64,7 @@ FONTS
 }
 .lily-icon-phone:before {
 	content: "\e602";
-	font-size: 18px;
+	font-size: 15px;
 }
 .lily-icon-smartphone:before {
 	content: "\f10b";
@@ -849,19 +849,22 @@ MESSAGES
 	-webkit-user-select: none;
 	-webkit-user-drag: none;
 	margin-top: 10px;
-	margin-left: 7px;
+	margin-left: 11px;
 }
 
-#lily-chat-notation-wrapper .lily-icon-thumb-up:before{
-	font-size: 16px !important;
+#lily-chat-notation-wrapper .lily-icon-thumb-up:before {
+font-size: 12px !important;
 }
+
+#lily-chat-notation-wrapper .lily-icon-thumb-down:before {
+font-size: 12px !important;
+margin-right: 15px !important;
+}
+
 .lily-icon-thumb-up.active {
 	color: #747474;
 }
-#lily-chat-notation-wrapper .lily-icon-thumb-down:before{
-	font-size: 16px !important;
-	margin-right: 12px !important;
-}
+
 .lily-icon-thumb-down.active {
 	color: #747474;
 }
@@ -1024,7 +1027,7 @@ THEMATIQUE
 	position: relative;
 	display: inline-block;
 	width: 100%;
-	height: 45px;
+	height: 51px;
 	vertical-align: middle;
 	padding-right: 40px;
 	line-height: 50px;
@@ -1039,7 +1042,7 @@ THEMATIQUE
 
 .lily-wrapper-faq-content{
 	margin: 20px 15px;
-	border-bottom: solid 1px #c0C0C0;
+	border-bottom: solid 1px #efefef;
 	padding-bottom: 20px;
 }
 
@@ -1214,7 +1217,7 @@ CONTACT FORM
 
 .lily-contact-form .lily-contact-form-label {
 	margin-top: 17px;
-	margin-bottom: 6px;
+	margin-bottom: 11px;
 	font-size: 12px;
 	font-weight: 600;
 }
@@ -1281,6 +1284,11 @@ CONTACT FORM
 	margin-top: 15px;
 	margin-bottom: 15px;
 	outline: 0;
+}
+
+.lily-contact-form p {
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 /*******************
