@@ -1,63 +1,13 @@
-require.config({
-  baseUrl: '/js',
-  paths: {
-    'jquery': 'bower_components/jquery/dist/jquery',
-    'underscore': 'bower_components/underscore/underscore',
-    'backbone': 'bower_components/backbone/backbone',
-    'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
-    'dateRangePicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
-    'sortable': 'bower_components/html5sortable/jquery.sortable',
-    // 'wysihtml5': 'bower_components/wysihtml5/dist/wysihtml5-0.3.0.min',
-    // 'bootstrap-wysihtml5': 'bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2',
-    'wysihtml5': 'wysiwyg/wysihtml5',
-    'wysihtml5-parser': 'utils/wysihtml5-parser',
-    'bootstrap-wysihtml5': 'wysiwyg/bootstrap-wysihtml5',
-    'moment': 'bower_components/moment/moment',
-    'todoTpl': 'todo',
-    'flot': 'charts/flot/jquery.flot.min',
-    'app': 'backoffice/app'
-  },
-  shim: {
-    'underscore': {
-      exports: '_'
-    },
-    'backbone': {
-      deps: ["underscore", "jquery"],
-      exports: 'Backbone'
-    },
-    "bootstrap": {
-      "deps": ['jquery']
-    },
-    "todoTpl": {
-      "deps": ['jquery', 'bootstrap']
-    },
-    "dateRangePicker": {
-      "deps": ['jquery', 'bootstrap']
-    },
-    "sortable": {
-      "deps": ['jquery']
-    },
-    "bootstrap-wysihtml5": {
-      "deps": ['wysihtml5', 'bootstrap']
-    },
-    'wysihtml5': {
-      deps: ['wysihtml5-parser'],
-      exports: 'wysihtml5',
-    },
-    "flot": {
-      "deps": ['jquery']
-    },
-    "validator": {
-      "deps": ['jquery']
-    }
-  }
-});
+//Load common code that includes config, then load the app logic for this page.
+require(['../common'], function(common) {
 
-require([
+  'use strict';
+
+  require([
   "jquery",
   "underscore",
   "backbone",
-  "backoffice/globals",
+  "globals",
   "app",
   "backoffice/faq/router",
 
@@ -67,18 +17,18 @@ require([
   "sortable",
   "wysihtml5",
   'wysihtml5-parser'
+
 ], function($, _, Backbone, globals, app, Router) {
 
-  'use strict';
+    $.ajaxPrefilter(function(options) {
+      options.url = globals.root + options.url;
+    });
 
-  $.ajaxPrefilter(function(options) {
-    options.url = globals.root + options.url;
+    // save method to take collection url instead of the model root's Url.
+    // Hacky but works.
+    app.router = new Router();
+    // Start app router
+    // Backbone.history.start() returns false if no route matches
+    Backbone.history.start();
   });
-
-  // save method to take collection url instead of the model root's Url.
-  // Hacky but works.
-  app.router = new Router();
-  // Start app router
-  // Backbone.history.start() returns false if no route matches
-  Backbone.history.start();
 });
