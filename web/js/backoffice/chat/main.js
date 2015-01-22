@@ -1,4 +1,4 @@
-require(['../common'], function(common) {
+define(['../common', 'require'], function(common, require) {
 
   'use strict';
 
@@ -34,41 +34,16 @@ require(['../common'], function(common) {
     var connectionLostModal = new ConnectionLostModal();
 
     app.init = function() {
+      // app.notifs = new Notifs();
       app.skeleton = new SkeletonView();
       app.users = new Collections.Users();
       app.router = new ChatRouter();
-    };
 
-    // Connect to our ws serv
-    app.wsConnect = function(callback) {
-      return ab.connect(
-
-        globals.wsserver + '/chat/' + globals.licence, // The host
-
-        function onconnect(session) { // Once the connection has been established
-          app.ws = session;
-
-          app.connect().then(function(result) {
-            callback(result);
-            app.onConnect(result);
-          }, function(err) {
-            console.warn(err);
-            app.trigger("status:connectionError");
-          });
-        },
-
-        function onhangup(code, reason, detail) { // When the connection is closed
-          console.warn(code + reason + detail);
-          // Todo put that somewhere else
-          app.trigger("status:connectionError");
-        },
-
-        { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
-          'skipSubprotocolCheck': true,
-          'maxRetries': 10000,
-          'retryDelay': 1000
-        }
-      );
+      // Start routing
+      if (Backbone.History.started) {
+        Backbone.history.stop();
+      }
+      Backbone.history.start();
     };
 
     app.createModal = function(content, callback, context) {
@@ -90,7 +65,8 @@ require(['../common'], function(common) {
       });
     };
 
-    app.wsConnect(function(result) {
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
       app.init();
 
       if (result.available) {
@@ -101,13 +77,9 @@ require(['../common'], function(common) {
 
       // Get diff between server time and user to sync timers
       timers.serverTime = result.time - new moment().unix();
+    };
 
-      // Start routing
-      if (Backbone.History.started) {
-        Backbone.history.stop();
-      }
-      Backbone.history.start();
-    });
+    app.wsConnect();
 
   });
 });

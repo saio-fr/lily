@@ -1,5 +1,5 @@
 //Load common code that includes config, then load the app logic for this page.
-require(['../common'], function(common) {
+define(['../common', 'require'], function(common, require) {
 
   'use strict';
 
@@ -9,19 +9,29 @@ require(['../common'], function(common) {
   'backbone',
   'backoffice/users/router',
   'globals',
+  'app',
 
   // Libraries required at bootstrap for the UI.
   'todoTpl',
   'bootstrap'
 
-], function($, _, Backbone, UserRouter, g) {
+], function($, _, Backbone, UserRouter, g, app) {
 
     $.ajaxPrefilter(function(options) {
       options.url = g.root + options.url;
     });
-    var router = new UserRouter();
 
-    // Start app router
+    app.init = function() {
+      app.router = new UserRouter();
+    };
+
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
+
+    };
+
+    app.wsConnect();
+    app.init();
     Backbone.history.start();
   });
 });

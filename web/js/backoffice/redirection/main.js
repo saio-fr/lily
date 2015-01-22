@@ -1,4 +1,4 @@
-require(['../common'], function(common) {
+define(['../common', 'require'], function(common, require) {
 
   'use strict';
 
@@ -19,7 +19,17 @@ require(['../common'], function(common) {
       options.url = globals.root + options.url;
     });
 
-    app.skeleton = new SkeletonView();
+    app.init = function() {
+      app.skeleton = new SkeletonView();
+    };
 
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
+
+    };
+
+    app.wsConnect();
+    app.init();
+    Backbone.history.start();
   });
 });

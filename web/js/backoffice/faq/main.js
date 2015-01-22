@@ -1,5 +1,5 @@
 //Load common code that includes config, then load the app logic for this page.
-require(['../common'], function(common) {
+define(['../common', 'require'], function(common, require) {
 
   'use strict';
 
@@ -10,6 +10,7 @@ require(['../common'], function(common) {
   "globals",
   "app",
   "backoffice/faq/router",
+  // "components/notifications/notifsView",
 
   // Libraries required at bootstrap for the UI.
   "bootstrap",
@@ -24,11 +25,17 @@ require(['../common'], function(common) {
       options.url = globals.root + options.url;
     });
 
-    // save method to take collection url instead of the model root's Url.
-    // Hacky but works.
-    app.router = new Router();
-    // Start app router
-    // Backbone.history.start() returns false if no route matches
+    app.init = function() {
+      app.router = new Router();
+    };
+
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
+      // app.skeleton.notifsView = new NotifsView();
+    };
+
+    app.wsConnect();
+    app.init();
     Backbone.history.start();
   });
 });

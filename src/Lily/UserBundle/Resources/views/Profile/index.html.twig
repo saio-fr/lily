@@ -1,12 +1,12 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block stylesheets %} 	   
+{% block stylesheets %}
 
-{{ parent() }} 	   
+{{ parent() }}
 
-{% stylesheets 'css/backoffice/profile.css' 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/profile.css' %}  
+{% stylesheets 'css/backoffice/profile.css' 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/profile.css' %}
 
-  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" /> 
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
 {% endstylesheets %}
 
@@ -21,7 +21,7 @@
 
 	{% block content %}
 
-    
+
     <!-- .vbox -->
     <section class="vbox content-wrapper">
     </section>
@@ -31,9 +31,9 @@
 
 
   {% block templates %}
-  
+
     {% autoescape false %}
-    
+
     <script type="text/template" id="skeletonTpl">
       {% include 'LilyUserBundle:Profile:skeleton.html.twig' %}
     </script>
@@ -64,18 +64,23 @@
     <script type="text/template" id="activitiesChatsDetailsTpl">
       {% include 'LilyUserBundle:Profile/Activities/Chats:details.html.twig' %}
     </script>
-    
+
     {% endautoescape %}
-  
+
   {% endblock %}
-  
+
   {% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
         var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api';
-        config.licence = '{{ app.user.client.licence }}';
         config.userId = '{{ app.user.id }}';
+        {% if app.environment == 'dev' %}
+        config.wsserver = 'ws://develop.saio.fr';
+        {% else %}
+        config.wsserver = 'ws://ws.saio.fr';
+        {% endif %}
+        config.licence = '{{ app.user.client.licence }}';
 	    </script>
     {% endautoescape %}
   {% endblock %}

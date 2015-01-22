@@ -1,5 +1,5 @@
 //Load common code that includes config, then load the app logic for this page.
-require(['../common'], function(common) {
+define(['../common', 'require'], function(common, require) {
 
   'use strict';
 
@@ -9,6 +9,7 @@ require(['../common'], function(common) {
   'backbone',
   'backoffice/profile/router',
   'globals',
+  'app',
 
   // Libraries required at bootstrap for the UI.
   'todoTpl',
@@ -17,7 +18,7 @@ require(['../common'], function(common) {
   'moment-fr',
   'statistics'
 
-], function($, _, Backbone, ProfileRouter, g) {
+], function($, _, Backbone, ProfileRouter, g, app) {
 
     $.ajaxPrefilter(function(options) {
       options.url = g.root + options.url;
@@ -26,9 +27,17 @@ require(['../common'], function(common) {
     // Set locale in moment JS
     moment.locale('fr');
 
-    var router = new ProfileRouter();
+    app.init = function() {
+      app.router = new ProfileRouter();
+    };
 
-    // Start app router
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
+
+    };
+
+    app.wsConnect();
+    app.init();
     Backbone.history.start();
   });
 });

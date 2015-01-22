@@ -1,4 +1,4 @@
-require(['../common'], function(common) {
+define(['../common', 'require'], function(common, require) {
 
   'use strict';
 
@@ -25,9 +25,17 @@ require(['../common'], function(common) {
     // Set locale in moment JS
     moment.locale('fr');
 
-    app.skeleton = new SkeletonView();
+    app.init = function() {
+      app.skeleton = new SkeletonView();
+    };
 
-    // Start app router
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
+
+    };
+
+    app.wsConnect();
+    app.init();
     Backbone.history.start();
   });
 });

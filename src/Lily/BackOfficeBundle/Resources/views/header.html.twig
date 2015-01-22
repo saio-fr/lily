@@ -9,32 +9,9 @@
     </a>
   </div>
   <div class="collapse navbar-collapse">
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right js-navbar">
 
-      {% if app.user.client.config.chat %}
-
-      <li class="chat pull-left hidden-xs">
-        <a href="#" class="dropdown-toggle dk" data-toggle="dropdown">
-          <i class="icon-bell-alt text-white"></i>
-          <span class="badge up bg-danger m-l-n-sm"><%= notifications.count %></span>
-        </a>
-        <section class="dropdown-menu animated fadeInUp input-s-lg">
-          <section class="panel bg-white">
-            <header class="panel-heading">
-              <strong class="count-n"><%= notifications.countTitle %></strong>
-            </header>
-            <div class="list-group js-notifications-list">
-              <!-- Here go the notifications -->
-            </div>
-            <!-- <footer class="panel-footer text-sm">
-              <a href="#" class="pull-right"><i class="icon-cog"></i></a>
-              <a href="#">notifications.seeAllMessage</a>
-            </footer> -->
-          </section>
-        </section>
-      </li>
-
-      {% endif %}
+    <!-- Here will go the notifications -->
 
       <li class="dropdown">
         <a href="#" class="dropdown-toggle dker" data-toggle="dropdown">

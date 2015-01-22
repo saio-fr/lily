@@ -13,8 +13,42 @@ define(function(require) {
   var _ = require('underscore'),
     Backbone = require('backbone'),
     config = require('globals'),
+    Autobahn = require('autobahn'),
 
     app = {
+
+      wsConnect: function(callback) {
+        return ab.connect(
+
+          config.wsserver + '/chat/' + config.licence, // The host
+
+          function onconnect(session) { // Once the connection has been established
+            app.ws = session;
+
+            app.connect().then(function(result) {
+              if (_.isFunction(callback)) {
+                callback(result);
+              }
+              app.onConnect(result);
+            }, function(err) {
+              console.warn(err);
+              app.trigger("status:connectionError");
+            });
+          },
+
+          function onhangup(code, reason, detail) { // When the connection is closed
+            console.warn(code + reason + detail);
+            // Todo put that somewhere else
+            app.trigger("status:connectionError");
+          },
+
+          { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
+            'skipSubprotocolCheck': true,
+            'maxRetries': 10000,
+            'retryDelay': 1000
+          }
+        );
+      },
 
       subscribe: function() {
         app.ws.subscribe('operator/' + config.licence, function(topic, records) {
@@ -36,10 +70,6 @@ define(function(require) {
         }
         app.subscribe();
         return app.ws.call('operator/connect');
-      },
-
-      onConnect: function(info) {
-
       },
 
       onChatOpen: function() {
