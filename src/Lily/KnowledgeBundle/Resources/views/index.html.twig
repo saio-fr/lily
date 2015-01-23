@@ -1,0 +1,85 @@
+
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+
+  {{ parent() }}
+
+  {% stylesheets 'css/backoffice/questions.css'
+     filter='cssrewrite'
+     output='css/compiled/questions.css' %}
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+  {% endstylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+<section>
+  <section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" %}
+
+	{% block content %}
+    <!-- .aside -->
+    <aside class="js-app-navigator aside left-side-menu bg-dark">
+      <section class="vbox content-left-side-menu">
+        <section>
+          <section>
+            <section id="questions-nav" class="hidden-xs">
+              <!--
+                Here goes our questions menu
+              -->
+              <ul class="js-questions-counter nav nav-stacked no-radius"></ul>
+              <!--
+                Here goes questions' categories
+              -->
+              <div class="js-categories-container"></div>
+            </section>
+          </section>
+        </section>
+      </section>
+    </aside>
+    <!-- /.aside -->
+    
+    <!-- .aside -->
+    <aside class="bg-light lter">
+      <section class="vbox scrollable padder-b">
+        <section class="js-skeleton-container hbox stretch">
+          <!--  
+            Here goes our skeletons
+          -->
+        </section>
+      </section>
+    </aside>
+
+
+    <!-- /.aside -->
+	{% endblock %}
+
+
+	{% block templates %}
+		<!-- L'appel des différents scripts de vue -->
+		<script type="text/template" id="questionsSkeletonTpl">
+      {% include 'LilyKnowledgeBundle:Knowledge/Questions:skeleton.html.twig' %}
+    </script>
+  {% endblock %}
+
+	{% block bootstrap %}
+    {% autoescape false %}
+      <script type="text/javascript">
+        var config = {};
+        config.root = '{{ app.request.getBaseURL() }}/lily/api';
+	    </script>
+    {% endautoescape %}
+	{% endblock %}
+
+  </section>
+</section>
+
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/knowledge/main.js')}}">
+</script>
+
+{% endblock %}

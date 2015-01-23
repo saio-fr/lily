@@ -8,16 +8,16 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\RestBundle\Controller\Annotations\View;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
-class OperatorController extends BaseController
+class IndexController extends BaseController
 {
    /**
-    * @View()
     * @Secure(roles="ROLE_CHAT_OPERATOR")
     */
-    public function indexAction()
+    public function dashboardAction()
     { 
         if (!$this->getClient()->getConfig()->getChat()) {
-  	   	    throw new AccessDeniedException();	
+            throw new AccessDeniedException();	
     	  }
+        return $this->render('LilyChatBundle::index.html.twig');
     }        
 }

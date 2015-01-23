@@ -7,9 +7,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
-use Lily\StatisticsBundle\Controller\DefaultController;
+use Lily\StatisticsBundle\Controller\BaseController;
 
-class AviController extends DefaultController
+class AviController extends BaseController
 {
     /**
      * @Get("/redirections")

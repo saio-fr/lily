@@ -34,52 +34,52 @@
 	
 	{% block templates %}
 		<script type="text/template" id="skeletonTpl">
-      {% include 'LilyChatBundle:Operator:skeleton.html.twig' %}
+      {% include 'LilyChatBundle::skeleton.html.twig' %}
     </script>
     <!-- 
   		  Live
     -->
 		<script type="text/template" id="liveSkeletonTpl">
-      {% include 'LilyChatBundle:Operator/Live:skeleton.html.twig' %}
+      {% include 'LilyChatBundle:Live:skeleton.html.twig' %}
     </script>
 		<script type="text/template" id="liveConversationTpl">
-      {% include 'LilyChatBundle:Operator/Live:conversation.html.twig' %}
+      {% include 'LilyChatBundle:Live:conversation.html.twig' %}
     </script>
 		<script type="text/template" id="liveInformationsTpl">
-      {% include 'LilyChatBundle:Operator/Live:informations.html.twig' %}
+      {% include 'LilyChatBundle:Live:informations.html.twig' %}
     </script>
 		<script type="text/template" id="liveRecordTpl">
-      {% include 'LilyChatBundle:Operator/Live:record.html.twig' %}
+      {% include 'LilyChatBundle:Live:record.html.twig' %}
     </script>
 		<script type="text/template" id="liveMessageOperatorTpl">
-      {% include 'LilyChatBundle:Operator/Live/Message:operator.html.twig' %}
+      {% include 'LilyChatBundle:Live/Message:operator.html.twig' %}
     </script>
 		<script type="text/template" id="liveMessageServerTpl">
-      {% include 'LilyChatBundle:Operator/Live/Message:server.html.twig' %}
+      {% include 'LilyChatBundle:Live/Message:server.html.twig' %}
     </script>
 		<script type="text/template" id="liveMessageVisitorTpl">
-      {% include 'LilyChatBundle:Operator/Live/Message:visitor.html.twig' %}
+      {% include 'LilyChatBundle:Live/Message:visitor.html.twig' %}
     </script>
     <!-- 
   		  Dashboard
     -->
 		<script type="text/template" id="dashboardSkeletonTpl">
-      {% include 'LilyChatBundle:Operator/Dashboard:skeleton.html.twig' %}
+      {% include 'LilyChatBundle:Dashboard:skeleton.html.twig' %}
     </script>
 		<script type="text/template" id="dashboardConnectedOperatorTpl">
-      {% include 'LilyChatBundle:Operator/Dashboard/Connected:operator.html.twig' %}
+      {% include 'LilyChatBundle:Dashboard/Connected:operator.html.twig' %}
     </script>
 		<script type="text/template" id="dashboardConnectedListTpl">
-      {% include 'LilyChatBundle:Operator/Dashboard/Connected:list.html.twig' %}
+      {% include 'LilyChatBundle:Dashboard/Connected:list.html.twig' %}
     </script>
 		<script type="text/template" id="dashboardLoadingTpl">
-      {% include 'LilyChatBundle:Operator/Dashboard:loading.html.twig' %}
+      {% include 'LilyChatBundle:Dashboard:loading.html.twig' %}
     </script>
 		<script type="text/template" id="dashboardOperatorsTpl">
-      {% include 'LilyChatBundle:Operator/Dashboard:operators.html.twig' %}
+      {% include 'LilyChatBundle:Dashboard:operators.html.twig' %}
     </script>
 		<script type="text/template" id="dashboardVisitorsTpl">
-      {% include 'LilyChatBundle:Operator/Dashboard:visitors.html.twig' %}
+      {% include 'LilyChatBundle:Dashboard:visitors.html.twig' %}
     </script>
     <!-- 
   		  Modals
@@ -94,7 +94,7 @@
       {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
     </script>
 		<script type="text/template" id="modalTransferOperatorTpl">
-      {% include 'LilyChatBundle:Operator/Live/Modals/Transfer:operator.html.twig' %}
+      {% include 'LilyChatBundle:Live/Modals/Transfer:operator.html.twig' %}
     </script>
     
     
@@ -112,7 +112,6 @@
   	      config.wsserver = 'ws://ws.saio.fr';
         {% endif %}
   	    
-        config.root = '{{ app.request.getBaseURL() }}/lily/api/chat';
         config.licence = '{{ app.user.client.licence }}';
         config.userId = '{{ app.user.id }}';
 	    </script>

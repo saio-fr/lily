@@ -23,7 +23,7 @@
 	{% block content %}
     <!-- .vbox -->
     <section class="js-app vbox">
-
+      
         <section class="scrollable">
           <section class="js-main-container hbox stretch">
             <aside class="bg-white">
@@ -52,7 +52,7 @@
                   <ul class="js-redirections-list list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
                     <!-- Affichage de la liste des redirections -->
                   </ul>
-
+                  
                   <a class="js-redirection-new btn btn-sm btn-primary pull-right">
                     <span class="icon-plus pull-left"></span>
                     Ajouter une redirection
@@ -77,10 +77,10 @@
 	{% block templates %}
 		<!-- L'appel des différents scripts de vue -->
 		<script type="text/template" id="listTpl">
-      {% include 'LilyKnowledgeBundle:Redirections:list.html.twig' %}
+      {% include 'LilyBackOfficeBundle:Redirections:list.html.twig' %}
     </script>
     <script type="text/template" id="editTpl">
-      {% include 'LilyKnowledgeBundle:Redirections:edit.html.twig' %}
+      {% include 'LilyBackOfficeBundle:Redirections:edit.html.twig' %}
     </script>
     <script type="text/template" id="modalAlertTpl">
       {% include 'LilyBackOfficeBundle:Utils/Modal:alert.html.twig' %}
@@ -92,12 +92,6 @@
       <script type="text/javascript">
         var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api';
-        {% if app.environment == 'dev' %}
-        config.wsserver = 'ws://develop.saio.fr';
-        {% else %}
-        config.wsserver = 'ws://ws.saio.fr';
-        {% endif %}
-        config.licence = '{{ app.user.client.licence }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}

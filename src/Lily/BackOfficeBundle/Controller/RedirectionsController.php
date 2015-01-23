@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\KnowledgeBundle\Controller;
+namespace Lily\BackOfficeBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
