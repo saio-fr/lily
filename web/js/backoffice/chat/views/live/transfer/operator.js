@@ -2,55 +2,57 @@
           TRANSFER TO OPERATOR
 =======================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
   var app = require('app'),
+    Backbone = require('backbone'),
+    _ = require('underscore'),
 
-      // Object wrapper returned as a module
-      TransferOperator;
+    // Object wrapper returned as a module
+    TransferOperator;
 
 
   TransferOperator = Backbone.View.extend({
-  		
-  	tagName: 'li',
-  	className: 'list-group-item',
-  	
-  	events: {
-  		'click .media' : 'select',
-  		'click .btn-danger' : 'unselect',
-  		'click .btn-success' : 'transfer'
-  	},	
-			
-    initialize: function (options) {
+
+    tagName: 'li',
+    className: 'list-group-item',
+
+    events: {
+      'click .media': 'select',
+      'click .btn-danger': 'unselect',
+      'click .btn-success': 'transfer'
+    },
+
+    initialize: function(options) {
       this.visitor = options.visitor;
-    	this.render(); 
+      this.render();
     },
-    
-    render: function () {
-	    var template= _.template( $('#modalTransferOperatorTpl').html());
-	    this.$el.html(template(this.model.toJSON()));
+
+    render: function() {
+      var template = _.template($('#modalTransferOperatorTpl').html());
+      this.$el.html(template(this.model.toJSON()));
     },
-    
-    select: function () {
-	    this.$el.find('.media').addClass('hide');
-	    this.$el.find('.validate').removeClass('hide');
+
+    select: function() {
+      this.$el.find('.media').addClass('hide');
+      this.$el.find('.validate').removeClass('hide');
     },
-    
-    unselect: function () {
-	    this.$el.find('.media').removeClass('hide');
-	    this.$el.find('.validate').addClass('hide');
+
+    unselect: function() {
+      this.$el.find('.media').removeClass('hide');
+      this.$el.find('.validate').addClass('hide');
     },
-    
-    transfer: function () {
+
+    transfer: function() {
       var that = this;
-	    app.ws.call('operator/transfer', { 
-  	    sid: that.visitor.get('id'), 
-  	    operator: that.model.get('id')
-  	  });
-	    this.visitor.trigger('minus');
+      app.trigger('operator:transfer', {
+        sid: that.visitor.get('id'),
+        operator: that.model.get('id')
+      });
+      this.visitor.trigger('minus');
     }
 
   });

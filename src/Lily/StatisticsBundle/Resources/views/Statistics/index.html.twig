@@ -1,18 +1,18 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block stylesheets %} 	   
+{% block stylesheets %}
 
-{{ parent() }} 	   
+{{ parent() }}
 
-{% stylesheets 'css/backoffice/statistics.css' 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}   
-   
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+{% stylesheets 'css/backoffice/statistics.css' 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}
 
-{% endstylesheets %} 
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+
+{% endstylesheets %}
 
 {% endblock %}
 
-{% block body %} 
+{% block body %}
 
 <section>
   <section class="hbox stretch">
@@ -20,7 +20,7 @@
   {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
 	{% block content %}
-    
+
     <!-- .vbox -->
     <section class="vbox js-skeleton-container">
     </section>
@@ -31,17 +31,17 @@
 
   {% block templates %}
     {% autoescape false %}
-    
+
     <!-- L'appel des différents scripts de vue -->
     <script type="text/template" id="skeletonTpl">
       {% include 'LilyStatisticsBundle:Statistics:skeleton.html.twig' %}
     </script>
-    
+
     <!-- Usage -->
-    
+
     <script type="text/template" id="usageSkeletonTpl">
       {% include 'LilyStatisticsBundle:Statistics/Usage:skeleton.html.twig' %}
-    </script> 
+    </script>
     <script type="text/template" id="usageGraphTpl">
       {% include 'LilyStatisticsBundle:Statistics/Usage:graph.html.twig' %}
     </script>
@@ -51,9 +51,9 @@
     <script type="text/template" id="usageMediaTpl">
       {% include 'LilyStatisticsBundle:Statistics/Usage:media.html.twig' %}
     </script>
-    
+
     <!-- Avi -->
-    
+
     <script type="text/template" id="aviSkeletonTpl">
       {% include 'LilyStatisticsBundle:Statistics/Avi:skeleton.html.twig' %}
     </script>
@@ -72,9 +72,9 @@
     <script type="text/template" id="aviTopQuestionsTpl">
       {% include 'LilyStatisticsBundle:Statistics/Avi:top-questions.html.twig' %}
     </script>
-    
+
     <!-- Chat -->
-    
+
     <script type="text/template" id="chatSkeletonTpl">
       {% include 'LilyStatisticsBundle:Statistics/Chat:skeleton.html.twig' %}
     </script>
@@ -84,9 +84,9 @@
     <script type="text/template" id="chatFooterTpl">
       {% include 'LilyStatisticsBundle:Statistics/Chat:footer.html.twig' %}
     </script>
-    
+
     <!-- Users -->
-    
+
     <script type="text/template" id="usersSkeletonTpl">
 	    {% include 'LilyStatisticsBundle:Statistics/Users:skeleton.html.twig' %}
     </script>
@@ -116,16 +116,21 @@
     </script>
     <script type="text/template" id="usersActivitiesChatsDetailsTpl">
       {% include 'LilyStatisticsBundle:Statistics/Users/Activities/Chats:details.html.twig' %}
-    </script>    
-    
+    </script>
+
     {% endautoescape %}
   {% endblock %}
-  
+
   {% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
         var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
+        {% if app.environment == 'dev' %}
+        config.wsserver = 'ws://develop.saio.fr';
+        {% else %}
+        config.wsserver = 'ws://ws.saio.fr';
+        {% endif %}
         config.licence = '{{ app.user.client.licence }}';
 	    </script>
     {% endautoescape %}

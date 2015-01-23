@@ -1,14 +1,14 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block stylesheets %} 	   
+{% block stylesheets %}
 
-  {{ parent() }} 	   
+  {{ parent() }}
 
   {% stylesheets 'css/backoffice/dashboard.css' filter='cssrewrite' output='css/compiled/dashboard.css' %}
-      
-  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
 
-  {% endstylesheets %} 
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+
+  {% endstylesheets %}
 
 {% endblock %}
 
@@ -18,26 +18,26 @@
 
 	<section>
   	<section class="hbox stretch">
-    	
+
     	{% include "LilyBackOfficeBundle::menu.html.twig" %}
-    	
+
     	<section>
       	<section class="vbox">
     	    <section class="scrollable bg-light">
     		    <div class="wrapper-lg row">
-    		    
+
     		      <!-- usage graph, chat graph -->
     		      <div class="col-md-6">
       		      <section class="chat-graph-wrapper panel"></section>
       		      <section class="usage-graph-wrapper panel"></section>
     		      </div>
-              
+
               <!-- Front & activities -->
     		      <div class="col-md-6">
       		      <section class="iframe-wrapper panel"></section>
     		        <section class="logs-wrapper panel"></section>
     		      </div>
-    		      
+
             </div>
           </section>
     	  </section>
@@ -46,9 +46,9 @@
 	</section>
 
 	{% endblock %}
-	
+
 	{% block templates %}
-	
+
 		<!-- L'appel des différents scripts de vue -->
     <script type="text/template" id="usageGraphTpl">
       {% include 'LilyBackOfficeBundle:Dashboard/Usage:graph.html.twig' %}
@@ -68,7 +68,7 @@
     <script type="text/template" id="logsTpl">
       {% include 'LilyBackOfficeBundle:Dashboard/Activities:logs.html.twig' %}
     </script>
-    
+
   {% endblock %}
 
 	{% block bootstrap %}
@@ -78,11 +78,17 @@
         config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
         config.userId = '{{ app.user.id }}';
+        {% if app.environment == 'dev' %}
+        config.wsserver = 'ws://develop.saio.fr';
+        {% else %}
+        config.wsserver = 'ws://ws.saio.fr';
+        {% endif %}
+        config.licence = '{{ app.user.client.licence }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}
 
-<script src="{{ asset('js/bower_components/requirejs/require.js')}}" 
+<script src="{{ asset('js/bower_components/requirejs/require.js')}}"
   data-main="{{ asset('js/backoffice/dashboard/main.js')}}">
 </script>
 

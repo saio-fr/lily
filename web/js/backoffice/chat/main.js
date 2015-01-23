@@ -1,70 +1,21 @@
+define(['../common', 'require'], function(common, require) {
 
-require.config({
-  baseUrl: '/js',
-  paths: {
-    'jquery'		       : 'bower_components/jquery/dist/jquery',
-    'underscore'       : 'bower_components/underscore/underscore',
-    'backbone'	       : 'bower_components/backbone/backbone',
-    'backbone-nested'  : 'bower_components/backbone-nested-model/backbone-nested',
-    'wysihtml5'        : 'bower_components/wysihtml5/dist/wysihtml5-0.3.0',
-    'wysihtml5-parser' : 'utils/wysihtml5-parser',
-    'bootstrap'        : 'bower_components/bootstrap/dist/js/bootstrap',
-    'moment'           : 'bower_components/moment/moment',
-    'moment-fr'        : 'bower_components/moment/locale/fr',
-    'easypiechart'     : 'bower_components/easypie/dist/jquery.easypiechart',
-    'autobahn'	       : 'vendor/autobahn-v1',
-    'Modernizr'        : 'app/libs/modernizr-custom',
-    'when'			       : 'vendor/when',
-    'app'              : 'backoffice/app',
-    'globals'          : 'backoffice/globals',
-    'todoTpl'          : 'todo',
-  },
-  shim: {
-    'underscore': {
-      exports: '_'
-    },
-    'backbone': {
-      deps: ["underscore", "jquery"],
-      exports: 'Backbone'
-    },
-    'wysihtml5': {
-    	deps: ['wysihtml5-parser'],
-    	exports: 'wysihtml5'
-    },
-    'moment-fr': {
-      deps: ["moment"],
-    },
-    'easypiechart': {
-      deps: ["jquery"],
-    },
-    'autobahn': {
-    	deps: ['when'],
-    	exports: 'ab'
-    },
-    'bootstrap' : {
-      deps: ['jquery']
-    },
-    'Modernizr': {
-    	exports: 'Modernizr'
-    },
-    'globals' : {
-      exports: 'globals'
-    },
-    'todoTpl' : {
-      deps: ['jquery', 'bootstrap']
-    }
-  }
-});
+  'use strict';
 
-require([
+  require([
   "jquery",
   "underscore",
   "backbone",
   "autobahn",
   "when",
   "app",
+  "backoffice/chat/data/collections",
   "backoffice/chat/router",
+  'backoffice/chat/views/skeleton',
+  "components/modals/confirmView",
+  "components/modals/model",
   "backoffice/chat/views/connection/lost",
+  'backoffice/chat/utils/timers',
   "moment",
   "globals",
 
@@ -74,38 +25,61 @@ require([
   "wysihtml5",
   "todoTpl"
   // Autobahn V1 AMD broken.
-], function( $, _, Backbone, ab, when, app, ChatRouter, ConnectionLostModal, moment, globals) {
+], function($, _, Backbone, ab, when, app, Collections, ChatRouter, SkeletonView, ModalView,
+    ModalModel, ConnectionLostModal, timers, moment, globals) {
 
-  'use strict';
+    // Set locale in moment JS
+    moment.locale('fr');
 
-  // Set locale in moment JS
-  moment.locale('fr');
-  
-  var connectionLostModal = new ConnectionLostModal();
+    var connectionLostModal = new ConnectionLostModal();
 
-  app.init = function () {
-    app.router = new ChatRouter();
-	};
+    app.init = function() {
+      // app.notifs = new Notifs();
+      app.skeleton = new SkeletonView();
+      app.users = new Collections.Users();
+      app.router = new ChatRouter();
 
-	// Connect to our ws serv
-	var sess = new ab.connect(
-  	
-		globals.wsserver + '/chat/' + globals.licence, // The host
+      // Start routing
+      if (Backbone.History.started) {
+        Backbone.history.stop();
+      }
+      Backbone.history.start();
+    };
 
-	  function(session) {  // Once the connection has been established
-			app.ws = session;
-      app.init();	
-		},
+    app.createModal = function(content, callback, context) {
+      var modalModel, modalView;
 
-	  function(code, reason, detail) { // When the connection is closed
-    	$('.js-modal-connection-lost').modal('show');
-	  },
+      modalModel = new ModalModel();
+      modalModel.set(content);
 
-    { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
-			'skipSubprotocolCheck': true,
-			'maxRetries': 1000000,
-			'retryDelay': 20
-	  }
-	);
+      modalView = new ModalView({
+        model: modalModel,
+        appendEl: ".js-skeleton-container"
+      });
 
+      $('.js-modal-action').on('click', function() {
+        if (_.isFunction(callback)) {
+          callback.apply(context, arguments);
+          $('.js-modal-action').off('click');
+        }
+      });
+    };
+
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
+      app.init();
+
+      if (result.available) {
+        app.skeleton.setAvailable();
+      } else {
+        app.skeleton.setUnavailable();
+      }
+
+      // Get diff between server time and user to sync timers
+      timers.serverTime = result.time - new moment().unix();
+    };
+
+    app.wsConnect();
+
+  });
 });

@@ -1,61 +1,35 @@
+define(['../common', 'require'], function(common, require) {
 
-require.config({
-  baseUrl: '/js',
-  paths: {
-    'jquery': 'bower_components/jquery/dist/jquery',
-    'underscore': 'bower_components/underscore/underscore',
-    'backbone': 'bower_components/backbone/backbone',
-    'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
-    'dateRangePicker': 'bower_components/bootstrap-daterangepicker/daterangepicker',
-    'moment': 'bower_components/moment/moment',
-    'todoTpl': 'todo',
-    'app': 'backoffice/app'
-  },
-  shim: {
-    'underscore': {
-      exports: '_'
-    },
-    'backbone': {
-      deps: ["underscore", "jquery"],
-      exports: 'Backbone'
-    },
-    "bootstrap" : {
-      "deps": ['jquery']
-    },
-    "todoTpl" : {
-      "deps": ['jquery', 'bootstrap']
-    },
-    "dateRangePicker" : {
-      "deps": ['jquery', 'bootstrap']
-    },
-    "flot" : {
-      "deps": ['jquery']
-    },
-    "validator" : {
-      "deps": ['jquery']
-    }
-  }
-});
+  'use strict';
 
-require([
+  require([
   "jquery",
   "underscore",
   "backbone",
   "app",
-  "backoffice/globals",
+  "globals",
   "backoffice/redirection/views/skeletonView",
 
   // Libraries required at bootstrap for the UI.
   "bootstrap",
   "todoTpl",
-], function( $, _, Backbone, app, globals, SkeletonView ) {
+], function($, _, Backbone, app, globals, SkeletonView) {
 
-  'use strict';
+    $.ajaxPrefilter(function(options) {
+      options.url = globals.root + options.url;
+    });
 
-  $.ajaxPrefilter( function (options) {
-    options.url = globals.root + options.url;
+    app.init = function() {
+      app.skeleton = new SkeletonView();
+    };
+
+    // Will get called if ws connection is successful
+    app.onConnect = function(result) {
+
+    };
+
+    app.wsConnect();
+    app.init();
+    Backbone.history.start();
   });
-
-  app.skeleton = new SkeletonView();
-
 });

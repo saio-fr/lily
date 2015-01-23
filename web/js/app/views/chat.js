@@ -71,9 +71,6 @@ define(function(require) {
 
     processMessage: function(message) {
       switch (message.get("action")) {
-        case "close":
-          // Todo
-          break;
         case "inactivity":
           message.set("msg", config.inactivityMsg);
           message.set("userAction", config.inactivityAction);
@@ -170,6 +167,7 @@ define(function(require) {
       }
       // clear the search field
       this.clearInput();
+      this.writing();
     },
 
     clearInput: function() {
