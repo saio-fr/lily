@@ -16,12 +16,12 @@ define(function(require) {
 
   NotifsView = Backbone.View.extend({
 
-    className: 'chat pull-left hidden-xs',
+    className: 'chat pull-left hidden-xs js-notification',
     tagName: 'li',
     template: _.template($('#notifsItemTpl').html()),
 
     events: {
-      'click': 'remove'
+      'click': 'notifClickAction'
     },
 
     initialize: function(options) {
@@ -36,6 +36,10 @@ define(function(require) {
       this.$el.appendTo(container);
       return this;
     },
+
+    notifClickAction: function() {
+      this.trigger('notifClickAction', this);
+    }
 
   });
 

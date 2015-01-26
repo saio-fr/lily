@@ -9,6 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     _ = require('underscore'),
+    app = require('backoffice/app'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     NotifView = require('components/notifs/notifView'),
     NotifsCollection = require('components/notifs/notifsCollection'),
@@ -24,7 +25,7 @@ define(function(require) {
     template: _.template($('#notifsListTpl').html()),
 
     events: {
-      'click': 'remove'
+      'click .js-notification': 'notifClickAction'
     },
 
     initialize: function(options) {
@@ -33,8 +34,10 @@ define(function(require) {
       // Create a collection of this view notifications
       this.notifs = new NotifsCollection();
 
-      this.listenTo(this.notifs, 'add', this.addNotif);
+      this.listenTo(this.notifs, 'add', this.processNotifs);
+      this.listenTo(this.notifs, 'change:seen', this.processSeen, this);
       this.listenTo(this.model, 'change', this.render);
+      this.listenTo(app, 'add:notif', this.onNewNotif);
 
       // Create a child view container
       this.childViews = new Backbone.ChildViewContainer();
@@ -46,6 +49,23 @@ define(function(require) {
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo(container);
       return this;
+    },
+
+    onNewNotif: function(notif) {
+      this.notifs.set(notif);
+      this.model.set('count', this.notifs.length);
+    },
+
+    processNotifs: function(notifs) {
+
+    },
+
+    processSeen: function(model) {
+      // Notifications that were seen are removed from the collection
+      if (model.get('seen') === true) {
+        this.notifs.remove(model);
+      }
+      this.model.set('count', this.notifs.length);
     },
 
     addNotif: function(notif) {
