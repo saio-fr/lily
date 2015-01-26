@@ -48,10 +48,7 @@ define(function(require) {
 
     transfer: function() {
       var that = this;
-      app.trigger('operator:transfer', {
-        sid: that.visitor.get('id'),
-        operator: that.model.get('id')
-      });
+      app.trigger('operator:transfer', that.visitor.get('id'), that.model.get('id'));
       this.visitor.trigger('minus');
     }
 
