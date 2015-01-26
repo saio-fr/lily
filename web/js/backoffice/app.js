@@ -30,6 +30,7 @@ define(function(require) {
                 callback(result);
               }
               app.onConnect(result);
+              app.ping();
             }, function(err) {
               console.warn(err);
               app.trigger("status:connectionError");
@@ -66,10 +67,22 @@ define(function(require) {
 
       connect: function() {
         if (app.hasSubscribed) {
-          app.unsubscribe();
+          try {
+            app.unsubscribe();
+          } catch (e) {
+            // An error ca occur in case of connection timeout,
+            console.log(e);
+          }
         }
         app.subscribe();
         return app.ws.call('operator/connect');
+      },
+
+      ping: function() {
+        window.setInterval(function() {
+          app.ws.call("operator/ping");
+          console.log("ping");
+        }, 25000);
       },
 
       onChatOpen: function() {
