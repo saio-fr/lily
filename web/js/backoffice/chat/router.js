@@ -34,8 +34,6 @@ define(function(require) {
       app.skeleton.dashboard = new DashboardSkeletonView({
         collection: app.users
       });
-
-      this.bind("all", app.pageView());
     },
 
     live: function() {
