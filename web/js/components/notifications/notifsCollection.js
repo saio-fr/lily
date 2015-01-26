@@ -15,6 +15,8 @@ define(function(require) {
 
   FaqCollection = Backbone.Collection.extend({
     model: Models.NotifModel,
+
+    initialize: function() {},
   });
 
   return FaqCollection;
