@@ -21,6 +21,7 @@ set :shared_children,     ["vendor"]
 set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy"]
 set :use_composer, true
 set :update_vendors, true
+set :clear_controllers, false
 
 set :user, "saio"
 set :use_sudo, false
