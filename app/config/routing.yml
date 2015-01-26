@@ -8,7 +8,7 @@ home:
 
 lily_chat:
     resource: "@LilyChatBundle/Resources/config/routing.yml"
-    prefix:   /lily/chat
+    prefix:   /lily
 
 lily_knowledge:
     resource: "@LilyKnowledgeBundle/Resources/config/routing.yml"
