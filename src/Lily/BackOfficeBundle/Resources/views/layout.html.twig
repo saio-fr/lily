@@ -8,7 +8,7 @@
 
 {% block stylesheets %}
 
-{% stylesheets 
+{% stylesheets
 
   'css/vendor/bootstrap.css'
   'css/vendor/animate.css'
@@ -17,7 +17,7 @@
   'css/vendor/plugin.css'
   'css/vendor/app.css'
   'css/backoffice/main.css'
-  
+
 filter='cssrewrite' %}
 
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -38,12 +38,19 @@ filter='cssrewrite' %}
 <body>
 
   <section class="vbox">
-    
+
     {% include "LilyBackOfficeBundle::header.html.twig" %}
 
     {% block body %}{% endblock %}
 
   </section>
+
+  <script type="text/template" id="notifsItemTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_item.html.twig' %}
+  </script>
+  <script type="text/template" id="notifsListTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_list.html.twig' %}
+  </script>
 
 </body>
 </html>

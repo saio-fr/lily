@@ -19,7 +19,7 @@
   {% include "LilyBackOfficeBundle::menu.html.twig" %}
 
 	{% block content %}
-	
+
 	  <section>
   	  <section class="vbox">
     	  <header class="header menu-header bg-light">
@@ -41,8 +41,8 @@
     {% block templates %}
     {% autoescape false %}
 
-    <!-- 
-        Users 
+    <!--
+        Users
     -->
     <script type="text/template" id="userTpl">
 	  {% include 'LilyUserBundle:Admin:Users/user.html.twig' %}
@@ -59,7 +59,7 @@
     <script type="text/template" id="usersGroupsButtonTpl">
 	  {% include 'LilyUserBundle:Admin:Users/groups_button.html.twig' %}
     </script>
-    <!-- 
+    <!--
         Groups
     -->
     <script type="text/template" id="groupTpl">
@@ -85,6 +85,11 @@
       config.root = '{{ app.request.getBaseURL() }}/lily/api';
       config.licence = '{{ app.user.client.licence }}';
       config.maxusers = '{{ app.user.client.config.maxusers }}';
+      {% if app.environment == 'dev' %}
+      config.wsserver = 'ws://develop.saio.fr';
+      {% else %}
+      config.wsserver = 'ws://ws.saio.fr';
+      {% endif %}
     </script>
     {% endautoescape %}
   {% endblock %}

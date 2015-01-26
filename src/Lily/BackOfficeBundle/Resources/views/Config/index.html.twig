@@ -1,13 +1,13 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block stylesheets %} 	   
+{% block stylesheets %}
 
-{{ parent() }} 	   
+{{ parent() }}
 
-{% stylesheets 'css/backoffice/config.css' filter='cssrewrite' output='css/compiled/config.css' %}      
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+{% stylesheets 'css/backoffice/config.css' filter='cssrewrite' output='css/compiled/config.css' %}
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
-{% endstylesheets %} 
+{% endstylesheets %}
 
 {% endblock %}
 
@@ -18,17 +18,17 @@
 
     {% include "LilyBackOfficeBundle::menu.html.twig" %}
 
-    {% block content %} 	 	
-      <!-- .vbox -->      
-      <section class="js-app">     
-      
-      </section>    
+    {% block content %}
+      <!-- .vbox -->
+      <section class="js-app">
+
+      </section>
       <!-- /.vbox -->
-    {% endblock %} 
-  
-  	</section>	
-  
-  {% block templates %} 		
+    {% endblock %}
+
+  	</section>
+
+  {% block templates %}
 	<!-- L'appel des différents scripts de vue -->
 	<script type="text/template" id="skeletonTpl">
     {% include 'LilyBackOfficeBundle:Config:skeleton.html.twig' %}
@@ -44,7 +44,7 @@
   </script>
 	<script type="text/template" id="modalTpl">
     {% include 'LilyBackOfficeBundle:Config:modal.html.twig' %}
-  </script>		 
+  </script>
   {% endblock %}
 
 	{% block bootstrap %}
@@ -53,13 +53,19 @@
   	    var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
+        {% if app.environment == 'dev' %}
+        config.wsserver = 'ws://develop.saio.fr';
+        {% else %}
+        config.wsserver = 'ws://ws.saio.fr';
+        {% endif %}
+        config.licence = '{{ app.user.client.licence }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}
-	
+
 	</section>
 
-<script src="{{ asset('js/bower_components/requirejs/require.js')}}" 
+<script src="{{ asset('js/bower_components/requirejs/require.js')}}"
   data-main="{{ asset('js/backoffice/config/main.js')}}">
 </script>
 

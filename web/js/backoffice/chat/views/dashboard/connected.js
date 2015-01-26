@@ -2,31 +2,31 @@
       DASHBOARD SKELETON VIEW
 =========================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app'),
+  var _ = require('underscore'),
+    Backbone = require('backbone'),
 
-      // Object wrapper returned as a module
-      ConnectedView;
+    // Object wrapper returned as a module
+    ConnectedView;
 
   ConnectedView = Backbone.View.extend({
-  
-  	tagName: 'li',
-  	className: 'list-group-item',
+
+    tagName: 'li',
+    className: 'list-group-item',
     template: _.template($('#dashboardConnectedTpl').html()),
 
-    events: {
-    },
+    events: {},
 
     initialize: function() {
       this.render();
     },
-    
-    render: function () {
-	    this.$el.html(template(this.model.toJSON()));
+
+    render: function() {
+      this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('.js-dashboard-connected ul');
       return this;
     }
