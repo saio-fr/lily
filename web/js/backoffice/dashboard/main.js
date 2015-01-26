@@ -27,6 +27,7 @@ define(['../common', 'require'], function(common, require) {
 
     app.init = function() {
       app.skeleton = new SkeletonView();
+      app.pageView("/dashboard");
     };
 
     // Will get called if ws connection is successful

@@ -34,6 +34,8 @@ define(function(require) {
       app.skeleton.dashboard = new DashboardSkeletonView({
         collection: app.users
       });
+
+      this.bind("all", app.pageView());
     },
 
     live: function() {
@@ -55,10 +57,13 @@ define(function(require) {
           });
         }, that);
       }
+
+      app.pageView("/chat/live");
     },
 
     dashboard: function() {
       this.toggleActiveTab("dashboard");
+      app.pageView("/chat/dashboard");
     },
 
     toggleActiveTab: function(next) {

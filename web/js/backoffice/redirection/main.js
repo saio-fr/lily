@@ -21,6 +21,7 @@ define(['../common', 'require'], function(common, require) {
 
     app.init = function() {
       app.skeleton = new SkeletonView();
+      app.pageView("/redirection");
     };
 
     // Will get called if ws connection is successful

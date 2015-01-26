@@ -47,6 +47,10 @@ define(function(require) {
       'top-questions/:id': 'topQuestions'
     },
 
+    initialize: function() {
+
+    },
+
     home: function() {
 
       this.navigate('/');
@@ -82,6 +86,8 @@ define(function(require) {
       this.message = new MessageLilySimpleView({
         model: this.welcome
       }).render();
+
+      app.pageView("/avi");
     },
 
     chat: function() {
@@ -95,18 +101,24 @@ define(function(require) {
         view = new ChatView();
         utils.goTo(view);
       }
+
+      app.pageView("/chat");
     },
 
     welcomeScreen: function() {
 
       var view = new ChatWelcomeScreenView();
       utils.goTo(view);
+
+      app.pageView("/welcomScreen");
     },
 
     mail: function() {
 
       var view = new MailView();
       utils.goTo(view);
+
+      app.pageView("/mail");
     },
 
     faq: function(id) {
@@ -132,6 +144,8 @@ define(function(require) {
           trigger: true
         });
       });
+
+      app.pageView("/faq/" + id);
     },
 
     content: function(parent, id) {
@@ -163,6 +177,8 @@ define(function(require) {
           trigger: true
         });
       });
+
+      app.pageView("/faq/" + 'content/' + id);
     },
 
     topQuestions: function(id) {
@@ -212,6 +228,8 @@ define(function(require) {
             trigger: true
           });
         });
+
+      app.pageView("/topQuestions");
     },
 
   });
