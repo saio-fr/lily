@@ -14,7 +14,7 @@ use Lily\BackOfficeBundle\Controller\BaseController;
 
 class IndexController extends BaseController
 {
-    public function indexAction()
+    public function knowledgeAction()
     {
         return $this->render('LilyKnowledgeBundle::index.html.twig');
     }

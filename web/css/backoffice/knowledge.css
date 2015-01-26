@@ -1,0 +1,59 @@
+/****************************************************************************************
+    MAIN MENU
+****************************************************************************************/
+.js-app-navigator {
+  width: 200px;
+}
+
+.nav > li > a {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.nav > li > a:hover {
+  background: #e5e5e5;
+  color: #444c5c;
+}
+
+.categories-divider {
+  margin-top: 30px;
+  background: #E3E5E8;
+  padding: 10px;
+}
+
+.categories-divider span {
+  font-size: 13px;
+}
+
+.js-categories-list {
+  top: 160px !important;
+}
+
+.js-app-navigator .btn {
+  padding: 5px;
+  font-size: 11px;
+  margin-top: -4px;
+  border-radius: 3px;
+  background: #EDEFF4;
+  color: #717171;
+}
+
+.js-app-navigator .btn:hover {
+  background: #f7f9fc;
+}
+
+.btn-show-categories:hover {
+  background: #d7d7d7;
+}
+
+.js-app-navigator footer {
+  min-height: 30px;
+  padding: 10px;
+}
+
+.js-app-navigator footer  {
+  min-height: 30px;
+  padding: 10px;
+  color: #797979;
+  font-size: 11px;
+}

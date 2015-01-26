@@ -627,7 +627,7 @@ MESSAGES
 #chat-box-messages .lily-msg-chat-operator {
 	float: left;
 	margin-left: 55px;
-	margin-top: 10px;
+	margin-top: 15px;
 	border: solid 1px rgba(206, 206, 206, 0.8);
 	color: #424242;
 }
@@ -644,7 +644,7 @@ MESSAGES
   font-size: 12px;
   width: 200px;
 	text-align: center;
-	margin: 22px auto;
+	margin: 30px auto 0;
   font-style: italic;
   position: relative;
 }
@@ -661,11 +661,11 @@ MESSAGES
 }
 
 .lily-msg-server .lily-msg-server-title:before {
-	left: -40px;
+	left: -30px;
 }
 
 .lily-msg-server .lily-msg-server-title:after {
-	right: -40px;
+	right: -30px;
 }
 
 .lily-msg-server-action {
@@ -1289,6 +1289,8 @@ CONTACT FORM
 .lily-contact-form p {
     margin-top: 10px;
     margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 /*******************

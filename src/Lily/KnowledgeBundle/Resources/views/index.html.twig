@@ -5,7 +5,7 @@
 
   {{ parent() }}
 
-  {% stylesheets 'css/backoffice/questions.css'
+  {% stylesheets 'css/backoffice/knowledge.css'
      filter='cssrewrite'
      output='css/compiled/questions.css' %}
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -22,22 +22,45 @@
 
 	{% block content %}
     <!-- .aside -->
-    <aside class="js-app-navigator aside left-side-menu bg-dark">
-      <section class="vbox content-left-side-menu">
-        <section>
-          <section>
-            <section id="questions-nav" class="hidden-xs">
-              <!--
-                Here goes our questions menu
-              -->
-              <ul class="js-questions-counter nav nav-stacked no-radius"></ul>
-              <!--
-                Here goes questions' categories
-              -->
-              <div class="js-categories-container"></div>
-            </section>
-          </section>
+    <aside class="js-app-navigator bg-light">
+      <section class="vbox">
+        <header class="nav-bar">
+          <ul class="nav nav-pills nav-stacked no-radius">
+            <li class="questions-nav">
+              <a href="#questions">
+                <span class="badge pull-right">15</span> 
+                Questions
+              </a>
+            </li>
+            <li class="files-nav">
+              <a href="#files">
+                <span class="badge pull-right">15</span> 
+                Fichiers
+              </a>
+            </li>
+            <li class="links-nav">
+              <a href="#links">
+                <span class="badge pull-right">15</span> 
+                Liens
+              </a>
+            </li>
+            <li class="categories-divider">
+              <span>Categories</span>
+              <button class="btn pull-right">Modifier</button>
+            </li>
+          </ul>
+        </header>
+        <section class="js-categories-list scrollable">
+          <ul class="nav nav-pills nav-stacked no-radius">
+            <!--
+              Here goes questions' categories
+            -->
+          </ul>
         </section>
+        <footer class="footer b-t">
+          <button class="btn">Tout afficher</button>
+          <button class="btn pull-right">Tout masquer</button>
+        </footer>
       </section>
     </aside>
     <!-- /.aside -->
@@ -61,7 +84,7 @@
 	{% block templates %}
 		<!-- L'appel des différents scripts de vue -->
 		<script type="text/template" id="questionsSkeletonTpl">
-      {% include 'LilyKnowledgeBundle:Knowledge/Questions:skeleton.html.twig' %}
+      {% include 'LilyKnowledgeBundle:Questions:skeleton.html.twig' %}
     </script>
   {% endblock %}
 
@@ -70,6 +93,11 @@
       <script type="text/javascript">
         var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api';
+        {% if app.environment == 'dev' %}
+        config.wsserver = 'ws://develop.saio.fr';
+        {% else %}
+        config.wsserver = 'ws://ws.saio.fr';
+        {% endif %}
 	    </script>
     {% endautoescape %}
 	{% endblock %}
