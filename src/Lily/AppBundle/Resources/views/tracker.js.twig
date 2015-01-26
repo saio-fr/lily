@@ -240,22 +240,22 @@
       this.lilyIframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
       this.iframeHost = this.getIframeHost();
       // Create iframe if not mobile
-      if (isMobile.phone) {
-        this.showWidget();
-      } else {
+      //if (isMobile.phone) {
+      //  this.showWidget();
+      //} else {
         this.appendIframe();
         this.iframe = document.getElementById('lilyApp').contentWindow;
         // Listen to messages comming from Iframe:
         window.addEventListener("message", this.events.receiveFromIframe, false);
         // Bind UI Events :
+        // The app has loaded all scripts, styles and markup
         $widget.addEventListener("click",function() {
           self.onWidgetClick.apply(self, arguments);
         },false);
-        // The app has loaded all scripts, styles and markup
         $iframe.addEventListener("load",function() {
           self.onIframeLoad.apply(self, arguments);
         },false);
-      }
+      //}
     };
 
     this.onIframeLoad = function() {
@@ -322,7 +322,8 @@
     };
 
     this.openMobileWindow = function() {
-      window.location = this.lilyIframeSrc;
+      var win = window.open(this.lilyIframeSrc, '_blank');
+      win.focus();
     };
 
     this.getIframeHost = function() {
