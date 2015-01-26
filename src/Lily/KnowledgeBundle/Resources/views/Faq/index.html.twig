@@ -15,17 +15,17 @@
 
 <section>
   <section class="hbox stretch">
-  
+
   {% include "LilyBackOfficeBundle::menu.html.twig" %}
-  
+
     {% block content %}
       <!-- .vbox -->
     <section class="js-app">
       <section class="hbox stretch">
-  
+
         <aside class="bg-white">
   	      <section class="js-module-body vbox scrollable padder-b">
-  
+
             <!-- Header: holds the breadcrumbs -->
   	        <header class="js-breadcrumbs-container header clearfix padder-t b-b">
               <!--
@@ -33,14 +33,14 @@
                 will render as a <ul class="breadcrumb m-n">
               -->
             </header>
-  
-            <!-- 
+
+            <!--
               Main section: contains the faq category and contents
               + "add" buttons + edit view
             -->
             <section>
               <section class="js-main-container hbox stretch">
-  
+
                 <aside>
                   <section class="vbox">
                     <section class="js-faq-container bg-light wrapper scrollable">
@@ -64,13 +64,13 @@
                 -->
               </section>
             </section>
-  
+
           </section>
         </aside>
       </section>
     </section>
     {% endblock %}
-  
+
   </section>
 </section>
 
@@ -101,6 +101,12 @@
   <script type="text/javascript">
     var config = {};
     config.root = '{{ app.request.getBaseURL() }}/lily/api';
+    {% if app.environment == 'dev' %}
+    config.wsserver = 'ws://develop.saio.fr';
+    {% else %}
+    config.wsserver = 'ws://ws.saio.fr';
+    {% endif %}
+    config.licence = '{{ app.user.client.licence }}';
   </script>
 
   {% endautoescape %}
