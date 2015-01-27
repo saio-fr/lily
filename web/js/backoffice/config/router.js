@@ -2,7 +2,7 @@
          	ROUTER
 ========================== */
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
@@ -24,38 +24,45 @@ define(function (require) {
   AppRouter = Backbone.Router.extend({
 
     routes: {
-      '' : 'home',
-      '*path' : 'home'
+      '': 'home',
+      '*path': 'home'
     },
 
-    initialize: function () {
-	  
-	    var configModel = new ConfigModel();
-	  
-      configModel.fetch().success(function() {
-	    
-	      var skeleton = new SkeletonView({ model: configModel });
-        app.skeleton = skeleton;
-	    
-        skeleton.globalView = new GlobalView({ model: configModel });
-        
-        if (globals.client.avi) 
-        skeleton.aviView = new AviView({ model: configModel });
-         
-        if (globals.client.chat) 
-        skeleton.chatView = new ChatView({ model: configModel });
-        
-        skeleton.modalView = new ModalView();
-	    
-	    });
+    initialize: function() {
 
+      var configModel = new ConfigModel();
+
+      configModel.fetch().success(function() {
+
+        var skeleton = new SkeletonView({
+          model: configModel
+        });
+        app.skeleton = skeleton;
+
+        skeleton.globalView = new GlobalView({
+          model: configModel
+        });
+
+        if (globals.client.avi)
+          skeleton.aviView = new AviView({
+            model: configModel
+          });
+
+        if (globals.client.chat)
+          skeleton.chatView = new ChatView({
+            model: configModel
+          });
+
+        skeleton.modalView = new ModalView();
+      });
+      app.pageView("/config");
+      // TODO: same as profile: route tabs and track page
     },
 
     home: function() {
-      // todo: Adding more logic to the router (sort based on url...)      
+      // todo: Adding more logic to the router (sort based on url...)
     }
-    
-  });
-  return AppRouter;  
-});
 
+  });
+  return AppRouter;
+});

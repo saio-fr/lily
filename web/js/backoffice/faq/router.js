@@ -38,6 +38,7 @@ define(function(require) {
 
     category: function(id) {
       this.showView(id);
+      app.pageView("/faq/" + id || "");
     },
 
     showView: function(id) {
