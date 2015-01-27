@@ -159,6 +159,39 @@ define(function(require) {
         }
       },
 
+      ////////////////////
+      //    GA Utils
+      ////////////////////
+
+      pageView: function(page) {
+        var url = page || Backbone.history.fragment;
+        if (_.isFunction(window.ga)) {
+          ga('send', 'pageview', {
+            'page': url,
+            'title': config.licence
+          });
+        }
+      },
+
+      track: function(event, options, value) {
+        var category = config.licence,
+          action = event,
+          label = tostring(options);
+        if (_.isFunction(window.ga)) {
+          ga('send', 'event', category, action, label, value);
+        }
+
+        function tostring(obj) {
+          var str = '';
+          for (var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+              str += p + '::' + obj[p] + '\n';
+            }
+          }
+        }
+
+      },
+
       ///////////////////
       //
       ///////////////////
