@@ -17,7 +17,10 @@
 		<p class="lily-contact-form-label">Email: <label class="email" style="display:none">Ce champ ne peut pas être vide.</label></p>
 	    <input id="email" class="lily-cst-form-color" type="text" name="email" placeholder="Votre Email" size="30"/>
 	    {% endif %}
-		<button class="lily-btn-submit-color" class="button">Commencer la discussion</button>
+		<button class="js-submit-welcome-form lily-btn-submit-color" class="button">Commencer la discussion</button>
+		{% if config.chat.contactFormAvoidable %}
+			<a href="javascript:;" class="lily-skip-link">Aller directement au chat</a>
+	  {% endif %}
 	  </div>
 	</section>
 </div>
