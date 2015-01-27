@@ -133,10 +133,12 @@ define(function(require) {
       onSetUnAvailable: function() {
         app.ws.call('operator/unavailable');
         app.available = false;
-        app.router.navigate('dashboard', {
-          trigger: true,
-          replace: true
-        });
+        if (app.router) {
+          app.router.navigate('dashboard', {
+            trigger: true,
+            replace: true
+          });
+        }
       },
 
       onSetOperator: function(id) {

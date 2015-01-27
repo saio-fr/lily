@@ -27,6 +27,12 @@ define(function(require) {
 
     initialize: function() {
       this.render();
+
+      if (app.available) {
+        this.setAvailable();
+      } else {
+        this.setUnavailable();
+      }
     },
 
     render: function() {

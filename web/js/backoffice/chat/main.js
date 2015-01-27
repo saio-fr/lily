@@ -35,6 +35,7 @@ define(['../common', 'require'], function(common, require) {
 
     app.init = function() {
       // app.notifs = new Notifs();
+      app.skeleton = new SkeletonView();
       app.users = new Collections.Users();
       app.router = new ChatRouter();
 
@@ -67,14 +68,7 @@ define(['../common', 'require'], function(common, require) {
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
 
-      app.skeleton = new SkeletonView();
-
-      if (result.available) {
-        app.skeleton.setAvailable();
-      } else {
-        app.skeleton.setUnavailable();
-      }
-
+      app.available = !!result.available;
       app.init();
 
       // Get diff between server time and user to sync timers
