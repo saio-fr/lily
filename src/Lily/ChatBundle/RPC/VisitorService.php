@@ -25,14 +25,17 @@ class VisitorService {
             if ($item->id === $conn->Session->getId()) {
               
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
+                
+                $result = array(
+                    'display' => $item->display, 
+                    'chatting' => !$item->closed, 
+                    'showContactForm' => $item->showContactForm,
+                    'time' => time()
+                ); 
+                
+                return $result;
             }
         }
-        
-        return array(
-          'display' => $item->display, 
-          'chatting' => !$item->closed, 
-          'showContactForm' => $item->showContactForm
-        );
     }
 
     /**
@@ -127,6 +130,7 @@ class VisitorService {
                         'avatar' => $availables[$key]->avatar);
 
                     $item->operator = $availables[$key]->id;
+                    $item->operators[] = $availables[$key]->id;
                     $item->startChatTime = time();
                     $item->received += 1;
                     $item->messages[] = array(

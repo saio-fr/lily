@@ -13,12 +13,12 @@ lily_redirections:
 lily_categories_api:
     resource: "@LilyKnowledgeBundle/Controller/CategoriesController.php"
     type:     rest
-    prefix:   /api/questions/categories
+    prefix:   /api/questions
 
 lily_tags_api:
     resource: "@LilyKnowledgeBundle/Controller/TagsController.php"
     type:     rest
-    prefix:   /api/questions/tags
+    prefix:   /api/questions
 
 lily_faq_api:
     resource: "@LilyKnowledgeBundle/Controller/FaqController.php"
@@ -28,7 +28,7 @@ lily_faq_api:
 lily_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/QuestionsController.php"
     type:     rest
-    prefix:   /api/questions
+    prefix:   /api
 
 lily_redirections_api:
     resource: "@LilyKnowledgeBundle/Controller/RedirectionsController.php"
@@ -43,4 +43,4 @@ lily_unsanswered_questions_api:
 lily_personal_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/PersonalQuestionsController.php"
     type:     rest
-    prefix:   /api/questions/personal
+    prefix:   /api/questions

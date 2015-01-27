@@ -2,48 +2,49 @@
     Router
   =========================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      app = require('app'),
-      globals = require('backoffice/globals'),
-      SkeletonView = require('backoffice/faq/views/skeletonView'),
-      FaqCollectionView = require('backoffice/faq/views/faqCollectionView'),
-      BreadcrumbCollectionView = require('backoffice/faq/views/breadcrumbCollectionView'),
-      BreadcrumbCollection = require('backoffice/faq/collections/breadcrumbCollection'),
-      FaqCollection = require('backoffice/faq/collections/faqCollection'),
-      ModalView = require('components/modals/alertView'),
-      ModalModel = require('components/modals/model'),
+    app = require('app'),
+    globals = require('globals'),
+    SkeletonView = require('backoffice/faq/views/skeletonView'),
+    FaqCollectionView = require('backoffice/faq/views/faqCollectionView'),
+    BreadcrumbCollectionView = require('backoffice/faq/views/breadcrumbCollectionView'),
+    BreadcrumbCollection = require('backoffice/faq/collections/breadcrumbCollection'),
+    FaqCollection = require('backoffice/faq/collections/faqCollection'),
+    ModalView = require('components/modals/alertView'),
+    ModalModel = require('components/modals/model'),
 
 
-      // Object wrapper returned as a module
-      AppRouter;
+    // Object wrapper returned as a module
+    AppRouter;
 
   AppRouter = Backbone.Router.extend({
 
     routes: {
-      "" : "category",
-      "category/:id" : "category",
+      "": "category",
+      "category/:id": "category",
     },
 
-    initialize: function () {
+    initialize: function() {
 
       app.skeleton = new SkeletonView();
       app.skeleton.faqCollection = new FaqCollection();
       app.skeleton.breadcrumbs = new BreadcrumbCollection();
     },
 
-    category: function (id) {
+    category: function(id) {
       this.showView(id);
+      app.pageView("/faq/" + id || "");
     },
 
-    showView: function (id) {
+    showView: function(id) {
 
       var self = this;
-      id = id  || null;
+      id = id || null;
 
       if (app.skeleton.faqCollectionView) {
         app.skeleton.faqCollectionView.closeChildren();
@@ -70,8 +71,11 @@ define(function (require) {
             });
 
           fetchItems();
-        }, error: function (model, err) {
-          app.router.navigate('/', {trigger: true});
+        },
+        error: function(model, err) {
+          app.router.navigate('/', {
+            trigger: true
+          });
           if (err.status === 404) {
             self.notFound();
           }
@@ -79,7 +83,7 @@ define(function (require) {
       });
 
       // Fetch faq models and init view.
-      function fetchItems () {
+      function fetchItems() {
         app.skeleton.faqCollection.fetch({
           reset: true,
           success: function() {
@@ -92,7 +96,7 @@ define(function (require) {
       }
     },
 
-    notFound: function () {
+    notFound: function() {
       // Show modal with error:
       var modalModel = new ModalModel(globals.modalAlert.faq);
 

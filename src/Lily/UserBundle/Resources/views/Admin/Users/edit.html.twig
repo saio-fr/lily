@@ -38,18 +38,32 @@
               <p class="help-block hidden"></p>
   					</div>
   					
-  					<div class="form-group">
+  					<div class="form-group form-roles">
     					<label>Droits d'accès</label>
-    					<div class="btn-group btn-roles">
-                <button data-toggle="dropdown" class="btn btn-sm btn-white dropdown-toggle">
-                  <span class="dropdown-label text-left" data-placeholder="Droits d'accès"></span> 
-                </button>
-                <ul class="dropdown-menu dropdown-select">
-                  <li><a name="admin" href="#"><input type="checkbox">Administrateur</a></li>
-                  <li><a name="chat" href="#"><input type="checkbox">Live Chat</a></li>
-                  <li><a name="knowledge" href="#"><input type="checkbox">Base de connaissance</a></li>
-                </ul>
-    					</div>
+    					<p class="help-block hidden"></p>
+    					<div class="checkbox">
+                <label>
+                  <input type="checkbox" name="roles" id="admin"
+                  <% if (roles.indexOf('ROLE_ADMIN') !== -1) { %> checked <% } %> >
+                  Administrateur
+                </label>
+              </div>
+              {% if app.user.client.config.chat %}
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="roles" id="chat"
+                  <% if (roles.indexOf('ROLE_CHAT_OPERATOR') !== -1) { %> checked <% } %> >
+                  Opérateur live chat
+                </label>
+              </div>
+              {% endif %}
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="roles" id="knowledge"
+                  <% if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) { %> checked <% } %>>
+                  Opérateur base de connaissances
+                </label>
+              </div>
   					</div>
   					
             <div class="form-group">

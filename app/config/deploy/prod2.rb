@@ -5,7 +5,7 @@ set :app_path,    "app"
 
 set :repository,  "git@github.com:saio-fr/lily.git"
 set :scm,         :git
-set :branch,      "develop"
+set :branch,      "master"
 
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
 
@@ -18,7 +18,7 @@ role :app,        domain, :primary => true       # This may be the same as your 
 set :keep_releases,  3
 set :shared_files,      ["app/config/parameters.yml"]
 set :shared_children,     ["vendor"]
-set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy/deploy.rb", "config/deploy/prod1.rb", "config/deploy/prod2.rb"]
+set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy"]
 set :use_composer, true
 set :update_vendors, true
 
@@ -33,6 +33,9 @@ after "deploy" do
 
   # dump assets (if using assetic)
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
+  
+  # update bower components
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
   
 end
 

@@ -16,30 +16,63 @@
 <section>
   <section class="hbox stretch">
 
-  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+  {% include "LilyBackOfficeBundle::menu.html.twig" %}
 
 	{% block content %}
-    <!-- .vbox -->
-    <section id="wrapper" class="vbox scrollable padder-b">
-    </section>
+
+	  <section>
+  	  <section class="vbox">
+    	  <header class="header menu-header bg-light">
+          <ul class="nav nav-tabs nav-tabs-wrapper">
+            <li class="users-nav active"><a href="#">Utilisateurs</a></li>
+            <li class="groups-nav"><a href="#groups">Groupes</a></li>
+          </ul>
+        </header>
+        <section>
+          <section class="js-users-container hbox stretch"></section>
+          <section class="js-groups-container hbox stretch" tabindex="-1"></section>
+        </section>
+  	  </section>
+	  </section>
+
 	{% endblock %}
 
 
     {% block templates %}
     {% autoescape false %}
 
-    <!-- include of templates -->
+    <!--
+        Users
+    -->
     <script type="text/template" id="userTpl">
 	  {% include 'LilyUserBundle:Admin:Users/user.html.twig' %}
     </script>
-    <script type="text/template" id="editTpl">
+    <script type="text/template" id="usersEditTpl">
     {% include 'LilyUserBundle:Admin:Users/edit.html.twig' %}
     </script>
-    <script type="text/template" id="skeletonTpl">
+    <script type="text/template" id="usersSkeletonTpl">
 	  {% include 'LilyUserBundle:Admin:Users/skeleton.html.twig' %}
     </script>
-    <script type="text/template" id="modalTpl">
+    <script type="text/template" id="usersModalTpl">
 	  {% include 'LilyUserBundle:Admin:Users/modal.html.twig' %}
+    </script>
+    <script type="text/template" id="usersGroupsButtonTpl">
+	  {% include 'LilyUserBundle:Admin:Users/groups_button.html.twig' %}
+    </script>
+    <!--
+        Groups
+    -->
+    <script type="text/template" id="groupTpl">
+	  {% include 'LilyUserBundle:Admin:Groups/group.html.twig' %}
+    </script>
+    <script type="text/template" id="groupsEditTpl">
+    {% include 'LilyUserBundle:Admin:Groups/edit.html.twig' %}
+    </script>
+    <script type="text/template" id="groupsSkeletonTpl">
+	  {% include 'LilyUserBundle:Admin:Groups/skeleton.html.twig' %}
+    </script>
+    <script type="text/template" id="groupsModalTpl">
+	  {% include 'LilyUserBundle:Admin:Groups/modal.html.twig' %}
     </script>
 
   {% endautoescape %}
@@ -52,6 +85,11 @@
       config.root = '{{ app.request.getBaseURL() }}/lily/api';
       config.licence = '{{ app.user.client.licence }}';
       config.maxusers = '{{ app.user.client.config.maxusers }}';
+      {% if app.environment == 'dev' %}
+      config.wsserver = 'ws://develop.saio.fr';
+      {% else %}
+      config.wsserver = 'ws://ws.saio.fr';
+      {% endif %}
     </script>
     {% endautoescape %}
   {% endblock %}

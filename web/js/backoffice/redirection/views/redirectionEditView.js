@@ -26,6 +26,7 @@ define(function (require) {
     events: {
       'click .button-update': 'update',
       'click .button-cancel': 'cancel',
+      'keypress' : 'updateOnEnter'
     },
 
     initialize: function () {
@@ -57,6 +58,13 @@ define(function (require) {
 
       this.hide();
       this.remove();
+    },
+    
+    updateOnEnter: function (e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        this.update();
+      }
     },
 
     hide: function () {

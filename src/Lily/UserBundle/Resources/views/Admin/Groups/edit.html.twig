@@ -1,0 +1,30 @@
+	<section class="scrollable">
+		<div class="wrapper">
+			<div class="clearfix m-b-xlg">
+				<div class="clear">
+					<h5>
+						<% if(name) { %>
+							Modifier un groupe
+						<% } else { %>
+							Ajouter un groupe
+						<% } %>
+					</h5> 
+					<form class="group-editor m-t">
+            
+            <div class="form-group form-roles">
+              <label>Nom</label>
+              <input type="text" name="name" class="form-control input-sm" value="<%= name %>">
+              <p class="help-block hidden"></p>
+  					</div>
+  					  					
+          </form>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<footer class="dk footer text-center">
+		<button class="btn btn-sm btn-success button-update">Sauvegarder</button>
+		<button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
+	</footer>
+	

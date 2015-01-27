@@ -8,7 +8,7 @@ use Ratchet\ConnectionInterface as Conn;
 
 class OperatorTopic implements TopicInterface
 {
-	protected $container;
+	  protected $container;
 	
     public function setContainer($container)
     {
@@ -38,19 +38,23 @@ class OperatorTopic implements TopicInterface
         
     	  // Test if opeartor is already connected
         foreach ($users as $item) {
-            if ($item->id === $conn->User->getId() && $item->type === 'operator') { 
+            if ($item->id === $conn->User->getId() && $item->type === 'operator') {
+                $item->lastPing = time();
+                $item->conn = $conn; 
 				        return;
 			      }
 		    }
 		
     	  $operator = new \StdClass;
         $operator->id = $conn->User->getId();
+        $operator->conn = $conn;
+        $operator->lastPing = time();
+        $operator->type = 'operator';
         $operator->welcome = $conn->User->getConfig()->getWelcomeMsg();
         $operator->avatar = $conn->User->getConfig()->getAvatar();
         $operator->firstname = $conn->User->getFirstname();
         $operator->lastname = $conn->User->getLastname();
-        // $operator->services = $conn->User->getServices();
-        $operator->type = 'operator';
+        $operator->groups = $conn->User->getGroupNames();
         $operator->messages = array();
         $operator->available = false;
         $operator->chats = 0;
@@ -68,6 +72,10 @@ class OperatorTopic implements TopicInterface
      */
     public function onUnSubscribe(Conn $conn, $topic, $users)
     {
+      
+        // Security check
+        if (!isset($conn->User)) { return; }
+        
     	  foreach ($users as $item) {
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
 				        $users->detach($item);

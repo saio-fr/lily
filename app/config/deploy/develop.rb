@@ -16,11 +16,12 @@ role :web,        domain                         # Your HTTP server, Apache/etc
 role :app,        domain, :primary => true       # This may be the same as your `Web` server
 
 set :keep_releases,  3
-set :shared_files,      ["app/config/parameters.yml"]
+set :shared_files,      ["app/config/parameters.yml", "app/config/parameters_dev.yml"]
 set :shared_children,     ["vendor"]
-set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy/deploy.rb", "config/deploy/prod1.rb", "config/deploy/prod2.rb"]
+set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy"]
 set :use_composer, true
 set :update_vendors, true
+set :clear_controllers, false
 
 set :user, "saio"
 set :use_sudo, false
@@ -29,16 +30,19 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console cache:clear"
+  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console cache:clear --env=prod"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console assetic:dump"
+  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console assetic:dump --env=prod"
+  
+  # update bower components
+  run "cd /var/www/vhosts/saio.fr/#{domain}/current && bower update"
   
 end
 
 task :upload_parameters do
-  origin_file = "app/config/parameters.yml"
-  destination_file = shared_path + "/app/config/parameters.yml" # Notice the
+  origin_file = "app/config/parameters_dev.yml"
+  destination_file = shared_path + "/app/config/parameters_dev.yml" # Notice the
   shared_path
 
   try_sudo "mkdir -p #{File.dirname(destination_file)}"

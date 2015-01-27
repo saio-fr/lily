@@ -5,7 +5,7 @@
 FONTS
 *********************/
 
-@import url("http://fonts.googleapis.com/css?family=Open+Sans: 200,400,300,600");
+@import url("http://fonts.googleapis.com/css?family=Open+Sans: 300,600");
 @import url(http://fonts.googleapis.com/css?family=Roboto:300,100);
 
 @font-face {
@@ -32,6 +32,14 @@ FONTS
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.lily-icon-refresh {
+	height: 1em;
+	vertical-align: text-top;
+	margin-right: 3px;
+	stroke: rgba(206, 206, 206, 0.28);
+	opacity: .94;
+}
+
 /*Avatar icons*/
 .lily-icon-search:before {
 	content: "\e601";
@@ -45,16 +53,6 @@ FONTS
 .lily-icon-parameters:before {
 	content: "\e603";
 }
-.lily-icon-reduce:before {
-	content: "\e604";
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	text-align: center;
-	line-height: 40px;
-	vertical-align: middle;
-	font-size: 3px;
-}
 .lily-icon-avatar:before {
 	content: "\e609";
 	font-size: 16px;
@@ -66,7 +64,7 @@ FONTS
 }
 .lily-icon-phone:before {
 	content: "\e602";
-	font-size: 18px;
+	font-size: 15px;
 }
 .lily-icon-smartphone:before {
 	content: "\f10b";
@@ -242,6 +240,10 @@ body{
 	color: #fff;
 	background: #fff;
 	-webkit-user-select: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
 }
 
 * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
@@ -437,7 +439,7 @@ HEADER
 	text-transform: uppercase;
 	vertical-align: top;
 	letter-spacing: 1px;
-	font-weight: 500;
+	font-weight: 600;
 	outline: none;
 	position: relative;
 	height: 40px;
@@ -524,6 +526,10 @@ HEADER
 	font-family: 'Open Sans', sans-serif;
 }
 
+.placeholder {
+	color: #777;
+}
+
 .lily-search-input:active,
 .lily-search-input:focus{
 	opacity: 0.95;
@@ -532,10 +538,11 @@ HEADER
 	outline: none;
 }
 
-.lily-search-input::-webkit-input-placeholder {color: #fff;}
-.lily-search-input:-moz-placeholder {color: #fff;}
-.lily-search-input::-moz-placeholder {color: #fff;}
-.lily-search-input:ms-input-placeholder {color: #fff;}
+:-moz-placeholder {color: #575757;}
+::-moz-placeholder {color: #575757;}
+:ms-input-placeholder {color: #575757;}
+::-webkit-input-placeholder {color: #575757;}
+
 
 .lily-search-submit{
 	border: none;
@@ -619,8 +626,59 @@ MESSAGES
 
 #chat-box-messages .lily-msg-chat-operator {
 	float: left;
-	margin-left: 70px;
+	margin-left: 55px;
 	margin-top: 15px;
+	border: solid 1px rgba(206, 206, 206, 0.8);
+	color: #424242;
+}
+
+#chat-box-messages .lily-msg-server {
+	display: block;
+  clear: both;
+  padding: 1px;
+  color: #424242;
+}
+
+.lily-msg-server-title {
+  color: #575757;
+  font-size: 12px;
+  width: 200px;
+	text-align: center;
+	margin: 30px auto 0;
+  font-style: italic;
+  position: relative;
+}
+
+.lily-msg-server .lily-msg-server-title:before ,
+.lily-msg-server .lily-msg-server-title:after {
+	content: '';
+	display: block;
+	height: 1px;
+	width: 33px;
+	background: #575757;
+	position: absolute;
+	top: .7em;
+}
+
+.lily-msg-server .lily-msg-server-title:before {
+	left: -30px;
+}
+
+.lily-msg-server .lily-msg-server-title:after {
+	right: -30px;
+}
+
+.lily-msg-server-action {
+	-webkit-appearance: none;
+	border: solid 1px #575757;
+	background-color: #fff;
+	border-radius: 3px;
+	vertical-align: middle;
+	line-height: 1em;
+	font-size: 12px;
+	padding: 3px 5px;
+	margin: 10px auto;
+	display: block;
 }
 
 #chat-box-messages .lily-msg-chat-wait {
@@ -629,16 +687,22 @@ MESSAGES
 
 #chat-box-messages .lily-msg-chat-operator-info {
 	position: absolute;
-	left: -70px;
+	left: -65px;
 	top: 0;
 	text-align: center;
+}
+
+#chat-box-messages .thumb-sm.avatar {
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
 }
 
 #chat-box-messages .lily-msg-chat-operator-info p {
 	width: 60px;
 	font-size: 9px;
 	color: #b8b8b8;
-	text-align:center;
+	text-align: center;
 	line-height: 10px;
 	margin-top: 3px;
 }
@@ -668,12 +732,22 @@ MESSAGES
 
 #lily-box-messages .lily-msg-user:before,
 #chat-box-messages .lily-msg-chat-visitor:before {
-	content: "";
+/*	content: "";
 	position: absolute;
 	bottom: -10px;
 	right: 10px;
 	border-width: 10px 0 0 10px;
 	border-style: solid;
+	display: block;
+	width: 0;*/
+
+	content: "";
+	position: absolute;
+	bottom: -8px;
+	right: 9.8px;
+	border-width: 8.1px 0 0 9.1px;
+	border-style: solid;
+	border-color: rgba(255, 255, 255, 0.97) rgba(255, 255, 255, 0);
 	display: block;
 	width: 0;
 }
@@ -682,8 +756,8 @@ MESSAGES
 #chat-box-messages .lily-msg-chat-visitor:after {
 	content: "";
 	position: absolute;
-	bottom: -8px;
-	right: 11px;
+	bottom: -7px;
+	right: 11.5px;
 	border-width: 8px 0 0 8px;
 	border-style: solid;
 	border-color: white transparent;
@@ -750,19 +824,20 @@ MESSAGES
 	margin-bottom: 25px;
 }
 
-#lily-chat-notation-wrapper{
+#lily-chat-notation-wrapper {
 	position: relative;
 	z-index: 4;
-	background: #fcfcfc;
+	background: rgba(255, 255, 255, 1);
 	width: 100%;
 	text-align: right;
 	margin-right: 15px;
-	height: 45px;
+	height: 40px;
+	box-shadow: 0px 2px 6px 0px rgba(155, 155, 155, 0.38);
 }
 
 #lily-chat-notation-wrapper p{
 	display: inline-block;
-	color: #747172;
+	color: #373737;;
 	font-size: 11px;
 }
 
@@ -774,19 +849,22 @@ MESSAGES
 	-webkit-user-select: none;
 	-webkit-user-drag: none;
 	margin-top: 10px;
-	margin-left: 7px;
+	margin-left: 11px;
 }
 
-#lily-chat-notation-wrapper .lily-icon-thumb-up:before{
-	font-size: 16px !important;
+#lily-chat-notation-wrapper .lily-icon-thumb-up:before {
+font-size: 12px !important;
 }
+
+#lily-chat-notation-wrapper .lily-icon-thumb-down:before {
+font-size: 12px !important;
+margin-right: 15px !important;
+}
+
 .lily-icon-thumb-up.active {
 	color: #747474;
 }
-#lily-chat-notation-wrapper .lily-icon-thumb-down:before{
-	font-size: 16px !important;
-	margin-right: 12px !important;
-}
+
 .lily-icon-thumb-down.active {
 	color: #747474;
 }
@@ -949,7 +1027,7 @@ THEMATIQUE
 	position: relative;
 	display: inline-block;
 	width: 100%;
-	height: 45px;
+	height: 51px;
 	vertical-align: middle;
 	padding-right: 40px;
 	line-height: 50px;
@@ -963,9 +1041,8 @@ THEMATIQUE
 }
 
 .lily-wrapper-faq-content{
-	color: #5E5E5E;
 	margin: 20px 15px;
-	border-bottom: solid 1px #c0C0C0;
+	border-bottom: solid 1px #efefef;
 	padding-bottom: 20px;
 }
 
@@ -1061,7 +1138,7 @@ MENU
 #lily-toolbar-name{
 	text-align: left;
 	margin-left: 10px;
-	font-size: 17px;
+	font-size: 16px;
 }
 
 #lily-toolbar-icons{
@@ -1070,8 +1147,10 @@ MENU
 	right: 0;
 	top: 0;
 	height: 40px;
+	width: 40px;
 	cursor: hand;
 	cursor: pointer;
+	text-align: center;
 }
 
 
@@ -1136,18 +1215,17 @@ SNAP.JS
 CONTACT FORM
 *******************/
 
-.lily-contact-form h5{
-	color: #404040;
-	font-weight: 400;
-	font-size: 15px;
+.lily-contact-form .lily-contact-form-label {
+	margin-top: 17px;
+	margin-bottom: 11px;
+	font-size: 12px;
+	font-weight: 600;
 }
 
-.lily-contact-form p{
-	color: #404040;
-	margin-top: 12px;
-	margin-bottom: 10px;
-	font-size: 13px;
-	font-weight: 600;
+.lily-contact-form .lily-contact-form-title {
+	font-size: 14px;
+	line-height: 20px;
+	margin: 20px auto 15px;
 }
 
 .lily-contact-form {
@@ -1158,6 +1236,7 @@ CONTACT FORM
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	color: #404040;
 }
 
 .lily-contact-form input,
@@ -1203,8 +1282,15 @@ CONTACT FORM
 	text-align: center;
 	line-height: 40px;
 	margin-top: 15px;
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 	outline: 0;
+}
+
+.lily-contact-form p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 /*******************
@@ -1340,7 +1426,6 @@ USEFUL
 ANIMATIONS
 *******************/
 
-
 .lily-message-show{
 	-webkit-animation: showFromBottom .3s ease both;
 	-moz-animation: showFromBottom .3s ease both;
@@ -1369,6 +1454,22 @@ ANIMATIONS
 	-webkit-animation: moveFromRight .5s ease both;
 	-moz-animation: moveFromRight .6s ease both;
 	animation: moveFromRight .6s ease both;
+}
+
+.lily-async-action {
+	-webkit-animation: halfFade .3s ease both;
+	-moz-animation: halfFade .3s ease both;
+	animation: halfFade .3s ease both;
+}
+
+@-webkit-keyframes halfFade {
+	to { opacity: 0.5; }
+}
+@-moz-keyframes halfFade {
+	to { opacity: 0.5; }
+}
+@keyframes halfFade {
+	to { opacity: 0.5; }
 }
 
 @-webkit-keyframes showFromBottom {

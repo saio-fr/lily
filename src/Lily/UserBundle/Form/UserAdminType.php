@@ -2,6 +2,8 @@
 
 namespace Lily\UserBundle\Form;
 
+use Lily\UserBundle\Form\UserGroupType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -24,7 +26,14 @@ class UserAdminType extends AbstractType
             ->add('phone')
             ->add('email')
             ->add('plainPassword')
-            ->add('config', new AvatarType());
+            ->add('config', new AvatarType())
+            ->add('groups', 'entity', array(
+                'class' => 'LilyUserBundle:UserGroup',
+                'property' => 'id',
+                'multiple' => true,
+                'expanded' => true))
+
+        ;
     }
     
     /**

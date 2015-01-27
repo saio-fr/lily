@@ -30,18 +30,17 @@ class UserConfig
     protected $id;
     
     /**
+     * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\User", mappedBy="config")
+     */
+    protected $user;
+    
+    /**
      * @var string
      *
      * @ORM\Column(name="welcomeMsg", type="string", length=200, nullable=true)
      */
     protected $welcomeMsg;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\User", mappedBy="config")
-     */
-    protected $user;
  
-    
     /**
      * @var string
      *
@@ -84,7 +83,7 @@ class UserConfig
      * Set welcomeMsg
      *
      * @param string $welcomeMsg
-     * @return User
+     * @return UserConfig
      */
     public function setWelcomeMsg($welcomeMsg)
     {
@@ -130,7 +129,7 @@ class UserConfig
      * Set avatar
      *
      * @param string $avatar
-     * @return User
+     * @return UserConfig
      */
     public function setAvatar($avatar)
     {

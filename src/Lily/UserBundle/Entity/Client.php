@@ -29,6 +29,11 @@ class Client
      * @ORM\OneToMany(targetEntity="Lily\UserBundle\Entity\User", mappedBy="client", cascade={"persist", "remove"})
      */
     protected $users;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Lily\UserBundle\Entity\UserGroup", mappedBy="client", cascade={"persist", "remove"})
+     */
+    protected $groups;
 
     /**
      * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\ClientConfig", cascade={"persist", "remove"})
@@ -196,5 +201,38 @@ class Client
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \Lily\UserBundle\Entity\UserGroup $groups
+     * @return Client
+     */
+    public function addGroup(\Lily\UserBundle\Entity\UserGroup $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \Lily\UserBundle\Entity\UserGroup $groups
+     */
+    public function removeGroup(\Lily\UserBundle\Entity\UserGroup $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }

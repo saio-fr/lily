@@ -25,7 +25,8 @@ define(function (require) {
       'country': '',
       'username': '',
       'email': '',
-      'roles': ['ROLE_ADMIN'],
+      'groups': [],
+      'roles': ['ROLE_USER'],
       'converted.avatar': g.path.defaultAvatar
     },
     
@@ -50,7 +51,7 @@ define(function (require) {
       },
       'roles': {
         required: true,
-        msg: 'Requis'
+        msg: 'Veuillez sélectionner au moins un role'
       },
       'plainPassword': {
         required: false,
@@ -65,11 +66,12 @@ define(function (require) {
     
     initialize: function () {
       this.urlRoot = "/users";
-      this.listenTo(this, 'change', this.convert);
       // If the model isnt new, convert server's attributes
       if (!this.isNew()) {
         this.convert();
       }
+      
+      this.listenTo(this, 'change', this.convert);
     },
     
     convert: function () {
@@ -91,7 +93,7 @@ define(function (require) {
           this.convertedRoles = 'Opérateur Live chat';
         }
         if (roles.indexOf('ROLE_KNOWLEDGE_OPERATOR') !== -1) {
-          this.convertedRoles = (this.convertedRoles == '') ? 'Opérateur ' : ' et ';
+          this.convertedRoles = (this.convertedRoles == '') ? 'Opérateur ' : this.convertedRoles + ' et ';
           this.convertedRoles += 'base de connaissance';
         }
       }
