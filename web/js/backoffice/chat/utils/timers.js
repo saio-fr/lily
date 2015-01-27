@@ -18,31 +18,31 @@ define(function(require) {
       // Timer for chat
       case 'chat':
 
-        timer = moment((now - start + Timers.serverTime) * 1000);
+        timer = moment(Math.abs(now - start + Timers.serverTime) * 1000);
 
-        var hours = timer.hours() - 1;
+        var hours = timer.hours()-1;
         var minutes = timer.minutes();
         var seconds = timer.seconds();
+
+        if (!hours && !minutes) {
+          record.$el.find('.timer-chat').html(seconds + 's');
+          return;
+        }
 
         if (!hours) {
           record.$el.find('.timer-chat').html(minutes + 'm ' + seconds + 's');
           return;
         }
-
-        if (!this.hours && !this.minutes) {
-          record.$el.find('.timer-chat').html(seconds + 's');
-          return;
-        }
-
+        
         record.$el.find('.timer-chat').html(hours + 'h ' + minutes + 'm ' + seconds + 's');
 
         break;
         // Timer for last msg
       case 'lastMsg':
 
-        timer = moment((now - last + Timers.serverTime) * 1000);
+        timer = moment(Math.abs(now - last + Timers.serverTime) * 1000);
 
-        hours = timer.hours() - 1;
+        hours = timer.hours()-1;
         minutes = timer.minutes();
         seconds = timer.seconds();
 

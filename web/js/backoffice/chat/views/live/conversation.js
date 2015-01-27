@@ -17,6 +17,7 @@ define(function(require) {
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     ModalModel = require('components/modals/model'),
     ModalTransferView = require('backoffice/chat/views/live/transfer/modal'),
+    Timers = require('backoffice/chat/utils/timers'),
 
     // Object wrapper returned as a module
     ConversationView;
@@ -72,6 +73,8 @@ define(function(require) {
       this.getMessages();
       // Is the user writting?
       this.writing();
+      // Check conversation status
+      Timers.status(this, 'lastMsg');
 
       this.editor = new wysihtml5.Editor(that.$el.find('textarea').get(0), {
         toolbar: that.$el.find('.toolbar').get(0),
