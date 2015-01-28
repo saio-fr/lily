@@ -743,9 +743,9 @@ MESSAGES
 
 	content: "";
 	position: absolute;
-	bottom: -8px;
-	right: 9.8px;
-	border-width: 8.1px 0 0 9.1px;
+	bottom: -8.5px;
+	right: 10px;
+	border-width: 9px 0 0 9px;
 	border-style: solid;
 	border-color: rgba(255, 255, 255, 0.97) rgba(255, 255, 255, 0);
 	display: block;
