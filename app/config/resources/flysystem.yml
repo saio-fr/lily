@@ -7,7 +7,7 @@ oneup_flysystem:
                 username: "%ftp_username%"
                 password: "%ftp_password%"
                 root: "%ftp_root%"
-                passive: ~
+                passive: true
     filesystems:
         cdn:
             adapter: cdn

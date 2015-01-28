@@ -47,8 +47,7 @@ define(function(require) {
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
       this.listenTo(app, 'chat:reconnected', this.onReconnected, this);
       this.listenTo(app, 'chat:resetConversation', this.onResetConversation, this);
-
-      app.trigger('chat:open');
+      this.listenTo(app, 'app:displayed', this.connectToChat);
 
       $(this.render({
         page: true
@@ -63,6 +62,10 @@ define(function(require) {
       this.$input = this.$el.find('#lily-search-form input.lily-search-input');
 
       return PageView.prototype.render.apply(this, arguments);
+    },
+
+    connectToChat: function() {
+      app.trigger("chat:open");
     },
 
     onSubscribedChat: function(payload) {
@@ -112,7 +115,6 @@ define(function(require) {
           break;
 
         case 'server':
-          this.$el.find('.lily-msg-chat-wait').hide();
 
           switch (message.get("action")) {
             case "inactivity":

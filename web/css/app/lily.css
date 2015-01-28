@@ -1286,6 +1286,17 @@ CONTACT FORM
 	outline: 0;
 }
 
+.lily-skip-link {
+	font-size: 13px;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	display: block;
+	text-decoration: underline;
+	opacity: .7;
+	margin-top: -10px;
+}
+
 .lily-contact-form p {
     margin-top: 10px;
     margin-bottom: 5px;

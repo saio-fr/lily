@@ -118,7 +118,7 @@ require([
   app.wsConnect(function(result) {
     app.isUserInactive = false;
     app.chatting = result.chatting;
-    app.chatContactForm = result.showContactForm;
+    app.showContactForm = result.showContactForm;
     app.init();
   });
 

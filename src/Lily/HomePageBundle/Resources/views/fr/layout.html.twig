@@ -50,19 +50,14 @@
 		<script src="{{ asset('js/ie/respond.min.js') }}"></script>
 	<![endif]-->
 
-	<!--
-	<script type="text/javascript">
-
-		var licence = '53982388c0bf0';
-		var locale = 'fr';
-		(function() {
-			var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
-			lily.src = '{{ app.request.getSchemeAndHttpHost() }}/' + locale + '/api/tracking/' + licence;
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);
-			})();
-
-	</script>
-	-->
+  <script type="text/javascript">
+   (function() {
+     var licence = '54b7873b88c42';
+     var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
+     lily.src = 'http://saio.fr/app/tracking/' + licence;
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);
+  })();
+  </script>
 
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

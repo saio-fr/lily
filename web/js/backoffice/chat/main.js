@@ -20,6 +20,7 @@ define(['../common', 'require'], function(common, require) {
   "globals",
 
   // Libraries required at bootstrap for the UI.
+  "moment-fr",
   "Modernizr",
   "wysihtml5-parser",
   "wysihtml5",
