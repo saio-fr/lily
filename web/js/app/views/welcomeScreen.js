@@ -18,7 +18,8 @@ define(function(require) {
   ChatWelcomeScreen = PageView.extend({
 
     events: {
-      'click button': 'chat',
+      'click .js-submit-welcome-form': 'chat',
+      'click .lily-skip-link': 'chat',
     },
 
     model: Models.Mail,

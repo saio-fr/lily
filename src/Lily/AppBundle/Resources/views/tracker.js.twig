@@ -237,12 +237,9 @@
       // Instanciate Event Class;
       var self = this;
       this.events = new Events();
+      this.firstOpen = true;
       this.lilyIframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
       this.iframeHost = this.getIframeHost();
-      // Create iframe if not mobile
-      //if (isMobile.phone) {
-      //  this.showWidget();
-      //} else {
         this.appendIframe();
         this.iframe = document.getElementById('lilyApp').contentWindow;
         // Listen to messages comming from Iframe:
@@ -255,7 +252,6 @@
         $iframe.addEventListener("load",function() {
           self.onIframeLoad.apply(self, arguments);
         },false);
-      //}
     };
 
     this.onIframeLoad = function() {
@@ -297,9 +293,18 @@
     };
 
     this.showIframe = function() {
+      var firstOpen = this.firstOpen;
+
       $container.style.opacity = 1;
       $container.style.visibility = 'visible';
       this.hideWidget();
+
+      this.events.send({
+        title: "iframe:show",
+        callback: "onShowIframe",
+        args: [firstOpen]
+      });
+      this.firstOpen = false;
     };
 
     this.showWidget = function() {

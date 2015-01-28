@@ -93,7 +93,7 @@ define(function(require) {
     chat: function() {
 
       var view;
-      if (config.chat.contactForm && !app.sawContactForm) {
+      if (config.chat.contactForm && app.showContactForm) {
         this.navigate('welcome-screen', {
           trigger: true
         });

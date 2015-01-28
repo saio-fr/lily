@@ -20,7 +20,12 @@ define(function(require) {
       connect: function() {
         // var deferred = when.defer();
         if (app.hasSubscribed) {
-          app.unsubscribe();
+          try {
+            app.unsubscribe();
+          } catch (e) {
+            // An error ca occur in case of connection timeout,
+            console.log(e);
+          }
         }
         app.subscribe();
         return app.ws.call('visitor/connect', {
@@ -141,28 +146,23 @@ define(function(require) {
       },
 
       onSubmitInfos: function(infos) {
-        this.sawContactForm = true;
 
-        if (infos && infos.firstName && infos.lastName && infos.email) {
-          app.call('visitor/contactForm', {
-            'firstname': infos.firstName || '',
-            'lastname': infos.lastName || '',
-            'email': infos.email || ''
-          }).then(function() {
-            app.router.navigate('chat', {
-              trigger: true
-            });
-          }, function(err) {
-            // Handle error (chat indisponible atm, you can leave us an email)
-            app.router.navigate('mail', {
-              trigger: true
-            });
-          });
-        } else {
+        app.showContactForm = false;
+
+        app.call('visitor/contactForm', {
+          'firstname': infos.firstName || '',
+          'lastname': infos.lastName || '',
+          'email': infos.email || ''
+        }).then(function() {
           app.router.navigate('chat', {
             trigger: true
           });
-        }
+        }, function(err) {
+          // Handle error (chat indisponible atm, you can leave us an email)
+          app.router.navigate('mail', {
+            trigger: true
+          });
+        });
       },
 
       ////////////////////
@@ -223,6 +223,12 @@ define(function(require) {
         });
       },
 
+      onShowIframe: function(firstOpen) {
+        if (firstOpen) {
+          app.trigger('app:displayed');
+        }
+      },
+
       onReduceClick: function() {
         app.call('visitor/display', {
           display: false
@@ -259,7 +265,9 @@ define(function(require) {
       },
 
       sendToHost: function(message) {
-        window.parent.postMessage(message, document.referrer || app.hostDomain);
+        if (window.parent && document.referrer) {
+          window.parent.postMessage(message, document.referrer || app.hostDomain);
+        }
       },
 
     };
