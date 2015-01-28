@@ -32,9 +32,10 @@
     "react/zmq": "0.2.*",
     "jms/i18n-routing-bundle": "dev-master",
     "aequasi/cache-bundle": "~2.4.0",
-    "oneup/flysystem-bundle": "~0.1",
+    "oneup/flysystem-bundle": "dev-master",
     "vich/uploader-bundle": "~0.11",
-    "symfony/var-dumper": "~2.6"
+    "symfony/var-dumper": "~2.6",
+    "league/flysystem-sftp": "~1.0"
   },
   "scripts": {
     "post-install-cmd": [
