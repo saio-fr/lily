@@ -164,7 +164,7 @@ define(function(require) {
           // TODO: process error;
         });
 
-        app.track("cchat/click_reconnect");
+        app.track("chat/click_reconnect");
       },
 
       onSubmitInfos: function(infos) {
