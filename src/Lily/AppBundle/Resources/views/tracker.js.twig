@@ -1,4 +1,4 @@
-(function() {
+;(function() {
   'use strict';
 
   // Detect if is ie < 10
@@ -207,21 +207,23 @@
   function App() {
 
     var hostHead = document.getElementsByTagName('head'),
-      hostBody = document.getElementsByTagName('body');
+        hostBody = document.getElementsByTagName('body');
 
 
     // Create stylesheet
-    var $script = document.createElement('link'),
-      $widget = document.createElement('div'),
-      $iframe = document.createElement('iframe'),
-      $container = document.createElement('div');
+    var $script    = document.createElement('link'),
+        $widget    = document.createElement('div'),
+        $iframe    = document.createElement('iframe'),
+        $container = document.createElement('div');
 
 
     $script.setAttribute('rel', 'stylesheet');
     $script.setAttribute('type', 'text/css');
     $script.setAttribute('href', '{{ licence|customerDir|raw }}/css/lily-float.css');
+
     $widget.setAttribute('id', 'lily-widget-container');
     $widget.innerHTML = '{{ widget }}';
+
     $container.setAttribute('id', 'lilyAppContainer');
 
     // Append to host page
@@ -234,30 +236,35 @@
      * Appends iframe to host page and binds event listeners
      */
     this.init = function() {
-      // Instanciate Event Class;
       var self = this;
+
+      // Initialize event Class:
       this.events = new Events();
+
       this.firstOpen = true;
       this.lilyIframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
+      // (Useless for now)
       this.iframeHost = this.getIframeHost();
-        this.appendIframe();
-        this.iframe = document.getElementById('lilyApp').contentWindow;
-        // Listen to messages comming from Iframe:
-        window.addEventListener("message", this.events.receiveFromIframe, false);
-        // Bind UI Events :
-        // The app has loaded all scripts, styles and markup
-        $widget.addEventListener("click",function() {
-          self.onWidgetClick.apply(self, arguments);
-        },false);
-        $iframe.addEventListener("load",function() {
-          self.onIframeLoad.apply(self, arguments);
-        },false);
+
+      // Append Iframe:
+      this.appendIframe();
+      // Get a reference to the iframe contentWindow:
+      this.iframe = document.getElementById('lilyApp').contentWindow;
+
+      // Listen to messages comming from Iframe:
+      window.addEventListener("message", this.events.receiveFromIframe, false);
+      // Bind UI Events :
+      $widget.addEventListener("click",function() {
+        self.onWidgetClick.apply(self, arguments);
+      },false);
     };
 
     this.onIframeLoad = function() {
       // (Waiting for iframe message triggering showWidget method;)
-      // Handshake to give iframe the host domain url:
-      this.events.send({'title': 'Hello!'});
+      // Handshake to give iframe the host domain url and trigger a ga event in the iframe:
+      this.events.send({
+        title: 'Hello!',
+      });
     };
 
     this.onWidgetClick = function() {
@@ -350,8 +357,9 @@
     };
 
     this.receiveFromIframe = function(message, response) {
+
       if (message.data && message.data.title) {
-        console.log("iframe:: " + message.data.title + " processed");
+        console.log("host:: " + message.data.title);
       }
       // Call callback if exists, and apply eventual arguments:
       if (message.data.callback) {

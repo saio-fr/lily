@@ -100,9 +100,8 @@ define(function(require) {
       } else {
         view = new ChatView();
         utils.goTo(view);
+        app.pageView("/chat");
       }
-
-      app.pageView("/chat");
     },
 
     welcomeScreen: function() {
@@ -110,7 +109,7 @@ define(function(require) {
       var view = new ChatWelcomeScreenView();
       utils.goTo(view);
 
-      app.pageView("/welcomScreen");
+      app.pageView("/welcomeScreen");
     },
 
     mail: function() {

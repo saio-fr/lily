@@ -42,6 +42,7 @@ define(function(require) {
   };
 
   api.sendMail = function(data) {
+    app.track("mail/send_mail");
     return this.send('POST', '/api/' + config.licence + '/mail', data);
   };
 
