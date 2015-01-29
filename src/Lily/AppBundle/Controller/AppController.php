@@ -41,13 +41,9 @@ class AppController extends BaseController
     public function trackingAction($licence) {
 
         $config = $this->getAppConfig($licence);
-        $available = $this->isChatAvailable($licence);
 
-        $condition1 = $config->getChat()->getActive() && $available;
-        $condition2 = $config->getAvi()->getActive();
-
-        // Return if Maintenance is On or Avi is off and no operators available to chat
-        if ( $config->getMaintenance() || !($condition1 || $condition2) ) {
+        // Return if Maintenance is On
+        if ( $config->getMaintenance() ) {
             return new Response(null, 200, array(
               'content-type'=> 'text/javascript')
             );
