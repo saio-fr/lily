@@ -1,13 +1,15 @@
 <% var globals = require('globals');
-   if (operator && operator.id != globals.userId) { %>
-     <img src="<%= operator.avatar %>" class="avatar">
-     <p class="msg-operator msg-with-avatar">
-       <%= msg %>
-       <span class="date"><%= moment(date*1000).format('hh:mm') %></span>
-     </p>
+  if (operator && operator.id != globals.userId) { %>
+    <span class="pull-left thumb-sm img-circle">
+      <img src="<%= operator.avatar %>" alt="avatar">
+    </span>
+    <p class="msg-operator msg-with-avatar">
+      <%= msg %>
+      <span class="date"><%= moment(date*1000).format('hh:mm') %></span>
+    </p>
 <% } else { %>
-     <p class="msg-operator">
-       <%= msg %>
-       <span class="date"><%= moment(date*1000).format('hh:mm') %></span>
-     </p>
+    <p class="msg-operator">
+      <%= msg %>
+      <span class="date"><%= moment(date*1000).format('hh:mm') %></span>
+    </p>
 <% } %>
