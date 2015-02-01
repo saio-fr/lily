@@ -20,11 +20,13 @@ define(function(require) {
       // Global vars:
       showContactForm: false,
       isUserInactive: false,
+      hasChatConnected: false,
       hasSubscribed: false,
       trackingQueue: [],
       chatting: false,
       isShown: false,
       hostHref: '',
+      payload: {},
       hostPathName: '',
       hostDomain: '',
 
@@ -52,7 +54,10 @@ define(function(require) {
           function(topic, payload) {
             app.processWsPayload(payload);
           });
-        app.hasSubscribed = true;
+        if (!app.hasChatConnected) {
+          app.hasSubscribed = true;
+          app.onChatOpen();
+        }
       },
 
       unsubscribe: function() {
@@ -122,6 +127,7 @@ define(function(require) {
               break;
           }
         });
+        app.payload = payload;
         app.trigger('ws:subscribedToChat', payload);
       },
 
@@ -130,7 +136,10 @@ define(function(require) {
       ////////////////////
 
       onChatOpen: function() {
-        return app.call('visitor/open');
+        if (app.hasSubscribed && !app.hasChatConnected) {
+          app.hasChatConnected = true;
+          return app.call('visitor/open');
+        }
       },
 
       onChatSend: function(message) {
@@ -270,13 +279,15 @@ define(function(require) {
         app.isShown = true;
         app.trigger('app:isShown');
 
-        if (firstOpen) {
-          app.trigger('app:displayed');
-        }
-
         app.track("displayed", {
           fistOpen: firstOpen
         });
+
+        if (!firstOpen) {
+          return;
+        }
+
+        app.trigger('app:displayed');
       },
 
       onReduceClick: function() {
@@ -331,13 +342,13 @@ define(function(require) {
 
   _.extend(app, Backbone.Events);
 
-  app.on('chat:open', app.onChatOpen);
   app.on('chat:send', app.onChatSend);
   app.on('app:isShown', app.pageView);
   app.on('chat:writing', app.onChatWriting);
   app.on('chat:reconnect', app.onChatReconnect);
   app.on('chat:satisfaction', app.onChatSatisfaction);
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
+  app.on('app:displayed', app.onChatOpen);
 
   window.addEventListener("message", function() {
     app.receiveFromHost.apply(app, arguments);
