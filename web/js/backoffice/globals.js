@@ -12,10 +12,10 @@ define(function(require) {
   _.extend(g, window.config);
 
   g.path = {
-    cdn: "http://cdn.saio.fr",
-    customer: "http://cdn.saio.fr/customer/",
-    avatars: "http://cdn.saio.fr/customer/" + g.licence + "/images/avatars/",
-    defaultAvatar: "http://cdn.saio.fr/images/default-avatar.png",
+    cdn: "http://cdn-saio.fr",
+    customer: "http://cdn-saio.fr/customer/",
+    avatars: "http://cdn-saio.fr/customer/" + g.licence + "/images/avatars/",
+    defaultAvatar: "http://cdn-saio.fr/images/default-avatar.png",
   };
 
   g.faqWysiConfig = {
