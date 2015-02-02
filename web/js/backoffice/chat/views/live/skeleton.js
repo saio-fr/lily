@@ -101,7 +101,8 @@ define(function(require) {
       var $conversations = $('.conversations').children(),
         $conversationList = $('.aside-chat-left'),
         $infoPanel = $('.aside-chat-right'),
-        $container = $('.js-live-container');
+        $container = $('.js-live-container'),
+        $conversationsContainer = $('.conversations');
 
       /**
        * Logic to accomodate multiple chat windows
@@ -151,6 +152,7 @@ define(function(require) {
         $conversationList.css({
           display: 'table-cell'
         });
+        $conversationsContainer.addClass('show-conversation-list');
       } else {
         if (this.windows.length === 0) {
           $conversationList.css({
@@ -158,6 +160,7 @@ define(function(require) {
           });
         } else {
           $conversationList.hide();
+          $conversationsContainer.removeClass('show-conversation-list');
         }
       }
 
