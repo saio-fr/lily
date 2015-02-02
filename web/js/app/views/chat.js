@@ -47,11 +47,14 @@ define(function(require) {
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
       this.listenTo(app, 'chat:reconnected', this.onReconnected, this);
       this.listenTo(app, 'chat:resetConversation', this.onResetConversation, this);
-      this.listenTo(app, 'app:displayed', this.connectToChat);
 
       $(this.render({
         page: true
       }).el).appendTo('#lily-wrapper-page');
+
+      if (app.hasSubscribed && app.hasChatConnected && app.payload) {
+        this.onSubscribedChat(app.payload);
+      }
     },
 
     render: function() {
@@ -62,10 +65,6 @@ define(function(require) {
       this.$input = this.$el.find('#lily-search-form input.lily-search-input');
 
       return PageView.prototype.render.apply(this, arguments);
-    },
-
-    connectToChat: function() {
-      app.trigger("chat:open");
     },
 
     onSubscribedChat: function(payload) {

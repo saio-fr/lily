@@ -13,6 +13,7 @@ define(function(require) {
     globals = require('globals'),
     Collections = require('backoffice/chat/data/collections'),
     InformationsView = require('backoffice/chat/views/live/informations'),
+    Models = require('backoffice/chat/data/models'),
     MessagesView = require('backoffice/chat/views/live/messages'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     ModalModel = require('components/modals/model'),
@@ -158,6 +159,7 @@ define(function(require) {
       switch (msg.get('from')) {
 
         case 'operator':
+          msg.convertAvatar();
           view = new MessagesView.Operator({
             model: msg
           }).render(conversations);

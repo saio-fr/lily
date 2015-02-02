@@ -65,24 +65,25 @@ define(function(require) {
     },
 
     setMaxWindows: function(e) {
+      var liveView = app.skeleton.live;
 
       if (typeof(e) !== 'undefined') {
 
         e.preventDefault();
-        this.live.maxWindows = $(e.target).attr('data');
+        liveView.maxWindows = $(e.target).attr('data');
 
         this.$el.find('.windows span').html(
-          this.live.maxWindows === 1 ?
-          this.live.maxWindows + ' Conversation' :
-          this.live.maxWindows + ' Conversations'
+          liveView.maxWindows === 1 ?
+          liveView.maxWindows + ' Conversation' :
+          liveView.maxWindows + ' Conversations'
         );
       }
 
-      if (this.live.maxWindows < this.live.windows.length) {
+      if (liveView.maxWindows < liveView.windows.length) {
 
-        var diff = this.live.windows.length - this.live.maxWindows;
+        var diff = liveView.windows.length - liveView.maxWindows;
         for (var i = 0; i < diff; i++) {
-          this.live.windows[this.live.windows.length - 1].minus();
+          liveView.windows[liveView.windows.length - 1].minus();
         }
       }
     }

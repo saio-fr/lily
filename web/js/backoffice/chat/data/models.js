@@ -32,6 +32,22 @@ define(function(require) {
       });
     }
   });
+  
+  Models.Messages = Backbone.NestedModel.extend({
+
+    convertAvatar: function() {
+      var avatar;
+      if (this.get('operator.avatar')) {
+        avatar = g.path.avatars + this.get('operator.avatar');
+      } else {
+        avatar = g.path.defaultAvatar;
+      }
+      this.set({
+        'operator.avatar': avatar
+      });
+    }
+    
+  });
 
   return Models;
 });

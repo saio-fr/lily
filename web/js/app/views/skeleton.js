@@ -42,6 +42,7 @@ define(function(require) {
           snapper.close();
         } else {
           snapper.open('left');
+          app.track("menu/open");
         }
 
       });

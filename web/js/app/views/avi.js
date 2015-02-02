@@ -310,7 +310,7 @@ define(function(require) {
     avatar: function() {
       // On charge l'avatar du client
       setTimeout(function() {
-        $.getScript('http://cdn.saio.fr/customer/' + config.licence +
+        $.getScript('http://cdn-saio.fr/customer/' + config.licence +
           '/js/avatar.js', function(data) {});
       }, 500);
     }

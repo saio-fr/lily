@@ -122,4 +122,6 @@ require([
     app.init();
   });
 
+  app.onLoadApp();
+
 });

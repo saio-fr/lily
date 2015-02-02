@@ -17,6 +17,19 @@ define(function(require) {
 
     app = {
 
+      // Global vars:
+      showContactForm: false,
+      isUserInactive: false,
+      hasChatConnected: false,
+      hasSubscribed: false,
+      trackingQueue: [],
+      chatting: false,
+      isShown: false,
+      hostHref: '',
+      payload: {},
+      hostPathName: '',
+      hostDomain: '',
+
       connect: function() {
         // var deferred = when.defer();
         if (app.hasSubscribed) {
@@ -41,7 +54,10 @@ define(function(require) {
           function(topic, payload) {
             app.processWsPayload(payload);
           });
-        app.hasSubscribed = true;
+        if (!app.hasChatConnected) {
+          app.hasSubscribed = true;
+          app.onChatOpen();
+        }
       },
 
       unsubscribe: function() {
@@ -77,10 +93,14 @@ define(function(require) {
       },
 
       onConnect: function(info) {
-        app.sendToHost({
-          title: "ws:connect:success",
-          callback: "showWidget"
-        });
+
+        if (config.chat.active && config.chatAvailable ||
+          config.avi.active || app.chatting) {
+          app.sendToHost({
+            title: "ws:connect:success",
+            callback: "showWidget"
+          });
+        }
 
         if (info.display === true) {
           app.sendToHost({
@@ -107,6 +127,7 @@ define(function(require) {
               break;
           }
         });
+        app.payload = payload;
         app.trigger('ws:subscribedToChat', payload);
       },
 
@@ -115,11 +136,15 @@ define(function(require) {
       ////////////////////
 
       onChatOpen: function() {
-        return app.call('visitor/open');
+        if (app.hasSubscribed && !app.hasChatConnected) {
+          app.hasChatConnected = true;
+          return app.call('visitor/open');
+        }
       },
 
       onChatSend: function(message) {
         app.ws.publish('operator/' + config.licence, message);
+        app.track("chat/send_message");
       },
 
       onChatWriting: function(writing) {
@@ -134,6 +159,10 @@ define(function(require) {
           sid: config.sid,
           satisfaction: satisfied
         });
+
+        app.track("chat/click_satisfaction", {
+          satisfied: satisfied
+        });
       },
 
       onChatReconnect: function() {
@@ -143,6 +172,8 @@ define(function(require) {
         }, function(err) {
           // TODO: process error;
         });
+
+        app.track("chat/click_reconnect");
       },
 
       onSubmitInfos: function(infos) {
@@ -163,6 +194,8 @@ define(function(require) {
             trigger: true
           });
         });
+
+        app.track("welcomeScreen/submit_infos");
       },
 
       ////////////////////
@@ -184,12 +217,25 @@ define(function(require) {
       ////////////////////
 
       pageView: function(page) {
-        var url = page || Backbone.history.fragment;
-        if (_.isFunction(window.ga)) {
+        var url = page;
+
+        if (!app.isShown) {
+          app.trackingQueue.push(page);
+          return;
+        }
+
+        // Only track if hte iframe is actually shown to the user:
+        if (_.isFunction(window.ga) && url) {
           ga('send', 'pageview', {
             'page': url,
             'title': config.licence
           });
+        }
+
+        for (var i = 0; i < app.trackingQueue.length; i++) {
+          url = app.trackingQueue[i];
+          app.trackingQueue.shift();
+          app.pageView(url);
         }
       },
 
@@ -216,17 +262,32 @@ define(function(require) {
       //    IO Iframe
       ////////////////////
 
+      onLoadApp: function() {
+        app.track("app::load");
+      },
+
       onWidgetClick: function(visible) {
         visible = visible === "true" ? true : false;
         app.call('visitor/display', {
           display: visible
         });
+
+        app.track("widget::click");
       },
 
       onShowIframe: function(firstOpen) {
-        if (firstOpen) {
-          app.trigger('app:displayed');
+        app.isShown = true;
+        app.trigger('app:isShown');
+
+        app.track("displayed", {
+          fistOpen: firstOpen
+        });
+
+        if (!firstOpen) {
+          return;
         }
+
+        app.trigger('app:displayed');
       },
 
       onReduceClick: function() {
@@ -237,12 +298,18 @@ define(function(require) {
           title: "app:hide",
           callback: "hideIframe"
         });
+
+        app.isShown = false;
+
+        app.track("click_reduce_app");
       },
 
       receiveFromHost: function(message, response) {
+
         if (message.data && message.data.title) {
-          console.log("iframe:: " + message.data.title + " processed");
+          console.log("saio:: " + message.data.title);
         }
+
         // Call callback if exists, and apply eventual arguments:
         if (message.data.callback) {
           var callbackName = message.data.callback.toString(),
@@ -251,6 +318,7 @@ define(function(require) {
             this[callbackName].apply(this, callbackArgs);
           }
         }
+
         // Assuming you've verified the origin of the received message (which
         // you must do in any case), a convenient idiom for replying to a
         // message is to call postMessage on message.source and provide
@@ -274,18 +342,19 @@ define(function(require) {
 
   _.extend(app, Backbone.Events);
 
-  app.on('chat:open', app.onChatOpen);
   app.on('chat:send', app.onChatSend);
+  app.on('app:isShown', app.pageView);
   app.on('chat:writing', app.onChatWriting);
-  app.on('chat:satisfaction', app.onChatSatisfaction);
   app.on('chat:reconnect', app.onChatReconnect);
+  app.on('chat:satisfaction', app.onChatSatisfaction);
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
+  app.on('app:displayed', app.onChatOpen);
 
   window.addEventListener("message", function() {
     app.receiveFromHost.apply(app, arguments);
   }, false);
 
-  // get parent href and pathnames:
+  // get parent href and pathnames hack:
   var a = document.createElement('a');
   a.href = document.referrer;
 

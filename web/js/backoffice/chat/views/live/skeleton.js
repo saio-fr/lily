@@ -37,24 +37,30 @@ define(function(require) {
       this.listenTo(this.collection, 'remove', this.counters);
       this.listenTo(app, "change:windows", this.setWindows, this);
 
-      var that = this;
       this.windows = [];
       this.maxWindows = 1;
       this.counter = {};
       this.counter.current = 0;
       this.counter.waiting = 0;
-
       this.showInformations = true;
 
-      // Adjust windows on navigator resize
-      $(window).resize(function() {
-        that.setWindows();
+      var that = this;
+      // Adjust windows on navigator resize:
+      // And right away:
+      // (skip a frame before calling setWindows to let the router finish
+      // the app.skeleton initialization - hacky :/ - )
+      window.setTimeout(function() {
+        that.setWindows.apply(that, arguments);
+      });
+      $(window).on('resize', function() {
+        _.debounce(that.setWindows, 300, true).apply(that, arguments);
       });
     },
 
     render: function() {
       this.$el.html(this.template());
       this.$el.appendTo('.js-main-container');
+
       return this;
     },
 
@@ -92,76 +98,88 @@ define(function(require) {
 
     setWindows: function() {
 
+      var $conversations = $('.conversations').children(),
+        $conversationList = $('.aside-chat-left'),
+        $infoPanel = $('.aside-chat-right'),
+        $container = $('.js-live-container');
 
-      // If there is more 1 windows, add "multiple" class to show them all
+      /**
+       * Logic to accomodate multiple chat windows
+       **/
       if (this.windows.length > 1) {
 
-        $('.conversations').children().addClass('multiple');
-        $('.conversations').children().addClass('half-width');
+        $conversations.addClass('multiple half-width');
         if (this.windows.length > 2) {
-          $('.conversations').children().addClass('half-height');
+          $conversations.addClass('half-height');
         }
-
       } else {
-
-        $('.conversations').children().removeClass('multiple');
-        $('.conversations').children().removeClass('half-width');
+        $conversations.removeClass('multiple half-width');
       }
 
       if (this.windows.length < 3) {
-        $('.conversations').children().removeClass('half-height');
+        $conversations.removeClass('half-height');
       }
 
-      if ($('.js-live-container').width() > 1090) {
-
+      /**
+       * Width and height concerns and rules:
+       **/
+      if ($container.width() > 1090) {
         $('.btn-group.windows').show();
       } else {
 
         $('.windows .dropdown-menu li:first-child a').trigger('click');
         $('.btn-group.windows').hide();
-        $('.conversations').children().removeClass('multiple full-width half-width');
+        $conversations.removeClass('multiple full-width half-width');
       }
 
-      if ($('.js-live-container').height() < 750) {
+      if ($container.height() < 1024) {
 
-        $('.windows .dropdown-select li:nth-child(3) a').hide();
+        $('.windows .dropdown-menu li:nth-child(3) a').hide();
         if (this.maxWindows === 4) {
-          $('.windows .dropdown-select li:nth-child(2) a').trigger('click');
-          $('.conversations').children().removeClass('half-height');
+          $('.windows .dropdown-menu li:nth-child(2) a').trigger('click');
+          $conversations.removeClass('half-height');
         }
       } else {
-        $('.windows .dropdown-select li:nth-child(3) a').show();
+        $('.windows .dropdown-menu li:nth-child(3) a').show();
       }
 
-      if ($(window).width() > 768) {
-        $('.aside-chat-left').css({
+      /**
+       * Show/Hide the list of current conversations:
+       **/
+      if ($container.width() > 768) {
+
+        $conversationList.css({
           display: 'table-cell'
         });
       } else {
-
-        if (this.windows.length > 0) {
-          $('.aside-chat-left').css({
-            display: 'none'
-          });
-        } else {
-          $('.aside-chat-left').css({
+        if (this.windows.length === 0) {
+          $conversationList.css({
             display: 'block'
           });
+        } else {
+          $conversationList.hide();
         }
       }
 
-      // Hide informations if the window is too small
+      /**
+       * Show/Hide informations if the window is too small
+       **/
       if ($('.js-live-container').width() < 950 ||
         $('.js-live-container').width() < 1300 &&
-        $('.conversations').children().hasClass('multiple')) {
+        $conversations.hasClass('multiple')) {
 
-        $('.aside-chat-right').addClass('hide');
+        $infoPanel.addClass('hide');
       } else {
 
-        $('.aside-chat-right').removeClass('hide');
+        $infoPanel.removeClass('hide');
       }
-    }
+    },
 
+    remove: function() {
+      $(window).off("resize", this.setWindows);
+      //call the superclass remove method
+      Backbone.View.prototype.remove.apply(this, arguments);
+    }
 
   });
 
