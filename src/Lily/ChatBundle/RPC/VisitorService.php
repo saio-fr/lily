@@ -105,19 +105,21 @@ class VisitorService {
         foreach ($client->users as $item) {
 
             if ($item->id === $conn->Session->getId()) {
-
+                
+                if ($item->closed) {
+                    // Start chat
+                    $item->messages[] = array(
+                      'id' => uniqid(), 
+                      'from' => 'server', 
+                      'date' => time(), 
+                      'action' => 'startChat'
+                    );
+                } 
+                
                 if ($item->operator) {
                     $item->topic->broadcast($item->messages);
                     return;
                 }
-                
-                // Start chat
-                $item->messages[] = array(
-                  'id' => uniqid(), 
-                  'from' => 'server', 
-                  'date' => time(), 
-                  'action' => 'startChat'
-                );
 
                 if (!empty($availables) && $client->config->getAutoSetOperator()) {
 
