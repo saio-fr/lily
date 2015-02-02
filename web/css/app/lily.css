@@ -331,7 +331,8 @@ a{
 	clear: both;
 	width: 100%;
 	position: relative;
-	height: 325px;
+	height: 325px; /* fallback for navigators who don't support the calc function */
+	height: calc(100% - 135px);
 }
 
 .lily-avatar-wrapper{
