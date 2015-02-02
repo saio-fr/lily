@@ -6,8 +6,20 @@ LIVE CHAT
   font-weight: 600;
 }
 
+.conversation-section-item .avatar-thumb {
+  height: 36px;
+}
+
+.operator-connected-list .thumb-sm {
+  text-align: center;
+}
+
 .js-main-container i {
   font-weight: bold !important;
+}
+
+.conversations {
+  z-index: 3;
 }
 
 .conversations .avatar {
@@ -21,6 +33,8 @@ LIVE CHAT
 
 .aside-chat-left {
   width: 275px;
+  position: absolute;
+  z-index: 4;
 }
 
 .aside-chat-right {
@@ -541,6 +555,10 @@ LIVE CHAT
   color: #fcc44d;
 }
 
+.operator-connected-list .avatar-thumb {
+  height: 36px;
+}
+
 .js-dashboard-operators-info small {
   margin-top: 0;
 }
@@ -618,7 +636,7 @@ LIVE CHAT
   .aside-chat-left {
     width: 100%;
   }
-  
+
   .list-record-item .informations {
   	width: 100%;
     max-width: -moz-calc(100% - 130px);
@@ -626,7 +644,7 @@ LIVE CHAT
     max-width: -o-calc(100% - 130px);
     max-width: calc(100% - 130px);
   }
-  
+
   .modal-close, .modal-ban, .modal-transfer {
     margin: 0;
     position: absolute;
@@ -636,7 +654,7 @@ LIVE CHAT
     left: 0 !important;
     z-index: 9999;
   }
-  
+
   body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
     margin-right: 0;
   }
