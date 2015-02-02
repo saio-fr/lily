@@ -48,6 +48,8 @@ define(function(require) {
       this.listenTo(app, 'chat:reconnected', this.onReconnected, this);
       this.listenTo(app, 'chat:resetConversation', this.onResetConversation, this);
 
+      app.trigger('chat:open');
+
       $(this.render({
         page: true
       }).el).appendTo('#lily-wrapper-page');
