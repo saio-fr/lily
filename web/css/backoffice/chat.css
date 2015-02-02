@@ -22,6 +22,10 @@ LIVE CHAT
   z-index: 3;
 }
 
+.conversations .show-conversation-list {
+  padding-left: 275px;
+}
+
 .conversations .avatar {
   float: left;
 }
