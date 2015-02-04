@@ -51,6 +51,7 @@ class FOSUserProvider implements MessageComponentInterface, WsServerInterface
   	            $provider   = $this->_container->get('fos_user.user_provider.username_email');
   	            $conn->User = $provider->refreshUser($user);
   	        } catch (\Exception $e) {
+    	          echo 'conn->user = null';
   	            $conn->User = null;
 	          }
 	        

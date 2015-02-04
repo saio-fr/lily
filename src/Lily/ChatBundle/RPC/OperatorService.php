@@ -246,12 +246,18 @@ class OperatorService {
      */
     public function connect(Conn $conn, $params, \StdClass $client) {
       
+        echo 'operator/connect';
+      
         // Security check
-        if (!isset($conn->User)) { return; }
+        if (!isset($conn->User)) { 
+          echo 'operator/connect: conn->user failed';
+          return; 
+        }
         
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
-                $item->available ? $available = true : $available = false;
+                echo 'operator/connect: operator found'
+                $available = $item->available ? true : false;
             }
         }
         return array(
