@@ -256,7 +256,7 @@ class OperatorService {
         
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
-                echo 'operator/connect: operator found'
+                echo 'operator/connect: operator found';
                 $available = $item->available ? true : false;
             }
         }
