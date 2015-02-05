@@ -63,7 +63,7 @@ require([
     config.isMobile = isMobile;
 
     app.skeleton = new SkeletonView();
-    Backbone.history.start();
+    // Backbone.history.start();
   };
 
   // Connect to our ws serv

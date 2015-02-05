@@ -7,7 +7,8 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Router = require('app/router'),
+  var Backbone = require('backbone'),
+    Router = require('app/router'),
     config = require('app/globals'),
     app = require('app/app'),
     Collections = require('app/data/collections'),
@@ -18,7 +19,8 @@ define(function(require) {
   Skeleton = PageView.extend({
 
     initialize: function() {
-      app.router = new Router();
+
+      this.listenTo(app, 'app:isShown', this.initRouter);
       this.messages = new Collections.Messages();
 
 
@@ -63,6 +65,13 @@ define(function(require) {
         $('#icon-iframe-fullscreen').css('display', 'none');
       }
     },
+
+    initRouter: function() {
+      if (!app.router) {
+        app.router = new Router();
+        Backbone.history.start();
+      }
+    }
 
   });
 
