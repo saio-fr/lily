@@ -133,9 +133,14 @@ define(function(require) {
       ////////////////////
 
       onChatOpen: function() {
+        var deferred = when.defer();
+
         if (app.hasSubscribed && !app.hasChatConnected) {
           app.hasChatConnected = true;
           return app.call('visitor/open');
+        } else {
+          deferred.resolve();
+          return deferred.promise;
         }
       },
 
