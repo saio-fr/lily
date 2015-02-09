@@ -17,132 +17,125 @@ use Lily\KnowledgeBundle\Form\CategoryType;
 use Lily\BackOfficeBundle\Controller\BaseController;
 
 
-
 class CategoriesController extends BaseController
 {
-    
-	/**
-     * @Get("/")
+
+    /**
+     * @Get("/categories")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(serializerGroups={"list"})
      */
-    public function getCategoriesAction()
-    {    
-
-    	$categories = $this->getEntityManager()
-    					   ->getRepository('LilyKnowledgeBundle:Category')
-    					   ->findAll();
-    	
-    	$view = $this->view($categories)->setFormat('json');        
-        return $this->handleView($view);	
-        	
-    }
+    public function getAllAction() {
+  
+        $categories = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Category')
+        ->findByParent(NULL);
     
+        $view = $this->view($categories)->setFormat('json');
+        return $this->handleView($view);
+  
+    }
+  
     /**
-     * @Get("/{id}")
+     * @Get("/categories/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function getAction($id)
-    {   
-   		
-   		$category = $this->getEntityManager()
-    					  ->getRepository('LilyKnowledgeBundle:Category')
-    					  ->find($id);
-    					  
+    public function getAction($id) {
+  
+        $category = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Category')
+        ->find($id);
+    
         if (!$category) {
-            throw $this->createNotFoundException();
+          throw $this->createNotFoundException();
         }
-        
-		$view = $this->view($category)->setFormat('json');
-		return $this->handleView($view);
-       		
-    }
     
+        $view = $this->view($category)->setFormat('json');
+        return $this->handleView($view);
+    }
+  
     /**
-     * @Post("/{redirection}/{parent}")
+     * @Post("/categories/{redirection}/{parent}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function createAction($redirection, $parent, Request $request)
-    {
-    	$parent = $this->getEntityManager()
-    				   ->getRepository('LilyKnowledgeBundle:Category')
-    				   ->find($parent);
-    	
-    	$category = $this->deserialize('Lily\KnowledgeBundle\Entity\Category', $request);
-    	
-    	if ($category instanceof Category === false) {
+    public function postAction($redirection, $parent, Request $request) {
+      
+        $parent = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Category')
+        ->find($parent);
+    
+        $category = $this->deserialize('Lily\KnowledgeBundle\Entity\Category', $request);
+    
+        if ($category instanceof Category === false) {
             $view = $this->view($category, 400);
-	        return $this->handleView($view);
-        }  
-
-   		$redirection = $this->getEntityManager()
-				  		    ->getRepository('LilyKnowledgeBundle:Redirection')
-				  		    ->findOneById($redirection); 
-				  		    
-		$category->setRedirection($redirection);
-		$category->setParent($parent);		  		    	 
-        
+            return $this->handleView($view);
+        }
+    
+        $redirection = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Redirection')
+        ->findOneById($redirection);
+    
+        $category->setRedirection($redirection);
+        $category->setParent($parent);
+    
         $em = $this->getEntityManager();
         $em->persist($category);
         $em->flush();
-			
-        $view = $this->view($category)->setFormat('json');
-		return $this->handleView($view);
-        
-    }    
     
+        $view = $this->view($category);
+        return $this->handleView($view);
+    }
+  
     /**
      * @Put("/{id}/{parent}/{redirection}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function updateAction($id, $parent, $redirection, Request $request)
-    {
-
-    	$data = json_decode($request->getContent(), true);
-    	
-    	$parent = $this->getEntityManager()
-			   		   ->getRepository('LilyKnowledgeBundle:Category')
-			   		   ->find($parent);
-    	
-    	$category = $this->getEntityManager()
-    					 ->getRepository('LilyKnowledgeBundle:Category')
-    					 ->find($id); 	
-    					 
-		$redirection = $this->getEntityManager()
-							->getRepository('LilyKnowledgeBundle:Redirection')
-							->findOneById($redirection); 
-							
-		$category->setRedirection($redirection);
-		$category->setParent($parent);
-		
-		$form = $this->createForm(new CategoryType(), $category, array('csrf_protection' => false));   
-		$form->bind($data);
-        
+    public function updateAction($id, $parent, $redirection, Request $request) {
+    
+        $parent = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Category')
+        ->find($parent);
+    
+        $category = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Category')
+        ->find($id);
+    
+        $redirection = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Redirection')
+        ->findOneById($redirection);
+    
+        $category->setRedirection($redirection);
+        $category->setParent($parent);
+    
+        $form = $this->getForm(new CategoryType(), $category, $request);
+        $form->bind($data);
+    
         $em = $this->getEntityManager();
         $em->persist($category);
         $em->flush();
-			
-        $view = $this->view($category)->setFormat('json');
-		return $this->handleView($view);			
     
-    } 
-    
+        $view = $this->view($category);
+        return $this->handleView($view);
+    }
+  
     /**
-     * @Delete("/{id}")
+     * @Delete("/questions/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
-    public function deleteAction($id)
-    {   
-    	
-		$em = $this->getEntityManager();
-		
-		$category = $em->getRepository('LilyKnowledgeBundle:Category')
-				   	    ->find($id); 
-    			   
-	    $em->remove($category);
-	    $em->flush();
-	    
+    public function deleteAction($id) {
+  
+        $em = $this->getEntityManager();
+    
+        $category = $em->getRepository('LilyKnowledgeBundle:Category')
+        ->find($id);
+        
+        if (!$category) {
+            throw $this->createNotFoundException();
+        }
+    
+        $em->remove($category);
+        $em->flush();
     }
 
 }

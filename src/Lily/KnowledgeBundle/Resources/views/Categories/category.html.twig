@@ -1,0 +1,11 @@
+<div class="category-parent">
+  <i class="icon-sign-blank" style="color:#<%= color %>"></i>
+  <span class="categories-title"><%= title %></span>
+  <% if (!_.isEmpty(children)) { %>
+  	<i class="icon-angle-down pull-right"></i>
+  <% } %>
+</div>
+
+<% if (!_.isEmpty(children)) { %>
+	<ul class="category-children hide"></ul>
+<% } %>

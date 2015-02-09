@@ -5,7 +5,7 @@ set :app_path,    "app"
 
 set :repository,  "git@github.com:saio-fr/lily.git"
 set :scm,         :git
-set :branch,      "develop"
+set :branch,      "master"
 
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
 
@@ -39,6 +39,12 @@ after "deploy" do
   
 end
 
+task :clear_opcache do
+	opcache_file = "#{deploy_to}/current/opcache-clear.php"
+	put "<?php opcache_reset(); ?>", opcache_file, :mode => 0644
+	run "cd #{deploy_to}/current && php opcache-clear.php && rm -f opcache-clear.php"
+end
+
 task :upload_parameters do
   origin_file = "app/config/parameters.yml"
   destination_file = shared_path + "/app/config/parameters.yml" # Notice the
@@ -50,6 +56,7 @@ end
 
 after "deploy:setup", "upload_parameters"
 after "deploy", "deploy:cleanup"
+after "deploy", "clear_opcache"
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL

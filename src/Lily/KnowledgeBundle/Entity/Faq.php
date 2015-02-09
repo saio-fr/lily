@@ -51,9 +51,9 @@ class Faq
     private $title;
 
     /**
-     * @var string
+     * @var text
      *
-     * @ORM\Column(name="content", type="string", length=1000, nullable=true)
+     * @ORM\Column(name="content", type="string", nullable=true)
      * @Expose
      * @Gedmo\Versioned
      */
@@ -115,7 +115,7 @@ class Faq
     /**
      * Set content
      *
-     * @param string $content
+     * @param text $content
      * @return Faq
      */
     public function setContent($content)
@@ -128,7 +128,7 @@ class Faq
     /**
      * Get content
      *
-     * @return string 
+     * @return text
      */
     public function getContent()
     {

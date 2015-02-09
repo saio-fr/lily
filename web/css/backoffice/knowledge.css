@@ -1,8 +1,64 @@
 /****************************************************************************************
+    COMMON
+****************************************************************************************/
+ul {
+  list-style-type: none;
+}
+
+.list-group {
+  margin: 0;
+}
+
+.list-group-item {
+  border: none;
+  cursor: pointer;
+  border-right: 4px solid transparent !important;
+}
+
+.list-group-item.active {
+  border: none;
+  cursor: pointer;
+  border-right: 4px solid #62a5e2 !important;
+}
+
+.checkbox {
+  float: left;
+  margin: 10px 0;
+}
+
+.btn-primary {
+  background-color: #444C5C;
+  border-color: #505868;
+}
+
+.btn-primary:hover {
+  background-color: #428bca;
+  border-color: #3b7fb9;
+}
+
+.title {
+  margin: 5px 0 0 25px;
+  color: #6e7d83;
+  font-weight: 600;
+}
+
+.icon-spinner {
+  position: absolute;
+  top: calc(40% - 50px);
+  left: calc(50% - 50px);
+  font-size: 50px;
+}
+
+.header .nav-tabs > li.active a, .header .nav-tabs > li.active a:hover, .footer .nav-tabs > li.active a, .footer .nav-tabs > li.active a:hover {
+  box-shadow: none;
+  background: white;
+}
+
+/****************************************************************************************
     MAIN MENU
 ****************************************************************************************/
 .js-app-navigator {
-  width: 200px;
+  width: 220px;
 }
 
 .nav > li > a {
@@ -16,17 +72,18 @@
 }
 
 .categories-divider {
-  margin-top: 30px;
-  background: #E3E5E8;
+  margin-top: 30px !important;
   padding: 10px;
+  border-top: 1px solid #E0E4E8;
+  border-bottom: 1px solid #E0E4E8;
 }
 
 .categories-divider span {
   font-size: 13px;
 }
 
-.js-categories-list {
-  top: 160px !important;
+.js-categories {
+  top: 190px !important;
 }
 
 .js-app-navigator .btn {
@@ -39,7 +96,7 @@
 }
 
 .js-app-navigator .btn:hover {
-  background: #f7f9fc;
+  background: #fbfcff;
 }
 
 .btn-show-categories:hover {
@@ -56,4 +113,318 @@
   padding: 10px;
   color: #797979;
   font-size: 11px;
+}
+
+/****************************************************************************************
+    CATEGORIES
+****************************************************************************************/
+
+.js-categories-list .category-parent {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.js-categories-list .category-children {
+  padding-left: 23px;
+}
+
+.js-categories-list .icon-check-sign, .js-categories-list .icon-sign-blank {
+  font-size: 14px;
+}
+
+.js-categories-list .icon-angle-down, .js-categories-list .icon-angle-up {
+  font-size: 18px;
+}
+
+.js-categories-list .category-parent:hover {
+  background: #fbfcff;
+}
+
+.js-categories-list .divider {
+  height: 1px;
+  width: 100%;
+  margin: 3px 5px;
+  background: #bfbfbf;
+}
+
+.categories-title {
+  font-size: 11px;
+  color: #444c5c;
+  margin-left: 5px;
+}
+
+.modal-manage-categories {
+  margin: 0;
+  position: fixed;
+  width: calc(100% - 80px);
+  height: calc(100% - 80px);
+  top: 40px !important;
+  left: 40px !important;
+  z-index: 9999;
+  outline: 0;
+}
+
+/****************************************************************************************
+    QUESTIONS
+****************************************************************************************/
+
+
+.js-questions-edit {
+  width: 60%;
+}
+
+.lvl-one {
+  padding: 0 10px;
+}
+
+.lvl-two {
+  margin-top: 10px;
+  padding: 0 10px 10px 10px;
+  border-top: 1px solid #e0e4e8;
+  border-bottom: 1px solid #e0e4e8;
+  background: white;
+}
+
+.btn-group {
+  margin: 10px 0 0 0;
+}
+
+.paginator {
+  display: inline-block;
+  float: right;
+}
+
+.js-questions-content {
+  top: 102px !important; 
+}
+
+.btn-filter {
+  background: #f9fafc;
+  border: 1px solid #d9dde1;
+}
+
+.paginator .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.informations {
+  font-size: 10px;
+  color: #8f9a9e;
+  margin-left: 5px;
+}
+
+.modal-trash {
+  margin: 0;
+  position: fixed;
+  width: 500px;
+  top: calc(50% - 100px) !important;
+  left: calc(50% - 250px) !important;
+  z-index: 9999;
+  outline: 0;
+}
+
+.list-group-alt .list-group-item:nth-child(2n+1) {
+  background: none;
+}
+
+.list-group-alt .list-group-item:nth-child(2n) {
+  background: rgba(245, 247, 250, 1);
+}
+
+.btn-group-header {
+  margin-right: 10px;
+}
+
+.btn-group-show {
+  margin: 10px 5px 0 5px;
+}
+
+.btn-edit-trash {
+  margin-right: 9px;
+}
+
+.question-category-label {
+  float: right;
+  font-size: 9px;
+  padding: 2px 8px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 2px;
+  color: white;
+  font-weight: 600;
+}
+
+.js-edit-question-tree {
+  padding: 0 20px 0 20px;
+}
+
+.treel-el {
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e2e5e8;
+  background: #f9fafc;
+  padding: 5px;
+  height: 35px;
+  margin: 5px 0 5px 0;
+}
+
+.treel-el .btn-action {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 25px;
+  text-align: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.treel-el .btn-collapse {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.treel-el .btn-action ul {
+  top: 0;
+  left: -160px;
+}
+
+.treel-el.title {
+  margin-top: 20px;
+}
+
+.treel-el.child {
+  margin-left: 40px;
+}
+
+.treel-el.editing {
+  border-color: #62a5e2;
+}
+
+.treel-el.answer.editing {
+  height: auto;
+}
+
+.treel-el.editing .btn-action, .treel-el.editing .btn-collapse {
+  display: none;
+}
+
+.toolbar {
+  background: #DDDDDD;
+  border-radius: 3px;
+  display: none;
+  padding: 5px;
+  cursor: default;
+}
+
+.btn-toolbar {
+  background: white;
+  padding: 5px;
+  font-size: 10px;
+}
+
+.treel-el.answer.editing .toolbar {
+  display: block;
+}
+
+.treel-el input {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  height: 29px;
+  margin-top: -2px;
+  margin-left: 25px;
+  font-size: 12px;
+  color: #828282;
+}
+
+.treel-el .editor {
+  height: 100%;
+  margin-left: 25px;
+  margin-top: 2px;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  color: #828282;
+  cursor: text;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis; 
+}
+
+.treel-el.answer.editing .editor {
+  padding: 10px 0 20px 0;
+  margin-left: 0;
+}
+
+.tree-el-type {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  top: 0;
+  left: -60px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.tree-el-type.precision {
+  color: #62A5E2;
+}
+
+.tree-el-type.action {
+  color: #92cf5c;
+}
+
+.icon-level-up {
+  position: absolute;
+  font-size: 20px;
+  left: 20px;
+  transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+}
+
+.tree-el-type span {
+  position: relative;
+  font-size: 10px;
+  top: 15px;
+  color: #838383;
+}
+
+.new-answer {
+  position: relative;
+  margin-left: 40px;
+}
+
+.new-answer button {
+  border-radius: 3px;
+  border: 2px dashed #7ab4e8;
+  background: white;
+  padding: 5px;
+  margin: 0;
+  width: 100%;
+  display: block;
+  color: #7ab4e8;
+  cursor: pointer;
+}
+
+.new-answer .caret {
+  border-top: 4px solid #7ab4e8;
+}
+
+.new-answer button:hover {
+  border-color: #62a5e2;
+}
+
+.new-answer ul {
+  left: 40px;
+}
+
+.js-tree-el-children {
+  padding-left: 75px;
 }

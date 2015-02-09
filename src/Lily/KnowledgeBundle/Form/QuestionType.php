@@ -19,9 +19,31 @@ class QuestionType extends AbstractType
         $builder
             ->add('title')
             ->add('answer')
+            ->add('questionType')
+            ->add('answerType')
             ->add('position')
             ->add('mood')
+            ->add('category', 'entity', array(
+                'class' => 'LilyKnowledgeBundle:Category',
+                'property' => 'id',
+                'multiple' => false))
         ;
+        
+        if (--$options['recursionLevel'] > 0) {
+            $builder
+                ->add('children', 'collection', array(
+                    'type' => new QuestionType(),
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                    'options' => [
+                        'recursionLevel' => $options['recursionLevel']
+                    ],
+
+                ));
+        }
+        
+        
     }
     
     /**
@@ -31,7 +53,8 @@ class QuestionType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Lily\KnowledgeBundle\Entity\Question',
-            'csrf_protection' => false
+            'csrf_protection' => false,
+            'recursionLevel' => 10
         ));
         
     }

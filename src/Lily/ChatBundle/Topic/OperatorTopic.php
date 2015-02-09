@@ -110,5 +110,4 @@ class OperatorTopic implements TopicInterface
 			      }
 		    }
     }
-
 }

@@ -25,172 +25,104 @@ use Lily\KnowledgeBundle\Entity\Tag;
 use Lily\KnowledgeBundle\Form\TagType;
 use Lily\BackOfficeBundle\Controller\BaseController;
 
-
-
 class TagsController extends BaseController
 {
     
 	/**
-     * @Get("/")
+     * @Get("/tags")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(serializerGroups={"list"})
      */
-    public function getTagsAction()
+    public function getAllAction()
     {    
 
-    	$tags = $this->getEntityManager()
-    			     ->getRepository('LilyKnowledgeBundle:Tag')
-    				 ->findAll();
-    	
-    	$view = $this->view($tags)->setFormat('json');        
+      	$tags = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Tag')
+        ->findAll();
+      	
+      	$view = $this->view($tags);        
         return $this->handleView($view);	
         	
     }
     
     /**
-     * @Get("/{id}")
+     * @Get("/tags/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getAction($id)
     {   
-   		
-   		$tag = $this->getEntityManager()
-    			    ->getRepository('LilyKnowledgeBundle:Tag')
-    				->find($id);
+
+        $tag = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Tag')
+    		->find($id);
     					  
         if (!$tag) {
             throw $this->createNotFoundException();
         }
         
-		$view = $this->view($tag)->setFormat('json');
-		return $this->handleView($view);
+    		$view = $this->view($tag);
+    		return $this->handleView($view);
        		
     }
     
     /**
-     * @Post("/")
+     * @Post("/tags")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function createAction(Request $request)
+    public function postAction(Request $request)
     {
 
-    	$tag = $this->deserialize('Lily\KnowledgeBundle\Entity\Tag', $request);
-    	
-    	if ($tag instanceof Tag === false) {
+      	$tag = $this->deserialize('Lily\KnowledgeBundle\Entity\Tag', $request);
+      	
+      	if ($tag instanceof Tag === false) {
             $view = $this->view($tag, 400);
-	        return $this->handleView($view);
+  	        return $this->handleView($view);
         }  		  		    	 
         
         $em = $this->getEntityManager();
         $em->persist($tag);
         $em->flush();
 			
-        $view = $this->view($tag)->setFormat('json');
-		return $this->handleView($view);
+        $view = $this->view($tag);
+        return $this->handleView($view);
         
     }    
     
     /**
-     * @Put("/")
+     * @Put("/tags/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function updateAction(Request $request)
+    public function putAction(Request $request)
     {
-
-    	$data = json_decode($request->getContent(), true);
 		
-		$form = $this->createForm(new TagType(), $tag, array('csrf_protection' => false));   
-		$form->bind($data);
+        $tag = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Tag')
+    		->find($id);
+    				
+		    $form = $this->getForm(new TagType(), $tag, $request);
         
         $em = $this->getEntityManager();
         $em->persist($tag);
         $em->flush();
 			
-        $view = $this->view($tag)->setFormat('json');
-		return $this->handleView($view);			
-    
+        $view = $this->view($tag);
+        return $this->handleView($view);			
     } 
     
     /**
-     * @Delete("/{id}")
+     * @Delete("/tags/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
     public function deleteAction($id)
     {   
     	
-		$em = $this->getEntityManager();
+		    $em = $this->getEntityManager();
 		
-		$tag = $em->getRepository('LilyKnowledgeBundle:Tag')
-				  ->find($id); 
+        $tag = $em->getRepository('LilyKnowledgeBundle:Tag')
+				->find($id); 
     			   
-	    $em->remove($tag);
-	    $em->flush();
-	    
+        $em->remove($tag);
+        $em->flush(); 
     }
-            
-    /**
-     * @Post("/{id}")
-     * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
-     */
-    public function addQuestionAction($question, Request $request)
-    {
-		
-		$em = $this->getEntityManager();
-		$em_question = $em->getRepository('LilyKnowledgeBundle:Question');
-		$em_tag = $em->getRepository('LilyKnowledgeBundle:Tag');
-		
-		$data = json_decode($request->getContent());
-
-		$tag = $em_tag->find($id);
-		
-		foreach($data->id as $item) {
-			
-			$question = $em_question->find($item);
-			$tag->addQuestion($question);
-			$question->addTag($tag);
-			
-		}
-		
-        $em->persist($tag);
-        $em->persist($question);
-        $em->flush();
-			
-        $view = $this->view($tag)->setFormat('json');
-        return $this->handleView($view);
-        
-    }
-    
-                
-    /**
-     * @Post("/{id}")
-     * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
-     */
-    public function removeQuestionAction($id, Request $request)
-    {
-		
-		$em = $this->getEntityManager();
-		$em_question = $em->getRepository('LilyKnowledgeBundle:Question');
-		$em_tag = $em->getRepository('LilyKnowledgeBundle:Tag');
-		
-		$data = json_decode($request->getContent());
-		$tag = $em_tag->find($id);
-		
-		foreach($data->id as $item) {
-			
-			$question = $em_question->find($item);
-			$tag->removeQuestion($question);
-			$question->removeTag($tag);
-			
-		}
-		
-        $em->persist($tag);
-        $em->persist($question);
-        $em->flush();
-			
-        $view = $this->view($tag)->setFormat('json');
-		return $this->handleView($view);
-        
-    }
-
 }

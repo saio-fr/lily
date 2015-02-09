@@ -10,6 +10,8 @@ define(function (require) {
   var _ = require('underscore'),
       Backbone = require('backbone'),
       app = require('app'), 
+      CategoriesSkeletonView = require('backoffice/knowledge/views/categories/skeletonView'),
+      QuestionsSkeletonView = require('backoffice/knowledge/views/questions/skeletonView'),
 
       // Object wrapper returned as a module
       AppRouter;
@@ -24,11 +26,18 @@ define(function (require) {
     },
 
     initialize: function () {
+      app.changeCounters();
     },
     
     questions: function () {
       $('.js-app-navigator .active').removeClass('active');
       $('.js-app-navigator .questions-nav').addClass('active');
+      if (typeof(app.skeleton) !== "undefined") {
+        app.skeleton.remove();
+      }
+      app.skeleton = new QuestionsSkeletonView();
+      app.skeleton.categories = new CategoriesSkeletonView();
+      app.skeleton.categories.fetch('questions');
     },
 
     files: function () {
@@ -39,21 +48,6 @@ define(function (require) {
     links: function () {
       $('.js-app-navigator .active').removeClass('active');
       $('.js-app-navigator .links-nav').addClass('active');
-    },
-    
-    users: function () {
-      $('.tab-content-wrapper').removeClass('scrollable');
-      $('.tab-pane').removeClass('active');
-      $('.users-wrapper').addClass('active');
-      $('.nav-tabs li').removeClass('active');
-      $('.users-nav').addClass('active');
-      $('.users-charts-nav').addClass('active');
-      $('#users-charts-skeleton').addClass('active');
-      
-      if (typeof app.skeleton.users == 'undefined') {           
-        var users = new UsersSkeletonView();
-        app.skeleton.users = users;
-      }
     }
     
   });

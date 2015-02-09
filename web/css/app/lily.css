@@ -1280,9 +1280,10 @@ CONTACT FORM
 	border: none;
 	text-transform: uppercase;
 	text-align: center;
-	line-height: 40px;
+	line-height: 35px;
 	margin-top: 15px;
 	margin-bottom: 15px;
+	padding-top: 5px;
 	outline: 0;
 }
 

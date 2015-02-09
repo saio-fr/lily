@@ -16,6 +16,14 @@ class IndexController extends BaseController
 {
     public function knowledgeAction()
     {
-        return $this->render('LilyKnowledgeBundle::index.html.twig');
+        
+        $questions = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:Question')
+        ->countAll();
+        
+        $counters['questions'] = $questions;
+        
+        return $this->render('LilyKnowledgeBundle::index.html.twig',
+            array('counters' => $counters));
     }
 }

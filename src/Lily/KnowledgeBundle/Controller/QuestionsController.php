@@ -5,6 +5,8 @@ namespace Lily\KnowledgeBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -20,33 +22,6 @@ use Lily\BackOfficeBundle\Controller\BaseController;
 
 class QuestionsController extends BaseController
 {
-  
-    /**
-     * @Template()
-     */
-    public function indexAction()
-    {
-    }
-
-    /**
-     * @Get("/questions/count")
-     * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
-     * @View(serializerGroups={"list"})
-     */
-    public function getCountAction(Request $request)
-    {
-        $countByType = $this->getEntityManager()
-        ->getRepository('LilyKnowledgeBundle:Question')
-        ->countByType();
-
-        $counter = [];
-
-        foreach ($countByType as $data) {
-            $type = ($data["type"]) ?: "unanswered";
-            $counter[$type] = $data[1];
-        }
-        return $counter;
-    }
 
     /**
      * @Post("/questions/sort")
@@ -63,7 +38,7 @@ class QuestionsController extends BaseController
 
         $counter = $this->getEntityManager()
         ->getRepository('LilyKnowledgeBundle:Question')
-        ->sortQuestions($data, true);
+        ->countSortedQuestions($data);
 
         return array(
             'questions' => $questions, 
@@ -148,30 +123,34 @@ class QuestionsController extends BaseController
     }
 
     /**
-     * @Put("/questions/{id}/{parent}/{category}")
+     * @Put("/questions/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View()
      */
-    public function putAction($id, $parent, $category, Request $request)
+    public function putAction($id, Request $request)
     {
         $em = $this->getEntityManager();
-
-        $parent = $this->getEntityManager()
-        ->getRepository('LilyKnowledgeBundle:Question')
-        ->find($parent);
-  
-        $category = $this->getEntityManager()
-        ->getRepository('LilyKnowledgeBundle:Category')
-        ->find($category);
   
         $question = $this->getEntityManager()
         ->getRepository('LilyKnowledgeBundle:Question')
         ->find($id);
+         
+        $originalChildren = new ArrayCollection();
+
+        // Crée un tableau contenant les objects children courants de la
+        // base de données
+        foreach ($question->getChildren() as $child) {
+            $originalChildren->add($child);
+        }
   
         $form = $this->getForm(new QuestionType(), $question, $request);
-  
-        $question->setParent($parent);
-        $question->setCategory($category);
+        
+        foreach ($originalChildren as $child) {
+            if ($question->getChildren()->contains($child) == false) {
+                // Delete the child question entity
+                $em->remove($child);
+            }
+        }
   
         $user = $this->getUser();
         $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
@@ -214,7 +193,7 @@ class QuestionsController extends BaseController
     {
 
         $em = $this->getEntityManager();
-    
+
         $question = $em->getRepository('LilyKnowledgeBundle:Question')
         ->find($id);
     

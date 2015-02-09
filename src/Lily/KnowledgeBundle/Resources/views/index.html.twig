@@ -22,44 +22,44 @@
 
 	{% block content %}
     <!-- .aside -->
-    <aside class="js-app-navigator bg-light">
+    <aside class="js-app-navigator bg-light b-r">
       <section class="vbox">
         <header class="nav-bar">
           <ul class="nav nav-pills nav-stacked no-radius">
             <li class="questions-nav">
               <a href="#questions">
-                <span class="badge pull-right">15</span> 
+                <span class="badge pull-right">0</span> 
                 Questions
               </a>
             </li>
             <li class="files-nav">
               <a href="#files">
-                <span class="badge pull-right">15</span> 
+                <span class="badge pull-right">0</span> 
                 Fichiers
               </a>
             </li>
             <li class="links-nav">
               <a href="#links">
-                <span class="badge pull-right">15</span> 
+                <span class="badge pull-right">0</span> 
                 Liens
               </a>
             </li>
             <li class="categories-divider">
               <span>Categories</span>
-              <button class="btn pull-right">Modifier</button>
+              <button class="manage-categories btn pull-right">Modifier</button>
             </li>
           </ul>
         </header>
-        <section class="js-categories-list scrollable">
-          <ul class="nav nav-pills nav-stacked no-radius">
+        <section class="js-categories scrollable">
+          <ul class="js-categories-list nav nav-pills nav-stacked no-radius">
             <!--
               Here goes questions' categories
             -->
           </ul>
         </section>
         <footer class="footer b-t">
-          <button class="btn">Tout afficher</button>
-          <button class="btn pull-right">Tout masquer</button>
+          <button class="btn show-all-categories">Tout afficher</button>
+          <button class="btn hide-all-categories pull-right">Tout masquer</button>
         </footer>
       </section>
     </aside>
@@ -67,12 +67,10 @@
     
     <!-- .aside -->
     <aside class="bg-light lter">
-      <section class="vbox scrollable padder-b">
-        <section class="js-skeleton-container hbox stretch">
-          <!--  
-            Here goes our skeletons
-          -->
-        </section>
+      <section class="js-skeleton-container vbox">
+        <!--  
+          Here goes our skeletons
+        -->
       </section>
     </aside>
 
@@ -82,17 +80,48 @@
 
 
 	{% block templates %}
-		<!-- L'appel des différents scripts de vue -->
+		<!-- 
+  		Questions 
+    -->
 		<script type="text/template" id="questionsSkeletonTpl">
       {% include 'LilyKnowledgeBundle:Questions:skeleton.html.twig' %}
+    </script>
+		<script type="text/template" id="questionsQuestionTpl">
+      {% include 'LilyKnowledgeBundle:Questions:question.html.twig' %}
+    </script>
+		<script type="text/template" id="questionsEditTpl">
+      {% include 'LilyKnowledgeBundle:Questions/Edit:skeleton.html.twig' %}
+    </script>
+		<script type="text/template" id="questionsEditTreeTpl">
+      {% include 'LilyKnowledgeBundle:Questions/Edit:tree.html.twig' %}
+    </script>
+		<!-- 
+  		Categories
+    -->
+		<script type="text/template" id="categoriesCategoryTpl">
+      {% include 'LilyKnowledgeBundle:Categories:category.html.twig' %}
+    </script>
+		<script type="text/template" id="categoriesEditSkeletonTpl">
+      {% include 'LilyKnowledgeBundle:Categories/Edit:skeleton.html.twig' %}
+    </script>
+    <!-- 
+  		  Modals
+    -->
+		<script type="text/template" id="modalAppTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
+    </script>
+		<script type="text/template" id="modalConfirmTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
     </script>
   {% endblock %}
 
 	{% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
+        var counters = JSON.parse('{{ counters | serialize('json') }}');
         var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api';
+        config.licence = '{{ app.user.client.licence }}';
         {% if app.environment == 'dev' %}
         config.wsserver = 'ws://develop.saio.fr';
         {% else %}

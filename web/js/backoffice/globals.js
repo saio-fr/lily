@@ -75,6 +75,19 @@ define(function(require) {
     name: "modal-transfer",
     title: "A qui souhaitez vous transférer la conversation ?"
   };
+  g.modalConfirm.questionsTrash = {
+    name: "modal-trash",
+    title: "Etes-vous sur de vouloir supprimer ces questions ?",
+    body: "Une fois les questions supprimées, vous ne pourrez plus y " +
+      "avoir accès ",
+    cancel: "Annuler",
+    confirm: "Supprimer les questions"
+  };
+  g.modalApp.categoriesManagement = {
+    name: "modal-manage-categories",
+    title: "Panel de management des catégories"
+  }; 
+
 
   return g;
 });
