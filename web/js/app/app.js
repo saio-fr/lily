@@ -169,6 +169,8 @@ define(function(require) {
 
       onChatReconnect: function() {
         app.trigger("chat:resetConversation");
+        // Chat has been disconnected. Hence the reconnect. (not the best way to do it)
+        app.hasChatConnected = false;
         app.onChatOpen().then(function() {
           app.trigger("chat:reconnected");
         }, function(err) {
