@@ -11,13 +11,15 @@ define(['../common', 'require'], function(common, require) {
   "backoffice/knowledge/router",
   "components/modals/confirmView",
   "components/modals/model",
+  "backoffice/knowledge/utils/counters",
+  "utils/interact",
 
   // Libraries required at bootstrap for the UI.
   "moment",
   "bootstrap",
   "todoTpl"
   
-], function($, _, Backbone, app, globals, Router, ModalView, ModalModel) {
+], function($, _, Backbone, app, globals, Router, ModalView, ModalModel, Counters, Interact) {
 
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
@@ -25,6 +27,8 @@ define(['../common', 'require'], function(common, require) {
 
     app.init = function() {
       app.router = new Router();
+      Interact.resizeNavigator();
+      Counters.set(config);
     };
     
     app.createModal = function(content, callback, context) {
@@ -46,10 +50,13 @@ define(['../common', 'require'], function(common, require) {
       });
     };
     
-    app.counters = counters;
-    app.changeCounters = function () {
-      $('.questions-nav span').html(app.counters.questions);
-    };
+    app.post = function () {
+      $('.icon-spinner').removeClass('hide');
+      $.post(app.postUrl, JSON.stringify(app.sortRequest), function (data) {
+        app.postCallback(data);
+        $('.icon-spinner').addClass('hide');
+      });
+    },
 
     // Will get called if ws connection is successful
     app.onConnect = function(result) {

@@ -3,6 +3,7 @@
 ****************************************************************************************/
 ul {
   list-style-type: none;
+  padding: 0;
 }
 
 .list-group {
@@ -18,7 +19,27 @@ ul {
 .list-group-item.active {
   border: none;
   cursor: pointer;
+  margin-right: -5px;
   border-right: 4px solid #62a5e2 !important;
+}
+
+.list-group-item.active .category-label {
+  margin-right: 5px;
+}
+
+.list-group-item.active category-label {
+  margin-right: 5px;
+}
+
+.category-label {
+  float: right;
+  font-size: 9px;
+  padding: 2px 8px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 2px;
+  color: white;
+  font-weight: 600;
 }
 
 .checkbox {
@@ -49,15 +70,22 @@ ul {
   font-size: 50px;
 }
 
-.header .nav-tabs > li.active a, .header .nav-tabs > li.active a:hover, .footer .nav-tabs > li.active a, .footer .nav-tabs > li.active a:hover {
+.header .nav-tabs > li.active a, 
+.header .nav-tabs > li.active a:hover, 
+.footer .nav-tabs > li.active a, 
+.footer .nav-tabs > li.active a:hover {
   box-shadow: none;
   background: white;
+}
+
+.aside-divider {
+  width: 5px;
 }
 
 /****************************************************************************************
     MAIN MENU
 ****************************************************************************************/
-.js-app-navigator {
+.app-navigator {
   width: 220px;
 }
 
@@ -74,102 +102,158 @@ ul {
 .categories-divider {
   margin-top: 30px !important;
   padding: 10px;
-  border-top: 1px solid #E0E4E8;
-  border-bottom: 1px solid #E0E4E8;
 }
 
-.categories-divider span {
+.categories-divider h5 {
   font-size: 13px;
+  display: inline;
 }
 
-.js-categories {
-  top: 190px !important;
+.categories {
+  top: 200px !important;
 }
 
-.js-app-navigator .btn {
+.app-navigator .btn {
   padding: 5px;
   font-size: 11px;
   margin-top: -4px;
   border-radius: 3px;
-  background: #EDEFF4;
+  background: #F5F7FA;
   color: #717171;
+  outline: 0;
 }
 
-.js-app-navigator .btn:hover {
-  background: #fbfcff;
+.app-navigator .btn:hover, .app-navigator .btn:focus {
+  border-color: #ccc;
 }
 
-.btn-show-categories:hover {
-  background: #d7d7d7;
-}
-
-.js-app-navigator footer {
+.app-navigator footer {
   min-height: 30px;
   padding: 10px;
 }
 
-.js-app-navigator footer  {
+.app-navigator footer  {
   min-height: 30px;
   padding: 10px;
   color: #797979;
   font-size: 11px;
 }
 
+.btn.show-all-categories, .btn.hide-all-categories {
+  background: #EDEFF4;
+}
+
+.btn.show-all-categories:hover, .btn.hide-all-categories:hover {
+  background: #F5F7FA;
+}
+
+.categories-divider span {
+  display: none;
+}
+
+.app-navigator.fullscreen .categories-divider span {
+  display: inline;
+}
+
+.app-navigator.fullscreen header li {
+  display: none;
+}
+
+.app-navigator.fullscreen header .categories-divider {
+  display: block;
+  margin-top: 10px !important;
+}
+
+.app-navigator.fullscreen .categories {
+  top: 50px !important;
+}
+
 /****************************************************************************************
     CATEGORIES
 ****************************************************************************************/
 
-.js-categories-list .category-parent {
+.category-parent {
   padding: 5px;
   cursor: pointer;
 }
 
-.js-categories-list .category-children {
+.category-children {
   padding-left: 23px;
 }
 
-.js-categories-list .icon-check-sign, .js-categories-list .icon-sign-blank {
+.category .icon-check-sign, .category .icon-sign-blank {
+  color: #656F81;
   font-size: 14px;
 }
 
-.js-categories-list .icon-angle-down, .js-categories-list .icon-angle-up {
-  font-size: 18px;
+.btn-category-menu {
+  font-size: 11px;
+  position: absolute;
+  top: 6px;
 }
 
-.js-categories-list .category-parent:hover {
+.category {
+  position: relative;
+}
+
+.category-parent:hover {
   background: #fbfcff;
 }
 
-.js-categories-list .divider {
-  height: 1px;
-  width: 100%;
-  margin: 3px 5px;
-  background: #bfbfbf;
+.category-title {
+  font-size: 11px;
+  margin-left: 16px;
 }
 
-.categories-title {
-  font-size: 11px;
-  color: #444c5c;
+.btn-add, .btn-collapse {
+  margin-right: 3px;
+}
+
+.btn-collapse .dropdown-menu {
+  right: auto;
+  left: 0;
+}
+
+.selected.category-parent .category-title {
+  font-weight: 600;
+  color: #62a5e2;
+}
+
+.modal-categories {
+  margin: 0;
+  position: fixed;
+  width: 500px;
+  height: 270px;
+  top: calc(50% - 135px);
+  left: calc(50% - 250px);
+  z-index: 9999;
+  outline: 0;
+  border-radius: 2px;
+}
+
+.btn-category-minus {
+  position: absolute;
+  top: 3px;
   margin-left: 5px;
 }
 
-.modal-manage-categories {
-  margin: 0;
-  position: fixed;
-  width: calc(100% - 80px);
-  height: calc(100% - 80px);
-  top: 40px !important;
-  left: 40px !important;
-  z-index: 9999;
-  outline: 0;
+.btn-category-menu {
+  display:none;
+}
+
+.btn-category-menu:hover, .btn-category-minus:hover {
+  color: #3c3f46;
+}
+
+.category-parent:hover .btn-category-menu {
+  display: inline;
 }
 
 /****************************************************************************************
     QUESTIONS
 ****************************************************************************************/
 
-
-.js-questions-edit {
+.aside-edit {
   width: 60%;
 }
 
@@ -180,9 +264,9 @@ ul {
 .lvl-two {
   margin-top: 10px;
   padding: 0 10px 10px 10px;
-  border-top: 1px solid #e0e4e8;
   border-bottom: 1px solid #e0e4e8;
   background: white;
+  min-height: 30px;
 }
 
 .btn-group {
@@ -194,8 +278,8 @@ ul {
   float: right;
 }
 
-.js-questions-content {
-  top: 102px !important; 
+.questions-wrapper {
+  top: 101px !important; 
 }
 
 .btn-filter {
@@ -222,6 +306,21 @@ ul {
   left: calc(50% - 250px) !important;
   z-index: 9999;
   outline: 0;
+  border-radius: 2px;
+}
+
+.dragger {
+  position: absolute;
+  z-index: 9999;
+  padding: 3px 5px;
+  border: 1px solid #c9c9c9;
+  background: white;
+  top: 0;
+  left: 0;
+}
+
+.drop-target {
+  background: #DCDDDF;
 }
 
 .list-group-alt .list-group-item:nth-child(2n+1) {
@@ -244,21 +343,6 @@ ul {
   margin-right: 9px;
 }
 
-.question-category-label {
-  float: right;
-  font-size: 9px;
-  padding: 2px 8px;
-  margin-top: 10px;
-  margin-left: 10px;
-  border-radius: 2px;
-  color: white;
-  font-weight: 600;
-}
-
-.js-edit-question-tree {
-  padding: 0 20px 0 20px;
-}
-
 .treel-el {
   position: relative;
   border-radius: 3px;
@@ -279,17 +363,18 @@ ul {
   cursor: pointer;
 }
 
+.btn-action .dropdown-menu {
+  min-width: 110px;
+  top: 0;
+  left: -110px;
+}
+
 .treel-el .btn-collapse {
   position: absolute;
   top: 7px;
   left: 7px;
   font-size: 13px;
   cursor: pointer;
-}
-
-.treel-el .btn-action ul {
-  top: 0;
-  left: -160px;
 }
 
 .treel-el.title {
@@ -396,12 +481,12 @@ ul {
   color: #838383;
 }
 
-.new-answer {
+.new-answer-type {
   position: relative;
   margin-left: 40px;
 }
 
-.new-answer button {
+.new-answer-type button {
   border-radius: 3px;
   border: 2px dashed #7ab4e8;
   background: white;
@@ -413,18 +498,18 @@ ul {
   cursor: pointer;
 }
 
-.new-answer .caret {
+.new-answer-type .caret {
   border-top: 4px solid #7ab4e8;
 }
 
-.new-answer button:hover {
+.new-answer-type button:hover {
   border-color: #62a5e2;
 }
 
-.new-answer ul {
+.new-answer-type ul {
   left: 40px;
 }
 
-.js-tree-el-children {
+.tree-children {
   padding-left: 75px;
 }

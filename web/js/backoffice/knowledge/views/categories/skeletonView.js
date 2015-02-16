@@ -10,6 +10,7 @@ define(function (require) {
   var Backbone = require('backbone'),
       app = require('app'),
       globals = require('globals'),
+      Interact = require('utils/interact'),
       ChildViewContainer = require('utils/backbone-childviewcontainer'),
       Models = require('backoffice/knowledge/data/models'),
       Collections = require('backoffice/knowledge/data/collections'),
@@ -22,21 +23,28 @@ define(function (require) {
 
   SkeletonView = Backbone.View.extend({
 
-    el: $('.js-app-navigator'),
+    el: $('.app-navigator'),
 
     events: {
-      'click .show-all-categories' : 'showAll',
-      'click .hide-all-categories' : 'hideAll',
-      'click .manage-categories' : 'manage'
+      'click .btn-collapse a' : 'collapse',
+      'click .btn-add': 'create',
+      'click .btn-fullscreen': 'fullscreen'
     },
     
     initialize: function () {
       this.childViews = new Backbone.ChildViewContainer();
+      this.collection = new Collections.Categories();
+      
+      this.listenTo(app, 'categories:select', this.selectCategory);
+      this.listenTo(app, 'categories:unselect', this.unselectCategory);
+      this.listenTo(this.collection, 'add remove change', this.render);
       
       // Create a null category
-      var nullCategory = new Models.QuestionsCategoryNull();
+      var nullCategory = new Models.CategoryNull();
       var nullCategoryView = new CategoryView({model: nullCategory});
       $('.js-categories-list').append(nullCategoryView.render().el);
+      
+      this.listenTo(this.collection, 'reset', this.render);
     },
     
     render: function () {
@@ -57,6 +65,8 @@ define(function (require) {
         
         that.renderChild(view);
       });
+
+      Interact.dropzoneCategories();
     },
     
     renderChild: function (parentView) {
@@ -68,55 +78,104 @@ define(function (require) {
 
         _.each(children, function (model) {
           
-          var child = new Models.QuestionsCategory(model);
+          var child = new Models.Category(model);
           var childView = new CategoryView({model: child});
           that.childViews.add(childView);
-          parentView.$el.find('ul').append(childView.render().el);
+          parentView.$('.category-children').append(childView.render().el);
           
           that.renderChild(childView);
         });
       }
     },
     
-    fetch: function (type) {
+    collapse: function (e) {
+      
+      var children = this.$el.find('.js-categories-list ul');      
+      $(e.target).data('collapse') === 'down' ? children.removeClass('hide') 
+        : children.addClass('hide');
+    },
+    
+    unselectCategory: function (category) {
+      
+      var ids = [category.get('id')];
+      
+      var unselectChildren = function (category) {
+        _.each(category.children, function (child) {
+          ids.push(child.id);
+          unselectChildren(child);
+        });
+      }
+      
+      _.each(category.get('children'), function (child) {
+        ids.push(child.id);
+        unselectChildren(child);
+      });
+      
+      app.sortRequest.categories = _.without.apply(
+        _, [app.sortRequest.categories].concat(ids)
+      );
+      if (_.isEmpty(app.sortRequest.categories)) {
+        app.sortRequest.categories.push('all');
+      }
+      app.post();
+    },
+    
+    selectCategory: function (category) {
       
       var that = this;
+      app.sortRequest.categories.push(category.get('id'));
       
-      switch (type) {
-        case 'questions':
-          this.collection = new Collections.QuestionsCategories();
-          this.collection.fetch().success(function() {
-            that.render();
-          });
+            
+      var selectChildren = function (category) {
+        _.each(category.children, function (child) {
+          app.sortRequest.categories.push(child.id);
+          selectChildren(child);
+        });
+      }
+      
+      _.each(category.get('children'), function (child) {
+        app.sortRequest.categories.push(child.id);
+        selectChildren(child);
+      });
+
+      app.sortRequest.categories = _.without(app.sortRequest.categories, 'all');
+      app.post();
+    },
+    
+    fullscreen: function () {
+      
+      app.trigger('closeEditView');
+      var nav = $('.app-navigator');
+      
+      if (nav.hasClass('fullscreen')) {
+        nav.removeClass('fullscreen');
+        nav.width('220px');
+      } else {
+        nav.addClass('fullscreen');
+        nav.width('100%');
       }
     },
     
-    showAll: function () {
-
-      this.$el.find('.icon-angle-down')
-        .addClass('icon-angle-up')
-        .removeClass('icon-angle-down');
-      this.$el.find('.js-categories-list ul').removeClass('hide');
-    },
-    
-    hideAll: function () {
+    updateModal: function (categoryModel) {
       
-      this.$el.find('.icon-angle-up')
-        .addClass('icon-angle-down')
-        .removeClass('icon-angle-up');
-      this.$el.find('.js-categories-list ul').addClass('hide');
-    },
-    
-    manage: function () {
-
       var modalModel = new ModalModel();
-      modalModel.set(globals.modalApp.categoriesManagement);
+      
+      if (!categoryModel) {
+        categoryModel = new Models.Category();
+        modalModel.set(globals.modalApp.newCategory);       
+      } else {
+        modalModel.set(globals.modalApp.updateCategory); 
+      }
 
       var modalView = new ModalView({
         model: modalModel,
-        collection: this.collection,
+        category: categoryModel,
         appendEl: ".js-skeleton-container"
-      });
+      });      
+    },
+    
+    create: function () {
+      this.updateModal(null);
     }
     
   });

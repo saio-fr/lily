@@ -1,8 +1,8 @@
 <div class="checkbox">
-  <input type="checkbox" name="select">
+  <input type="checkbox" data-id="<%= id %>" name="select">
 </div>
 <% if (category) { %>
-  <span class="question-category-label" style="background: #<%= category.color %>">
+  <span class="category-label bg-dark lter">
     <i class="icon-folder-open-alt"></i>
     <%= category.title %>
   </span>

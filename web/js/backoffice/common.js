@@ -41,7 +41,8 @@ require.config({
     "scribe" : "bower_components/scribe/scribe",
     "scribe-plugin-toolbar" : "bower_components/scribe-plugin-toolbar/scribe-plugin-toolbar",
     "scribe-plugin-smart-lists": "bower_components/scribe-plugin-smart-lists/scribe-plugin-smart-lists",
-    "scribe-plugin-heading-command": "bower_components/scribe-plugin-heading-command/scribe-plugin-heading-command"
+    "scribe-plugin-heading-command": "bower_components/scribe-plugin-heading-command/scribe-plugin-heading-command",
+    "interact" : "bower_components/interact/interact"
   },
 
   "shim": {

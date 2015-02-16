@@ -64,19 +64,11 @@ class QuestionsController extends BaseController
     }
 
     /**
-     * @Post("/questions/{category}/{parent}")
+     * @Post("/questions")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
-    public function postAction($category, $parent, Request $request)
+    public function postAction(Request $request)
     {
-
-        $parent = $this->getEntityManager()
-        ->getRepository('LilyKnowledgeBundle:Question')
-        ->find($parent);
-  
-        $category = $this->getEntityManager()
-        ->getRepository('LilyKnowledgeBundle:Category')
-        ->find($category);
   
         $question = $this->deserialize('Lily\KnowledgeBundle\Entity\Question', $request);
   
@@ -84,12 +76,7 @@ class QuestionsController extends BaseController
             $view = $this->view($question, 400);
             return $this->handleView($view);
         }
-  
-        $question->setParent($parent);
-        $question->setCategory($category);
-        $question->setSatisfaction('0');
-        $question->setRequests('0');
-  
+
         $user = $this->getUser();
         $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
   
@@ -97,9 +84,9 @@ class QuestionsController extends BaseController
         $em->persist($question);
         $em->flush();
   
+/*
         if (!$parent) {
   
-            /*
             // On récupère le client
             $cname = $this->getEnterprise()->getCname();
             $client = $this->get('solarium.client.' . $cname);
@@ -115,9 +102,9 @@ class QuestionsController extends BaseController
       
             // On exécute la query
             $client->update($update);
-            */
   
         }
+*/
   
         return $question;
     }

@@ -32,7 +32,7 @@
 
 <% if (!answerType) { %>
 
-  <div class="new-answer">
+  <div class="new-answer-type">
     
     <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
       Sélectionner un type
@@ -67,7 +67,24 @@
         <i class="icon-ellipsis-vertical"></i>
       </span>
       <ul class="dropdown-menu">
-    		<li><a class="clearAnswer" href="#">Supprimer</a></li>
+        <% if (answerType === 'precision') { %>
+          <li class="dropdown-submenu">
+            <a href="#" data-toggle="dropdown">
+              <i class="icon-caret-left pull-left"></i>
+              <span>Ajouter</span>
+            </a>
+            <ul class="dropdown-menu add-action">
+  	      		<li><a href="#" data-nb="1">1 action</a></li>
+              <li><a href="#" data-nb="2">2 actions</a></li>
+              <li><a href="#" data-nb="3">3 actions</a></li>
+  	      	</ul>
+          </li>
+        <% } %>
+    		<li>
+    		  <a class="clear-answer" href="#">
+      		  <span>Supprimer<span>
+      		</a>
+    		</li>
     	</ul>
     </div>
     
@@ -102,4 +119,4 @@
     
 <% } %>
 
-<ul class="js-tree-el-children"></ul>
+<ul class="js-tree-el-children tree-children"></ul>

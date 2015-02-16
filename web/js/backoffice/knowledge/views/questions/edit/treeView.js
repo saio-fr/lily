@@ -27,12 +27,13 @@ define(function(require) {
     template: _.template($('#questionsEditTreeTpl').html()),
 
     events: {
-      'click a.clearAnswer' : 'clearAnswer',
+      'click a.clear-answer' : 'clearAnswer',
+      'click .add-action a' : 'addAction',
       'click a.remove' : 'remove',
       'click .title input' : 'editTitle',
       'blur .title input' : 'leaveEditTitle',
       'click .answer .editor' : 'editAnswer',
-      'click .new-answer a' : 'newAnswer',
+      'click .new-answer-type a' : 'newAnswerType',
       'click .btn-collapse .collapse' : 'collapse',
       'click .btn-collapse .expand' : 'expand'
     },
@@ -91,8 +92,23 @@ define(function(require) {
         }
       });
     },
+    
+    addAction: function (e, nb) {
+      
+      if (e) {
+        e.stopImmediatePropagation();
+        nb = $(e.target).data('nb');
+        $(e.target).parents('.open').removeClass('open');
+      }
+      
+      for (var i = 0; i < nb; i++) {
+        var action = new Models.QuestionTree();
+        action.setQuestionType('action');
+        this.newChildView(action);        
+      }
+    },
 
-    newAnswer: function(e) {
+    newAnswerType: function(e) {
       e.stopImmediatePropagation();
       var type = $(e.target).data('type');
       this.model.setAnswerType(type);
@@ -101,22 +117,14 @@ define(function(require) {
       switch (type) {
         
         case 'precision':
-          
-          var action1 = new Models.QuestionTree();
-          action1.setQuestionType('action');
-          this.newChildView(action1);
-          
-          var action2 = new Models.QuestionTree();
-          action2.setQuestionType('action');
-          this.newChildView(action2);
-          
+          this.addAction(null, 2);
           break; 
       }
     },
      
     clearAnswer: function () {
       this.removeChildrenViews();
-      this.model.set({answer: null, answerType: null});
+      this.model.set({answer: '', answerType: ''});
       this.render();
     },   
     

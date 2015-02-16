@@ -5,7 +5,7 @@
   	<!--
     	Search field
     -->
-  	<div class="input-group col-lg-5 m-t-sm no-padder">
+  	<div class="input-group col-xs-6 m-t-sm no-padder">
       <input type="text" class="input-sm form-control" placeholder="Rerchercher...">
   
       <div class="input-group-btn">
@@ -176,19 +176,20 @@
   </div>
 </header>
 
-<section class="js-questions-content">
+<section class="questions-wrapper">
   <section class="hbox stretch bg-white">
-    <aside class="js-questions-list">
-      <ul class="list-group list-group-alt no-radius">
+    <aside class="js-skeleton-list">
+      <ul class="js-questions-list list-group list-group-alt no-radius">
       <!--
-    	  Our selected questions list
+    	  Our sorted questions list
       -->
       </ul>
       <div class="text-center wrapper">
         <i class="icon-spinner icon-spin icon-large hide"></i>
       </div>
     </aside>
-    <aside class="js-question-edit b-l hide">
+    <aside class="aside-divider b-l hide" style="width: 5px"></aside>
+    <aside class="js-question-edit aside-edit b-l hide">
       <!--
     	  Our selected question to edit
       -->

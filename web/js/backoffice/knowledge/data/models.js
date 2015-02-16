@@ -16,10 +16,11 @@ define(function(require) {
   Models.Question = Backbone.NestedModel.extend({
     
     defaults: {
-      title: '',
+      title: 'Nouvelle question',
       questionType: '',
       answer: '',
       answerType: '',
+      children: []
     },
     
     initialize: function () {
@@ -82,12 +83,21 @@ define(function(require) {
     }
     
   });
-  Models.QuestionsCategory = Backbone.NestedModel.extend({});
-  Models.QuestionsCategoryNull = Backbone.Model.extend({
+  Models.Category = Backbone.NestedModel.extend({
+    
+    defaults: {
+      title: '',
+      children: null
+    },
+    
+    initialize: function () {
+      this.urlRoot = "/questions/categories";
+    },
+  });
+  Models.CategoryNull = Backbone.Model.extend({
     
     defaults: {
       id: null,
-      color: '555c6a',
       title: 'Sans catégorie',
       children: null
     },

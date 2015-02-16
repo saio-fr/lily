@@ -22,7 +22,7 @@
 
 	{% block content %}
     <!-- .aside -->
-    <aside class="js-app-navigator bg-light b-r">
+    <aside class="app-navigator bg-light b-r" style="width: 220px;">
       <section class="vbox">
         <header class="nav-bar">
           <ul class="nav nav-pills nav-stacked no-radius">
@@ -45,33 +45,48 @@
               </a>
             </li>
             <li class="categories-divider">
-              <span>Categories</span>
-              <button class="manage-categories btn pull-right">Modifier</button>
+              <button class="btn-fullscreen btn pull-right">
+                <i class="icon-resize-full"></i>
+                <span>Réduire</span>
+              </button>
+              <button class="btn-add btn pull-right">
+                <i class="icon-plus"></i>
+                <span>Ajouter une catégorie</span>
+              </button>
+              <div class="btn-collapse pull-right">
+                <button class="btn" data-toggle="dropdown">
+                  <i class="icon-sort"></i>
+                  <span>Afficher</span>
+                </button>
+                <ul class="dropdown-menu">
+      	      		<li>
+      	      			<a data-collapse="down" data-order="desc" href="#">Tout afficher</a>
+      	      		</li>
+      	      		<li>
+      	      			<a data-collapse="up" data-order="asc" href="#">Tout masquer</a>
+      	      		</li>
+      	      	</ul>
+              </div>
+              <h5>Categories</h5>
             </li>
           </ul>
         </header>
-        <section class="js-categories scrollable">
-          <ul class="js-categories-list nav nav-pills nav-stacked no-radius">
+        <section class="scrollable categories">
+          <ul class="js-categories-list">
             <!--
               Here goes questions' categories
             -->
           </ul>
         </section>
-        <footer class="footer b-t">
-          <button class="btn show-all-categories">Tout afficher</button>
-          <button class="btn hide-all-categories pull-right">Tout masquer</button>
-        </footer>
       </section>
     </aside>
     <!-- /.aside -->
     
     <!-- .aside -->
-    <aside class="bg-light lter">
-      <section class="js-skeleton-container vbox">
-        <!--  
-          Here goes our skeletons
-        -->
-      </section>
+    <aside class="js-skeleton-container bg-light lter">
+      <!--  
+        Here goes our skeletons
+      -->
     </aside>
 
 
@@ -101,8 +116,8 @@
 		<script type="text/template" id="categoriesCategoryTpl">
       {% include 'LilyKnowledgeBundle:Categories:category.html.twig' %}
     </script>
-		<script type="text/template" id="categoriesEditSkeletonTpl">
-      {% include 'LilyKnowledgeBundle:Categories/Edit:skeleton.html.twig' %}
+		<script type="text/template" id="categoriesEditTpl">
+      {% include 'LilyKnowledgeBundle:Categories:edit.html.twig' %}
     </script>
     <!-- 
   		  Modals
@@ -118,9 +133,9 @@
 	{% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
-        var counters = JSON.parse('{{ counters | serialize('json') }}');
         var config = {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api';
+        config.counters = JSON.parse('{{ counters | serialize('json') }}');
         config.licence = '{{ app.user.client.licence }}';
         {% if app.environment == 'dev' %}
         config.wsserver = 'ws://develop.saio.fr';
@@ -133,6 +148,8 @@
 
   </section>
 </section>
+
+<div class="dragger hide"></div>
 
 <script
   src="{{ asset('js/bower_components/requirejs/require.js')}}"

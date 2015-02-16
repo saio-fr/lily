@@ -10,6 +10,8 @@ define(function (require) {
   var Backbone = require('backbone'),
       app = require('app'),
       globals = require('globals'),
+      Interact = require('utils/interact'),
+      Counters = require('backoffice/knowledge/utils/counters'),
       ChildViewContainer = require('utils/backbone-childviewcontainer'),
       Models = require('backoffice/knowledge/data/models'),
       Collections = require('backoffice/knowledge/data/collections'),
@@ -21,31 +23,34 @@ define(function (require) {
 
   SkeletonView = Backbone.View.extend({
 
-    el: $('.js-skeleton-container'),
+    tagName: 'section',
+    className: 'vbox',
     template: _.template($('#questionsSkeletonTpl').html()),
 
     events: {
       'click a' : 'preventDefault',
       'click .btn-group-create' : 'create',
       'click .btn-group-select a' : 'select',
-      'click .btn-group-sort a' : 'sort',
+      'click .btn-group-sort ul ul a' : 'sort',
       'click .paginator-nav' : 'paginateNav',
       'click .paginator-max a' : 'paginateMax',
       'click .btn-group-trash' : 'trash'
     },
     
     initialize: function () {
+      
+      var that = this;
       this.render();
+      
+      app.categories.collection.setType('questions');
+      app.categories.collection.fetch();
       
       this.collection = new Collections.Questions();
       this.childViews = new Backbone.ChildViewContainer();
       
       this.listenTo(app, 'questions:select', this.checkDisabledButton);
-      this.listenTo(app, 'questions:categories:select', this.selectCategory);
-      this.listenTo(app, 'questions:categories:unselect', this.unselectCategory);
-      this.listenTo(app, 'closeEditView', this.closeEditView);
       
-      this.sortRequest = {
+      app.sortRequest = {
         'categories': ['all'],
         'tags': ['all'],
         'max': 50,
@@ -55,23 +60,30 @@ define(function (require) {
           'order': 'DESC'
         }
       }
-      // Fetch our collection
-      this.post();
-    },
-    
-    render: function () {
-      this.$el.append(this.template());
-      return this;
-    },
-    
-    post: function () {
-      var that = this;
-      $('.icon-spinner').removeClass('hide');
-      $.post('/questions/sort', JSON.stringify(this.sortRequest), function (data) {
+      
+      app.postUrl = globals.knowledge.questionsSortUrl;
+      
+      app.postCallback = function (data) {
         that.collection.set(data.questions);
         that.updatePaginator(data.counter);
         that.renderQuestions();
-      });
+      }
+      
+      // Fetch our collection
+      app.post();
+    },
+    
+    render: function () {
+      $('.js-skeleton-container').append(this.$el.html(this.template()));
+      
+      $('.app-navigator .active').removeClass('active');
+      $('.app-navigator .questions-nav').addClass('active');
+      
+      // Make the .js-skeleton-list resizable
+      Interact.resizeList();
+      Interact.draggableQuestion();
+      
+      return this;
     },
     
     renderQuestions: function () {
@@ -87,10 +99,8 @@ define(function (require) {
       this.collection.each(function(question) {
         var view = new QuestionView({model: question});
         that.childViews.add(view);
-        $('.js-questions-list ul').append(view.render().el);
+        $('.js-questions-list').append(view.render().el);
       });
-      
-      $('.icon-spinner').addClass('hide');
     },
     
     preventDefault: function (e) {
@@ -98,27 +108,20 @@ define(function (require) {
     },
     
     select: function (e) {
-      
-      if ($(e.target).data('select') === "all") {
-        
-        $('.js-questions-list li').each(function (index, item) {
-          $(item).find('input').prop('checked', true);
-        });
-      } else {
-        
-        $('.js-questions-list li').each(function (index, item) {
-          $(item).find('input').prop('checked', false);
-        });
-      }
+
+      $('.js-questions-list li').each(function (index, item) {
+        var checked = ($(e.target).data('select') === "all") ? true : false;
+        $(item).find('input').prop('checked', checked);
+      });
       app.trigger('questions:select');
     },
     
     sort: function (e) {
-      this.sortRequest.sortBy.name = $(e.target).data('sort');
-      this.sortRequest.sortBy.order = $(e.target).data('order');
+      app.sortRequest.sortBy.name = $(e.target).data('sort');
+      app.sortRequest.sortBy.order = $(e.target).data('order');
       // Reset the paginator current page
-      this.sortRequest.page = 0;
-      this.post();
+      app.sortRequest.page = 0;
+      app.post();
     },
     
     trash: function () {
@@ -126,7 +129,7 @@ define(function (require) {
       
       if (!$('.btn-group-trash button').attr('disabled')) {
         app.createModal(globals.modalConfirm.questionsTrash, function() {
-          app.trigger('questions:trash');
+          app.trigger('questions:toTrash');
         }, that);
       }
     },
@@ -138,58 +141,32 @@ define(function (require) {
       }
 
       if ($(e.target).hasClass('next')) {
-        this.sortRequest.page += 1;
-      } else if (this.sortRequest.page) {
-        this.sortRequest.page -= 1;
+        app.sortRequest.page += 1;
+      } else if (app.sortRequest.page) {
+        app.sortRequest.page -= 1;
       }
-      this.post();
+      app.post();
     },
     
     paginateMax: function (e) {
-      this.sortRequest.max = $(e.target).data('max');
-      this.post();
+      app.sortRequest.max = $(e.target).data('max');
+      app.post();
     },
     
     updatePaginator: function (counter) {
-      // Counter is the number of current sorted questions
-      if (!this.sortRequest.page) {
-         $('.paginator-nav.prev button').attr('disabled', true);
-      } else {
-        $('.paginator-nav.prev button').attr('disabled', false);
-      }
-
-      if ((this.sortRequest.page + 1) * this.sortRequest.max < counter) {
-        $('.paginator-nav.next button').attr('disabled', false);
-      } else {
-        $('.paginator-nav.next button').attr('disabled', true);
-      }
+      // Counter is the number of current sorted questions      
+      var disabled = (!app.sortRequest.page) ? true : false;
+      $('.paginator-nav.prev button').attr('disabled', disabled);
+      
+      var disabled = ((app.sortRequest.page + 1) * app.sortRequest.max < counter)
+        ? false : true;
+      $('.paginator-nav.next button').attr('disabled', disabled);
     },
     
     checkDisabledButton: function () {
-
-      if ($('.js-questions-list input[type="checkbox"]:checked').length) {
-        $('.btn-group-trash button').attr('disabled', false);
-      } else {
-        $('.btn-group-trash button').attr('disabled', true);
-      }
-    },
-    
-    unselectCategory: function (id) {
-      
-      this.sortRequest.categories = _.without(this.sortRequest.categories, id);
-      if (_.isEmpty(this.sortRequest.categories)) {
-        this.sortRequest.categories.push('all');
-      }
-      this.post();
-      console.log(this.sortRequest.categories);
-    },
-    
-    selectCategory: function (id) {
-      
-      this.sortRequest.categories = _.without(this.sortRequest.categories, 'all');
-      this.sortRequest.categories.push(id);
-      this.post();
-      console.log(this.sortRequest.categories);
+      var disabled = ($('.js-questions-list input[type="checkbox"]:checked').length)
+        ? false : true;
+      $('.btn-group-trash button').attr('disabled', disabled);      
     },
     
     create: function () {
@@ -197,12 +174,18 @@ define(function (require) {
 
       var questionModel = new Models.Question();
       var editView = new QuestionEditView({model: questionModel});
-
-      $('.js-questions-list .active').removeClass('active');
     },
     
-    closeEditView: function () {
-      $('.js-questions-list .active').removeClass('active');
+    remove: function () {
+      var that = this;
+      
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        that.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
     
   });

@@ -10,6 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app'),
+    Counters = require('backoffice/knowledge/utils/counters'),
     EditView = require('backoffice/knowledge/views/questions/edit/skeletonView'),
 
     // Object wrapper returned as a module
@@ -28,7 +29,7 @@ define(function(require) {
     },
 
     initialize: function() {
-      this.listenTo(app, 'questions:trash', this);
+      this.listenTo(app, 'questions:toTrash', this.trash);
     },
 
     render: function() {
@@ -44,16 +45,17 @@ define(function(require) {
       
       app.trigger('closeEditView');
       var edit = new EditView({model: this.model});
-      $('.js-questions-list .active').removeClass('active');
       this.$el.addClass('active');
     },
 
     select: function(e) {
+      e.stopImmediatePropagation();
       app.trigger('questions:select');
     },
     
     trash: function () {
       if (this.$el.find('.checkbox input').is(':checked')) {
+        Counters.decrease('questions');
         this.destroy();
       }
     },

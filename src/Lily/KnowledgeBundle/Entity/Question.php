@@ -26,7 +26,7 @@ class Question
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"list", "precision"})
+     * @Groups({"list", "precision", "categories"})
      */
     protected $id;
     
@@ -53,19 +53,20 @@ class Question
     
     /**
      * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="question", cascade={"remove"})
-     * @Exclude
+     * @Groups({"logs"})
      **/
     protected $logRequests;
     
     /**
      * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogNotation", mappedBy="question", cascade={"remove"})
-     * @Exclude
+     * @Groups({"logs"})
      **/
     protected $logNotations;
 
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="children")
      * @Gedmo\Versioned
+     * @Groups({"parent"})
      **/
     protected $parent;
 
@@ -111,6 +112,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="mood", type="string", length=10, nullable=true)
+     * @Groups({"list"})
      * @Gedmo\Versioned
      */
     protected $mood;
@@ -164,6 +166,8 @@ class Question
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->satisfaction = 0;
+        $this->requests = 0;
     }
     
     public function toSolrDocument(AbstractDocument $doc)

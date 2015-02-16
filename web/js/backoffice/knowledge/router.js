@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var _ = require('underscore'),
       Backbone = require('backbone'),
-      app = require('app'), 
+      app = require('app'),
       CategoriesSkeletonView = require('backoffice/knowledge/views/categories/skeletonView'),
       QuestionsSkeletonView = require('backoffice/knowledge/views/questions/skeletonView'),
 
@@ -26,28 +26,29 @@ define(function (require) {
     },
 
     initialize: function () {
-      app.changeCounters();
+      app.categories = new CategoriesSkeletonView();
     },
     
     questions: function () {
-      $('.js-app-navigator .active').removeClass('active');
-      $('.js-app-navigator .questions-nav').addClass('active');
-      if (typeof(app.skeleton) !== "undefined") {
+      if (typeof(app.skeleton) != 'undefined') {
+        app.categories.collection.reset();
         app.skeleton.remove();
       }
-      app.skeleton = new QuestionsSkeletonView();
-      app.skeleton.categories = new CategoriesSkeletonView();
-      app.skeleton.categories.fetch('questions');
+      app.skeleton = new QuestionsSkeletonView({});
     },
 
     files: function () {
-      $('.js-app-navigator .active').removeClass('active');
-      $('.js-app-navigator .files-nav').addClass('active');
+      if (typeof(app.skeleton) != 'undefined') {
+        app.categories.collection.reset();
+        app.skeleton.remove();
+      }
     },
     
     links: function () {
-      $('.js-app-navigator .active').removeClass('active');
-      $('.js-app-navigator .links-nav').addClass('active');
+      if (typeof(app.skeleton) != 'undefined') {
+        app.categories.collection.reset();
+        app.skeleton.remove();
+      }
     }
     
   });

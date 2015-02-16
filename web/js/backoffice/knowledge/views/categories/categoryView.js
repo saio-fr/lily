@@ -10,23 +10,31 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app'),
+    interact = require('interact'),
+    globals = require('globals'),
+    ModalModel = require('components/modals/model'),
+    ModalView = require('backoffice/knowledge/views/categories/edit/modalView'),
 
     // Object wrapper returned as a module
-    QuestionView;
+    CategoryView;
 
-  QuestionView = Backbone.View.extend({
+  CategoryView = Backbone.View.extend({
 
     tagName: "li",
+    className: "category",
 
     template: _.template($('#categoriesCategoryTpl').html()),
 
     events: {
-      'click .icon-angle-down' : 'dropdown',
-      'click .icon-angle-up' : 'dropup',
-      'click .category-parent' : 'select'
+      'click .category-title' : 'select',
+      'click .btn-category-minus' : 'minus',
+      'click a.btn-add-child:first' : 'addChild',
+      'click a.btn-update:first' : 'update',
+      'click a.btn-remove:first' : 'trash'
     },
 
     initialize: function() {
+      this.listenTo(app, 'questions:set:category', this.setCategory);
     },
 
     render: function() {
@@ -34,24 +42,13 @@ define(function(require) {
       return this;
     },
     
-    dropdown: function(e) {
+    minus: function(e) {
       e.preventDefault();
       e.stopImmediatePropagation();
-      this.$el.find('.icon-angle-down')
-        .first().addClass('icon-angle-up')
-        .removeClass('icon-angle-down');
-      this.$el.find('ul').first().removeClass('hide');
-    },
-    
-    dropup: function(e) {
       
-      e.preventDefault();
-      e.stopImmediatePropagation(); 
-      
-      this.$el.find('.icon-angle-up')
-        .first().addClass('icon-angle-down')
-        .removeClass('icon-angle-up');
-      this.$el.find('ul').first().addClass('hide');     
+      var children = this.$('.category-children').first();
+      (children.hasClass('hide')) ? children.removeClass('hide') 
+        : children.addClass('hide');
     },
     
     select: function (e) {
@@ -59,27 +56,70 @@ define(function(require) {
       e.preventDefault();
       e.stopImmediatePropagation();
       
-      if (this.$el.attr('checked')) {
-        
-        this.$el.find('.icon-check-sign')
-          .toggleClass('icon-check-sign icon-sign-blank');
-          this.$el.attr('checked', false);
-          app.trigger('questions:categories:unselect', this.model.get('id'));
+      app.trigger('closeEditView');
+      
+      if (this.$('.category-parent').hasClass('selected')) {
+        this.$('.selected').removeClass('selected');
+        app.trigger('categories:unselect', this.model);
       } else {
-        
-        this.$el.find('.icon-sign-blank')
-          .toggleClass('icon-sign-blank icon-check-sign');
-          this.$el.attr('checked', true);
-          app.trigger('questions:categories:select', this.model.get('id'));  
+        this.$('.category-parent').addClass('selected');
+        app.trigger('categories:select', this.model);  
       }
     },
+    
+    setCategory: function () {
+      
+      var questions = [];
+      var that = this;
 
-    destroy: function() {
-      this.model.destroy();
-      this.remove();
+      if (this.$el.hasClass('drop-target')) {
+        
+        this.$el.removeClass('drop-target');
+        
+        _.forEach(this.model.get('questions'), function (question) {
+          questions.push(question.id);
+        });
+        
+        _.forEach($('.js-questions-list .checkbox input'), function (checkbox) {
+
+          if ($(checkbox).is(':checked')) {
+            var id = $(checkbox).data('id');
+            if (_.indexOf(questions, id)) {
+              questions.push(id);
+            }
+          }
+        });
+
+        this.model.save({'questions': questions}, {
+          success: function () {
+            app.post();
+          }
+        });
+      }
+    },
+    
+    update: function () {
+      app.categories.updateModal(this.model);
+      // Select the parent category to the parent of that one
+      $('.modal-categories select[name="parent"]').val(this.model.get('parent'));
+    },
+    
+    addChild: function () {
+      app.categories.updateModal(null);
+      // Select the parent category to be that one
+      $('.modal-categories select[name="parent"]').val(this.model.id);
+    },
+    
+    trash: function () {
+      var that = this;
+      
+      app.createModal(globals.modalConfirm.categoryTrash, function() {
+        that.model.destroy();
+        that.remove();
+      }, that);
     }
 
   });
 
-  return QuestionView;
+  return CategoryView;
 });

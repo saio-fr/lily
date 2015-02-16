@@ -42,6 +42,7 @@
     "scribe": "~1.2.4",
     "scribe-plugin-toolbar": "~0.1.4",
     "scribe-plugin-smart-lists": "~0.1.7",
-    "scribe-plugin-heading-command": "~0.1.0"
+    "scribe-plugin-heading-command": "~0.1.0",
+    "interact": "~1.2.2"
   }
 }

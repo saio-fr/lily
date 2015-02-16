@@ -9,9 +9,8 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     _ = require('underscore'),
+    app = require('app'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    EditSkeletonView = require('backoffice/knowledge/views/categories/edit/skeletonView'),
-    CategoryView = require('backoffice/knowledge/views/categories/edit/categoryView'),
 
     // Object wrapper returned as a module
     ModalCategories;
@@ -26,15 +25,17 @@ define(function(require) {
       'aria-hidden': 'true'
     },
     className: 'modal',
-    template: _.template($('#modalAppTpl').html()),
+    templateModal: _.template($('#modalAppTpl').html()),
+    templateEdit: _.template($('#categoriesEditTpl').html()),
 
     events: {
-      'click': 'remove'
+      'click': 'cancel',
+      'click .btn-update': 'update'
     },
 
     initialize: function(options) {
       this.appendEl = options.appendEl;
-      this.childViews = new Backbone.ChildViewContainer();
+      this.category = options.category;
 
       this.render();
       this.$el.modal('show');
@@ -42,39 +43,42 @@ define(function(require) {
 
     render: function() {
       var container = $(this.appendEl);
-      var self = this;
 
-      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.templateModal(this.model.toJSON()));
+      this.$('.modal-body').append(this.templateEdit({
+        category: this.category.toJSON(),
+        collection: app.categories.collection.toJSON()
+      }));
       this.$el.prependTo(container);
-/*
-
-      this.collection.each(function(category) { // iterate through the collection
-        var view = new CategoryView({
-          model: category
-        });
-        self.childViews.add(view);
-        self.$el.find('.js-modal-categories-list').append(view.el);
-      });
 
       return this;
-*/
+    },
+    
+    update: function () {
+      var that = this;
+      
+      this.category.set({
+        title: this.$('input[name="title"]').val(),
+        parent: parseInt(this.$('select[name="parent"]').val())
+      });
+      this.category.save();
+      app.categories.collection.fetch({
+        success: function () {
+          that.remove();
+        }
+      });
+    },
+    
+    cancel: function (e) {
+      var classList = e.target.classList;
+      if (classList.contains('modal-backdrop') || classList.contains('btn-cancel')) {
+        this.remove();
+      }  
     },
 
-    remove: function(e) {
-      if (e.target.classList.contains('modal-backdrop')) {
-
-        // Bootstrap modal plugin takes care of the displaying non stuff,
-        // so we just remove the view and model.
-        var self = this;
-        this.childViews.forEach(function(view) {
-          // delete index for that view
-          self.childViews.remove(view);
-          // remove the view
-          view.remove();
-        });
-        this.model.destroy();
-        Backbone.View.prototype.remove.call(this);
-      }
+    remove: function() {
+      this.model.destroy();
+      Backbone.View.prototype.remove.call(this);
     }
 
   });

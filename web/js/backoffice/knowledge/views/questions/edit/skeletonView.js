@@ -12,6 +12,7 @@ define(function(require) {
     app = require('app'),
     globals = require('globals'),
     when = require('when'),
+    Counters = require('backoffice/knowledge/utils/counters'),
     Models = require('backoffice/knowledge/data/models'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     TreeView = require('backoffice/knowledge/views/questions/edit/treeView'),
@@ -43,6 +44,7 @@ define(function(require) {
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       $('.js-question-edit').append(this.$el);
+      this.show();
       
       // Render the parent tree view
       var parentTreeModel = new Models.QuestionTree();
@@ -50,10 +52,10 @@ define(function(require) {
       this.parentTreeView = new TreeView({
         model: parentTreeModel
       });
-      $('.js-edit-question-tree').append(this.parentTreeView.render().el);
-      
+
+      $('.js-question-tree').append(this.parentTreeView.render().el);
       this.renderTree(this.parentTreeView);
-      $('.js-question-edit').removeClass('hide');
+
       return this;
     },
     
@@ -89,8 +91,20 @@ define(function(require) {
         );
                 
       } else {
-        return parentView.model.toJSON();
+        parentView.model.set({children: null});
+        return when(parentView.model.toJSON());
       }
+    },
+    
+    hide: function () {
+      $('.js-questions-list .active').removeClass('active');
+      $('.js-question-edit').addClass('hide');
+      $('.aside-divider').addClass('hide');
+    },
+    
+    show: function () {
+      $('.js-question-edit').removeClass('hide');
+      $('.aside-divider').removeClass('hide');
     },
 
     cancel: function() {
@@ -102,34 +116,28 @@ define(function(require) {
 
     update: function() {
       
-      var that = this;
+      var isNew = this.model.isNew();
       
-      if (this.parentTreeView.childViews.length) {
-        this.generateTree(this.parentTreeView).then(
-          function (value) {
-            that.model.set(value);
-            that.model.save(null, {
-              success: function () {
-                that.remove();
+      var that = this;
+      this.generateTree(this.parentTreeView).then(
+        function (value) {
+          that.model.set(value);
+          that.model.save(null, {
+            success: function () {
+              if (isNew) {
+                Counters.increase('questions');
+                app.post();
               }
-            });
-          }
-        );        
-      } else {
-        this.model.set({children: null});
-        this.model.save(null, {
-          success: function () {
-            that.remove();
-          }
-        });
-      }
+              that.remove();
+            }
+          });
+        }
+      );
     },
     
     remove: function () {
       
-      $('.js-questions-list .active').removeClass('active');
-      $('.js-question-edit').addClass('hide');
-      
+      this.hide();
       this.parentTreeView.remove();
       
       var that = this;

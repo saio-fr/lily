@@ -17,8 +17,12 @@ define(function(require) {
     model: Models.Question
   });
   
-  Collections.QuestionsCategories = Backbone.Collection.extend({
-    url: '/questions/categories',
+  Collections.Categories = Backbone.Collection.extend({
+    model: Models.Category,
+    
+    setType: function(type) {
+      this.url = '/' + type + '/categories';
+    }
   });
 
   return Collections;
