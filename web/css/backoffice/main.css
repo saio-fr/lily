@@ -15,3 +15,21 @@
 .nav-vertical .navigation-container {
   margin-top: 90px;
 }
+.nav li.chat-notification > a:hover {
+  background-color: rgba(226, 226, 226, 0.2);
+}
+.notifications-list {
+	max-height: 300px;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+.chat-notification .conversation-name {
+	font-size: 11px;
+	font-style: italic;
+	opacity: 0.6;
+	line-height: 19px;
+	vertical-align: bottom;
+	max-width: 80px;
+	text-overflow: ellipsis;
+	float: right;
+}

@@ -9,15 +9,16 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     _ = require('underscore'),
+    app = require('app'),
 
     // Object wrapper returned as a module
-    NotifsView;
+    NotifView;
 
 
-  NotifsView = Backbone.View.extend({
+  NotifView = Backbone.View.extend({
 
-    className: 'chat pull-left hidden-xs js-notification',
     tagName: 'li',
+    className: 'chat chat-notification js-notification',
     template: _.template($('#notifsItemTpl').html()),
 
     events: {
@@ -25,23 +26,24 @@ define(function(require) {
     },
 
     initialize: function(options) {
-      this.render();
-      this.$el.modal('show');
+      this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'destroy', this.remove);
     },
 
     render: function() {
-      var container = $('.js-notifications-list');
+      var container = $('.notifications-list');
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo(container);
+      container.prepend(this.$el);
       return this;
     },
 
-    notifClickAction: function() {
-      this.trigger('notifClickAction', this);
-    }
+    notifClickAction: function(e) {
+      e.preventDefault();
+      app.trigger('notification:click', this.model.get('id'));
+    },
 
   });
 
-  return NotifsView;
+  return NotifView;
 });

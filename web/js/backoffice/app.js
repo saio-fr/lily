@@ -99,16 +99,18 @@ define(function(require) {
       //   });
       // },
 
-      onConversationClose: function(sid) {
+      onConversationClose: function(id) {
         app.ws.call('operator/close', {
-          sid: sid
+          sid: id
         });
+        app.trigger('conversation:closed', id);
       },
 
-      onConversationBan: function(sid) {
+      onConversationBan: function(id) {
         app.ws.call('operator/ban', {
-          sid: sid
+          sid: id
         });
+        app.trigger('conversation:banned', id);
       },
 
       onConversationTransfer: function(sid, id) {
@@ -116,6 +118,7 @@ define(function(require) {
           sid: sid,
           operator: id
         });
+        app.trigger('conversation:transfered', sid);
       },
 
       onChangeName: function(sid, name) {

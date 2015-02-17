@@ -1,4 +1,4 @@
-/*========================================
+            /*========================================
       Router
 =========================================*/
 
@@ -22,7 +22,8 @@ define(function(require) {
     routes: {
       '': 'dashboard',
       'dashboard': 'dashboard',
-      'live': 'live'
+      'live': 'live',
+      'live/:id': 'live'
     },
 
     initialize: function() {
@@ -36,12 +37,15 @@ define(function(require) {
       });
     },
 
-    live: function() {
+    live: function(id) {
 
       var that = this;
 
       if (app.available) {
         this.toggleActiveTab("live");
+        if (id) {
+          app.trigger('chat:showConversation', id);
+        }
       } else {
 
         this.navigate('dashboard', {

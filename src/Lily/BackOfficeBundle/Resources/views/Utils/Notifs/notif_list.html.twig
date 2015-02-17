@@ -1,13 +1,15 @@
 <a href="#" class="dropdown-toggle dk" data-toggle="dropdown">
   <i class="icon-bell-alt text-white"></i>
+  <% if (count > 0) { %>
   <span class="badge up bg-danger m-l-n-sm"><%= count %></span>
+  <% } %>
 </a>
 <section class="dropdown-menu animated fadeInUp input-s-lg">
   <section class="panel bg-white">
     <header class="panel-heading">
       <strong class="count-n"><%= countTitle %></strong>
     </header>
-    <div class="list-group js-notifications-list">
+    <div class="list-group notifications-list">
       <!-- Here go the notifications -->
     </div>
     <!-- <footer class="panel-footer text-sm">
@@ -16,3 +18,4 @@
     </footer> -->
   </section>
 </section>
+

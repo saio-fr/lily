@@ -14,6 +14,8 @@ define(['../common', 'require'], function(common, require) {
   'backoffice/chat/views/skeleton',
   "components/modals/confirmView",
   "components/modals/model",
+  "components/notifications/notifsCollectionView",
+  'components/notifications/models',
   "backoffice/chat/views/connection/lost",
   'backoffice/chat/utils/timers',
   "moment",
@@ -24,10 +26,11 @@ define(['../common', 'require'], function(common, require) {
   "Modernizr",
   "wysihtml5-parser",
   "wysihtml5",
-  "todoTpl"
+  "todoTpl",
+  "polyfils",
   // Autobahn V1 AMD broken.
-], function($, _, Backbone, ab, when, app, Collections, ChatRouter, SkeletonView, ModalView,
-    ModalModel, ConnectionLostModal, timers, moment, globals) {
+], function($, _, Backbone, ab, when, app, Collections, ChatRouter, SkeletonView, ModalConfirmationView,
+    ModalModel, Notifs, NotifsModels, ConnectionLostModal, timers, moment, globals) {
 
     // Set locale in moment JS
     moment.locale('fr');
@@ -35,7 +38,7 @@ define(['../common', 'require'], function(common, require) {
     var connectionLostModal = new ConnectionLostModal();
 
     app.init = function() {
-      // app.notifs = new Notifs();
+      app.notifs = new Notifs();
       app.skeleton = new SkeletonView();
       app.users = new Collections.Users();
       app.router = new ChatRouter();
@@ -53,7 +56,7 @@ define(['../common', 'require'], function(common, require) {
       modalModel = new ModalModel();
       modalModel.set(content);
 
-      modalView = new ModalView({
+      modalView = new ModalConfirmationView({
         model: modalModel,
         appendEl: ".js-skeleton-container"
       });

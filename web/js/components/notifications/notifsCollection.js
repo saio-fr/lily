@@ -1,5 +1,5 @@
 /*======================================
-  Collection FAQs
+  Collection Notifications
 =======================================*/
 
 define(function(require) {
@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-    Models = require('components/notifs/models'),
+    Models = require('components/notifications/models'),
 
     // Object wrapper returned as a module
     FaqCollection;

@@ -4,7 +4,7 @@ define(function(require) {
 
   // Object wrapper returned as a module
   var moment = require('moment'),
-    Timers = {};
+      Timers = {};
 
   Timers.status = function(record, type) {
 
@@ -12,59 +12,72 @@ define(function(require) {
     var now = new moment().unix();
     var start = record.model.get('startTime');
     var last = record.model.get('lastMsgTime');
-    var timer;
+    var timer, hours, minutes, seconds;
+
+    var messages = record.model.get('messages');
 
     switch (type) {
       // Timer for chat
       case 'chat':
-
         timer = moment(Math.abs(now - start + Timers.serverTime) * 1000);
-
-        var hours = timer.hours()-1;
-        var minutes = timer.minutes();
-        var seconds = timer.seconds();
-
-        if (!hours && !minutes) {
-          record.$el.find('.timer-chat').html(seconds + 's');
-          return;
-        }
-
-        if (!hours) {
-          record.$el.find('.timer-chat').html(minutes + 'm ' + seconds + 's');
-          return;
-        }
         
-        record.$el.find('.timer-chat').html(hours + 'h ' + minutes + 'm ' + seconds + 's');
-
+        setChatTime();
         break;
-        // Timer for last msg
+      
+      // Timer for last msg
       case 'lastMsg':
+        timer = moment(Math.abs(now - last  + Timers.serverTime) * 1000);
 
-        timer = moment(Math.abs(now - last + Timers.serverTime) * 1000);
-
-        hours = timer.hours()-1;
-        minutes = timer.minutes();
-        seconds = timer.seconds();
-
-        if (record.model.get('messages').length) {
-
-          var messages = record.model.get('messages');
-          // If the visitor waited over 2 minutes for an answer
-          if (timer.minutes() >= 2 && messages[messages.length - 1].from == 'visitor') {
-            record.model.trigger('urgent');
-          }
+        // If the visitor waited over 2 minutes for an answer
+        if (timer.minutes() >= 2) {
+          checkConversationStatus();
         }
-
-        // Don't show the minutes
-        if (!minutes) {
-          record.$el.find('.timer-lastmsg').html(seconds);
-          return;
-        }
-
-        record.$el.find('.timer-lastmsg').html(minutes + ' : ' + seconds);
-
+        setLastTime();
         break;
     }
+
+    function setChatTime() {
+      var time = "";
+      
+      hours   = timer.hours() - 1;
+      minutes = timer.minutes();
+      seconds = timer.seconds();
+
+      if (!hours && !minutes) {
+        time = seconds + 's';
+      } else if (!hours) {
+        time = minutes + 'm ' + seconds + 's';
+      } else {
+        time = hours + 'h ' + minutes + 'm ' + seconds + 's';
+      }
+      
+      record.$el.find('.timer-chat').html(time);
+    }
+
+    // Repetitive... Do something better :(
+    function setLastTime() {
+
+      minutes = timer.minutes();
+      seconds = timer.seconds();
+
+      // Don't show the minutes
+      if (!minutes) {
+        record.$el.find('.timer-lastmsg').html(seconds);
+        return;
+      }
+
+      record.$el.find('.timer-lastmsg').html(minutes + ' : ' + seconds);
+    }
+
+    function checkConversationStatus() {
+      if (!messages.length) { return; }
+
+      if (messages[messages.length - 1].from === 'visitor' &&
+        record.model.get('status') !== 'urgent') {
+        record.model.set('status', 'urgent');
+      }
+    }
+
   };
 
   Timers.interval = function(record, type) {

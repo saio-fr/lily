@@ -13,6 +13,7 @@ define(function(require) {
     Backbone = require('backbone'),
     RecordCurrent = require('backoffice/chat/views/live/records/current'),
     RecordWaiting = require('backoffice/chat/views/live/records/waiting'),
+    ConversationView = require('backoffice/chat/views/live/conversation'),
 
     // Object wrapper returned as a module
     SkeletonView;
@@ -36,6 +37,8 @@ define(function(require) {
       this.listenTo(this.collection, 'change', this.counters);
       this.listenTo(this.collection, 'remove', this.counters);
       this.listenTo(app, "change:windows", this.setWindows, this);
+      this.listenTo(app, "conversation:select", this.setActiveWindow, this);
+      this.listenTo(app, "conversation:setCurrent", this.setCurrent, this);
 
       this.windows = [];
       this.maxWindows = 1;
@@ -94,6 +97,80 @@ define(function(require) {
 
       this.counter.waiting = this.$el.find('.list-waiting').children().length;
       this.$el.find('.header-waiting span').html(this.counter.waiting);
+    },
+
+    setActiveWindow: function(active, id, model) {
+
+      var live = this;
+
+      model = model || this.collection.get(id);
+
+      if (!model) { return; }
+
+      if ($(window).width() < 768) {
+        $('.aside-chat-left').css({
+          display: 'none'
+        });
+      }
+
+      if (active) {
+        // If the view already exists and only a view is show, do nothing
+        if (live.windows.length <= 1) {
+          return;
+        }
+        // If the view already exists, show it first in the view list
+        $.each(live.windows, function(index, item) {
+
+          if (item.model.id === model.get('id')) {
+
+            item.remove();
+            live.windows.splice(index, 1);
+            live.windows.unshift(
+              new ConversationView({
+                model: model
+              })
+            );
+
+            live.setWindows();
+            return;
+          }
+        });
+
+        return;
+      }
+
+      if (live.windows.length < live.maxWindows)  {
+        // Create a new conversation view
+        live.windows.unshift(
+          new ConversationView({
+            model: model
+          })
+        );
+
+      } else {
+        // Delete the last conversation view
+        live.windows[live.windows.length - 1].model.trigger('minus');
+        // Create a new conversation view
+        live.windows.unshift(new ConversationView({
+          model: model
+        }));
+      }
+
+      live.setWindows();
+    },
+
+    setCurrent: function(active, id, model) {
+
+      var that = this;
+      model = model || this.collection.get(id);
+
+      app.setOperator(id).then(function() {
+        // Will take care of displaying the conversation correctly:
+        that.setActiveWindow(active, model.get('id'), model);
+        that.setWindows();
+      }, function(error) {
+        console.warn(error);
+      });
     },
 
     setWindows: function() {

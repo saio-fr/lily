@@ -32,7 +32,8 @@ define(function(require) {
 
       connect: function() {
         // var deferred = when.defer();
-        if (app.hasSubscribed) {
+        // Authobah subscription list not empty:
+        if (app.hasSubscribed && Object.getOwnPropertyNames(app.ws._subscriptions).length === 0) {
           try {
             app.unsubscribe();
           } catch (e) {
@@ -43,7 +44,7 @@ define(function(require) {
         app.subscribe();
         return app.ws.call('visitor/connect', {
           // top.location.href can't be accessed from iframe
-          // with a domain that differs from the host
+          // with a domain that differs from the host@
           'href': app.hostHref,
           'pathname': app.hostPathName
         });
@@ -169,8 +170,10 @@ define(function(require) {
 
       onChatReconnect: function() {
         app.trigger("chat:resetConversation");
+
         // Chat has been disconnected. Hence the reconnect. (not the best way to do it)
         app.hasChatConnected = false;
+
         app.onChatOpen().then(function() {
           app.trigger("chat:reconnected");
         }, function(err) {
