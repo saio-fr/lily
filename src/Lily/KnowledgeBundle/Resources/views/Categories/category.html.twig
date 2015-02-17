@@ -1,21 +1,21 @@
+<% if (id) { %>
+  <span class="btn-category-menu" data-toggle="dropdown">
+	  <i class="icon-collapse"></i>
+  </span>
+  <ul class="dropdown-menu">
+		<li>
+		  <a class="btn-add-child" href="#">Ajouter une catégorie enfant</a>
+		</li>
+		<li>
+		  <a class="btn-update" href="#">Modifier</a>
+		</li>
+		<li>
+		  <a class="btn-remove" href="#">Supprimer</a>
+		</li>
+	</ul>
+<% } %>
+
 <div class="category-parent">
-  <% if (id) { %>
-    <span class="btn-category-menu" data-toggle="dropdown">
-  	  <i class="icon-collapse"></i>
-    </span>
-    <ul class="dropdown-menu">
-  		<li>
-  		  <a class="btn-add-child" href="#">Ajouter une catégorie enfant</a>
-  		</li>
-  		<li>
-  		  <a class="btn-update" href="#">Modifier</a>
-  		</li>
-  		<li>
-  		  <a class="btn-remove" href="#">Supprimer</a>
-  		</li>
-  	</ul>
-  <% } %>
-  
   <span class="category-title"><%= title %></span>
   
   <% if (!_.isEmpty(children)) { %>

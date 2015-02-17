@@ -121,8 +121,14 @@ define(function(require) {
       var that = this;
       this.generateTree(this.parentTreeView).then(
         function (value) {
-          that.model.set(value);
-          that.model.save(null, {
+          
+          if (isNew) {
+            var categories = _.clone(app.sortRequest.categories);
+            var id = categories.splice(0, categories.length)[0];
+            value.category = (id === 'all') ? null : id;
+          }
+          
+          that.model.save(value, {
             success: function () {
               if (isNew) {
                 Counters.increase('questions');

@@ -32,6 +32,7 @@ define(function(require) {
       'click a.remove' : 'remove',
       'click .title input' : 'editTitle',
       'blur .title input' : 'leaveEditTitle',
+      'blur .answer .editor' : 'leaveEditAnswer',
       'click .answer .editor' : 'editAnswer',
       'click .new-answer-type a' : 'newAnswerType',
       'click .btn-collapse .collapse' : 'collapse',
@@ -84,13 +85,16 @@ define(function(require) {
       $('body').on('click', function (e) {
         if (!$(e.target).parents('.answer.editing')
           .length && getSelection() == "") {
-            
-          that.$('.editing').removeClass('editing');
-          var answer = that.$('.child .editor').first().html();
-          that.model.set({answer: answer});
-          $('body').off('click');
+            that.$('.editing').removeClass('editing');
+            $('body').off('click');
         }
       });
+    },
+    
+    leaveEditAnswer: function (e) {
+      e.stopImmediatePropagation();
+      var answer = this.$('.child .editor').first().html();
+      this.model.set({answer: answer});
     },
     
     addAction: function (e, nb) {

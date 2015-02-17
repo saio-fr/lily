@@ -82,6 +82,12 @@ ul {
   width: 5px;
 }
 
+.no-item {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
 /****************************************************************************************
     MAIN MENU
 ****************************************************************************************/
@@ -187,16 +193,19 @@ ul {
 }
 
 .btn-category-menu {
-  font-size: 11px;
+  display:none;
   position: absolute;
   top: 6px;
+  left: 4px;
+  font-size: 11px;
+  cursor: pointer;
 }
 
 .category {
   position: relative;
 }
 
-.category-parent:hover {
+.category:hover {
   background: #fbfcff;
 }
 
@@ -232,20 +241,17 @@ ul {
 }
 
 .btn-category-minus {
+  cursor: pointer;
   position: absolute;
   top: 3px;
   margin-left: 5px;
-}
-
-.btn-category-menu {
-  display:none;
 }
 
 .btn-category-menu:hover, .btn-category-minus:hover {
   color: #3c3f46;
 }
 
-.category-parent:hover .btn-category-menu {
+.category:hover > .btn-category-menu {
   display: inline;
 }
 

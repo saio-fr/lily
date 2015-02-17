@@ -48,6 +48,7 @@ define(function (require) {
       this.collection = new Collections.Questions();
       this.childViews = new Backbone.ChildViewContainer();
       
+      this.listenTo(this.collection, 'add change', this.renderQuestions);
       this.listenTo(app, 'questions:select', this.checkDisabledButton);
       
       app.sortRequest = {
@@ -88,6 +89,7 @@ define(function (require) {
     
     renderQuestions: function () {
       var that = this;
+      $('.js-questions-list').empty();
       
       this.childViews.forEach(function (view){
         // delete index for that view
@@ -96,11 +98,15 @@ define(function (require) {
         view.remove();
       });
       
-      this.collection.each(function(question) {
-        var view = new QuestionView({model: question});
-        that.childViews.add(view);
-        $('.js-questions-list').append(view.render().el);
-      });
+      if (this.collection.length) {      
+        this.collection.each(function(question) {
+          var view = new QuestionView({model: question});
+          that.childViews.add(view);
+          $('.js-questions-list').append(view.render().el);
+        });        
+      } else {
+        $('.js-questions-list').html(globals.knowledge.noQuestions);
+      }
     },
     
     preventDefault: function (e) {
@@ -108,7 +114,6 @@ define(function (require) {
     },
     
     select: function (e) {
-
       $('.js-questions-list li').each(function (index, item) {
         var checked = ($(e.target).data('select') === "all") ? true : false;
         $(item).find('input').prop('checked', checked);

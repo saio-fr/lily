@@ -26,7 +26,7 @@ class QuestionType extends AbstractType
             ->add('category', 'entity', array(
                 'class' => 'LilyKnowledgeBundle:Category',
                 'property' => 'id',
-                'multiple' => false))
+                'empty_data'  => null))
         ;
         
         if (--$options['recursionLevel'] > 0) {
@@ -54,6 +54,7 @@ class QuestionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Lily\KnowledgeBundle\Entity\Question',
             'csrf_protection' => false,
+            'allow_extra_fields' => true,
             'recursionLevel' => 10
         ));
         

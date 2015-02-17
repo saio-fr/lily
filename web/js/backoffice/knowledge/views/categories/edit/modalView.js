@@ -56,15 +56,20 @@ define(function(require) {
     
     update: function () {
       var that = this;
+      var title = this.$('input[name="title"]').val();
+      var parent = parseInt(this.$('select[name="parent"]').val());
       
-      this.category.set({
-        title: this.$('input[name="title"]').val(),
-        parent: parseInt(this.$('select[name="parent"]').val())
-      });
-      this.category.save();
-      app.categories.collection.fetch({
+      this.category.save({
+          title: title,
+          parent: parent
+        },{
         success: function () {
-          that.remove();
+          console.log(that.category);
+          app.categories.collection.fetch({
+            success: function () {
+              that.remove();
+            }
+          });            
         }
       });
     },

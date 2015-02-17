@@ -34,7 +34,7 @@ define(function (require) {
         app.categories.collection.reset();
         app.skeleton.remove();
       }
-      app.skeleton = new QuestionsSkeletonView({});
+      app.skeleton = new QuestionsSkeletonView();
     },
 
     files: function () {

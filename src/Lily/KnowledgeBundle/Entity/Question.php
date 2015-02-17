@@ -31,7 +31,8 @@ class Question
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="questions", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="questions", 
+     *    cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"list"})
      * @Gedmo\Versioned
@@ -39,26 +40,30 @@ class Question
     protected $category;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Lily\KnowledgeBundle\Entity\Tag", inversedBy="questions", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Lily\KnowledgeBundle\Entity\Tag", inversedBy="questions", 
+     *    cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"list"})
      */
     protected $tag;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", 
+     *    cascade={"persist", "remove"})
      * @Groups({"list"})
      **/
     protected $children;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="question", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="question",
+     *    cascade={"remove"})
      * @Groups({"logs"})
      **/
     protected $logRequests;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogNotation", mappedBy="question", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogNotation", mappedBy="question", 
+     *    cascade={"remove"})
      * @Groups({"logs"})
      **/
     protected $logNotations;

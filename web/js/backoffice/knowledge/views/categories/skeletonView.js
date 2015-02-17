@@ -90,7 +90,7 @@ define(function (require) {
     
     collapse: function (e) {
       
-      var children = this.$el.find('.js-categories-list ul');      
+      var children = this.$el.find('.js-categories-list .category-children');      
       $(e.target).data('collapse') === 'down' ? children.removeClass('hide') 
         : children.addClass('hide');
     },
@@ -123,6 +123,7 @@ define(function (require) {
     selectCategory: function (category) {
       
       var that = this;
+      app.sortRequest.categories = [];
       app.sortRequest.categories.push(category.get('id'));
       
             

@@ -26,7 +26,7 @@ define(function(require) {
     template: _.template($('#categoriesCategoryTpl').html()),
 
     events: {
-      'click .category-title' : 'select',
+      'click .category-parent' : 'select',
       'click .btn-category-minus' : 'minus',
       'click a.btn-add-child:first' : 'addChild',
       'click a.btn-update:first' : 'update',
@@ -42,9 +42,13 @@ define(function(require) {
       return this;
     },
     
-    minus: function(e) {
+    preventDefault: function (e) {
       e.preventDefault();
-      e.stopImmediatePropagation();
+      e.stopImmediatePropagation();    
+    },
+    
+    minus: function(e) {
+      this.preventDefault(e);
       
       var children = this.$('.category-children').first();
       (children.hasClass('hide')) ? children.removeClass('hide') 
@@ -52,9 +56,7 @@ define(function(require) {
     },
     
     select: function (e) {
-      
-      e.preventDefault();
-      e.stopImmediatePropagation();
+      this.preventDefault(e);
       
       app.trigger('closeEditView');
       
@@ -62,6 +64,7 @@ define(function(require) {
         this.$('.selected').removeClass('selected');
         app.trigger('categories:unselect', this.model);
       } else {
+        $('.js-categories-list .selected').removeClass('selected');
         this.$('.category-parent').addClass('selected');
         app.trigger('categories:select', this.model);  
       }
@@ -98,19 +101,19 @@ define(function(require) {
       }
     },
     
-    update: function () {
+    update: function (e) {
       app.categories.updateModal(this.model);
       // Select the parent category to the parent of that one
       $('.modal-categories select[name="parent"]').val(this.model.get('parent'));
     },
     
-    addChild: function () {
+    addChild: function (e) {
       app.categories.updateModal(null);
       // Select the parent category to be that one
       $('.modal-categories select[name="parent"]').val(this.model.id);
     },
     
-    trash: function () {
+    trash: function (e) {
       var that = this;
       
       app.createModal(globals.modalConfirm.categoryTrash, function() {

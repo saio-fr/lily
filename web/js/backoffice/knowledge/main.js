@@ -53,6 +53,7 @@ define(['../common', 'require'], function(common, require) {
     app.post = function () {
       $('.icon-spinner').removeClass('hide');
       $.post(app.postUrl, JSON.stringify(app.sortRequest), function (data) {
+        console.log(app.sortRequest);
         app.postCallback(data);
         $('.icon-spinner').addClass('hide');
       });

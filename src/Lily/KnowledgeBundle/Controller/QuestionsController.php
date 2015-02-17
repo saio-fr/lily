@@ -69,20 +69,24 @@ class QuestionsController extends BaseController
      */
     public function postAction(Request $request)
     {
-  
-        $question = $this->deserialize('Lily\KnowledgeBundle\Entity\Question', $request);
-  
-        if ($question instanceof Question === false) {
-            $view = $this->view($question, 400);
-            return $this->handleView($view);
-        }
-
-        $user = $this->getUser();
-        $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
-  
         $em = $this->getEntityManager();
-        $em->persist($question);
-        $em->flush();
+        
+        $question = new Question();
+        $form = $this->getForm(new QuestionType(), $question, $request);
+        
+        if ($form->isValid()) {
+    
+            $user = $this->getUser();
+            $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
+      
+            $em->persist($question);
+            $em->flush();
+        
+        } else {
+          
+            $view = $this->view($form, 400);
+            return $this->handleView($view); 
+        }
   
 /*
         if (!$parent) {

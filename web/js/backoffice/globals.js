@@ -20,6 +20,8 @@ define(function(require) {
   
   g.knowledge = {};
   g.knowledge.questionsSortUrl = '/questions/sort';
+  g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' + 
+    'catégories sélectionnée(s)</h5>';
 
   g.faqWysiConfig = {
     "font-styles": false,
