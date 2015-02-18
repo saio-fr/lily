@@ -4,14 +4,15 @@ namespace Lily\KnowledgeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Category
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Lily\KnowledgeBundle\Entity\CategoryRepository")
+ *
+ * @Serializer\ExclusionPolicy("all")
  */
 class Category
 {
@@ -21,49 +22,57 @@ class Category
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"list", "unique"})
+     *
+     * @Serializer\Expose
+     * @Serializer\Groups({"categories", "list"})
      */
     protected $id;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Category", mappedBy="parent", cascade={"remove"})
-     * @Exclude
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Category", 
+     *    mappedBy="parent", cascade={"remove", "persist"})
+     *
+     * @Serializer\Expose
+     * @Serializer\Groups({"categories"})
      **/
     protected $children;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="children")
-     * @Groups({"list", "unique"})
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", 
+     *    inversedBy="children", cascade={"persist"})
+     *
+     * @Serializer\Expose
+     * @Serializer\Groups({"categories"})
      **/
     protected $parent;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="category")
-     * @Exclude
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", 
+     *    mappedBy="category", cascade={"persist"})
+     *
+     * @Serializer\MaxDepth(1)
+     * @Serializer\Expose
+     * @Serializer\Groups({"categories"})
      */
     protected $questions;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Redirection", inversedBy="categories")
-     */
-    protected $redirection;
 	
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=50)
-     * @Groups({"list", "unique"})
+     *
+     * @Serializer\Expose
+     * @Serializer\Groups({"categories", "list"})
      */
     protected $title;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="color", type="string", length=7)
-     * @Groups({"list", "unique"})
+     * Constructor
      */
-    protected $color;
-
+    public function __construct()
+    {
+        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -97,36 +106,6 @@ class Category
     {
         return $this->title;
     }
-
-    /**
-     * Set color
-     *
-     * @param string $color
-     * @return Category
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-    
-        return $this;
-    }
-
-    /**
-     * Get color
-     *
-     * @return string 
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Add questions
@@ -137,6 +116,7 @@ class Category
     public function addQuestion(\Lily\KnowledgeBundle\Entity\Question $questions)
     {
         $this->questions[] = $questions;
+        $questions->setCategory(this);
     
         return $this;
     }
@@ -159,29 +139,6 @@ class Category
     public function getQuestions()
     {
         return $this->questions;
-    }
-
-    /**
-     * Set redirection
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Redirection $redirection
-     * @return Category
-     */
-    public function setRedirection(\Lily\KnowledgeBundle\Entity\Redirection $redirection = null)
-    {
-        $this->redirection = $redirection;
-    
-        return $this;
-    }
-
-    /**
-     * Get redirection
-     *
-     * @return \Lily\KnowledgeBundle\Entity\Redirection 
-     */
-    public function getRedirection()
-    {
-        return $this->redirection;
     }
 
     /**

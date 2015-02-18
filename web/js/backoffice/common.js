@@ -36,8 +36,13 @@ require.config({
     "todoTpl": "todo",
     "underscore": "bower_components/underscore/underscore",
     "when": "vendor/when",
-    "wysihtml5": "bower_components/wysihtml5/dist/wysihtml5-0.3.0",
-    "wysihtml5-parser": "utils/wysihtml5-parser"
+    "wysihtml5": "bower_components/wysihtml/dist/wysihtml5-0.3.0",
+    "wysihtml5-parser": "bower_components/wysihtml/parser_rules/advanced",
+    "scribe" : "bower_components/scribe/scribe",
+    "scribe-plugin-toolbar" : "bower_components/scribe-plugin-toolbar/scribe-plugin-toolbar",
+    "scribe-plugin-smart-lists": "bower_components/scribe-plugin-smart-lists/scribe-plugin-smart-lists",
+    "scribe-plugin-heading-command": "bower_components/scribe-plugin-heading-command/scribe-plugin-heading-command",
+    "interact" : "bower_components/interact/interact"
   },
 
   "shim": {
@@ -78,6 +83,9 @@ require.config({
     "wysihtml5": {
       "deps": ["wysihtml5-parser"],
       "exports": "wysihtml5"
+    },
+    "quill": {
+      "exports": "Quill"
     }
 
   }

@@ -7,9 +7,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
-use Lily\StatisticsBundle\Controller\DefaultController;
+use Lily\StatisticsBundle\Controller\BaseController;
 
-class ChatController extends DefaultController
+class ChatController extends BaseController
 {
     /**
      * @Get("/graph/footer/{start}/{end}", requirements={"id" = "\d+", "start" = "\d+", "end" = "\d+"})

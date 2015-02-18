@@ -17,6 +17,11 @@ define(function(require) {
     avatars: "http://cdn-saio.fr/customer/" + g.licence + "/images/avatars/",
     defaultAvatar: "http://cdn-saio.fr/images/default-avatar.png",
   };
+  
+  g.knowledge = {};
+  g.knowledge.questionsSortUrl = '/questions/sort';
+  g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' + 
+    'catégories sélectionnée(s)</h5>';
 
   g.faqWysiConfig = {
     "font-styles": false,
@@ -75,6 +80,31 @@ define(function(require) {
     name: "modal-transfer",
     title: "A qui souhaitez vous transférer la conversation ?"
   };
+  g.modalConfirm.questionsTrash = {
+    name: "modal-trash",
+    title: "Etes-vous sur de vouloir supprimer ces questions ?",
+    body: "Une fois les questions supprimées, vous ne pourrez plus y " +
+      "avoir accès ",
+    cancel: "Annuler",
+    confirm: "Supprimer les questions"
+  };
+  g.modalConfirm.categoryTrash = {
+    name: "modal-trash",
+    title: "Etes-vous sur de vouloir cette catégorie ?",
+    body: "Une fois supprimée, vous ne pourrez plus y " +
+      "avoir accès ",
+    cancel: "Annuler",
+    confirm: "Supprimer la catégorie"
+  };
+  g.modalApp.newCategory = {
+    name: "modal-categories",
+    title: "Ajouter une catégorie"
+  };
+  g.modalApp.updateCategory = {
+    name: "modal-categories",
+    title: "Modifier une catégorie"
+  }; 
+
 
   return g;
 });

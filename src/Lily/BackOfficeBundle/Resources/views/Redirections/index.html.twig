@@ -1,0 +1,107 @@
+
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+
+  {{ parent() }}
+
+  {% stylesheets 'css/backoffice/redirection.css'
+     filter='cssrewrite'
+     output='css/compiled/redirections.css' %}
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+  {% endstylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+<section>
+  <section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" %}
+
+	{% block content %}
+    <!-- .vbox -->
+    <section class="js-app vbox">
+      
+        <section class="scrollable">
+          <section class="js-main-container hbox stretch">
+            <aside class="bg-white">
+              <section class="vbox">
+                <section class="scrollable">
+
+                  <header class="bg-white wrapper-sm clearfix b-b">
+                    <div class="col-sm-7 col-xs-9 redirection-view">
+	                   <h5>Titre</h5>
+	                  </div>
+
+                    <div class="col-sm-2 col-xs-3 text-center">
+                      <h5>Fréquence</h5>
+	                  </div>
+
+                    <div class="col-xs-2 redirection-action">
+                      <h5>Défaut</h5>
+                    </div>
+
+                    <div class="col-xs-1 redirection-delete">
+                      <span></span>
+                      <!-- Empty colon to make space for delete button-->
+                    </div>
+                  </header>
+
+                  <ul class="js-redirections-list list-group no-borders no-radius m-b-none list-group-alt list-group-lg">
+                    <!-- Affichage de la liste des redirections -->
+                  </ul>
+                  
+                  <a class="js-redirection-new btn btn-sm btn-primary pull-right">
+                    <span class="icon-plus pull-left"></span>
+                    Ajouter une redirection
+                  </a>
+
+                </section>
+              </section>
+            </aside>
+            <!--<aside class="js-redirection-edit aside-redirection bg-light lter hide">
+                Affichage du panneau de modification
+                </aside>
+            -->
+          </section>
+        </section>
+      </section>
+      <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+    </section>
+    <!-- /.vbox -->
+	{% endblock %}
+
+
+	{% block templates %}
+		<!-- L'appel des différents scripts de vue -->
+		<script type="text/template" id="listTpl">
+      {% include 'LilyBackOfficeBundle:Redirections:list.html.twig' %}
+    </script>
+    <script type="text/template" id="editTpl">
+      {% include 'LilyBackOfficeBundle:Redirections:edit.html.twig' %}
+    </script>
+    <script type="text/template" id="modalAlertTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:alert.html.twig' %}
+    </script>
+  {% endblock %}
+
+	{% block bootstrap %}
+    {% autoescape false %}
+      <script type="text/javascript">
+        var config = {};
+        config.root = '{{ app.request.getBaseURL() }}/lily/api';
+	    </script>
+    {% endautoescape %}
+	{% endblock %}
+
+  </section>
+</section>
+
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/redirection/main.js')}}">
+</script>
+
+{% endblock %}

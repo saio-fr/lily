@@ -1,13 +1,31 @@
 lily_dashboard:
     pattern:  /dashboard
-    defaults: { _controller: LilyBackOfficeBundle:Dashboard:index }
+    defaults: { _controller: LilyBackOfficeBundle:Index:dashboard }
+    
+lily_redirections:
+    pattern:  /redirections
+    defaults: { _controller: LilyBackOfficeBundle:Index:redirections }
+
+lily_faq:
+    pattern:  /faq
+    defaults: { _controller: LilyBackOfficeBundle:Index:faq }
 
 lily_config:
     pattern:  /config
-    defaults: { _controller: LilyBackOfficeBundle:Config:index }
+    defaults: { _controller: LilyBackOfficeBundle:Index:config }
     
 lily_config_api:
     resource: "@LilyBackOfficeBundle/Controller/ConfigController.php"
+    type:     rest
+    prefix:   /api
+
+lily_redirections_api:
+    resource: "@LilyBackOfficeBundle/Controller/RedirectionsController.php"
+    type:     rest
+    prefix:   /api
+    
+lily_faq_api:
+    resource: "@LilyBackOfficeBundle/Controller/FaqController.php"
     type:     rest
     prefix:   /api
     

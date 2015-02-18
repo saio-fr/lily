@@ -1,0 +1,129 @@
+{% extends "LilyBackOfficeBundle::layout.html.twig" %}
+
+{% block stylesheets %} 	   
+
+{{ parent() }} 	   
+
+{% stylesheets 'css/backoffice/chat.css' filter='cssrewrite'  output='css/compiled/chat.css'%} 
+     
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />     
+
+{% endstylesheets %} 
+
+{% endblock %}
+
+{% block body %}
+
+<section>
+  <section class="hbox stretch">
+
+  {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
+
+	{% block content %}
+	
+	<section>
+	  <section class="js-skeleton-container vbox">
+    <!--
+      Here start our application
+      Main Skelton View
+    -->  	  
+	  </section>
+	</section>
+
+	{% endblock %}
+	
+	{% block templates %}
+		<script type="text/template" id="skeletonTpl">
+      {% include 'LilyChatBundle::skeleton.html.twig' %}
+    </script>
+    <!-- 
+  		  Live
+    -->
+		<script type="text/template" id="liveSkeletonTpl">
+      {% include 'LilyChatBundle:Live:skeleton.html.twig' %}
+    </script>
+		<script type="text/template" id="liveConversationTpl">
+      {% include 'LilyChatBundle:Live:conversation.html.twig' %}
+    </script>
+		<script type="text/template" id="liveInformationsTpl">
+      {% include 'LilyChatBundle:Live:informations.html.twig' %}
+    </script>
+		<script type="text/template" id="liveRecordTpl">
+      {% include 'LilyChatBundle:Live:record.html.twig' %}
+    </script>
+		<script type="text/template" id="liveMessageOperatorTpl">
+      {% include 'LilyChatBundle:Live/Message:operator.html.twig' %}
+    </script>
+		<script type="text/template" id="liveMessageServerTpl">
+      {% include 'LilyChatBundle:Live/Message:server.html.twig' %}
+    </script>
+		<script type="text/template" id="liveMessageVisitorTpl">
+      {% include 'LilyChatBundle:Live/Message:visitor.html.twig' %}
+    </script>
+    <!-- 
+  		  Dashboard
+    -->
+		<script type="text/template" id="dashboardSkeletonTpl">
+      {% include 'LilyChatBundle:Dashboard:skeleton.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardConnectedOperatorTpl">
+      {% include 'LilyChatBundle:Dashboard/Connected:operator.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardConnectedListTpl">
+      {% include 'LilyChatBundle:Dashboard/Connected:list.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardLoadingTpl">
+      {% include 'LilyChatBundle:Dashboard:loading.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardOperatorsTpl">
+      {% include 'LilyChatBundle:Dashboard:operators.html.twig' %}
+    </script>
+		<script type="text/template" id="dashboardVisitorsTpl">
+      {% include 'LilyChatBundle:Dashboard:visitors.html.twig' %}
+    </script>
+    <!-- 
+  		  Modals
+    -->
+		<script type="text/template" id="modalConnectionLostTpl">
+      {% include 'LilyChatBundle:Connection:lost.html.twig' %}
+    </script>
+		<script type="text/template" id="modalAppTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
+    </script>
+		<script type="text/template" id="modalConfirmTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
+    </script>
+		<script type="text/template" id="modalTransferOperatorTpl">
+      {% include 'LilyChatBundle:Live/Modals/Transfer:operator.html.twig' %}
+    </script>
+    
+    
+  {% endblock %}
+
+	{% block bootstrap %}
+    {% autoescape false %}
+	    <script type="text/javascript">
+  	    
+  	    var config = {};
+  	    
+  	    {% if app.environment == 'dev' %}
+  	      config.wsserver = 'ws://develop.saio.fr';
+  	    {% else %}
+  	      config.wsserver = 'ws://ws.saio.fr';
+        {% endif %}
+  	    
+        config.licence = '{{ app.user.client.licence }}';
+        config.userId = '{{ app.user.id }}';
+	    </script>
+    {% endautoescape %}
+	{% endblock %}
+	
+  </section>
+</section>
+
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/chat/main.js')}}">
+</script>
+
+{% endblock %}

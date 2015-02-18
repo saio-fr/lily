@@ -111,7 +111,6 @@ define(function (require) {
           });
           
           app.trigger('users:groups:update', groups);
-          
           that.closeGroupsWidget();
         }
         

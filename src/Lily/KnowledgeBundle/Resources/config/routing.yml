@@ -1,14 +1,6 @@
-lily_faq:
-    pattern:  /faq
-    defaults: { _controller: LilyKnowledgeBundle:Faq:index }
-
-lily_questions:
-    pattern:  /questions
-    defaults: { _controller: LilyKnowledgeBundle:Questions:index }
-
-lily_redirections:
-    pattern:  /redirections
-    defaults: { _controller: LilyKnowledgeBundle:Redirections:index }
+lily_knowledge:
+    pattern:  /knowledge
+    defaults: { _controller: LilyKnowledgeBundle:Index:knowledge }
 
 lily_categories_api:
     resource: "@LilyKnowledgeBundle/Controller/CategoriesController.php"
@@ -20,18 +12,8 @@ lily_tags_api:
     type:     rest
     prefix:   /api/questions
 
-lily_faq_api:
-    resource: "@LilyKnowledgeBundle/Controller/FaqController.php"
-    type:     rest
-    prefix:   /api
-
 lily_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/QuestionsController.php"
-    type:     rest
-    prefix:   /api
-
-lily_redirections_api:
-    resource: "@LilyKnowledgeBundle/Controller/RedirectionsController.php"
     type:     rest
     prefix:   /api
 

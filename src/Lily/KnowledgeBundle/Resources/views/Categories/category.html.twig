@@ -1,0 +1,30 @@
+<% if (id) { %>
+  <span class="btn-category-menu" data-toggle="dropdown">
+	  <i class="icon-collapse"></i>
+  </span>
+  <ul class="dropdown-menu">
+		<li>
+		  <a class="btn-add-child" href="#">Ajouter une catégorie enfant</a>
+		</li>
+		<li>
+		  <a class="btn-update" href="#">Modifier</a>
+		</li>
+		<li>
+		  <a class="btn-remove" href="#">Supprimer</a>
+		</li>
+	</ul>
+<% } %>
+
+<div class="category-parent">
+  <span class="category-title"><%= title %></span>
+  
+  <% if (!_.isEmpty(children)) { %>
+    <span class="btn-category-minus">
+  	  <i class="icon-sort-down"></i>
+    </span>
+  <% } %>
+</div>
+
+<% if (!_.isEmpty(children)) { %>
+	<ul class="category-children hide"></ul>
+<% } %>
