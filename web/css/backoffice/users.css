@@ -171,23 +171,12 @@
   padding: 5px 15px;
 }
 
-.modal-content {
-  border-radius: 3px;
-}
-
-.modal-footer {
-  border-top: none;
-  padding: 15px;
-  margin-top: 0 !important;
-}
-
-.modal-remove {
+.modal-trash {
   margin: 0;
   position: absolute;
   z-index: 9999;
-  opacity: 1,
+  opacity: 1;
   width: 500px;
-  height: 400px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
 }

@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      ModalDeleteView = require('backoffice/users/views/users/modalDeleteView'),
+      globals = require('globals'),
       UserEditView = require('backoffice/users/views/users/userEditView'),
 
       // Object wrapper returned as a module
@@ -40,10 +40,13 @@ define(function (require) {
 
     destroy: function (e) {
 
+      var that = this;
+      
       e.stopPropagation();
-      if (typeof(app.skeletons.users.modalDeleteView) !== undefined)
-      app.skeletons.users.modalDeleteView = new ModalDeleteView({model: this.model});
-
+      app.createModal(globals.modalConfirm.userTrash, function() {
+        that.model.destroy();
+        that.remove();
+      }, that);
     },
 
     edit: function () {

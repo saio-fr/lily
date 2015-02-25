@@ -53,9 +53,6 @@
     <script type="text/template" id="usersSkeletonTpl">
 	  {% include 'LilyUserBundle:Admin:Users/skeleton.html.twig' %}
     </script>
-    <script type="text/template" id="usersModalTpl">
-	  {% include 'LilyUserBundle:Admin:Users/modal.html.twig' %}
-    </script>
     <script type="text/template" id="usersGroupsButtonTpl">
 	  {% include 'LilyUserBundle:Admin:Users/groups_button.html.twig' %}
     </script>
@@ -71,8 +68,11 @@
     <script type="text/template" id="groupsSkeletonTpl">
 	  {% include 'LilyUserBundle:Admin:Groups/skeleton.html.twig' %}
     </script>
-    <script type="text/template" id="groupsModalTpl">
-	  {% include 'LilyUserBundle:Admin:Groups/modal.html.twig' %}
+    <!--
+        Components
+    -->
+		<script type="text/template" id="modalConfirmTpl">
+      {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
     </script>
 
   {% endautoescape %}

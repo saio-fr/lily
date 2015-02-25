@@ -49,6 +49,20 @@ define(function(require) {
     title: "Cette catégorie n\'existe plus.",
     body: "Nous vous avons redirigé vers l\'accueil"
   };
+  g.modalConfirm.groupTrash = {
+    name: "modal-trash",
+    title: "Etes-vous sur de vouloir ce groupe ?",
+    body: "Vous allez supprimer un groupe, cette action est irréversible. Souhaitez vous continuer ?",
+    cancel: "Annuler",
+    confirm: "Supprimer"
+  };
+  g.modalConfirm.userTrash = {
+    name: "modal-trash",
+    title: "Etes-vous sur de vouloir cet utilisateur ?",
+    body: "Vous allez supprimer un utilisateur, cette action est irréversible. Souhaitez vous continuer ?",
+    cancel: "Annuler",
+    confirm: "Supprimer"
+  };
 
   g.modalConfirm.chatUnavailable = {
     name: "modal-unavailable",

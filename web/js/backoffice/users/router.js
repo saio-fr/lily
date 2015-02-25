@@ -14,12 +14,10 @@ define(function(require) {
     UserCollection = require('backoffice/users/collections/userCollection'),
     UsersView = require('backoffice/users/views/users/usersView'),
     UsersSkeletonView = require('backoffice/users/views/users/skeletonView'),
-    UsersModalDeleteView = require('backoffice/users/views/users/modalDeleteView'),
 
     GroupCollection = require('backoffice/users/collections/groupCollection'),
     GroupsView = require('backoffice/users/views/groups/groupsView'),
     GroupsSkeletonView = require('backoffice/users/views/groups/skeletonView'),
-    GroupsModalDeleteView = require('backoffice/users/views/groups/modalDeleteView'),
 
     // Object wrapper returned as a module
     AppRouter;
