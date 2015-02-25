@@ -11,11 +11,11 @@ define(function(require) {
     _ = require('underscore'),
     app = require('app'),
     Scribe = require('scribe'),
-    Models = require('backoffice/knowledge/data/models'),
-    ChildViewContainer = require('utils/backbone-childviewcontainer'),
     scribePluginToolbar = require('scribe-plugin-toolbar'),
     scribePluginSmartLists = require('scribe-plugin-smart-lists'),
     scribePluginHeadingCommand = require('scribe-plugin-heading-command'),
+    Models = require('backoffice/knowledge/data/models'),
+    ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
     // Object wrapper returned as a module
     TreeView;
@@ -33,7 +33,7 @@ define(function(require) {
       'click .title input' : 'editTitle',
       'blur .title input' : 'leaveEditTitle',
       'blur .answer .editor' : 'leaveEditAnswer',
-      'click .answer .editor' : 'editAnswer',
+      'focus .answer .editor' : 'editAnswer',
       'click .new-answer-type a' : 'newAnswerType',
       'click .btn-collapse .collapse' : 'collapse',
       'click .btn-collapse .expand' : 'expand'

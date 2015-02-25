@@ -40,9 +40,6 @@ class Category
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", 
      *    inversedBy="children", cascade={"persist"})
-     *
-     * @Serializer\Expose
-     * @Serializer\Groups({"categories"})
      **/
     protected $parent;
     
@@ -65,6 +62,18 @@ class Category
      * @Serializer\Groups({"categories", "list"})
      */
     protected $title;
+    
+    /**
+     * @Serializer\VirtualProperty
+     * @Serializer\Type("integer")
+     * @Serializer\SerializedName("parent")
+     * @Serializer\Groups({"categories"})
+     */
+    public function getParentId() {
+        $parent = $this->getParent();
+        $id = ($parent) ? $parent->getId() : null;
+        return $id;
+    }
 
     /**
      * Constructor

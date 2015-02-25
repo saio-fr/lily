@@ -36,8 +36,8 @@ define(function(require) {
       
       this.childViews = new Backbone.ChildViewContainer();
       
-      this.listenTo(app, 'closeEditView', this.cancel);
-      this.listenTo(this.model, 'destroy', this.cancel);
+      this.listenTo(app, 'closeEditView', this.remove);
+      this.listenTo(this.model, 'destroy', this.remove);
       this.render();
     },
 
@@ -110,7 +110,9 @@ define(function(require) {
     cancel: function() {
       // Resync data from serv since backbone does not 
       // include a revertLastSync function. Can be improved
-      this.model.fetch();
+      if (!this.model.isNew) {
+        this.model.fetch();
+      }
       this.remove();
     },    
 

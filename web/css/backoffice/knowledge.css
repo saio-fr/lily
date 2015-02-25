@@ -13,22 +13,11 @@ ul {
 .list-group-item {
   border: none;
   cursor: pointer;
-  border-right: 4px solid transparent !important;
+  position: static;
 }
 
 .list-group-item.active {
-  border: none;
-  cursor: pointer;
-  margin-right: -5px;
-  border-right: 4px solid #62a5e2 !important;
-}
-
-.list-group-item.active .category-label {
-  margin-right: 5px;
-}
-
-.list-group-item.active category-label {
-  margin-right: 5px;
+  background: #FCF6BF !important;
 }
 
 .category-label {
@@ -119,6 +108,15 @@ ul {
   top: 200px !important;
 }
 
+.categories-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.category-menu-wrapper {
+  position: absolute;
+}
+
 .app-navigator .btn {
   padding: 5px;
   font-size: 11px;
@@ -187,6 +185,10 @@ ul {
   padding-left: 23px;
 }
 
+.category {
+  position: relative;
+}
+
 .category .icon-check-sign, .category .icon-sign-blank {
   color: #656F81;
   font-size: 14px;
@@ -201,11 +203,13 @@ ul {
   cursor: pointer;
 }
 
-.category {
-  position: relative;
+.category .dropdown-menu {
+  top: 25px;
+  left: 20px;
+  min-width: 100px;
 }
 
-.category:hover {
+.category-parent:hover {
   background: #fbfcff;
 }
 
@@ -242,7 +246,6 @@ ul {
 
 .btn-category-minus {
   cursor: pointer;
-  position: absolute;
   top: 3px;
   margin-left: 5px;
 }
@@ -251,7 +254,7 @@ ul {
   color: #3c3f46;
 }
 
-.category:hover > .btn-category-menu {
+.category:hover .btn-category-menu {
   display: inline;
 }
 
@@ -286,6 +289,10 @@ ul {
 
 .questions-wrapper {
   top: 101px !important; 
+}
+
+.questions {
+  position: relative !important;
 }
 
 .btn-filter {
@@ -434,9 +441,8 @@ ul {
 }
 
 .treel-el .editor {
-  height: 100%;
-  margin-left: 25px;
-  margin-top: 2px;
+  height: 20px;
+  margin: 2px 15px 0 25px;
   outline: none;
   background: transparent;
   font-size: 12px;
@@ -449,7 +455,8 @@ ul {
 
 .treel-el.answer.editing .editor {
   padding: 10px 0 20px 0;
-  margin-left: 0;
+  margin: 0;
+  height: 100%;
 }
 
 .tree-el-type {

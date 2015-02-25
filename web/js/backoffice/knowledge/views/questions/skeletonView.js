@@ -68,6 +68,7 @@ define(function (require) {
         that.collection.set(data.questions);
         that.updatePaginator(data.counter);
         that.renderQuestions();
+        app.trigger('closeEditView', this);
       }
       
       // Fetch our collection
