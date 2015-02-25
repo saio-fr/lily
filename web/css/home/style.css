@@ -276,6 +276,12 @@ HOME
 		font-family: 'Open Sans', sans-serif;
 		font-weight: 300;
 		text-transform: none;
+		word-break: break-word;
+		-webkit-hyphens: auto;
+		-moz-hyphens: auto;
+		-ms-hyphens: auto;
+		-o-hyphens: auto;
+		hyphens: auto;
 	}
 
 	#home p{
@@ -3443,21 +3449,25 @@ RECRUTEMENT
 		padding-bottom: 60px;
 	}
 
+	#dev_back .wrapper {
+		width: 720px;
+	}
+
 	#dev_back h1 {
 		text-align: center;
 		font-size: 30px;
 		margin-right: auto;
 		margin-left: auto;
-		margin-bottom: 43px;
+		margin-bottom: 63px;
 	}
 
 	#dev_back h2 {
 		font-size: 14px;
 		line-height: 30px;
-		text-transform: uppercase;
+		text-transform: none
 		font-family: "Open Sans", sans-serif;
 		font-weight: 600;
-		color: #6c6c6c;
+		color: black;
 		margin-bottom: 8px;
 	}
 
@@ -3468,14 +3478,17 @@ RECRUTEMENT
 
 	#dev_back li {
 		list-style: disc;
+		color: black;
 	}
 
 	#dev_back p {
 		margin-bottom: 20px;
+		color: black;
 	}
 
 	#dev_back .button {
 		margin-left: 0;
+		margin-bottom: 30px;
 	}
 
 
