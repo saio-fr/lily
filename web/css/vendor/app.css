@@ -3221,3 +3221,7 @@ background-color: #ffffff;
   height: 250px;
   width: 100%;
 }
+
+.modal-open {
+  margin-right: 0;
+}
