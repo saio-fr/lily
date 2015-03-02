@@ -8,7 +8,9 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
       GroupModel = require('backoffice/users/models/groupModel'),
+      GroupsView = require('backoffice/users/views/groups/groupsView'),
       GroupEditView = require('backoffice/users/views/groups/groupEditView'),
       g = require('globals'),
 
@@ -17,7 +19,8 @@ define(function (require) {
 
   SkeletonView = Backbone.View.extend({
 
-    el: '.js-groups-container',
+    tagName: 'section',
+    className: 'vbox',
     template: _.template($('#groupsSkeletonTpl').html()),
 
     events: {
@@ -25,12 +28,20 @@ define(function (require) {
     },
 
     initialize: function() {
+      this.childViews = new Backbone.ChildViewContainer();
       this.render();
     },
     
     render: function () {
-      this.$el.removeClass('hide');
-      this.$el.html(this.template());
+      $('.js-skeleton-container').append(this.$el.html(this.template()));
+      
+      var view = new GroupsView({
+        collection: this.collection
+      });
+      this.childViews.add(view);
+      
+      $('.nav-tabs li').removeClass('active');
+      $('.groups-nav').addClass('active');
 
       return this;
     },
@@ -41,10 +52,19 @@ define(function (require) {
       var model = this.collection.create({}, { wait:true });
       $('#group-list .active').removeClass('active');
     },
-
-    close: function () {
-      utils.closeModelView(this);
-    }
+    
+    remove: function () {
+      var that = this;
+      
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        that.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+      Backbone.View.prototype.remove.apply(this, arguments);
+    }    
+    
   });
 
   return SkeletonView;

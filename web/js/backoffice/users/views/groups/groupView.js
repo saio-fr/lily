@@ -50,7 +50,9 @@ define(function (require) {
 
     edit: function() {
       app.trigger('closeEditView', this);
-      app.skeletons.groups.editView = new GroupEditView({model: this.model});
+      app.skeleton.editView = new GroupEditView({
+        model: this.model
+      });
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');

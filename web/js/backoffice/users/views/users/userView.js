@@ -45,14 +45,13 @@ define(function (require) {
       e.stopPropagation();
       app.createModal(globals.modalConfirm.userTrash, function() {
         that.model.destroy();
-        that.remove();
       }, that);
     },
 
     edit: function () {
       
       app.trigger('closeEditView', this);
-      app.skeletons.users.editView = new UserEditView({model: this.model});
+      app.skeleton.editView = new UserEditView({model: this.model});
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');

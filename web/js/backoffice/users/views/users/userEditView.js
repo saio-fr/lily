@@ -65,7 +65,7 @@ define(function (require) {
 
       if (this.model.isValid(true)) {
 
-        app.skeletons.users.collection.create(this.model, {
+        app.skeleton.collection.create(this.model, {
           wait: true,
           success: function (model) {
             var avatar = that.$el.find('input[name="avatarFile"]')[0].files[0];
