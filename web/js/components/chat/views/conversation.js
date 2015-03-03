@@ -11,16 +11,15 @@ define(function(require) {
     app = require('app'),
     _ = require('underscore'),
     globals = require('globals'),
-    Collections = require('backoffice/chat/data/collections'),
-    InformationsView = require('backoffice/chat/views/live/informations'),
-    Models = require('backoffice/chat/data/models'),
-    MessagesView = require('backoffice/chat/views/live/messages'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    StatusHelpers = require('backoffice/chat/utils/status'),
-    ModalModel = require('components/modals/model'),
-    ModalTransferView = require('backoffice/chat/views/live/transfer/modal'),
-    Timers = require('backoffice/chat/utils/timers'),
-
+    Collections =        require('components/chat/data/collections'),
+    MessagesView =       require('components/chat/views/messages'),
+    InformationsView =   require('components/chat/views/informations'),
+    ModalTransferView =  require('components/chat/views/transfer/modal'),
+    ModalModel =         require('components/modals/model'),
+    StatusHelpers =      require('components/chat/utils/status'),
+    Timers =             require('components/chat/utils/timers'),
+    
     // Object wrapper returned as a module
     ConversationView;
 
@@ -136,7 +135,7 @@ define(function(require) {
     addMsg: function(msg) {
 
       var view,
-        conversations = this.$el.find('.conversation-section-list');
+        conversations = this.$el.find('.messages-list');
       // create an instance of the sub-view to render the single message item.
       switch (msg.get('from')) {
 
@@ -175,7 +174,7 @@ define(function(require) {
       $('.conversations').removeClass('selected');
       this.$el.addClass('selected');
 
-      var live = app.skeleton.live;
+      var live = app.liveChatSkeleton;
 
       if (typeof live.informations === 'undefined') {
         live.informations = new InformationsView({
@@ -206,7 +205,7 @@ define(function(require) {
       });
 
       var that = this;
-      var live = app.skeleton.live;
+      var live = app.liveChatSkeleton;
 
       this.model.trigger('unactive');
 
@@ -247,7 +246,7 @@ define(function(require) {
     },
 
     transfer: function() {
-      var operators = app.users.filter(function(model) {
+      var operators = app.chatUsers.filter(function(model) {
         return model.get('type') === 'operator' &&
           model.get('available') &&
           model.get('id') !== parseInt(globals.userId, 10);
@@ -258,7 +257,7 @@ define(function(require) {
 
       var modalTransfer = new ModalTransferView({
         model: modalModel,
-        appendEl: ".js-live-container",
+        appendEl: ".js-chat-container",
         collection: operators,
         visitor: this.model
       });

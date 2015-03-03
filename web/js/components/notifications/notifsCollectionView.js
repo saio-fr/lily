@@ -15,7 +15,6 @@ define(function(require) {
     NotifsCollection = require('components/notifications/notifsCollection'),
     NotifView = require('components/notifications/notifView'),
     Models = require('components/notifications/models'),
-    // LocalStorage = require('backbone-localStorage'),
 
     // Object wrapper returned as a module
     NotifsView;
@@ -23,7 +22,7 @@ define(function(require) {
 
   NotifsView = Backbone.View.extend({
 
-    className: 'chat pull-left hidden-xs',
+    className: 'chat pull-left hidden-xs header-widget notifications-menu',
     tagName: 'li',
     template: _.template($('#notifsListTpl').html()),
 
@@ -37,18 +36,18 @@ define(function(require) {
 
       // Events related to the collection of notifications
       this.listenTo(this.notifs, 'change:seen', this.processSeen, this);
-      this.listenTo(this.notifs, 'remove', this.onCollectionRemove);
-      this.listenTo(this.notifs, 'add', this.onNewNotif);
-      this.listenTo(this.notifs, 'reset', this.render);
+      this.listenTo(this.notifs, 'remove',      this.onCollectionRemove);
+      this.listenTo(this.notifs, 'reset',       this.render);
+      this.listenTo(this.notifs, 'add',         this.onNewNotif);
 
       // Events related to the parent itself
       this.listenTo(this.model, 'change', this.render);
 
       // Events coming from outside to trigger notification creation / update / deletion
       this.listenTo(app, 'conversation:stateChange', this.onConversationStateChange);
-      this.listenTo(app, 'notification:click', this.onNotificationClicked);
-      this.listenTo(app, 'conversation:selected', this.onConversationSelected);
-      this.listenTo(app, 'conversation:stopFollow', this.onConversationStopFollow);
+      this.listenTo(app, 'conversation:stopFollow',  this.onConversationStopFollow);
+      this.listenTo(app, 'conversation:selected',    this.onConversationSelected);
+      this.listenTo(app, 'notification:click',       this.onNotificationClicked);
 
       // Create a child view container
       this.childViews = new Backbone.ChildViewContainer();
@@ -65,7 +64,7 @@ define(function(require) {
 
       // Render parent view:
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo(container);
+      this.$el.prependTo(container);
 
       // Create and render children views (notification views):
       if (this.notifs && this.notifs.length > 0) {
@@ -145,7 +144,6 @@ define(function(require) {
         this.stopListening(view);
         this.childViews.remove(view); 
       }
-      this.model.set('count', this.notifs.length);
   
       return view;
     },
@@ -158,6 +156,8 @@ define(function(require) {
       this.model.set('count', this.notifs.length);
     },
 
+    // When a conversation is removed from the list of current / waiting conversations
+    // Remove any related conversation and remove reference in sessionStorage:
     onConversationStopFollow: function(id) {
       this.removeRelatedNotification(id);
       this.unfollowConversation(id);
@@ -176,6 +176,7 @@ define(function(require) {
     onCollectionRemove: function(model) {
       var view = this.childViews.findByModel(model);
       this.removeChildView(view);
+      this.model.set('count', this.notifs.length);
     },
 
     // When a notification was clicked, show the relevant conversation

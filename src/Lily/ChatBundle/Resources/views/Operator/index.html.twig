@@ -37,30 +37,6 @@
       {% include 'LilyChatBundle:Operator:skeleton.html.twig' %}
     </script>
     <!-- 
-  		  Live
-    -->
-		<script type="text/template" id="liveSkeletonTpl">
-      {% include 'LilyChatBundle:Operator/Live:skeleton.html.twig' %}
-    </script>
-		<script type="text/template" id="liveConversationTpl">
-      {% include 'LilyChatBundle:Operator/Live:conversation.html.twig' %}
-    </script>
-		<script type="text/template" id="liveInformationsTpl">
-      {% include 'LilyChatBundle:Operator/Live:informations.html.twig' %}
-    </script>
-		<script type="text/template" id="liveRecordTpl">
-      {% include 'LilyChatBundle:Operator/Live:record.html.twig' %}
-    </script>
-		<script type="text/template" id="liveMessageOperatorTpl">
-      {% include 'LilyChatBundle:Operator/Live/Message:operator.html.twig' %}
-    </script>
-		<script type="text/template" id="liveMessageServerTpl">
-      {% include 'LilyChatBundle:Operator/Live/Message:server.html.twig' %}
-    </script>
-		<script type="text/template" id="liveMessageVisitorTpl">
-      {% include 'LilyChatBundle:Operator/Live/Message:visitor.html.twig' %}
-    </script>
-    <!-- 
   		  Dashboard
     -->
 		<script type="text/template" id="dashboardSkeletonTpl">
@@ -81,21 +57,6 @@
 		<script type="text/template" id="dashboardVisitorsTpl">
       {% include 'LilyChatBundle:Operator/Dashboard:visitors.html.twig' %}
     </script>
-    <!-- 
-  		  Modals
-    -->
-		<script type="text/template" id="modalConnectionLostTpl">
-      {% include 'LilyChatBundle:Connection:lost.html.twig' %}
-    </script>
-		<script type="text/template" id="modalAppTpl">
-      {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
-    </script>
-		<script type="text/template" id="modalConfirmTpl">
-      {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
-    </script>
-		<script type="text/template" id="modalTransferOperatorTpl">
-      {% include 'LilyChatBundle:Operator/Live/Modals/Transfer:operator.html.twig' %}
-    </script>
     
     
   {% endblock %}
@@ -104,7 +65,7 @@
     {% autoescape false %}
 	    <script type="text/javascript">
   	    
-  	    var config = {};
+        var config = window.config || {};
   	    
   	    {% if app.environment == 'dev' %}
   	      config.wsserver = 'ws://develop.saio.fr';

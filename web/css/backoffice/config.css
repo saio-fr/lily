@@ -86,7 +86,7 @@ h5 {
   height: 400px;
   top: calc(50% - 50px) !important;
   left: calc(50% - 250px) !important;
-  z-index: 9999;
+  z-index: 10001;
   opacity: 1;
 }
 .switch input:checked + span {

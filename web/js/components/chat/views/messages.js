@@ -9,7 +9,6 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     _ = require('underscore'),
-    g = require('globals'),
     // Object wrapper returned as a module
     Messages = {};
 
@@ -31,7 +30,7 @@ define(function(require) {
 
   Messages.Operator = Messages.template.extend({
     tagName: 'li',
-    className: 'conversation-section-item animated',
+    className: 'msg animated',
     template: _.template($('#liveMessageOperatorTpl').html()),
   });
 
@@ -43,7 +42,7 @@ define(function(require) {
 
   Messages.Visitor = Messages.template.extend({
     tagName: 'li',
-    className: 'conversation-section-item animated',
+    className: 'msg animated',
     template: _.template($('#liveMessageVisitorTpl').html())
   });
 

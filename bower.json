@@ -39,6 +39,5 @@
     "raphael": "~2.1.2",
     "morrisjs": "~0.5.1",
     "backbone-validation": "~0.9.1",
-    "backbone.localStorage": "~1.1.16"
   }
 }

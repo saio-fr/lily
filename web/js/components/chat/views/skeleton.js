@@ -11,9 +11,10 @@ define(function(require) {
     g = require('globals'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    RecordCurrent = require('backoffice/chat/views/live/records/current'),
-    RecordWaiting = require('backoffice/chat/views/live/records/waiting'),
-    ConversationView = require('backoffice/chat/views/live/conversation'),
+    RecordCurrent = require('components/chat/views/records/current'),
+    RecordWaiting = require('components/chat/views/records/waiting'),
+    ConversationView = require('components/chat/views/conversation'),
+    Collections = require('components/chat/data/collections'),
 
     // Object wrapper returned as a module
     SkeletonView;
@@ -21,12 +22,15 @@ define(function(require) {
   SkeletonView = Backbone.View.extend({
 
     tagName: 'section',
-    className: 'js-live-container hbox stretch hide',
+    id: 'chatModal',
+    className: 'js-chat-container hbox stretch hide',
     template: _.template($('#liveSkeletonTpl').html()),
 
     events: {},
 
     initialize: function() {
+
+      this.collection = app.chatUsers || new Collections.Users(app.chatUsersData || []);
 
       this.render();
 
@@ -51,7 +55,7 @@ define(function(require) {
       // Adjust windows on navigator resize:
       // And right away:
       // (skip a frame before calling setWindows to let the router finish
-      // the app.skeleton initialization - hacky :/ - )
+      // the app.liveChatSkeleton initialization - hacky :/ - )
       window.setTimeout(function() {
         that.setWindows.apply(that, arguments);
       });
@@ -62,7 +66,7 @@ define(function(require) {
 
     render: function() {
       this.$el.html(this.template());
-      this.$el.appendTo('.js-main-container');
+      this.$el.appendTo('body');
 
       return this;
     },
@@ -178,7 +182,7 @@ define(function(require) {
       var $conversations = $('.conversations').children(),
         $conversationList = $('.aside-chat-left'),
         $infoPanel = $('.aside-chat-right'),
-        $container = $('.js-live-container'),
+        $container = $('.js-chat-container'),
         $conversationsContainer = $('.conversations');
 
       /**
@@ -244,8 +248,8 @@ define(function(require) {
       /**
        * Show/Hide informations if the window is too small
        **/
-      if ($('.js-live-container').width() < 950 ||
-        $('.js-live-container').width() < 1300 &&
+      if ($container.width() < 950 ||
+          $container.width() < 1300 &&
         $conversations.hasClass('multiple')) {
 
         $infoPanel.addClass('hide');

@@ -33,7 +33,7 @@ define(function(require) {
       connect: function() {
         // var deferred = when.defer();
         // Authobah subscription list not empty:
-        if (app.hasSubscribed && Object.getOwnPropertyNames(app.ws._subscriptions).length === 0) {
+        if (app.hasSubscribed && Object.getOwnPropertyNames(app.ws._subscriptions).length !== 0) {
           try {
             app.unsubscribe();
           } catch (e) {

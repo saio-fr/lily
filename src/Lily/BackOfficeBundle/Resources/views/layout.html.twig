@@ -45,11 +45,53 @@ filter='cssrewrite' %}
 
   </section>
 
+  <!-- 
+      Notifications
+  -->
   <script type="text/template" id="notifsItemTpl">
     {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_item.html.twig' %}
   </script>
   <script type="text/template" id="notifsListTpl">
     {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_list.html.twig' %}
+  </script>
+  <!-- 
+      Chat
+  -->
+  <script type="text/template" id="liveSkeletonTpl">
+    {% include 'LilyChatBundle:Operator/Live:skeleton.html.twig' %}
+  </script>
+  <script type="text/template" id="liveConversationTpl">
+    {% include 'LilyChatBundle:Operator/Live:conversation.html.twig' %}
+  </script>
+  <script type="text/template" id="liveInformationsTpl">
+    {% include 'LilyChatBundle:Operator/Live:informations.html.twig' %}
+  </script>
+  <script type="text/template" id="liveRecordTpl">
+    {% include 'LilyChatBundle:Operator/Live:record.html.twig' %}
+  </script>
+  <script type="text/template" id="liveMessageOperatorTpl">
+    {% include 'LilyChatBundle:Operator/Live/Message:operator.html.twig' %}
+  </script>
+  <script type="text/template" id="liveMessageServerTpl">
+    {% include 'LilyChatBundle:Operator/Live/Message:server.html.twig' %}
+  </script>
+  <script type="text/template" id="liveMessageVisitorTpl">
+    {% include 'LilyChatBundle:Operator/Live/Message:visitor.html.twig' %}
+  </script>
+  <!-- 
+      Modals
+  -->
+  <script type="text/template" id="modalConnectionLostTpl">
+    {% include 'LilyChatBundle:Connection:lost.html.twig' %}
+  </script>
+  <script type="text/template" id="modalAppTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
+  </script>
+  <script type="text/template" id="modalConfirmTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
+  </script>
+  <script type="text/template" id="modalTransferOperatorTpl">
+    {% include 'LilyChatBundle:Operator/Live/Modals/Transfer:operator.html.twig' %}
   </script>
 
   <script>
@@ -63,6 +105,8 @@ filter='cssrewrite' %}
     {% else %}
     ga('create', 'UA-58965885-1', 'auto');
     {% endif %}
+    window.config.chat = {{ app.user.client.config.chat }};
+    window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR') }};
   </script>
 
 </body>

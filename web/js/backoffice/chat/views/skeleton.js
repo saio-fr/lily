@@ -20,48 +20,17 @@ define(function(require) {
     template: _.template($('#skeletonTpl').html()),
 
     events: {
-      'click .status a[data="unavailable"]': 'setUnavailable',
-      'click .status a[data="available"]': 'setAvailable',
       'click .windows ul li': 'setMaxWindows'
     },
 
     initialize: function() {
       this.render();
-
-      if (app.available) {
-        this.setAvailable();
-      } else {
-        this.setUnavailable();
-      }
+      app.trigger('operator:setAvailability', app.available);
     },
 
     render: function() {
       this.$el.html(this.template());
       return this;
-    },
-
-    setAvailable: function(e) {
-
-      if (typeof(e) !== 'undefined') {
-        e.preventDefault();
-      }
-      // Set the operator available on the server
-      app.trigger("operator:available");
-
-      $('.header .status icon').removeClass('unavailable').addClass('available');
-      $('.header .status span').html('Disponible');
-    },
-
-    setUnavailable: function(e) {
-
-      if (typeof(e) !== 'undefined') {
-        e.preventDefault();
-      }
-      // Set the operator unavailable on the server
-      app.trigger('operator:unavailable');
-
-      $('.header .status icon').removeClass('available').addClass('unavailable');
-      $('.header .status span').html('Indisponible');
     },
 
     setMaxWindows: function(e) {
