@@ -11,6 +11,7 @@ define(function(require) {
     app = require('app'),
     LiveSkeletonView = require('backoffice/chat/views/live/skeleton'),
     DashboardSkeletonView = require('backoffice/chat/views/dashboard/skeleton'),
+    ShortcutSkeletonView = require('backoffice/chat/views/shortcut/skeletonView'),
 
     // Object wrapper returned as a module
     Router;
@@ -22,46 +23,36 @@ define(function(require) {
     routes: {
       '': 'dashboard',
       'dashboard': 'dashboard',
-      'live': 'live'
+      'shortcut': 'shorcut'
     },
 
     initialize: function() {
-
-      // Initialize Users Collection and global views
-      app.skeleton.live = new LiveSkeletonView({
-        collection: app.users
-      });
-      app.skeleton.dashboard = new DashboardSkeletonView({
-        collection: app.users
-      });
-    },
-
-    live: function() {
-
-      var that = this;
-
-      if (app.available) {
-        this.toggleActiveTab("live");
-      } else {
-
-        this.navigate('dashboard', {
-          trigger: true
-        });
-
-        app.createModal(globals.modalConfirm.chatUnavailable, function() {
-          app.skeleton.setAvailable();
-          app.router.navigate('live', {
-            trigger: true
-          });
-        }, that);
-      }
-
-      app.pageView("/chat/live");
     },
 
     dashboard: function() {
+      
+      if (typeof(app.skeleton) !== 'undefined') {
+        app.skeleton.remove();
+      }
+      
+      app.skeleton = new DashboardSkeletonView({
+        collection: app.users
+      });
+      
       this.toggleActiveTab("dashboard");
       app.pageView("/chat/dashboard");
+    },
+    
+    shortcut: function () {
+      
+      if (typeof(app.skeleton) !== 'undefined') {
+        app.skeleton.remove();
+      }
+      
+      app.skeleton = new ShortcutskeletonView({});
+      
+      this.toggleActiveTab("shortcut");
+      app.pageView("/chat/shortcut");
     },
 
     toggleActiveTab: function(next) {

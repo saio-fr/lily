@@ -11,7 +11,6 @@ define(['../common', 'require'], function(common, require) {
   "app",
   "backoffice/chat/data/collections",
   "backoffice/chat/router",
-  'backoffice/chat/views/skeleton',
   "components/modals/confirmView",
   "components/modals/model",
   "backoffice/chat/views/connection/lost",
@@ -26,7 +25,7 @@ define(['../common', 'require'], function(common, require) {
   "wysihtml5",
   "todoTpl"
   // Autobahn V1 AMD broken.
-], function($, _, Backbone, ab, when, app, Collections, ChatRouter, SkeletonView, ModalView,
+], function($, _, Backbone, ab, when, app, Collections, ChatRouter, ModalView,
     ModalModel, ConnectionLostModal, timers, moment, globals) {
 
     // Set locale in moment JS
@@ -36,7 +35,6 @@ define(['../common', 'require'], function(common, require) {
 
     app.init = function() {
       // app.notifs = new Notifs();
-      app.skeleton = new SkeletonView();
       app.users = new Collections.Users();
       app.router = new ChatRouter();
 

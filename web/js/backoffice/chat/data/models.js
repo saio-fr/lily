@@ -12,6 +12,8 @@ define(function(require) {
     g = require('globals'),
     // Object wrapper returned as a module
     Models = {};
+    
+  Models.Shortcut = Backbone.Model.extend({});
 
   Models.Loading = Backbone.Model.extend({});
   Models.Operator = Backbone.NestedModel.extend({
