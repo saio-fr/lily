@@ -16,16 +16,6 @@ class ConfigController extends BaseController
 {
 
     /**
-     * @View()
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function indexAction() {
-      
-        $client = $this->getClient()->getConfig();     
-        return array('client' => $client);
-    }
-
-    /**
      * @Get("/config")
      * @Secure(roles="ROLE_ADMIN")
      */

@@ -1,0 +1,32 @@
+<div class="form-group">
+  <label>Nom de la catégorie</label>
+  <input type="text" name="title" class="form-control" value="<%= category.title %>">
+</div>
+
+<div class="form-group">
+  <label>Catégorie parente</label>
+  <select name="parent" class="form-control">
+    <option value="null"></option>
+    
+    <% var generateChildrenTree = function (parent) {
+      if (!_.isEmpty(parent.children)) {
+        _.each(parent.children, function(child) { %>
+          <option value="<%= child.id %>">&nbsp;&nbsp;&nbsp;&nbsp;<%= child.title %></option>
+          <%  generateChildrenTree(child); %> 
+    <% })}} %>
+    
+    <% _.each(collection, function (parent) { %>
+      <option value="<%= parent.id %>"><%= parent.title %></option>
+      <% generateChildrenTree(parent) %>
+    <% }); %>
+  </select>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default btn-cancel">
+    Annuler
+  </button>
+  <button type="button" class="btn btn-primary btn-update">
+    Sauvegarder
+  </button>
+</div>

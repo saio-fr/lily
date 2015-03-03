@@ -21,13 +21,6 @@ use \ZMQ;
 
 class UserController extends BaseController
 {
-    /**
-     * @View()
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function indexAction() {
-      return $this->render('LilyUserBundle:Admin:index.html.twig');
-    }
 
     /**
      * @Get("/users")

@@ -12,7 +12,32 @@ use Doctrine\ORM\EntityRepository;
  */
 class QuestionRepository extends EntityRepository
 {
+  
 	public function sortQuestions($data) {
+		
+		$qb = $this->createQueryBuilder('q');
+		
+		$qb->leftJoin('q.category', 'c')
+		   ->leftJoin('q.tag', 't');
+		   
+    if ($data->categories != ['all']) {
+        $qb->andWhere($qb->expr()->in('c.id', ':cids'))
+           ->setParameter('cids', $data->categories);
+    }
+		   
+		if (in_array(null, $data->categories)) $qb->orWhere('c.id is NULL');
+		
+		$qb->andWhere('q.parent is NULL');
+		
+		if (isset($data->sortBy)) $qb->add('orderBy', 'q.' . $data->sortBy->name . ' ' . $data->sortBy->order);
+		   
+		$qb->setFirstResult( $data->page * $data->max )
+		   ->setMaxResults( $data->max );
+		   
+		return $qb->getQuery()->getResult();
+	}
+
+	public function countSortedQuestions($data) {
 		
 		$qb = $this->createQueryBuilder('q');
 		
@@ -27,15 +52,17 @@ class QuestionRepository extends EntityRepository
 		if (in_array(null, $data->tags)) $qb->orWhere('t.id is NULL');
 		
 		$qb->andWhere('q.parent is NULL');
-		
-		if (isset($data->sortBy)) $qb->add('orderBy', 'q.' . $data->sortBy->name . ' ' . $data->sortBy->order);
 		   
-		$qb->setFirstResult( $data->page * $data->max )
-		   ->setMaxResults( $data->max );
-		   
-		return $qb->getQuery()
-				  ->getResult();
-		
+		return count($qb->getQuery()->getResult());
 	}
+	
+	public function countAll() {
+		
+		$qb = $this->createQueryBuilder('q');
+		$qb->where('q.parent is NULL');
+		   
+		return count($qb->getQuery()->getResult());
+	}
+	
 
 }

@@ -1,0 +1,204 @@
+<header class="bg-light header no-padder clearfix">
+
+  <div class="lvl-one clear">
+
+  	<!--
+    	Search field
+    -->
+  	<div class="input-group col-xs-6 m-t-sm no-padder">
+      <input type="text" class="input-sm form-control" placeholder="Rerchercher...">
+  
+      <div class="input-group-btn">
+  	    <button class="btn btn-sm btn-white button-search">
+          <i class="icon-search"></i>
+        </button>
+      </div>
+  	</div>
+  
+  	<!--
+    	Add question button
+    -->
+    <div class="btn-group btn-group-create pull-right">
+    	<button class="btn btn-sm btn-primary" >
+    		<i class="icon-plus"></i>
+    		  Ajouter une question
+    	</button>
+    </div>
+  
+  </div>
+  
+  <div class="lvl-two">
+
+  	<!--
+    	Select button
+    -->
+  	<div class="btn-group btn-group-select">
+  
+  		<button class="btn btn-sm btn-filter dropdown-toggle" data-toggle="dropdown">
+  			<div class="icon-check-empty"></div>
+  			<span class="caret"></span>
+  		</button>
+  
+  		<ul class="dropdown-menu">
+  			<li>
+  			  <a data-select="all" href="#">Tout sélectionner</a>
+    		</li>
+  			<li>
+  			  <a data-select="none" href="#">Tout déselectionner</a>
+    		</li>
+  		</ul>
+  
+  	</div>
+  
+  
+  	<!--
+    	Sort button
+    -->
+  	<div class="btn-group btn-group-sort">
+  
+  		<button class="btn btn-sm dropdown-toggle btn-filter" data-toggle="dropdown">
+  		  Trier par
+  		  <span class="caret"></span>
+  		</button>
+  
+  		<ul class="dropdown-menu">
+  
+	      <li class="dropdown-submenu">
+	      	<a href="#" data-toggle="dropdown">
+	      		<i class="icon-caret-right pull-right"></i>
+	      		<span>Date</span>
+	      	</a>
+	      	<ul class="dropdown-menu">
+	      		<li>
+	      			<a data-sort="date" data-order="desc" href="#">Les plus récentes</a>
+	      		</li>
+	      		<li>
+	      			<a data-sort="date" data-order="asc" href="#">Les plus anciennes</a>
+	      		</li>
+	      	</ul>
+	      </li>
+
+	      <li class="dropdown-submenu">
+	      	<a href="#" data-toggle="dropdown">
+	      		<i class="icon-caret-right pull-right"></i>
+	      		<span>Fréquence</span>
+	      	</a>
+	      	<ul class="dropdown-menu">
+	      		<li>
+	      			<a data-sort="requests" data-order="desc" href="#">Les plus posées</a>
+	      		</li>
+	      		<li>
+	      			<a data-sort="requests" data-order="asc" href="#">Les moins posées</a>
+	      		</li>
+	      	</ul>
+	      </li>
+  
+	      <li class="dropdown-submenu">
+	      	<a href="#" data-toggle="dropdown">
+	      		<i class="icon-caret-right pull-right"></i>
+	      		<span>Satisfaction</span>
+	      	</a>
+	      	<ul class="dropdown-menu">
+	      		<li>
+	      			<a data-sort="satisfaction" data-order="desc" href="#">Les plus satisfaisantes</a>
+	      		</li>
+	      		<li>
+	      			<a data-sort="satisfaction" data-order="asc" href="#">Les moins satisfaisantes</a>
+	      		</li>
+	      	</ul>
+	      </li>
+	      
+  		</ul>
+  	</div>
+  	
+  	<!--
+    	Label button
+    -->
+    <!--
+  	<div class="btn-group btn-group-labels">
+  
+  		<button class="btn btn-sm dropdown-toggle btn-filter" data-toggle="dropdown">
+  			<i class="icon-tags"></i>
+  			<span class="caret"></span>
+  		</button>
+  
+  		<ul class="dropdown-menu">
+  			<li class="remove_label">Supprimer le label</li>
+  		</ul>
+  
+  	</div>
+    -->
+  
+  	
+  	<!--
+    	Trash button
+    -->
+  	<div class="btn-group btn-group-trash">
+  
+  		<button class="btn btn-sm btn-filter" disabled>
+  			<i class="icon-trash"></i>
+  		</button>
+  
+  	</div>
+  
+  
+  
+  	<!--
+    	Paginator
+    -->
+    <div class="paginator">
+    	
+      <span class="paginator-status"></span>
+    	
+      <div class="btn-group paginator-nav prev">
+  		  <button class="btn btn-sm btn-filter">
+  		    <i class="icon-angle-left"></i>
+  		  </button>
+  	  </div>
+    	
+      <div class="btn-group paginator-nav next">
+  		  <button class="btn btn-sm btn-filter">
+  		    <i class="icon-angle-right"></i>
+  		  </button>
+  	  </div>
+  	  
+      <div class="btn-group paginator-max">
+    		<button class="btn btn-sm btn-filter dropdown-toggle" data-toggle="dropdown">
+    			<span class="caret"></span>
+    		</button>
+    
+    		<ul class="dropdown-menu">
+    			<li><a data-max="25" href="#">25</a></li>
+    			<li><a data-max="50" href="#">50</a></li>
+    			<li><a data-max="100" href="#">100</a></li>
+    		</ul>
+    	</div>
+    	
+    </div>
+  </div>
+</header>
+
+<section class="questions-wrapper">
+  <section class="hbox stretch bg-white">
+    <aside class="js-skeleton-list">
+      <section class="vbox">
+        <section class="scrollable">
+          <ul class="js-questions-list list-group list-group-alt no-radius">
+          <!--
+        	  Our sorted questions list
+          -->
+          </ul>
+        </section>
+      </section>
+      <div class="text-center wrapper">
+        <i class="icon-spinner icon-spin icon-large hide"></i>
+      </div>
+    </aside>
+    <aside class="aside-divider b-l hide" style="width: 5px"></aside>
+    <aside class="js-question-edit aside-edit b-l hide">
+      <!--
+    	  Our selected question to edit
+      -->
+    </aside>
+  </section>
+</section>

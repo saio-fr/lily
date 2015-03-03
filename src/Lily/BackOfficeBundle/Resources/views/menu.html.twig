@@ -14,7 +14,7 @@
           {% if app.user.client.config.avi %}
             {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
           <li>
-            <a href="{{ path('lily_questions') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
+            <a href="{{ path('lily_knowledge') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
               <i class="icon-book"></i>
               <span>Connaissances</span>
             </a>

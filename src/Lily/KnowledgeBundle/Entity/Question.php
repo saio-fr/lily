@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 use Solarium\QueryType\Select\Result\AbstractDocument;
 
+use JMS\Serializer\Annotation AS JMS;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Exclude;
 
@@ -25,46 +26,52 @@ class Question
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"unique", "list", "precision"})
+     * @Groups({"list", "precision", "categories"})
      */
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="questions", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Category", inversedBy="questions", 
+     *    cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     * @Groups({"unique", "list"})
+     * @Groups({"list"})
      * @Gedmo\Versioned
      */
     protected $category;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Lily\KnowledgeBundle\Entity\Tag", inversedBy="questions", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Lily\KnowledgeBundle\Entity\Tag", inversedBy="questions", 
+     *    cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     * @Groups({"unique", "list"})
+     * @Groups({"list"})
      */
     protected $tag;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", cascade={"remove"})
-     * @Groups({"unique"})
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", 
+     *    cascade={"persist", "remove"})
+     * @Groups({"list"})
      **/
     protected $children;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="question", cascade={"remove"})
-     * @Exclude
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="question",
+     *    cascade={"remove"})
+     * @Groups({"logs"})
      **/
     protected $logRequests;
     
     /**
-     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogNotation", mappedBy="question", cascade={"remove"})
-     * @Exclude
+     * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogNotation", mappedBy="question", 
+     *    cascade={"remove"})
+     * @Groups({"logs"})
      **/
     protected $logNotations;
 
     /**
      * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Question", inversedBy="children")
      * @Gedmo\Versioned
+     * @Groups({"parent"})
      **/
     protected $parent;
 
@@ -72,25 +79,45 @@ class Question
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     * @Groups({"unique", "app", "precision", "list"})
+     * @Groups({"app", "precision", "list"})
      * @Gedmo\Versioned
      */
     protected $title;
 
     /**
-     * @var string
+     * @var text
      *
-     * @ORM\Column(name="answer", type="string", length=1000, nullable=true)
-     * @Groups({"unique", "app", "answer", "precision"})
+     * @ORM\Column(name="answer", type="string", nullable=true)
+     * @Groups({"answer", "precision", "list"})
      * @Gedmo\Versioned
      */
     protected $answer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="questionType", type="string", length=10, nullable=true)
+     * @Groups({"app", "precision", "list"})
+     * @JMS\SerializedName("questionType")
+     * @Gedmo\Versioned
+     */
+    protected $questionType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="answerType", type="string", length=10, nullable=true)
+     * @Groups({"app", "precision", "list"})
+     * @JMS\SerializedName("answerType")
+     * @Gedmo\Versioned
+     */
+    protected $answerType;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="mood", type="string", length=10)
-     * @Groups({"unique"})
+     * @ORM\Column(name="mood", type="string", length=10, nullable=true)
+     * @Groups({"list"})
      * @Gedmo\Versioned
      */
     protected $mood;
@@ -98,8 +125,8 @@ class Question
     /**
      * @var integer
      *
-     * @ORM\Column(name="requests", type="integer")
-     * @Groups({"unique", "list"})
+     * @ORM\Column(name="requests", type="integer", nullable=true)
+     * @Groups({"list"})
      */
     protected $requests;
     
@@ -107,7 +134,7 @@ class Question
      * @var integer
      *
      * @ORM\Column(name="position", type="integer", nullable=true)
-     * @Groups({"unique", "list"})
+     * @Groups({"list"})
      */
     protected $position;
     
@@ -122,8 +149,9 @@ class Question
     /**
      * @var string
      *
-     * @ORM\Column(name="modifiedBy", type="string", length=100, nullable=false)
+     * @ORM\Column(name="modifiedBy", type="string", length=100, nullable=true)
      * @Groups({"list"})
+     * @JMS\SerializedName("modifiedBy")
      * @Gedmo\Versioned
      */
     protected $modifiedBy;
@@ -133,10 +161,29 @@ class Question
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="date", type="datetime")
-     * @Groups({"unique", "list"})
+     * @Groups({"list"})
      */
     protected $date;
-  
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->satisfaction = 0;
+        $this->requests = 0;
+    }
+    
+    public function toSolrDocument(AbstractDocument $doc)
+    {
+        $doc->id         = $this->getId();
+        $doc->title		 = $this->getTitle();
+        $doc->answer     = $this->getAnswer();
+    
+        return $doc;
+	  }
+
     /**
      * Get id
      *
@@ -148,7 +195,7 @@ class Question
     }
 
     /**
-     * Set titre
+     * Set title
      *
      * @param string $title
      * @return Question
@@ -156,7 +203,7 @@ class Question
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
@@ -179,7 +226,7 @@ class Question
     public function setAnswer($answer)
     {
         $this->answer = $answer;
-    
+
         return $this;
     }
 
@@ -194,6 +241,75 @@ class Question
     }
 
     /**
+     * Set questionType
+     *
+     * @param string $questionType
+     * @return Question
+     */
+    public function setQuestionType($questionType)
+    {
+        $this->questionType = $questionType;
+
+        return $this;
+    }
+
+    /**
+     * Get questionType
+     *
+     * @return string 
+     */
+    public function getQuestionType()
+    {
+        return $this->questionType;
+    }
+
+    /**
+     * Set answerType
+     *
+     * @param string $answerType
+     * @return Question
+     */
+    public function setAnswerType($answerType)
+    {
+        $this->answerType = $answerType;
+
+        return $this;
+    }
+
+    /**
+     * Get answerType
+     *
+     * @return string 
+     */
+    public function getAnswerType()
+    {
+        return $this->answerType;
+    }
+
+    /**
+     * Set mood
+     *
+     * @param string $mood
+     * @return Question
+     */
+    public function setMood($mood)
+    {
+        $this->mood = $mood;
+
+        return $this;
+    }
+
+    /**
+     * Get mood
+     *
+     * @return string 
+     */
+    public function getMood()
+    {
+        return $this->mood;
+    }
+
+    /**
      * Set requests
      *
      * @param integer $requests
@@ -202,7 +318,7 @@ class Question
     public function setRequests($requests)
     {
         $this->requests = $requests;
-    
+
         return $this;
     }
 
@@ -217,171 +333,6 @@ class Question
     }
 
     /**
-     * Set category
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Categorie $category
-     * @return Question
-     */
-    public function setCategorie(\Lily\KnowledgeBundle\Entity\Category $category = null)
-    {
-        $this->category = $category;
-    
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \Lily\KnowledgeBundle\Entity\Category 
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    public function toSolrDocument(AbstractDocument $doc)
-	{
-    $doc->id         = $this->getId();
-    $doc->title		 = $this->getTitle();
-    $doc->answer     = $this->getAnswer();
-
-    return $doc;
-	}
-    
-    /**
-     * Add children
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Question $children
-     * @return Question
-     */
-    public function addChildren(\Lily\KnowledgeBundle\Entity\Question $children)
-    {
-        $this->children[] = $children;
-    
-        return $this;
-    }
-
-    /**
-     * Remove children
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Question $children
-     */
-    public function removeChildren(\Lily\KnowledgeBundle\Entity\Question $children)
-    {
-        $this->children->removeElement($children);
-    }
-
-    /**
-     * Get children
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Question $parent
-     * @return Question
-     */
-    public function setParent(\Lily\KnowledgeBundle\Entity\Question $parent = null)
-    {
-        $this->parent = $parent;
-    
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return \Lily\KnowledgeBundle\Entity\Question 
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Set mood
-     *
-     * @param string $mood
-     * @return Question
-     */
-    public function setMood($mood)
-    {
-        $this->mood = $mood;
-    
-        return $this;
-    }
-
-    /**
-     * Get mood
-     *
-     * @return string 
-     */
-    public function getMood()
-    {
-        return $this->mood;
-    }
-
-
-    /**
-     * Set satisfaction
-     *
-     * @param integer $satisfaction
-     * @return Question
-     */
-    public function setSatisfaction($satisfaction)
-    {
-        $this->satisfaction = $satisfaction;
-    
-        return $this;
-    }
-
-    /**
-     * Get satisfaction
-     *
-     * @return integer 
-     */
-    public function getSatisfaction()
-    {
-        return $this->satisfaction;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Question
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-    
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime 
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
      * Set position
      *
      * @param integer $position
@@ -390,7 +341,7 @@ class Question
     public function setPosition($position)
     {
         $this->position = $position;
-    
+
         return $this;
     }
 
@@ -405,82 +356,26 @@ class Question
     }
 
     /**
-     * Add logRequests
+     * Set satisfaction
      *
-     * @param \Lily\AppBundle\Entity\LogRequete $logRequests
+     * @param integer $satisfaction
      * @return Question
      */
-    public function addLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
+    public function setSatisfaction($satisfaction)
     {
-        $this->logRequests[] = $logRequests;
-    
+        $this->satisfaction = $satisfaction;
+
         return $this;
     }
 
     /**
-     * Remove logRequests
+     * Get satisfaction
      *
-     * @param \Lily\AppBundle\Entity\LogRequest $logRequests
+     * @return integer 
      */
-    public function removeLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
+    public function getSatisfaction()
     {
-        $this->logRequests->removeElement($logRequests);
-    }
-
-    /**
-     * Get logRequests
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLogRequests()
-    {
-        return $this->logRequests;
-    }
-
-    /**
-     * Add logNotation
-     *
-     * @param \Lily\AppBundle\Entity\LogNotation $logNotation
-     * @return Question
-     */
-    public function addLogNotation(\Lily\AppBundle\Entity\LogNotation $logNotation)
-    {
-        $this->logNotations[] = $logNotation;
-    
-        return $this;
-    }
-
-    /**
-     * Remove logNotation
-     *
-     * @param \Lily\AppBundle\Entity\LogNotation $logNotation
-     */
-    public function removeLogNotation(\Lily\AppBundle\Entity\LogNotation $logNotation)
-    {
-        $this->logNotations->removeElement($logNotation);
-    }
-
-    /**
-     * Get logNotations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLogNotations()
-    {
-        return $this->logNotations;
-    }
-
-    /**
-     * Set category
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Category $category
-     * @return Question
-     */
-    public function setCategory(\Lily\KnowledgeBundle\Entity\Category $category = null)
-    {
-        $this->category = $category;
-    
-        return $this;
+        return $this->satisfaction;
     }
 
     /**
@@ -504,6 +399,52 @@ class Question
     public function getModifiedBy()
     {
         return $this->modifiedBy;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Question
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Category $category
+     * @return Question
+     */
+    public function setCategory(\Lily\KnowledgeBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Lily\KnowledgeBundle\Entity\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 
     /**
@@ -547,6 +488,8 @@ class Question
      */
     public function addChild(\Lily\KnowledgeBundle\Entity\Question $children)
     {
+      
+        $children->setParent($this);
         $this->children[] = $children;
 
         return $this;
@@ -560,5 +503,118 @@ class Question
     public function removeChild(\Lily\KnowledgeBundle\Entity\Question $children)
     {
         $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set children
+     *
+     * @return Question
+     */    
+    public function setChildren(\Doctrine\Common\Collections\ArrayCollection $children)
+    {
+        foreach ($children as $child) {
+            $child->setParent($this);
+        }
+    
+        $this->children = $children;
+    }
+
+    /**
+     * Add logRequests
+     *
+     * @param \Lily\AppBundle\Entity\LogRequest $logRequests
+     * @return Question
+     */
+    public function addLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
+    {
+        $this->logRequests[] = $logRequests;
+
+        return $this;
+    }
+
+    /**
+     * Remove logRequests
+     *
+     * @param \Lily\AppBundle\Entity\LogRequest $logRequests
+     */
+    public function removeLogRequest(\Lily\AppBundle\Entity\LogRequest $logRequests)
+    {
+        $this->logRequests->removeElement($logRequests);
+    }
+
+    /**
+     * Get logRequests
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLogRequests()
+    {
+        return $this->logRequests;
+    }
+
+    /**
+     * Add logNotations
+     *
+     * @param \Lily\AppBundle\Entity\LogNotation $logNotations
+     * @return Question
+     */
+    public function addLogNotation(\Lily\AppBundle\Entity\LogNotation $logNotations)
+    {
+        $this->logNotations[] = $logNotations;
+
+        return $this;
+    }
+
+    /**
+     * Remove logNotations
+     *
+     * @param \Lily\AppBundle\Entity\LogNotation $logNotations
+     */
+    public function removeLogNotation(\Lily\AppBundle\Entity\LogNotation $logNotations)
+    {
+        $this->logNotations->removeElement($logNotations);
+    }
+
+    /**
+     * Get logNotations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLogNotations()
+    {
+        return $this->logNotations;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Lily\KnowledgeBundle\Entity\Question $parent
+     * @return Question
+     */
+    public function setParent(\Lily\KnowledgeBundle\Entity\Question $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Lily\KnowledgeBundle\Entity\Question 
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

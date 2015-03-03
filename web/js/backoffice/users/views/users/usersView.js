@@ -8,6 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
       UserView = require('backoffice/users/views/users/userView'),
 
       // Object wrapper returned as a module
@@ -18,14 +19,14 @@ define(function (require) {
     el: '.js-users-list',
 
     initialize: function () {
+      this.childViews = new Backbone.ChildViewContainer();
+      this.render();
+      
       // Associated collection events
       this.listenTo(this.collection, 'add', this.add);
-      this.listenTo(this.collection, 'remove', this.remove);
-
-      this.render();
 
       // Listen to event triggered by skeleton
-      app.on('users:sort', _.bind(this.sort, this));
+      this.listenTo(app, 'users:sort', this.sort);
     },
 
     render: function () {
@@ -37,13 +38,21 @@ define(function (require) {
     // Add user to the list
     add: function (user) {
       var view = new UserView({model: user});
+      this.childViews.add(view);
       this.$el.append(view.render().el);
-
-      app.skeletons.users.checkMaxUsers();
     },
 
     remove: function () {
-      app.skeletons.users.checkMaxUsers();
+      var that = this;
+      
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        that.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+      Backbone.View.prototype.remove.apply(this, arguments);
+      
     },
 
     sort: function (criteria) {

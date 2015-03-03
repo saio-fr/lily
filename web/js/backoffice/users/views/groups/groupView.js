@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-      ModalDeleteView = require('backoffice/users/views/groups/modalDeleteView'),
+      globals = require('globals'),
       GroupEditView = require('backoffice/users/views/groups/groupEditView'),
 
       // Object wrapper returned as a module
@@ -38,15 +38,21 @@ define(function (require) {
 
     destroy: function (e) {
 
+      var that = this;
+      
       e.stopPropagation();
-      if (typeof(app.skeletons.groups.modalDeleteView) !== undefined)
-      app.skeletons.groups.modalDeleteView = new ModalDeleteView({model: this.model});
+      app.createModal(globals.modalConfirm.groupTrash, function() {
+        that.model.destroy();
+        that.remove();
+      }, that);
 
     },
 
     edit: function() {
       app.trigger('closeEditView', this);
-      app.skeletons.groups.editView = new GroupEditView({model: this.model});
+      app.skeleton.editView = new GroupEditView({
+        model: this.model
+      });
 
       this.$el.parent().find('li.active').removeClass('active');
       this.$el.addClass('active');

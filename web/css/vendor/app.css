@@ -361,7 +361,7 @@ a:hover .caret-white {
 }
 .nav-pills > li.active > a {
   color: #fff !important;
-  background-color: #5dcff3 !important;
+  background-color: #62a5e2 !important;
 }
 .nav.nav-sm > li > a {
   padding: 6px 8px;
@@ -652,9 +652,16 @@ a:hover .caret-white {
   border-bottom: 0;
   padding: 15px 15px 0 15px;
 }
+.modal-footer {
+  margin-top: 0;
+  padding: 10px;
+  text-align: right;
+  border-top: none;
+}
 .modal-content {
   -webkit-box-shadow: 0 2px 10px rgba(0,0,0,0.25);
   box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  border-radius: 3px;
 }
 .icon-lg:before {
   vertical-align: -10%;
@@ -945,6 +952,7 @@ table th[class*="col-"] {
 .scrollable {
   overflow-x: hidden;
   overflow-y: auto;
+  height: 100%;
 }
 .no-touch .scrollable.hover {
   overflow-y: hidden;

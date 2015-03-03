@@ -120,6 +120,8 @@ class VisitorService {
                     $item->topic->broadcast($item->messages);
                     return;
                 }
+                
+                var_dump($client->config->getAutoSetOperator());
 
                 if (!empty($availables) && $client->config->getAutoSetOperator()) {
 

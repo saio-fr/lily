@@ -1,17 +1,17 @@
 lily_profile:
     pattern:  /profile
-    defaults: { _controller: LilyUserBundle:Profile:index }
+    defaults: { _controller: LilyUserBundle:Index:profile }
 
 lily_users_admin:
     pattern:  /users
-    defaults: { _controller: LilyUserBundle:User:index }
+    defaults: { _controller: LilyUserBundle:Index:users }
 
-lily_user_api:
+lily_users_api:
     resource: "@LilyUserBundle/Controller/UserController.php"
     type:     rest
     prefix:   /api
     
-lily_group_api:
+lily_groups_api:
     resource: "@LilyUserBundle/Controller/GroupController.php"
     type:     rest
     prefix:   /api

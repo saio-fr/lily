@@ -1,5 +1,5 @@
 /* ===========================
-       Faq Model
+          Models
    ========================== */
 
 define(function(require) {

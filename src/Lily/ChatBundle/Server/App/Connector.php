@@ -70,9 +70,9 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     		    $client->licence = $licence;
     		    $client->users = new \SplObjectStorage;
     		    $client->available = false;
-    		    $client->config = $this->config($licence);
     		    $client->operator = new Topic('operator/'.$licence);
     		    $this->app->clients->attach($client);
+    		    $this->config($licence);
 	      }
 
         $this->app->onSubscribe($conn, $topic);
@@ -132,7 +132,13 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
     		    $this->cache->save($licence.'_config_app_chat', $config, 0);
 		    }
-        return $config;
+		    
+        // Set client config
+        foreach ($this->app->clients as $client) {
+            if ($client->licence == $licence) {
+                $client->config = $config;
+            }
+	      }
     }
     
     public function removeOperator($licence, $id) {

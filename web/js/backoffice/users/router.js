@@ -12,14 +12,11 @@ define(function(require) {
     app = require('app'),
 
     UserCollection = require('backoffice/users/collections/userCollection'),
-    UsersView = require('backoffice/users/views/users/usersView'),
     UsersSkeletonView = require('backoffice/users/views/users/skeletonView'),
-    UsersModalDeleteView = require('backoffice/users/views/users/modalDeleteView'),
 
     GroupCollection = require('backoffice/users/collections/groupCollection'),
     GroupsView = require('backoffice/users/views/groups/groupsView'),
     GroupsSkeletonView = require('backoffice/users/views/groups/skeletonView'),
-    GroupsModalDeleteView = require('backoffice/users/views/groups/modalDeleteView'),
 
     // Object wrapper returned as a module
     AppRouter;
@@ -33,57 +30,38 @@ define(function(require) {
     },
 
     initialize: function() {
-      var skeletons = {};
-      app.skeletons = skeletons;
-
-      var groupCollection = new GroupCollection();
-      var userCollection = new UserCollection();
-
-      groupCollection.fetch().success(function() {
-
-        var skeleton = new GroupsSkeletonView({
-          collection: groupCollection
-        });
-        app.skeletons.groups = skeleton;
-        var groupsView = new GroupsView({
-          collection: groupCollection
-        });
-
-      });
-
-      userCollection.fetch().success(function() {
-
-        var skeleton = new UsersSkeletonView({
-          collection: userCollection,
-          groups: groupCollection
-        });
-        app.skeletons.users = skeleton;
-        var usersView = new UsersView({
-          collection: userCollection
-        });
-
-      });
+      app.userCollection = new UserCollection();
+      app.groupCollection = new GroupCollection();
     },
 
     users: function() {
 
-      $('.nav-tabs li').removeClass('active');
-      $('.users-nav').addClass('active');
+      if (typeof(app.skeleton) != 'undefined') {
+        app.skeleton.remove();
+      }
 
-      $('.js-groups-container').addClass('hide');
-      $('.js-users-container').removeClass('hide');
+      app.skeleton = new UsersSkeletonView({
+        collection: app.userCollection
+      });
+      
+      app.userCollection.fetch();
+      app.groupCollection.fetch();
 
       app.pageView("/users/users");
     },
 
     groups: function() {
 
-      $('.nav-tabs li').removeClass('active');
-      $('.groups-nav').addClass('active');
-
-      $('.js-users-container').addClass('hide');
-      $('.js-groups-container').removeClass('hide');
-
+      if (typeof(app.skeleton) != 'undefined') {
+        app.skeleton.remove();
+      }
+        
+      app.skeleton = new GroupsSkeletonView({
+        collection: app.groupCollection
+      });
+      
+      app.groupCollection.fetch();
+        
       app.pageView("users/groups");
     }
 
