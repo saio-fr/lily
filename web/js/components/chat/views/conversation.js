@@ -11,15 +11,15 @@ define(function(require) {
     app = require('app'),
     _ = require('underscore'),
     globals = require('globals'),
-    Collections = require('backoffice/chat/data/collections'),
-    InformationsView = require('backoffice/chat/views/live/informations'),
-    Models = require('backoffice/chat/data/models'),
-    MessagesView = require('backoffice/chat/views/live/messages'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    ModalModel = require('components/modals/model'),
-    ModalTransferView = require('backoffice/chat/views/live/transfer/modal'),
-    Timers = require('backoffice/chat/utils/timers'),
-
+    Collections =        require('components/chat/data/collections'),
+    MessagesView =       require('components/chat/views/messages'),
+    InformationsView =   require('components/chat/views/informations'),
+    ModalTransferView =  require('components/chat/views/transfer/modal'),
+    ModalModel =         require('components/modals/model'),
+    StatusHelpers =      require('components/chat/utils/status'),
+    Timers =             require('components/chat/utils/timers'),
+    
     // Object wrapper returned as a module
     ConversationView;
 
@@ -37,13 +37,15 @@ define(function(require) {
       'click .transfer': 'transfer',
       'click .conversation-form button.send': 'send',
       'click .conversation-form .icon-trash': 'clearInput',
-      'focusout input[name=name]': 'changeName',
+      'blur input[name=name]': 'changeName',
       'keypress input[name=name]': 'changeNameOnEnter'
     },
 
     initialize: function() {
 
       var that = this;
+
+      this.id = this.model.get('id');
 
       // Render the view
       $(this.render().el).prependTo('.conversations');
@@ -54,7 +56,7 @@ define(function(require) {
       // Listen to new messages
       this.listenTo(this.model, 'change:messages', this.getMessages);
       this.listenTo(this.model, 'change:writing', this.writing);
-      this.listenTo(this.model, 'urgent', this.urgent);
+      this.listenTo(this.model, 'change:status', this.changeStatus);
       this.listenTo(this.model, 'render', this.active);
       this.listenTo(this.model, 'minus', this.minus);
       this.listenTo(this.messages, 'add', this.addMsg);
@@ -66,10 +68,12 @@ define(function(require) {
 
       // Create a child view container
       this.childViews = new Backbone.ChildViewContainer();
-      // Create the informations view and select the window
-      this.selected();
       // Add Active class to record view
       this.active();
+      // Check conversation status :
+      this.status();
+      // Create the informations view and select the window
+      this.selected();
       // Get the messages
       this.getMessages();
       // Is the user writting?
@@ -77,22 +81,23 @@ define(function(require) {
       // Check conversation status
       Timers.status(this, 'lastMsg');
 
-      this.editor = new wysihtml5.Editor(that.$el.find('textarea').get(0), {
-        toolbar: that.$el.find('.toolbar').get(0),
-        parserRules: wysihtml5ParserRules,
-        useLineBreaks: true
-      });
+      try {
+        this.editor = new wysihtml5.Editor(that.$el.find('textarea').get(0), {
+          toolbar: that.$el.find('.toolbar').get(0),
+          parserRules: wysihtml5ParserRules,
+          useLineBreaks: true
+        });
 
-      this.$editor = this.$el.find('.wysihtml5-sandbox').contents().find('body');
+        this.$editor = this.$el.find('.wysihtml5-sandbox').contents().find('body');
 
-      this.$editor.on('click', function() {
-        that.selected();
-      });
-
-      // If the operator type enter, send the message
-      this.$editor.on('keydown', function(e) {
-        that.sendOnEnter(e);
-      });
+        this.$editor.on('click', this.selected, this);
+        // If the operator type enter, send the message
+        this.$editor.on('keydown', this.sendOnEnter, this);
+      } catch(e) {
+        console.warn(e);
+      }
+      // The conversation was selected. (Will notify the notification module)
+      app.trigger('conversation:selected', this.id);
     },
 
     render: function() {
@@ -101,30 +106,6 @@ define(function(require) {
       $('input, textarea').placeholder();
 
       return this;
-    },
-
-    selected: function(e) {
-
-      $('.conversations').removeClass('selected');
-      this.$el.addClass('selected');
-
-      var live = app.skeleton.live;
-
-      if (typeof live.informations === 'undefined') {
-        live.informations = new InformationsView({
-          model: this.model
-        });
-        return;
-      }
-
-      if (live.informations.model.get('id') !== this.model.get('id')) {
-
-        live.informations.remove();
-        live.informations = new InformationsView({
-          model: this.model
-        });
-        app.trigger('change:windows');
-      }
     },
 
     getMessages: function() {
@@ -139,12 +120,12 @@ define(function(require) {
 
     send: function() {
 
-      this.message = this.editor.getValue(true);
+      this.message = this.editor.getValue(true).trim();
 
-      if ($.trim(this.message).length) {
+      if (this.message.length) {
         app.trigger("chat:send", {
           message: this.message,
-          id: this.model.id
+          id: this.id
         });
       }
       // clear the search field
@@ -154,7 +135,7 @@ define(function(require) {
     addMsg: function(msg) {
 
       var view,
-        conversations = this.$el.find('.conversation-section-list');
+        conversations = this.$el.find('.messages-list');
       // create an instance of the sub-view to render the single message item.
       switch (msg.get('from')) {
 
@@ -163,7 +144,6 @@ define(function(require) {
           view = new MessagesView.Operator({
             model: msg
           }).render(conversations);
-          this.$el.find('.status').removeClass('text-urgent');
           break;
 
         case 'visitor':
@@ -189,31 +169,49 @@ define(function(require) {
       this.editor.clear();
     },
 
+    selected: function(e) {
+
+      $('.conversations').removeClass('selected');
+      this.$el.addClass('selected');
+
+      var live = app.liveChatSkeleton;
+
+      if (typeof live.informations === 'undefined') {
+        live.informations = new InformationsView({
+          model: this.model
+        });
+        return;
+      }
+
+      if (live.informations.model.get('id') !== this.id) {
+
+        live.informations.remove();
+        live.informations = new InformationsView({
+          model: this.model
+        });
+        app.trigger('change:windows');
+      }
+    },
+
+    // Todo: absctract dom logic in skeleton
     minus: function(e) {
 
       if (typeof(e) !== 'undefined') {
         e.stopPropagation();
       }
 
-      if ($(window).width() < 768) {
-        $('.aside-chat-left').css({
-          display: 'block'
-        });
-
-      } else {
-        $('.aside-chat-left').css({
-          display: 'table-cell'
-        });
-      }
+      $('.aside-chat-left').css({
+        display: $(window).width() < 768 ? 'block' : 'table-cell'
+      });
 
       var that = this;
-      var live = app.skeleton.live;
+      var live = app.liveChatSkeleton;
 
       this.model.trigger('unactive');
 
       live.windows.splice($.inArray(that, live.windows), 1);
 
-      if (live.informations.model.get('id') === this.model.get('id')) {
+      if (live.informations.model.get('id') === this.id) {
 
         live.informations.remove();
         live.informations = undefined;
@@ -233,7 +231,7 @@ define(function(require) {
       var that = this;
 
       app.createModal(globals.modalConfirm.chatClose, function() {
-        app.trigger("operator:close", that.model.get('id'));
+        app.trigger("operator:close", that.id);
         that.minus();
       }, that);
     },
@@ -242,13 +240,13 @@ define(function(require) {
       var that = this;
 
       app.createModal(globals.modalConfirm.chatBan, function() {
-        app.trigger("operator:ban", that.model.get('id'));
+        app.trigger("operator:ban", that.id);
         that.minus();
       }, that);
     },
 
     transfer: function() {
-      var operators = app.users.filter(function(model) {
+      var operators = app.chatUsers.filter(function(model) {
         return model.get('type') === 'operator' &&
           model.get('available') &&
           model.get('id') !== parseInt(globals.userId, 10);
@@ -259,33 +257,19 @@ define(function(require) {
 
       var modalTransfer = new ModalTransferView({
         model: modalModel,
-        appendEl: ".js-live-container",
+        appendEl: ".js-chat-container",
         collection: operators,
         visitor: this.model
       });
-    },
-
-    urgent: function() {
-      this.$el.find('.status').addClass('text-urgent');
     },
 
     active: function() {
       this.model.trigger('active');
     },
 
-    status: function() {
-
-      // Test if status is unanswered
-      if (this.messages.at(this.messages.length - 1).get('from') === 'visitor') {
-        this.$el.find('.status').removeClass('text-answered').addClass('text-unanswered');
-      } else {
-        this.$el.find('.status').removeClass('text-unanswered').addClass('text-answered');
-      }
-
-    },
-
     writing: function() {
-
+      // Todo: Stop using show(), use css class in a smarter way.
+      // see: https://github.com/jquery/jquery.com/issues/88#issuecomment-72400007
       if (this.model.get('writing')) {
         this.$writing.removeClass('fadeOut').addClass('fadeIn');
         this.$writing.show();
@@ -303,7 +287,8 @@ define(function(require) {
 
     changeName: function(e) {
       var name = this.$el.find('input[name="name"]').val();
-      app.trigger('operator:changeName', this.model.get('id'), name);
+      // Todo: listen to that event somewher maybe ?
+      app.trigger('operator:changeName', this.id, name);
     },
 
     remove: function() {
@@ -323,6 +308,8 @@ define(function(require) {
     }
 
   });
+
+  _.extend(ConversationView.prototype, StatusHelpers);
 
   return ConversationView;
 });

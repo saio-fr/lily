@@ -124,7 +124,7 @@
   {% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
-        var config = {};
+        var config = window.config || {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
         {% if app.environment == 'dev' %}
         config.wsserver = 'ws://develop.saio.fr';

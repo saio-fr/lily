@@ -1,4 +1,4 @@
-<header class="header bg-dark dk navbar navbar-inverse pull-in">
+<header class="app-main-header header bg-dark dk navbar navbar-inverse pull-in">
   <div class="navbar-header nav-bar aside-sm dker">
     <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-primary">
       <i class="icon-reorder"></i>
@@ -11,10 +11,27 @@
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav navbar-right js-navbar">
 
-    <!-- Here will go the notifications -->
+      <!-- Here will go the notification menu -->
 
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle dker" data-toggle="dropdown">
+      {% if app.user.client.config.chat %}
+      {% if is_granted('ROLE_CHAT_OPERATOR') %}
+
+      <li class="btn-group header-widget status-selector">
+        <button class="btn btn-sm dropdown-toggle status-button" data-toggle="dropdown">
+          <icon class="status-icon icon-stop"></icon>
+          <span class="status-label dropdown-label"></span>           
+        </button>
+        <ul class="dropdown-menu">
+          <li><a data="available" href="#">Disponible</a></li>
+          <li><a data="unavailable" href="#">Indisponible</a></li>
+        </ul>
+      </li>
+      
+      {% endif %}
+      {% endif %}
+
+      <li class="dropdown header-widget user-menu">
+        <a href="#" class="dropdown-toggle header-widget-link user-menu-link" data-toggle="dropdown">
           <span class="thumb-sm avatar pull-left m-t-n-xs m-r-xs">
             <img src="{{ app.user|avatar }}">
           </span>
@@ -30,6 +47,7 @@
           </li>
         </ul>
       </li>
+
     </ul>
   </div>
 </header>

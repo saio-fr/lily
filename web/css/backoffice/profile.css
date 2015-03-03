@@ -111,7 +111,7 @@ USER EDIT
 
 .uploader {
   position: absolute;
-  z-index: 9999;
+  z-index: 80;
   top: 40px;
   left: 20px;
   opacity: 0;

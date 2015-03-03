@@ -1,4 +1,4 @@
-/*========================================
+            /*========================================
       Router
 =========================================*/
 
@@ -7,11 +7,10 @@ define(function(require) {
   'use strict';
 
   var Backbone = require('backbone'),
-    globals = require('globals'),
     app = require('app'),
-    LiveSkeletonView = require('backoffice/chat/views/live/skeleton'),
     DashboardSkeletonView = require('backoffice/chat/views/dashboard/skeleton'),
     ShortcutSkeletonView = require('backoffice/chat/views/shortcut/skeletonView'),
+    Collections = require('components/chat/data/collections'),
 
     // Object wrapper returned as a module
     Router;
@@ -27,19 +26,19 @@ define(function(require) {
     },
 
     initialize: function() {
+
+      app.skeleton.dashboard = new DashboardSkeletonView({
+        collection: app.chatUsers || new Collections.Users(app.chatUsersData || [])       
+      });
+
+      $('.live-nav').on('click', function() {
+        app.showLiveChat();
+      });
     },
 
     dashboard: function() {
-      
-      if (typeof(app.skeleton) !== 'undefined') {
-        app.skeleton.remove();
-      }
-      
-      app.skeleton = new DashboardSkeletonView({
-        collection: app.users
-      });
-      
-      this.toggleActiveTab("dashboard");
+      $('.dashboard-nav').addClass('active');
+      app.skeleton.dashboard.$el.removeClass('hide');
       app.pageView("/chat/dashboard");
     },
     

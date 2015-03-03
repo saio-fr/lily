@@ -174,8 +174,8 @@
 .modal-trash {
   margin: 0;
   position: absolute;
-  z-index: 9999;
-  opacity: 1;
+  z-index: 10001;
+  opacity: 1,
   width: 500px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
@@ -210,7 +210,7 @@
 
 .uploader {
   position: absolute;
-  z-index: 9999;
+  z-index: 10001;
   top: 50px;
   left: 25px;
   opacity: 0;

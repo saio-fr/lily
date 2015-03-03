@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    OperatorView = require('backoffice/chat/views/live/transfer/operator'),
+    OperatorView = require('components/chat/views/transfer/operator'),
 
     // Object wrapper returned as a module
     TransferModal;

@@ -86,8 +86,7 @@
     </script>
 		<script type="text/template" id="modalTransferOperatorTpl">
       {% include 'LilyChatBundle:Live/Modals/Transfer:operator.html.twig' %}
-    </script>
-    
+    </script>    
     
   {% endblock %}
 
@@ -95,7 +94,7 @@
     {% autoescape false %}
 	    <script type="text/javascript">
   	    
-  	    var config = {};
+        var config = window.config || {};
   	    
   	    {% if app.environment == 'dev' %}
   	      config.wsserver = 'ws://develop.saio.fr';
