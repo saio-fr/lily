@@ -11,14 +11,16 @@ define(function(require) {
     app = require('app'),
     _ = require('underscore'),
     globals = require('globals'),
-    ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    Collections =        require('components/chat/data/collections'),
-    MessagesView =       require('components/chat/views/messages'),
-    InformationsView =   require('components/chat/views/informations'),
-    ModalTransferView =  require('components/chat/views/transfer/modal'),
-    ModalModel =         require('components/modals/model'),
-    StatusHelpers =      require('components/chat/utils/status'),
-    Timers =             require('components/chat/utils/timers'),
+    ChildViewContainer =   require('utils/backbone-childviewcontainer'),
+    Collections =          require('components/chat/data/collections'),
+    MessagesView =         require('components/chat/views/messages'),
+    InformationsView =     require('components/chat/views/informations'),
+    ModalTransferView =    require('components/chat/views/transfer/modal'),
+    ModalModel =           require('components/modals/model'),
+    StatusHelpers =        require('components/chat/utils/status'),
+    Timers =               require('components/chat/utils/timers'),
+    wysihtml5ParserRules = require('wysihtml5-parser'),
+    wysihtml5 =            require('wysihtml5'),
     
     // Object wrapper returned as a module
     ConversationView;
@@ -57,7 +59,6 @@ define(function(require) {
       this.listenTo(this.model, 'change:messages', this.getMessages);
       this.listenTo(this.model, 'change:writing', this.writing);
       this.listenTo(this.model, 'change:status', this.changeStatus);
-      this.listenTo(this.model, 'render', this.active);
       this.listenTo(this.model, 'minus', this.minus);
       this.listenTo(this.messages, 'add', this.addMsg);
       this.listenTo(this.messages, 'add', this.status);
@@ -68,8 +69,6 @@ define(function(require) {
 
       // Create a child view container
       this.childViews = new Backbone.ChildViewContainer();
-      // Add Active class to record view
-      this.active();
       // Check conversation status :
       this.status();
       // Create the informations view and select the window
@@ -81,21 +80,8 @@ define(function(require) {
       // Check conversation status
       Timers.status(this, 'lastMsg');
 
-      try {
-        this.editor = new wysihtml5.Editor(that.$el.find('textarea').get(0), {
-          toolbar: that.$el.find('.toolbar').get(0),
-          parserRules: wysihtml5ParserRules,
-          useLineBreaks: true
-        });
+      this.initWysiwig();
 
-        this.$editor = this.$el.find('.wysihtml5-sandbox').contents().find('body');
-
-        this.$editor.on('click', this.selected, this);
-        // If the operator type enter, send the message
-        this.$editor.on('keydown', this.sendOnEnter, this);
-      } catch(e) {
-        console.warn(e);
-      }
       // The conversation was selected. (Will notify the notification module)
       app.trigger('conversation:selected', this.id);
     },
@@ -106,6 +92,26 @@ define(function(require) {
       $('input, textarea').placeholder();
 
       return this;
+    },
+
+    initWysiwig: function() {
+      var that = this;
+
+      this.editor = new wysihtml5.Editor(that.$el.find('textarea').get(0), {
+        toolbar: that.$el.find('.toolbar').get(0),
+        parserRules: wysihtml5ParserRules,
+        useLineBreaks: true
+      });
+
+      this.$editor = this.$el.find('.wysihtml5-sandbox').contents().find('body');
+
+      this.$editor.on('click', function() {
+        that.selected.apply(that, arguments);
+      });
+      // If the operator type enter, send the message
+      this.$editor.on('keydown', function() {
+        that.sendOnEnter.apply(that, arguments);
+      });
     },
 
     getMessages: function() {
@@ -135,7 +141,7 @@ define(function(require) {
     addMsg: function(msg) {
 
       var view,
-        conversations = this.$el.find('.messages-list');
+        conversations = this.$el.find('.conversation-section-list');
       // create an instance of the sub-view to render the single message item.
       switch (msg.get('from')) {
 
@@ -204,12 +210,9 @@ define(function(require) {
         display: $(window).width() < 768 ? 'block' : 'table-cell'
       });
 
-      var that = this;
       var live = app.liveChatSkeleton;
 
-      this.model.trigger('unactive');
-
-      live.windows.splice($.inArray(that, live.windows), 1);
+      live.windows.remove(this);
 
       if (live.informations.model.get('id') === this.id) {
 
@@ -263,10 +266,6 @@ define(function(require) {
       });
     },
 
-    active: function() {
-      this.model.trigger('active');
-    },
-
     writing: function() {
       // Todo: Stop using show(), use css class in a smarter way.
       // see: https://github.com/jquery/jquery.com/issues/88#issuecomment-72400007
@@ -293,8 +292,8 @@ define(function(require) {
 
     remove: function() {
 
-      this.$editor.unbind('click');
-      this.$editor.unbind('keydown');
+      this.$editor.off('click');
+      this.$editor.off('keydown');
 
       var self = this;
       this.childViews.forEach(function(view) {

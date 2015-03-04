@@ -10,8 +10,8 @@ define(function(require) {
   var app = require('app'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    Timers = require('backoffice/chat/utils/timers'),
-    StatusHelpers = require('backoffice/chat/utils/status'),
+    Timers = require('components/chat/utils/timers'),
+    StatusHelpers = require('components/chat/utils/status'),
 
     // Object wrapper returned as a module
     RecordView;
@@ -31,13 +31,11 @@ define(function(require) {
 
       // Get the messages list
       this.listenTo(this.model, 'change:messages', this.status);
-      this.listenTo(this.model, 'change:status', this.changeStatus);
-      this.listenTo(this.model, 'change:banned', this.close);
+      this.listenTo(this.model, 'change:status',   this.changeStatus);
+      this.listenTo(this.model, 'change:banned',   this.close);
       this.listenTo(this.model, 'change:operator', this.close);
-      this.listenTo(this.model, 'change:closed', this.close);
-      this.listenTo(this.model, 'change:name', this.render);
-      this.listenTo(this.model, 'unactive', this.unactive);
-      this.listenTo(this.model, 'active', this.active);
+      this.listenTo(this.model, 'change:closed',   this.close);
+      this.listenTo(this.model, 'change:name',     this.render);
       // After an half hour of inactivity, the model is removed on the server
       this.listenTo(this.model, 'remove', this.close);
 
@@ -62,18 +60,8 @@ define(function(require) {
       Timers.interval(this, 'lastMsg');
     },
 
-    // Todo: consider a toggle active method instead
-    active: function() {
-      this.$el.addClass('active');
-    },
-
-    unactive: function() {
-      this.$el.removeClass('active');
-    },
-
     select: function() {
-      var active = this.$el.hasClass('active');
-      app.trigger('conversation:select', active, this.id);
+      app.trigger('conversation:select', this.id);
     },
 
     close: function() {

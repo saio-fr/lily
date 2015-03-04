@@ -13,7 +13,6 @@ define(['../common', 'require'], function(common, require) {
   'backoffice/chat/views/skeleton',
   'components/modals/confirmView',
   'components/modals/model',
-  'components/notifications/notifsCollectionView',
   'components/chat/main',
   'backoffice/chat/views/connection/lost',
   'moment',
@@ -22,13 +21,11 @@ define(['../common', 'require'], function(common, require) {
   // Libraries required at bootstrap for the UI.
   'moment-fr',
   'Modernizr',
-  'wysihtml5-parser',
-  'wysihtml5',
   'todoTpl',
   'polyfils',
   // Autobahn V1 AMD broken.
 ], function($, _, Backbone, ab, when, app, ChatRouter, SkeletonView, ModalConfirmationView,
-    ModalModel, Notifs, LiveChat, ConnectionLostModal, moment, globals) {
+    ModalModel, LiveChat, ConnectionLostModal, moment, globals) {
 
     // Set locale in moment JS
     moment.locale('fr');
@@ -36,10 +33,7 @@ define(['../common', 'require'], function(common, require) {
     var connectionLostModal = new ConnectionLostModal();
 
     app.init = function() {
-      if (globals.chat === 1 && globals.isChatOperator === 1) {
-        app.liveChat = new LiveChat();
-        app.notifs = new Notifs();
-      }
+
       app.skeleton = new SkeletonView();
       app.router = new ChatRouter();
 
@@ -74,7 +68,10 @@ define(['../common', 'require'], function(common, require) {
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
 
-      app.available = !!result.available;
+      if (globals.chat === 1 && globals.isChatOperator === 1) {
+        app.liveChat = new LiveChat(result);
+      }
+
       app.init();
 
       // Get diff between server time and user to sync timers

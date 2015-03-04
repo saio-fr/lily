@@ -26,7 +26,8 @@ define(function(require) {
     },
 
     initialize: function(options) {
-      this.listenTo(this.model, 'change', this.render);
+      // NOT RENDERING CHILD VIEWS
+      // this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'destroy', this.remove);
     },
 

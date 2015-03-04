@@ -25,7 +25,6 @@ define(function(require) {
 
     initialize: function() {
       this.render();
-      app.trigger('operator:setAvailability', app.available);
     },
 
     render: function() {

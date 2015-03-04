@@ -1,42 +1,38 @@
-<div class="chat-overlay fade"></div>
+<!-- Modal -->
+<div class="modal-dialog chat-modal-container hbox stretch js-chat-container">
 
-<div class="chat-wrapper">
-
-  <aside class="conversations-list">
-    <header class="header-queue">
-      <h5>CONVERSATIONS</h5>
-    </header>
-  
-    <div class="scrollable">
-      <div class="header-current" data-toggle="collapse" data-target=".list-current">
-        <h5>EN COURS</h5>
-        <span class="badge bg-default pull-right">0</span>
-      </div>
-      <ul class="list-current collapse in">
-      <!--
-          Current visitor record view
-      -->
-	    </ul>
-      <div class="header-waiting" data-toggle="collapse" data-target=".list-waiting">
-        <h5>EN ATTENTE</h5>
-        <span class="badge bg-default pull-right">0</span>
-      </div>
-      <ul class="list-waiting">
-      <!--
-          Waiting visitor record view
-      -->
-      </ul>
-    </div>
+  <aside class="aside-chat-left">
+    <section class="vbox">
+      <section class="scrollable">
+        <header class="header-queue">
+          <h5>CONVERSATIONS</h5>
+        </header>
+        <div class="header-current" data-toggle="collapse" data-target=".list-current">
+          <h5>EN COURS</h5>
+          <span class="badge bg-default pull-right">0</span>
+        </div>
+        <ul class="list-current collapse in">
+        <!--
+            Current visitor record view
+        -->
+  	    </ul>
+        <div class="header-waiting" data-toggle="collapse" data-target=".list-waiting">
+          <h5>EN ATTENTE</h5>
+          <span class="badge bg-default pull-right">0</span>
+        </div>
+        <ul class="list-waiting">
+        <!--
+            Waiting visitor record view
+        -->
+        </ul>
+      </section>
+    </section>
   </aside>
-
-  <aside class="conversations-container">
+  <aside class="vbox">
     <section class="conversations show-conversation-list">
     <!--
-        Conversations view
+        Conversation view
     -->
     </section>
   </aside>
-  <!-- 
-      user informations 
-  -->
 </div>

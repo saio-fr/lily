@@ -27,12 +27,16 @@ define(function(require) {
 
     initialize: function() {
 
+      if (!app.chatUsers || !app.chatUsers instanceof Backbone.Collection) {
+        app.chatUsers = new Collections.Users();
+      }
+
       app.skeleton.dashboard = new DashboardSkeletonView({
-        collection: app.chatUsers || new Collections.Users(app.chatUsersData || [])       
+        collection: app.chatUsers       
       });
 
       $('.live-nav').on('click', function() {
-        app.showLiveChat();
+        $('#chatModal').modal('show');
       });
     },
 

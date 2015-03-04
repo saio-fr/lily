@@ -8,13 +8,12 @@ define(function(require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-    g = require('globals'),
     _ = require('underscore'),
     Backbone = require('backbone'),
+    globals = require('globals'),
     RecordCurrent = require('components/chat/views/records/current'),
     RecordWaiting = require('components/chat/views/records/waiting'),
     ConversationView = require('components/chat/views/conversation'),
-    Collections = require('components/chat/data/collections'),
 
     // Object wrapper returned as a module
     SkeletonView;
@@ -23,14 +22,13 @@ define(function(require) {
 
     tagName: 'section',
     id: 'chatModal',
-    className: 'js-chat-container hbox stretch hide',
+    className: 'modal fade',
     template: _.template($('#liveSkeletonTpl').html()),
-
     events: {},
 
     initialize: function() {
 
-      this.collection = app.chatUsers || new Collections.Users(app.chatUsersData || []);
+      this.collection = app.chatUsers;
 
       this.render();
 
@@ -44,7 +42,7 @@ define(function(require) {
       this.listenTo(app, "conversation:select", this.setActiveWindow, this);
       this.listenTo(app, "conversation:setCurrent", this.setCurrent, this);
 
-      this.windows = [];
+      this.windows = new Backbone.ChildViewContainer();
       this.maxWindows = 1;
       this.counter = {};
       this.counter.current = 0;
@@ -65,6 +63,12 @@ define(function(require) {
     },
 
     render: function() {
+      this.$el.attr({
+        "tabindex": "-1",
+        "role": "dialog",
+        "aria-labelledby": "myModalLabel",
+        "aria-hidden": "true"
+      });
       this.$el.html(this.template());
       this.$el.appendTo('body');
 
@@ -78,7 +82,7 @@ define(function(require) {
         return;
       }
 
-      if (user.get('operator') === parseInt(g.userId, 10)) {
+      if (user.get('operator') === parseInt(globals.userId, 10)) {
         recordView = new RecordCurrent({
           model: user
         });
@@ -103,7 +107,7 @@ define(function(require) {
       this.$el.find('.header-waiting span').html(this.counter.waiting);
     },
 
-    setActiveWindow: function(active, id, model) {
+    setActiveWindow: function(id, model) {
 
       var live = this;
 
@@ -117,45 +121,40 @@ define(function(require) {
         });
       }
 
+      var existingView = live.windows.findByModel(model),
+          active = existingView ? true : false;
+
       if (active) {
         // If the view already exists and only a view is show, do nothing
         if (live.windows.length <= 1) {
           return;
         }
         // If the view already exists, show it first in the view list
-        $.each(live.windows, function(index, item) {
+        live.windows.remove(existingView);
+        existingView.remove();
 
-          if (item.model.id === model.get('id')) {
+        live.windows.add(
+          new ConversationView({
+            model: model
+          })
+        );
 
-            item.remove();
-            live.windows.splice(index, 1);
-            live.windows.unshift(
-              new ConversationView({
-                model: model
-              })
-            );
-
-            live.setWindows();
-            return;
-          }
-        });
+        live.setWindows();
 
         return;
       }
 
       if (live.windows.length < live.maxWindows)  {
         // Create a new conversation view
-        live.windows.unshift(
-          new ConversationView({
-            model: model
-          })
-        );
+        live.windows.add(new ConversationView({
+          model: model
+        }));
 
       } else {
         // Delete the last conversation view
-        live.windows[live.windows.length - 1].model.trigger('minus');
+        live.windows.findByIndex(live.windows.length - 1).model.trigger('minus');
         // Create a new conversation view
-        live.windows.unshift(new ConversationView({
+        live.windows.add(new ConversationView({
           model: model
         }));
       }
@@ -163,15 +162,19 @@ define(function(require) {
       live.setWindows();
     },
 
-    setCurrent: function(active, id, model) {
+    setCurrent: function(id, model) {
 
       var that = this;
       model = model || this.collection.get(id);
 
       app.setOperator(id).then(function() {
-        // Will take care of displaying the conversation correctly:
-        that.setActiveWindow(active, model.get('id'), model);
-        that.setWindows();
+        // Kinda ugly... But definitely works: Skipping a frame to wait for the change event 
+        // to trigger the "add" method again, causing the conversation to go 
+        // from waiting to current, before showing it with "setActiveWindow"
+        window.setTimeout(function() {
+          that.setActiveWindow(model.get('id'), model);
+          that.setWindows();
+        });
       }, function(error) {
         console.warn(error);
       });
@@ -180,10 +183,10 @@ define(function(require) {
     setWindows: function() {
 
       var $conversations = $('.conversations').children(),
-        $conversationList = $('.aside-chat-left'),
-        $infoPanel = $('.aside-chat-right'),
-        $container = $('.js-chat-container'),
-        $conversationsContainer = $('.conversations');
+          $conversationList = $('.aside-chat-left'),
+          $infoPanel = $('.aside-chat-right'),
+          $container = $('.js-chat-container'),
+          $conversationsContainer = $('.conversations');
 
       /**
        * Logic to accomodate multiple chat windows
@@ -261,6 +264,9 @@ define(function(require) {
 
     remove: function() {
       $(window).off("resize", this.setWindows);
+
+      var self = this;
+      this.windows.call('remove');
       //call the superclass remove method
       Backbone.View.prototype.remove.apply(this, arguments);
     }

@@ -30,6 +30,9 @@ define(function(require) {
               if (_.isFunction(callback)) {
                 callback(result);
               }
+              
+              app.available = !!result.available;
+
               app.onConnect(result);
               app.ping();
             }, function(err) {
@@ -56,9 +59,7 @@ define(function(require) {
         app.ws.subscribe('operator/' + config.licence, function(topic, records) {
           
           if (app.chatUsers && app.chatUsers instanceof Backbone.Collection) {
-            app.chatUsers = app.chatUsers.set(records);
-          } else {
-            app.chatUsersData = records;
+            app.chatUsers.set(records);
           }
         });
       },
@@ -74,7 +75,7 @@ define(function(require) {
             app.unsubscribe();
           } catch (e) {
             // An error ca occur in case of connection timeout,
-            console.log(e);
+            console.warn(e);
           }
         }
         app.subscribe();
@@ -96,6 +97,8 @@ define(function(require) {
 
         if (app.available) {
           app.showLiveChatModal();
+          window.sessionStorage.setItem("chatModalVisible", true);
+
           if (id) {
             app.trigger('chat:showConversation', id);
           }
@@ -109,27 +112,12 @@ define(function(require) {
       },
 
       showLiveChatModal: function() {
-        $('#chatModal')
-          .removeClass('hide')
-          .addClass('show');
+        $('#chatModal').modal('toggle');
       },
 
-      showConversationsView: function(id) {
-
-        var that = this;
-
-        if (app.available) {
-          this.toggleActiveTab("live");
-          if (id) {
-            app.trigger('chat:showConversation', id);
-          }
-        } else {
-          app.createModal(globals.modalConfirm.chatUnavailable, function() {
-            app.trigger('operator:setAvailability', true);
-            app.router.navigate('live', {
-              trigger: true
-            });
-          }, that);
+      chatDestroy: function() {
+        if (app.liveChat) {
+          app.liveChat.remove();          
         }
       },
 
@@ -179,23 +167,24 @@ define(function(require) {
       onAvailabilityChange: function(available) {
         var callAction = available ? 'operator/available' :'operator/unavailable';
         // Set the operator availability on the server:
-        app.ws.call(callAction);
-        if (available) { 
-          app.available = true; 
-          return; 
-        }
+        app.ws.call(callAction).then(function () {
+          if (available) { 
+            app.available = true; 
+            return; 
+          }
 
-        app.available = false;
-        if (app.router) {
-          app.router.navigate('dashboard', {
-            trigger: true,
-            replace: true
-          });
-        }
+          app.available = false;
+          if (app.router) {
+            app.router.navigate('dashboard', {
+              trigger: true,
+              replace: true
+            });
+          }
+        });
       },
 
       onSetOperator: function(id) {
-        return app.ws.call('operator/set_operator', {
+        return app.ws.call('operator/setOperator', {
           sid: id
         });
       },
@@ -258,6 +247,10 @@ define(function(require) {
             prevClass = status ? 'unavailable' : 'available',
             // Abstract in Global / i18n class
             label = status ? 'Disponible' : 'Indisponible';
+
+        if (!statusButton.hasClass('show')) {
+          statusButton.addClass('show');
+        }
 
         statusButton.find('.status-icon')
           .removeClass(prevClass)

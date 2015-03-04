@@ -8,7 +8,6 @@ define(['../common', 'require'], function(common, require) {
   'backbone',
   'app',
   'backoffice/dashboard/views/skeletonView',
-  'components/notifications/notifsCollectionView',
   'components/chat/main',
   'globals',
 
@@ -18,7 +17,7 @@ define(['../common', 'require'], function(common, require) {
   'moment',
   'moment-fr',
 
-], function($, _, Backbone, app, SkeletonView, Notifs, LiveChat, globals) {
+], function($, _, Backbone, app, SkeletonView, LiveChat, globals) {
 
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
@@ -29,16 +28,14 @@ define(['../common', 'require'], function(common, require) {
 
     app.init = function() {
       app.skeleton = new SkeletonView();
-      if (globals.chat === 1 && globals.isChatOperator === 1) {
-        app.liveChat = new LiveChat();
-        app.notifs = new Notifs();
-      }
       app.pageView("/dashboard");
     };
 
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
-
+      if (globals.chat === 1 && globals.isChatOperator === 1) {
+        app.liveChat = new LiveChat(result);
+      }
     };
 
     app.wsConnect();

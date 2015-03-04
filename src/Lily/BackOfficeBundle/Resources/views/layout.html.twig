@@ -17,6 +17,7 @@
   'css/vendor/plugin.css'
   'css/vendor/app.css'
   'css/backoffice/main.css'
+  'css/backoffice/chat.css'
 
 filter='cssrewrite' %}
 
@@ -58,25 +59,25 @@ filter='cssrewrite' %}
       Chat
   -->
   <script type="text/template" id="liveSkeletonTpl">
-    {% include 'LilyChatBundle:Operator/Live:skeleton.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat:skeleton.html.twig' %}
   </script>
   <script type="text/template" id="liveConversationTpl">
-    {% include 'LilyChatBundle:Operator/Live:conversation.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat:conversation.html.twig' %}
   </script>
   <script type="text/template" id="liveInformationsTpl">
-    {% include 'LilyChatBundle:Operator/Live:informations.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat:informations.html.twig' %}
   </script>
   <script type="text/template" id="liveRecordTpl">
-    {% include 'LilyChatBundle:Operator/Live:record.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat:record.html.twig' %}
   </script>
   <script type="text/template" id="liveMessageOperatorTpl">
-    {% include 'LilyChatBundle:Operator/Live/Message:operator.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Message:operator.html.twig' %}
   </script>
   <script type="text/template" id="liveMessageServerTpl">
-    {% include 'LilyChatBundle:Operator/Live/Message:server.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Message:server.html.twig' %}
   </script>
   <script type="text/template" id="liveMessageVisitorTpl">
-    {% include 'LilyChatBundle:Operator/Live/Message:visitor.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Message:visitor.html.twig' %}
   </script>
   <!-- 
       Modals
@@ -91,7 +92,7 @@ filter='cssrewrite' %}
     {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
   </script>
   <script type="text/template" id="modalTransferOperatorTpl">
-    {% include 'LilyChatBundle:Operator/Live/Modals/Transfer:operator.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Modals/Transfer:operator.html.twig' %}
   </script>
 
   <script>
@@ -107,6 +108,7 @@ filter='cssrewrite' %}
     {% endif %}
     window.config.chat = {{ app.user.client.config.chat }};
     window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR') }};
+    window.config.userId = '{{ app.user.id }}';
   </script>
 
 </body>

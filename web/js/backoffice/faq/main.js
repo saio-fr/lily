@@ -10,7 +10,7 @@ define(['../common', 'require'], function(common, require) {
   "globals",
   "app",
   "backoffice/faq/router",
-  // "components/notifications/notifsView",
+  'components/chat/main',
 
   // Libraries required at bootstrap for the UI.
   "bootstrap",
@@ -19,7 +19,7 @@ define(['../common', 'require'], function(common, require) {
   "wysihtml5",
   'wysihtml5-parser'
 
-], function($, _, Backbone, globals, app, Router) {
+], function($, _, Backbone, globals, app, Router, LiveChat) {
 
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
@@ -31,7 +31,10 @@ define(['../common', 'require'], function(common, require) {
 
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
-      // app.skeleton.notifsView = new NotifsView();
+
+      if (globals.chat === 1 && globals.isChatOperator === 1) {
+        app.liveChat = new LiveChat(result);
+      }
     };
 
     app.wsConnect();

@@ -68,7 +68,7 @@ define(function(require) {
     onStatusChange: function (status) {
       var msgsCount = this.model.get('messages').length,
           lastMsg = this.model.get('messages')[msgsCount - 1].msg,
-          lastMsgSnippet = truncate(lastMsg);
+          lastMsgSnippet = lastMsg ? truncate(lastMsg) : '';
 
       app.trigger('conversation:stateChange', {
         state: status,
