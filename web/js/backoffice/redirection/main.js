@@ -28,7 +28,7 @@ define(['../common', 'require'], function(common, require) {
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
       
-      if (globals.chat === 1 && globals.isChatOperator === 1) {
+      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat(result);
       }
     };
