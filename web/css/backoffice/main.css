@@ -28,6 +28,11 @@
   margin-top: 90px;
 }
 
+.navbar-nav > li > a {
+  padding-top: 13px;
+  padding-bottom: 12px;
+}
+
 #chatModal {
   display: none;
 }
@@ -142,8 +147,8 @@
 .nav .header-widget.status-selector {
   padding: 0 15px;
   display: none;
-  height: 50px;
-  line-height: 50px;
+  height: 45px;
+  line-height: 45px;
   margin-left: 0;
 }
 .status-selector.show { display: block; }
