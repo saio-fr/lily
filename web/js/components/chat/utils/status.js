@@ -24,9 +24,9 @@ define(function(require) {
       // Test if status is unanswered
       if (visitorMsgCount > 0 && lastMsg.from === 'visitor' && 
         this.model.get("status") !== 'urgent') {
-
+        
         this.changeStatus(this.model, 'unanswered');
-      } else if (lastMsg.from === 'operator') {
+      } else if (lastMsg.from === 'operator' || lastMsg.from === 'server') {
         this.changeStatus(this.model, 'answered');
       } else if (this.model.get("status") === 'urgent') {
         this.changeStatus(this.model, 'urgent');

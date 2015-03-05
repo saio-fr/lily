@@ -24,7 +24,9 @@ define(function(require) {
     id: 'chatModal',
     className: 'modal fade',
     template: _.template($('#liveSkeletonTpl').html()),
-    events: {},
+    events: {
+      'click .windows-selector': 'setMaxWindows'
+    },
 
     initialize: function() {
 
@@ -108,25 +110,24 @@ define(function(require) {
     },
 
     setMaxWindows: function(e) {
-      var liveView = app.skeleton.live;
 
       if (typeof(e) !== 'undefined') {
 
         e.preventDefault();
-        liveView.maxWindows = $(e.target).attr('data');
+        this.maxWindows = $(e.target).attr('data') || 1;
 
         this.$el.find('.windows span').html(
-          liveView.maxWindows === 1 ?
-          liveView.maxWindows + ' Conversation' :
-          liveView.maxWindows + ' Conversations'
+          this.maxWindows === 1 ?
+          this.maxWindows + ' Conversation' :
+          this.maxWindows + ' Conversations'
         );
       }
 
-      if (liveView.maxWindows < liveView.windows.length) {
+      if (this.maxWindows < this.windows.length) {
 
-        var diff = liveView.windows.length - liveView.maxWindows;
+        var diff = this.windows.length - this.maxWindows;
         for (var i = 0; i < diff; i++) {
-          liveView.windows[liveView.windows.length - 1].minus();
+          this.windows.findByIndex(this.windows.length - 1).model.trigger('minus');
         }
       }
     },
@@ -147,6 +148,10 @@ define(function(require) {
 
       var existingView = live.windows.findByModel(model),
           active = existingView ? true : false;
+
+      if (live.windows > 1 && live.informations) {
+        live.informations.remove();
+      }
 
       if (active) {
         // If the view already exists and only a view is show, do nothing

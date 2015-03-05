@@ -214,7 +214,7 @@ define(function(require) {
 
       live.windows.remove(this);
 
-      if (live.informations.model.get('id') === this.id) {
+      if ( live.informations && live.informations.model.get('id') === this.id) {
 
         live.informations.remove();
         live.informations = undefined;
@@ -222,10 +222,11 @@ define(function(require) {
         if (live.windows.length === 1) {
 
           live.informations = new InformationsView({
-            model: live.windows[live.windows.length - 1].model
+            model: live.windows.findByIndex(live.windows.length - 1).model
           });
         }
       }
+
       app.trigger('change:windows');
       this.remove();
     },

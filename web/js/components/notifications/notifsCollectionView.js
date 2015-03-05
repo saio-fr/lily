@@ -22,7 +22,7 @@ define(function(require) {
 
   NotifsView = Backbone.View.extend({
 
-    className: 'chat pull-left hidden-xs header-widget notifications-menu',
+    className: 'pull-left hidden-xs header-widget notifications-menu',
     tagName: 'li',
     template: _.template($('#notifsListTpl').html()),
 
