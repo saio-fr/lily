@@ -23,10 +23,20 @@
 	
 	<section>
 	  <section class="js-skeleton-container vbox">
-    <!--
-      Here start our application
-      Main Skelton View
-    -->  	  
+      
+      <header class="header bg-dark lter bg-gradient">
+        <ul class="nav nav-tabs">
+          <li class="dashboard-nav"><a href="#dashboard">Dashboard</a></li>
+          <li class="live-nav"><a href="#live">Discussions<b class="badge bg-warning pull-right hide">0</b></a></li>
+        </ul>
+      </header>
+
+      <section class="js-main-container bg-light">
+        <!--
+          Here Goes The Dashboard
+        -->     
+      </section>
+  
 	  </section>
 	</section>
 
@@ -63,9 +73,6 @@
     <!-- 
   		  Dashboard
     -->
-		<script type="text/template" id="dashboardSkeletonTpl">
-      {% include 'LilyChatBundle:Dashboard:skeleton.html.twig' %}
-    </script>
 		<script type="text/template" id="dashboardConnectedOperatorTpl">
       {% include 'LilyChatBundle:Dashboard/Connected:operator.html.twig' %}
     </script>

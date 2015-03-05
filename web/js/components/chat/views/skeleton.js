@@ -107,6 +107,30 @@ define(function(require) {
       this.$el.find('.header-waiting span').html(this.counter.waiting);
     },
 
+    setMaxWindows: function(e) {
+      var liveView = app.skeleton.live;
+
+      if (typeof(e) !== 'undefined') {
+
+        e.preventDefault();
+        liveView.maxWindows = $(e.target).attr('data');
+
+        this.$el.find('.windows span').html(
+          liveView.maxWindows === 1 ?
+          liveView.maxWindows + ' Conversation' :
+          liveView.maxWindows + ' Conversations'
+        );
+      }
+
+      if (liveView.maxWindows < liveView.windows.length) {
+
+        var diff = liveView.windows.length - liveView.maxWindows;
+        for (var i = 0; i < diff; i++) {
+          liveView.windows[liveView.windows.length - 1].minus();
+        }
+      }
+    },
+
     setActiveWindow: function(id, model) {
 
       var live = this;
@@ -233,15 +257,11 @@ define(function(require) {
        **/
       if ($container.width() > 768) {
 
-        $conversationList.css({
-          display: 'table-cell'
-        });
+        $conversationList.css({ display: 'table-cell' });
         $conversationsContainer.addClass('show-conversation-list');
       } else {
         if (this.windows.length === 0) {
-          $conversationList.css({
-            display: 'block'
-          });
+          $conversationList.css({ display: 'block' });
         } else {
           $conversationList.hide();
           $conversationsContainer.removeClass('show-conversation-list');

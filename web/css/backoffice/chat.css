@@ -208,7 +208,8 @@ LIVE CHAT
 }
 
 .list-record-item.active {
-  background: #eff1f4;
+  background: #F3F5F9;
+  box-shadow: inset 4px 0px 0px rgba(202, 202, 202, 0.3);
 }
 
 .list-record-item:last-child {

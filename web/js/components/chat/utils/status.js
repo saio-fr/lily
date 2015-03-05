@@ -7,23 +7,28 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app');
+  var app = require('app'),
+      _ = require('underscore');
     
   return {
 
     status: function() {
       var messages = this.model.get('messages'),
           msgLength = messages.length,
-          lastMsg = messages[msgLength - 1];
+          lastMsg = messages[msgLength - 1];  
+
+      var visitorMsgCount = _.filter(messages, function(msg) {
+        return msg.from === 'visitor';
+      }).length;
 
       // Test if status is unanswered
-      if (msgLength > 0 && lastMsg.from === 'visitor' && 
+      if (visitorMsgCount > 0 && lastMsg.from === 'visitor' && 
         this.model.get("status") !== 'urgent') {
 
         this.changeStatus(this.model, 'unanswered');
       } else if (lastMsg.from === 'operator') {
         this.changeStatus(this.model, 'answered');
-      } else {
+      } else if (this.model.get("status") === 'urgent') {
         this.changeStatus(this.model, 'urgent');
       }
     },

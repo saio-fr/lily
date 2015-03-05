@@ -31,18 +31,18 @@ define(function(require) {
         app.chatUsers = new Collections.Users();
       }
 
-      app.skeleton.dashboard = new DashboardSkeletonView({
+      app.dashboard = new DashboardSkeletonView({
         collection: app.chatUsers       
       });
 
       $('.live-nav').on('click', function() {
-        $('#chatModal').modal('show');
+        app.showLiveChat();
       });
     },
 
     dashboard: function() {
       $('.dashboard-nav').addClass('active');
-      app.skeleton.dashboard.$el.removeClass('hide');
+      app.dashboard.$el.removeClass('hide');
       app.pageView("/chat/dashboard");
     }
 

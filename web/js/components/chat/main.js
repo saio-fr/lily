@@ -19,7 +19,7 @@ define(function(require) {
     // Set locale in moment JS
     moment.locale('fr');
 
-    app.init = function() {
+    var init = function() {
       app.available = !!config.available;
       app.trigger('operator:setAvailability', app.available);
 
@@ -66,7 +66,7 @@ define(function(require) {
       });
     };
 
-    app.init();
+    init();
 
   };
 

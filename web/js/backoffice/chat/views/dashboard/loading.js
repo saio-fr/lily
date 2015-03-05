@@ -47,7 +47,9 @@ define(function(require) {
         load = 0;
       }
 
-      $('.js-dashboard-loading-chart').data('easyPieChart').update(load);
+      $('.js-dashboard-loading-chart')
+        .data('easyPieChart')
+        .update(load);
     }
 
   });
