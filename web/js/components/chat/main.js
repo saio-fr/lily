@@ -45,6 +45,27 @@ define(function(require) {
       if (chatModalVisible === "true") { app.showLiveChat(); }
     };
 
+    // TODO: Move logic to a more suitable location 
+    // (like a mixin/helper/components file)
+    app.createModal = function(content, callback, context) {
+      var modalModel, modalView;
+
+      modalModel = new ModalModel();
+      modalModel.set(content);
+
+      modalView = new ModalConfirmationView({
+        model: modalModel,
+        appendEl: ".js-skeleton-container"
+      });
+
+      $('.js-modal-action').on('click', function() {
+        if (_.isFunction(callback)) {
+          callback.apply(context, arguments);
+          $('.js-modal-action').off('click');
+        }
+      });
+    };
+
     init();
 
   };

@@ -41,28 +41,7 @@ define(['../common', 'require'], function(common, require) {
       }
       Backbone.history.start();
     };
-
-    // TODO: Move logic to a more suitable location 
-    // (like a mixin/helper/components file)
-    app.createModal = function(content, callback, context) {
-      var modalModel, modalView;
-
-      modalModel = new ModalModel();
-      modalModel.set(content);
-
-      modalView = new ModalConfirmationView({
-        model: modalModel,
-        appendEl: ".js-skeleton-container"
-      });
-
-      $('.js-modal-action').on('click', function() {
-        if (_.isFunction(callback)) {
-          callback.apply(context, arguments);
-          $('.js-modal-action').off('click');
-        }
-      });
-    };
-
+    
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
 
