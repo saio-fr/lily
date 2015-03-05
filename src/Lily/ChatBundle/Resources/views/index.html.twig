@@ -43,36 +43,12 @@
 	{% endblock %}
 	
 	{% block templates %}
-		<script type="text/template" id="skeletonTpl">
-      {% include 'LilyChatBundle::skeleton.html.twig' %}
-    </script>
-    <!-- 
-  		  Live
-    -->
-		<script type="text/template" id="liveSkeletonTpl">
-      {% include 'LilyChatBundle:Live:skeleton.html.twig' %}
-    </script>
-		<script type="text/template" id="liveConversationTpl">
-      {% include 'LilyChatBundle:Live:conversation.html.twig' %}
-    </script>
-		<script type="text/template" id="liveInformationsTpl">
-      {% include 'LilyChatBundle:Live:informations.html.twig' %}
-    </script>
-		<script type="text/template" id="liveRecordTpl">
-      {% include 'LilyChatBundle:Live:record.html.twig' %}
-    </script>
-		<script type="text/template" id="liveMessageOperatorTpl">
-      {% include 'LilyChatBundle:Live/Message:operator.html.twig' %}
-    </script>
-		<script type="text/template" id="liveMessageServerTpl">
-      {% include 'LilyChatBundle:Live/Message:server.html.twig' %}
-    </script>
-		<script type="text/template" id="liveMessageVisitorTpl">
-      {% include 'LilyChatBundle:Live/Message:visitor.html.twig' %}
-    </script>
     <!-- 
   		  Dashboard
     -->
+		<script type="text/template" id="dashboardSkeletonTpl">
+      {% include 'LilyChatBundle:Dashboard:skeleton.html.twig' %}
+    </script>
 		<script type="text/template" id="dashboardConnectedOperatorTpl">
       {% include 'LilyChatBundle:Dashboard/Connected:operator.html.twig' %}
     </script>
@@ -88,21 +64,6 @@
 		<script type="text/template" id="dashboardVisitorsTpl">
       {% include 'LilyChatBundle:Dashboard:visitors.html.twig' %}
     </script>
-    <!-- 
-  		  Modals
-    -->
-		<script type="text/template" id="modalConnectionLostTpl">
-      {% include 'LilyChatBundle:Connection:lost.html.twig' %}
-    </script>
-		<script type="text/template" id="modalAppTpl">
-      {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
-    </script>
-		<script type="text/template" id="modalConfirmTpl">
-      {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
-    </script>
-		<script type="text/template" id="modalTransferOperatorTpl">
-      {% include 'LilyChatBundle:Live/Modals/Transfer:operator.html.twig' %}
-    </script>    
     
   {% endblock %}
 
