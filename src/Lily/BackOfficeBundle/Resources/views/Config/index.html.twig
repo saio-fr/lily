@@ -50,7 +50,7 @@
 	{% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
-  	    var config = {};
+        var config = window.config || {};
         config.root = '{{ app.request.getBaseURL() }}/lily/api';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
         {% if app.environment == 'dev' %}
