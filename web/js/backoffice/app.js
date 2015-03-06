@@ -115,6 +115,10 @@ define(function(require) {
         $('#chatModal').modal('toggle');
       },
 
+      hideLiveChatModal: function() {
+        $('#chatModal').modal('hide');
+      },
+
       chatDestroy: function() {
         if (app.liveChat) {
           app.liveChat.remove();          
@@ -174,12 +178,7 @@ define(function(require) {
           }
 
           app.available = false;
-          if (app.router) {
-            app.router.navigate('dashboard', {
-              trigger: true,
-              replace: true
-            });
-          }
+          app.hideLiveChatModal();
         });
       },
 
