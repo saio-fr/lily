@@ -114,7 +114,7 @@ define(function(require) {
       if (typeof(e) !== 'undefined') {
 
         e.preventDefault();
-        this.maxWindows = $(e.target).attr('data') || 1;
+        this.maxWindows = parseInt($(e.target).attr('data'), 10) || 1;
 
         this.$el.find('.windows span').html(
           this.maxWindows === 1 ?

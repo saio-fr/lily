@@ -39,12 +39,12 @@ LIVE CHAT
   width: 275px;
   position: absolute;
   z-index: 4;
-  border-radius: 4px 0 0 4px;
+  border-radius: 3px 0 0 3px;
 }
 
 .aside-chat-right {
   width: 50px;
-  border-radius: 4px 4px 0 0;
+  border-radius: 3px 3px 0 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
