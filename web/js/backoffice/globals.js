@@ -119,7 +119,6 @@ define(function(require) {
     title: "Modifier une catégorie"
   }; 
 
-
   g.notifications = {
     countTitle: function(count) {
       return "Vous avez " + count + " notification" + 

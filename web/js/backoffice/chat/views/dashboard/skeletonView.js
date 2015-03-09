@@ -9,10 +9,11 @@ define(function(require) {
   // Require CommonJS like includes
   var _ = require('underscore'),
     Backbone = require('backbone'),
-    ConnectedListView = require('backoffice/chat/views/dashboard/connected/list'),
-    LoadingView = require('backoffice/chat/views/dashboard/loading'),
-    OperatorsView = require('backoffice/chat/views/dashboard/operators'),
-    VisitorsView = require('backoffice/chat/views/dashboard/visitors'),
+    ChildViewContainer = require('utils/backbone-childviewcontainer'),
+    ConnectedListView = require('backoffice/chat/views/dashboard/connected/listView'),
+    LoadingView = require('backoffice/chat/views/dashboard/loadingView'),
+    OperatorsView = require('backoffice/chat/views/dashboard/operatorsView'),
+    VisitorsView = require('backoffice/chat/views/dashboard/visitorsView'),
 
     // Object wrapper returned as a module
     SkeletonView;
@@ -20,20 +21,28 @@ define(function(require) {
   SkeletonView = Backbone.View.extend({
 
     tagName: 'section',
-    className: 'js-dashboard-container vbox hide',
+    className: 'js-dashboard-container vbox',
     template: _.template($('#dashboardSkeletonTpl').html()),
 
     events: {},
 
     initialize: function() {
+      this.childViews = new Backbone.ChildViewContainer();
       this.render();
 
-      this.connected = new ConnectedListView({
+      var connectedView = new ConnectedListView({
         collection: this.collection
       });
-      this.loading = new LoadingView();
-      this.operators = new OperatorsView();
-      this.visitors = new VisitorsView();
+      this.childViews.add(connectedView);
+      
+      var loadingView = new LoadingView();
+      this.childViews.add(loadingView);
+      
+      var operatorsView = new OperatorsView();
+      this.childViews.add(operatorsView);
+      
+      var visitorsView = new VisitorsView();
+      this.childViews.add(visitorsView);
 
       this.listenTo(this.collection, 'add', this.update);
       this.listenTo(this.collection, 'change', this.update);
@@ -42,7 +51,7 @@ define(function(require) {
 
     render: function() {
       this.$el.html(this.template());
-      this.$el.appendTo('.js-main-container');
+      this.$el.appendTo('.js-skeleton-container');
       return this;
     },
 
@@ -68,10 +77,21 @@ define(function(require) {
         available: true
       });
 
-      this.loading.update(collection);
-      this.operators.update(collection);
-      this.visitors.update(collection);
+      this.childViews.call('update', collection);
+    },
+    
+    remove: function () {
 
+      var that = this;
+      
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        that.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
 
   });

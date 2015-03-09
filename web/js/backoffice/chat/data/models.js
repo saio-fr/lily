@@ -12,8 +12,6 @@ define(function(require) {
     g = require('globals'),
     // Object wrapper returned as a module
     Models = {};
-    
-  Models.Shortcut = Backbone.Model.extend({});
 
   Models.Loading = Backbone.Model.extend({});
   Models.Operator = Backbone.NestedModel.extend({
@@ -35,21 +33,7 @@ define(function(require) {
     }
   });
   
-  Models.Messages = Backbone.NestedModel.extend({
-
-    convertAvatar: function() {
-      var avatar;
-      if (this.get('operator.avatar')) {
-        avatar = g.path.avatars + this.get('operator.avatar');
-      } else {
-        avatar = g.path.defaultAvatar;
-      }
-      this.set({
-        'operator.avatar': avatar
-      });
-    }
-    
-  });
+  Models.Shortcut = Backbone.Model.extend({});
 
   return Models;
 });

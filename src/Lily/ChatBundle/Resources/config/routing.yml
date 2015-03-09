@@ -5,4 +5,4 @@ lily_chat:
 lily_shortcut_api:
     resource: "@LilyChatBundle/Controller/ShortcutController.php"
     type:     rest
-    prefix:   /api/shortcuts
+    prefix:   /api/chat

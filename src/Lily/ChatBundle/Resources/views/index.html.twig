@@ -23,10 +23,10 @@
 	
   	<section>
   	  <section class="js-skeleton-container vbox">
-        <header class="header bg-dark lter bg-gradient">
+        <header class="header bg-light lter bg-gradient">
           <ul class="nav nav-tabs">
             <li class="dashboard-nav"><a href="#dashboard">Dashboard</a></li>
-            <li class="shorcut-nav"><a href="#shorcut">Message pré-enregistré</a></li>
+            <li class="shortcut-nav"><a href="#shortcut">Messages pré-enregistrés</a></li>
           </ul>
         </header>
         <!--
@@ -71,22 +71,7 @@
     </script>
 		<script type="text/template" id="shortcutsItemTpl">
       {% include 'LilyChatBundle:Shortcuts:item.html.twig' %}
-    </script> 
-    <!-- 
-  		  Modals
-    -->
-		<script type="text/template" id="modalConnectionLostTpl">
-      {% include 'LilyChatBundle:Connection:lost.html.twig' %}
     </script>
-		<script type="text/template" id="modalAppTpl">
-      {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
-    </script>
-		<script type="text/template" id="modalConfirmTpl">
-      {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
-    </script>
-		<script type="text/template" id="modalTransferOperatorTpl">
-      {% include 'LilyChatBundle:Live/Modals/Transfer:operator.html.twig' %}
-    </script>    
     
   {% endblock %}
 
@@ -95,6 +80,7 @@
 	    <script type="text/javascript">
   	    
         var config = window.config || {};
+        config.root = '{{ app.request.getBaseURL() }}/lily/api/chat';
   	    
   	    {% if app.environment == 'dev' %}
   	      config.wsserver = 'ws://develop.saio.fr';

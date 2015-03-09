@@ -10,8 +10,8 @@ define(function(require) {
   var app = require('app'),
     Backbone = require('backbone'),
     _ = require('underscore'),
-    Timers = require('backoffice/chat/utils/timers'),
-    StatusHelpers = require('backoffice/chat/utils/status'),
+    Timers = require('components/chat/utils/timers'),
+    StatusHelpers = require('components/chat/utils/status'),
 
     // Object wrapper returned as a module
     RecordView;

@@ -16,12 +16,11 @@ define(function(require) {
   Collections.Users = Backbone.Collection.extend({
     model: Models.Operator
   });
-
-  Collections.Messages = Backbone.Collection.extend({
-    model: Models.Messages
-  });
   
-  Collections.Shortcuts = Backbone.Collection.extend({});
+  Collections.Shortcuts = Backbone.Collection.extend({
+    url: '/shortcuts',
+    model: Models.Shortcut
+  });
 
   return Collections;
 });

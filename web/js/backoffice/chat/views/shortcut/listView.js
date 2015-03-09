@@ -8,6 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
       ItemView = require('backoffice/chat/views/shortcut/itemView'),
 
       // Object wrapper returned as a module
@@ -22,6 +23,7 @@ define(function (require) {
     },
 
     initialize: function () {
+      this.childViews = new Backbone.ChildViewContainer();
       this.render();
     },
 
@@ -39,6 +41,8 @@ define(function (require) {
       var itemView = new ItemView({
         model: item
       });
+      
+      this.childViews.add(itemView);
 
       this.$el
         .find('.js-shortcuts-list')
@@ -49,6 +53,18 @@ define(function (require) {
       // Create new model with default properties
       var model = this.collection.create({}, { wait:true });
       this.add(model);
+    },
+    
+    remove: function () {
+      var that = this;
+      
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        that.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
 
   });

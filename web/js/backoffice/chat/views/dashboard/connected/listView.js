@@ -9,7 +9,8 @@ define(function(require) {
   // Require CommonJS like includes
   var _ = require('underscore'),
     Backbone = require('backbone'),
-    OperatorView = require('backoffice/chat/views/dashboard/connected/operator'),
+    ChildViewContainer = require('utils/backbone-childviewcontainer'),
+    OperatorView = require('backoffice/chat/views/dashboard/connected/operatorView'),
 
     // Object wrapper returned as a module
     ListView;
@@ -22,6 +23,7 @@ define(function(require) {
     events: {},
 
     initialize: function() {
+      this.childViews = new Backbone.ChildViewContainer();
       this.render();
       this.listenTo(this.collection, 'add', this.add);
     },
@@ -36,8 +38,21 @@ define(function(require) {
         var view = new OperatorView({
           model: user
         });
+        this.childViews.add(view);
         this.$el.find('ul').append(view.$el);
       }
+    },
+
+    remove: function () {
+      var that = this;
+      
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        that.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
 
   });
