@@ -952,7 +952,6 @@ table th[class*="col-"] {
 .scrollable {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 100%;
 }
 .no-touch .scrollable.hover {
   overflow-y: hidden;

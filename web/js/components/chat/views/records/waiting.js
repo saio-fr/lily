@@ -23,7 +23,7 @@ define(function(require) {
     template: _.template($('#liveRecordTpl').html()),
 
     events: {
-      'click': 'onConversationClick'
+      'click': 'select'
     },
 
     initialize: function() {
@@ -33,6 +33,7 @@ define(function(require) {
       this.listenTo(this.model, 'change:operator', this.close);
       this.listenTo(this.model, 'change:closed', this.close);
       this.listenTo(this.model, 'change:messages', this.status);
+      this.listenTo(this.model, 'change:active',   this.onActiveChange);
       this.listenTo(this.model, 'change:name', this.render);
       // The visitor has been waiting over 2 minutes without reply
       this.listenTo(this.model, 'change:status', this.changeStatus);
@@ -61,8 +62,17 @@ define(function(require) {
       Timers.interval(this, 'lastMsg');
     },
 
-    onConversationClick: function(e) {
+    select: function(e) {
       app.trigger('conversation:setCurrent', this.id, this.model);
+    },
+    
+    onActiveChange: function(model) {
+      
+      if (model.get('active') === true) {
+        this.$el.addClass('active');
+      } else {
+        this.$el.removeClass('active');
+      }
     },
 
     close: function() {

@@ -35,6 +35,7 @@ define(function(require) {
       this.listenTo(this.model, 'change:banned',   this.close);
       this.listenTo(this.model, 'change:operator', this.close);
       this.listenTo(this.model, 'change:closed',   this.close);
+      this.listenTo(this.model, 'change:active',   this.onActiveChange);
       this.listenTo(this.model, 'change:name',     this.render);
       // After an half hour of inactivity, the model is removed on the server
       this.listenTo(this.model, 'remove', this.close);
@@ -60,8 +61,18 @@ define(function(require) {
       Timers.interval(this, 'lastMsg');
     },
 
-    select: function() {
+    select: function(e) {
+      e.preventDefault();
       app.trigger('conversation:select', this.id);
+    },
+
+    onActiveChange: function(model) {
+      
+      if (model.get('active') === true) {
+        this.$el.addClass('active');
+      } else {
+        this.$el.removeClass('active');
+      }
     },
 
     close: function() {

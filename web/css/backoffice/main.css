@@ -37,13 +37,13 @@
   display: none;
 }
 .modal.fade .modal-dialog {
-  -webkit-transform: translate3d(0, -25%, 0);
+/*  -webkit-transform: translate3d(0, -25%, 0);
   -ms-transform: translate3d(0, -25%, 0);
   transform: translate3d(0, -25%, 0);
   -webkit-transition: -webkit-transform 0.3s ease-out;
   -moz-transition: -moz-transform 0.3s ease-out;
   -o-transition: -o-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;*/
 }
 .modal.in .modal-dialog {
   -webkit-transform: translate3d(0, 0, 0);
@@ -89,7 +89,14 @@
   background: rgba(206, 206, 206, 0.38);
   margin-top: -17.5px;
 }
-.user-menu-link {}
+.user-menu-link {
+  height: 50px;
+}
+
+/* override dirty todo (app.css) */
+.bg-dark .nav li > a:hover {
+  background-color: transparent;
+}
 
 /**
  *  Notifications Menu Dropdown

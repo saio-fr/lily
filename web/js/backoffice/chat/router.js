@@ -20,9 +20,8 @@ define(function(require) {
 
     routes: {
       '': 'dashboard',
+      '/': 'dashboard',
       'dashboard': 'dashboard',
-      'live': 'live',
-      'live/:id': 'live'
     },
 
     initialize: function() {
