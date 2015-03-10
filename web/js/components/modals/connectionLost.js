@@ -1,5 +1,5 @@
 /*======================================
-          MODAL TRANSFERT
+          MODAL CONNECTION LOST
 =======================================*/
 
 define(function(require) {
@@ -20,7 +20,7 @@ define(function(require) {
       'tabindex': -1,
       'role': 'dialog',
       'aria-hidden': 'true',
-      'data-backdrop': 'static'
+      'data-backdrop': 'true'
     },
     className: 'js-modal-connection-lost modal',
     template: _.template($('#modalConnectionLostTpl').html()),

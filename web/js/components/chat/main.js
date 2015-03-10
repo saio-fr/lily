@@ -11,6 +11,7 @@ define(function(require) {
       SkeletonView = require('components/chat/views/skeleton'),
       Collections = require('components/chat/data/collections'),
       ModalConfirmationView = require('components/modals/confirmView'),
+      ModalConnectionLost = require('components/modals/connectionLost'),
       ModalModel= require('components/modals/model'),
       Notifs = require('components/notifications/notifsCollectionView'),
       app = require('app');
@@ -18,6 +19,8 @@ define(function(require) {
   var chat = function (config) {
     // Set locale in moment JS
     moment.locale('fr');
+
+    app.modalConnectionLost = new ModalConnectionLost();
 
     var init = function() {
       app.available = !!config.available;

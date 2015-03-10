@@ -16,7 +16,7 @@ define(function(require) {
   InformationsView = Backbone.View.extend({
 
     tagName: 'aside',
-    className: 'vbox bg-white aside-chat-right animated fadeInRight',
+    className: 'vbox bg-white aside-chat-right',
     template: _.template($('#liveInformationsTpl').html()),
 
     events: {

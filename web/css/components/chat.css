@@ -39,12 +39,12 @@ LIVE CHAT
   width: 275px;
   position: absolute;
   z-index: 4;
-  border-radius: 4px 0 0 4px;
+  border-radius: 3px 0 0 3px;
 }
 
 .aside-chat-right {
   width: 50px;
-  border-radius: 4px 4px 0 0;
+  border-radius: 3px 3px 0 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -226,7 +226,7 @@ LIVE CHAT
 
 .list-record-item.active {
   background: #F3F5F9;
-  box-shadow: inset 4px 0px 0px rgba(202, 202, 202, 0.3);
+  box-shadow: -9px 0px 20px -12px rgba(179, 179, 179, 0.75) inset;
 }
 
 .list-record-item:last-child {
@@ -598,6 +598,15 @@ LIVE CHAT
   cursor: default;
 }
 
+/* Need to specify with all the way down to the textarea 
+ * for wywihtml5 to set the proper width */
+.conversation-form, 
+.conversation-form .panel,
+.conversation-form .panel form,
+.conversation-form .panel form textarea {
+  width: 100%;
+}
+
 .wysihtml5-toolbar {
   margin-right: 5px;
   width: 100%;
@@ -607,6 +616,11 @@ LIVE CHAT
 
 .wysihtml5-toolbar a {
   display: inline-block;
+}
+
+.wysihtml5-sandbox {
+  width: 100%;
+  max-width: 100%;
 }
 
 .createLink {
