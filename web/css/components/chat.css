@@ -365,7 +365,20 @@ LIVE CHAT
 }
 
 .modal-backdrop.in {
-  opacity: 0.94;
+  cursor: pointer;
+}
+
+.modal-close-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  -webkit-appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  opacity: 1;
+  font-size: 20px;
+  z-index: 10002;
 }
 
 .list-record-item .informations {

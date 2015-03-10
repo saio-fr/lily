@@ -33,6 +33,7 @@ define(function(require) {
               
               app.available = !!result.available;
 
+              app.isConnectionAlive();
               app.ping();
               app.onConnect(result);
             }, function(err) {
