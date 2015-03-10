@@ -10,6 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app'),
+    globals = require('globals'),
 
     // Object wrapper returned as a module
     ItemView;
@@ -30,6 +31,7 @@ define(function(require) {
 
       this.listenTo(this.model, 'select', this.select);
       this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'renderView', this.render);
     },
 
     render: function() {
@@ -39,6 +41,9 @@ define(function(require) {
     },
 
     select: function(e) {
+      
+      e.preventDefault();
+      
       if (!e.target.classList.contains('icon-remove')) {
         app.trigger('itemView:select', this.model);
 
@@ -52,8 +57,13 @@ define(function(require) {
     },
 
     todelete: function() {
-      this.model.destroy();
-      this.remove();
+      
+      var that = this;
+      
+      app.createModal(globals.modalConfirm.shortcutTrash, function() {
+        that.model.destroy();
+        that.remove();
+      }, that);
     },
   });
 

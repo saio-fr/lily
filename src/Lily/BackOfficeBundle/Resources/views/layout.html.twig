@@ -17,6 +17,7 @@
   'css/vendor/plugin.css'
   'css/vendor/app.css'
   'css/backoffice/main.css'
+  'css/components/chat.css'
 
 filter='cssrewrite' %}
 
@@ -107,6 +108,7 @@ filter='cssrewrite' %}
     {% endif %}
     window.config.chat = {{ app.user.client.config.chat }};
     window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR') }};
+    window.config.userId = '{{ app.user.id }}';
   </script>
 
 </body>

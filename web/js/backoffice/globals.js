@@ -100,15 +100,23 @@ define(function(require) {
     body: "Une fois les questions supprimées, vous ne pourrez plus y " +
       "avoir accès ",
     cancel: "Annuler",
-    confirm: "Supprimer les questions"
+    confirm: "Supprimer"
   };
   g.modalConfirm.categoryTrash = {
     name: "modal-trash",
-    title: "Etes-vous sur de vouloir cette catégorie ?",
+    title: "Etes-vous sur de vouloir supprimer cette catégorie ?",
     body: "Une fois supprimée, vous ne pourrez plus y " +
       "avoir accès ",
     cancel: "Annuler",
-    confirm: "Supprimer la catégorie"
+    confirm: "Supprimer"
+  };
+  g.modalConfirm.shortcutTrash = {
+    name: "modal-trash",
+    title: "Etes-vous sur de vouloir supprimer ce message pré-enregistré ?",
+    body: "Une fois supprimée, vous ne pourrez plus y " +
+      "avoir accès ",
+    cancel: "Annuler",
+    confirm: "Supprimer"
   };
   g.modalApp.newCategory = {
     name: "modal-categories",

@@ -9,6 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
+      validation = require('utils/backbone-validation'),
 
       // Object wrapper returned as a module
       EditView;
@@ -16,19 +17,18 @@ define(function (require) {
   EditView = Backbone.View.extend({
 
     tagName: 'aside',
-    className: 'js-redirection-edit aside-redirection bg-light lter hide',
+    className: 'js-shortcuts-edit aside-shortcuts bg-light lter',
 
     template: _.template($('#shortcutsEditTpl').html()),
 
     events: {
       'click .button-update': 'update',
-      'click .button-cancel': 'cancel',
+      'click .button-cancel': 'remove',
       'keypress' : 'updateOnEnter'
     },
 
     initialize: function () {
-
-      this.$el.removeClass('hide');
+      Backbone.Validation.bind(this);
       this.listenTo(this.model, 'destroy', this.close);
     },
 
@@ -41,17 +41,23 @@ define(function (require) {
     update: function () {
 
       var title = this.$('input[name="title"]').val();
-      var description = this.$('input[name="description"]').val();
-      var message = this.$('input[name="message"]').val();
+      var description = this.$('textarea[name="description"]').val();
+      var message = this.$('textarea[name="message"]').val();
       
       this.model.set({
         'title': title,
         'description': description,
         'message': message
+      }, {
+        silent:true
       });
-
-      this.hide();
-      this.remove();
+      
+      if (this.model.isValid(true)) {
+        
+        this.model.trigger('renderView');
+        this.model.save();
+        this.remove();
+      }
     },
     
     updateOnEnter: function (e) {
@@ -60,19 +66,16 @@ define(function (require) {
         this.update();
       }
     },
-
-    hide: function () {
-
-      this.$el.addClass('hide');
-      $('js-shortcuts-list .active').removeClass('active');
-    },
-
-    cancel: function () {
-
-      this.model.cancel();
-      this.hide();
-      this.remove();
-    },
+    
+    remove: function () {
+      
+      $('.js-shortcuts-list')
+        .find('.active')
+        .removeClass('active');
+        
+      Backbone.Validation.unbind(this);
+      Backbone.View.prototype.remove.apply(this, arguments);
+    }
 
   });
 

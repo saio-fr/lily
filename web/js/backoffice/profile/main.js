@@ -10,6 +10,7 @@ define(['../common', 'require'], function(common, require) {
   'backoffice/profile/router',
   'globals',
   'app',
+  'components/chat/main',
 
   // Libraries required at bootstrap for the UI.
   'todoTpl',
@@ -18,10 +19,10 @@ define(['../common', 'require'], function(common, require) {
   'moment-fr',
   'statistics'
 
-], function($, _, Backbone, ProfileRouter, g, app) {
+], function($, _, Backbone, ProfileRouter, globals, app, LiveChat) {
 
     $.ajaxPrefilter(function(options) {
-      options.url = g.root + options.url;
+      options.url = globals.root + options.url;
     });
 
     // Set locale in moment JS
@@ -33,7 +34,10 @@ define(['../common', 'require'], function(common, require) {
 
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
-
+      
+      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+        app.liveChat = new LiveChat(result);
+      }
     };
 
     app.wsConnect();

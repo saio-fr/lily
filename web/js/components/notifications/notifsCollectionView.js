@@ -22,7 +22,7 @@ define(function(require) {
 
   NotifsView = Backbone.View.extend({
 
-    className: 'chat pull-left hidden-xs header-widget notifications-menu',
+    className: 'pull-left hidden-xs header-widget notifications-menu',
     tagName: 'li',
     template: _.template($('#notifsListTpl').html()),
 
@@ -179,15 +179,16 @@ define(function(require) {
       this.model.set('count', this.notifs.length);
     },
 
+    // NOT USED FOR NOW:
     // When a notification was clicked, show the relevant conversation
     // and set the notification as seen:
     onNotificationClicked: function(id) {
       var model = this.notifs.get(id);
 
       if (model.get('type') === "queued") {
-        app.trigger('conversation:setCurrent', false, id);
+        app.trigger('conversation:setCurrent', id, model);
       } else {
-        app.trigger('conversation:select', false, id);
+        app.trigger('conversation:select', id, model);
       }
       this.processSeen(model);
     },

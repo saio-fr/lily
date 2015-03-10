@@ -13,13 +13,14 @@ define(['../common', 'require'], function(common, require) {
   "components/modals/model",
   "backoffice/knowledge/utils/counters",
   "utils/interact",
+  'components/chat/main',
 
   // Libraries required at bootstrap for the UI.
   "moment",
   "bootstrap",
   "todoTpl"
   
-], function($, _, Backbone, app, globals, Router, ModalView, ModalModel, Counters, Interact) {
+], function($, _, Backbone, app, globals, Router, ModalView, ModalModel, Counters, Interact, LiveChat) {
 
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
@@ -62,6 +63,9 @@ define(['../common', 'require'], function(common, require) {
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
 
+      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+        app.liveChat = new LiveChat(result);
+      }
     };
 
     app.wsConnect();

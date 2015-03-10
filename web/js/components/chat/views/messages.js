@@ -30,7 +30,7 @@ define(function(require) {
 
   Messages.Operator = Messages.template.extend({
     tagName: 'li',
-    className: 'msg animated',
+    className: 'conversation-section-item animated',
     template: _.template($('#liveMessageOperatorTpl').html()),
   });
 
@@ -42,9 +42,9 @@ define(function(require) {
 
   Messages.Visitor = Messages.template.extend({
     tagName: 'li',
-    className: 'msg animated',
+    className: 'conversation-section-item animated',
     template: _.template($('#liveMessageVisitorTpl').html())
   });
-
+  
   return Messages;
 });

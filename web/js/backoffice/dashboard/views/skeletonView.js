@@ -69,7 +69,7 @@ define(function (require) {
       userLogCollection.fetch().success(function () {
         var userLogsView = new UserLogsView({
           collection: userLogCollection
-        })
+        });
       });
     }
 

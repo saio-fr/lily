@@ -62,9 +62,7 @@ define(function(require) {
     },
 
     onConversationClick: function(e) {
-
-      var active = this.$el.hasClass('active');
-      app.trigger('conversation:setCurrent', active, this.id, this.model);
+      app.trigger('conversation:setCurrent', this.id, this.model);
     },
 
     close: function() {

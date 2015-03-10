@@ -33,7 +33,35 @@ define(function(require) {
     }
   });
   
-  Models.Shortcut = Backbone.Model.extend({});
+  Models.Shortcut = Backbone.Model.extend({
+    
+    defaults: {
+      title: "commande",
+      description: "Nouveau message pré-enregistré",
+      message: "Le message affiché au visiteur"
+    },
+    
+    validation: {
+      'title': {
+        fn: function(value, attr, computedState) {
+          
+          var re = /\W/;
+          
+          if (re.exec(value)) {
+            return "Votre commande ne doit pas contenir d'espaces ou de caractères spéciaux"
+          }
+          
+          if (!value) {
+            return "Veuillez renseigner une commande d'appel";
+          }
+        }
+      },
+      'message': {
+        required: true,
+        msg: "Veuillez renseigner un message"
+      }
+    } 
+  });
 
   return Models;
 });

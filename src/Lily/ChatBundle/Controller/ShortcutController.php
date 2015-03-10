@@ -112,7 +112,7 @@ class ShortcutController extends BaseController
     }
 
     /**
-     * @Delete("/shortcut/{id}")
+     * @Delete("/shortcuts/{id}")
      * @Secure(roles="ROLE_CHAT_OPERATOR")
      * @View(statusCode=204)
      */
@@ -121,7 +121,7 @@ class ShortcutController extends BaseController
         $em = $this->getEntityManager();
         $operator = $this->getUser()->getId();
 		
-        $faq = $em->getRepository('LilyChatBundle:Shortcut')
+        $shortcut = $em->getRepository('LilyChatBundle:Shortcut')
         ->find($id);
               
         if ($shortcut->getOperator() !== $operator) {

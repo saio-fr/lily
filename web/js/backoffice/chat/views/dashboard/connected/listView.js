@@ -29,7 +29,12 @@ define(function(require) {
     },
 
     render: function() {
+      var that = this;
+      
       this.$el.html(this.template());
+      this.collection.each(function (operator) {
+        that.add(operator);
+      });
       return this;
     },
 

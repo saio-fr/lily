@@ -16,10 +16,10 @@ define(function (require) {
 
   ListView = Backbone.View.extend({
 
-    el: '.js-app',
+    el: '.js-shortcuts',
 
     events: {
-      'click .js-shortcut-new': 'create',
+      'click .new-shortcut': 'create',
     },
 
     initialize: function () {
@@ -50,6 +50,7 @@ define(function (require) {
     },
 
     create: function () {
+
       // Create new model with default properties
       var model = this.collection.create({}, { wait:true });
       this.add(model);

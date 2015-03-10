@@ -23,7 +23,6 @@ define(function(require) {
   SkeletonView = Backbone.View.extend({
     
     tagName: 'section',
-    className: 'hbox stretch',
     
     template: _.template($('#shortcutsSkeletonTpl').html()),
 
@@ -66,7 +65,7 @@ define(function(require) {
         model: model
       });
       this.childViews.add(editView, 'editView');
-      $('.js-skeleton-container').append(this.editView.render().el);
+      $('.js-shortcuts').append(editView.render().el);
     },
     
     remove: function () {

@@ -29,7 +29,23 @@ define(function(require) {
     initialize: function() {
       this.childViews = new Backbone.ChildViewContainer();
       this.render();
+      this.renderChildViews();
+      
+      this.update();
 
+      this.listenTo(this.collection, 'add', this.update);
+      this.listenTo(this.collection, 'change', this.update);
+      this.listenTo(this.collection, 'remove', this.update);
+    },
+
+    render: function() {
+      this.$el.html(this.template());
+      this.$el.appendTo('.js-skeleton-container');
+      return this;
+    },
+    
+    renderChildViews: function () {
+    
       var connectedView = new ConnectedListView({
         collection: this.collection
       });
@@ -43,16 +59,6 @@ define(function(require) {
       
       var visitorsView = new VisitorsView();
       this.childViews.add(visitorsView);
-
-      this.listenTo(this.collection, 'add', this.update);
-      this.listenTo(this.collection, 'change', this.update);
-      this.listenTo(this.collection, 'remove', this.update);
-    },
-
-    render: function() {
-      this.$el.html(this.template());
-      this.$el.appendTo('.js-skeleton-container');
-      return this;
     },
 
     update: function() {

@@ -32,7 +32,7 @@ define(function(require) {
     },
 
     update: function(c) {
-
+      
       var load = 0;
 
       if (c.available.length)  {
@@ -47,9 +47,10 @@ define(function(require) {
         load = 0;
       }
 
-      $('.js-dashboard-loading-chart').data('easyPieChart').update(load);
+      $('.js-dashboard-loading-chart')
+        .data('easyPieChart')
+        .update(load);
     }
-
   });
 
   return LoadingView;

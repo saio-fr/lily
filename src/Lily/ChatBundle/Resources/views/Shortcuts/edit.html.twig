@@ -1,5 +1,4 @@
-<div class="vbox">
-
+<section class="vbox">
   <section class="scrollable">
     <div class="wrapper">
       <div class="clearfix m-b">
@@ -8,20 +7,22 @@
           <div class="h5 m-t-xs m-b-xs">Commande d'appel</div>
           <div class="form-group m-t-xs">
             <input name="title" type="text" class="form-control input-sm" value="<%=title %>">
+            <p class="help-block hidden"></p>
           </div>
         </div>
 
         <div class="clear m-t-sm">
           <div class="h5 m-t-xs m-b-xs">Description</div>
           <div class="form-group m-t-xs">
-            <input name="description" type="text" class="form-control input-sm" value="<%=description %>">
+            <textarea name="description" class="form-control input-sm textarea"><%=description %></textarea>
           </div>
         </div>
 
         <div class="clear m-t-sm">
           <div class="h5 m-t-xs m-b-xs">Message</div>
           <div class="form-group m-t-xs">
-            <input name="message" class="form-control input-sm" value="<%=message %>">
+            <textarea name="message" class="form-control input-sm textarea"><%=message %></textarea>
+            <p class="help-block hidden"></p>
           </div>
         </div>
 
@@ -33,5 +34,4 @@
     <button class="btn btn-sm btn-success button-update">Sauvegarder</button>
     <button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
   </footer>
-
-</div>
+</section>

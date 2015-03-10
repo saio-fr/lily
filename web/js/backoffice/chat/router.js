@@ -24,12 +24,11 @@ define(function(require) {
     },
 
     initialize: function() {
-      console.log('router');
-       
+
       if (!app.chatUsers || !app.chatUsers instanceof Backbone.Collection) {
         app.chatUsers = new Collections.Users();
       }
-      
+
       $('.live-nav').on('click', function() {
         app.showLiveChat();
       });
