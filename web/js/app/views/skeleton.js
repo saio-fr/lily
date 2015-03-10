@@ -20,9 +20,9 @@ define(function(require) {
 
     initialize: function() {
 
+      if (config.isMobile) { this.initRouter(); }
       this.listenTo(app, 'app:isShown', this.initRouter);
       this.messages = new Collections.Messages();
-
 
       /***********************
       MENU (Snap.js)

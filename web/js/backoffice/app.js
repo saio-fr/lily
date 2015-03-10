@@ -33,8 +33,9 @@ define(function(require) {
               
               app.available = !!result.available;
 
-              app.onConnect(result);
+              app.isConnectionAlive();
               app.ping();
+              app.onConnect(result);
             }, function(err) {
               console.warn(err);
               app.trigger("status:connectionError");
@@ -84,9 +85,16 @@ define(function(require) {
 
       ping: function() {
         window.setInterval(function() {
-          app.ws.call("operator/ping");
+          app.ws.call("operator/ping").then(app.isConnectionAlive);
           console.log("ping");
         }, 25000);
+      },
+
+      isConnectionAlive: function() {
+        // Hide connection lost modal if present:
+        if ($('.js-modal-connection-lost').get(0)) {
+          $('.js-modal-connection-lost').modal('hide');
+        }
       },
 
       showLiveChat: function(id) {

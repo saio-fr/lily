@@ -13,7 +13,6 @@ define(['../common', 'require'], function(common, require) {
   'components/modals/confirmView',
   'components/modals/model',
   'components/chat/main',
-  'backoffice/chat/views/connection/lost',
   'moment',
   'globals',
 
@@ -24,7 +23,7 @@ define(['../common', 'require'], function(common, require) {
   'polyfils',
   // Autobahn V1 AMD broken.
 ], function($, _, Backbone, ab, when, app, ChatRouter, ModalConfirmationView,
-    ModalModel, LiveChat, ConnectionLostModal, moment, globals) {
+    ModalModel, LiveChat, moment, globals) {
 
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
@@ -51,8 +50,6 @@ define(['../common', 'require'], function(common, require) {
 
     // Set locale in moment JS
     moment.locale('fr');
-
-    var connectionLostModal = new ConnectionLostModal();
 
     app.init = function() {
 

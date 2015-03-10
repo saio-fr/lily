@@ -22,7 +22,7 @@ define(function(require) {
 
     tagName: 'section',
     id: 'chatModal',
-    className: 'modal fade',
+    className: 'modal',
     template: _.template($('#liveSkeletonTpl').html()),
     events: {
       'click .windows-selector': 'setMaxWindows'
@@ -114,7 +114,7 @@ define(function(require) {
       if (typeof(e) !== 'undefined') {
 
         e.preventDefault();
-        this.maxWindows = $(e.target).attr('data') || 1;
+        this.maxWindows = parseInt($(e.target).attr('data'), 10) || 1;
 
         this.$el.find('.windows span').html(
           this.maxWindows === 1 ?
@@ -149,7 +149,7 @@ define(function(require) {
       var existingView = live.windows.findByModel(model),
           active = existingView ? true : false;
 
-      if (live.windows > 1 && live.informations) {
+      if (live.windows.length > 1 && live.informations) {
         live.informations.remove();
       }
 
@@ -187,6 +187,8 @@ define(function(require) {
           model: model
         }));
       }
+
+      model.set('active', true);
 
       live.setWindows();
     },
@@ -246,7 +248,7 @@ define(function(require) {
         $conversations.removeClass('multiple full-width half-width');
       }
 
-      if ($container.height() < 1024) {
+      if ($container.height() < 900) {
 
         $('.windows .dropdown-menu li:nth-child(3) a').hide();
         if (this.maxWindows === 4) {

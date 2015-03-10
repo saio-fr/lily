@@ -43,10 +43,6 @@
   margin-left: -85px;
 }
 
-.header-control i.disable {
-  cursor: default;
-}
-
 /* ========= Shortcuts ========== */
 .new-shortcut {
   margin: 20px;

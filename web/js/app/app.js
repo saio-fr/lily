@@ -174,6 +174,7 @@ define(function(require) {
         // Chat has been disconnected. Hence the reconnect. (not the best way to do it)
         app.hasChatConnected = false;
 
+        app.wsConnect();
         app.onChatOpen().then(function() {
           app.trigger("chat:reconnected");
         }, function(err) {

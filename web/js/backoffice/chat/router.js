@@ -19,6 +19,7 @@ define(function(require) {
 
     routes: {
       '': 'dashboard',
+      '/': 'dashboard',
       'dashboard': 'dashboard',
       'shortcut': 'shortcut'
     },

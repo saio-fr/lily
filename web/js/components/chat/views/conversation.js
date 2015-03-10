@@ -168,7 +168,8 @@ define(function(require) {
       this.childViews.add(view);
 
       // Scroll to bottom of chat
-      this.$el.find('.conversation-section').scrollTop(10000);
+      var conversation = this.$el.find('.conversation-section');
+      conversation.scrollTop(conversation[0].scrollHeight);
     },
 
     clearInput: function(e) {
@@ -182,24 +183,20 @@ define(function(require) {
 
       var live = app.liveChatSkeleton;
 
-      if (typeof live.informations === 'undefined') {
-        live.informations = new InformationsView({
-          model: this.model
-        });
-        return;
-      }
-
-      if (live.informations.model.get('id') !== this.id) {
-
+      if (live.informations && live.informations.model.get('id') !== this.id) {
         live.informations.remove();
+      }
+
+      if (!live.informations && live.windows.length <= 1) {
         live.informations = new InformationsView({
           model: this.model
         });
-        app.trigger('change:windows');
       }
+
+      app.trigger('change:windows');
     },
 
-    // Todo: absctract dom logic in skeleton
+    // Todo: abstract dom logic in skeleton
     minus: function(e) {
 
       if (typeof(e) !== 'undefined') {
@@ -211,8 +208,12 @@ define(function(require) {
       });
 
       var live = app.liveChatSkeleton;
+      var model = live.windows.findByIndex(live.windows.length - 1).model;
+
+      model.set("active", false);
 
       live.windows.remove(this);
+      this.remove();
 
       if ( live.informations && live.informations.model.get('id') === this.id) {
 
@@ -222,13 +223,12 @@ define(function(require) {
         if (live.windows.length === 1) {
 
           live.informations = new InformationsView({
-            model: live.windows.findByIndex(live.windows.length - 1).model
+            model: model
           });
         }
       }
 
       app.trigger('change:windows');
-      this.remove();
     },
 
     close: function() {
