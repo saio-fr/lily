@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-    Models = require('backoffice/chat/data/models'),
+    Models = require('backoffice/components/chat/data/models'),
 
     // Object wrapper returned as a module
     Collections = {};
