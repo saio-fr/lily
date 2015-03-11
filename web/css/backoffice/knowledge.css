@@ -278,10 +278,6 @@ ul {
   min-height: 30px;
 }
 
-.btn-group {
-  margin: 10px 0 0 0;
-}
-
 .paginator {
   display: inline-block;
   float: right;
@@ -295,7 +291,12 @@ ul {
   position: relative !important;
 }
 
+.new-question {
+  margin-top: 10px;
+}
+
 .btn-filter {
+  margin-top: 10px;
   background: #f9fafc;
   border: 1px solid #d9dde1;
 }
