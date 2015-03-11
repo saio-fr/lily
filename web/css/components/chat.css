@@ -24,6 +24,7 @@ LIVE CHAT
 
 .conversations.show-conversation-list {
   padding-left: 275px;
+  overflow-y: hidden;
 }
 
 .conversations .avatar {
