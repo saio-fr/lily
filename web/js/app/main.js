@@ -97,7 +97,7 @@ require([
 
       { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
         'skipSubprotocolCheck': true,
-        'maxRetries': 60,
+        'maxRetries': 10000,
         'retryDelay': 2000
       }
     );
