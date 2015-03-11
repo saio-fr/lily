@@ -11,9 +11,9 @@ define(function(require) {
     _ = require('underscore'),
     Backbone = require('backbone'),
     globals = require('globals'),
-    RecordCurrent = require('components/chat/views/records/current'),
-    RecordWaiting = require('components/chat/views/records/waiting'),
-    ConversationView = require('components/chat/views/conversation'),
+    RecordCurrent = require('components/chat/views/records/currentView'),
+    RecordWaiting = require('components/chat/views/records/waitingView'),
+    ConversationView = require('components/chat/views/conversationView'),
 
     // Object wrapper returned as a module
     SkeletonView;

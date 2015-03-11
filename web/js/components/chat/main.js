@@ -8,7 +8,7 @@ define(function(require) {
       moment = require('moment'),
       moment_fr = require('moment-fr'),
       timers = require('components/chat/utils/timers'),
-      SkeletonView = require('components/chat/views/skeleton'),
+      SkeletonView = require('components/chat/views/skeletonView'),
       Collections = require('components/chat/data/collections'),
       ModalConfirmationView = require('components/modals/confirmView'),
       ModalModel= require('components/modals/model'),
