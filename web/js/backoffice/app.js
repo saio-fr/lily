@@ -11,10 +11,11 @@ define(function(require) {
 
   // Require CommonJS like includes
   var _ = require('underscore'),
-    $ = require("jquery"),
+      $ = require("jquery"),
       Backbone = require('backbone'),
       config = require('globals'),
       Autobahn = require('autobahn'),
+      ModalConnectionLost = require('components/modals/connectionLost'),
 
     app = {
 
@@ -283,6 +284,7 @@ define(function(require) {
   app.on('operator:updateInfos',     app.onUpdateInfos);
   app.on('operator:setAvailability', app.onSetAvailability);
   // Global app state events:
+  app.modalConnectionLost = new ModalConnectionLost();
   app.on('status:connectionError', app.onConnectionError);
   // App wide DOM Event handlers:
   $('.app-main-header .status-selector a[data="available"]')
