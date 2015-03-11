@@ -39,7 +39,7 @@ define(function(require) {
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('.js-chat-container');
 
-      app.liveChatSkeleton.showInformations ? this.extend() : this.reduce();
+      app.liveChatSkeleton.showInformations ? this.expand() : this.reduce();
 
       return this;
     },
