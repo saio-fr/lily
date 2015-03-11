@@ -39,14 +39,19 @@ define(function(require) {
               app.onConnect(result);
             }, function(err) {
               console.warn(err);
-              app.trigger("status:connectionError");
+
+              window.setTimeout(function() {
+                app.trigger("status:connectionError");
+              }, 3000);
             });
           },
 
           function onhangup(code, reason, detail) { // When the connection is closed
             console.warn(code + reason + detail);
             // Todo put that somewhere else
-            app.trigger("status:connectionError");
+            window.setTimeout(function() {
+              app.trigger("status:connectionError");
+            }, 3000);
           },
 
           { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
