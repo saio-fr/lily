@@ -261,7 +261,6 @@ define(function(require) {
 
       var modalTransfer = new ModalTransferView({
         model: modalModel,
-        appendEl: ".js-chat-container",
         collection: operators,
         visitor: this.model
       });
