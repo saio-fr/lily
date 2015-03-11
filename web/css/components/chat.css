@@ -603,6 +603,17 @@ LIVE CHAT
   padding-left: 5px;
 }
 
+.informations-item a {
+  max-width: 100%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.informations-item a:hover {
+  text-decoration: underline;
+}
+
 .icon-gear.active, .icon-bar-chart.active, .icon-comments-alt.active {
   color: #fcc44d;
 }

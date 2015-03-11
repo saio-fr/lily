@@ -68,12 +68,11 @@ define(['../common', 'require'], function(common, require) {
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat(result);
       }
-
-      app.init();
-
       // Get diff between server time and user to sync timers
       timers.serverTime = result.time - new moment().unix();
     };
+
+    app.init();
 
     app.wsConnect();
 
