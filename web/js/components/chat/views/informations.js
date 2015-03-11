@@ -21,7 +21,7 @@ define(function(require) {
 
     events: {
       'click .informations-header .icon-angle-right': 'reduce',
-      'click .informations-header .icon-angle-left': 'extend',
+      'click .informations-header .icon-angle-left': 'expand',
       'focusout input': 'update'
     },
 
@@ -55,7 +55,7 @@ define(function(require) {
       app.liveChatSkeleton.showInformations = false;
     },
 
-    extend: function() {
+    expand: function() {
 
       this.$el.find('.informations-header h5').removeClass('hide');
       this.$el.find('.informations-section').removeClass('hide');
