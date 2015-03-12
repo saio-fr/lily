@@ -126,7 +126,7 @@ define(function(require) {
 
     send: function() {
 
-      this.message = this.editor.getValue(true).trim();
+      this.message = this.editor.getValue().trim();
 
       if (this.message.length) {
         app.trigger("chat:send", {
