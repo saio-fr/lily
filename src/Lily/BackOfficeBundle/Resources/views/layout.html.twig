@@ -25,6 +25,13 @@ filter='cssrewrite' %}
 
 {% endstylesheets %}
 
+<!-- BEGIN TRACKJS -->
+{% if app.environment == 'prod' %}
+  <script type="text/javascript">window._trackJs = { token: '55945a6850454d3d8ecba78c5b307b8a' };</script>
+  <script type="text/javascript" src="//d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js" crossorigin="anonymous"></script>
+{% endif %}
+<!-- END TRACKJS -->
+
 {% endblock %}
 
   <!--[if lt IE 9]>
