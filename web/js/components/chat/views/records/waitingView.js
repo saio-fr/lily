@@ -63,6 +63,7 @@ define(function(require) {
     },
 
     select: function(e) {
+      e.preventDefault();
       app.trigger('conversation:setCurrent', this.id, this.model);
     },
     

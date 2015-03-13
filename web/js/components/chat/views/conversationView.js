@@ -11,16 +11,15 @@ define(function(require) {
     app = require('app'),
     _ = require('underscore'),
     globals = require('globals'),
-    ChildViewContainer =   require('utils/backbone-childviewcontainer'),
-    Collections =          require('components/chat/data/collections'),
-    MessagesView =         require('components/chat/views/messagesView'),
-    InformationsView =     require('components/chat/views/informationsView'),
-    ModalTransferView =    require('components/chat/views/transfer/modalView'),
-    ModalModel =           require('components/modals/model'),
-    StatusHelpers =        require('components/chat/utils/status'),
-    Timers =               require('components/chat/utils/timers'),
-    wysihtml5ParserRules = require('wysihtml5-parser'),
-    wysihtml5 =            require('wysihtml5'),
+    ChildViewContainer = require('utils/backbone-childviewcontainer'),
+    Collections =        require('components/chat/data/collections'),
+    MessagesView =       require('components/chat/views/messagesView'),
+    InformationsView =   require('components/chat/views/informationsView'),
+    ModalTransferView =  require('components/chat/views/transfer/modalView'),
+    ShellView =          require('components/chat/views/shell/skeletonView'),
+    ModalModel =         require('components/modals/model'),
+    StatusHelpers =      require('components/chat/utils/status'),
+    Timers =             require('components/chat/utils/timers'),
     
     // Object wrapper returned as a module
     ConversationView;
@@ -37,8 +36,6 @@ define(function(require) {
       'click .conversation-minus': 'minus',
       'click .ban': 'ban',
       'click .transfer': 'transfer',
-      'click .conversation-form button.send': 'send',
-      'click .conversation-form .icon-trash': 'clearInput',
       'blur input[name=name]': 'changeName',
       'keypress input[name=name]': 'changeNameOnEnter'
     },
@@ -65,10 +62,11 @@ define(function(require) {
 
       // If the visitor is writing, show it
       this.$writing = this.$el.find('.alert-writing');
-      this.$input = this.$el.find('textarea');
 
       // Create a child view container
       this.childViews = new Backbone.ChildViewContainer();
+      // Create shell view
+      this.renderShell();
       // Check conversation status :
       this.status();
       // Create the informations view and select the window
@@ -80,8 +78,6 @@ define(function(require) {
       // Check conversation status
       Timers.status(this, 'lastMsg');
 
-      this.initWysiwig();
-
       // The conversation was selected. (Will notify the notification module)
       app.trigger('conversation:selected', this.id);
     },
@@ -89,53 +85,22 @@ define(function(require) {
     render: function() {
 
       this.$el.html(this.template(this.model.toJSON()));
-      $('input, textarea').placeholder();
-
       return this;
     },
+    
+    renderShell: function () {
 
-    initWysiwig: function() {
-      var that = this;
+      var appendEl = this.$('.js-conversation-shell');
 
-      this.editor = new wysihtml5.Editor(that.$el.find('textarea').get(0), {
-        toolbar: that.$el.find('.toolbar').get(0),
-        parserRules: wysihtml5ParserRules,
-        useLineBreaks: true
+      var shellView = new ShellView({
+        appendEl: appendEl,
+        id: this.id
       });
-
-      this.$editor = this.$el.find('.wysihtml5-sandbox').contents().find('body');
-
-      this.$editor.on('click', function() {
-        that.selected.apply(that, arguments);
-      });
-      // If the operator type enter, send the message
-      this.$editor.on('keydown', function() {
-        that.sendOnEnter.apply(that, arguments);
-      });
+      this.childViews.add(shellView, 'shellView');
     },
 
     getMessages: function() {
       this.messages.set(this.model.get('messages'));
-    },
-
-    sendOnEnter: function(e) {
-      if (e.keyCode === 13 && !e.shiftKey) {
-        this.send();
-      }
-    },
-
-    send: function() {
-
-      this.message = this.editor.getValue(true).trim();
-
-      if (this.message.length) {
-        app.trigger("chat:send", {
-          message: this.message,
-          id: this.id
-        });
-      }
-      // clear the search field
-      this.clearInput();
     },
 
     addMsg: function(msg) {
@@ -170,10 +135,6 @@ define(function(require) {
       // Scroll to bottom of chat
       var conversation = this.$el.find('.conversation-section');
       conversation.scrollTop(conversation[0].scrollHeight);
-    },
-
-    clearInput: function(e) {
-      this.editor.clear();
     },
 
     selected: function(e) {
@@ -292,9 +253,6 @@ define(function(require) {
     },
 
     remove: function() {
-
-      this.$editor.off('click');
-      this.$editor.off('keydown');
 
       var self = this;
       this.childViews.forEach(function(view) {

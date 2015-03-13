@@ -20,6 +20,15 @@ define(function(require) {
   Collections.Messages = Backbone.Collection.extend({
     model: Models.Messages
   });
+  
+  Collections.ShellSuggestions = Backbone.Collection.extend({});
+  
+  Collections.Shortcuts = Backbone.Collection.extend({
+    url: '/chat/shortcuts',
+    initialize: function () {
+      this.fetch();
+    }
+  });
 
   return Collections;
 });

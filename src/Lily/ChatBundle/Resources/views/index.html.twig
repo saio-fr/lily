@@ -80,7 +80,7 @@
 	    <script type="text/javascript">
   	    
         var config = window.config || {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api/chat';
+        config.root = '{{ app.request.getBaseURL() }}/lily/api';
   	    
   	    {% if app.environment == 'dev' %}
   	      config.wsserver = 'ws://develop.saio.fr';

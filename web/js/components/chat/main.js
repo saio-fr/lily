@@ -24,6 +24,7 @@ define(function(require) {
       app.trigger('operator:setAvailability', app.available);
 
       app.chatUsers = new Collections.Users();
+      app.chatShortcuts = new Collections.Shortcuts();
 
       app.liveChatSkeleton = new SkeletonView();
       app.isLiveChatInit = true;

@@ -40,7 +40,9 @@ define(function (require) {
 
     update: function () {
 
-      var title = this.$('input[name="title"]').val();
+      var title = this.$('input[name="title"]')
+        .val()
+        .toLowerCase();
       var description = this.$('textarea[name="description"]').val();
       var message = this.$('textarea[name="message"]').val();
       
