@@ -29,7 +29,7 @@ define(function(require) {
 
     events: {
       'click .execute': 'onClickCommand',
-      'keydown .editor': 'onKeydownCommand'
+      'keyup .editor': 'onKeyupCommand'
     },
 
     initialize: function(options) {
@@ -65,8 +65,6 @@ define(function(require) {
       scribe.use(scribePluginSmartLists());
       scribe.use(scribePluginHeadingCommand(5));
       // scribe.use(scribePluginShellCommand());
-      
-      
     },
     
     onClickCommand: function (e) {
@@ -81,7 +79,7 @@ define(function(require) {
       this.send(htmlMsg);
     },
     
-    onKeydownCommand: function (e) {
+    onKeyupCommand: function (e) {
       
       var textMsg = this.editor.text().trim();
       var htmlMsg = this.editor.html().trim();
@@ -105,17 +103,22 @@ define(function(require) {
         case '/' :
         
           var suggestions = app.chatShortcuts.filter(function(shortcut) {
-
             if (shortcut.get('title').indexOf(commandTitle) === 0) {
               return shortcut;              
             }
           });
 
-          // TODO, add it to an translation file
-          this.suggestionsView.setType('Messages pré-enregistrés');          
-          this.suggestionsView.collection.set(suggestions);
-          
+          this.suggestionsView.setCollection({
+            // TODO, add it to an translation file
+            type: 'Messages pré-enregistrés',
+            suggestions: suggestions
+          });
+           
           return true;
+        
+        default:
+          this.suggestionsView.hide();
+          return false;
       }
     },
     

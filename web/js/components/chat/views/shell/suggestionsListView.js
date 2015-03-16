@@ -42,7 +42,8 @@ define(function(require) {
     renderItems: function () {
       
       var that = this;
-      
+      this.removeChildren();
+
       this.collection.each(function (item) {
         var view = new SuggestionsItemView({
           model: item
@@ -52,11 +53,27 @@ define(function(require) {
       });
     },
     
-    setType: function (type) {
-      this.type = type;
+    setCollection: function (options) {
+      
+      this.type = options.type;
+      this.collection.set(options.suggestions);
+      
+      if (options.suggestions.length) {
+        this.show();
+      } else {
+        this.hide();
+      }
     },
-
-    remove: function () {
+    
+    show: function () {
+      this.$el.removeClass('hide');
+    },
+    
+    hide: function () {
+      this.$el.addClass('hide');
+    },
+    
+    removeChildren: function () {
       
       var that = this;
       
@@ -66,6 +83,10 @@ define(function(require) {
         // remove the view
         view.remove();
       });
+    },
+
+    remove: function () {
+      this.removeChildren();
       Backbone.View.prototype.remove.apply(this, arguments);
     }
 
