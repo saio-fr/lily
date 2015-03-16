@@ -11,7 +11,6 @@ define(function(require) {
     app = require('app'),
     _ = require('underscore'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    Collections = require('components/chat/data/collections'),
     SuggestionsItemView = require('components/chat/views/shell/suggestionsItemView'),
     
     // Object wrapper returned as a module
@@ -19,17 +18,20 @@ define(function(require) {
 
   SuggestionsView = Backbone.View.extend({
 
+    el: '.js-suggestions-container',
     template: _.template($('#liveConversationShellSuggestionsListTpl').html()),
 
     events: {
     },
 
     initialize: function() {
-      this.collection = new Collections.ShellSuggestions();
+      this.collection = new Backbone.Collection();
+      this.childViews = new Backbone.ChildViewContainer();
       this.listenTo(this.collection, 'add change remove', this.render);
     },
 
     render: function() {
+
       this.$el.html(this.template({
         type: this.type
       }));
@@ -38,12 +40,20 @@ define(function(require) {
     },
     
     renderItems: function () {
+      
+      var that = this;
+      
       this.collection.each(function (item) {
         var view = new SuggestionsItemView({
           model: item
         });
-        this.childViews.add(view);
+        $('.js-suggestions-list').append(view.$el);
+        that.childViews.add(view);
       });
+    },
+    
+    setType: function (type) {
+      this.type = type;
     },
 
     remove: function () {

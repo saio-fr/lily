@@ -16,9 +16,12 @@ define(function(require) {
 
   SuggestionView = Backbone.View.extend({
 
-    template: _.template($('#liveConversationShellSuggestionsListTpl').html()),
+    className: 'suggestions-item',
+    template: _.template($('#liveConversationShellSuggestionsItemTpl').html()),
 
     events: {
+      'hover' : 'onHoverSelect',
+      'keypress' : 'onKeypressRemove'
     },
 
     initialize: function() {
@@ -28,6 +31,13 @@ define(function(require) {
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       return this;
+    },
+    
+    onHoverSelect: function () {
+    },
+    
+    onKeypressRemove: function (e) {
+      this.remove();
     }
 
   });

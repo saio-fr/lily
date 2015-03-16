@@ -110,10 +110,10 @@ define(function(require) {
               return shortcut;              
             }
           });
-          
-          this.suggestionsView.collection.set(suggestions);
+
           // TODO, add it to an translation file
-          this.suggestionsView.type = 'Messages pré-enregistrés';
+          this.suggestionsView.setType('Messages pré-enregistrés');          
+          this.suggestionsView.collection.set(suggestions);
           
           return true;
       }

@@ -41,6 +41,57 @@ LIVE CHAT
   padding: 5px;
 }
 
+.suggestions {
+  border: 1px solid #EBEFF6;
+  background: #F9FAFC;
+  position: relative;
+  margin: -2px;
+  max-height: 100px;
+}
+
+.suggestions-header {
+  padding: 5px;
+  border-bottom: 1px solid #EBEFF6;
+}
+
+.suggestions-type {
+  font-size: 10px;
+  color: #ccc;
+  margin: 0;
+}
+
+.suggestions-help-list {
+  list-style-type: none;
+  margin: 0;
+}
+
+.suggestions-help-item {
+  display: inline-block;
+  color: #ccc;
+  font-size: 9px;
+  margin-left: 5px;
+}
+
+.suggestions-content {
+  padding: 10px;
+}
+
+.suggestions-list {
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions-item {
+  cursor: pointer;
+  padding: 10px 5px;
+}
+
+.suggestions-item:hover {
+  background: #579ad7;
+  color: white;
+  border-radius: 2px;
+}
+
 .live-nav.active a {
   background: #528DC3 !important;
   color: #f2f2f2 !important;

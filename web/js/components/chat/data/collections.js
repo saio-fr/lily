@@ -21,8 +21,6 @@ define(function(require) {
     model: Models.Messages
   });
   
-  Collections.ShellSuggestions = Backbone.Collection.extend({});
-  
   Collections.Shortcuts = Backbone.Collection.extend({
     url: '/chat/shortcuts',
     initialize: function () {
