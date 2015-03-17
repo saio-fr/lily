@@ -107,9 +107,9 @@
   	    var config = {};
   	    
   	    {% if app.environment == 'dev' %}
-  	      config.wsserver = 'ws://develop.saio.fr';
+  	      config.wsserver = 'wss://develop.saio.fr';
   	    {% else %}
-  	      config.wsserver = 'ws://ws.saio.fr';
+  	      config.wsserver = 'wss://ws.saio.fr';
         {% endif %}
   	    
         config.root = '{{ app.request.getBaseURL() }}/lily/api/chat';
