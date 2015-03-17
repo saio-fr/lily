@@ -39,7 +39,7 @@
     "raphael": "~2.1.2",
     "morrisjs": "~0.5.1",
     "backbone-validation": "~0.9.1",
-    "web-socket-js": "~1.0.2"
+    "web-socket-js": "~1.0.2",
     "backbone-validation": "~0.9.1"
   },
   "resolutions": {
