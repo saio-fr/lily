@@ -24,6 +24,16 @@ filter='cssrewrite' %}
 
 {% endstylesheets %}
 
+<!-- Import JavaScript Libraries. -->
+<script type="text/javascript" src="{{ asset('js/bower_components/web-socket-js/swfobject.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bower_components/web-socket-js/web_socket.js') }}"></script>
+
+<script type="text/javascript">
+
+  // Let the library know where WebSocketMain.swf is:
+  WEB_SOCKET_SWF_LOCATION = "{{ asset('js/bower_components/web-socket-js/WebSocketMain.swf') }}";
+
+</script>
   
   <!-- BEGIN TRACKJS -->
 {% if app.environment == 'prod' %}
@@ -68,7 +78,6 @@ filter='cssrewrite' %}
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
     {% if app.environment == 'dev' %}
     ga('create', 'UA-58970452-1', 'auto');
     {% else %}
