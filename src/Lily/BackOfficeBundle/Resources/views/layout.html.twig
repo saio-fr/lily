@@ -34,7 +34,6 @@ filter='cssrewrite' %}
   WEB_SOCKET_SWF_LOCATION = "{{ asset('js/bower_components/web-socket-js/WebSocketMain.swf') }}";
 
 </script>
-
   
   <!-- BEGIN TRACKJS -->
 {% if app.environment == 'prod' %}
@@ -71,6 +70,7 @@ filter='cssrewrite' %}
     {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_list.html.twig' %}
   </script>
   <script>
+
     /*
      * GOOGLE ANALYTICS
      */
