@@ -55,6 +55,7 @@ define(function (require) {
         // so we just remove the view and model.
         this.model.destroy();
         this.$el.remove();
+        $('.modal-backdrop').remove();
         this.stopListening();
         return this;
       }
