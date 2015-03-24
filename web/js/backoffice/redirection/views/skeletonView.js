@@ -60,7 +60,6 @@ define(function(require) {
 
       this.modalView = new ModalView({
         model: modalModel,
-        appendEl: ".js-app"
       });
       this.modalView.$el.modal('show');
     },

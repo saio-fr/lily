@@ -8,11 +8,12 @@ define(function(require) {
 
   // Require CommonJS like includes
   var app = require('app'),
-    g = require('globals'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    RecordCurrent = require('backoffice/chat/views/live/records/current'),
-    RecordWaiting = require('backoffice/chat/views/live/records/waiting'),
+    globals = require('globals'),
+    RecordCurrent = require('components/chat/views/records/current'),
+    RecordWaiting = require('components/chat/views/records/waiting'),
+    ConversationView = require('components/chat/views/conversation'),
 
     // Object wrapper returned as a module
     SkeletonView;
@@ -20,12 +21,16 @@ define(function(require) {
   SkeletonView = Backbone.View.extend({
 
     tagName: 'section',
-    className: 'js-live-container hbox stretch hide',
+    id: 'chatModal',
+    className: 'modal',
     template: _.template($('#liveSkeletonTpl').html()),
-
-    events: {},
+    events: {
+      'click .windows-selector': 'setMaxWindows'
+    },
 
     initialize: function() {
+
+      this.collection = app.chatUsers;
 
       this.render();
 
@@ -36,8 +41,10 @@ define(function(require) {
       this.listenTo(this.collection, 'change', this.counters);
       this.listenTo(this.collection, 'remove', this.counters);
       this.listenTo(app, "change:windows", this.setWindows, this);
+      this.listenTo(app, "conversation:select", this.setActiveWindow, this);
+      this.listenTo(app, "conversation:setCurrent", this.setCurrent, this);
 
-      this.windows = [];
+      this.windows = new Backbone.ChildViewContainer();
       this.maxWindows = 1;
       this.counter = {};
       this.counter.current = 0;
@@ -48,7 +55,7 @@ define(function(require) {
       // Adjust windows on navigator resize:
       // And right away:
       // (skip a frame before calling setWindows to let the router finish
-      // the app.skeleton initialization - hacky :/ - )
+      // the app.liveChatSkeleton initialization - hacky :/ - )
       window.setTimeout(function() {
         that.setWindows.apply(that, arguments);
       });
@@ -58,8 +65,14 @@ define(function(require) {
     },
 
     render: function() {
+      this.$el.attr({
+        "tabindex": "-1",
+        "role": "dialog",
+        "aria-labelledby": "myModalLabel",
+        "aria-hidden": "true"
+      });
       this.$el.html(this.template());
-      this.$el.appendTo('.js-main-container');
+      this.$el.appendTo('body');
 
       return this;
     },
@@ -71,7 +84,7 @@ define(function(require) {
         return;
       }
 
-      if (user.get('operator') === parseInt(g.userId, 10)) {
+      if (user.get('operator') === parseInt(globals.userId, 10)) {
         recordView = new RecordCurrent({
           model: user
         });
@@ -96,13 +109,115 @@ define(function(require) {
       this.$el.find('.header-waiting span').html(this.counter.waiting);
     },
 
+    setMaxWindows: function(e) {
+
+      if (typeof(e) !== 'undefined') {
+
+        e.preventDefault();
+        this.maxWindows = parseInt($(e.target).attr('data'), 10) || 1;
+
+        this.$el.find('.windows span').html(
+          this.maxWindows === 1 ?
+          this.maxWindows + ' Conversation' :
+          this.maxWindows + ' Conversations'
+        );
+      }
+
+      if (this.maxWindows < this.windows.length) {
+
+        var diff = this.windows.length - this.maxWindows;
+        for (var i = 0; i < diff; i++) {
+          this.windows.findByIndex(this.windows.length - 1).model.trigger('minus');
+        }
+      }
+    },
+
+    setActiveWindow: function(id, model) {
+
+      var live = this;
+
+      model = model || this.collection.get(id);
+
+      if (!model) { return; }
+
+      if ($(window).width() < 768) {
+        $('.aside-chat-left').css({
+          display: 'none'
+        });
+      }
+
+      var existingView = live.windows.findByModel(model),
+          active = existingView ? true : false;
+
+      if (live.windows.length > 1 && live.informations) {
+        live.informations.remove();
+      }
+
+      if (active) {
+        // If the view already exists and only a view is show, do nothing
+        if (live.windows.length <= 1) {
+          return;
+        }
+        // If the view already exists, show it first in the view list
+        live.windows.remove(existingView);
+        existingView.remove();
+
+        live.windows.add(
+          new ConversationView({
+            model: model
+          })
+        );
+
+        live.setWindows();
+
+        return;
+      }
+
+      if (live.windows.length < live.maxWindows)  {
+        // Create a new conversation view
+        live.windows.add(new ConversationView({
+          model: model
+        }));
+
+      } else {
+        // Delete the last conversation view
+        live.windows.findByIndex(live.windows.length - 1).model.trigger('minus');
+        // Create a new conversation view
+        live.windows.add(new ConversationView({
+          model: model
+        }));
+      }
+
+      model.set('active', true);
+
+      live.setWindows();
+    },
+
+    setCurrent: function(id, model) {
+
+      var that = this;
+      model = model || this.collection.get(id);
+
+      app.setOperator(id).then(function() {
+        // Kinda ugly... But definitely works: Skipping a frame to wait for the change event 
+        // to trigger the "add" method again, causing the conversation to go 
+        // from waiting to current, before showing it with "setActiveWindow"
+        window.setTimeout(function() {
+          that.setActiveWindow(model.get('id'), model);
+          that.setWindows();
+        });
+      }, function(error) {
+        console.warn(error);
+      });
+    },
+
     setWindows: function() {
 
       var $conversations = $('.conversations').children(),
-        $conversationList = $('.aside-chat-left'),
-        $infoPanel = $('.aside-chat-right'),
-        $container = $('.js-live-container'),
-        $conversationsContainer = $('.conversations');
+          $conversationList = $('.aside-chat-left'),
+          $infoPanel = $('.aside-chat-right'),
+          $container = $('.js-chat-container'),
+          $conversationsContainer = $('.conversations');
 
       /**
        * Logic to accomodate multiple chat windows
@@ -133,7 +248,7 @@ define(function(require) {
         $conversations.removeClass('multiple full-width half-width');
       }
 
-      if ($container.height() < 1024) {
+      if ($container.height() < 900) {
 
         $('.windows .dropdown-menu li:nth-child(3) a').hide();
         if (this.maxWindows === 4) {
@@ -149,15 +264,11 @@ define(function(require) {
        **/
       if ($container.width() > 768) {
 
-        $conversationList.css({
-          display: 'table-cell'
-        });
+        $conversationList.css({ display: 'table-cell' });
         $conversationsContainer.addClass('show-conversation-list');
       } else {
         if (this.windows.length === 0) {
-          $conversationList.css({
-            display: 'block'
-          });
+          $conversationList.css({ display: 'block' });
         } else {
           $conversationList.hide();
           $conversationsContainer.removeClass('show-conversation-list');
@@ -167,8 +278,8 @@ define(function(require) {
       /**
        * Show/Hide informations if the window is too small
        **/
-      if ($('.js-live-container').width() < 950 ||
-        $('.js-live-container').width() < 1300 &&
+      if ($container.width() < 950 ||
+          $container.width() < 1300 &&
         $conversations.hasClass('multiple')) {
 
         $infoPanel.addClass('hide');
@@ -180,6 +291,9 @@ define(function(require) {
 
     remove: function() {
       $(window).off("resize", this.setWindows);
+
+      var self = this;
+      this.windows.call('remove');
       //call the superclass remove method
       Backbone.View.prototype.remove.apply(this, arguments);
     }

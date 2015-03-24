@@ -21,7 +21,7 @@ define(function(require) {
 
     events: {
       'click .informations-header .icon-angle-right': 'reduce',
-      'click .informations-header .icon-angle-left': 'extend',
+      'click .informations-header .icon-angle-left': 'expand',
       'focusout input': 'update'
     },
 
@@ -37,9 +37,9 @@ define(function(require) {
     render: function() {
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('.js-live-container');
+      this.$el.appendTo('.js-chat-container');
 
-      app.skeleton.live.showInformations ? this.extend() : this.reduce();
+      app.liveChatSkeleton.showInformations ? this.expand() : this.reduce();
 
       return this;
     },
@@ -52,10 +52,10 @@ define(function(require) {
       this.$el.find('.informations-header .icon-angle-left').removeClass('hide');
       this.$el.width('50');
 
-      app.skeleton.live.showInformations = false;
+      app.liveChatSkeleton.showInformations = false;
     },
 
-    extend: function() {
+    expand: function() {
 
       this.$el.find('.informations-header h5').removeClass('hide');
       this.$el.find('.informations-section').removeClass('hide');
@@ -63,7 +63,7 @@ define(function(require) {
       this.$el.find('.informations-header .icon-angle-left').addClass('hide');
       this.$el.width('275');
 
-      app.skeleton.live.showInformations = true;
+      app.liveChatSkeleton.showInformations = true;
     },
 
     update: function(e) {
@@ -72,7 +72,7 @@ define(function(require) {
       this.lastname = this.$el.find('input[name="lastname"]').val();
       this.email = this.$el.find('input[name="email"]').val();
 
-      app.trigger("operator:updateInformations", {
+      app.trigger("operator:updateInfos", {
         sid: this.model.get('id'),
         firstname: this.firstname,
         lastname: this.lastname,

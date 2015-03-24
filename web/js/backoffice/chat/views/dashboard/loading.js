@@ -37,7 +37,7 @@ define(function(require) {
 
       if (c.available.length)  {
 
-        var load = (c.visitors.length / c.available.length) * 20;
+        load = (c.visitors.length / c.available.length) * 20;
         if (load > 100) {
           load = 100;
         }
@@ -47,7 +47,9 @@ define(function(require) {
         load = 0;
       }
 
-      $('.js-dashboard-loading-chart').data('easyPieChart').update(load);
+      $('.js-dashboard-loading-chart')
+        .data('easyPieChart')
+        .update(load);
     }
 
   });

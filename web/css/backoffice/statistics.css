@@ -127,10 +127,12 @@ ul.avi-top-list {
 
 .panel-footer .questions {
   color: #6eaee8;
+  background: inherit;
 }
 
 .panel-footer .answered {
   color: #92d050;
+  background: inherit;
 }
 
 .redirections {

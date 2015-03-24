@@ -105,7 +105,6 @@ define(function(require) {
       }
       app.skeleton.modalView = new ModalView({
         model: modalModel,
-        appendEl: ".js-app"
       });
     }
 

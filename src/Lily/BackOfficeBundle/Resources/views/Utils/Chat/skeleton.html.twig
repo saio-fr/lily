@@ -1,9 +1,26 @@
+<!-- Modal -->
+<div class="modal-dialog chat-modal-container hbox stretch js-chat-container">
+
   <aside class="aside-chat-left">
     <section class="vbox">
       <section class="scrollable">
         <header class="header-queue">
+
           <h5>CONVERSATIONS</h5>
+
+          <div class="btn-group windows windows-selector">
+            <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+              <span class="dropdown-label">1 conversation</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li class="active"><a href="#" data="1">1 conversation</a></li>
+              <li><a href="#" data="2">2 conversations</a></li>
+              <li><a href="#" data="4">4 conversations</a></li>
+            </ul>
+          </div>
+
         </header>
+
         <div class="header-current" data-toggle="collapse" data-target=".list-current">
           <h5>EN COURS</h5>
           <span class="badge bg-default pull-right">0</span>
@@ -32,3 +49,8 @@
     -->
     </section>
   </aside>
+</div>
+
+<button class="modal-close-button" data-dismiss="modal" aria-label="Close">
+  <i class="icon-remove"></i>
+</button>

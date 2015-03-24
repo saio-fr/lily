@@ -32,7 +32,7 @@
   <p><b>Page en cours :</b></p>
   <ul class="informations-list">
   	<li class="informations-item">
-  	  <a href="<%= _.first(pages).href %>" target="_blank"><%= _.first(pages).pathname %></a>
+  	  <a href="<%= _.first(pages).href %>" target="_blank" title="<%= _.first(pages).pathname %>"><%= _.first(pages).pathname %></a>
     </li>
   </ul>  
   
@@ -40,7 +40,7 @@
   <% _.each(pages, function(page) { %>
     <ul class="informations-list">
   	  <li class="informations-item">
-  	    <a href="<%= page.href %>" target="_blank"><%= page.pathname %></a>
+  	    <a href="<%= page.href %>" target="_blank" title="<%= page.pathname %>"><%= page.pathname %></a>
       </li>
     </ul> 
   <% }); %>

@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    OperatorView = require('backoffice/chat/views/live/transfer/operator'),
+    OperatorView = require('components/chat/views/transfer/operator'),
 
     // Object wrapper returned as a module
     TransferModal;
@@ -32,7 +32,6 @@ define(function(require) {
     },
 
     initialize: function(options) {
-      this.appendEl = options.appendEl;
       this.visitor = options.visitor;
       this.childViews = new Backbone.ChildViewContainer();
 
@@ -41,11 +40,10 @@ define(function(require) {
     },
 
     render: function() {
-      var container = $(this.appendEl);
       var self = this;
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.prependTo(container);
+      this.$el.appendTo('body');
 
       if (_.isEmpty(this.collection)) {
         this.$el.find('.modal-body').html('Aucun opérateur disponible.');

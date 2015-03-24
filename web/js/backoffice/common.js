@@ -11,6 +11,7 @@ require.config({
     "autobahn": "vendor/autobahn-v1",
     "backbone": "bower_components/backbone/backbone",
     "backbone-nested": "bower_components/backbone-nested-model/backbone-nested",
+    "backbone-localStorage": "bower_components/backbone.localStorage/backbone.localStorage",
     "backbone-validation": "bower_components/backbone-validation/dist/backbone-validation",
     "bootstrap": "bower_components/bootstrap/dist/js/bootstrap",
     "bootstrap-wysihtml5": "wysiwyg/bootstrap-wysihtml5",
@@ -28,6 +29,7 @@ require.config({
     "moment": "bower_components/moment/moment",
     "moment-fr": "bower_components/moment/locale/fr",
     "morris": "bower_components/morrisjs/morris",
+    "polyfils": "utils/polyfils",
     "raphael": "bower_components/raphael/raphael",
     "sortable": "bower_components/html5sortable/jquery.sortable",
     "statistics": "utils/statistics-flot",
@@ -58,6 +60,7 @@ require.config({
       "deps": ["underscore", "jquery"],
       "exports": "Backbone"
     },
+    "backbone-localStorage": ["backbone"],
     "backbone-nested": {
       "deps": ["backbone"],
       "exports": "Backbone.NestedModel"

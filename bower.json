@@ -23,7 +23,7 @@
     "bootstrap": "~3.3.1",
     "jquery-sortable": "~0.9.12",
     "modernizr": "~2.8.3",
-    "moment": "~2.8.3",
+    "moment": "~2.9.0",
     "requirejs": "~2.1.15",
     "screenfull": "~1.2.1",
     "flot": "~0.8.3",

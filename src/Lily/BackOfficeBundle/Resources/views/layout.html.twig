@@ -17,12 +17,20 @@
   'css/vendor/plugin.css'
   'css/vendor/app.css'
   'css/backoffice/main.css'
+  'css/components/chat.css'
 
 filter='cssrewrite' %}
 
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
 {% endstylesheets %}
+
+<!-- BEGIN TRACKJS -->
+{% if app.environment == 'prod' %}
+  <script type="text/javascript">window._trackJs = { token: '55945a6850454d3d8ecba78c5b307b8a' };</script>
+  <script type="text/javascript" src="//d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js" crossorigin="anonymous"></script>
+{% endif %}
+<!-- END TRACKJS -->
 
 {% endblock %}
 
@@ -45,11 +53,53 @@ filter='cssrewrite' %}
 
   </section>
 
+  <!-- 
+      Notifications
+  -->
   <script type="text/template" id="notifsItemTpl">
     {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_item.html.twig' %}
   </script>
   <script type="text/template" id="notifsListTpl">
     {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_list.html.twig' %}
+  </script>
+  <!-- 
+      Chat
+  -->
+  <script type="text/template" id="liveSkeletonTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat:skeleton.html.twig' %}
+  </script>
+  <script type="text/template" id="liveConversationTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat:conversation.html.twig' %}
+  </script>
+  <script type="text/template" id="liveInformationsTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat:informations.html.twig' %}
+  </script>
+  <script type="text/template" id="liveRecordTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat:record.html.twig' %}
+  </script>
+  <script type="text/template" id="liveMessageOperatorTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Message:operator.html.twig' %}
+  </script>
+  <script type="text/template" id="liveMessageServerTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Message:server.html.twig' %}
+  </script>
+  <script type="text/template" id="liveMessageVisitorTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Message:visitor.html.twig' %}
+  </script>
+  <!-- 
+      Modals
+  -->
+  <script type="text/template" id="modalConnectionLostTpl">
+    {% include 'LilyChatBundle:Connection:lost.html.twig' %}
+  </script>
+  <script type="text/template" id="modalAppTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
+  </script>
+  <script type="text/template" id="modalConfirmTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
+  </script>
+  <script type="text/template" id="modalTransferOperatorTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Modals/Transfer:operator.html.twig' %}
   </script>
 
   <script>
@@ -63,6 +113,9 @@ filter='cssrewrite' %}
     {% else %}
     ga('create', 'UA-58965885-1', 'auto');
     {% endif %}
+    window.config.chat = {{ app.user.client.config.chat }};
+    window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR') }};
+    window.config.userId = '{{ app.user.id }}';
   </script>
 
 </body>

@@ -671,9 +671,6 @@ a:hover .caret-white {
   color: #d9d9d9;
   text-shadow: 0 1px 1px #fff;
 }
-.navbar-nav li.chat > a > i {
-  font-size: 20px;
-}
 .navbar-nav li.chat > a {
   padding: 15px 15px 12px 15px;
 }
@@ -955,7 +952,6 @@ table th[class*="col-"] {
 .scrollable {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 100%;
 }
 .no-touch .scrollable.hover {
   overflow-y: hidden;
@@ -3209,11 +3205,11 @@ background-color: #ffffff;
 }
 
 /******* CHAT ********/
-.status.available {
+.status-selector.available {
   color: #31bf7a;
 }
 
-.status.unavailable {
+.status-selector.unavailable {
   color: #ff6455;
 }
 

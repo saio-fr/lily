@@ -120,5 +120,14 @@ define(function(require) {
   }; 
 
 
+  g.notifications = {
+    countTitle: function(count) {
+      return "Vous avez " + count + " notification" + 
+        (count <= 1 ? '' : 's') + " en attente";
+    },
+    messageUnAnswered: "Message en attente",
+    messageUrgent: "Message urgent"
+  };
+
   return g;
 });

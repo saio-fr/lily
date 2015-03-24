@@ -8,6 +8,7 @@ define(['../common', 'require'], function(common, require) {
   'backbone',
   'app',
   'backoffice/dashboard/views/skeletonView',
+  'components/chat/main',
   'globals',
 
   // Libraries required at bootstrap for the UI.
@@ -16,10 +17,10 @@ define(['../common', 'require'], function(common, require) {
   'moment',
   'moment-fr',
 
-], function($, _, Backbone, app, SkeletonView, g) {
+], function($, _, Backbone, app, SkeletonView, LiveChat, globals) {
 
     $.ajaxPrefilter(function(options) {
-      options.url = g.root + options.url;
+      options.url = globals.root + options.url;
     });
 
     // Set locale in moment JS
@@ -32,7 +33,9 @@ define(['../common', 'require'], function(common, require) {
 
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
-
+      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+        app.liveChat = new LiveChat(result);
+      }
     };
 
     app.wsConnect();
