@@ -188,7 +188,10 @@ define(function(require) {
         }));
       }
 
-      model.set('active', true);
+      model.set({
+        selected: true,
+        active: true
+        });
 
       live.setWindows();
     },

@@ -94,7 +94,7 @@ define(function(require) {
 
       var shellView = new ShellView({
         appendEl: appendEl,
-        id: this.id
+        model: this.model
       });
       this.childViews.add(shellView, 'shellView');
     },
@@ -138,23 +138,27 @@ define(function(require) {
     },
 
     selected: function(e) {
-
-      $('.conversations').removeClass('selected');
-      this.$el.addClass('selected');
-
-      var live = app.liveChatSkeleton;
-
-      if (live.informations && live.informations.model.get('id') !== this.id) {
-        live.informations.remove();
+      
+      if (!this.model.get('selected')) {
+        
+        $('.conversations').removeClass('selected');
+        this.$el.addClass('selected');
+  
+        var live = app.liveChatSkeleton;
+  
+        if (live.informations && live.informations.model.get('id') !== this.id) {
+          live.informations.remove();
+        }
+  
+        if (!live.informations && live.windows.length <= 1) {
+          live.informations = new InformationsView({
+            model: this.model
+          });
+        }
+  
+        app.trigger('change:windows');
+        app.trigger('conversation:selected', this.id);
       }
-
-      if (!live.informations && live.windows.length <= 1) {
-        live.informations = new InformationsView({
-          model: this.model
-        });
-      }
-
-      app.trigger('change:windows');
     },
 
     // Todo: abstract dom logic in skeleton

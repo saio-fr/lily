@@ -12,10 +12,12 @@ define(function(require) {
     _ = require('underscore'),
     SuggestionsListView = require('components/chat/views/shell/suggestionsListView'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
+    Shell = require('components/chat/utils/shell'),
     Scribe = require('scribe'),
-    scribePluginToolbar = require('scribe-plugin-toolbar'),
-    scribePluginSmartLists = require('scribe-plugin-smart-lists'),
-    scribePluginHeadingCommand = require('scribe-plugin-heading-command'), 
+    ScribePluginToolbar = require('scribe-plugin-toolbar'),
+    ScribePluginSmartLists = require('scribe-plugin-smart-lists'),
+    ScribePluginHeadingCommand = require('scribe-plugin-heading-command'),
+    ScribePluginShellCommand = require('scribe-plugin-shell-command'), 
     
     
     // Object wrapper returned as a module
@@ -28,22 +30,26 @@ define(function(require) {
     template: _.template($('#liveConversationShellTpl').html()),
 
     events: {
-      'click .execute': 'onClickCommand',
-      'keyup .editor': 'onKeyupCommand'
+      'click .execute': 'onShellRequest',
+      'keyup .editor': 'onShellRequest'
     },
 
     initialize: function(options) {
       
       if (options && options.appendEl) {
         this.appendEl = options.appendEl;
-        this.id = options.id
+        this.model = options.model
       }
       
       this.render();
-      this.getWysiEditor();
+      this.getWysiEditor();    
       
       this.childViews = new Backbone.ChildViewContainer();
       this.suggestionsView = new SuggestionsListView({});
+      
+      this.listenTo(app, 'shell:suggestions:mouseover', this.onSelectSuggestion);
+      this.listenTo(app, 'shell:suggestions:enter', this.onEnterSuggestion);
+      this.listenTo(this.model, 'change:selected', this.onSelectConversation);
     },
 
     render: function() {
@@ -57,89 +63,124 @@ define(function(require) {
     
     getWysiEditor: function () {
       
-      this.editor = this.$('.editor');
-      this.toolbar = this.$('.toolbar');
+      var editorEl = this.$('.editor');
+      var toolbarEl = this.$('.toolbar');
       
-      var scribe = new Scribe(this.editor[0]);
-      scribe.use(scribePluginToolbar(this.toolbar[0]));
-      scribe.use(scribePluginSmartLists());
-      scribe.use(scribePluginHeadingCommand(5));
-      // scribe.use(scribePluginShellCommand());
+      this.editor = new Scribe(editorEl[0]);
+      this.editor.use(ScribePluginToolbar(toolbarEl[0]));
+      this.editor.use(ScribePluginSmartLists());
+      this.editor.use(ScribePluginHeadingCommand(5));
+      this.editor.use(ScribePluginShellCommand());
     },
     
-    onClickCommand: function (e) {
-      
-      var textMsg = this.editor.text().trim();
-      var htmlMsg = this.editor.html().trim();
-      
-      if (this.isCommand(textMsg)) {
-        return;
-      }
-      
-      this.send(htmlMsg);
-    },
-    
-    onKeyupCommand: function (e) {
-      
-      var textMsg = this.editor.text().trim();
-      var htmlMsg = this.editor.html().trim();
-      
-      if (this.isCommand(textMsg)) {
-        return;
-      }
-      
-      if (e.keyCode === 13 && !e.shiftKey) {
-        e.preventDefault();
-        this.send(htmlMsg);
-      }
-    },
-    
-    isCommand: function (textMsg) {
-      
-      var commandChar = textMsg.slice(0, 1);
-      var commandTitle = textMsg.substr(1).toLowerCase();
-      
-      switch (commandChar) {
-        case '/' :
-        
-          var suggestions = app.chatShortcuts.filter(function(shortcut) {
-            if (shortcut.get('title').indexOf(commandTitle) === 0) {
-              return shortcut;              
-            }
-          });
+    onSelectConversation: function () {
 
-          this.suggestionsView.setCollection({
-            // TODO, add it to an translation file
-            type: 'Messages pré-enregistrés',
-            suggestions: suggestions
-          });
-           
-          return true;
-        
-        default:
-          this.suggestionsView.hide();
-          return false;
+      if (this.model.get('selected')) {
+        this.getWysiEditor();
+      } else {
+        // Unbind scribe events
+        // this.editor.destroy();
       }
     },
     
-    send: function (htmlMsg) {
+    onShellRequest: function (e) {
       
-      if (htmlMsg.length) {
+      var condition = e.type === 'click' ||
+        e.keyCode === 13 && !e.shiftKey;
+      
+      var toExecute = (condition) ? true : false; 
+      
+      var textMsg = $(this.editor.el).text().trim();
+      var commandType = Shell.isCommand(textMsg);
+      
+      if (commandType) {
+        
+        if (toExecute) {
+          var commandState = Shell.updateCommandState();
+          this.executeCommand(commandState);
+        }
+        this.setSuggestions(commandType);
+        return;
+      }
+      
+      this.suggestionsView.hide();
+      
+      if (toExecute) {
+        this.sendMsg();
+      }
+    },
+    
+    onSelectSuggestion: function (commandTitle) {
+      var event = new CustomEvent('commandSelected', {
+        detail: {
+          commandTitle: commandTitle
+        }
+      });
+      this.editor.el.dispatchEvent(event);
+    },
+    
+    onEnterSuggestion: function (commandTitle) {
+
+      this.onSelectSuggestion(commandTitle);
+      this.suggestionsView.hide();
+    },
+    
+    setSuggestions: function (commandType) {
+      
+      var commandsCollection,
+      filteredCommands,
+      translatedCommandType,
+      textMsg = $(this.editor.el).text().trim().toLowerCase();
+      
+      switch (commandType) {
+        case 'shortcuts':
+         commandsCollection = app.chatShortcuts;
+         translatedCommandType = 'Messages pré-enregistrés';
+         break; 
+      }
+      
+      filteredCommands = commandsCollection.filter(function(command) {
+        if (command.get('title').indexOf(textMsg) === 0) {
+          return command;              
+        }
+      });
+      
+      this.filteredCommands = filteredCommands;
+
+      this.suggestionsView.setCollection({
+        // TODO, add it to an translation file
+        type: translatedCommandType,
+        suggestions: filteredCommands
+      });
+    },
+    
+    executeCommand: function (commandState) {
+      
+    },
+    
+    sendMsg: function (msg) {
+      
+      var htmlMsg = $(this.editor.el).html().trim();
+      
+      if (msg.length) {
         app.trigger('chat:send', {
-          message: htmlMsg,
-          id: this.id
+          message: msg,
+          id: this.model.id
         });
       }
       this.clearInput();
     },
     
     clearInput: function () {
-      this.editor.html('');
+      var event = new Event('clearInput');
+      this.editor.el.dispatchEvent(event);
     },
 
     remove: function () {
       
       var that = this;
+      // Unbind scribe events
+      // this.editor.destroy();
       
       this.childViews.forEach(function (view) {
         // delete index for that view

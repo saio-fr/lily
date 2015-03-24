@@ -46,7 +46,7 @@ LIVE CHAT
   background: #F9FAFC;
   position: relative;
   margin: -2px;
-  max-height: 100px;
+  max-height: 250px;
 }
 
 .suggestions-header {
@@ -79,6 +79,7 @@ LIVE CHAT
 .suggestions-list {
   margin: 0;
   padding: 0;
+  list-style-type: none;
 }
 
 .suggestions-item {
@@ -86,7 +87,7 @@ LIVE CHAT
   padding: 10px 5px;
 }
 
-.suggestions-item:hover {
+.suggestions-item.selected {
   background: #579ad7;
   color: white;
   border-radius: 2px;

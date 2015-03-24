@@ -48,6 +48,20 @@ define(function(require) {
     }
     
   });
+  
+  Models.Shortcut = Backbone.NestedModel.extend({
+
+    initialize: function () {
+      this.convertTitle();
+    },
+
+    convertTitle: function() {
+      var title = '/' + this.get('title');
+      this.set({title: title});
+    }
+    
+  });
+
 
   return Models;
 });

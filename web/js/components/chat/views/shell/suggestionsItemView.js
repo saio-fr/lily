@@ -16,12 +16,13 @@ define(function(require) {
 
   SuggestionView = Backbone.View.extend({
 
+    tagName: 'li',
     className: 'suggestions-item',
     template: _.template($('#liveConversationShellSuggestionsItemTpl').html()),
 
     events: {
-      'hover' : 'onHoverSelect',
-      'keypress' : 'onKeypressRemove'
+      'mouseover' : 'onMouseoverSelect',
+      'click' : 'onClickSelect'
     },
 
     initialize: function() {
@@ -33,11 +34,18 @@ define(function(require) {
       return this;
     },
     
-    onHoverSelect: function () {
+    onMouseoverSelect: function (e) {
+
+      $('.js-suggestions-list .selected').removeClass('selected');
+      this.$el.addClass('selected');
+      
+      var commandTitle = this.model.get('title');
+      app.trigger('shell:suggestions:mouseover', commandTitle);
     },
     
-    onKeypressRemove: function (e) {
-      this.remove();
+    onClickSelect: function (e) {
+      var commandTitle = this.model.get('title');
+      app.trigger('shell:suggestions:enter', commandTitle);
     }
 
   });

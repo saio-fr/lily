@@ -23,6 +23,7 @@ define(function(require) {
   
   Collections.Shortcuts = Backbone.Collection.extend({
     url: '/chat/shortcuts',
+    model: Models.Shortcut,
     initialize: function () {
       this.fetch();
     }
