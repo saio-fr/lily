@@ -278,10 +278,6 @@ ul {
   min-height: 30px;
 }
 
-.btn-group {
-  margin: 10px 0 0 0;
-}
-
 .paginator {
   display: inline-block;
   float: right;
@@ -298,6 +294,11 @@ ul {
 .btn-filter {
   background: #f9fafc;
   border: 1px solid #d9dde1;
+  margin-top: 10px;
+}
+
+.btn-group-create {
+  margin-top: 10px;
 }
 
 .paginator .dropdown-menu {

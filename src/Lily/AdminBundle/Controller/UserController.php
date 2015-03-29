@@ -17,7 +17,7 @@ class UserController extends BaseController
 {
 
     /**
-     * @Post("/{client}")
+     * @Post("/user/{client}")
      * @ParamConverter("client")
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */

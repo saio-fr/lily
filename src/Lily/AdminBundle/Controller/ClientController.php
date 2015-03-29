@@ -23,7 +23,7 @@ class ClientController extends BaseController
 {
 
     /**
-     * @Post("/")
+     * @Post("/client")
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function addAction(Request $request) {
