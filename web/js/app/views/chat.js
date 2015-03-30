@@ -48,7 +48,9 @@ define(function(require) {
       this.listenTo(app, 'chat:reconnected', this.onReconnected, this);
       this.listenTo(app, 'chat:resetConversation', this.onResetConversation, this);
 
-      app.trigger('chat:open');
+      if (app.isConversationClosed().toString() !== "true") {
+        app.trigger('chat:open');
+      }
 
       $(this.render({
         page: true
