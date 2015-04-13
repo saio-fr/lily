@@ -154,6 +154,8 @@ class AppController extends BaseController
         $from = $request->get('from');
         $object = $request->get('object');
         $msg = $request->get('msg');
+        $date =$request->get('date');
+        $time =$request->get('time');
 
         $redirection = $this->getEntityManager($licence)
         ->getRepository('LilyKnowledgeBundle:Redirection')

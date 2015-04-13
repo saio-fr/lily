@@ -1251,6 +1251,10 @@ CONTACT FORM
 	outline: 0;
 }
 
+.form-section-title {
+  border-bottom: solid 1px #cecece;
+}
+
 .lily-contact-form label{
 	color: #f62441;
 	display: inline;
