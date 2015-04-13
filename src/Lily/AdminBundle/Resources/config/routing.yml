@@ -5,9 +5,9 @@ lily_admin:
 lily_admin_client_api:
     resource: "@LilyAdminBundle/Controller/ClientController.php"
     type:     rest
-    prefix:   /api/client
+    prefix:   /api
         
 lily_admin_user_api:
     resource: "@LilyAdminBundle/Controller/UserController.php"
     type:     rest
-    prefix:   /api/user
+    prefix:   /api
