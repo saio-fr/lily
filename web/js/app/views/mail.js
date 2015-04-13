@@ -95,35 +95,40 @@ define(function(require) {
       if (!(this.day && this.month)) {
         $labelDay.show();
         $inputDay.addClass('warning');
-        this.errors.msg = true;
+        this.errors.date = true;
       } else {
         $inputDay.removeClass('warning');
         $labelDay.hide();
-        this.errors.msg = false;
+        this.errors.date = false;
       }
 
       if (!this.time) {
         $labelTime.show();
         $inputDay.addClass('warning');
-        this.errors.msg = true;
+        this.errors.time = true;
       } else {
         $inputTime.removeClass('warning');
         $labelTime.hide();
-        this.errors.msg = false;
+        this.errors.time = false;
       }
 
       if (!this.tel) {
         $labelTel.show();
         $inputTel.addClass('warning');
-        this.errors.msg = true;
+        this.errors.tel = true;
       } else {
         $inputTel.removeClass('warning');
         $labelTel.hide();
-        this.errors.msg = false;
+        this.errors.tel = false;
       }
 
 
-      if (this.errors.from || this.errors.msg || this.errors.object) {
+      if (this.errors.from || 
+          this.errors.msg || 
+          this.errors.object ||
+          this.errors.date ||
+          this.errors.time ||
+          this.errors.tel) {
         return;
       }
 
