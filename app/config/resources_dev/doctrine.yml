@@ -1,4 +1,3 @@
-
 # Doctrine Configuration
 doctrine:
     dbal:
