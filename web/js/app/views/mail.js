@@ -45,6 +45,7 @@ define(function(require) {
       this.day = this.$el.find('.form-day').val() || null;
       this.month = this.$el.find('.form-month').val() || null;
       this.time = this.$el.find('.form-time').val() || null;
+      this.tel = this.$el.find('.form-tel').val() || null;
 
       var $labeFrom = this.$el.find('label.from'),
           $inputFrom = this.$el.find('input#from'),
@@ -56,6 +57,8 @@ define(function(require) {
           $labelTime = this.$el.find('label.time'),
           $inputDay = this.$el.find('label.form-day'),
           $inputTime = this.$el.find('label.form-time'),
+          $inputTel = this.$el.find('input.tel'),
+          $labelTel = this.$el.find('label.form-tel'),
 
           that = this;
 
@@ -109,6 +112,16 @@ define(function(require) {
         this.errors.msg = false;
       }
 
+      if (!this.tel) {
+        $labelTel.show();
+        $inputTel.addClass('warning');
+        this.errors.msg = true;
+      } else {
+        $inputTel.removeClass('warning');
+        $labelTel.hide();
+        this.errors.msg = false;
+      }
+
 
       if (this.errors.from || this.errors.msg || this.errors.object) {
         return;
@@ -119,7 +132,8 @@ define(function(require) {
         object: that.object,
         msg: that.msg,
         date: that.day + ' ' + that.month,
-        time: that.time
+        time: that.time,
+        tel: that.tel
       }).then(function(res) {
         app.showInfo("success", config.mailSentMsg);
         if (app.mailOnly) {

@@ -11,7 +11,7 @@
   			Adresse e-mail *
   			<label class="from" style="display:none">Ce champ ne peut pas être vide.</label>
       </p>
-      <input id="from" class="lily-cst-form-color" type="text" name="from" placeholder="Votre adresse e-mail" size="30"/>
+      <input id="from" class="lily-cst-form-color" type="email" name="from" placeholder="Votre adresse e-mail" size="30"/>
 
   		<p class="lily-contact-form-label">
         Objet *
@@ -25,7 +25,16 @@
       </p>
 		  <textarea id="msg" class="lily-cst-form-color" type="text" name="msg" placeholder="Votre message" size="30"/>
 
+
+
       <h4 class="form-section-title">Je souhaite être rappelé</h4>
+
+      <p class="lily-contact-form-label">
+        Téléphone *
+        <label class="tel" style="display:none">Ce champ ne peut pas être vide.</label>
+      </p>
+      <input class="lily-cst-form-color form-tel" type="tel" pattern="[0-9]{10}" name="tel" 
+             placeholder="numéro sur lequel vous joindre" size="30"/>
 
       <p class="lily-contact-form-label">
         Date à laquelle vous souhaitez être rappelé(e) *

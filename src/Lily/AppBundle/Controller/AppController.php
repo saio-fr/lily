@@ -151,11 +151,12 @@ class AppController extends BaseController
      */
     public function postEmailAction($licence, Request $request) {
 
-        $from = $request->get('from');
-        $object = $request->get('object');
-        $msg = $request->get('msg');
-        $date =$request->get('date');
-        $time =$request->get('time');
+        $from =     $request->get('from');
+        $object =   $request->get('object');
+        $msg =      $request->get('msg');
+        $date =     $request->get('date');
+        $time =     $request->get('time');
+        $tel =      $request->get('tel');
 
         $redirection = $this->getEntityManager($licence)
         ->getRepository('LilyKnowledgeBundle:Redirection')
