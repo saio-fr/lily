@@ -89,13 +89,6 @@ class App {
                 )
             ), $socket, $loop
         );
-        
-        $policy = new FlashPolicy;
-        $policy->addAllowedAccess('*', 80);
-        $policy->addAllowedAccess('*', $port);
-        $flashSock = new Reactor($loop);
-        $this->flashServer = new IoServer($policy, $flashSock);
-        $flashSock->listen(843, '0.0.0.0');
 
     }
 
@@ -127,13 +120,7 @@ class App {
         if ('*' !== $allowedOrigins[0]) {
             $decorated = new OriginCheck($decorated, $allowedOrigins);
         }
-        
-        //allow origins in flash policy server
-        if(empty($this->flashServer) === false) {
-            foreach($allowedOrigins as $allowedOrgin) {
-                $this->flashServer->app->addAllowedAccess($allowedOrgin, $this->port);
-            }
-        }
+
 
         $this->routes->add('rr-' . ++$this->_routeCounter, new Route($path, array('_controller' => $decorated), array('Origin' => $this->httpHost), array(), $httpHost));
 

@@ -59,6 +59,12 @@ define(function(require) {
       if (!this.model.get('messages').length) {
         return;
       }
+            
+      // If no msg was sent from the visitor, dont show the record
+      if (this.model.get('messages').length > 2
+        && this.$el.hasClass('hide')) {
+          this.$el.removeClass('hide');
+      }
 
       var from = this.model.get('messages')[this.model.get('messages').length - 1].from;
       // If the last message come from a visitor, set unanswered status

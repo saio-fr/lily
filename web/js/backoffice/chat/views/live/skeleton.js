@@ -89,10 +89,10 @@ define(function(require) {
 
     counters: function() {
 
-      this.counter.current = this.$el.find('.list-current').children().length;
+      this.counter.current = this.$el.find('.list-current .list-record-item').not('.hide').length;
       this.$el.find('.header-current span').html(this.counter.current);
 
-      this.counter.waiting = this.$el.find('.list-waiting').children().length;
+      this.counter.waiting = this.$el.find('.list-waiting .list-record-item').not('hide').length;
       this.$el.find('.header-waiting span').html(this.counter.waiting);
     },
 

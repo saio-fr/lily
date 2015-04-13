@@ -19,7 +19,7 @@ define(function(require) {
   RecordView = Backbone.View.extend({
 
     tagName: 'li',
-    className: 'list-record-item animated fadeInUp',
+    className: 'list-record-item animated fadeInUp hide',
     template: _.template($('#liveRecordTpl').html()),
 
     events: {
@@ -61,6 +61,12 @@ define(function(require) {
 
       if (!this.model.get('messages').length) {
         return;
+      }
+      
+      // If no msg was sent from the visitor, dont show the record
+      if (this.model.get('messages').length > 2
+        && this.$el.hasClass('hide')) {
+          this.$el.removeClass('hide');
       }
 
       // If the last message come from a visitor, set unanswered status
