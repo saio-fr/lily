@@ -151,12 +151,12 @@ class AppController extends BaseController
      */
     public function postEmailAction($licence, Request $request) {
 
-        $from =     $request->get('from');
-        $object =   $request->get('object');
-        $msg =      $request->get('msg');
-        $date =     $request->get('date');
-        $time =     $request->get('time');
-        $tel =      $request->get('tel');
+        $from = $request->get('from');
+        $object = $request->get('object');
+        $msg = $request->get('msg');
+        $date = $request->get('date');
+        $time = $request->get('time');
+        $tel = $request->get('tel');
 
         $redirection = $this->getEntityManager($licence)
         ->getRepository('LilyKnowledgeBundle:Redirection')
@@ -169,7 +169,13 @@ class AppController extends BaseController
         ->setBody(
             $this->renderView(
                 '::mails/redirection.txt.twig',
-                array('from' => $from, 'msg' => $msg)
+                array(
+                  'from' => $from, 
+                  'msg' => $msg,
+                  'date' => $date,
+                  'time' => $time,
+                  'tel' => $tel
+                )
             )
         );
 
