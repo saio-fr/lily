@@ -53,7 +53,7 @@ end
 task :clear_opcache do
 	opcache_file = "#{deploy_to}/current/opcache-clear.php"
 	put "<?php opcache_reset(); ?>", opcache_file, :mode => 0644
-	run "cd #{deploy_to}/current && php opcache-clear.php && rm -f opcache-clear.php"
+	run "cd #{deploy_to}/current && php opcache-clear.php"
 end
 
 task :upload_parameters do

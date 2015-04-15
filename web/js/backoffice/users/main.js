@@ -21,7 +21,7 @@ define(['../common', 'require'], function(common, require) {
 ], function($, _, Backbone, UserRouter, globals, app, ModalView, ModalModel, LiveChat) {
 
     $.ajaxPrefilter(function(options) {
-      options.url = g.root + options.url;
+      options.url = globals.root + options.url;
     });
     
     app.createModal = function(content, callback, context) {
