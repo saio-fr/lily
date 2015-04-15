@@ -13,7 +13,7 @@ define('scribe-plugin-shell-command',['app', 'components/chat/utils/shell'],func
         
         var text = scribe.el.innerText || scribe.el.textContent;
         
-        if (Shell.isCommand(text) && event.keyCode === 13 && !event.shiftKey) {
+        if (event.keyCode === 13 && !event.shiftKey) {
           event.preventDefault();
           event.stopImmediatePropagation();
         }

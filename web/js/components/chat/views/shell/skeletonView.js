@@ -1,5 +1,5 @@
 /*========================================
-      SHORTCUTS SKELETON VIEW
+          SHELL SKELETON VIEW
 =========================================*/
 
 define(function(require) {
@@ -41,8 +41,7 @@ define(function(require) {
         this.model = options.model
       }
       
-      this.render();
-      this.getWysiEditor();    
+      this.render();   
       
       this.childViews = new Backbone.ChildViewContainer();
       this.suggestionsView = new SuggestionsListView({});
@@ -63,11 +62,11 @@ define(function(require) {
     
     getWysiEditor: function () {
       
-      var editorEl = this.$('.editor');
-      var toolbarEl = this.$('.toolbar');
+      var editorEl = this.$('.editor')[0];
+      var toolbarEl = this.$('.toolbar')[0];
       
-      this.editor = new Scribe(editorEl[0]);
-      this.editor.use(ScribePluginToolbar(toolbarEl[0]));
+      this.editor = new Scribe(editorEl);
+      this.editor.use(ScribePluginToolbar(toolbarEl));
       this.editor.use(ScribePluginSmartLists());
       this.editor.use(ScribePluginHeadingCommand(5));
       this.editor.use(ScribePluginShellCommand());
@@ -88,7 +87,7 @@ define(function(require) {
       var condition = e.type === 'click' ||
         e.keyCode === 13 && !e.shiftKey;
       
-      var toExecute = (condition) ? true : false; 
+      var toExecute = (condition) ? true : false;
       
       var textMsg = $(this.editor.el).text().trim();
       var commandType = Shell.isCommand(textMsg);
@@ -136,12 +135,12 @@ define(function(require) {
         case 'shortcuts':
          commandsCollection = app.chatShortcuts;
          translatedCommandType = 'Messages pré-enregistrés';
-         break; 
+         break;
       }
       
       filteredCommands = commandsCollection.filter(function(command) {
         if (command.get('title').indexOf(textMsg) === 0) {
-          return command;              
+          return command;
         }
       });
       
@@ -158,13 +157,13 @@ define(function(require) {
       
     },
     
-    sendMsg: function (msg) {
+    sendMsg: function () {
       
-      var htmlMsg = $(this.editor.el).html().trim();
+      var htmlMsg = $.trim( $(this.editor.el).html() );
       
-      if (msg.length) {
+      if (htmlMsg.length) {
         app.trigger('chat:send', {
-          message: msg,
+          message: htmlMsg,
           id: this.model.id
         });
       }
