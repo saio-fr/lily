@@ -229,6 +229,10 @@ define(function(require) {
       },
 
       ////////////////////
+      //      AVI
+      ////////////////////
+
+      ////////////////////
       //  Global Notifs
       ////////////////////
 
@@ -370,12 +374,12 @@ define(function(require) {
 
   _.extend(app, Backbone.Events);
 
-  app.on('chat:open', app.onChatOpen);
-  app.on('chat:send', app.onChatSend);
-  app.on('app:isShown', app.pageView);
-  app.on('chat:writing', app.onChatWriting);
-  app.on('chat:reconnect', app.onChatReconnect);
-  app.on('chat:satisfaction', app.onChatSatisfaction);
+  app.on('chat:open',            app.onChatOpen);
+  app.on('chat:send',            app.onChatSend);
+  app.on('app:isShown',          app.pageView);
+  app.on('chat:writing',         app.onChatWriting);
+  app.on('chat:reconnect',       app.onChatReconnect);
+  app.on('chat:satisfaction',    app.onChatSatisfaction);
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
 
   window.addEventListener("message", function() {

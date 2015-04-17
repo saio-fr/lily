@@ -23,7 +23,7 @@ define(function(require) {
     if (method && url) {
       $.ajax({
         type: method,
-        url: url,
+        url: config.root + url,
         data: data,
 
         success: function(data) {
@@ -39,6 +39,42 @@ define(function(require) {
     }
 
     return deferred.promise;
+  };
+
+  api.sendSynapse = function(method, url, data) {
+    var deferred = when.defer();
+
+      var credentialsJson = {
+        "user": config.synapse.user,
+        "password": config.synapse.password
+      },
+      input = _.extend(data, { credentials: credentialsJson });
+
+    if (method && url) {
+      $.ajax({
+        type: method,
+        url: config.synapse.restRoot + url,
+        data: JSON.stringify(input),
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+
+        success: function(data) {
+          deferred.resolve(data);
+          console.log(data);
+        },
+
+        error: function(err) {
+          deferred.reject(err);
+          console.log(err);
+        }
+      });
+    }
+
+    return deferred.promise;
+  };
+
+  api.getAnswerFromId = function(answerId, callback) {
+    return this.sendSynapse("POST", "getAnswerTextFromId", { id: answerId });
   };
 
   api.sendMail = function(data) {

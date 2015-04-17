@@ -21,8 +21,8 @@ define(function(require) {
     ContentView = require('app/views/content'),
     TopQuestionsView = require('app/views/topQuestions'),
     MessageLilySimpleView = require('app/views/messageLilySimple'),
+    MessageLilyNotation = require('app/views/messageLilyNotation'),
     ChatWelcomeScreenView = require('app/views/welcomeScreen'),
-    MessagesCollectionView = require('app/views/messagesCollection'),
 
     // Object wrapper returned as a module
     Router;
@@ -41,10 +41,7 @@ define(function(require) {
       'faq': 'faq',
       'faq/': 'faq',
       'faq/:parent': 'faq',
-      'faq/:parent/content/:id': 'content',
-      'top-questions': 'topQuestions',
-      'top-questions/': 'topQuestions',
-      'top-questions/:id': 'topQuestions'
+      'faq/:parent/content/:id': 'content'
     },
 
     initialize: function() {
@@ -76,7 +73,7 @@ define(function(require) {
 
     avi: function() {
 
-      app.skeleton.collectionView = new MessagesCollectionView();
+      // app.skeleton.collectionView = new MessagesCollectionView();
       var view = new AviView();
       utils.goTo(view);
 

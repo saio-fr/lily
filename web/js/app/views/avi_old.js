@@ -1,5 +1,5 @@
 /* ===========================
-    		Faq Page
+        Faq Page
    ========================== */
 
 define(function(require) {
@@ -7,16 +7,13 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var _              = require('underscore'),
-    app              = require('app/app'),
-    config           = require('app/globals'),
-    Models           = require('app/data/models'),
-    api              = require('app/data/api'),
-    PageView         = require('app/views/page'),
-    synapse_suggest  = require('synapse'),
-    typeahead        = require('typeahead'),
-    MessagesCollectionView = require('app/views/messagesCollection'),
-
+  var _       = require('underscore'),
+    app       = require('app/app'),
+    config    = require('app/globals'),
+    Models    = require('app/data/models'),
+    PageView  = require('app/views/page'),
+    Synapse   = require('synapse'),
+    Typeahead = require('typeahead'),
     // Object wrapper returned as a module
     AviView;
 
@@ -31,9 +28,7 @@ define(function(require) {
 
       this.$input = this.$('#lily-search-form input.lily-search-input');
 
-      // this.listenTo(this, 'render', this.avatar);
-      this.listenTo(this, 'page:transitionnedIn', this.setupSynapse, this);
-      this.msgsCollectionView = new MessagesCollectionView();
+      this.listenTo(this, 'render', this.avatar);
 
       app.on('precision',       this.sendPrecision, this);
       app.on('satisfied',       this.sendNotation, this);
@@ -41,8 +36,9 @@ define(function(require) {
       app.on('redirectionTel',  this.sendRedirectionTel, this);
       app.on('redirectionMail', this.sendRedirectionMail, this);
 
-      this.render({ page: true }).$el
-        .appendTo('#lily-wrapper-page');
+      $(this.render({
+        page: true
+      }).el).appendTo('#lily-wrapper-page');
     },
 
     render: function() {
@@ -55,76 +51,127 @@ define(function(require) {
       return PageView.prototype.render.apply(this, arguments);
     },
 
-    setupSynapse: function () {
-      var avi = this;
-      // After rendering the view, hooks the input with synapse:
-      this.suggest = new synapse_suggest(config.synapse.user, config.synapse.password);
-      this.suggest.addSuggestionsToInput('.lily-search-input', 'suggestions', 3, 3);
-      this.setQuestionSelectedHandler(this.getAnswer);
-    },
+    doSearch: function(e) {
 
-    setQuestionSelectedHandler: function(handler) {
-      var avi = this;
-      var callback = _.bind(handler, avi);
-      $('.lily-search-input').on('typeahead:selected', function(event, suggest, dataset) {
-        callback(suggest);
-      });
-    },
-
-    doSearch: function (e) {
-
-      if (e) { e.preventDefault(); }
+      e.preventDefault();
 
       this.$input = this.$el.find('.lily-search-input');
-      var query = this.$input.val();
 
-      // Check for empty or
-      // ou contient uniquement des espaces
-      if ($.trim(query).length <= 0) { return; }
+      var query = this.$input.val(),
+        messageModel,
+        msgCollection = app.skeleton.collectionView;
 
-      this.printVisitorMsg(query);
-      this.showLoading();
+      if ($.trim(query).length > 0) {
+        // Check for empty or
+        // ou contient uniquement des espaces
+        this.search(query);
+
+        messageModel = new Models.MessageUser({
+          message_content: this.$input.val()
+        });
+
+        msgCollection.addItem(messageModel, 'user-simple');
+        this.showLoading();
+      }
       // clear the search field
       this.clearInput();
     },
 
-    getAnswer: function (suggestion) {
+    search: function(question) {
+
       var avi = this;
 
-      this.doSearch();
-
-      api.getAnswerFromId(suggestion.answerId).then(function(data) {
-        avi.clearLoading();
-        avi.printAviAnswer(data.item.text);
-      }, function(err) {
-        console.log(err);
-      });
-    },
-
-    printAviAnswer: function(answer) {
-      var messageModel, messageType;
-      // print answer in chat
-      messageModel = new Models.LilySimple({
-        message_content: answer
-      });
-      messageType = 'lily-simple';
-      this.msgsCollectionView.addItem(messageModel, messageType);
-
-      // Add Notation to answer
-      messageModel = new Models.LilyNotation({});
-      messageType = 'lily-notation';
-      this.msgsCollectionView.addItem(messageModel, messageType);
-    },
-
-    printVisitorMsg: function(msg) {
-      var messageModel,
-          msgCollection = this.msgsCollectionView;
-
-      messageModel = new Models.MessageUser({
-        message_content: msg
+      app.ws.call('visitor/newAviQuestion', {
+        question: question
       });
 
-      msgCollection.addItem(messageModel, 'user-simple');
+      $.ajax({
+        type: 'POST',
+        url: '/api/' + config.licence + '/avi/query',
+        data: {
+          query: question
+        },
+
+        success: function(data, textStatus, request) {
+
+          var type = request.getResponseHeader('type'),
+            messageModel,
+            messageType,
+            msgCollection = app.skeleton.messages;
+
+          avi.clearLoading();
+
+          if (!data) {
+            this.trigger('emptySearch');
+          }
+
+          switch (type) {
+
+            case 'insult':
+              messageType = 'lily-simple';
+              messageModel = new Models.LilySimple({
+                message_content: data
+              });
+              avi.mood = 'angry';
+              msgCollection.addItem(messageModel, messageType);
+              break;
+
+            case 'answer':
+              messageType = 'lily-simple';
+              messageModel = new Models.LilySimple({
+                message_content: data.answer
+              });
+              msgCollection.addItem(messageModel, messageType);
+
+              messageType = 'lily-notation';
+              messageModel = new Models.LilyNotation({
+                id: data.id
+              });
+              avi.mood = data.mood;
+              msgCollection.addItem(messageModel, messageType);
+              break;
+
+            case 'personal':
+              messageType = 'lily-simple';
+              messageModel = new Models.LilySimple({
+                message_content: data.answer
+              });
+              avi.mood = data.mood;
+              msgCollection.addItem(messageModel, messageType);
+              break;
+
+            case 'misunderstood':
+              messageType = 'lily-simple';
+              messageModel = new Models.LilySimple({
+                message_content: "Désolé, je n\'ai pas compris votre question."
+              });
+              msgCollection.addItem(messageModel, messageType);
+
+              if (data.isMail || data.isTel || data.isChat) {
+                messageModel = new Models.LilyRedirection({
+                  data: data
+                });
+                messageType = 'lily-redirection';
+                avi.mood = 'sceptical';
+                msgCollection.addItem(messageModel, messageType);
+              }
+              break;
+
+            case 'precision':
+              messageType = 'lily-precision';
+              messageModel = new Models.LilyPrecision({
+                actions: data.actions,
+                precision: data.parent.answer,
+                idparent: data.parent.id
+              });
+              avi.mood = data.mood;
+              msgCollection.addItem(messageModel, messageType);
+              break;
+          }
+        }
+
+      });
+
     },
 
     sendPrecision: function(id, idparent, parent) {
@@ -140,7 +187,7 @@ define(function(require) {
           var type = request.getResponseHeader('type'),
             messageModel,
             messageType,
-            msgCollection = this.msgsCollectionView;
+            msgCollection = app.skeleton.messages;
 
           console.log(type);
 

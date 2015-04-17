@@ -499,7 +499,8 @@ HEADER
 	-ms-backface-visibility: hidden;
 }
 
-#lily-search, #lily-search-input-wrap{
+#lily-search,
+.lily-search-input-wrap{
 	width: 100%;
 	height: 50px;
 	box-sizing: border-box;
@@ -508,11 +509,11 @@ HEADER
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
-
 }
 
-#lily-search-input-wrap{
+.lily-search-input-wrap{
 	-webkit-user-drag: none;
+	position: relative;
 }
 
 .lily-search-input{
@@ -570,6 +571,69 @@ HEADER
 }
 
 /******************
+Typeahead Styles
+******************/
+
+.lily-search-input,
+.tt-suggestion {
+
+}
+
+.lily-search-input {
+
+}
+
+.tt-suggestions {
+  z-index: 1;
+  border-top: solid 1px #cecece;
+}
+
+.tt-suggestions .tt-suggestion {
+  cursor: default;
+  padding: 6px 8px;
+  font-size: 14px;
+  line-height: 16px;
+  border-bottom: solid 1px #cecece;
+}
+
+.tt-suggestions .tt-suggestion:last-child {
+	border-bottom: none;
+}
+
+.tt-suggestions .tt-suggestion .prefetch {
+  color: #029acf;
+}
+
+.tt-suggestions .tt-suggestion .prefetch:hover {
+  color: #02749c;
+}
+
+.tt-suggestions .tt-suggestion .remote {
+  color: #469408;
+}
+
+.tt-suggestions .tt-suggestion .remote:hover {
+  color: #2f6405;
+}
+
+.tt-suggestions .tt-cursor {
+  background-color: #E7E7E7;
+}
+.twitter-typeahead {
+  width: 100%;
+}
+.twitter-typeahead .tt-dropdown-menu {
+  text-align: left;
+  left: 0;
+  z-index: 100;
+  right: auto;
+  bottom: 51px;
+  width: 100%;
+  top: auto !important;
+  background: #fff;
+}
+
+/******************
 MESSAGES
 ******************/
 
@@ -584,7 +648,7 @@ MESSAGES
 	top: 0px;
 	width: 100%;
 	height: 100%;
-	padding: 10px 20px;
+	padding: 15px 10px;
 	font-size: 0.85em;
 	z-index: 2;
 	overflow-y: auto;

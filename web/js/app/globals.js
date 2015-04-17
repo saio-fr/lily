@@ -12,6 +12,12 @@ define(function(require) {
 
   _.extend(g, window.config);
 
+  g.synapse = {
+    user: 'saio',
+    password: 'uJk9!-m',
+    restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
+  };
+
   g.inClass = '';
   g.outClass = '';
   g.animEndEventNames = {

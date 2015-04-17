@@ -62,6 +62,7 @@ define(function(require) {
           $currPage: $currPage,
           $nextPage: $nextPage,
           previous: previous,
+          view: view,
           inClass: inClass,
           callback: callback,
         };
@@ -95,6 +96,8 @@ define(function(require) {
       if (e.data.$nextPage) {
         e.data.$nextPage.removeClass(e.data.inClass);
       }
+
+      e.data.view.trigger('page:transitionnedIn');
     },
 
     transitionOut: function(transition, reverse, callback) {
