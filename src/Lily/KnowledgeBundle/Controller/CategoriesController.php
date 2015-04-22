@@ -86,25 +86,46 @@ class CategoriesController extends BaseController
     
         $em = $this->getEntityManager();
         
-        $category = $em->getRepository('LilyKnowledgeBundle:Category')
-        ->find($id);
+        if ($id) {
         
-        if (!$category) {
-            throw $this->createNotFoundException();
+            $category = $em->getRepository('LilyKnowledgeBundle:Category')
+            ->find($id);
+            
+            if (!$category) {
+                throw $this->createNotFoundException();
+            }
+    
+            $form = $this->getForm(new CategoryType(), $category, $request);
+        
+            foreach ($category->getQuestions() as $question) {
+                $question->setCategory($category);
+                $em->persist($question);
+            }
+        
+            $em->persist($category);
+            $em->flush();
+        
+            $view = $this->view($category);
+            return $this->handleView($view);
         }
-
-        $form = $this->getForm(new CategoryType(), $category, $request);
-    
-        foreach ($category->getQuestions() as $question) {
-            $question->setCategory($category);
-            $em->persist($question);
+        
+        else {
+          
+            $questions = $request->get('questions');
+            
+            foreach ($questions as $id) {
+              
+                $question = $em->getRepository('LilyKnowledgeBundle:Question')
+                ->find($id);
+                
+                $question->setCategory(null);
+                $em->persist($question);
+            }
+            
+            $em->flush();
+            return true;
         }
-    
-        $em->persist($category);
-        $em->flush();
-    
-        $view = $this->view($category);
-        return $this->handleView($view);
+        
     }
   
     /**

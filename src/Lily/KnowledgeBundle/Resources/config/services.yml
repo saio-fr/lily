@@ -1,7 +1,6 @@
 parameters:
-#    lily_knowledge.example.class: Lily\KnowledgeBundle\Example
+    synapse_client.class: Lily\KnowledgeBundle\Service\SynapseClient
 
 services:
-#    lily_knowledge.example:
-#        class: %lily_knowledge.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    synapse_client:
+        class: %synapse_client.class%

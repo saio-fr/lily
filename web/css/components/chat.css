@@ -96,7 +96,7 @@ LIVE CHAT
   background: #f3f5f9 !important;
 }
 
-.header .dropdown-menu {
+.header .windows .dropdown-menu {
   margin-top: 5px;
   min-width: 125px;
   right: 4px;

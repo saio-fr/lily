@@ -241,27 +241,4 @@ class Client
     {
         return $this->groups;
     }
-
-    /**
-     * Set synapsePassword
-     *
-     * @param string $synapsePassword
-     * @return Client
-     */
-    public function setSynapsePassword($synapsePassword)
-    {
-        $this->synapsePassword = $synapsePassword;
-
-        return $this;
-    }
-
-    /**
-     * Get synapsePassword
-     *
-     * @return string 
-     */
-    public function getSynapsePassword()
-    {
-        return $this->synapsePassword;
-    }
 }

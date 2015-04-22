@@ -17,7 +17,7 @@ ul {
 }
 
 .list-group-item.active {
-  background: #FCF6BF !important;
+  background: #D8DBDD !important;
 }
 
 .category-label {
@@ -50,6 +50,7 @@ ul {
   margin: 5px 0 0 25px;
   color: #6e7d83;
   font-weight: 600;
+  font-size: 13px;
 }
 
 .icon-spinner {
@@ -159,7 +160,7 @@ ul {
   display: inline;
 }
 
-.app-navigator.fullscreen header li {
+.app-navigator.fullscreen header li.nav {
   display: none;
 }
 
@@ -271,7 +272,6 @@ ul {
 }
 
 .lvl-two {
-  margin-top: 10px;
   padding: 0 10px 10px 10px;
   border-bottom: 1px solid #e0e4e8;
   background: white;
@@ -281,10 +281,11 @@ ul {
 .paginator {
   display: inline-block;
   float: right;
+  margin-right: 15px;
 }
 
 .questions-wrapper {
-  top: 101px !important; 
+  top: 51px !important; 
 }
 
 .questions {
