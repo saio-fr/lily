@@ -588,12 +588,23 @@ Typeahead Styles
   border-top: solid 1px #cecece;
 }
 
-.tt-suggestions .tt-suggestion {
-  cursor: default;
-  padding: 6px 8px;
+.tt-suggestions .tt-suggestion,
+.empty-suggestion {
+  padding: 10px 8px;
   font-size: 14px;
   line-height: 16px;
+}
+
+.tt-suggestions .tt-suggestion {
+  cursor: pointer;
   border-bottom: solid 1px #cecece;
+}
+
+.empty-suggestion {
+  cursor: default;
+  color:  #A1A1A1;
+  border-top: solid 1px #cecece;
+  border-bottom: none;
 }
 
 .tt-suggestions .tt-suggestion:last-child {
@@ -859,7 +870,7 @@ MESSAGES
 #lily-box-messages .lily-msg-reporting{
 	position: absolute;
 	right: 0;
-	margin-top: 15px;
+	margin-top: 10px;
 }
 
 .lily-msg-reporting li.lily-precision-list:nth-child(2){
@@ -936,8 +947,8 @@ margin-right: 15px !important;
 	user-select: none;
 	-webkit-user-select: none;
 	-webkit-user-drag: none;
-	margin-top: 10px;
-	margin-left: 7px;
+	margin-top: 0px;
+	margin-left: 5px;
 	border-radius: 3px;
 }
 

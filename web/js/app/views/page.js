@@ -56,7 +56,8 @@ define(function(require) {
       var view = this,
         $nextPage = view.$el.find('.lily-page-cont'),
         $currPage = (previous) ? previous.$el.find('.lily-page-cont') : null,
-        inClass = reverse !== 'true' ? 'lily-page-moveFromRight ' : 'lily-page-moveFromLeft ',
+        // inClass = reverse !== 'true' ? 'lily-page-moveFromRight ' : 'lily-page-moveFromLeft ',
+        inClass = reverse !== 'true' ? 'fadeInUp ' : 'fadeInUp',
         visible = 'lily-page-visible',
         data = {
           $currPage: $currPage,

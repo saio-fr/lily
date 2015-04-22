@@ -12,8 +12,10 @@ require.config({
     'FastClick':          'bower_components/fastclick/lib/fastclick',
     'jquery-placeholder': 'bower_components/jquery-placeholder/jquery.placeholder',
     'synapse':            'app/libs/synapse-suggest',
-    'bloodhound':         'bower_components/typeahead.js/dist/bloodhound',
-    'typeahead':          'bower_components/typeahead.js/dist/typeahead.jquery'
+    // 'bloodhound':         'bower_components/typeahead.js/dist/bloodhound',
+    // 'typeahead':          'bower_components/typeahead.js/dist/typeahead.jquery',
+    'bloodhound':         'app/libs/bloodhound',
+    'typeahead':          'app/libs/typeahead'
   },
   shim: {
     'underscore': {

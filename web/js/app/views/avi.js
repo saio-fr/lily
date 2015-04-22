@@ -8,6 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var _              = require('underscore'),
+    Backbone         = require('backbone'),
     app              = require('app/app'),
     config           = require('app/globals'),
     Models           = require('app/data/models'),
@@ -15,7 +16,15 @@ define(function(require) {
     PageView         = require('app/views/page'),
     synapse_suggest  = require('synapse'),
     typeahead        = require('typeahead'),
-    MessagesCollectionView = require('app/views/messagesCollection'),
+    when             = require('when'),
+
+    MessageUserSimple = require('app/views/messageUserSimple'),
+    MessageLilySimple = require('app/views/messageLilySimple'),
+    MessageLilyRedirection = require('app/views/messageLilyRedirection'),
+    MessageLilyPrecision = require('app/views/messageLilyPrecision'),
+    MessageLilyNotation = require('app/views/messageLilyNotation'),
+    MessageLilyCompletion = require('app/views/messageLilyCompletion'),
+    ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
     // Object wrapper returned as a module
     AviView;
@@ -23,26 +32,28 @@ define(function(require) {
   AviView = PageView.extend({
 
     events: {
-      'submit #lily-search-form': 'doSearch',
-      'click #lily-go': 'doSearch'
+      'submit #lily-search-form': 'getAnswer',
     },
 
     initialize: function() {
-
-      this.$input = this.$('#lily-search-form input.lily-search-input');
-
       // this.listenTo(this, 'render', this.avatar);
       this.listenTo(this, 'page:transitionnedIn', this.setupSynapse, this);
-      this.msgsCollectionView = new MessagesCollectionView();
+      this.childViews = new Backbone.ChildViewContainer();
 
-      app.on('precision',       this.sendPrecision, this);
-      app.on('satisfied',       this.sendNotation, this);
-      app.on('notSatisfied',    this.sendNotation, this);
-      app.on('redirectionTel',  this.sendRedirectionTel, this);
-      app.on('redirectionMail', this.sendRedirectionMail, this);
+      this.listenTo(app, 'precision',       this.sendPrecision);
+      this.listenTo(app, 'satisfied',       this.sendNotation);
+      this.listenTo(app, 'notSatisfied',    this.sendNotation);
+      this.listenTo(app, 'redirection',     this.sendRedirectionTel);
+      this.listenTo(app, 'redirection',     this.sendRedirectionMail);
+
+      this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
 
       this.render({ page: true }).$el
         .appendTo('#lily-wrapper-page');
+
+      this.$input = this.$('.lily-search-input');
+
+      this.welcome();
     },
 
     render: function() {
@@ -55,8 +66,61 @@ define(function(require) {
       return PageView.prototype.render.apply(this, arguments);
     },
 
+    welcome: function() {
+      var welcome = new Models.LilySimple({
+        message_content: config.avi.welcomeMsg
+      });
+      this.addMessage(welcome, 'lily-simple');
+    },
+
+    addMessage: function(messageModel, messageType) {
+      // remove waiting message if exists.
+
+      // create an instance of the sub-view to render the single message item.
+      var message, indexer;
+      switch ( messageType ) {
+        case 'user-simple':
+          message = new MessageUserSimple({
+            model: messageModel
+          }).render();
+          break;
+        case 'lily-simple':
+          message = new MessageLilySimple({
+            model: messageModel
+          }).render();
+          break;
+        case 'lily-redirection':
+          message = new MessageLilyRedirection({
+            model: messageModel
+          }).render();
+          break;
+        case 'lily-precision':
+          message = new MessageLilyPrecision({
+            model: messageModel
+          }).render();
+          break;
+        case 'lily-notation':
+          message = new MessageLilyNotation({
+            model: messageModel
+          }).render();
+          break;
+        case 'lily-completion':
+          message = new MessageLilyCompletion({
+            model: messageModel
+          }).render();
+          break;
+      }
+
+      if (messageType === 'lily-notation') {
+        indexer = 'notationView';
+      } else {
+        this.trigger('conversation:newMessage');
+      }
+
+      this.childViews.add(message, indexer);
+    },
+
     setupSynapse: function () {
-      var avi = this;
       // After rendering the view, hooks the input with synapse:
       this.suggest = new synapse_suggest(config.synapse.user, config.synapse.password);
       this.suggest.addSuggestionsToInput('.lily-search-input', 'suggestions', 3, 3);
@@ -67,15 +131,13 @@ define(function(require) {
       var avi = this;
       var callback = _.bind(handler, avi);
       $('.lily-search-input').on('typeahead:selected', function(event, suggest, dataset) {
-        callback(suggest);
+        callback(null, suggest);
       });
     },
 
-    doSearch: function (e) {
+    askQuestion: function (e) {
 
       if (e) { e.preventDefault(); }
-
-      this.$input = this.$el.find('.lily-search-input');
       var query = this.$input.val();
 
       // Check for empty or
@@ -83,48 +145,102 @@ define(function(require) {
       if ($.trim(query).length <= 0) { return; }
 
       this.printVisitorMsg(query);
-      this.showLoading();
       // clear the search field
       this.clearInput();
     },
 
-    getAnswer: function (suggestion) {
+    getAnswer: function (e, suggestion) {
+
+      // The method was triggered by the "submit" event handler
+      if (e) { e.preventDefault(); }
       var avi = this;
 
-      this.doSearch();
+      // print the visitor question
+      this.askQuestion();
 
+      // There was no mathing question
+      if (!suggestion) {
+        return this.AviNoAnswer(this.$input.val());
+      }
+
+      // Get the answer from this question
+      this.showLoading();
       api.getAnswerFromId(suggestion.answerId).then(function(data) {
-        avi.clearLoading();
-        avi.printAviAnswer(data.item.text);
+        avi.clearLoading().then(function(){
+          avi.printAviAnswer(data.item.text);
+        });
       }, function(err) {
         console.log(err);
       });
     },
 
     printAviAnswer: function(answer) {
-      var messageModel, messageType;
-      // print answer in chat
-      messageModel = new Models.LilySimple({
+      // Print answer in chat
+      var messageModel = new Models.LilySimple({
         message_content: answer
       });
-      messageType = 'lily-simple';
-      this.msgsCollectionView.addItem(messageModel, messageType);
+      this.addMessage(messageModel, 'lily-simple');
 
       // Add Notation to answer
-      messageModel = new Models.LilyNotation({});
-      messageType = 'lily-notation';
-      this.msgsCollectionView.addItem(messageModel, messageType);
+      this.addNotationView(messageModel);
+    },
+
+    AviNoAnswer: function(question) {
+      this.emptySearch();
     },
 
     printVisitorMsg: function(msg) {
-      var messageModel,
-          msgCollection = this.msgsCollectionView;
 
-      messageModel = new Models.MessageUser({
+      var messageModel = new Models.MessageUser({
         message_content: msg
       });
+      this.addMessage(messageModel, 'user-simple');
+    },
 
-      msgCollection.addItem(messageModel, 'user-simple');
+    onNewMessage: function() {
+      this.removeNotationView();
+      this.clearLoading();
+    },
+
+    addNotationView: function(message) {
+      var messageModel = new Models.LilyNotation({
+        message_content: message
+      });
+
+      this.addMessage(messageModel, 'lily-notation');
+    },
+
+    removeNotationView: function() {
+      var notationView = this.childViews.findByCustom('notationView');
+      if (!notationView) { return; }
+      this.childViews.remove(notationView);
+      notationView.remove();
+    },
+
+    sendRedirection: function(id, type) {
+      app.trigger('avi:redirection', type, id);
+    },
+
+    sendSatisfaction: function(id, satisfied, reason) {
+      app.trigger('avi:satisfaction', satisfied, reason);
+    },
+
+    sendUnanswered: function(question) {
+      app.trigger('avi:unanswered', question);
+    },
+
+    satisfied: function(id, satisfied) {
+      var messageModel = new Models.LilySimple({
+        message_content: config.avi.messages.satisfiedFeedback
+      });
+      this.addMessage(messageModel, 'lily-simple');
+    },
+
+    unsatisfied: function(id, satisfied, reason) {
+      var messageModel = new Models.LilySimple({
+        message_content: config.avi.messages.unSatisfiedFeedback
+      });
+      this.addMessage(messageModel, 'lily-redirection');
     },
 
     sendPrecision: function(id, idparent, parent) {
@@ -168,66 +284,11 @@ define(function(require) {
       });
     },
 
-    sendRedirectionMail: function(id) {
-
-      $.ajax({
-        type: 'POST',
-        url: config.root + '/logredirection/' + id,
-        data: JSON.stringify({
-          canal: 'mail'
-        }),
-      });
-    },
-
-    sendRedirectionTel: function(id) {
-
-      $.ajax({
-        type: 'POST',
-        url: config.root + '/logredirection/' + id,
-        data: JSON.stringify({
-          canal: 'tel'
-        }),
-      });
-    },
-
-    sendNotation: function(id, satisfied, reason, view) {
-
-      var messageType,
-        messageModel,
-        msgCollection = app.skeleton.messages;
-
-      $.ajax({
-        type: 'POST',
-        url: config.root + '/notation/' + id,
-        data: JSON.stringify({
-          satisfied: satisfied,
-          reason: reason
-        }),
-
-        success: function(data, textStatus, request) {
-
-          if (satisfied === true) {
-            messageType = 'lily-simple';
-            messageModel = new Models.LilySimple({
-              message_content: "Merci pour votre réponse! N\'hesitez pas" +
-                "à me poser d'autres questions"
-            });
-          } else {
-            messageType = 'lily-redirection';
-            messageModel = new Models.LilyRedirection({
-              data: data
-            });
-          }
-
-          msgCollection.addItem(messageModel, messageType);
-          view.remove();
-        }
-
-      });
-    },
-
     showLoading: function() {
-      this.$('#lily-box-messages').append(config.loadingTpl);
+      setTimeout(function() {
+        this.$('#lily-box-messages').append(config.loadingTpl);
+        this.isLoadingShown = true;
+      }, 300);
     },
 
     clearInput: function() {
@@ -240,26 +301,37 @@ define(function(require) {
     },
 
     clearLoading: function() {
+      var defer = when.defer();
+      var avi = this;
+
+      if (!avi.isLoadingShown) {
+        defer.resolve();
+      }
 
       if (this.$('.lily-loading').length) {
+        this.$('.lily-loading')
+          .parent()
+          .fadeOut(function() {
+            $(this).remove();
+            avi.isLoadingShown = false;
+          });
         setTimeout(function() {
-          this.$('.lily-loading')
-            .parent()
-            .fadeOut(function() {
-              $(this).remove();
-            });
+          defer.resolve();
         }, 500);
       }
+
+      return defer.promise;
     },
 
     emptySearch: function() {
 
-      this.clearLoading();
+      this.clearLoading().then(function() {
       // Append and display the new message.
-      var model = new Models.LilySimple({
-        message_content: config.emptySearch
+        var model = new Models.LilySimple({
+          message_content: config.emptySearch
+        });
+        this.addMessage(model, 'lily-simple');
       });
-      app.skeleton.messages.addItem(model, 'lily-simple');
     },
 
     avatar: function() {

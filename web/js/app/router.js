@@ -73,16 +73,8 @@ define(function(require) {
 
     avi: function() {
 
-      // app.skeleton.collectionView = new MessagesCollectionView();
       var view = new AviView();
       utils.goTo(view);
-
-      this.welcome = new Models.LilySimple({
-        message_content: config.avi.welcomeMsg
-      });
-      this.message = new MessageLilySimpleView({
-        model: this.welcome
-      }).render();
 
       app.pageView("/avi");
     },

@@ -1,19 +1,19 @@
 (function(root, factory) {
   /* istanbul ignore next */
   if (typeof define === 'function' && define.amd) {
-    define(['jquery', 'bloodhound'], function($, Bloodhound) {
-      return (root.synapse = factory(root, $, Bloodhound));
+    define(['jquery', 'typeahead'], function($, typeahead) {
+      return (root.synapse = factory(root, $, typeahead));
     });
   } else if (typeof exports !== 'undefined') {
     var $ = require('jquery');
     window.jQuery = $;
-    var Bloodhound = require('bloodhound');
-    module.exports = factory(root, $, Bloodhound);
+    var typeahead = require('typeahead');
+    module.exports = factory(root, $, typeahead);
   } else {
-    root.synapse = factory(root, root.$, root.Bloodhound);
+    root.synapse = factory(root, root.$, root.typeahead);
   }
 
-}(this, function(root, $, Bloodhound) {
+}(this, function(root, $, typeahead) {
   'use strict';
 
   // var restRoot = 'http://syn-web08.synapse-fr.com/api/saio/smartfaq/SmartFAQWCF.svc/rest/';
@@ -37,38 +37,42 @@
     return str;
   };
 
+  // Filters out questions that have the same answer Id
+  function filterUniqueAnswer(response) {
+    var result = [],
+        ids = [];
+
+    $.each(response.questions, function(index, question) {
+      if (!ids[question.answerId]) {
+        ids[question.answerId] = true;
+
+        result.push({
+          normalizedText: normalize(question.text),
+          text: question.text,
+          answerId: question.answerId,
+          source: 'prefetch'
+        });
+      }
+    });
+
+    return result;
+  }
+
   var queryTokenizer = function(q) {
     var normalized = normalize(q);
     return Bloodhound.tokenizers.whitespace(normalized);
   };
 
   var dupDetector = function(remoteMatch, localMatch) {
-    //console.log(remoteMatch);
-    //console.log(localMatch);
-    //console.log(remoteMatch.answerId == localMatch.answerId);
-    //console.log("-----------");
     return (remoteMatch.bIsQuestion ? remoteMatch.answerId : remoteMatch.id) == localMatch.answerId;
   };
 
-  //var sorter = function (suggestion1, suggestion2) {
-  //    //console.log(suggestion1);
-  //    //console.log(suggestion2);
-  //    //console.log("-----------");
-  //    if (suggestion1.source == 'prefetch' && suggestion2.source == 'remote')
-  //        return -1;
-  //    if (suggestion1.source == 'remote' && suggestion2.source == 'prefetch')
-  //        return 1;
-  //    return 0;
-  //};
-
   return function synapse_suggest(user, password) {
-
     var credentialsInner = '<password>' + password + '<\/password><user>' + user + '<\/user>';
     this.Credentials = '<Credentials>' + credentialsInner + '<\/Credentials>';
     this.credentials = '<credentials>' + credentialsInner + '<\/credentials>';
-    this.credentialsJson = { password: password, user: user };
-    this.emptyMessage = '<div class="empty-message">Je n\'ai pas trouvé de réponse correspondant à votre question</div>';
-    this.strategy == 'words';
+    this.credentialsJson = { "password": password, "user": user };
+    this.emptyMessage = '<div class="empty-suggestion">Je n\'ai pas trouvé de réponse correspondant à votre question</div>';
 
     this.setUpBloodhound = function() {
 
@@ -79,7 +83,6 @@
         //Bloodhound.tokenizers.whitespace,
         dupDetector: dupDetector,
 
-        //sorter: sorter,
         prefetch: {
           url: restRoot + 'GetListQuestions',
           ajax: {
@@ -87,15 +90,14 @@
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(this.credentialsJson),
-
-            //contentType: "text/xml",
-            //data: this.Credentials,
+            crossDomain: true,
           },
 
           //ttl: 1000, // time (in milliseconds) the prefetched data should be cached
           // in local storage; default is one day
-          filter: function(response) {
-            var result = $.map(response.questions, function(question) {
+          // filter: filterUniqueAnswer,
+          filter: function (response) {
+            var result = $.map(response.questions, function (question) {
               return {
                 normalizedText: normalize(question.text),
                 text: question.text,
@@ -103,7 +105,6 @@
                 source: 'prefetch'
               };
             });
-
             return result;
           }
         }
@@ -114,31 +115,37 @@
       // so we had a remote source only if strategy is set to suggestions
       if (this.strategy == 'suggestions') {
         params.limit = this.semanticOffset;
+
+        console.log(JSON.stringify({
+          credentials: this.credentialsJson,
+          searchRequest: {
+            index: "Saio",
+            lang: "fr",
+            request: "%QUERY"
+          }
+        }));
+
         params.remote = {
           // we need to put the query in the url because typehead.js
           // uses the url as a cache key (https://github.com/twitter/typeahead.js/issues/894#issuecomment-48852916)
-          url: restRoot + 'DoSmartSearch?query=%QUERY',
+          // url: restRoot + 'DoSmartSearch',
+          url: restRoot + "DoSmartSearch?query=%QUERY",
 
           ajax: {
             type: "POST",
             dataType: 'json',
-
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataWithWildcard: JSON.stringify({
-               credentials: this.credentialsJson,
-               searchRequest: { index: 'Saio', lang: 'fr', request: '%QUERY' }
+              credentials: this.credentialsJson,
+              searchRequest: {
+                index: "Saio",
+                lang: "fr",
+                request: "%QUERY"
+              }
             }),
-            // contentType: "text/xml",
-            // dataWithWildcard: '<RequestDataSearch>' + this.credentials + '<searchRequest><index>Saio<\/index><lang>fr<\/lang><request>' + '%QUERY' + '<\/request><\/searchRequest>' + '<\/RequestDataSearch>',
           },
 
           filter: function(response) {
-            //xml = $.parseXML(response.searchResults.searchResults);
-            //var results = [];
-            //$(xml).find('suggestion').each(function () {
-            //    results.push({ text: $(this).find('sentence').text(), answerId: $(this).attr('answerId'), source: 'remote' });
-            //});
-            //return results;
             var resultsJson = JSON.parse(response.searchResults.searchResults);
             var results = [];
             if (resultsJson.QA.results.suggestions) {
@@ -167,41 +174,62 @@
     this.setUpBloodhound();
 
     this.useSemanticMatching = function(query) {
-      var nbSpaces = (query.match(/ /g) || []).length
+      var nbSpaces = (query.match(/ /g) || []).length;
       return nbSpaces >= this.semanticOffset;
     };
 
     this.suggestionsMatcher = function() {
       var synapse_suggest_instance = this;
-      return function findMatches(q, cb) {
 
-        if (synapse_suggest_instance.useSemanticMatching(q)) {
+      return function findMatches(query, callback) {
+
+        if (synapse_suggest_instance.useSemanticMatching(query)) {
+
           var smartSearchCallback = function(userQuestion) {
+
             return function(data, textStatus, jqXHR) {
-              if (textStatus == "success") {
-                //console.log(data.searchResults.searchResults);
-                //xml = $.parseXML(data.searchResults.searchResults);
-                //var results = [];
-                //$(xml).find('suggestion').each(function () {
-                //    results.push({ text: $(this).find('sentence').text(), answerId: $(this).attr('answerId'), source: 'remote' });
-                //});
-                //cb(results);
+
+              if (textStatus === "success") {
                 var resultsJson = JSON.parse(data.searchResults.searchResults);
-                console.log(JSON.stringify(resultsJson));
                 var results = [];
+                var ids = [];
+                console.log(JSON.stringify(resultsJson));
+
                 if (resultsJson.QA.results.suggestions) {
-                  $.each(resultsJson.QA.results.suggestions.suggestion, function(index, value) {
-                    results.push({ text: value.sentence, answerId: value['@answerId'], source: 'remote' });
+
+                  $.each(resultsJson.QA.results.suggestions, function(index, question) {
+                    if (!ids[question['@answerId']]) {
+                      ids[question['@answerId']] = true;
+
+                      results.push({
+                        normalizedText: normalize(question.text),
+                        text: question.sentence,
+                        answerId: question['@answerId'],
+                        source: 'remote'
+                      });
+                    }
                   });
+
+                  // $.each(resultsJson.QA.results.suggestions.suggestion, function(index, value) {
+                  //   results.push({
+                  //     text: value.sentence,
+                  //     answerId: value['@answerId'],
+                  //     source: 'remote'
+                  //   });
+                  // });
                 }
 
-                cb(results);
+                callback(results);
               }
             };
           };
-          doSmartSearchWS(q, smartSearchCallback);
+
+          doSmartSearchWS(query, smartSearchCallback);
         } else {
-          synapse_suggest_instance.bloodhound.get(q, function(suggestions) { cb(suggestions); });
+
+          synapse_suggest_instance.bloodhound.get(query, function(suggestions) {
+            callback(suggestions);
+          });
         }
       };
     };
@@ -210,14 +238,6 @@
       console.log("clear prefetching cache");
       this.bloodhound.clearPrefetchCache();
     };
-
-    // this.setQuestionSelectedHandler = function(handler, context) {
-    //   $(this.selector).on('typeahead:selected', $.proxy(this, function(event, suggestion, dataset) {
-    //     // do stuff if necessary
-    //     console.log(event + ' ' + suggestion + ' ' + dataset);
-    //     handler(suggestion);
-    //   }));
-    // };
 
     this.destroy = function() {
       $(this.selector).typeahead('destroy');
@@ -240,11 +260,13 @@
         displayKey: 'text',
         templates: {
           empty: this.emptyMessage,
-          suggestion: function(suggestion) { return '<span class="' + suggestion.source + '">' + suggestion.text + '</span>'; }
+          suggestion: function(suggestion) {
+            return '<span class="' + suggestion.source + '">' + suggestion.text + '</span>';
+          }
         }
       };
 
-      if (this.strategy == 'suggestions') {
+      if (this.strategy === 'suggestions') {
         params.source = this.bloodhound.ttAdapter();
       } else {
         params.source = this.suggestionsMatcher();
@@ -261,10 +283,6 @@
 
     this.fuzzyMatching = function(userQuery, callback) {
       this.bloodhound.get(userQuery, callback);
-    };
-
-    this.semanticMatching = function(userQuery, callback) {
-      doSmartSearchWS(userQuery, callback);
     };
   };
 

@@ -39,7 +39,7 @@ define(function(require) {
 
         $message.off(config.animEndEventName);
         $messageBox.animate({
-          scrollTop: this.scrollHeight
+          scrollTop: $messageBox[0].scrollHeight
         }, 500);
       });
     }
