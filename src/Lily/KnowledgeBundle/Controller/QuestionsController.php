@@ -86,36 +86,8 @@ class QuestionsController extends BaseController
             $em->flush();
             
             // SEND INFOS TO SYNAPSE ENGINE
-            $synapse = $this->container->get('synapse_client');
-            
-            $json = json_encode(array(
-                "answer" => array(
-                    "id" => "r_".$question->getId(),
-                    "text" => strip_tags($question->getAnswer())),
-                "credentials" => array(
-                    "password" => $client->getSynapsePassword(),
-                    "user" => "saio"),
-                "question" => array(
-                    "id" => "q_".$question->getId()."_0",
-                    "text" => strip_tags($question->getTitle()))
-            ));
-            
-            $res = $synapse->addquestionanswer([
-                "licence" => "saio",
-                "request" => $json
-            ]);
-            
-            
-            $json = json_encode(array(
-                "credentials" => array(
-                    "password" => $client->getSynapsePassword(),
-                    "user" => "saio")            
-            ));
-            
-            $index = $synapse->buildindex([
-                "licence" => "saio",
-                "request" => $json
-            ]);
+            $synapse = $this->container->get('synapse_connector');
+            $synapse->addQuestionAnswer($client, $question);
         
         } else {
           
@@ -162,51 +134,10 @@ class QuestionsController extends BaseController
   
         $em->persist($question);
         $em->flush();
-  
-            
+        
         // SEND INFOS TO SYNAPSE ENGINE
-        $synapse = $this->container->get('synapse_client');
-        
-        // Update Question
-        $json = json_encode(array(
-            "credentials" => array(
-                "password" => $client->getSynapsePassword(),
-                "user" => "saio"),
-            "item" => array(
-                "id" => "q_".$question->getId()."_0",
-                "text" => strip_tags($question->getTitle()))
-        ));
-        
-        $res = $synapse->updatequestion([
-            "licence" => "saio",
-            "request" => $json
-        ]);
-        
-        // Update answer
-        $json = json_encode(array(
-            "credentials" => array(
-                "password" => $client->getSynapsePassword(),
-                "user" => "saio"),
-            "item" => array(
-                "id" => "r_".$question->getId(),
-                "text" => strip_tags($question->getAnswer()))
-        ));
-        
-        $res = $synapse->updateanswer([
-            "licence" => "saio",
-            "request" => $json
-        ]);
-        
-        $json = json_encode(array(
-            "credentials" => array(
-                "password" => $client->getSynapsePassword(),
-                "user" => "saio")            
-        ));
-        
-        $index = $synapse->buildindex([
-            "licence" => "saio",
-            "request" => $json
-        ]);
+        $synapse = $this->container->get('synapse_connector');
+        $synapse->updateQuestionAnswer($client, $question);
   
         return $question;
     }
@@ -230,32 +161,9 @@ class QuestionsController extends BaseController
         }
         
         // SEND INFOS TO SYNAPSE ENGINE
-        $synapse = $this->container->get('synapse_client');
+        $synapse = $this->container->get('synapse_connector');
+        $synapse->removeAnswer($client, $question);
         
-        // Update answer
-        $json = json_encode(array(
-            "credentials" => array(
-                "password" => $client->getSynapsePassword(),
-                "user" => "saio"),
-            "id" => "r_".$question->getId()
-        ));
-        
-        $res = $synapse->removeanswer([
-            "licence" => "saio",
-            "request" => $json
-        ]);
-        
-        $json = json_encode(array(
-            "credentials" => array(
-                "password" => $client->getSynapsePassword(),
-                "user" => "saio")            
-        ));
-        
-        $index = $synapse->buildindex([
-            "licence" => "saio",
-            "request" => $json
-        ]);
-    
         $em->remove($question);
         $em->flush();
     }

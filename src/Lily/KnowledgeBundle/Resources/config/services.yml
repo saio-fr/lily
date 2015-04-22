@@ -1,6 +1,10 @@
 parameters:
     synapse_client.class: Lily\KnowledgeBundle\Service\SynapseClient
+    synapse_connector.class: Lily\KnowledgeBundle\Service\SynapseConnector
 
 services:
     synapse_client:
         class: %synapse_client.class%
+    synapse_connector:
+        class: %synapse_connector.class%
+        arguments:    ["@synapse_client"]
