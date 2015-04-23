@@ -27,15 +27,17 @@ class LogNotationRepository extends EntityRepository
            ->andWhere('n.satisfied IS NOT NULL');
 		
         if($interval) {
+          
            $qb->addSelect('ROUND(UNIX_TIMESTAMP(n.date)/(:interval)) as intervalId')
               ->setParameter('interval', $interval)
               ->groupBy('intervalId');
               
             return $qb->getQuery()->getResult();
+            
         } else {
+          
             return $qb->getQuery()->getSingleScalarResult() ?: 0;
-        }	          
-		
-	}
+        }
+	  }
 	
 }

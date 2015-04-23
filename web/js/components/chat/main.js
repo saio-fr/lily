@@ -56,7 +56,6 @@ define(function(require) {
 
       modalView = new ModalConfirmationView({
         model: modalModel,
-        appendEl: ".js-skeleton-container"
       });
 
       $('.js-modal-action').on('click', function() {

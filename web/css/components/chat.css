@@ -24,6 +24,7 @@ LIVE CHAT
 
 .conversations.show-conversation-list {
   padding-left: 275px;
+  overflow-y: hidden;
 }
 
 .conversations .avatar {
@@ -158,7 +159,7 @@ LIVE CHAT
   background: #f3f5f9 !important;
 }
 
-.header .dropdown-menu {
+.header .windows .dropdown-menu {
   margin-top: 5px;
   min-width: 125px;
   right: 4px;

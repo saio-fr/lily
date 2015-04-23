@@ -66,6 +66,8 @@ define(function(require) {
       call: function() {
         var args = arguments;
 
+        app.conversationClosed(false);
+
         if (app.isUserInactive) {
           var deferred = when.defer();
 
@@ -109,9 +111,15 @@ define(function(require) {
       },
 
       processWsPayload: function(payload) {
-        _.each(payload, function(item) {
+        var length = payload.length;
+        _.each(payload, function(item, index) {
           switch (item.action) {
             case "close":
+              // If the close action is the last received message,
+              // set conversation to close:
+              if (index === length - 1) {
+                app.conversationClosed(true);
+              }
               break;
             case "inactivity":
               app.isUserInactive = true;
@@ -138,6 +146,7 @@ define(function(require) {
 
         if (app.hasSubscribed && !app.hasChatConnected) {
           app.hasChatConnected = true;
+
           return app.call('visitor/open');
         } else {
           deferred.resolve();
@@ -204,6 +213,19 @@ define(function(require) {
         });
 
         app.track("welcomeScreen/submit_infos");
+      },
+
+      conversationClosed: function(isClosed) {
+        var closed = isClosed ? true : false;
+        app.isClosed = closed;
+        window.sessionStorage.setItem("isConversationClosed", closed);
+      },
+
+      isConversationClosed: function() {
+        var isClosed = app.isClosed ||
+          window.sessionStorage.getItem("isConversationClosed") ||
+          false;
+        return isClosed;
       },
 
       ////////////////////

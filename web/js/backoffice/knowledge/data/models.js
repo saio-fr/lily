@@ -97,9 +97,13 @@ define(function(require) {
   Models.CategoryNull = Backbone.Model.extend({
     
     defaults: {
-      id: null,
+      id: 0,
       title: 'Sans catégorie',
       children: null
+    },
+    
+    initialize: function () {
+      this.urlRoot = "/questions/categories";
     },
     
   });

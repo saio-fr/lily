@@ -34,7 +34,6 @@ define(function(require) {
     },
 
     initialize: function(options) {
-      this.appendEl = options.appendEl;
       this.category = options.category;
 
       this.render();
@@ -42,14 +41,13 @@ define(function(require) {
     },
 
     render: function() {
-      var container = $(this.appendEl);
 
       this.$el.html(this.templateModal(this.model.toJSON()));
       this.$('.modal-body').append(this.templateEdit({
         category: this.category.toJSON(),
         collection: app.categories.collection.toJSON()
       }));
-      this.$el.prependTo(container);
+      this.$el.appendTo('body');
 
       return this;
     },

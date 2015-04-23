@@ -26,7 +26,7 @@ class Question
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"list", "precision", "categories"})
+     * @Groups({"list", "app", "categories"})
      */
     protected $id;
     
@@ -50,7 +50,7 @@ class Question
     /**
      * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", 
      *    cascade={"persist", "remove"})
-     * @Groups({"list"})
+     * @Groups({"list", "app"})
      **/
     protected $children;
     
@@ -79,7 +79,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     * @Groups({"app", "precision", "list"})
+     * @Groups({"app", "list"})
      * @Gedmo\Versioned
      */
     protected $title;
@@ -88,7 +88,7 @@ class Question
      * @var text
      *
      * @ORM\Column(name="answer", type="string", nullable=true)
-     * @Groups({"answer", "precision", "list"})
+     * @Groups({"answer", "app", "list"})
      * @Gedmo\Versioned
      */
     protected $answer;
@@ -97,7 +97,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="questionType", type="string", length=10, nullable=true)
-     * @Groups({"app", "precision", "list"})
+     * @Groups({"app", "list"})
      * @JMS\SerializedName("questionType")
      * @Gedmo\Versioned
      */
@@ -107,7 +107,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="answerType", type="string", length=10, nullable=true)
-     * @Groups({"app", "precision", "list"})
+     * @Groups({"app", "list"})
      * @JMS\SerializedName("answerType")
      * @Gedmo\Versioned
      */

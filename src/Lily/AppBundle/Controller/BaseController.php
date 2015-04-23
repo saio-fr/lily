@@ -2,6 +2,8 @@
 
 namespace Lily\AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
@@ -78,7 +80,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     {
   	    $cache = $this->get('aequasi_cache.instance.default');
   	    $config = $cache->fetch($licence.'_config_app_chat');
-  		
+
         if (!$config) {	
       			$em = $this->getEntityManager($licence);
       			$config = $em->getRepository('LilyBackOfficeBundle:Config')

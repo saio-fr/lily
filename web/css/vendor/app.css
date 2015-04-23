@@ -795,7 +795,7 @@ table th[class*="col-"] {
   .hbox > section.hidden-sm {
     display: table-cell !important;
   }
-  .hbox.stretch {
+  .stretch {
     height: 100%;
   }
   .vbox {

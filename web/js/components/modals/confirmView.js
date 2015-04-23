@@ -30,19 +30,15 @@ define(function (require) {
     },
 
     initialize: function(options) {
-      if (options && options.appendEl) {
-        this.appendEl = options.appendEl;
-      }
 
       this.render();
       this.$el.modal('show');
     },
 
     render: function() {
-      var container = $(this.appendEl);
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.prependTo(container);
+      this.$el.appendTo('body');
       return this;
     },
 
@@ -55,6 +51,7 @@ define(function (require) {
         // so we just remove the view and model.
         this.model.destroy();
         this.$el.remove();
+        $('.modal-backdrop').remove();
         this.stopListening();
         return this;
       }

@@ -23,7 +23,7 @@ class ClientController extends BaseController
 {
 
     /**
-     * @Post("/")
+     * @Post("/client")
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
     public function addAction(Request $request) {
@@ -65,7 +65,13 @@ class ClientController extends BaseController
         }
     
         // Schema update
-        $options = array('command' => 'doctrine:schema:update', '--em' => 'client', '--force' => true);
+        $options = array(
+          'command' => 'doctrine:schema:update', 
+          '--em' => 'client', 
+          '--env' => 'prod', 
+          '--force' => true
+        );
+        
         $errors = $console->run(new \Symfony\Component\Console\Input\ArrayInput($options), $output);
     
         // If there is an error, return

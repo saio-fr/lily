@@ -29,7 +29,7 @@ define(function (require) {
 
     events: {
       'click a' : 'preventDefault',
-      'click .new-question' : 'create',
+      'click .btn-group-create' : 'create',
       'click .btn-group-select a' : 'select',
       'click .btn-group-sort ul ul a' : 'sort',
       'click .btn-group-trash' : 'trash',

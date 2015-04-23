@@ -30,22 +30,17 @@ define(function (require) {
     },
 
     initialize: function(options) {
-      if (options && options.appendEl) {
-        this.appendEl = options.appendEl;
-      }
 
       this.render();
       this.$el.modal('show');
     },
 
     render: function() {
-      var container = $(this.appendEl);
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo(container);
+      this.$el.appendTo('body');
       return this;
     },
-
 
     remove: function (e) {
       if ( e.target.classList.contains('modal-backdrop') ||
