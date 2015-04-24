@@ -6,8 +6,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\View;
+
+use Lily\KnowledgeBundle\Entity\UnansweredQuestion;
+use Lily\KnowledgeBundle\Form\UnansweredQuestionType;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -17,43 +21,64 @@ class UnansweredQuestionsController extends BaseController
 {
     
 	/**
-     * @Get("/")
+     * @Get("/unanswered")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getQuestionsAction()
     {    
    		
-    	$questions = $this->getEntityManager()
-    					  ->getRepository('LilyKnowledgeBundle:UnansweredQuestion')
-    					  ->findAll();
-    	
-    	$view = $this->view($questions)->setFormat('json');        
+	$questions = $this->getEntityManager()
+        ->getRepository('LilyKnowledgeBundle:UnansweredQuestion')
+        ->findAll();
+
+	$view = $this->view($questions);
         return $this->handleView($view);
-        		
     }
     
     /**
-     * @Get("/{id}")
+     * @Post("/unanswered")
+     */
+    public function postAction(Request $request)
+    {
+
+        $em = $this->getEntityManager();
+
+        $question = new UnansweredQuestion();
+        $form = $this->getForm(new UnansweredQuestionType(), $question, $request);
+
+        if ($form->isValid()) {
+
+            $em->persist($question);
+            $em->flush();
+
+            return $question;
+        }
+
+        $view = $this->view($form, 400);
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Get("/unanswered/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      */
     public function getAction($id)
     {   
-    
-   		$question = $this->getEntityManager()
-    					  ->getRepository('LilyKnowledgeBundle:UnansweredQuestion')
-    					  ->find($id);
+
+        $question = $this->getEntityManager()
+		->getRepository('LilyKnowledgeBundle:UnansweredQuestion')
+		->find($id);
     					  
         if (!$question) {
             throw $this->createNotFoundException();
         }
    		
-		$view = $this->view($question)->setFormat('json');
+		$view = $this->view($question);
 		return $this->handleView($view);
-      		
     }
         
     /**
-     * @Delete("/{id}")
+     * @Delete("/unanswered/{id}")
      * @Secure(roles="ROLE_KNOWLEDGE_OPERATOR")
      * @View(statusCode=204)
      */
@@ -61,13 +86,12 @@ class UnansweredQuestionsController extends BaseController
     {       	
 		
 		$em = $this->getEntityManager();
-		
+
 		$question = $em->getRepository('LilyKnowledgeBundle:UnansweredQuestion')
-				   	   ->find($id); 
-    			   
-	    $em->remove($question);
-	    $em->flush();
-    
+		->find($id);
+
+        $em->remove($question);
+        $em->flush();
     }
         
 }

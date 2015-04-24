@@ -39,117 +39,75 @@ class UnansweredQuestion
     private $title;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="requests", type="integer")
-     * @Expose
-     */
-    private $requests;
-    
-    /**
      * @var \DateTime
      *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="date", type="date")
-     * @Expose
+     * @ORM\Column(name="date", type="datetime")
      */
-    private $date;
-
+    protected $date;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->date = new \Datetime();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
-    public function toSolrDocument(AbstractDocument $doc)
-	{
-    $doc->id          = $this->getId();
-    $doc->title		  = $this->getTitle();
-
-    return $doc;
-	}
 
     /**
-     * Set titre
+     * Set title
      *
      * @param string $title
-     * @return UnasweredQuestion
+     *
+     * @return UnansweredQuestion
      */
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
-     * Get titre
+     * Get title
      *
-     * @return string 
+     * @return string
      */
-    public function getTitre()
+    public function getTitle()
     {
-        return $this->titre;
+        return $this->title;
     }
 
-    /**
-     * Set requests
-     *
-     * @param integer $requests
-     * @return UnasweredQuestion
-     */
-    public function setRequests($requests)
-    {
-        $this->requests = $requests;
-    
-        return $this;
-    }
-
-    /**
-     * Get requests
-     *
-     * @return integer 
-     */
-    public function getRequests()
-    {
-        return $this->requests;
-    }
-    
     /**
      * Set date
      *
      * @param \DateTime $date
-     * @return Question
+     *
+     * @return UnansweredQuestion
      */
     public function setDate($date)
     {
         $this->date = $date;
-    
+
         return $this;
     }
 
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 }

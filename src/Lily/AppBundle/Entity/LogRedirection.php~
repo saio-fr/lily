@@ -20,7 +20,7 @@ class LogRedirection
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var \DateTime
      *
@@ -34,7 +34,7 @@ class LogRedirection
      * @ORM\Column(name="media", type="string", length=7)
      */
     protected $media;
-    
+
     /**
      * @var string
      *
@@ -52,7 +52,7 @@ class LogRedirection
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,7 +75,7 @@ class LogRedirection
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -98,7 +98,7 @@ class LogRedirection
     /**
      * Get media
      *
-     * @return string 
+     * @return string
      */
     public function getMedia()
     {
@@ -121,34 +121,10 @@ class LogRedirection
     /**
      * Get canal
      *
-     * @return string 
+     * @return string
      */
     public function getCanal()
     {
         return $this->canal;
-    }
-
-    /**
-     * Set session
-     *
-     * @param string $session
-     *
-     * @return LogRedirection
-     */
-    public function setSession($session)
-    {
-        $this->session = $session;
-
-        return $this;
-    }
-
-    /**
-     * Get session
-     *
-     * @return string
-     */
-    public function getSession()
-    {
-        return $this->session;
     }
 }

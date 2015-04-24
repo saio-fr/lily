@@ -7,6 +7,7 @@ define(function(require) {
       Backbone = require('backbone'),
       moment = require('moment'),
       moment_fr = require('moment-fr'),
+      globals = require('globals'),
       timers = require('components/chat/utils/timers'),
       SkeletonView = require('components/chat/views/skeletonView'),
       Collections = require('components/chat/data/collections'),
