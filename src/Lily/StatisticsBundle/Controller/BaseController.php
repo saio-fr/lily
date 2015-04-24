@@ -12,7 +12,6 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 class BaseController extends SuperBaseController
 {
 
-
     protected function getInterval($timestampfrom, $timestampto) {
     
         // PERIODE
