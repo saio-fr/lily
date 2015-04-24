@@ -25,4 +25,4 @@ lily_unsanswered_questions_api:
 lily_personal_questions_api:
     resource: "@LilyKnowledgeBundle/Controller/PersonalQuestionsController.php"
     type:     rest
-    prefix:   /api/questions
+    prefix:   /api

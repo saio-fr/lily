@@ -163,28 +163,4 @@ class LogNotation
     {
         return $this->question;
     }
-
-    /**
-     * Set session
-     *
-     * @param string $session
-     *
-     * @return LogNotation
-     */
-    public function setSession($session)
-    {
-        $this->session = $session;
-
-        return $this;
-    }
-
-    /**
-     * Get session
-     *
-     * @return string
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
 }
