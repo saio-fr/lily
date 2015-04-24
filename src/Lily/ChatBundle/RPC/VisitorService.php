@@ -65,7 +65,7 @@ class VisitorService {
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
               
-                $item->widgetDisplayed = $params['widgetDisplayed'];
+                $item->widgetDisplayed = true;
             }
         }
         return array('result' => true);
