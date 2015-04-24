@@ -18,7 +18,7 @@ define(function (require) {
 
     id: '',
     url: function(start, end) {
-      return '/usage/footer/'+ this.start + '/' + this.end;
+      return '/statistics/usage/footer/'+ this.start + '/' + this.end;
     },
 
     initialize: function () {

@@ -23,7 +23,9 @@ define(function (require) {
 
     initialize: function() {
       this.render();
-      Utils.renderPie(this);
+      var el = this.$('.redirections');
+      var model = this.model;
+      Utils.renderPie(el, model);
     },
     
     render: function () {

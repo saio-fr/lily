@@ -18,7 +18,7 @@ define(function (require) {
 
     id: '',
     url: function(start, end) {
-      return '/chat/graph/footer/'+ this.start + '/' + this.end;
+      return '/statistics/chat/graph/footer/'+ this.start + '/' + this.end;
     },
 
     initialize: function () {

@@ -94,13 +94,12 @@ define(function (require) {
     });
   }
 
-  Statistics.renderPie = function (view) {
+  Statistics.renderPie = function (el, model) {
     // Show loader
     $('.icon-spinner').fadeIn();
     // Fetch data
-    view.model.fetch({
+    model.fetch({
       success: function(data) {
-        var el = view.$el.find('.redirections');
         Statistics.plotPie(data, el);
         // Remove loader
         $('.icon-spinner').fadeOut();
@@ -110,7 +109,7 @@ define(function (require) {
 
   Statistics.plotPie = function (data, el) {
     var da = [];
-		for (var i = 0; i < 2; i++) {
+		for (var i = 0; i < 3; i++) {
 			da[i] = {
 				label: data.attributes[i].label,
 				data: data.attributes[i].data
@@ -138,7 +137,7 @@ define(function (require) {
 					},
 				}
 			},
-			colors: ["#aeb6cb", "#f3f5f9"],
+			colors: ["#aeb6cb", "#f3f5f9", "#8c93a4"],
 			legend: {
 				show: false
 			},

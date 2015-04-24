@@ -16,7 +16,7 @@ define(function (require) {
   RedirectionModel = Backbone.Model.extend({
 
     id: '',
-    url: '/avi/redirections',
+    url: '/statistics/avi/redirections',
 
     initialize: function () {
     }
