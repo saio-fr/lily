@@ -17,14 +17,14 @@ var Backbone = require('backbone'),
 
 MessageLilyNotation = Backbone.View.extend({
 
-	className: 'lily-msg-reporting lily-cst-msg-reporting',
+	className: 'lily-msg lily-msg-avatar lily-msg-reporting lily-cst-msg-reporting',
 
 	model: Models.LilyNotation,
 
 	template: _.template( $('#lily-message-notation').html()),
 	events: {
-		'click .lily-icon-thumb-up': 'satisfied',
-		'click .lily-icon-thumb-down': 'notSatisfied'
+		'click .lily-icon-thumb-up': 'satisfaction',
+		'click .lily-icon-thumb-down': 'satisfaction'
 	},
 
 	initialize: function () {
@@ -33,18 +33,31 @@ MessageLilyNotation = Backbone.View.extend({
 
 	render: function() {
 		this.$el.html(this.template( this.model.toJSON() ));
-		this.$el.appendTo( '#lily-box-messages .lily-msg-avatar:last' );
+		this.$el.insertAfter( '#lily-box-messages .lily-msg-avatar:last' );
 		$( '#lily-box-messages .lily-msg-avatar:last' ).addClass('lily-notation-wrapper');
 		return this;
 	},
 
-	satisfied: function () {
-		app.trigger('satisfied', this.model.get('id'), true, '', this);
-	},
+  satisfaction: function(e) {
 
-	notSatisfied: function () {
-		app.trigger('notSatisfied', this.model.get('id'), false, '', this);
-	}
+    var target = $(e.target),
+      satisfaction, msg;
+
+    this.$el.find('.lily-notation-list').removeClass('active');
+
+    if (target.hasClass('lily-icon-thumb-up')) {
+      this.$el.find('.lily-icon-thumb-up').addClass('active');
+      satisfaction = true;
+    } else {
+      this.$el.find('.lily-icon-thumb-down').addClass('active');
+      satisfaction = false;
+    }
+
+    msg = this.model.get('message_content');
+    if(!msg) { return; }
+
+    app.trigger('avi:satisfaction', satisfaction, msg);
+  },
 
 });
 

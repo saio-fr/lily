@@ -35,12 +35,12 @@ define(function(require) {
         $messageBox = $('#lily-box-messages'),
         inClass = 'lily-message-show';
 
+      var objDiv = document.getElementById("lily-box-messages");
+      objDiv.scrollTop = objDiv.scrollHeight;
+
       $message.addClass(inClass).on(config.animEndEventName, function() {
 
         $message.off(config.animEndEventName);
-        $messageBox.animate({
-          scrollTop: $messageBox[0].scrollHeight
-        }, 500);
       });
     }
 

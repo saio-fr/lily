@@ -11,11 +11,24 @@ define(function(require) {
     g = {};
 
   _.extend(g, window.config);
+  _.extend(g, window.config);
 
   g.synapse = {
     user: 'saio',
     password: 'uJk9!-m',
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
+  };
+
+  g.avi = {};
+  g.avi.messages = {
+    welcomeMsg:          'Bonjour, je m\'appelle Lily! Vous pouvez me poser un question relative à SosMalus',
+    satisfiedFeedback:   'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
+    unSatisfiedFeedback: 'Je suis désolé de ne pas avoir pu vous répondre',
+    askForFeedback: '',
+    satisfaction: {
+      incomplete: 'Cette réponse est incomplète',
+      fausse:     'cette réponse ne répond pas à ma question'
+    }
   };
 
   g.inClass = '';

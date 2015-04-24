@@ -17,7 +17,7 @@ var _ = require('underscore'),
 
 MessageLilyRedirection = MessageView.extend({
 
-	className: 'lily-msg-redirection lily-cst-msg-redirection',
+	className: 'lily-msg-avatar lily-msg lily-msg-redirection lily-cst-msg-redirection',
 	template: _.template( $('#lily-message-redirection').html()),
 
 	initialize: function () {

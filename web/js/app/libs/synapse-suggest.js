@@ -72,7 +72,8 @@
     this.Credentials = '<Credentials>' + credentialsInner + '<\/Credentials>';
     this.credentials = '<credentials>' + credentialsInner + '<\/credentials>';
     this.credentialsJson = { "password": password, "user": user };
-    this.emptyMessage = '<div class="empty-suggestion">Je n\'ai pas trouvé de réponse correspondant à votre question</div>';
+    // this.emptyMessage = '<div class="empty-suggestion">Je n\'ai pas trouvé de réponse correspondant à votre question</div>';
+    this.emptyMessage = '';
 
     this.setUpBloodhound = function() {
 
@@ -93,9 +94,9 @@
             crossDomain: true,
           },
 
-          //ttl: 1000, // time (in milliseconds) the prefetched data should be cached
+          ttl: 60000, // time (in milliseconds) the prefetched data should be cached
           // in local storage; default is one day
-          // filter: filterUniqueAnswer,
+
           filter: function (response) {
             var result = $.map(response.questions, function (question) {
               return {
@@ -274,8 +275,8 @@
 
       $(selector).typeahead({
         hint: false,
-        highlight: false,
-        minLength: 1
+        highlight: true,
+        minLength: 2
       }, params);
     };
 

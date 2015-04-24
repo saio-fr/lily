@@ -9,7 +9,6 @@ define(function(require) {
   // Require CommonJS like includes
   var $ = require('jquery'),
     _ = require('underscore'),
-    Backbone = require('backbone'),
     app = require('app/app'),
     when = require('when'),
     Models = require('app/data/models'),
@@ -33,7 +32,6 @@ define(function(require) {
 
         error: function(err) {
           deferred.reject(err);
-          console.log(err);
         }
       });
     }
@@ -45,8 +43,8 @@ define(function(require) {
     var deferred = when.defer();
 
       var credentialsJson = {
-        "user": config.synapse.user,
-        "password": config.synapse.password
+        "password": config.synapse.password,
+        "user": config.synapse.user
       },
       input = _.extend(data, { credentials: credentialsJson });
 
@@ -65,7 +63,7 @@ define(function(require) {
 
         error: function(err) {
           deferred.reject(err);
-          console.log(err);
+          console.error(err);
         }
       });
     }
@@ -73,8 +71,75 @@ define(function(require) {
     return deferred.promise;
   };
 
-  api.getAnswerFromId = function(answerId, callback) {
+  api.synapse_getAnswerFromId = function(answerId) {
     return this.sendSynapse("POST", "getAnswerTextFromId", { id: answerId });
+  };
+
+  /**
+   * Gets the answer to a question in the KB by its Id
+   * @param  int answerId
+   * @return {} answer:
+   *
+   *  id int
+   *  children []
+   *  title string
+   *  answer string
+   *  questionType string (question, action)
+   *  answerType string (answer, precision)
+   */
+  api.getAnswerFromId = function(id) {
+    return this.send('GET', '/api/' + config.licence + '/question/' + id);
+  };
+
+  /**
+   * Log any question asked via the automatic chat that we didn't find an answer for
+   * @param  string question
+   * @return boolean success
+   */
+  api.logUnanswered = function(question) {
+    var data = JSON.stringify({
+      query: question
+    });
+    return this.send('POST', '/api/' + config.licence + '/log/unanswered', data);
+  };
+
+  /**
+   * Log any question asked via the automatic chat
+   * @param  string question
+   * @return boolean success
+   */
+  api.logQuestion = function(question, id) {
+    var data = JSON.stringify({
+      query: question
+    });
+    return this.send('POST', '/api/' + config.licence + '/log/question/' + id, data);
+  };
+
+  /**
+   * Logs a satisfaction vote on a given answer
+   * @param  int id
+   * @param  boolean satisfied
+   * @param  string reason
+   * @return boolean success
+   */
+  api.logSatisfaction = function(id, satisfied, reason) {
+    var data = JSON.stringify({
+      satisfied: satisfied,
+      reason: reason || null
+    });
+    return this.send('POST', '/api/' + config.licence + '/log/satisfaction/question/' + id, data);
+  };
+
+  /**
+   * Log a redirection to another communication channel
+   * @param  string canal (chat, mail, phone)
+   * @return boolean success
+   */
+  api.logRedirection = function(canal) {
+    var data = JSON.stringify({
+      query: canal
+    });
+    return this.send('POST', '/api/' + config.licence + '/log/redirection', data);
   };
 
   api.sendMail = function(data) {

@@ -16,7 +16,7 @@ var _ = require('underscore'),
 
 MessageLilyPrecision = MessageView.extend({
 
-	className: 'lily-msg-precision lily-cst-msg-precision',
+	className: 'lily-msg-avatar lily-msg lily-msg-precision lily-cst-msg-precision',
 	model: Models.LilyPrecision,
 	template: _.template( $('#lily-message-precision').html()),
 

@@ -22,6 +22,7 @@ define(function(require) {
       isUserInactive: false,
       hasChatConnected: false,
       hasSubscribed: false,
+      showAviAnswerNotation: true,
       trackingQueue: [],
       chatting: false,
       isShown: false,

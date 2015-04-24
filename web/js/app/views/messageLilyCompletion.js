@@ -17,7 +17,7 @@ var _ = require('underscore'),
 
 MessageLilyCompletion = MessageView.extend({
 
-	className: 'lily-msg-reporting lily-cst-msg-reporting',
+	className: 'lily-msg lily-msg-avatar lily-msg-reporting lily-cst-msg-reporting',
 	model: Models.LilyCompletion,
 	template: _.template($('#lily-message-completion').html()),
 
