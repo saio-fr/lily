@@ -17,7 +17,7 @@ define(function (require) {
 
     id: '',
     url: function(start, end) {
-      return '/user/' + this.userId + 
+      return '/statistics/user/' + this.userId + 
         '/chat/footer/'+ this.start + '/' + this.end;
     },
 
