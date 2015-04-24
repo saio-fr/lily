@@ -24,7 +24,7 @@ class LogConnectionRepository extends EntityRepository
          ->andWhere('UNIX_TIMESTAMP(c.date) < :to')
          ->setParameter('to', $to);
 
-      if($interval) {
+      if ($interval) {
          $qb->addSelect('ROUND(UNIX_TIMESTAMP(c.date)/(:interval)) as intervalId')
             ->setParameter('interval', $interval)
             ->groupBy('intervalId');
@@ -39,12 +39,13 @@ class LogConnectionRepository extends EntityRepository
 		  $qb = $this->createQueryBuilder('c');
         
       // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
-      $qb->select('avg(c.used) as value')
+      $qb->select('avg(c.widgetUsed) as value')
          ->andWhere('UNIX_TIMESTAMP(c.date) >= :from')
          ->setParameter('from', $from)
          ->andWhere('UNIX_TIMESTAMP(c.date) < :to')
          ->setParameter('to', $to)
-         ->andWhere('c.used IS NOT NULL');
+         ->andWhere('c.widgetDisplayed IS NOT NULL')
+         ->andWhere('c.widgetUsed IS NOT NULL');
 
       if($interval) {
          $qb->addSelect('ROUND(UNIX_TIMESTAMP(c.date)/(:interval)) as intervalId')

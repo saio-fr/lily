@@ -27,7 +27,7 @@ class VisitorService {
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
                 
                 $result = array(
-                    'display' => $item->display, 
+                    'appDisplay' => $item->appDisplay,
                     'chatting' => !$item->closed, 
                     'showContactForm' => $item->showContactForm,
                     'time' => time()
@@ -41,17 +41,31 @@ class VisitorService {
     /**
      * Set that visitors used the app (used in logConnection)
      */
-    public function display(Conn $conn, $params, \StdClass $client) {
+    public function appDisplay(Conn $conn, $params, \StdClass $client) {
       
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
               
                 // Set displayed to true for usage statistics
-                if ($params['display']) {
-                  $item->displayed = true;
+                if ($params['appDisplay']) {
+                  $item->widgetUsed = true;
                 }
                 // Show or not the app on new page
-                $item->display = $params['display'];
+                $item->appDisplay = $params['appDisplay'];
+            }
+        }
+        return array('result' => true);
+    }
+
+    /**
+     * Set that visitors used the app (used in logConnection)
+     */
+    public function widgetDisplayed(Conn $conn, $params, \StdClass $client) {
+
+        foreach ($client->users as $item) {
+            if ($item->id === $conn->Session->getId()) {
+
+                $item->widgetDisplayed = $params['widgetDisplayed'];
             }
         }
         return array('result' => true);
