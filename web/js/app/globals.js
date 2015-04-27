@@ -53,7 +53,7 @@ define(function(require) {
     '<span></span>' +
     '<span></span>' +
     '</p>' +
-    '<i class="lily-avatar-bubble"></i>' +
+    // '<i class="lily-avatar-bubble"></i>' +
     '</div>';
 
   g.emptySearch = 'Il semblerait qu\'il y ait un problème. ' +

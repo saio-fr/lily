@@ -103,9 +103,9 @@ define(function(require) {
           });
         }
 
-        if (info.display === true) {
+        if (info.appDisplay === true) {
           app.sendToHost({
-            title: "app:display",
+            title: "app:appDisplay",
             callback: "showIframe"
           });
         }
@@ -305,7 +305,7 @@ define(function(require) {
 
       onWidgetClick: function(visible) {
         visible = visible === "true" ? true : false;
-        app.call('visitor/display', {
+        app.call('visitor/appDisplay', {
           display: visible
         });
 
@@ -316,7 +316,7 @@ define(function(require) {
         app.isShown = true;
         app.trigger('app:isShown');
 
-        app.track("displayed", {
+        app.track("appDisplayed", {
           fistOpen: firstOpen
         });
 
@@ -325,8 +325,13 @@ define(function(require) {
         }
       },
 
+      onShowWidget: function() {
+        app.track("widget::isShown");
+        app.call('visitor/widgetDisplayed');
+      },
+
       onReduceClick: function() {
-        app.call('visitor/display', {
+        app.call('visitor/appDisplay', {
           display: false
         });
         app.sendToHost({

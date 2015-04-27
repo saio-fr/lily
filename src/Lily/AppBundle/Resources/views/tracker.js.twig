@@ -1,4 +1,4 @@
-<script>;(function() {
+;(function() {
   'use strict';
 
   // Detect if is ie < 10
@@ -242,6 +242,7 @@
       this.events = new Events();
 
       this.firstOpen = true;
+      this.widgetFirstShown = true;
       this.lilyIframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
       // (Useless for now)
       this.iframeHost = this.getIframeHost();
@@ -317,6 +318,16 @@
     this.showWidget = function() {
       $widget.style.opacity = 1;
       $widget.style.visibility = 'visible';
+
+      if (!this.widgetFirstShown) {
+        return;
+      }
+
+      this.events.send({
+        title: "widget:show",
+        callback: "onShowWidget",
+      });
+      this.widgetFirstShown = false;
     };
 
     this.hideIframe = function() {
