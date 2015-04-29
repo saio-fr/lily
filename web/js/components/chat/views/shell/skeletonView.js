@@ -15,8 +15,6 @@ define(function(require) {
     Shell = require('components/chat/utils/shell'),
     Scribe = require('scribe'),
     ScribePluginToolbar = require('scribe-plugin-toolbar'),
-    ScribePluginSmartLists = require('scribe-plugin-smart-lists'),
-    ScribePluginHeadingCommand = require('scribe-plugin-heading-command'),
     ScribePluginShellCommand = require('scribe-plugin-shell-command'), 
     
     
@@ -31,7 +29,8 @@ define(function(require) {
 
     events: {
       'click .execute': 'onShellRequest',
-      'keyup .editor': 'onShellRequest'
+      'keyup .editor': 'onShellRequest',
+      'keydown .editor' : 'disableDefaultTabNav'
     },
 
     initialize: function(options) {
@@ -41,14 +40,21 @@ define(function(require) {
         this.model = options.model
       }
       
-      this.render();   
-      
       this.childViews = new Backbone.ChildViewContainer();
-      this.suggestionsView = new SuggestionsListView({});
       
-      this.listenTo(app, 'shell:suggestions:mouseover', this.onSelectSuggestion);
-      this.listenTo(app, 'shell:suggestions:enter', this.onEnterSuggestion);
-      this.listenTo(this.model, 'change:selected', this.onSelectConversation);
+      /*
+       * A command state to know what action to trigger on click/enter event
+       * null, when isCommand return false
+       * searching, when commands are found but no enter/click was fired
+       * ready, when a command is selected and ready to execute
+       */      
+      this.initCommand();
+      
+      this.render();      
+      this.getWysiEditor();
+      
+      this.listenTo(app, 'shell:suggestions:focus', this.onFocusSuggestion);
+      this.listenTo(app, 'shell:suggestions:validate', this.onValidateSuggestion);
     },
 
     render: function() {
@@ -57,6 +63,12 @@ define(function(require) {
 
       this.$el.html(this.template());
       this.$el.prependTo(container);
+      
+      // Render suggestions view
+      var suggestionsView = new SuggestionsListView();
+      this.$('.js-suggestions-container').append(suggestionsView.$el);
+      this.childViews.add(suggestionsView, 'suggestionsView');
+      
       return this;
     },
     
@@ -67,61 +79,108 @@ define(function(require) {
       
       this.editor = new Scribe(editorEl);
       this.editor.use(ScribePluginToolbar(toolbarEl));
-      this.editor.use(ScribePluginSmartLists());
-      this.editor.use(ScribePluginHeadingCommand(5));
       this.editor.use(ScribePluginShellCommand());
     },
     
-    onSelectConversation: function () {
+    initCommand: function () {
+      this.command = {
+        attributes: null,
+        type: null,
+        state: null
+      };
+    },
+    
+    executeCommand: function () {
+      
+      // TODO: handle the case where an incorrect shortcut is typed
+      if (this.command.state !== 'ready') {
+        this.onValidateSuggestion();
+        return;
+      }
 
-      if (this.model.get('selected')) {
-        this.getWysiEditor();
-      } else {
-        // Unbind scribe events
-        // this.editor.destroy();
+      switch (this.command.type) {
+        case 'shortcuts':
+          var msg = this.command.attributes.message;
+          this.sendMsg(msg);
+          break;
+      }
+
+      this.initCommand();
+    },
+    
+    disableDefaultTabNav: function (e) {
+      
+      // disable the default browser tab navigation behaviour
+      
+      if (e.keyCode === 9) {
+        e.preventDefault();
+        e.stopImmediatePropagation();        
       }
     },
     
     onShellRequest: function (e) {
-      
-      var condition = e.type === 'click' ||
-        e.keyCode === 13 && !e.shiftKey;
-      
-      var toExecute = (condition) ? true : false;
-      
+
       var textMsg = $(this.editor.el).text().trim();
-      var commandType = Shell.isCommand(textMsg);
+      var navAction = Shell.isNavigationAction(e);
+      this.command.type = Shell.isCommand(textMsg);
       
-      if (commandType) {
-        
-        if (toExecute) {
-          var commandState = Shell.updateCommandState();
-          this.executeCommand(commandState);
+      if (this.command.type) {
+
+        switch (navAction) {
+          
+          case 'validate': 
+            this.executeCommand();
+            break;
+          
+          case 'next':
+            this.childViews.findByCustom('suggestionsView').selectNextItem();
+            break;
+          
+          case 'prev':
+            this.childViews.findByCustom('suggestionsView').selectPrevItem();
+            break; 
+            
+          default:
+            this.setSuggestions();
         }
-        this.setSuggestions(commandType);
+        
         return;
       }
       
-      this.suggestionsView.hide();
+      this.initCommand();  
+      this.childViews.findByCustom('suggestionsView').hide();
       
-      if (toExecute) {
-        this.sendMsg();
+      // Else we want to send the msg
+      if (navAction === 'validate') {
+        var htmlMsg = $.trim( $(this.editor.el).html() );
+        var textMsg = $.trim( $(this.editor.el).text() );
+      
+        if (textMsg.length) {
+          this.sendMsg(htmlMsg);
+        }
       }
     },
     
-    onSelectSuggestion: function (commandTitle) {
+    onFocusSuggestion: function (attributes) {
+
+      this.command = {
+        attributes: attributes,
+        state: 'searching'
+      }
+    },
+    
+    onValidateSuggestion: function () {
+
+      var commandTitle = this.command.attributes.title;
+      this.command.state = 'ready';
+      
       var event = new CustomEvent('commandSelected', {
         detail: {
           commandTitle: commandTitle
         }
       });
       this.editor.el.dispatchEvent(event);
-    },
-    
-    onEnterSuggestion: function (commandTitle) {
-
-      this.onSelectSuggestion(commandTitle);
-      this.suggestionsView.hide();
+      this.childViews.findByCustom('suggestionsView').hide();
     },
     
     setSuggestions: function (commandType) {
@@ -129,9 +188,9 @@ define(function(require) {
       var commandsCollection,
       filteredCommands,
       translatedCommandType,
-      textMsg = $(this.editor.el).text().trim().toLowerCase();
+      textMsg = $(this.editor.el).text().toLowerCase();
       
-      switch (commandType) {
+      switch (this.command.type) {
         case 'shortcuts':
          commandsCollection = app.chatShortcuts;
          translatedCommandType = 'Messages pré-enregistrés';
@@ -143,30 +202,20 @@ define(function(require) {
           return command;
         }
       });
-      
-      this.filteredCommands = filteredCommands;
 
-      this.suggestionsView.setCollection({
+      this.childViews.findByCustom('suggestionsView').setCollection({
         // TODO, add it to an translation file
         type: translatedCommandType,
         suggestions: filteredCommands
       });
     },
     
-    executeCommand: function (commandState) {
+    sendMsg: function (msg) {
       
-    },
-    
-    sendMsg: function () {
-      
-      var htmlMsg = $.trim( $(this.editor.el).html() );
-      
-      if (htmlMsg.length) {
-        app.trigger('chat:send', {
-          message: htmlMsg,
-          id: this.model.id
-        });
-      }
+      app.trigger('chat:send', {
+        message: msg,
+        id: this.model.id
+      });
       this.clearInput();
     },
     
@@ -178,8 +227,10 @@ define(function(require) {
     remove: function () {
       
       var that = this;
-      // Unbind scribe events
-      // this.editor.destroy();
+      /* Unbind scribe events
+       * Not implemented yet in scribe :'(
+       * this.editor.destroy();
+       */
       
       this.childViews.forEach(function (view) {
         // delete index for that view

@@ -18,13 +18,13 @@ define(function(require) {
 
   SuggestionsView = Backbone.View.extend({
 
-    el: '.js-suggestions-container',
     template: _.template($('#liveConversationShellSuggestionsListTpl').html()),
 
     events: {
     },
 
     initialize: function() {
+      
       this.collection = new Backbone.Collection();
       this.childViews = new Backbone.ChildViewContainer();
       this.listenTo(this.collection, 'add change remove', this.render);
@@ -36,6 +36,7 @@ define(function(require) {
         type: this.type
       }));
       this.renderItems();
+      this.selectFirstItem();
       return this;
     },
     
@@ -48,7 +49,7 @@ define(function(require) {
         var view = new SuggestionsItemView({
           model: item
         });
-        $('.js-suggestions-list').append(view.$el);
+        that.$('.js-suggestions-list').append(view.$el);
         that.childViews.add(view);
       });
     },
@@ -63,14 +64,68 @@ define(function(require) {
       } else {
         this.hide();
       }
+    },    
+    
+    selectFirstItem: function () {
+      if (this.collection.length) {   
+             
+        this.collection.at(0).trigger('suggestions:focus');
+              
+        // The id of the current focused model in suggestions list
+        this.selectedId = 0;
+      }
+    },
+    
+    selectNextItem: function () {
+
+      this.selectedId += 1;
+    
+      if (this.selectedId > this.collection.length - 1) {
+        this.selectedId = 0;
+      }
+
+      this.collection.at(this.selectedId).trigger('suggestions:focus');
+    },
+
+    selectPrevItem: function () {
+      
+      this.selectedId -= 1;
+      
+      if (this.selectedId < 0) {
+        this.selectedId = this.collection.length - 1;
+      }
+
+      this.collection.at(this.selectedId).trigger('suggestions:focus');      
     },
     
     show: function () {
       this.$el.removeClass('hide');
+      
+      // Listen to click outside the shell
+      var that = this;
+      $('body').click(function (e) {
+        
+        if (!$(e.target).parents('.conversation-footer').length || 
+          targetParentFooterId !== parentFooterId) {
+          
+          that.hide();
+          
+        } else {
+          
+          var parentFooterId = that.$el.parents('.conversation-footer').attr('id'),  
+              targetParentFooter = $(e.target).parents('.conversation-footer'),
+              targetParentFooterId = targetParentFooter.attr('id');
+          
+          if (parentFooterId !== targetParentFooterId) {
+            that.hide();
+          }   
+        }
+      });
     },
     
     hide: function () {
       this.$el.addClass('hide');
+      $('body').off('click'); 
     },
     
     removeChildren: function () {

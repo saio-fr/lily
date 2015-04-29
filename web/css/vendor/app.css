@@ -3068,12 +3068,13 @@ background-color: #ffffff;
 }
 .scroll-x {
   overflow-x: auto;
-}::-webkit-scrollbar {
+}
+::-webkit-scrollbar {
   width: 7px;
   height: 7px;
   display:none;
 }
-}::-webkit-scrollbar:hover {
+::-webkit-scrollbar:hover {
   display:block;
 }
 ::-webkit-scrollbar-thumb {

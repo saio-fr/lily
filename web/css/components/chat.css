@@ -46,13 +46,12 @@ LIVE CHAT
   border: 1px solid #EBEFF6;
   background: #F9FAFC;
   position: relative;
-  margin: -2px;
-  max-height: 250px;
 }
 
 .suggestions-header {
   padding: 5px;
   border-bottom: 1px solid #EBEFF6;
+  height: 22px;
 }
 
 .suggestions-type {
@@ -64,6 +63,7 @@ LIVE CHAT
 .suggestions-help-list {
   list-style-type: none;
   margin: 0;
+  padding: 0;
 }
 
 .suggestions-help-item {
@@ -75,6 +75,11 @@ LIVE CHAT
 
 .suggestions-content {
   padding: 10px;
+  max-height: 200px;
+}
+
+.suggestions-content::-webkit-scrollbar {
+  display: block;
 }
 
 .suggestions-list {
@@ -88,10 +93,30 @@ LIVE CHAT
   padding: 10px 10px;
 }
 
-.suggestions-item.selected {
+.suggestions-item.focus {
   background: #579ad7;
   color: white;
   border-radius: 2px;
+}
+
+.suggestion-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30%; 
+}
+
+.suggestion-description {
+  font-size: 10px;
+  color: #848484;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+.focus .suggestion-description {
+  color: white;
 }
 
 .live-nav.active a {

@@ -63,7 +63,7 @@ define(function(require) {
 
     select: function(e) {
       e.preventDefault();
-      app.trigger('conversation:select', this.id);
+      app.trigger('conversation:setActive', this.id);
     },
 
     onActiveChange: function(model) {

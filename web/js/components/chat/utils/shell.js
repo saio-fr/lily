@@ -11,14 +11,6 @@ define(function(require) {
       _ = require('underscore');
     
   return {
-          
-    /*
-     * A command state to know what action to trigger on click/enter event
-     * inactive, when no isCommand return false
-     * searching, when commands are found but no enter/click was fired
-     * ready, when a command is selected and ready to execute
-     */ 
-    stateCommand: 'inactive',
 
     isCommand: function(text) {
       
@@ -32,28 +24,25 @@ define(function(require) {
           return false;
       }
     },
-     
-    updateCommandState: function () {
+    
+    isNavigationAction: function(e) {
       
-      var commandTitle = this.selectedCommand.get('title');
+      var validateCondition = e.type === 'click' ||
+        (e.keyCode === 13 && !e.shiftKey) || 
+        e.keyCode === 39;
       
-      switch (this.stateCommand) {
-        case 'inactive':
-          this.stateCommand = 'searching';
-          break;
-        
-        case 'ready':
-          this.stateCommand = 'inactive';
-          break;
+      if (validateCondition) {
+        return 'validate';
       }
-    },
-    
-    setSelectedCommand: function (selectedCommand) {
-      this.selectedCommand = selectedCommand;
-    },
-    
-    getSelectedCommand: function (selectedCommand) {
-      return this.selectedCommand;
+      
+      if (e.keyCode === 40 || e.keyCode === 9) {
+        return 'next';
+      }
+      
+      if (e.keyCode === 38) {
+        return 'prev';
+      }
+      
     }
 
   };

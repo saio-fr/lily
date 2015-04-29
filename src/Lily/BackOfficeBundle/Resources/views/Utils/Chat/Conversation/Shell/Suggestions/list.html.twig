@@ -1,14 +1,11 @@
 <div class="suggestions-header">
-  <span class="suggestions-type">
-    <%= type %>
-  </span>
-  <ul class="suggestions-help-list pull-right">
-    <li class="suggestions-help-item">ESC : Quitter</li>
-    <li class="suggestions-help-item">TAB : Parcourir</li>
-    <li class="suggestions-help-item">ENTRE : Selectionner</li>
+  <ul class="suggestions-help-list">
+    <li class="suggestions-help-item  pull-left"><%= type %></li>
+    <li class="suggestions-help-item pull-right">TAB/FLECHES : Parcourir</li>
+    <li class="suggestions-help-item pull-right">ENTRE : Selectionner</li>
   </ul>
 </div>
 
-<div class="suggestions-content">
+<div class="suggestions-content scrollable">
   <ul class="js-suggestions-list suggestions-list"></ul>
 </div>

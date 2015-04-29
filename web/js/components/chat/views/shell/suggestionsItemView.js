@@ -21,11 +21,12 @@ define(function(require) {
     template: _.template($('#liveConversationShellSuggestionsItemTpl').html()),
 
     events: {
-      'mouseover' : 'onMouseoverSelect',
-      'click' : 'onClickSelect'
+      'mouseover' : 'onFocus',
+      'click' : 'onValidate'
     },
 
     initialize: function() {
+      this.listenTo(this.model, 'suggestions:focus', this.onFocus);
       this.render();
     },
 
@@ -34,18 +35,16 @@ define(function(require) {
       return this;
     },
     
-    onMouseoverSelect: function (e) {
-
-      $('.js-suggestions-list .selected').removeClass('selected');
-      this.$el.addClass('selected');
+    onFocus: function () {
       
-      var commandTitle = this.model.get('title');
-      app.trigger('shell:suggestions:mouseover', commandTitle);
+      $('.js-suggestions-list .focus').removeClass('focus');
+      this.$el.addClass('focus');
+      
+      app.trigger('shell:suggestions:focus', this.model.attributes);
     },
     
-    onClickSelect: function (e) {
-      var commandTitle = this.model.get('title');
-      app.trigger('shell:suggestions:enter', commandTitle);
+    onValidate: function (e) {
+      app.trigger('shell:suggestions:validate');
     }
 
   });

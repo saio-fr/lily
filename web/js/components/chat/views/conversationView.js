@@ -31,7 +31,7 @@ define(function(require) {
     template: _.template($('#liveConversationTpl').html()),
 
     events: {
-      'click': 'selected',
+      'click': 'select',
       'click .conversation-close': 'close',
       'click .conversation-minus': 'minus',
       'click .ban': 'ban',
@@ -70,7 +70,7 @@ define(function(require) {
       // Check conversation status :
       this.status();
       // Create the informations view and select the window
-      this.selected();
+      this.select();
       // Get the messages
       this.getMessages();
       // Is the user writting?
@@ -136,15 +136,21 @@ define(function(require) {
       var conversation = this.$el.find('.conversation-section');
       conversation.scrollTop(conversation[0].scrollHeight);
     },
-
-    selected: function(e) {
+    
+    // Todo: abstract dom logic in skeleton
+    select: function(e) {
       
       if (!this.model.get('selected')) {
         
-        $('.conversations').removeClass('selected');
+        $('.conversations .selected').removeClass('selected');
         this.$el.addClass('selected');
   
         var live = app.liveChatSkeleton;
+        
+        // Unselect current window & select this one
+        live.windows.call('unselect');
+        this.model.set({selected: true});
+    
   
         if (live.informations && live.informations.model.get('id') !== this.id) {
           live.informations.remove();
@@ -160,40 +166,20 @@ define(function(require) {
         app.trigger('conversation:selected', this.id);
       }
     },
+    
+    unselect: function () {
+      this.model.set({selected: false});
+    },
 
-    // Todo: abstract dom logic in skeleton
     minus: function(e) {
 
       if (typeof(e) !== 'undefined') {
         e.stopPropagation();
       }
 
-      $('.aside-chat-left').css({
-        display: $(window).width() < 768 ? 'block' : 'table-cell'
-      });
-
-      var live = app.liveChatSkeleton;
-      var model = live.windows.findByIndex(live.windows.length - 1).model;
-
-      model.set("active", false);
-
-      live.windows.remove(this);
+      app.trigger('conversation:unsetActive', this.id);
+      
       this.remove();
-
-      if ( live.informations && live.informations.model.get('id') === this.id) {
-
-        live.informations.remove();
-        live.informations = undefined;
-
-        if (live.windows.length === 1) {
-
-          live.informations = new InformationsView({
-            model: model
-          });
-        }
-      }
-
-      app.trigger('change:windows');
     },
 
     close: function() {

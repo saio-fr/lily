@@ -13,6 +13,7 @@ define(function(require) {
     globals = require('globals'),
     RecordCurrent = require('components/chat/views/records/currentView'),
     RecordWaiting = require('components/chat/views/records/waitingView'),
+    InformationsView =   require('components/chat/views/informationsView'),
     ConversationView = require('components/chat/views/conversationView'),
 
     // Object wrapper returned as a module
@@ -40,9 +41,10 @@ define(function(require) {
       this.listenTo(this.collection, 'add', this.counters);
       this.listenTo(this.collection, 'change', this.counters);
       this.listenTo(this.collection, 'remove', this.counters);
-      this.listenTo(app, "change:windows", this.setWindows, this);
-      this.listenTo(app, "conversation:select", this.setActiveWindow, this);
-      this.listenTo(app, "conversation:setCurrent", this.setCurrent, this);
+      this.listenTo(app, 'change:windows', this.setWindows, this);
+      this.listenTo(app, 'conversation:setActive', this.setActiveWindow, this);
+      this.listenTo(app, 'conversation:unsetActive', this.unsetActiveWindow, this);
+      this.listenTo(app, 'conversation:setCurrent', this.setCurrent, this);
 
       this.windows = new Backbone.ChildViewContainer();
       this.maxWindows = 1;
@@ -174,12 +176,14 @@ define(function(require) {
       }
 
       if (live.windows.length < live.maxWindows)  {
+
         // Create a new conversation view
         live.windows.add(new ConversationView({
           model: model
         }));
 
       } else {
+
         // Delete the last conversation view
         live.windows.findByIndex(live.windows.length - 1).model.trigger('minus');
         // Create a new conversation view
@@ -191,9 +195,37 @@ define(function(require) {
       model.set({
         selected: true,
         active: true
-        });
+      });
 
       live.setWindows();
+    },
+    
+    unsetActiveWindow: function (id, model) {
+
+      model = model || this.collection.get(id);
+      model.set({
+        active: false,
+        selected: false
+      });
+
+      var conversation = this.windows.findByModel(model);
+      this.windows.remove(conversation);
+      
+      this.setWindows();
+
+      if (this.informations && this.informations.model.get('id') === id) {
+
+        this.informations.remove();
+        this.informations = undefined;
+
+        if (this.windows.length === 1) {
+
+          this.informations = new InformationsView({
+            model: model
+          });
+        }
+      }
+
     },
 
     setCurrent: function(id, model) {
