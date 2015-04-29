@@ -39,14 +39,16 @@ define(function(require) {
         touchToDrag: false,
         maxPosition: 230,
         minPosition: -230,
+        transitionSpeed: 0.35,
+        easing: 'cubic-bezier(0.28, 0.33, 0, 1.41)',
       });
 
-      $('#lily-wrapper-page').on('click', '.lily-bt-menu', function() {
-        if (snapper.state().state === "left") {
+      $('.app-wrapper').on('click', '.lily-bt-menu', function() {
+        if (snapper.state().state === 'left') {
           snapper.close();
         } else {
           snapper.open('left');
-          app.track("menu/open");
+          app.track('menu/open');
         }
 
       });
@@ -62,7 +64,7 @@ define(function(require) {
       // Event listener for mobile
       if (config.isMobile.phone) {
         $('#icon-iframe-close').click(function() {
-          open("/", '_self').close();
+          open('/', '_self').close();
         });
         $('#icon-iframe-fullscreen').css('display', 'none');
       }

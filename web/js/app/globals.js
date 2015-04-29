@@ -21,8 +21,8 @@ define(function(require) {
 
   g.avi = {};
   g.avi.messages = {
-    welcomeMsg:          'Bonjour, je m\'appelle Lily! Vous pouvez me poser un question relative à SosMalus',
-    satisfiedFeedback:   'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
+    welcomeMsg: 'Bonjour, je m\'appelle Lily! Vous pouvez me poser un question relative à SosMalus',
+    satisfiedFeedback: 'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
     unSatisfiedFeedback: 'Je suis désolé de ne pas avoir pu vous répondre',
     askForFeedback: '',
     satisfaction: {
@@ -60,22 +60,24 @@ define(function(require) {
     'Je n\'ai pas trouvé de réponse à votre question';
 
   g.unknownAvatarUrl = 'http://cdn-saio.fr/images/default-avatar.png';
-  g.baseAvatarUrl = "http://cdn-saio.fr/customer/" + g.licence +
-    "/images/avatars/";
+  g.baseAvatarUrl = 'http://cdn-saio.fr/customer/' + g.licence +
+    '/images/avatars/';
 
   // Mail
-  g.mailSentMsg = "Votre mail a bien été envoyé";
-  g.mailSentError = "Votre mail n'a pas pu être envoyé";
+  g.mailSentMsg = 'Votre mail a bien été envoyé';
+  g.mailSentError = 'Votre mail n\'a pas pu être envoyé';
   g.connexionIssue =
-    "Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur";
+    'Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur';
 
-  g.inactivityAction = "Reconnecter";
-  g.inactivityMsg = "La connexion a été interrompue pour cause d'inactivité";
+  g.chat = {
+    inactivityAction: 'Reconnecter',
+    inactivityMsg: 'La connexion a été interrompue pour cause d\'inactivité',
+    transferMsg: 'a transféré la conversation à',
+    banMsg: 'Vous avez été banni du chat par l\'opérateur',
+    closeMsg: 'L\'opérateur a clôt la conversation',
+    notationMsg: 'Cette conversation vous a-t-elle été utile ?'
+  };
 
-  g.transferMsg = "a été transféré à";
-  g.banMsg = "Vous avez été banni du chat par l'opérateur";
-  g.closeMsg = "L'opérateur a clôt la conversation";
-
-  g.unableToConnectError = "La connexion a été interrompue";
+  g.unableToConnectError = 'La connexion a été interrompue';
   return g;
 });

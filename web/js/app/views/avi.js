@@ -1,5 +1,5 @@
 /* ===========================
-    		Faq Page
+        Faq Page
    ========================== */
 
 define(function(require) {
@@ -17,14 +17,15 @@ define(function(require) {
     synapse_suggest  = require('synapse'),
     typeahead        = require('typeahead'),
     when             = require('when'),
+    autosize         = require('autosize'),
 
-    MessageUserSimple = require('app/views/messageUserSimple'),
-    MessageLilySimple = require('app/views/messageLilySimple'),
+    MessageUserSimple      = require('app/views/messageUserSimple'),
+    MessageLilySimple      = require('app/views/messageLilySimple'),
     MessageLilyRedirection = require('app/views/messageLilyRedirection'),
-    MessageLilyPrecision = require('app/views/messageLilyPrecision'),
-    MessageLilyNotation = require('app/views/messageLilyNotation'),
-    MessageLilyCompletion = require('app/views/messageLilyCompletion'),
-    ChildViewContainer = require('utils/backbone-childviewcontainer'),
+    MessageLilyPrecision   = require('app/views/messageLilyPrecision'),
+    MessageLilyNotation    = require('app/views/messageLilyNotation'),
+    MessageLilyCompletion  = require('app/views/messageLilyCompletion'),
+    ChildViewContainer     = require('utils/backbone-childviewcontainer'),
 
     // Object wrapper returned as a module
     AviView;
@@ -32,7 +33,8 @@ define(function(require) {
   AviView = PageView.extend({
 
     events: {
-      'submit #lily-search-form': 'getAviToAnswer'
+      'submit  .chat-input-component': 'getAviToAnswer',
+      'keydown .chat-input':           'getAviToAnswer'
     },
 
     initialize: function() {
@@ -40,16 +42,16 @@ define(function(require) {
       this.listenTo(this, 'page:transitionnedIn', this.setupSynapse, this);
       this.childViews = new Backbone.ChildViewContainer();
 
-      this.listenTo(app, 'precision',        this.sendPrecision);
-      this.listenTo(app, 'avi:satisfaction', this.onSatisfaction);
-      this.listenTo(app, 'redirection',      this.sendRedirectionMail);
+      this.listenTo(app, 'precision',         this.sendPrecision);
+      this.listenTo(app, 'avi:satisfaction',  this.onSatisfaction);
+      this.listenTo(app, 'redirection',       this.sendRedirectionMail);
 
       this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
 
       this.render({ page: true }).$el
         .appendTo('#lily-wrapper-page');
 
-      this.$input = this.$('.lily-search-input');
+      this.$input = this.$('.chat-input').myedit();
 
       this.welcomeVisitor();
     },
@@ -59,7 +61,6 @@ define(function(require) {
       var template = _.template($('#lily-page-avi-template').html());
       this.$el.html(template());
       this.trigger('render');
-      $('input, textarea').placeholder();
 
       return PageView.prototype.render.apply(this, arguments);
     },
@@ -71,14 +72,14 @@ define(function(require) {
     setupSynapse: function() {
       // After rendering the view, hooks the input with synapse:
       this.suggest = new synapse_suggest(config.synapse.user, config.synapse.password);
-      this.suggest.addSuggestionsToInput('.lily-search-input', 'suggestions', 3, 3);
+      this.suggest.addSuggestionsToInput('.chat-input', 'suggestions', 3, 3);
       this.setQuestionSelectedHandler(this.getAviToAnswer);
     },
 
     setQuestionSelectedHandler: function(handler) {
       var that = this,
           callback = _.bind(handler, that);
-      $('.lily-search-input').on('typeahead:selected', function(event, suggest, dataset) {
+      $('.chat-input').on('typeahead:selected', function(event, suggest, dataset) {
         callback(null, suggest);
       });
     },
@@ -92,7 +93,7 @@ define(function(require) {
     // Visitor Methods:
     // ==============================================
 
-    askQuestion: function (question) {
+    askQuestion: function(question) {
 
       var query = question || this.$input.val();
 
@@ -123,7 +124,7 @@ define(function(require) {
       var that = this;
       that._doAsyncMsg(function() {
         // 1) Log the unAnswered question to create a ticket
-        api.logUnanswered(question);
+        api.logRequest(question);
       }, 500)
       .then(function() {
         // 2) Propose the visitor to be forwarded to tel/mail/chat
@@ -286,7 +287,8 @@ define(function(require) {
 
     _clearInput: function() {
       if (config.isMobile) {
-        this.$input.typeahead('val', '').blur();
+        this.$input.typeahead('val', '')
+          .blur();
       } else {
         this.$input.typeahead('val', '');
       }
@@ -344,14 +346,26 @@ define(function(require) {
 
     // Chat Logic
     // ==============================================
-    getAviToAnswer: function(e, suggestion) {
+    getAviToAnswer: function(ev, suggestion) {
 
       // The method was triggered by the "submit" event handler
-      if (e) { e.preventDefault(); }
+      if (ev && ev.type === 'submit') {
+        ev.preventDefault();
+      }
+
+      // if key pressed is not Enter, don't submit
+      if (ev && ev.keyCode && ev.keyCode !== 13) {
+        return;
+      }
 
       var that = this;
       var question = that.$input.val();
       var id;
+
+      // Question is empty or only spaces
+      if ($.trim(question).length <= 0) {
+        return;
+      }
 
       // print the visitor question
       that.askQuestion(question);
@@ -380,7 +394,7 @@ define(function(require) {
         // answer is empty or white spaces
         if (answer.answer && !/^\s+$/.test(answer.answer)) {
           that._printAviMsg(answer.answer);
-          api.logQuestion(answer.answer, answer.id);
+          api.logRequest(answer.answer, answer.id);
         }
 
         return answer;

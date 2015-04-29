@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 {% block stylesheets %}
 
@@ -25,46 +26,47 @@
 <body>
 
 {% block body %}
-	<div id="lily-toolbar" class="lily-cst-toolbar">
-		<span id="lily-toolbar-name" class="lily-cst-toolbar-name">{{ config.avi.name }}</span>
-		<div id="lily-toolbar-icons" class="lily-cst-toolbar-icons">
-		  <div class="lily-icon-reduce"></div>
+	<div class="app-wrapper">
+		<div id="lily-toolbar" class="lily-cst-toolbar">
+			<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
+			<div id="lily-toolbar-name" class="lily-cst-toolbar-name"><!-- {{ config.avi.name }} -->Posez toutes vos questions!</div>
+			<div id="lily-toolbar-icons" class="lily-cst-toolbar-icons">
+			  <div class="lily-icon-reduce"></div>
+			</div>
 		</div>
-	</div>
-	<div id='lily-menu' class="snap-drawer snapdrawer-left scrollable lily-cts-menu"><!-- wrapper pour menu -->
-		<div class="lily-menu-body">
-			<ul>
-				{% if config.avi.active %}
-				<li><a href="#/avi"><span class='lily-icon lily-icon-avatar'></span>Agent virtuel</a></li>
-				{% endif %}
-				{% if config.chat.active and chatAvailable %}
-				<li><a href="#/chat" data-reverse="true"><span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller</a></li>
-				{% endif %}
-				{% if config.avi.redirections.mail %}
-				<li><a href="#/mail" data-reverse="true"><span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail</a></li>
-				{% endif %}
-				{% if config.avi.redirections.phone and redirection is not null  %}
-				<li><a href="tel:{{ redirection.phone }}"><span class='lily-icon lily-icon-phone'></span>Nous téléphoner</a></li>
-				{% endif %}
-				<div class="lily-menu-separator lily-cst-menu-separator"></div>
-				<li>
-					<ul class="lily-cst-menu-footer">
-					{% if config.faq %}
-					<li><a href="#/faq" data-reverse="true"><span class='lily-icon lily-icon-faq'></span>FAQ Dynamique</a></li>
+		<div id='lily-menu' class="snap-drawer snapdrawer-left scrollable lily-cts-menu"><!-- wrapper pour menu -->
+			<div class="lily-menu-body">
+				<ul>
+					{% if config.avi.active %}
+					<li><a href="#/avi"><span class='lily-icon lily-icon-avatar'></span>Agent virtuel</a></li>
 					{% endif %}
-					{% if config.topquestions %}
-					<li><a href="#/top-questions" data-reverse="true"><span class='lily-icon lily-icon-favorite'></span>TOP des questions</a></li>
+					{% if config.chat.active and chatAvailable %}
+					<li><a href="#/chat" data-reverse="true"><span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller</a></li>
 					{% endif %}
-					</ul>
-				</li>
-			</ul>
+					{% if config.avi.redirections.mail %}
+					<li><a href="#/mail" data-reverse="true"><span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail</a></li>
+					{% endif %}
+					{% if config.avi.redirections.phone and redirection is not null  %}
+					<li><a href="tel:{{ redirection.phone }}"><span class='lily-icon lily-icon-phone'></span>Nous téléphoner</a></li>
+					{% endif %}
+					<div class="lily-menu-separator lily-cst-menu-separator"></div>
+					<li>
+						<ul class="lily-cst-menu-footer">
+						{% if config.faq %}
+						<li><a href="#/faq" data-reverse="true"><span class='lily-icon lily-icon-faq'></span>FAQ Dynamique</a></li>
+						{% endif %}
+						{% if config.topquestions %}
+						<li><a href="#/top-questions" data-reverse="true"><span class='lily-icon lily-icon-favorite'></span>TOP des questions</a></li>
+						{% endif %}
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<footer><p>Crée par <a href="http://www.saio.fr" target="_blank">SAIO</a></p></footer>
 		</div>
-		<footer><p>Crée par <a href="http://www.saio.fr" target="_blank">SAIO</a></p></footer>
+
+		<div id="lily-wrapper-page" class="snap-content"><!-- wrapper page pour menu -->
 	</div>
-
-	<div id="lily-wrapper-page" class="snap-content"><!-- wrapper page pour menu -->
-
-
 
 	{% block templates %}
 		<!-- L'appel des différents scripts de vue -->
@@ -112,6 +114,9 @@
 	    </script>
 	    <script type="text/template" id="chat-message-operator">
 	      {% include 'LilyAppBundle:themes:lily/templates/message_chat_operator.html.twig' %}
+	    </script>
+	    <script type="text/template" id="chat-message-notation">
+	      {% include 'LilyAppBundle:themes:lily/templates/message_chat_notation.html.twig' %}
 	    </script>
 	    <script type="text/template" id="chat-message-reconnect">
 	    	{% include 'LilyAppBundle:themes:lily/templates/message_chat_reconnect.html.twig' %}

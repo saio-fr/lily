@@ -1,9 +1,7 @@
 <% if (operator !== null) { %>
-
-<div class="lily-msg-chat-operator-info">
+<% date = new Date(date*1000) %>
+<div class="lily-msg-chat-operator-info" data-tooltip="<%= operator.firstname %> à <%= date.getHours() %>h<%= (date.getMinutes()<10?'0':'') + date.getMinutes() %>">
 	<img src="<%=operator.avatar%>" class="thumb-sm avatar" width="45" height="45">
-	<% date = new Date(date*1000) %>
-	<p><%= operator.firstname %> à <%= date.getHours() %>h<%= (date.getMinutes()<10?'0':'') + date.getMinutes() %></p>
 </div>
 <% } %>
 

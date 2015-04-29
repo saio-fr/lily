@@ -108,11 +108,12 @@ define(function(require) {
    * @param  string question
    * @return boolean success
    */
-  api.logQuestion = function(question, id) {
+  api.logRequest = function(question, id) {
     var data = JSON.stringify({
       query: question
     });
-    return this.send('POST', '/api/' + config.licence + '/log/question/' + id, data);
+    var _id = id || 0;
+    return this.send('POST', '/api/' + config.licence + '/log/request/' + _id, data);
   };
 
   /**
