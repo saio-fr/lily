@@ -112,7 +112,7 @@
   	      config.wsserver = 'wss://ws.saio.fr';
         {% endif %}
   	    
-        config.root = '{{ app.request.getBaseURL() }}/lily/api/chat';
+        config.root = '{{ app.request.getBaseURL() }}/api/chat';
         config.licence = '{{ app.user.client.licence }}';
         config.userId = '{{ app.user.id }}';
 	    </script>
