@@ -1,16 +1,16 @@
 {
-  "name": "query-service",
-  "version": "0.0.1",
+  "name": "lily",
+  "version": "0.0.0",
+  "homepage": "https://github.com/saio-fr/lily",
   "authors": [
-    "Raphael SIMON <simonrapha6l@gmail.com>"
+    "Bruno Paccini <bruno@paccini.com>"
   ],
-  "description": "NodeJS Service to query knowledge base",
   "license": "MIT",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
+    "web/js/bower_components",
     "test",
     "tests"
   ],
@@ -44,5 +44,8 @@
     "scribe-plugin-smart-lists": "~0.1.7",
     "scribe-plugin-heading-command": "~0.1.0",
     "interact": "~1.2.2"
+  },
+  "resolutions": {
+    "moment": "~2.9.0"
   }
 }

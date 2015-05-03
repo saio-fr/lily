@@ -75,7 +75,7 @@
     {% autoescape false %}
       <script type="text/javascript">
         var config = window.config || {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
+        config.root = '{{ app.request.getBaseURL() }}/api/statistics';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
         {% if app.environment == 'dev' %}
         config.wsserver = 'ws://develop.saio.fr';

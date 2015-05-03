@@ -91,7 +91,7 @@
     {% autoescape false %}
       <script type="text/javascript">
         var config = window.config || {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api';
+        config.root = '{{ app.request.getBaseURL() }}/api';
         {% if app.environment == 'dev' %}
         config.wsserver = 'ws://develop.saio.fr';
         {% else %}
