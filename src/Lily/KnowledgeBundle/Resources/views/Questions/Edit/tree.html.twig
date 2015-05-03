@@ -1,6 +1,6 @@
-<% if (questionType !== 'parent') { %>
+<% if (questionType) { %>
   
-  <div class="treel-el title">
+  <div class="tree-el title">
     
     <div class="tree-el-type <%= questionType %>">
       <i class="icon-level-up"></i>
@@ -24,7 +24,7 @@
 
 <% } else { %>
 
-<div class="treel-el title">  
+<div class="parent title">  
   <input class="form-control" type="text" value="<%= title %>">
 </div>
 
@@ -50,7 +50,7 @@
   
 <% } else { %>
     
-  <div class="treel-el answer child">
+  <div class="tree-el answer child">
     
     <div class="tree-el-type <%= answerType %>">
       <i class="icon-level-up"></i>
