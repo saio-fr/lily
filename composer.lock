@@ -1028,21 +1028,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-<<<<<<< HEAD
-                "reference": "2684b0dddff35b4de40920b11972b71ae386b9f5"
+                "reference": "7bdbe66c90a27b2f8298230309ad8d0cfec1cb6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/2684b0dddff35b4de40920b11972b71ae386b9f5",
-                "reference": "2684b0dddff35b4de40920b11972b71ae386b9f5",
-=======
-                "reference": "192c53916942847aee687722af54f431aead0b70"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/192c53916942847aee687722af54f431aead0b70",
-                "reference": "192c53916942847aee687722af54f431aead0b70",
->>>>>>> feature/knowledge_base_with_synapse
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/7bdbe66c90a27b2f8298230309ad8d0cfec1cb6e",
+                "reference": "7bdbe66c90a27b2f8298230309ad8d0cfec1cb6e",
                 "shasum": ""
             },
             "require": {
@@ -1096,11 +1087,7 @@
             "keywords": [
                 "User management"
             ],
-<<<<<<< HEAD
-            "time": "2015-03-06 14:51:30"
-=======
-            "time": "2015-04-16 23:14:14"
->>>>>>> feature/knowledge_base_with_synapse
+            "time": "2015-05-01 08:19:36"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2401,18 +2388,6 @@
         },
         {
             "name": "league/flysystem",
-<<<<<<< HEAD
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "51cd7cd7ee0defbaafc6ec0d3620110a5d71e11a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/51cd7cd7ee0defbaafc6ec0d3620110a5d71e11a",
-                "reference": "51cd7cd7ee0defbaafc6ec0d3620110a5d71e11a",
-=======
             "version": "1.0.3",
             "source": {
                 "type": "git",
@@ -2423,7 +2398,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3c2400a99ccc3be6884d40361890010449c6b447",
                 "reference": "3c2400a99ccc3be6884d40361890010449c6b447",
->>>>>>> feature/knowledge_base_with_synapse
                 "shasum": ""
             },
             "require": {
@@ -2493,22 +2467,6 @@
                 "sftp",
                 "storage"
             ],
-<<<<<<< HEAD
-            "time": "2015-03-10 11:04:14"
-        },
-        {
-            "name": "league/flysystem-sftp",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/flysystem-sftp.git",
-                "reference": "ddd4c2cfe9be7482667a596f916479622ed2ae2e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-sftp/zipball/ddd4c2cfe9be7482667a596f916479622ed2ae2e",
-                "reference": "ddd4c2cfe9be7482667a596f916479622ed2ae2e",
-=======
             "time": "2015-03-29 14:01:43"
         },
         {
@@ -2523,7 +2481,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/flysystem-sftp/zipball/c0646ab870843f60bb0af51c9c8055f042e647ee",
                 "reference": "c0646ab870843f60bb0af51c9c8055f042e647ee",
->>>>>>> feature/knowledge_base_with_synapse
                 "shasum": ""
             },
             "require": {
@@ -2557,11 +2514,7 @@
                 }
             ],
             "description": "Flysystem adapter for SFTP",
-<<<<<<< HEAD
-            "time": "2015-03-10 15:16:27"
-=======
             "time": "2015-04-16 11:42:20"
->>>>>>> feature/knowledge_base_with_synapse
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -2617,18 +2570,6 @@
         },
         {
             "name": "monolog/monolog",
-<<<<<<< HEAD
-            "version": "1.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c41c218e239b50446fd883acb1ecfd4b770caeae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c41c218e239b50446fd883acb1ecfd4b770caeae",
-                "reference": "c41c218e239b50446fd883acb1ecfd4b770caeae",
-=======
             "version": "1.13.1",
             "source": {
                 "type": "git",
@@ -2639,7 +2580,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c31a2c4e8db5da8b46c74cf275d7f109c0f249ac",
                 "reference": "c31a2c4e8db5da8b46c74cf275d7f109c0f249ac",
->>>>>>> feature/knowledge_base_with_synapse
                 "shasum": ""
             },
             "require": {
@@ -2699,11 +2639,7 @@
                 "logging",
                 "psr-3"
             ],
-<<<<<<< HEAD
-            "time": "2015-03-05 01:12:12"
-=======
             "time": "2015-03-09 09:58:04"
->>>>>>> feature/knowledge_base_with_synapse
         },
         {
             "name": "nelmio/solarium-bundle",
@@ -2798,25 +2734,15 @@
         {
             "name": "oneup/flysystem-bundle",
             "version": "dev-master",
-            "target-dir": "Oneup/FlysystemBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupFlysystemBundle.git",
-<<<<<<< HEAD
-                "reference": "f329bda9cfd75c525e863ad3be6879e624740076"
+                "reference": "7d7040728bfdf1ac4164b61322a0cce160021cdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/f329bda9cfd75c525e863ad3be6879e624740076",
-                "reference": "f329bda9cfd75c525e863ad3be6879e624740076",
-=======
-                "reference": "e5a76c82133886d52ec0bbc6aa9cbc43cacdb0a3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/e5a76c82133886d52ec0bbc6aa9cbc43cacdb0a3",
-                "reference": "e5a76c82133886d52ec0bbc6aa9cbc43cacdb0a3",
->>>>>>> feature/knowledge_base_with_synapse
+                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/7d7040728bfdf1ac4164b61322a0cce160021cdb",
+                "reference": "7d7040728bfdf1ac4164b61322a0cce160021cdb",
                 "shasum": ""
             },
             "require": {
@@ -2852,8 +2778,8 @@
             },
             "type": "symfony-bundle",
             "autoload": {
-                "psr-0": {
-                    "Oneup\\FlysystemBundle": ""
+                "psr-4": {
+                    "Oneup\\FlysystemBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2876,11 +2802,7 @@
                 "abstraction",
                 "filesystem"
             ],
-<<<<<<< HEAD
-            "time": "2015-02-11 16:57:33"
-=======
-            "time": "2015-03-11 07:02:58"
->>>>>>> feature/knowledge_base_with_synapse
+            "time": "2015-05-01 09:35:45"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -3338,30 +3260,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-<<<<<<< HEAD
-            "version": "v3.0.18",
-=======
-            "version": "v3.0.21",
->>>>>>> feature/knowledge_base_with_synapse
+            "version": "v3.0.22",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-<<<<<<< HEAD
-                "reference": "ac026149ffb1d3a5c893290d2d3ca8795013de08"
+                "reference": "0fe4ec86db57c232becb694e01cdabe3c4d9af7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ac026149ffb1d3a5c893290d2d3ca8795013de08",
-                "reference": "ac026149ffb1d3a5c893290d2d3ca8795013de08",
-=======
-                "reference": "da23c78093676a823a1ff43a214987ea3fbf83c8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/da23c78093676a823a1ff43a214987ea3fbf83c8",
-                "reference": "da23c78093676a823a1ff43a214987ea3fbf83c8",
->>>>>>> feature/knowledge_base_with_synapse
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/0fe4ec86db57c232becb694e01cdabe3c4d9af7c",
+                "reference": "0fe4ec86db57c232becb694e01cdabe3c4d9af7c",
                 "shasum": ""
             },
             "require": {
@@ -3407,11 +3316,7 @@
                 "configuration",
                 "distribution"
             ],
-<<<<<<< HEAD
-            "time": "2015-02-27 12:59:18"
-=======
-            "time": "2015-04-10 06:20:46"
->>>>>>> feature/knowledge_base_with_synapse
+            "time": "2015-05-02 16:23:08"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -3520,16 +3425,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "134cecf1c61256bd8e973e11376891a724543820"
+                "reference": "cecb1397087dc9c733796eda6e9d121336039cdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/134cecf1c61256bd8e973e11376891a724543820",
-                "reference": "134cecf1c61256bd8e973e11376891a724543820",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/cecb1397087dc9c733796eda6e9d121336039cdc",
+                "reference": "cecb1397087dc9c733796eda6e9d121336039cdc",
                 "shasum": ""
             },
             "require": {
@@ -3561,7 +3466,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2015-01-26 16:25:19"
+            "time": "2015-04-21 07:52:05"
         },
         {
             "name": "solarium/solarium",
@@ -3968,21 +3873,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-<<<<<<< HEAD
-                "reference": "6cd873447d5581fd04f382f6c586ab2716ed7d32"
+                "reference": "f47d9055bc632f591c969c702ad10b765bd6f987"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/6cd873447d5581fd04f382f6c586ab2716ed7d32",
-                "reference": "6cd873447d5581fd04f382f6c586ab2716ed7d32",
-=======
-                "reference": "f48cc1ba3497eda512a75b76fb82d95ac80a05fd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/f48cc1ba3497eda512a75b76fb82d95ac80a05fd",
-                "reference": "f48cc1ba3497eda512a75b76fb82d95ac80a05fd",
->>>>>>> feature/knowledge_base_with_synapse
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/f47d9055bc632f591c969c702ad10b765bd6f987",
+                "reference": "f47d9055bc632f591c969c702ad10b765bd6f987",
                 "shasum": ""
             },
             "require": {
@@ -4086,11 +3982,7 @@
             "keywords": [
                 "framework"
             ],
-<<<<<<< HEAD
-            "time": "2015-03-07 07:40:15"
-=======
-            "time": "2015-04-19 17:01:19"
->>>>>>> feature/knowledge_base_with_synapse
+            "time": "2015-05-02 15:19:33"
         },
         {
             "name": "twig/extensions",

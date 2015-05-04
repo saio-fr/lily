@@ -15,7 +15,8 @@ define(function(require) {
     Counters = require('backoffice/knowledge/utils/counters'),
     Models = require('backoffice/knowledge/data/models'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
-    TreeView = require('backoffice/knowledge/views/questions/edit/treeView'),
+    AnswerListView = require('backoffice/knowledge/views/questions/edit/answer/listView'),
+    AlternativesListView = require('backoffice/knowledge/views/questions/edit/alternatives/listView'),
 
     // Object wrapper returned as a module
     EditView;
@@ -44,58 +45,23 @@ define(function(require) {
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       $('.js-question-edit').append(this.$el);
-      this.show();
-      
-      // Render the parent tree view
-      var parentTreeModel = new Models.QuestionTree();
-      parentTreeModel.set(this.model.toJSON());
-      this.parentTreeView = new TreeView({
-        model: parentTreeModel
+
+      // Create answer list view
+      var answerListView = new AnswerListView({
+        model: this.model
       });
-
-      $('.js-question-tree').append(this.parentTreeView.render().el);
-      this.renderTree(this.parentTreeView);
-
+      this.childViews.add(answerListView, 'answerList');
+      
+      // Create alternative questions list view
+      var alternativesListView = new AlternativesListView({
+        model: this.model
+      });
+      this.childViews.add(alternativesListView, 'alternativesList');
+      
+      this.show();
       return this;
     },
-    
-    renderTree: function (parentView) {
-      
-      var that = this;
-      var children = parentView.model.get('children');
-      
-      $.each(children, function (index, child) {
-        
-        var model = new Models.QuestionTree();
-        model.set(child);
-        var childView = parentView.newChildView(model);
-        that.renderTree(childView);
-      });
-    },
-    
-    generateTree: function (parentView) {
-      
-      var that = this;
-      var promises = [];
-      
-      if (parentView.childViews.length) {
-        parentView.childViews.forEach(function (childView) {
-          promises.push(that.generateTree(childView));
-        });
-        
-        return when.all(promises).then(
-          function (value) {
-            parentView.model.set({children: value});
-            return parentView.model.toJSON();
-          }
-        );
-                
-      } else {
-        parentView.model.set({children: null});
-        return when(parentView.model.toJSON());
-      }
-    },
-    
+   
     hide: function () {
       $('.js-questions-list .active').removeClass('active');
       $('.js-question-edit').addClass('hide');
@@ -118,19 +84,26 @@ define(function(require) {
 
     update: function() {
       
-      var isNew = this.model.isNew();
-      
       var that = this;
-      this.generateTree(this.parentTreeView).then(
-        function (value) {
+      var isNew = this.model.isNew();
+      var promises = [];
+      
+      this.childViews.each(function(view){
+        promises.push(view.update());
+      });
+      
+      // when answer tree & questions alt have been updated
+      when.all(promises).then(
+        function () {
           
           if (isNew) {
             var categories = _.clone(app.sortRequest.categories);
             var id = categories.splice(0, categories.length)[0];
-            value.category = (id === 'all') ? null : id;
+            var category = (id === 'all') ? null : id;
+            that.model.set({category : category});
           }
-          
-          that.model.save(value, {
+    
+          that.model.save({}, {
             success: function () {
               if (isNew) {
                 Counters.increase('questions');
@@ -141,12 +114,12 @@ define(function(require) {
           });
         }
       );
+           
     },
     
     remove: function () {
       
       this.hide();
-      this.parentTreeView.remove();
       
       var that = this;
       

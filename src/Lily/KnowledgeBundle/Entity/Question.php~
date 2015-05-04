@@ -178,7 +178,6 @@ class Question
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->alternatives = new \Doctrine\Common\Collections\ArrayCollection();
         $this->satisfaction = 0;
         $this->requests = 0;
     }
@@ -624,40 +623,5 @@ class Question
     public function getParent()
     {
         return $this->parent;
-    }
-
-    /**
-     * Add alternative
-     *
-     * @param \Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative
-     *
-     * @return Question
-     */
-    public function addAlternative(\Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative)
-    {
-        $alternative->setQuestion($this);
-        $this->alternatives[] = $alternative;
-
-        return $this;
-    }
-
-    /**
-     * Remove alternative
-     *
-     * @param \Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative
-     */
-    public function removeAlternative(\Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative)
-    {
-        $this->alternatives->removeElement($alternative);
-    }
-
-    /**
-     * Get alternatives
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAlternatives()
-    {
-        return $this->alternatives;
     }
 }

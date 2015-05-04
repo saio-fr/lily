@@ -1,5 +1,5 @@
 /*======================================
-              Tree View
+              Answer Tree View
   =========================================*/
 
 define(function(require) {
@@ -24,7 +24,7 @@ define(function(require) {
 
     tagName: "li",
 
-    template: _.template($('#questionsEditTreeTpl').html()),
+    template: _.template($('#questionsEditAnswerTpl').html()),
 
     events: {
       'click a.clear-answer' : 'clearAnswer',

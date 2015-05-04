@@ -388,7 +388,7 @@ ul {
   border: 1px solid #EFF1F4;
   padding: 5px;
   height: 40px;
-  margin: 5px 0 5px 0;
+  margin: 5px 0;
 }
 
 .tree-el:hover {
@@ -573,4 +573,51 @@ ul {
 .tree-children {
   padding-left: 75px;
   margin-top: -15px;
+}
+
+.alternative {
+  position: relative;
+  background: #F5F7FA;
+  border: 1px solid #EFF1F4;
+  padding: 10px 20px 10px 10px;
+  margin: 5px 0;
+  outline: none;
+  font-weight: 400;
+  font-size: 12px;
+  color: #828282;
+}
+
+.alternative.editing {
+  border-color: #b8bcc1 !important;
+}
+
+.add-alternative {
+  padding: 8px;
+  border-radius: 0;
+  border: 1px solid #62a5e2;
+  color: #62a5e2;
+  background: white;
+  outline: none !important;
+}
+
+.add-alternative:hover {
+  background: #62a5e2;
+  color: white;
+}
+
+.alternative-help {
+  margin: 20px 0;
+}
+
+.alternative .icon-remove {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.alternative:hover .icon-remove {
+  display: block;
 }

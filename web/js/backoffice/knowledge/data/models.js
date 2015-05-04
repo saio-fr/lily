@@ -20,7 +20,8 @@ define(function(require) {
       questionType: '',
       answer: '',
       answerType: '',
-      children: []
+      children: [],
+      alternatives: []
     },
     
     initialize: function () {
@@ -28,6 +29,14 @@ define(function(require) {
     },
     
   });
+
+  Models.AlternativeQuestion = Backbone.NestedModel.extend({
+    
+    defaults: {
+      title: 'Nouvelle question alternative',
+    }
+  });
+  
   Models.QuestionTree = Models.Question.extend({
     
     defaults: {

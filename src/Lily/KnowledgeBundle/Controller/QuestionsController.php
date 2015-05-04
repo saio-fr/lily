@@ -112,11 +112,18 @@ class QuestionsController extends BaseController
         ->find($id);
          
         $originalChildren = new ArrayCollection();
+        $originalAlternatives = new ArrayCollection();
 
         // Crée un tableau contenant les objects children courants de la
         // base de données
         foreach ($question->getChildren() as $child) {
             $originalChildren->add($child);
+        }
+
+        // Crée un tableau contenant les objects alternatives courants de la
+        // base de données
+        foreach ($question->getAlternatives() as $alt) {
+            $originalAlternatives->add($alt);
         }
   
         $form = $this->getForm(new QuestionType(), $question, $request);
@@ -125,6 +132,13 @@ class QuestionsController extends BaseController
             if ($question->getChildren()->contains($child) == false) {
                 // Delete the child question entity
                 $em->remove($child);
+            }
+        }
+
+        foreach ($originalAlternatives as $alt) {
+            if ($question->getAlternatives()->contains($alt) == false) {
+                // Delete the child question entity
+                $em->remove($alt);
             }
         }
   
