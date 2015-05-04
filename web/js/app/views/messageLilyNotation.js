@@ -33,8 +33,8 @@ MessageLilyNotation = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
-    this.$el.insertAfter('#lily-box-messages .lily-msg-avatar:last');
-    $('#lily-box-messages .lily-msg-avatar:last')
+    this.$el.insertAfter('.lily-box-messages .lily-msg-avatar:last');
+    $('.lily-box-messages .lily-msg-avatar:last')
       .addClass('lily-notation-wrapper');
     return this;
   },

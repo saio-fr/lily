@@ -165,8 +165,8 @@ define(function(require) {
     var deferred = when.defer(),
       faq;
 
-    if (app.skeleton.faqCollection) {
-      faq = app.skeleton.faqCollection.findWhere({
+    if (app.faqCollection) {
+      faq = app.faqCollection.findWhere({
         id: id
       }) || null;
     }
@@ -187,7 +187,9 @@ define(function(require) {
         });
 
         deferred.resolve(model);
-      }, function(err) {
+      },
+
+      function(err) {
         deferred.reject(err);
       });
     }

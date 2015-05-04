@@ -2,7 +2,7 @@
 	<section class="lily-main-content">
 	  {% if config.chat and chatAvailable %}
 		<header id="lily-header" class="lily-cst-header">
-			<a href="#/chat" class="lily-right"><p>Parler à un conseiller<i class="lily-icon lily-icon-arrow-right"></i></p></a>
+			<a href="#/chat" class=""><p>Parler à un conseiller<i class="lily-icon lily-icon-arrow-right"></i></p></a>
 		</header>
 	  {% endif %}
 
@@ -15,7 +15,7 @@
 			<img src="{{asset('customer/'~licence~'/images/universe.png')}}" class="lily-cst-universe" class="lily-cst-universe" /> #}
 			<canvas id="canvas" width="380" height="460"></canvas>
 		</section>
-		<div id="lily-box-messages" class="scrollable">
+		<div class="lily-box-messages scrollable">
 		<!-- Here goes the bubbles-->
 		</div>
 	</section>

@@ -479,11 +479,11 @@ HEADER
 }
 
 .lily-cst-header a:hover {
-  background: rgba(169, 8, 19, 0.15);
+  background: rgba(169, 8, 19, 0.08);
 }
 
 .lily-cst-header a:active {
-  background: rgba(169, 8, 19, 0.3);
+  background: rgba(169, 8, 19, 0.2);
 }
 
 .lily-cst-header p {
@@ -494,7 +494,8 @@ HEADER
   display: inline-block;
 }
 
-.lily-cst-header .lily-icon-arrow-right:before {
+.lily-cst-header .lily-icon-arrow-right:before,
+.lily-box-messages .lily-icon-arrow-right:before {
   line-height: 1;
 }
 
@@ -801,12 +802,12 @@ MESSAGES
 ******************/
 
 
-#chat-box-messages a, #lily-box-messages a {
+#chat-box-messages a, .lily-box-messages a {
 	font-weight: 700;
 	text-decoration: underline;
 }
 
-#lily-box-messages, #chat-box-messages {
+.lily-box-messages, #chat-box-messages {
 	position: absolute;
 	top: 0px;
 	height: 100%;
@@ -886,6 +887,16 @@ MESSAGES
   display: none;
 }
 
+.lily-msg-avatar, 
+.lily-msg-precision {
+	background: #e5e5e5;
+}
+
+.lily-msg-precision {
+	background: #fff;
+	border: solid 1px #888888;
+}
+
 .lily-message-show {
   -webkit-animation: showFromBottom .25s cubic-bezier(0.1, 0.91, 0.43, 1.29) both;
   -moz-animation: showFromBottom .25s cubic-bezier(0.1, 0.91, 0.43, 1.29) both;
@@ -949,7 +960,14 @@ MESSAGES
 }
 
 #chat-box-messages .lily-msg-chat-wait {
-	margin-left: 5px;
+  display: block;
+  text-align: center;
+  margin: 0 0 15px;
+  color: #888888;
+  font-style: italic;
+  font-weight: normal;
+  padding-bottom: 15px;
+  border-bottom: solid 1px rgba(221, 221, 221, 0.68);
 }
 
 #chat-box-messages .lily-msg-chat-operator-info {
@@ -999,29 +1017,79 @@ MESSAGES
 	border-radius: 50%;
 }
 
-#lily-box-messages .lily-msg-redirection {
-	display: inline-block;
+.lily-msg-redirection {
+	display: block;
+	background: #fff;
+	border: solid 1px #888888;
+  margin-top: 0px;
+  padding: 0;
+}
+
+.lily-redirection-item {
+	display: block;
+	border-bottom: solid 1px #888888;
+	width: 100%;
+	-webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+	background: transparent;
+	position: relative;
+}
+
+.lily-redirection-item:first-child {
+	border-radius: 10px 10px 0 0;
+}
+
+.lily-redirection-item:last-child {
+	border-radius: 0 0 10px 10px;
+}
+
+.lily-redirection-item:hover {
+  background: rgba(169, 8, 19, 0.08);
+}
+
+.lily-redirection-item:active {
+  background: rgba(169, 8, 19, 0.2);
+}
+
+.lily-redirection-item .lily-icon-arrow-right {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  bottom: 0;
+  margin-top: -9px;
+}
+
+.lily-msg-redirection ul .lily-redirection-item:last-child {
+	border-bottom: none;
+}
+
+.lily-redirection-item a {
+	text-decoration: none;
+  padding: 5px 22px 7px 8px;
+  display: inline-block;
+  width: 100%;
 }
 
 #lily-msg-avatar a {
 	text-decoration: underline;
 }
 
-#lily-box-messages .lily-msg-user p,
-#lily-box-messages .lily-msg-avatar p,
-#lily-box-messages .lily-msg-redirection p,
+.lily-box-messages .lily-msg-user p,
+.lily-box-messages .lily-msg-avatar p,
+.lily-box-messages .lily-msg-redirection p,
 #chat-box-messages .lily-msg-chat-operator p,
 #chat-box-messages .lily-msg-chat-visitor p {
 	word-wrap: break-word;
 	text-overflow: ellipsis;
 }
 
-#lily-box-messages .lily-msg-user,
+.lily-box-messages .lily-msg-user,
 #chat-box-messages .lily-msg-chat-visitor {
 	float: right;
 }
 
-#lily-box-messages .lily-msg-user:before,
+.lily-box-messages .lily-msg-user:before,
 #chat-box-messages .lily-msg-chat-visitor:before {
 /*	content: "";
 	position: absolute;
@@ -1043,7 +1111,7 @@ MESSAGES
 	width: 0;
 }
 
-#lily-box-messages .lily-msg-user:after,
+.lily-box-messages .lily-msg-user:after,
 #chat-box-messages .lily-msg-chat-visitor:after {
 	/*content: "";*/
 	position: absolute;
@@ -1056,7 +1124,7 @@ MESSAGES
 	width: 0;
 }
 
-#lily-box-messages .lily-msg-redirection:before{
+.lily-box-messages .lily-msg-redirection:before{
 	/*content: "";*/
 	position: absolute;
 	bottom: -10px;
@@ -1068,7 +1136,7 @@ MESSAGES
 	height: 0;
 }
 
-#lily-box-messages .lily-msg-redirection:after{
+.lily-box-messages .lily-msg-redirection:after{
 	/*content: "";*/
 	position: absolute;
 	bottom: -8px;
@@ -1079,8 +1147,8 @@ MESSAGES
 	height: 0;
 }
 
-#lily-box-messages .lily-msg-avatar,
-#lily-box-messages .lily-msg-redirection {
+.lily-box-messages .lily-msg-avatar,
+.lily-box-messages .lily-msg-redirection {
 	float: left;
 	margin-left: 0;
 }
@@ -1100,7 +1168,7 @@ MESSAGES
   margin-bottom: 13px;
 }
 .lily-msg-user + .lily-msg-user ,
-.lily-msg-avatar + .lily-msg-avatar,
+.lily-msg-avatar + .lily-msg-avatar:not(.lily-msg-redirection),
 .lily-msg-chat-operator:not(.lily-msg-chat-wait) + .lily-msg-chat-operator,
 .lily-msg-chat-visitor + .lily-msg-chat-visitor {
   margin-top: -11px;
@@ -1108,7 +1176,7 @@ MESSAGES
 /* End logic for spacing between messages */
 
 
-#lily-box-messages .lily-msg-reporting{
+.lily-box-messages .lily-msg-reporting{
 /*	position: absolute;
 	right: 0;
 	margin-top: 10px;*/
@@ -1130,7 +1198,7 @@ MESSAGES
 	margin-left: 3px;
 }
 
-#lily-box-messages .lily-notation-wrapper{
+.lily-box-messages .lily-notation-wrapper{
 	margin-bottom: 13px;
   padding: 0;
 }
@@ -1220,13 +1288,6 @@ MESSAGES
 	width: 10px;
 	position: absolute;
 }
-
-.lily-redirection-tel, 
-.lily-redirection-mail, 
-.lily-redirection-chat {
-	display: inline-block;
-}
-
 
 .lily-loading {
 	text-align: center;
@@ -1545,10 +1606,10 @@ CONTACT FORM
 *******************/
 
 .lily-contact-form .lily-contact-form-label {
-	margin-top: 17px;
-	margin-bottom: 11px;
-	font-size: 12px;
-	font-weight: 700;
+	margin-top: 15px;
+  margin-bottom: 3px;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .lily-contact-form .lily-contact-form-title {
@@ -1578,10 +1639,10 @@ CONTACT FORM
 	width: 100%;
 	background: transparent;
 	display: block;
-	border-radius: 0;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	outline: 0;
+	border-radius: 3px;
 }
 
 .lily-contact-form label{
@@ -1605,7 +1666,6 @@ CONTACT FORM
 	display: block;
 	width: 100%;
 	border: none;
-	text-transform: uppercase;
 	text-align: center;
 	line-height: 35px;
 	margin-top: 15px;
@@ -1637,29 +1697,29 @@ MEDIA QUERIES
 *******************/
 
 @media screen and (max-width: 300px){
-	#lily-box-messages {
+	.lily-box-messages {
 		width: 100%;
 	}
 }
 
 @media screen and (min-width: 480px) {
 
-#lily-box-messages {
+.lily-box-messages {
 	min-width: 320px;
 	width: 100%;
 	font-size: 0.9em;
 }
 
-#lily-box-messages .lily-msg-user,
+.lily-box-messages .lily-msg-user,
 #chat-box-messages .lily-chat-msg-visitor,
-#lily-box-messages .lily-msg-avatar,
+.lily-box-messages .lily-msg-avatar,
 #chat-box-messages .lily-chat-msg-operator,
-#lily-box-messages .lily-msg-redirection{
+.lily-box-messages .lily-msg-redirection{
 	padding: 12px;
 }
 
 @media screen and (max-width: 480px){
-	#lily-box-messages .lily-msg-reporting {
+	.lily-box-messages .lily-msg-reporting {
 		margin-top: 15px;
 	}
 }

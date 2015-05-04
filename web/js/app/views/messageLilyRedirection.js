@@ -18,26 +18,24 @@ var _ = require('underscore'),
 
 MessageLilyRedirection = MessageView.extend({
 
-  className: 'lily-msg-avatar lily-msg lily-msg-redirection lily-cst-msg-redirection',
+  className: 'lily-msg-avatar lily-msg lily-msg-redirection',
   template: _.template($('#lily-message-redirection').html()),
 
   initialize: function() {
-    this.listenTo(this, 'render', this.triggerRedirectionTel);
-    this.listenTo(this, 'render', this.triggerRedirectionMail);
+    this.listenTo(this, 'render', this.triggerRedirections);
   },
 
   redirectionMail: function() {
     api.redirectionMail('mail', this.model.get('id'));
   },
 
-  triggerRedirectionTel: function() {
+  triggerRedirections: function() {
     this.$('.lily-redirection-tel')
       .on('click', this.triggerRedirection, 'redirectionTel', this);
-  },
-
-  triggerRedirectionMail: function() {
     this.$('.lily-redirection-mail')
       .on('click', this.triggerRedirection, 'redirectionMail', this);
+    this.$('.lily-redirection-chat')
+      .on('click', this.triggerRedirection, 'redirectionChat', this);
   },
 
   triggerRedirection: function(redirection) {

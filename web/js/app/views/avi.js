@@ -53,7 +53,7 @@ define(function(require) {
 
       that.$input  = that.$('.chat-input').myedit();
       that.$avi    = that.$('.avatar-wrapper');
-      that.$msgBox = $('#lily-box-messages');
+      that.$msgBox = $('.lily-box-messages');
 
       that.showAvi = true;
       that._handleAvi();
@@ -308,7 +308,7 @@ define(function(require) {
       if (this.isLoadingShown) {
         defer.resolve(args);
       } else {
-        this.$('#lily-box-messages').append(config.loadingTpl);
+        this.$('.lily-box-messages').append(config.loadingTpl);
         this.isLoadingShown = true;
         this.isMsgAnimating = true;
         setTimeout(function() {
@@ -368,10 +368,10 @@ define(function(require) {
       var that = this;
       function logScroll() {
         var topAvatar = that.$avi.offset().top;
-        var lastMessage = $('#lily-box-messages .lily-msg:last-child');
+        var lastMessage = $('.lily-box-messages .lily-msg:last-child');
         var lastMessageOffsetTop = lastMessage.offset() ? lastMessage.offset().top + 40 : 0;
         var lastMessageOffsetBottom = lastMessageOffsetTop + lastMessage.height();
-        var covers = lastMessageOffsetBottom - 20 > topAvatar;
+        var covers = lastMessageOffsetBottom - 50 > topAvatar;
         var showAvi = !covers;
 
         if (that.isMsgAnimating) {return;}
@@ -384,7 +384,7 @@ define(function(require) {
 
       var throttled = _.throttle(logScroll, 1);
 
-      $('#lily-box-messages')[0].onscroll = throttled;
+      $('.lily-box-messages')[0].onscroll = throttled;
 
       // Rectify padding if header button is shown
       if ($('.lily-cst-header').is(':visible')) {
@@ -505,16 +505,17 @@ define(function(require) {
     },
 
     onSatisfaction: function(satisfaction, answer) {
+      var that = this;
       api.logSatisfaction(answer.id, satisfaction);
 
       if (satisfaction === true) {
-        this.sayThanks();
+        that.sayThanks();
       } else {
         // For later:
         // Ask for precision on bad answer
-        this._doAsyncMsg(null, 300)
+        that._doAsyncMsg(null, 300)
         .then(function() {
-          this.offerRedirection(answer.id);
+          return that.offerRedirection(answer.id);
         });
       }
     },

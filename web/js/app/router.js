@@ -115,10 +115,10 @@ define(function(require) {
       var router = this,
         view;
 
-      app.skeleton.faqCollection = app.skeleton.faqCollection || new Collections.Faqs();
+      app.faqCollection = app.faqCollection || new Collections.Faqs();
       api.getFaqModel(id).then(function(model) {
 
-        app.skeleton.faqCollection.add(model);
+        app.faqCollection.add(model);
 
         view = new FaqView({
           model: model
@@ -133,7 +133,7 @@ define(function(require) {
         });
       });
 
-      app.pageView("/faq/" + id);
+      app.pageView('/faq/' + id);
     },
 
     content: function(parent, id) {

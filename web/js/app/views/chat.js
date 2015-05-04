@@ -113,8 +113,6 @@ define(function(require) {
           break;
 
         case 'operator':
-          this.$el.find('.lily-msg-chat-wait').hide();
-
           messageView = new MessageChatOperator({
             model: message
           }).render();

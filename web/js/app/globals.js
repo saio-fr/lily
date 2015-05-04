@@ -22,15 +22,16 @@ define(function(require) {
   g.avi.messages = {
     welcomeMsg: 'Bonjour, je m\'appelle Lily! Vous pouvez me poser un question relative à SosMalus',
     satisfiedFeedback: 'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
-    unSatisfiedFeedback: 'Il semblerait que je ne peux pas répondre de façon satisfaisant à votre question.',
+    unSatisfiedFeedback: 'Il semblerait que je ne peux pas répondre de façon satisfaisant à votre question. <p><b>Souhaitez vous être redirigé vers un de nos conseillers ?</b></p>',
     apologize: 'Je suis désolé de ne pas avoir pu vous répondre',
+    askForedirection: 'Souhaitez vous être redirigé vers un de nos conseillers ?',
     askForFeedback: ''
   };
 
   g.avi.messages.redirection = {
     tel: 'Nous téléphoner',
     mail: 'Nous envoyer un mail',
-    chat: 'Discuter avec un de nos conseillers via chat:',
+    chat: 'Discuter avec un de nos conseillers via chat',
   };
 
   g.avi.messages.satisfaction = {
