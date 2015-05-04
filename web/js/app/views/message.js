@@ -33,22 +33,16 @@ define(function(require) {
     transitionInMessage: function(callback) {
 
       var $message = this.$el,
-          $messageBox = $('#lily-box-messages'),
           inClass = 'lily-message-show';
 
-      var objDiv = document.getElementById("lily-box-messages");
-      objDiv.scrollTop = objDiv.scrollHeight;
-
       // Scroll all the way down
-      // $messageBox[0].scrollTop = $messageBox[0].scrollHeight + 90;
+      var objDiv = document.getElementById('lily-box-messages');
+      objDiv.scrollTop = objDiv.scrollHeight + $message.height();
 
       // Show the message w/ animation
       $message.addClass(inClass);
 
       // Scroll all the way down again after showing the msg
-      // $messageBox[0].scrollTop = $messageBox[0].scrollHeight + 90;
-
-      var objDiv = document.getElementById("lily-box-messages");
       objDiv.scrollTop = objDiv.scrollHeight + $message.height();
 
       $message.on(config.animEndEventName, function() {

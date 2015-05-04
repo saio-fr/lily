@@ -11,7 +11,6 @@ define(function(require) {
     g = {};
 
   _.extend(g, window.config);
-  _.extend(g, window.config);
 
   g.synapse = {
     user: 'saio',
@@ -19,16 +18,24 @@ define(function(require) {
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
-  g.avi = {};
+  g.avi = g.avi || {};
   g.avi.messages = {
     welcomeMsg: 'Bonjour, je m\'appelle Lily! Vous pouvez me poser un question relative à SosMalus',
     satisfiedFeedback: 'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
-    unSatisfiedFeedback: 'Je suis désolé de ne pas avoir pu vous répondre',
-    askForFeedback: '',
-    satisfaction: {
-      incomplete: 'Cette réponse est incomplète',
-      fausse:     'cette réponse ne répond pas à ma question'
-    }
+    unSatisfiedFeedback: 'Il semblerait que je ne peux pas répondre de façon satisfaisant à votre question.',
+    apologize: 'Je suis désolé de ne pas avoir pu vous répondre',
+    askForFeedback: ''
+  };
+
+  g.avi.messages.redirection = {
+    tel: 'Nous téléphoner',
+    mail: 'Nous envoyer un mail',
+    chat: 'Discuter avec un de nos conseillers via chat:',
+  };
+
+  g.avi.messages.satisfaction = {
+    incomplete: 'Cette réponse est incomplète',
+    fausse:     'cette réponse ne répond pas à ma question'
   };
 
   g.inClass = '';
@@ -39,9 +46,11 @@ define(function(require) {
     'msAnimation': 'MSAnimationEnd',
     'animation': 'animationend'
   };
+
   // animation end event name
   g.animEndEventName = g.animEndEventNames[window.Modernizr.prefixed(
     'animation')];
+
   // support css animations
   g.support = window.Modernizr.cssanimations;
 
@@ -53,7 +62,6 @@ define(function(require) {
     '<span></span>' +
     '<span></span>' +
     '</p>' +
-    // '<i class="lily-avatar-bubble"></i>' +
     '</div>';
 
   g.emptySearch = 'Il semblerait qu\'il y ait un problème. ' +

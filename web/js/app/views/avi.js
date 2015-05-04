@@ -38,20 +38,25 @@ define(function(require) {
     },
 
     initialize: function() {
-      // this.listenTo(this, 'render', this.avatar);
-      this.listenTo(this, 'page:transitionnedIn', this.setupSynapse, this);
-      this.childViews = new Backbone.ChildViewContainer();
+      var that = this;
+      that.listenTo(this, 'page:transitionnedIn', that.setupSynapse, that);
+      that.childViews = new Backbone.ChildViewContainer();
 
-      this.listenTo(app, 'precision',         this.sendPrecision);
-      this.listenTo(app, 'avi:satisfaction',  this.onSatisfaction);
-      this.listenTo(app, 'redirection',       this.sendRedirectionMail);
+      that.listenTo(app, 'precision',         that.sendPrecision);
+      that.listenTo(app, 'avi:satisfaction',  that.onSatisfaction);
+      that.listenTo(app, 'redirection',       that.sendRedirectionMail);
 
-      this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
+      that.listenTo(that, 'conversation:newMessage', that.onNewMessage);
 
-      this.render({ page: true }).$el
+      that.render({ page: true }).$el
         .appendTo('#lily-wrapper-page');
 
-      this.$input = this.$('.chat-input').myedit();
+      that.$input  = that.$('.chat-input').myedit();
+      that.$avi    = that.$('.avatar-wrapper');
+      that.$msgBox = $('#lily-box-messages');
+
+      that.showAvi = true;
+      that._handleAvi();
 
       this.welcomeVisitor();
     },
@@ -117,7 +122,31 @@ define(function(require) {
     },
 
     offerRedirection: function(question) {
-      return this._addMessage(question, 'lily-redirection');
+      var that = this;
+
+      that._printAviMsg(config.avi.messages.unSatisfiedFeedback);
+      var model = new Models.Message({
+        config: {
+          hasTel: config.avi.redirections.mail,
+          hasMail: config.avi.redirections.phone,
+          hasChat: config.avi.redirections.chat,
+          chatAvailable: config.chatAvailable
+        },
+        redirections: {
+          mail: config.avi.redirections.values.mail,
+          tel: config.avi.redirections.values.phone
+        },
+        copy: {
+          tel: config.avi.messages.redirection.tel,
+          mail: config.avi.messages.redirection.mail,
+          chat: config.avi.messages.redirection.chat
+        }
+      });
+
+      that._doAsyncMsg(null, 700)
+      .then(function() {
+        return that._addMessage(question, 'lily-redirection', model);
+      });
     },
 
     hasNoAnswer: function(question) {
@@ -129,16 +158,19 @@ define(function(require) {
       .then(function() {
         // 2) Propose the visitor to be forwarded to tel/mail/chat
         that.apologise();
-        return that.offerRedirection(question);
+        that._doAsyncMsg(null, 300)
+        .then(function() {
+          return that.offerRedirection(question);
+        });
       });
     },
 
-    sayThanks: function(id, satisfied) {
+    sayThanks: function() {
       return this._printAviMsg(config.avi.messages.satisfiedFeedback);
     },
 
     apologise: function() {
-      return this._printAviMsg(config.avi.messages.unSatisfiedFeedback);
+      return this._printAviMsg(config.avi.messages.apologize);
     },
 
     askForFeedback: function(msg, showNotation) {
@@ -203,10 +235,10 @@ define(function(require) {
       return msg;
     },
 
-    _addMessage: function(msg, messageType) {
+    _addMessage: function(msg, messageType, model) {
       // remove waiting message if exists.
 
-      var messageModel = new Models.Message({
+      var messageModel = model || new Models.Message({
         message_content: msg
       });
 
@@ -251,8 +283,9 @@ define(function(require) {
         this.trigger('conversation:newMessage');
       }
 
+      this.isMsgAnimating = true;
       this.childViews.add(message, indexer);
-
+      this._isNotMsgAnimating();
       return msg;
     },
 
@@ -277,6 +310,7 @@ define(function(require) {
       } else {
         this.$('#lily-box-messages').append(config.loadingTpl);
         this.isLoadingShown = true;
+        this.isMsgAnimating = true;
         setTimeout(function() {
           defer.resolve(args);
         }, typeDelay);
@@ -308,6 +342,7 @@ define(function(require) {
 
         setTimeout(function() {
           defer.resolve(args);
+          that.isMsgAnimating = false;
         }, 500);
       }
 
@@ -320,14 +355,72 @@ define(function(require) {
 
       this.childViews.remove(notationView);
       notationView.remove();
+      this._isNotMsgAnimating();
     },
 
-    _addNotationView: function(msg, showNotation) {
-      if (!showNotation) {
-        return;
-      }
+    _addNotationView: function(msg) {
+      if (!app.showAviAnswerNotation) { return; }
 
       return this._addMessage(msg, 'lily-notation');
+    },
+
+    _handleAvi: function() {
+      var that = this;
+      function logScroll() {
+        var topAvatar = that.$avi.offset().top;
+        var lastMessage = $('#lily-box-messages .lily-msg:last-child');
+        var lastMessageOffsetTop = lastMessage.offset() ? lastMessage.offset().top + 40 : 0;
+        var lastMessageOffsetBottom = lastMessageOffsetTop + lastMessage.height();
+        var covers = lastMessageOffsetBottom - 20 > topAvatar;
+        var showAvi = !covers;
+
+        if (that.isMsgAnimating) {return;}
+
+        if (showAvi !== that.showAvi) {
+          that.showAvi = showAvi;
+          that._showAvi(showAvi);
+        }
+      }
+
+      var throttled = _.throttle(logScroll, 1);
+
+      $('#lily-box-messages')[0].onscroll = throttled;
+
+      // Rectify padding if header button is shown
+      if ($('.lily-cst-header').is(':visible')) {
+        var padTop = that.$msgBox.css('padding-top');
+        that.$msgBox.css('padding-top', parseInt(padTop, 10) +
+          $('.lily-cst-header').height());
+      }
+    },
+
+    _isNotMsgAnimating: function() {
+      var that = this;
+      setTimeout(function() {
+        that.isMsgAnimating = false;
+      }, 300);
+    },
+
+    _showAvi: function(show) {
+      var that = this;
+      var animClassIn = show ? 'lily-avi-show' : 'lily-avi-hide';
+      var animClassOut = show ? 'lily-avi-hide' : 'lily-avi-show';
+
+      if (that.aviAnimating) {return;}
+
+      that.aviAnimating = true;
+
+      that.$avi
+        .addClass(animClassIn)
+        .removeClass(animClassOut)
+        .on(config.animEndEventName, function() {
+          that.aviAnimating = false;
+          that.$avi.off(config.animEndEventName);
+        });
+
+      setTimeout(function() {
+        that.aviAnimating = false;
+      }, 300);
     },
 
     _stripIdPrefix: function(id) {
@@ -403,7 +496,7 @@ define(function(require) {
       // 3) Ask for feedback
       // ------------------------------------
       .then(function(answer) {
-        return that._addNotationView(answer, app.showAviAnswerNotation);
+        return that._addNotationView(answer);
       }, that._failedPromise);
     },
 
@@ -412,19 +505,22 @@ define(function(require) {
     },
 
     onSatisfaction: function(satisfaction, answer) {
+      api.logSatisfaction(answer.id, satisfaction);
+
       if (satisfaction === true) {
-        api.logSatisfaction(answer.id, satisfaction);
+        this.sayThanks();
       } else {
-        this.askForFeedback(answer);
+        // For later:
+        // Ask for precision on bad answer
+        this._doAsyncMsg(null, 300)
+        .then(function() {
+          this.offerRedirection(answer.id);
+        });
       }
     },
 
     sendRedirection: function(id, type) {
       app.trigger('avi:redirection', type, id);
-    },
-
-    sendSatisfaction: function(id, satisfied, reason) {
-
     },
 
     avatar: function() {

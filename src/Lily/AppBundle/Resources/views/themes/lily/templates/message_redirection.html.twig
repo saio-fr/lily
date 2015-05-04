@@ -1,1 +1,26 @@
-<p>Comment souhaitez-vous nous contacter ?</p>
+<ul>
+<% if (config.hasTel) { %>
+	<i class="lily-redirection-mail">
+		<a href="#/mail"><%= copy.mail %>
+			<span class="lily-icon lily-icon-mail"></span>
+		</a>
+	</i>
+<% } %>
+
+<% if (config.hasMail)  { %>
+	<i class="lily-redirection-tel">
+		<a href="tel:<%= redirections.tel %>">	<%= copy.tel %>
+			<span class="lily-icon lily-icon-phone"></span>
+		</a>
+	</i>
+<% } %>
+
+<% if (config.hasChat && config.chatAvailable)  { %>
+	<i class="lily-redirection-chat">
+		<a href="#/chat">
+			<%= copy.chat %>
+			<span class="lily-icon lily-icon-chat"></span>
+		</a>
+	</i>
+<% } %>
+</ul>

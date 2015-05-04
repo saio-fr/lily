@@ -139,6 +139,7 @@
 	    config.licence = "{{ licence }}";
     	config.root = '{{ app.request.getBaseURL() }}/app';
 	    config.chatAvailable = "{{ chatAvailable }}";
+	    config.avi.redirections.values = {{redirection|serialize('json') }};
 	    {% if app.environment == 'dev' %}
 			config.wsserver = 'ws://develop.saio.fr';
 			{% else %}

@@ -12,6 +12,7 @@ define(function(require) {
     app = require('app/app'),
     config = require('app/globals'),
     FastClick = require('FastClick'),
+
     // Object wrapper returned as a module
     PageView;
 
@@ -34,12 +35,13 @@ define(function(require) {
         this.$el.find('.lily-page-cont').addClass('lily-page');
       }
 
-      var view = this;
+      var that = this;
 
-      view.$el.find("a").on("touch click", function(e) {
-        /* On regarde data-transition et data-reverse sur le lien cliqué*/
-        view.setNextTransition(this);
-      });
+      that.$el.find('a')
+        .on('touch click', function(ev) {
+          /* On regarde data-transition et data-reverse sur le lien cliqué*/
+          that.setNextTransition(this);
+        });
 
       return this;
 
@@ -47,15 +49,16 @@ define(function(require) {
 
     setNextTransition: function(el) {
 
-      this.nextTransition.type = $(el).attr("data-transition");
-      this.nextTransition.reverse = $(el).attr("data-reverse");
+      this.nextTransition.type = $(el).attr('data-transition');
+      this.nextTransition.reverse = $(el).attr('data-reverse');
     },
 
     transitionIn: function(previous, transition, reverse, callback) {
 
-      var view = this,
-        $nextPage = view.$el.find('.lily-page-cont'),
+      var that = this,
+        $nextPage = that.$el.find('.lily-page-cont'),
         $currPage = (previous) ? previous.$el.find('.lily-page-cont') : null,
+
         // inClass = reverse !== 'true' ? 'lily-page-moveFromRight ' : 'lily-page-moveFromLeft ',
         inClass = reverse !== 'true' ? 'fadeInUp ' : 'fadeInUp',
         visible = 'lily-page-visible',
@@ -63,9 +66,9 @@ define(function(require) {
           $currPage: $currPage,
           $nextPage: $nextPage,
           previous: previous,
-          view: view,
+          view: that,
           inClass: inClass,
-          callback: callback,
+          callback: callback
         };
 
       if (config.support) { // Browser support for onEndAnim event
@@ -85,15 +88,17 @@ define(function(require) {
       $(this).off(config.animEndEventName);
 
       app.endNextPage = true;
-      // TODO: have a look at that!
+
       FastClick.attach(document.body);
 
       if (_.isFunction(e.data.callback)) {
         e.data.callback();
       }
+
       if (e.data.$currPage) {
         e.data.previous.remove();
       }
+
       if (e.data.$nextPage) {
         e.data.$nextPage.removeClass(e.data.inClass);
       }
@@ -103,13 +108,13 @@ define(function(require) {
 
     transitionOut: function(transition, reverse, callback) {
 
-      var previous = this,
-        $currPage = previous.$el.find('.lily-page-cont'),
+      var that = this,
+        $currPage = that.$el.find('.lily-page-cont'),
         outClass = reverse !== 'true' ? 'lily-page-moveToLeft' : 'lily-page-moveToRight',
         data = {
           $currPage: $currPage,
           outClass: outClass,
-          previous: previous,
+          previous: that,
           callback: callback
         };
 
@@ -136,7 +141,7 @@ define(function(require) {
         .removeClass('lily-page-visible');
 
       e.data.previous.remove();
-    },
+    }
 
   });
 

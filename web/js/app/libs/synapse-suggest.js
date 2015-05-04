@@ -72,6 +72,7 @@
     this.Credentials = '<Credentials>' + credentialsInner + '<\/Credentials>';
     this.credentials = '<credentials>' + credentialsInner + '<\/credentials>';
     this.credentialsJson = { "password": password, "user": user };
+
     // this.emptyMessage = '<div class="empty-suggestion">Je n\'ai pas trouvé de réponse correspondant à votre question</div>';
     this.emptyMessage = '';
 
@@ -87,18 +88,20 @@
         prefetch: {
           url: restRoot + 'GetListQuestions',
           ajax: {
-            type: "POST",
+            type: 'POST',
             dataType: 'json',
-            contentType: "application/json; charset=utf-8",
+            contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(this.credentialsJson),
-            crossDomain: true,
+            crossDomain: true
           },
 
-          ttl: 60000, // time (in milliseconds) the prefetched data should be cached
+          ttl: 60000,
+
+          // time (in milliseconds) the prefetched data should be cached
           // in local storage; default is one day
 
-          filter: function (response) {
-            var result = $.map(response.questions, function (question) {
+          filter: function(response) {
+            var result = $.map(response.questions, function(question) {
               return {
                 normalizedText: normalize(question.text),
                 text: question.text,
@@ -106,6 +109,7 @@
                 source: 'prefetch'
               };
             });
+
             return result;
           }
         }
@@ -114,15 +118,15 @@
       // if strategy is set to words, then switching to semantic search
       // (remote for Bloodhound) is handled manually
       // so we had a remote source only if strategy is set to suggestions
-      if (this.strategy == 'suggestions') {
+      if (this.strategy === 'suggestions') {
         params.limit = this.semanticOffset;
 
         console.log(JSON.stringify({
           credentials: this.credentialsJson,
-          searchRequest: {
-            index: "Saio",
-            lang: "fr",
-            request: "%QUERY"
+          searchRequest: { 
+            index: 'Saio',
+            lang: 'fr',
+            request: '%QUERY'
           }
         }));
 
@@ -130,20 +134,20 @@
           // we need to put the query in the url because typehead.js
           // uses the url as a cache key (https://github.com/twitter/typeahead.js/issues/894#issuecomment-48852916)
           // url: restRoot + 'DoSmartSearch',
-          url: restRoot + "DoSmartSearch?query=%QUERY",
+          url: restRoot + 'DoSmartSearch?query=%QUERY',
 
           ajax: {
-            type: "POST",
+            type: 'POST',
             dataType: 'json',
-            contentType: "application/json",
+            contentType: 'application/json',
             dataWithWildcard: JSON.stringify({
               credentials: this.credentialsJson,
               searchRequest: {
-                index: "Saio",
-                lang: "fr",
-                request: "%QUERY"
+                index: 'Saio',
+                lang: 'fr',
+                request: '%QUERY'
               }
-            }),
+            })
           },
 
           filter: function(response) {
@@ -162,7 +166,7 @@
             }
 
             return results;
-          },
+          }
 
           //rateLimitBy: null,
         };
@@ -180,11 +184,11 @@
     };
 
     this.suggestionsMatcher = function() {
-      var synapse_suggest_instance = this;
+      var that = this;
 
       return function findMatches(query, callback) {
 
-        if (synapse_suggest_instance.useSemanticMatching(query)) {
+        if (that.useSemanticMatching(query)) {
 
           var smartSearchCallback = function(userQuestion) {
 
@@ -210,14 +214,6 @@
                       });
                     }
                   });
-
-                  // $.each(resultsJson.QA.results.suggestions.suggestion, function(index, value) {
-                  //   results.push({
-                  //     text: value.sentence,
-                  //     answerId: value['@answerId'],
-                  //     source: 'remote'
-                  //   });
-                  // });
                 }
 
                 callback(results);
@@ -228,7 +224,7 @@
           doSmartSearchWS(query, smartSearchCallback);
         } else {
 
-          synapse_suggest_instance.bloodhound.get(query, function(suggestions) {
+          that.bloodhound.get(query, function(suggestions) {
             callback(suggestions);
           });
         }
@@ -236,7 +232,7 @@
     };
 
     this.clearPrefetchCache = function() {
-      console.log("clear prefetching cache");
+      console.log('clear prefetching cache');
       this.bloodhound.clearPrefetchCache();
     };
 
@@ -247,8 +243,8 @@
     this.addSuggestionsToInput = function(selector, strategy, semanticOffset) {
 
       // TODO: should this function also expect a maxDisplayedSuggestions argument?
-
-      console.log("init synapse suggest input with selector= " + selector + ", strategy= " + strategy + ", semanticOffset= " + semanticOffset);
+      console.log('init synapse suggest input with selector= ' +
+        selector + ', strategy= ' + strategy + ', semanticOffset= ' + semanticOffset);
 
       this.strategy = strategy;
       this.semanticOffset = semanticOffset;
@@ -262,7 +258,7 @@
         templates: {
           empty: this.emptyMessage,
           suggestion: function(suggestion) {
-            return '<span class="' + suggestion.source + '">' + suggestion.text + '</span>';
+            return '<span class="' + suggestion.source + '"">' + suggestion.text + '</span>';
           }
         }
       };

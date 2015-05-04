@@ -13,9 +13,6 @@ require.config({
     'jquery-placeholder': 'bower_components/jquery-placeholder/jquery.placeholder',
     'synapse':            'app/libs/synapse-suggest',
     'autosize':           'bower_components/jquery-autosize/dest/autosize',
-
-    // 'bloodhound':         'bower_components/typeahead.js/dist/bloodhound',
-    // 'typeahead':          'bower_components/typeahead.js/dist/typeahead.jquery',
     'bloodhound':         'app/libs/bloodhound',
     'typeahead':          'app/libs/typeahead'
   },
@@ -111,9 +108,11 @@ require([
           // Successfuly connected to ws server;
           // Show widget on host site:
           app.onConnect(result);
-        }, function(err) {
+        },
+
+        function(err) {
           console.warn(err);
-          app.trigger("status:connectionError");
+          app.trigger('status:connectionError');
           app.init();
         });
 

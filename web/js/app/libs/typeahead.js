@@ -1428,7 +1428,7 @@
       onSuggestionMouseEnter = _.bind(this._onSuggestionMouseEnter, this);
       onSuggestionMouseLeave = _.bind(this._onSuggestionMouseLeave, this);
       this.$menu = $(o.menu)
-        .on("click.tt", "touchend.tt", ".tt-suggestion", onSuggestionClick)
+        .on("click.tt touchend.tt", ".tt-suggestion", onSuggestionClick)
         .on("mouseenter.tt", ".tt-suggestion", onSuggestionMouseEnter)
         .on("mouseleave.tt", ".tt-suggestion", onSuggestionMouseLeave);
 

@@ -1,14 +1,14 @@
 <div id="lily-home" class="lily-page-cont"><!-- wrapper page les différentes pages -->
-  {% if config.chat and chatAvailable %}
-	<header id="lily-header" class="lily-cst-header">
-<!-- 		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span> -->
-		<a href="#/chat" class="lily-right"><p>Parler à un conseiller<i class="lily-icon lily-icon-arrow-right"></i></p></a>
-	</header>
-  {% endif %}
 	<section class="lily-main-content">
-    <div class="avatar-wrapper">
-      <img class="avatar" src="https://files.slack.com/files-pri/T02SBQCVC-F04KWHX21/belette_anime.png">
-    </div>
+	  {% if config.chat and chatAvailable %}
+		<header id="lily-header" class="lily-cst-header">
+			<a href="#/chat" class="lily-right"><p>Parler à un conseiller<i class="lily-icon lily-icon-arrow-right"></i></p></a>
+		</header>
+	  {% endif %}
+
+	    <div class="avatar-wrapper">
+	      <img class="avatar" src="https://files.slack.com/files-pri/T02SBQCVC-F04KWHX21/belette_anime.png">
+	    </div>
 		<section class="lily-avatar-wrapper">
 			{# http://cdn-saio.fr/customer/{licence}/templates/avatar-svg.html.twig
 			{% include '@customer/'~licence~'/templates/avatar-svg.html.twig' %}

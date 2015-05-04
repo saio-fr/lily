@@ -368,17 +368,18 @@ a{
 	width: 100%;
 	position: relative;
 	height: 325px; /* fallback for navigators who don't support the calc function */
-	height: calc(100% - 135px); /* chat */
-  height: calc(100% - 95px);
+  height: calc(100% - 55px);
+  height: 100%;
 }
 
-.lily-avatar-wrapper{
+.lily-avatar-wrapper {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
   z-index: 2;
+  /*display: none;*/
 }
 
 #canvas{
@@ -460,6 +461,7 @@ HEADER
   text-align: center;
   line-height: 40px;
   box-shadow: 0px 1px 0px rgba(206, 206, 206, 0.46);
+  background: #fff
 }
 
 .lily-cst-header a {
@@ -588,6 +590,7 @@ HEADER
   bottom: 0;
   left: 0;
   background: white;
+  z-index: 10;
 }
 
 .chat-input-component,
@@ -617,7 +620,7 @@ HEADER
   min-height: 36px;
   max-height: 64px;
   border: 1px solid rgba(181, 181, 181, 0.25);
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 1);
   color: #5e5e5e;
   border-radius: 2px;
   line-height: 1;
@@ -808,7 +811,7 @@ MESSAGES
 	top: 0px;
 	height: 100%;
   width: 100%;
-  padding: 13px 13px 125px;
+  padding: 13px 13px 175px;
 	font-size: 15px;
 	z-index: 3;
 	overflow-y: auto;
@@ -832,7 +835,7 @@ MESSAGES
 
 .avatar-wrapper {
   position: absolute;
-  bottom: 25px;
+  bottom: 61px;
   left: 13px;
   width: 75px;
   height: 75px;
@@ -840,11 +843,26 @@ MESSAGES
   overflow: hidden;
   text-align: center;
   border-radius: 50%;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+}
+
+.avatar-wrapper.lily-avi-show {
+  -webkit-animation: bubbleIn .4s cubic-bezier(0.25, 0.1, 0, 1.46) both;
+  -moz-animation: bubbleIn .4s cubic-bezier(0.25, 0.1, 0, 1.46) both;
+  animation: bubbleIn .4s cubic-bezier(0.25, 0.1, 0, 1.46) both;
+}
+
+.avatar-wrapper.lily-avi-hide {
+  -webkit-animation: bubbleOut .4s  cubic-bezier(0.25, 0.1, 0, 1.46) both;
+  -moz-animation: bubbleOut .4s cubic-bezier(0.25, 0.1, 0, 1.46) both;
+  animation: bubbleOut .4s cubic-bezier(0.25, 0.1, 0, 1.46) both;
 }
 
 .avatar-wrapper .avatar {
   width: 70%;
-  margin-top: 8px;
+  margin-top: 8.5px;
 }
 
 .lily-msg-user,
@@ -869,9 +887,9 @@ MESSAGES
 }
 
 .lily-message-show {
-  -webkit-animation: showFromBottom .2s cubic-bezier(0.25, 0.1, 0, 1.46) both;
-  -moz-animation: showFromBottom .2s cubic-bezier(0.25, 0.1, 0, 1.46) both;
-  animation: showFromBottom .2s cubic-bezier(0.25, 0.1, 0, 1.46) both;
+  -webkit-animation: showFromBottom .25s cubic-bezier(0.1, 0.91, 0.43, 1.29) both;
+  -moz-animation: showFromBottom .25s cubic-bezier(0.1, 0.91, 0.43, 1.29) both;
+  animation: showFromBottom .25s cubic-bezier(0.1, 0.91, 0.43, 1.29) both;
   display: block;
 }
 
@@ -1203,19 +1221,10 @@ MESSAGES
 	position: absolute;
 }
 
-.lily-redirection-tel, .lily-redirection-mail, .lily-redirection-chat {
-	width: 40px;
-	height: 40px;
+.lily-redirection-tel, 
+.lily-redirection-mail, 
+.lily-redirection-chat {
 	display: inline-block;
-	margin-right: 3px;
-	margin-top: 10px;
-	text-align: center;
-	line-height: 40px;
-	font-size: 25px !important;
-	border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	vertical-align: top;
 }
 
 
@@ -1811,7 +1820,25 @@ ANIMATIONS
 @keyframes showFromBottom {
 	from { transform: translateY(50px); }
 }
+@-webkit-keyframes bubbleIn {
+	from { -webkit-transform: scale(.7); opacity: 0 }
+  to { -webkit-transform: scale(1); opacity: 1;}
+}
 
+@keyframes bubbleIn {
+	from { transform: scale(.7); opacity: 0 }
+  to { transform: scale(1); opacity: 1;}
+}
+
+@-webkit-keyframes bubbleOut {
+	from { -webkit-transform: scale(1); opacity: 1 }
+  to { -webkit-transform: scale(.7); opacity: 0;}
+}
+
+@keyframes bubbleOut {
+	from { transform: scale(1); opacity: 1 }
+  to { transform: scale(.7); opacity: 0;}
+}
 
 @-webkit-keyframes moveToLeft {
 	to { -webkit-transform: translateX(-100%); }

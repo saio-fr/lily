@@ -13,6 +13,7 @@ define(function(require) {
     app = require('app/app'),
     Collections = require('app/data/collections'),
     PageView = require('app/views/page'),
+
     // Object wrapper returned as a module
     Skeleton;
 
@@ -23,12 +24,13 @@ define(function(require) {
       if (config.isMobile) {
         this.initRouter();
       }
+
       this.listenTo(app, 'app:isShown', this.initRouter);
       this.messages = new Collections.Messages();
 
       /***********************
       MENU (Snap.js)
-    ***********************/
+      ***********************/
 
       // Snap is global on the window object
       var snapper = new window.Snap({
@@ -40,7 +42,7 @@ define(function(require) {
         maxPosition: 230,
         minPosition: -230,
         transitionSpeed: 0.35,
-        easing: 'cubic-bezier(0.28, 0.33, 0, 1.41)',
+        easing: 'cubic-bezier(0.28, 0.33, 0, 1.41)'
       });
 
       $('.app-wrapper').on('click', '.lily-bt-menu', function() {
@@ -50,7 +52,6 @@ define(function(require) {
           snapper.open('left');
           app.track('menu/open');
         }
-
       });
 
       $('.lily-menu-body li a').click(function() {
@@ -66,6 +67,7 @@ define(function(require) {
         $('#icon-iframe-close').click(function() {
           open('/', '_self').close();
         });
+
         $('#icon-iframe-fullscreen').css('display', 'none');
       }
     },
