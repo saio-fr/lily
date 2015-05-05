@@ -89,5 +89,65 @@ Class SynapseConnector {
         ]);
       
     }
+
+    public function addAdditionalQuestion($client, $alt) {
+              
+        $licence = "saio"; //$client->getLicence();
+        
+        // Update Question
+        $json = json_encode(array(
+            "credentials" => array(
+                "password" => $client->getSynapsePassword(),
+                "user" => $licence),
+            "question" => array(
+                "id" => "q_".$alt->getQuestion()->getId()."_".$alt->getId(),
+                "text" => strip_tags($alt->getTitle()),
+                "answerId" => "r_".$alt->getQuestion()->getId()
+            ),
+        ));
+        
+        $res = $this->synapse->addadditionalquestion([
+            "licence" => $licence,
+            "request" => $json
+        ]);
+    }
+    
+    public function updateQuestion($client, $alt) {
+      
+        $licence = "saio"; //$client->getLicence();
+      
+        // Update Question
+        $json = json_encode(array(
+            "credentials" => array(
+                "password" => $client->getSynapsePassword(),
+                "user" => $licence),
+            "item" => array(
+                "id" => "q_".$alt->getQuestion()->getId()."_".$alt->getId(),
+                "text" => strip_tags($alt->getTitle()))
+        ));
+        
+        $res = $this->synapse->updatequestion([
+            "licence" => $licence,
+            "request" => $json
+        ]);
+    }
+
+    public function removeQuestion($client, $alt) {
+      
+        $licence = "saio"; //$client->getLicence();
+      
+        // Update Question
+        $json = json_encode(array(
+            "credentials" => array(
+                "password" => $client->getSynapsePassword(),
+                "user" => $licence),
+            "id" => "q_".$alt->getQuestion()->getId()."_".$alt->getId()
+        ));
+        
+        $res = $this->synapse->removequestion([
+            "licence" => $licence,
+            "request" => $json
+        ]);
+    }
   
 }

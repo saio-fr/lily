@@ -88,6 +88,10 @@ class QuestionsController extends BaseController
             // SEND INFOS TO SYNAPSE ENGINE
             $synapse = $this->container->get('synapse_connector');
             $synapse->addQuestionAnswer($client, $question);
+            
+            foreach ($question->getAlternatives() as $alt) {
+                $synapse->addAdditionalQuestion($client, $alt);
+            }
         
         } else {
           
@@ -106,6 +110,9 @@ class QuestionsController extends BaseController
     public function putAction($id, Request $request)
     {
         $em = $this->getEntityManager();
+        $user = $this->getUser();
+        $client = $user->getClient();
+        $synapse = $this->container->get('synapse_connector');
   
         $question = $this->getEntityManager()
         ->getRepository('LilyKnowledgeBundle:Question')
@@ -134,23 +141,29 @@ class QuestionsController extends BaseController
                 $em->remove($child);
             }
         }
-
+        
         foreach ($originalAlternatives as $alt) {
             if ($question->getAlternatives()->contains($alt) == false) {
+                $synapse->removequestion($client, $alt);
                 // Delete the child question entity
                 $em->remove($alt);
             }
         }
+        
+        foreach ($question->getAlternatives() as $alt) {
+            if ($originalAlternatives->contains($alt) == false) {
+                $synapse->addadditionalquestion($client, $alt);
+            } else {
+                $synapse->updatequestion($client, $alt);
+            }
+        }
   
-        $user = $this->getUser();
-        $client = $user->getClient();
         $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
   
         $em->persist($question);
         $em->flush();
         
         // SEND INFOS TO SYNAPSE ENGINE
-        $synapse = $this->container->get('synapse_connector');
         $synapse->updateQuestionAnswer($client, $question);
   
         return $question;

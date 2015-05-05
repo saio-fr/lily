@@ -12,8 +12,6 @@ define(function(require) {
     app = require('app'),
     Scribe = require('scribe'),
     scribePluginToolbar = require('scribe-plugin-toolbar'),
-    scribePluginSmartLists = require('scribe-plugin-smart-lists'),
-    scribePluginHeadingCommand = require('scribe-plugin-heading-command'),
     Models = require('backoffice/knowledge/data/models'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
@@ -30,8 +28,8 @@ define(function(require) {
       'click a.clear-answer' : 'clearAnswer',
       'click .add-action a' : 'addAction',
       'click a.remove' : 'remove',
-      'click .title input' : 'editTitle',
-      'blur .title input' : 'leaveEditTitle',
+      'focus .title .editor' : 'editTitle',
+      'blur .title .editor' : 'leaveEditTitle',
       'blur .answer .editor' : 'leaveEditAnswer',
       'focus .answer .editor' : 'editAnswer',
       'click .new-answer-type a' : 'newAnswerType',
@@ -46,7 +44,7 @@ define(function(require) {
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
-      if (this.model.get('answerType')) {
+      if (this.model.get('answerType') === 'answer') {
         this.getWysiEditor();
       }
       return this;
@@ -55,23 +53,22 @@ define(function(require) {
     getWysiEditor: function () {
       var edit = this.$('.answer .editor')[0];
       var toolbar = this.$('.answer .toolbar')[0];
-      var scribe = new Scribe(edit);
+      var scribe = new Scribe(edit, {
+        allowBlockElements: false
+      });
       scribe.use(scribePluginToolbar(toolbar));
-      scribe.use(scribePluginSmartLists());
-      scribe.use(scribePluginHeadingCommand(5));
     },
     
     editTitle: function (e) {
       e.stopImmediatePropagation();
       $('.editing').removeClass('editing');
       this.$('.title').first().addClass('editing');
-      this.$('.title input').first().focus().select();
     },
     
     leaveEditTitle: function (e) {
       e.stopImmediatePropagation();
       this.$('.editing').removeClass('editing');
-      var title = this.$('.title input').first().val();
+      var title = this.$('.title .editor').first().text();
       this.model.set({title: title});
     },
 
