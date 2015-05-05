@@ -39,7 +39,6 @@ define(function(require) {
       var alternatives = this.model.get('alternatives');
       
       $.each(alternatives, function (index, alt) {
-        console.log(alt);
         that.add(alt);
       });
 
