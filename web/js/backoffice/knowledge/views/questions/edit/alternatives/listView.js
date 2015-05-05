@@ -50,7 +50,6 @@ define(function(require) {
     },
       
     add: function (alt) {
-      console.log(alt);
       var model = new Models.AlternativeQuestion();
       if (alt) {
         model.set(alt);
