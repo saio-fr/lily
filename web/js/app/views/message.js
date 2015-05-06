@@ -8,6 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
+    _ = require('underscore'),
     config     = require('app/globals'),
     app        = require('app/app'),
     // Object wrapper returned as a module
@@ -45,10 +46,7 @@ define(function(require) {
       // Scroll all the way down again after showing the msg
       objDiv.scrollTop = objDiv.scrollHeight + $message.height();
 
-      $message.on(config.animEndEventName, function() {
-        console.log('msg:animationEnd');
-        $message.off(config.animEndEventName);
-      });
+      app.onAnimEnd($message, callback);
     }
 
   });

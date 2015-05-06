@@ -104,11 +104,12 @@ define(function(require) {
 
     addItem: function(message) {
       var messageView;
+
       // create an instance of the sub-view to render the single message item.
       switch (message.get('from')) {
         case 'visitor':
           messageView = new MessageChatVisitor({
-            model: message,
+            model: message
           }).render();
           break;
 
@@ -185,10 +186,10 @@ define(function(require) {
       }
 
       var message = this.$input.val();
-      if ($.trim(message).length > 0) {
+      if (message.trim().length > 0) {
         // On vérifie que le champ n'est pas vide
         // ou contient uniquement des espaces
-        this.send(message);
+        this.send(message.trim());
       }
 
       // clear the search field
@@ -233,10 +234,11 @@ define(function(require) {
     },
 
     onReconnected: function() {
-      var self = this;
+      var that = this;
+
       // Add a 500ms delay to show user something has happenned.
       window.setTimeout(function() {
-        self.$el.find(".lily-msg-reconnect").hide();
+        that.$el.find('.lily-msg-reconnect').hide();
         this.reconnectionMsgVisible = false;
       }, 400);
     },
@@ -257,10 +259,12 @@ define(function(require) {
 
     closeChildren: function() {
 
-      var self = this;
+      var that = this;
       this.childViews.forEach(function(view) {
+
         // delete index for that view
-        self.childViews.remove(view);
+        that.childViews.remove(view);
+
         // remove the view
         view.remove();
       });
@@ -268,11 +272,11 @@ define(function(require) {
 
     remove: function() {
       this.closeChildren();
+
       // destroy models in collection, reset collection and delete reference;
       this.collection.reset();
-      this.collection = null;
       app.off('ws:subscribedToChat', this.onSubscribedChat);
-      // app.skeleton.chatCollection = null;
+
       Backbone.View.prototype.remove.apply(this, arguments);
     }
 

@@ -13,6 +13,7 @@ define(function(require) {
     when = require('when'),
     Models = require('app/data/models'),
     config = require('app/globals'),
+
     // Object wrapper returned as a module
     api = {};
 
@@ -42,11 +43,11 @@ define(function(require) {
   api.sendSynapse = function(method, url, data) {
     var deferred = when.defer();
 
-      var credentialsJson = {
-        "password": config.synapse.password,
-        "user": config.synapse.user
-      },
-      input = _.extend(data, { credentials: credentialsJson });
+    var credentialsJson = {
+      'password': config.synapse.password,
+      'user': config.synapse.user
+    },
+    input = _.extend(data, { credentials: credentialsJson });
 
     if (method && url) {
       $.ajax({
@@ -54,7 +55,7 @@ define(function(require) {
         url: config.synapse.restRoot + url,
         data: JSON.stringify(input),
         dataType: 'json',
-        contentType: "application/json; charset=utf-8",
+        contentType: 'application/json; charset=utf-8',
 
         success: function(data) {
           deferred.resolve(data);
@@ -72,7 +73,7 @@ define(function(require) {
   };
 
   api.synapse_getAnswerFromId = function(answerId) {
-    return this.sendSynapse("POST", "getAnswerTextFromId", { id: answerId });
+    return this.sendSynapse('POST', 'getAnswerTextFromId', { id: answerId });
   };
 
   /**
@@ -144,7 +145,7 @@ define(function(require) {
   };
 
   api.sendMail = function(data) {
-    app.track("mail/send_mail");
+    app.track('mail/send_mail');
     return this.send('POST', '/api/' + config.licence + '/mail', data);
   };
 

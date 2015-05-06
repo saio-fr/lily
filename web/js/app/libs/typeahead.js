@@ -681,7 +681,6 @@
         query = query || "";
         uriEncodedQuery = encodeURIComponent(query);
         url = this.remote.replace ? this.remote.replace(this.remote.url, query) : this.remote.url.replace(this.remote.wildcard, uriEncodedQuery);
-                
         // Added by synapse. Library update will break the
         if (this.remote.ajax.dataWithWildcard) {
           this.remote.ajax.data = this.remote.ajax.dataWithWildcard.replace(this.remote.wildcard, query);

@@ -1,26 +1,38 @@
-<ul>
-<% if (config.hasTel) { %>
-	<i class="lily-redirection-item lily-redirection-mail">
-		<a href="#/mail"><%= copy.mail %>
-			<span class="lily-icon lily-icon-arrow-right"></span>
-		</a>
-	</i>
-<% } %>
-
-<% if (config.hasMail)  { %>
-	<i class="lily-redirection-item lily-redirection-tel">
-		<a href="tel:<%= redirections.tel %>">	<%= copy.tel %>
-			<span class="lily-icon lily-icon-arrow-right"></span>
-		</a>
-	</i>
-<% } %>
+<ul class="choices-container">
 
 <% if (config.hasChat && config.chatAvailable)  { %>
-	<i class="lily-redirection-item lily-redirection-chat">
+	<li class="lily-redirection-item lily-redirection-chat">
 		<a href="#/chat">
+			<span class="lily-icon lily-icon-conversation"></span>
 			<%= copy.chat %>
 			<span class="lily-icon lily-icon-arrow-right"></span>
 		</a>
-	</i>
+	</li>
 <% } %>
+
+<% if (config.hasTel) { %>
+	<li class="lily-redirection-item lily-redirection-mail">
+		<a href="#/mail">
+			<span class="lily-icon lily-icon-mail"></span>
+			<%= copy.mail %>
+			<span class="lily-icon lily-icon-arrow-right"></span>
+		</a>
+	</li>
+<% } %>
+
+<% if (config.hasMail)  { %>
+	<li class="lily-redirection-item lily-redirection-tel">
+		<a href="tel:<%= redirections.tel %>">
+			<span class="lily-icon lily-icon-phone"></span>
+			<%= copy.tel %>
+			<span class="lily-icon lily-icon-arrow-right"></span>
+		</a>
+	</li>
+<% } %>
+
+	<li class="lily-redirection-item lily-redirection-none">
+		<span class="lily-icon lily-icon-cross"></span>
+		<%= copy.none %>
+		<span class="lily-icon lily-icon-arrow-right"></span>
+	</li>
 </ul>

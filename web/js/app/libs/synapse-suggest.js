@@ -123,7 +123,7 @@
 
         console.log(JSON.stringify({
           credentials: this.credentialsJson,
-          searchRequest: { 
+          searchRequest: {
             index: 'Saio',
             lang: 'fr',
             request: '%QUERY'
@@ -221,7 +221,7 @@
             };
           };
 
-          doSmartSearchWS(query, smartSearchCallback);
+          // doSmartSearchWS(query, smartSearchCallback);
         } else {
 
           that.bloodhound.get(query, function(suggestions) {

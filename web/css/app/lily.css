@@ -9,14 +9,15 @@ FONTS
 
 @font-face {
 	font-family: 'lily';
-	src:url('../../font/api/lily.eot?ejyw7h');
-	src:url('../../font/api/lily.eot?#iefixejyw7h') format('embedded-opentype'),
-		url('../../font/api/lily.woff?ejyw7h') format('woff'),
-		url('../../font/api/lily.ttf?ejyw7h') format('truetype'),
-		url('../../font/api/lily.svg?ejyw7h#lily') format('svg');
+	src:url('../../font/api/lily.eot?-75mdob');
+	src:url('../../font/api/lily.eot?#iefix-75mdob') format('embedded-opentype'),
+		url('../../font/api/lily.woff?-75mdob') format('woff'),
+		url('../../font/api/lily.ttf?-75mdob') format('truetype'),
+		url('../../font/api/lily.svg?-75mdob#lily') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
+
 .lily-icon {
 	font-family: 'lily';
 	speak: none;
@@ -25,6 +26,7 @@ FONTS
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
+	font-size: 15px;
 
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
@@ -41,7 +43,7 @@ FONTS
 
 /*Avatar icons*/
 .lily-icon-search:before {
-	content: "\e601";
+	content: "\e616";
 	display: inline-block;
 	height: 40px;
 	vertical-align: middle;
@@ -49,111 +51,185 @@ FONTS
 	text-align: center;
 	font-size: 22px;
 }
-.lily-icon-parameters:before {
-	content: "\e603";
-}
 .lily-icon-avatar:before {
-	content: "\e609";
-	font-size: 16px;
+	content: "\e61c";
 	line-height: 45px;
 }
-.lily-icon-mail:before {
-	content: "\e606";
-	font-size: 12px;
-}
-.lily-icon-phone:before {
-	content: "\e602";
-	font-size: 15px;
-}
-.lily-icon-smartphone:before {
-	content: "\f10b";
-	font-size: 28px;
-}
-.lily-icon-mail-alt:before {
-	content: "\e606";
-	font-size: 12px;
-}
 .lily-icon-conversation:before {
-	content: "\e608";
-	font-size: 12px;
+	content: "\e607";
+	line-height: 45px;
+}
+.lily-icon-faq:before {
+	content: "\e615";
+	line-height: 45px;
 }
 .lily-icon-menu:before {
-	content: "\e605";
+	content: "\e618";
 	width: 40px;
 	height: 40px;
 	display: inline-block;
 	text-align: center;
 	line-height: 40px;
 	vertical-align: middle;
-	font-size: 16px;
+  font-size: 26px;
 }
 .lily-icon-chat:before {
 	content: "\e608";
 	line-height: 45px;
 	font-size: 14px;
 }
-.lily-icon-faq:before {
-	content: "\e607";
-	font-size: 18px;
-}
-.lily-icon-favorite:before {
-	content: "\e600";
-	font-size: 16px;
-}
-.lily-icon-home:before {
-	content: "\e607";
-	font-size: 21px;
-}
 .lily-icon-arrow-right:before {
-	content: "\e60a";
+	content: "\e602";
 	font-size: 12px;
-	line-height: 52px;
+	line-height: 1;
 }
 .lily-icon-arrow-left:before {
 	content: "\e60b";
-	font-size: 10px;
+	font-size: 12px;
 }
 .lily-icon-thumb-down:before {
-	content: "\e60e";
+	content: "\e61d";
 	font-size: 18px;
 }
 .lily-icon-thumb-up:before {
-	content: "\e60d";
+	content: "\e61e";
 	font-size: 18px;
 }
 
-/*Back-office icons*/
-.lily-icon-spam:before {
-	content: "\e60f";
-	font-size: 14px;
-}
-.lily-icon-trash:before {
-	content: "\e610";
-	font-size: 14px;
-}
-.lily-icon-folder:before {
-	content: "\e611";
-	font-size: 14px;
-}
-.lily-icon-label:before {
-	content: "\e612";
-	font-size: 14px;
-}
-.lily-icon-browse-next:before {
-	content: "\e613";
-	font-size: 14px;
-}
-.lily-icon-browse-previous:before {
-	content: "\e614";
-	font-size: 14px;
-}
-.lily-icon-arrow-up:before {
-	content: "\e615";
-	font-size: 14px;
-}
 .lily-icon-arrow-down:before {
+	content: "\e600";
+}
+
+.lily-icon-arrow-left:before {
+	content: "\e601";
+}
+
+.lily-icon-arrow-right:before {
+	content: "\e602";
+}
+
+.lily-icon-arrow-up:before {
+	content: "\e603";
+}
+
+.lily-icon-emoji-flirt:before {
+	content: "\e604";
+}
+
+.lily-icon-attachment:before {
+	content: "\e605";
+}
+
+.lily-icon-bar-graph:before {
+	content: "\e606";
+}
+
+.icon-conversation:before {
+	content: "\e607";
+}
+
+.lily-icon-check:before {
+	content: "\e608";
+}
+
+.lily-icon-parameters:before {
+	content: "\e609";
+}
+
+.lily-icon-cross:before {
+	content: "\e60a";
+}
+
+.lily-icon-refresh:before {
+	content: "\e60b";
+}
+
+.lily-icon-emoji-happy:before {
+	content: "\e60c";
+}
+
+.lily-icon-emoji-neutral:before {
+	content: "\e60d";
+}
+
+.lily-icon-emoji-sad:before {
+	content: "\e60e";
+}
+
+.lily-icon-flash:before {
+	content: "\e60f";
+}
+
+.lily-icon-heart-outlined:before {
+	content: "\e610";
+}
+
+.lily-icon-heart:before {
+	content: "\e611";
+}
+
+.lily-icon-help:before {
+	content: "\e612";
+}
+
+.lily-icon-home:before {
+	content: "\e613";
+}
+
+.lily-icon-light-bulb:before {
+	content: "\e614";
+}
+
+.lily-icon-list:before {
+	content: "\e615";
+}
+
+.lily-icon-search:before {
 	content: "\e616";
-	font-size: 14px;
+}
+
+.lily-icon-mail:before {
+	content: "\e617";
+}
+
+.lily-icon-menu:before {
+	content: "\e618";
+}
+
+.lily-icon-message:before {
+	content: "\e619";
+}
+
+.lily-icon-minus:before {
+	content: "\e61a";
+}
+
+.lily-icon-phone:before {
+	content: "\e61b";
+}
+
+.lily-icon-thumb-down:before {
+	content: "\e61d";
+}
+
+.lily-icon-thumb-up:before {
+	content: "\e61e";
+}
+
+.lily-icon-typing:before {
+	content: "\e61f";
+}
+
+.lily-icon-unread:before {
+	content: "\e620";
+}
+
+.lily-icon-radio-checked:before {
+	content: "\ea54";
+}
+
+.lily-icon-radio-unchecked:before {
+	content: "\ea56";
 }
 
 /* ==========================================================================
@@ -595,13 +671,20 @@ HEADER
 }
 
 .chat-input-component,
-.ai-input-component {
+.avi-input-component {
   width: 100%;
-  padding: 0 9px;
+	padding: 0 13px;
   margin: 0;
-  margin-bottom: 9px;
+	margin-bottom: 18px;
   display: block;
   min-height: 30px;
+}
+
+.chat-input:focus,
+.avi-input:focus {
+	outline: none;
+	border: solid 1px #B6B6B6;
+	box-shadow: 0 0 3px 0 #cecece;
 }
 
 .wrapper-input {
@@ -807,22 +890,20 @@ MESSAGES
 	text-decoration: underline;
 }
 
-.lily-box-messages, #chat-box-messages {
+.lily-box-messages, 
+.chat-messages {
 	position: absolute;
 	top: 0px;
 	height: 100%;
   width: 100%;
-  padding: 13px 13px 175px;
+	padding: 13px 13px 184px;
 	font-size: 15px;
 	z-index: 3;
 	overflow-y: auto;
-	margin-top: 0;
-	margin-bottom: 0;
-  margin-right: 0;
+	margin: 0;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	overflow-y: auto;
 	-webkit-user-select: initial;
 	/*-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(19%,rgba(255,255,255,0.3)), color-stop(29%,rgba(255,255,255,1)));*/
 	-webkit-backface-visibility: hidden;
@@ -830,13 +911,13 @@ MESSAGES
 	-ms-backface-visibility: hidden;
 }
 
-#chat-box-messages {
-  padding: 13px;
+.chat-messages {
+  padding: 13px 13px 85px;
 }
 
 .avatar-wrapper {
   position: absolute;
-  bottom: 61px;
+	bottom: 70px;
   left: 13px;
   width: 75px;
   height: 75px;
@@ -870,8 +951,8 @@ MESSAGES
 .lily-msg-avatar,
 .lily-msg-chat-visitor,
 .lily-msg-precision,
-.lily-msg-chat-operator,
-.lily-msg-redirection {
+/*.lily-msg-redirection,*/
+.lily-msg-chat-operator {
 	max-width: 85%;
 	border-radius: 10px;
 	box-sizing: border-box;
@@ -887,9 +968,17 @@ MESSAGES
   display: none;
 }
 
-.lily-msg-avatar, 
-.lily-msg-precision {
+.lily-msg-user,
+.lily-msg-chat-visitor {
 	background: #e5e5e5;
+}
+
+.lily-msg-precision {
+	background: #fff;
+}
+
+.lily-msg-reporting {
+	background: none;
 }
 
 .lily-msg-precision {
@@ -902,6 +991,7 @@ MESSAGES
   -moz-animation: showFromBottom .25s cubic-bezier(0.1, 0.91, 0.43, 1.29) both;
   animation: showFromBottom .25s cubic-bezier(0.1, 0.91, 0.43, 1.29) both;
   display: block;
+  opacity: 1;
 }
 
 .lily-msg-chat-operator {
@@ -909,7 +999,6 @@ MESSAGES
 	margin-left: 29px;
 	margin-top: 0;
 }
-
 
 #chat-box-messages .lily-msg-server {
 	display: block;
@@ -1017,12 +1106,49 @@ MESSAGES
 	border-radius: 50%;
 }
 
+.lily-redirection {
+  border-radius: 10px;
+  text-align: left;
+  text-indent: inherit;
+  line-height: 1.3;
+  position: absolute;
+  padding: 0 13px;
+  bottom: 18px;
+  width: 100%;
+  z-index: 5;
+  display: none;
+}
+
+.component-show {
+  -webkit-animation: bubbleInSoft 0.2s cubic-bezier(0.32, 0.87, 0.58, 1.21) both;
+  -moz-animation: bubbleInSoft 0.2s cubic-bezier(0.32, 0.87, 0.58, 1.21) both;
+  animation: bubbleInSoft 0.2s cubic-bezier(0.32, 0.87, 0.58, 1.21) both;
+  display: block;
+}
+
+.component-hide {
+  -webkit-animation: bubbleOutSoft 0.15s cubic-bezier(0, 1.19, 0.49, 1.35) both;
+  -moz-animation: bubbleOutSoft 0.15s cubic-bezier(0, 1.19, 0.49, 1.35) both;
+  animation: bubbleOutSoft 0.15s cubic-bezier(0, 1.19, 0.49, 1.35) both;
+}
+
+.choices-container {
+	display: block;
+  background: #fff;
+  border: solid 1px #888888;
+  margin-top: 0px;
+  padding: 0;
+  border-radius: 10px;
+}
+
 .lily-msg-redirection {
 	display: block;
 	background: #fff;
 	border: solid 1px #888888;
   margin-top: 0px;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .lily-redirection-item {
@@ -1034,6 +1160,24 @@ MESSAGES
   transition: all 0.3s;
 	background: transparent;
 	position: relative;
+	cursor: pointer;
+}
+
+.lily-redirection-item .lily-icon-mail,
+.lily-redirection-item .lily-icon-phone,
+.lily-redirection-item .lily-icon-conversation,
+.lily-redirection-item .lily-icon-cross {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.lily-redirection-item .lily-icon-mail:before,
+.lily-redirection-item .lily-icon-phone:before,
+.lily-redirection-item .lily-icon-conversation:before,
+.lily-redirection-item .lily-icon-cross:before {
+  position: relative;
+  line-height: 1;
+  top: 2px;
 }
 
 .lily-redirection-item:first-child {
@@ -1041,15 +1185,22 @@ MESSAGES
 }
 
 .lily-redirection-item:last-child {
-	border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
+  border-bottom: none;
 }
 
-.lily-redirection-item:hover {
+.lily-redirection-item:hover,
+.lily-redirection-item.lily-redirection-none:active  {
   background: rgba(169, 8, 19, 0.08);
 }
 
-.lily-redirection-item:active {
+.lily-redirection-item:active,
+.lily-redirection-item.lily-redirection-none:active  {
   background: rgba(169, 8, 19, 0.2);
+}
+.lily-redirection-item:active a ,
+.lily-redirection-item.lily-redirection-none:active {
+	padding-left: 15px;
 }
 
 .lily-redirection-item .lily-icon-arrow-right {
@@ -1064,11 +1215,15 @@ MESSAGES
 	border-bottom: none;
 }
 
-.lily-redirection-item a {
+.lily-redirection-item a,
+.lily-redirection-item.lily-redirection-none {
 	text-decoration: none;
-  padding: 5px 22px 7px 8px;
+  padding: 5px 30px 7px 8px;
   display: inline-block;
   width: 100%;
+  -webkit-transition: all 0.15s cubic-bezier(0.16, 0.74, 0.57, 1.29);
+  -moz-transition: all 0.15s cubic-bezier(0.16, 0.74, 0.57, 1.29);
+  transition: all 0.15s cubic-bezier(0.16, 0.74, 0.57, 1.29);
 }
 
 #lily-msg-avatar a {
@@ -1147,8 +1302,7 @@ MESSAGES
 	height: 0;
 }
 
-.lily-box-messages .lily-msg-avatar,
-.lily-box-messages .lily-msg-redirection {
+.lily-box-messages .lily-msg-avatar {
 	float: left;
 	margin-left: 0;
 }
@@ -1168,19 +1322,12 @@ MESSAGES
   margin-bottom: 13px;
 }
 .lily-msg-user + .lily-msg-user ,
-.lily-msg-avatar + .lily-msg-avatar:not(.lily-msg-redirection),
+.lily-msg-avatar + .lily-msg-avatar,
 .lily-msg-chat-operator:not(.lily-msg-chat-wait) + .lily-msg-chat-operator,
 .lily-msg-chat-visitor + .lily-msg-chat-visitor {
   margin-top: -11px;
 }
 /* End logic for spacing between messages */
-
-
-.lily-box-messages .lily-msg-reporting{
-/*	position: absolute;
-	right: 0;
-	margin-top: 10px;*/
-}
 
 .lily-msg-reporting li.lily-precision-list:nth-child(2){
 	margin-top: 5px;
@@ -1510,7 +1657,7 @@ MENU
   text-align: left;
   margin-left: 0;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 18px;
   text-overflow: ellipsis;
   width: 100%;
   display: inline-block;
@@ -1605,11 +1752,30 @@ SNAP.JS
 CONTACT FORM
 *******************/
 
+.btn-close {
+	position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  z-index: 5;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-close .lily-icon-cross:before {
+	font-size: 25px;
+}
+
 .lily-contact-form .lily-contact-form-label {
 	margin-top: 15px;
   margin-bottom: 3px;
   font-size: 15px;
   font-weight: 700;
+}
+
+.lily-contact-form .lily-contact-form-label:first-child {
+	margin-top: 0;
 }
 
 .lily-contact-form .lily-contact-form-title {
@@ -1622,7 +1788,7 @@ CONTACT FORM
 	position: relative;
 	width: 100%;
 	margin: 0;
-	padding: 0 12px;
+	padding: 15px 12px 0;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -1686,69 +1852,35 @@ CONTACT FORM
 }
 
 .lily-contact-form p {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-size: 12px;
-    font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.brand-footer {
+	position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.saio-brandmark {
+	text-decoration: none;
+}
+
+.saio-brandmark .saio-logo {
+	height: 12px;
+  vertical-align: baseline;
 }
 
 /*******************
 MEDIA QUERIES
 *******************/
-
-@media screen and (max-width: 300px){
-	.lily-box-messages {
-		width: 100%;
-	}
-}
-
-@media screen and (min-width: 480px) {
-
-.lily-box-messages {
-	min-width: 320px;
-	width: 100%;
-	font-size: 0.9em;
-}
-
-.lily-box-messages .lily-msg-user,
-#chat-box-messages .lily-chat-msg-visitor,
-.lily-box-messages .lily-msg-avatar,
-#chat-box-messages .lily-chat-msg-operator,
-.lily-box-messages .lily-msg-redirection{
-	padding: 12px;
-}
-
-@media screen and (max-width: 480px){
-	.lily-box-messages .lily-msg-reporting {
-		margin-top: 15px;
-	}
-}
-
-
-
-}
-
-@media screen and (max-height: 350px){
-	.lily-bottom-links-home, #canvas {
-		-webkit-transition: -webkit-transform 0.3s ease-in-out;
-		-moz-transition: -moz-transform 0.3s ease-in-out;
-		-o-transition: -o-transform 0.3s ease-in-out;
-		-ms-transition: -ms-transform 0.3s ease-in-out;
-		transition: transform 0.3s ease-in-out;
-		-webkit-transform: translateY(90px);
-		-moz-transform: translateY(90px);
-		-o-transform: translateY(90px);
-		-ms-transform: translateY(90px);
-		transform: translateY(90px);
-		-webkit-backface-visibility: hidden;
-		-moz-backface-visibility: hidden;
-		-ms-backface-visibility: hidden;
-	}
-
-	#canvas {
-	display: none;
-	}
-}
 
 
 /*********************
@@ -1757,7 +1889,8 @@ USEFUL
 
 
 .scrollable{
-	overflow-x: auto;
+	overflow-x: hidden;
+  overflow-y: auto;
 	-webkit-transition-property: top, bottom;
 	transition-property: top, bottom;
 	-webkit-transition-duration: .2s, .2s;
@@ -1783,6 +1916,7 @@ USEFUL
 ::-webkit-scrollbar-thumb {
 	background: #929292;
 	border-radius: 5px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -1792,10 +1926,12 @@ USEFUL
 
 ::-webkit-scrollbar-thumb:hover{
 	background: #6a6a6a;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-thumb:active{
 	background: #6a6a6a;
+  width: 8px;
 }
 
 .hidden {
@@ -1824,12 +1960,6 @@ USEFUL
 /*******************
 ANIMATIONS
 *******************/
-
-.lily-message-show{
-	-webkit-animation: showFromBottom .3s ease both;
-	-moz-animation: showFromBottom .3s ease both;
-	animation: showFromBottom .3s ease both;
-}
 
 .lily-page-moveToLeft {
 	-webkit-animation: moveToLeft .5s ease both;
@@ -1872,13 +2002,13 @@ ANIMATIONS
 }
 
 @-webkit-keyframes showFromBottom {
-	from { -webkit-transform: translateY(50px); }
+	from { -webkit-transform: translateY(30px); opacity: .5}
 }
 @-moz-keyframes showFromBottom {
-	from { -moz-transform: translateY(50px); }
+	from { -moz-transform: translateY(30px); opacity: .5}
 }
 @keyframes showFromBottom {
-	from { transform: translateY(50px); }
+	from { transform: translateY(30px); opacity: .5}
 }
 @-webkit-keyframes bubbleIn {
 	from { -webkit-transform: scale(.7); opacity: 0 }
@@ -1888,6 +2018,41 @@ ANIMATIONS
 @keyframes bubbleIn {
 	from { transform: scale(.7); opacity: 0 }
   to { transform: scale(1); opacity: 1;}
+}
+@-webkit-keyframes bubbleIn {
+	from { -webkit-transform: scale(.7); opacity: 0 }
+  to { -webkit-transform: scale(1); opacity: 1;}
+}
+@-moz-keyframes bubbleIn {
+	from { -moz-transform: scale(.7); opacity: 0 }
+  to { -moz-transform: scale(1); opacity: 1;}
+}
+
+
+@keyframes bubbleInSoft {
+	from { transform: scale(.9); opacity: .5 }
+  to { transform: scale(1); opacity: 1;}
+}
+@-webkit-keyframes bubbleInSoft {
+	from { -webkit-transform: scale(.9); opacity: .5 }
+  to { -webkit-transform: scale(1); opacity: 1;}
+}
+@-moz-keyframes bubbleInSoft {
+	from { -moz-transform: scale(.9); opacity: .5 }
+  to { -moz-transform: scale(1); opacity: 1;}
+}
+
+@keyframes bubbleOutSoft {
+	from { transform: scale(1); opacity: 1 }
+  to { transform: scale(.9); opacity: .5;}
+}
+@-webkit-keyframes bubbleOutSoft {
+	from { -webkit-transform: scale(1); opacity: 1 }
+  to { -webkit-transform: scale(.9); opacity: .5;}
+}
+@-moz-keyframes bubbleOutSoft {
+	from { -moz-transform: scale(1); opacity: 1 }
+  to { -moz-transform: scale(.9); opacity: .5;}
 }
 
 @-webkit-keyframes bubbleOut {

@@ -32,6 +32,7 @@ define(function(require) {
     tel: 'Nous téléphoner',
     mail: 'Nous envoyer un mail',
     chat: 'Discuter avec un de nos conseillers via chat',
+    none: 'Je ne veux pas être redirigé'
   };
 
   g.avi.messages.satisfaction = {

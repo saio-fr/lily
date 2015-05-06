@@ -76,7 +76,7 @@ define(function(require) {
       var view = new AviView();
       utils.goTo(view);
 
-      app.pageView("/avi");
+      app.pageView('/avi');
     },
 
     chat: function() {
@@ -89,7 +89,7 @@ define(function(require) {
       } else {
         view = new ChatView();
         utils.goTo(view);
-        app.pageView("/chat");
+        app.pageView('/chat');
       }
     },
 
@@ -98,7 +98,7 @@ define(function(require) {
       var view = new ChatWelcomeScreenView();
       utils.goTo(view);
 
-      app.pageView("/welcomeScreen");
+      app.pageView('/welcomeScreen');
     },
 
     mail: function() {
@@ -106,7 +106,7 @@ define(function(require) {
       var view = new MailView();
       utils.goTo(view);
 
-      app.pageView("/mail");
+      app.pageView('/mail');
     },
 
     faq: function(id) {

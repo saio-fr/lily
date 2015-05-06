@@ -71,39 +71,32 @@ define(function(require) {
           callback: callback
         };
 
-      if (config.support) { // Browser support for onEndAnim event
-        $nextPage.addClass(inClass + visible)
-          .on(config.animEndEventName, data, this.onTransitionIn);
-      } else {
-        $nextPage.addClass(inClass + visible);
-        this.onTransitionIn({
-          data: data
-        });
-      }
+      this.whileTransitioning();
 
+      $nextPage.addClass(inClass + visible);
+      app.onAnimEnd($nextPage, this.onTransitionIn, data, this);
     },
 
-    onTransitionIn: function(e) {
-
-      $(this).off(config.animEndEventName);
+    onTransitionIn: function(data) {
 
       app.endNextPage = true;
-
       FastClick.attach(document.body);
 
-      if (_.isFunction(e.data.callback)) {
-        e.data.callback();
+      if (_.isFunction(data.callback)) {
+        data.callback();
       }
 
-      if (e.data.$currPage) {
-        e.data.previous.remove();
+      if (data.$currPage) {
+        data.previous.remove();
       }
 
-      if (e.data.$nextPage) {
-        e.data.$nextPage.removeClass(e.data.inClass);
+      if (data.$nextPage) {
+        data.$nextPage.removeClass(data.inClass);
       }
 
-      e.data.view.trigger('page:transitionnedIn');
+      this.stopLinksClickPreventing();
+
+      data.view.trigger('page:transitionnedIn');
     },
 
     transitionOut: function(transition, reverse, callback) {
@@ -118,29 +111,36 @@ define(function(require) {
           callback: callback
         };
 
-      if (config.support) {
-        $currPage.addClass(outClass)
-          .on(config.animEndEventName, data, this.onTransitionOut);
-      } else {
-        $currPage.addClass(outClass);
-        this.onTransitionOut({
-          data: data
-        });
-      }
+      this.whileTransitioning();
 
+      $currPage.addClass(outClass);
+      app.onAnimEnd($currPage, this.onTransitionOut, data, this);
     },
 
-    onTransitionOut: function(e) { // Browser support for onEndAnim event
-      $(this).off(config.animEndEventName);
-      if (_.isFunction(e.data.callback)) {
-        e.data.callback();
+    onTransitionOut: function(data) { // Browser support for onEndAnim event
+      if (_.isFunction(data.callback)) {
+        data.callback();
       }
 
-      e.data.previous.$el
+      data.previous.$el
         .find('.lily-page-cont')
         .removeClass('lily-page-visible');
 
-      e.data.previous.remove();
+      data.previous.remove();
+
+      this.stopLinksClickPreventing();
+    },
+
+    whileTransitioning: function() {
+      $('.lily-page a').on('click', this.preventLinkClicks);
+    },
+
+    preventLinkClicks: function(event) {
+      event.preventDefault();
+    },
+
+    stopLinksClickPreventing: function() {
+      $('.lily-page a').off('click', this.preventLinkClicks);
     }
 
   });

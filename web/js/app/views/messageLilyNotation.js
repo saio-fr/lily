@@ -17,7 +17,7 @@ var Backbone = require('backbone'),
 
 MessageLilyNotation = Backbone.View.extend({
 
-  className: 'lily-msg lily-msg-avatar lily-message-show lily-msg-reporting lily-cst-msg-reporting',
+  className: 'lily-msg lily-msg-avatar lily-message-show lily-msg-reporting',
 
   model: Models.LilyNotation,
 

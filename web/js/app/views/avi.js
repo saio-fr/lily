@@ -33,8 +33,8 @@ define(function(require) {
   AviView = PageView.extend({
 
     events: {
-      'submit  .chat-input-component': 'getAviToAnswer',
-      'keydown .chat-input':           'getAviToAnswer'
+      'submit  .avi-input-component': 'getAviToAnswer',
+      'keydown .avi-input':           'getAviToAnswer'
     },
 
     initialize: function() {
@@ -42,17 +42,18 @@ define(function(require) {
       that.listenTo(this, 'page:transitionnedIn', that.setupSynapse, that);
       that.childViews = new Backbone.ChildViewContainer();
 
-      that.listenTo(app, 'precision',         that.sendPrecision);
-      that.listenTo(app, 'avi:satisfaction',  that.onSatisfaction);
-      that.listenTo(app, 'redirection',       that.sendRedirectionMail);
+      that.listenTo(app, 'precision',              that.sendPrecision);
+      that.listenTo(app, 'avi:satisfaction',       that.onSatisfaction);
+      that.listenTo(app, 'avi:choicesViewDismiss', that._onDismissChoicesView);
 
       that.listenTo(that, 'conversation:newMessage', that.onNewMessage);
 
       that.render({ page: true }).$el
         .appendTo('#lily-wrapper-page');
 
-      that.$input  = that.$('.chat-input').myedit();
-      that.$avi    = that.$('.avatar-wrapper');
+      that.$input  =         that.$('.avi-input').myedit();
+      that.$avi    =         that.$('.avatar-wrapper');
+      that.$inputComponent = that.$('.avi-input-component');
       that.$msgBox = $('.lily-box-messages');
 
       that.showAvi = true;
@@ -77,14 +78,14 @@ define(function(require) {
     setupSynapse: function() {
       // After rendering the view, hooks the input with synapse:
       this.suggest = new synapse_suggest(config.synapse.user, config.synapse.password);
-      this.suggest.addSuggestionsToInput('.chat-input', 'suggestions', 3, 3);
+      this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
       this.setQuestionSelectedHandler(this.getAviToAnswer);
     },
 
     setQuestionSelectedHandler: function(handler) {
       var that = this,
           callback = _.bind(handler, that);
-      $('.chat-input').on('typeahead:selected', function(event, suggest, dataset) {
+      $('.avi-input').on('typeahead:selected', function(event, suggest, dataset) {
         callback(null, suggest);
       });
     },
@@ -139,26 +140,29 @@ define(function(require) {
         copy: {
           tel: config.avi.messages.redirection.tel,
           mail: config.avi.messages.redirection.mail,
-          chat: config.avi.messages.redirection.chat
+          chat: config.avi.messages.redirection.chat,
+          none: config.avi.messages.redirection.none
         }
       });
 
-      that._doAsyncMsg(null, 700)
+      that._asyncWithoutLoading(null, 800)
       .then(function() {
-        return that._addMessage(question, 'lily-redirection', model);
+        // return that._addMessage(question, 'lily-redirection', model);
+        return that._createRedirectionView(model);
       });
     },
 
     hasNoAnswer: function(question) {
       var that = this;
-      that._doAsyncMsg(function() {
-        // 1) Log the unAnswered question to create a ticket
-        api.logRequest(question);
-      }, 500)
+
+      // 1) Log the unAnswered question to create a ticket
+      api.logRequest(question);
+      that._asyncWithLoading(function() {
+      }, 0)
       .then(function() {
         // 2) Propose the visitor to be forwarded to tel/mail/chat
         that.apologise();
-        that._doAsyncMsg(null, 300)
+        that._asyncWithoutLoading(null, 0)
         .then(function() {
           return that.offerRedirection(question);
         });
@@ -201,7 +205,7 @@ define(function(require) {
     // Internals:
     // ==============================================
 
-    _doAsyncMsg: function(callback, delay) {
+    _asyncWithLoading: function(callback, delay) {
       var that = this;
 
       // 1) Show loading indicator
@@ -223,6 +227,23 @@ define(function(require) {
       .then(function(answer) {
         return that._clearLoading(answer);
       }, that._failedPromise);
+    },
+
+    _asyncWithoutLoading: function(callback, delay) {
+      var defer = when.defer();
+
+      setTimeout(function() {
+
+        // 2) call callback method
+        // ------------------------------------
+        if (callback && _.isFunction(callback)) {
+          callback();
+        }
+
+        defer.resolve();
+      }, delay);
+
+      return defer.promise;
     },
 
     _printVisitorMsg: function(msg) {
@@ -278,8 +299,10 @@ define(function(require) {
       }
 
       if (messageType === 'lily-notation') {
+        // if message is notation, keep an index of it to be able to remove it when needed
         indexer = 'notationView';
       } else {
+        // If message is not notation, trigger the onNewMessage method
         this.trigger('conversation:newMessage');
       }
 
@@ -291,6 +314,36 @@ define(function(require) {
 
     _createChoicesView: function(choices, handler) {
 
+    },
+
+    _createRedirectionView: function(model) {
+      var indexer = 'redirectionView';
+
+      if (this.childViews.findByCustom(indexer)) {
+        return;
+      }
+
+      this._showAvi(false);
+      this.$inputComponent
+        .removeClass('component-show')
+        .addClass('component-hide');
+
+      var redirection = new MessageLilyRedirection({
+        model: model
+      }).render();
+
+      this.childViews.add(redirection, indexer);
+    },
+
+    _onDismissChoicesView: function(viewType) {
+      this.$inputComponent
+        .removeClass('component-hide')
+        .addClass('component-show');
+
+      var choicesView = this.childViews.findByCustom(viewType);
+      this.childViews.remove(choicesView);
+      choicesView.remove();
+      this._showAvi(true);
     },
 
     /**
@@ -388,10 +441,27 @@ define(function(require) {
 
       // Rectify padding if header button is shown
       if ($('.lily-cst-header').is(':visible')) {
-        var padTop = that.$msgBox.css('padding-top');
-        that.$msgBox.css('padding-top', parseInt(padTop, 10) +
-          $('.lily-cst-header').height());
+        that.$msgBox.css('padding-top', 69);
       }
+    },
+
+    _handleAviAnswer: function(answer) {
+
+      api.logRequest(answer.answer, answer.id);
+
+      // answer is empty or white spaces
+      if (!answer.answer || /^\s+$/.test(answer.answer)) {
+        return answer;
+      }
+
+      // Simple answer
+      if (!answer.children || answer.children.length <= 0) {
+        return this._printAviMsg(answer.answer);
+      }
+
+      // Handle complex answer (with precisions/actions needed)
+      // Do that for now, until complex answer Logic gets implemented
+      return this._printAviMsg(answer.answer);
     },
 
     _isNotMsgAnimating: function() {
@@ -415,12 +485,13 @@ define(function(require) {
         .removeClass(animClassOut)
         .on(config.animEndEventName, function() {
           that.aviAnimating = false;
-          that.$avi.off(config.animEndEventName);
+          return that.$avi.off(config.animEndEventName);
         });
 
       setTimeout(function() {
         that.aviAnimating = false;
-      }, 300);
+        return;
+      }, 400);
     },
 
     _stripIdPrefix: function(id) {
@@ -475,22 +546,14 @@ define(function(require) {
 
       // 1) Get the answer from this question
       // ------------------------------------
-      that._doAsyncMsg(function() {
+      that._asyncWithLoading(function() {
         return api.getAnswerFromId(id);
       }, 500)
 
       // 2) Print answer
       // ------------------------------------
-      // 4) Print avi message
-      // ------------------------------------
       .then(function(answer) {
-        // answer is empty or white spaces
-        if (answer.answer && !/^\s+$/.test(answer.answer)) {
-          that._printAviMsg(answer.answer);
-          api.logRequest(answer.answer, answer.id);
-        }
-
-        return answer;
+        return that._handleAviAnswer(answer);
       }, that._failedPromise)
 
       // 3) Ask for feedback
@@ -506,6 +569,7 @@ define(function(require) {
 
     onSatisfaction: function(satisfaction, answer) {
       var that = this;
+      this._removeNotationView();
       api.logSatisfaction(answer.id, satisfaction);
 
       if (satisfaction === true) {
@@ -513,7 +577,7 @@ define(function(require) {
       } else {
         // For later:
         // Ask for precision on bad answer
-        that._doAsyncMsg(null, 300)
+        that._asyncWithoutLoading(null, 0)
         .then(function() {
           return that.offerRedirection(answer.id);
         });
@@ -532,6 +596,26 @@ define(function(require) {
             '/js/avatar.js', function(data) {});
         }, 500);
       }
+    },
+
+    closeChildren: function() {
+
+      var that = this;
+      this.childViews.forEach(function(view) {
+
+        // delete index for that view
+        that.childViews.remove(view);
+
+        // remove the view
+        view.remove();
+      });
+    },
+
+    remove: function() {
+      this.closeChildren();
+
+      // app.skeleton.chatCollection = null;
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
 
   });

@@ -8,6 +8,7 @@ define(function(require) {
 
 // Require CommonJS like includes
 var _ = require('underscore'),
+    Backbone = require('backbone'),
     app = require('app/app'),
     config = require('app/globals'),
     api = require('app/data/api'),
@@ -16,26 +17,56 @@ var _ = require('underscore'),
     // Object wrapper returned as a module
     MessageLilyRedirection;
 
-MessageLilyRedirection = MessageView.extend({
+// MessageLilyRedirection = MessageView.extend({
+MessageLilyRedirection = Backbone.View.extend({
 
-  className: 'lily-msg-avatar lily-msg lily-msg-redirection',
+  // className: 'lily-msg-avatar lily-msg lily-msg-redirection',
+  className: 'lily-redirection',
   template: _.template($('#lily-message-redirection').html()),
 
+  events: {
+    'click': 'dismiss'
+  },
+
   initialize: function() {
-    this.listenTo(this, 'render', this.triggerRedirections);
+    this.listenTo(this, 'render', this.triggerRedirections.bind(this));
   },
 
-  redirectionMail: function() {
-    api.redirectionMail('mail', this.model.get('id'));
+  render: function() {
+    this.$el.html(this.template(this.model.toJSON()));
+    this.$el.appendTo('.action-container');
+    this.transitionInMessage();
+    this.trigger('render');
+    return this;
   },
 
+  dismiss: function() {
+    this.$el.addClass('component-hide');
+
+    app.onAnimEnd(this.$el, function() {
+      app.trigger('avi:choicesViewDismiss', 'redirectionView');
+    });
+  },
+
+  transitionInMessage: function(callback) {
+
+    var $message = this.$el,
+        inClass = 'component-show';
+
+    // Show the message w/ animation
+    $message.addClass(inClass);
+
+    app.onAnimEnd(this.$el, callback);
+  },
+
+  // Useless for now
   triggerRedirections: function() {
     this.$('.lily-redirection-tel')
-      .on('click', this.triggerRedirection, 'redirectionTel', this);
+      .on('click', null, 'redirectionTel', this.triggerRedirection.bind(this));
     this.$('.lily-redirection-mail')
-      .on('click', this.triggerRedirection, 'redirectionMail', this);
+      .on('click', null, 'redirectionMail', this.triggerRedirection.bind(this));
     this.$('.lily-redirection-chat')
-      .on('click', this.triggerRedirection, 'redirectionChat', this);
+      .on('click', null, 'redirectionChat', this.triggerRedirection.bind(this));
   },
 
   triggerRedirection: function(redirection) {
