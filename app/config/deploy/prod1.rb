@@ -42,11 +42,24 @@ end
 namespace :ws do
   task :stop do
     # clear the cache
-    run "sudo supervisorctl stop all"
+    run "sudo supervisorctl stop wslog"
+    run "sudo supervisorctl stop wsserver"
   end
   task :start do
     # clear the cache
-    run "sudo supervisorctl start all"
+    run "sudo supervisorctl start wsserver"
+    run "sudo supervisorctl start wslog"
+  end
+end
+
+namespace :home do
+  task :stop do
+    # clear the cache
+    run "sudo supervisorctl stop homepage"
+  end
+  task :start do
+    # clear the cache
+    run "sudo supervisorctl start homepage"
   end
 end
 

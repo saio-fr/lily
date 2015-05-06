@@ -15,7 +15,7 @@ Class SynapseConnector {
     
     public function addQuestionAnswer($client, $question) {
       
-        $licence = "saio"; //$client->getLicence();
+        $licence = $client->getLicence();
         
         $json = json_encode(array(
             "answer" => array(
@@ -37,7 +37,7 @@ Class SynapseConnector {
     
     public function updateQuestionAnswer($client, $question) {
               
-        $licence = "saio"; //$client->getLicence();
+        $licence = $client->getLicence();
         
         // Update Question
         $json = json_encode(array(
@@ -73,7 +73,7 @@ Class SynapseConnector {
     
     public function removeAnswer($client, $question) {
            
-        $licence = "saio"; //$client->getLicence();
+        $licence = $client->getLicence();
         
         // Update answer
         $json = json_encode(array(
@@ -92,7 +92,7 @@ Class SynapseConnector {
 
     public function addAdditionalQuestion($client, $alt) {
               
-        $licence = "saio"; //$client->getLicence();
+        $licence = $client->getLicence();
         
         // Update Question
         $json = json_encode(array(
@@ -114,7 +114,7 @@ Class SynapseConnector {
     
     public function updateQuestion($client, $alt) {
       
-        $licence = "saio"; //$client->getLicence();
+        $licence = $client->getLicence();
       
         // Update Question
         $json = json_encode(array(
@@ -134,7 +134,7 @@ Class SynapseConnector {
 
     public function removeQuestion($client, $alt) {
       
-        $licence = "saio"; //$client->getLicence();
+        $licence = $client->getLicence();
       
         // Update Question
         $json = json_encode(array(
