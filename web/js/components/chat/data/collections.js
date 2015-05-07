@@ -20,6 +20,14 @@ define(function(require) {
   Collections.Messages = Backbone.Collection.extend({
     model: Models.Messages
   });
+  
+  Collections.Shortcuts = Backbone.Collection.extend({
+    url: '/chat/shortcuts',
+    model: Models.Shortcut,
+    initialize: function () {
+      this.fetch();
+    }
+  });
 
   return Collections;
 });

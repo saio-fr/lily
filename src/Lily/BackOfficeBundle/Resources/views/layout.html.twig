@@ -69,7 +69,16 @@ filter='cssrewrite' %}
     {% include 'LilyBackOfficeBundle:Utils/Chat:skeleton.html.twig' %}
   </script>
   <script type="text/template" id="liveConversationTpl">
-    {% include 'LilyBackOfficeBundle:Utils/Chat:conversation.html.twig' %}
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Conversation:conversation.html.twig' %}
+  </script>
+  <script type="text/template" id="liveConversationShellTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Conversation/Shell:shell.html.twig' %}
+  </script>
+  <script type="text/template" id="liveConversationShellSuggestionsListTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Conversation/Shell/Suggestions:list.html.twig' %}
+  </script>
+  <script type="text/template" id="liveConversationShellSuggestionsItemTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Conversation/Shell/Suggestions:item.html.twig' %}
   </script>
   <script type="text/template" id="liveInformationsTpl">
     {% include 'LilyBackOfficeBundle:Utils/Chat:informations.html.twig' %}

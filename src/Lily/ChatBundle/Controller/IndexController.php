@@ -19,5 +19,5 @@ class IndexController extends BaseController
             throw new AccessDeniedException();	
     	  }
         return $this->render('LilyChatBundle::index.html.twig');
-    }        
+    }     
 }

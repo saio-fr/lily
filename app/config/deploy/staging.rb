@@ -16,12 +16,12 @@ role :web,        domain                         # Your HTTP server, Apache/etc
 role :app,        domain, :primary => true       # This may be the same as your `Web` server
 
 set :keep_releases,  3
-set :shared_files,      ["app/config/parameters.yml", "app/config/parameters_dev.yml"]
+set :shared_files,      ["app/config/parameters_staging.yml"]
 set :shared_children,     ["vendor"]
 set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile", "config/deploy"]
 set :use_composer, true
 set :update_vendors, true
-set :clear_controllers, false
+set :symfony_env_prod, "staging"
 
 set :user, "saio"
 set :use_sudo, false
@@ -30,19 +30,38 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console cache:clear --env=prod"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=staging"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console assetic:dump --env=prod"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=staging"
   
   # update bower components
-  run "cd /var/www/vhosts/saio.fr/#{domain}/current && bower update"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
   
 end
 
+namespace :ws do
+  task :stop do
+    # clear the cache
+    run "sudo supervisorctl stop stagingwslog"
+    run "sudo supervisorctl stop stagingwsserver"
+  end
+  task :start do
+    # clear the cache
+    run "sudo supervisorctl start stagingwsserver"
+    run "sudo supervisorctl start stagingwslog"
+  end
+end
+
+task :clear_opcache do
+	opcache_file = "#{deploy_to}/current/opcache-clear.php"
+	put "<?php opcache_reset(); ?>", opcache_file, :mode => 0644
+	run "cd #{deploy_to}/current && php opcache-clear.php"
+end
+
 task :upload_parameters do
-  origin_file = "app/config/parameters_dev.yml"
-  destination_file = shared_path + "/app/config/parameters_dev.yml" # Notice the
+  origin_file = "app/config/parameters_staging.yml"
+  destination_file = shared_path + "/app/config/parameters_staging.yml" # Notice the
   shared_path
 
   try_sudo "mkdir -p #{File.dirname(destination_file)}"
@@ -51,6 +70,7 @@ end
 
 after "deploy:setup", "upload_parameters"
 after "deploy", "deploy:cleanup"
+after "deploy", "clear_opcache"
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL

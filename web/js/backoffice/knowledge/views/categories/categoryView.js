@@ -94,6 +94,8 @@ define(function(require) {
         });
 
         this.model.save({'questions': questions}, {
+          // Ugly but assure a put request is sent on setNullCategory
+          type: 'put',
           success: function () {
             app.post();
           }

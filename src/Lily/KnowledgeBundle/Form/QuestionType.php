@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use LilyKnowledgeBundle\Form\AlternativeQuestionForm;
+
 class QuestionType extends AbstractType
 {
 	
@@ -27,6 +29,12 @@ class QuestionType extends AbstractType
                 'class' => 'LilyKnowledgeBundle:Category',
                 'property' => 'id',
                 'empty_data'  => null))
+            ->add('alternatives', 'collection', array (
+                'type' => new AlternativeQuestionType(),
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false
+            ))
         ;
         
         if (--$options['recursionLevel'] > 0) {

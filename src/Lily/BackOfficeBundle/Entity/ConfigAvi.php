@@ -43,14 +43,6 @@ class ConfigAvi
     protected $name;
     
     /**
-     * @var string
-     *
-     * @JMS\SerializedName("welcomeMsg")
-     * @ORM\Column(name="welcomeMsg", type="string")
-     */
-    protected $welcomeMsg;
-    
-    /**
      * @var boolean
      *
      * @JMS\SerializedName("aviIfNoOperator")
@@ -66,13 +58,77 @@ class ConfigAvi
      */
     protected $animations;
     
+    /**
+     * @var array
+     *
+     * @JMS\SerializedName("welcomeMsg")
+     * @ORM\Column(name="welcomeMsg", type="array")
+     */
+    protected $welcomeMsg;
+    
+    /**
+     * @var array
+     *
+     * @JMS\SerializedName("questionInvitationMsg")
+     * @ORM\Column(name="questionInvitationMsg", type="array")
+     */
+    protected $questionInvitationMsg;
+    
+    /**
+     * @var array
+     *
+     * @JMS\SerializedName("unansweredMsg")
+     * @ORM\Column(name="unansweredMsg", type="array")
+     */
+    protected $unansweredMsg;
+
+    /**
+     * @var array
+     *
+     * @JMS\SerializedName("unsatisfactoryMsg")
+     * @ORM\Column(name="unsatisfactoryMsg", type="array")
+     */
+    protected $unsatisfactoryMsg;
+
+    /**
+     * @var array
+     *
+     * @JMS\SerializedName("satisfactoryMsg")
+     * @ORM\Column(name="satisfactoryMsg", type="array")
+     */
+    protected $satisfactoryMsg;
+    
+    /**
+     * @var array
+     *
+     * @JMS\SerializedName("redirectionMsg")
+     * @ORM\Column(name="redirectionMsg", type="array")
+     */
+    protected $redirectionMsg;   
+    
+    
     public function __construct()
     {       
 		    $this->active = true;
         $this->name = 'Lily';
-        $this->welcomeMsg = 'Bonjour, quelle est votre question ?';
         $this->aviIfNoOperator = true;
         $this->animations = true;
+        $this->welcomeMsg = [
+          "Bonjour, quelle est votre question ?",
+          "Hello there, que puis-je faire pour vous ?"
+        ];
+        $this->unansweredMsg = [
+          "Désolé de ne pas avoir compris votre question :(",
+          "Je suis une vilaine, vilaine fille"
+        ];
+        $this->satisfactoryMsg = [
+          "Haha je t'avais bien dit que j'étais une génie",
+          "Merci pour votre feedback."
+        ];
+
+        $this->redirectionMsg = [
+          "Souhaitez vous contacter un opérateur humain ?"
+        ];
 	  }
 
     /**
@@ -132,29 +188,6 @@ class ConfigAvi
     }
 
     /**
-     * Set welcomeMsg
-     *
-     * @param string $welcomeMsg
-     * @return ConfigAvi
-     */
-    public function setWelcomeMsg($welcomeMsg)
-    {
-        $this->welcomeMsg = $welcomeMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get welcomeMsg
-     *
-     * @return string 
-     */
-    public function getWelcomeMsg()
-    {
-        return $this->welcomeMsg;
-    }
-
-    /**
      * Set aviIfNoOperator
      *
      * @param boolean $aviIfNoOperator
@@ -198,6 +231,144 @@ class ConfigAvi
     public function getAnimations()
     {
         return $this->animations;
+    }
+
+    /**
+     * Set welcomeMsg
+     *
+     * @param array $welcomeMsg
+     * @return ConfigAvi
+     */
+    public function setWelcomeMsg($welcomeMsg)
+    {
+        $this->welcomeMsg = $welcomeMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get welcomeMsg
+     *
+     * @return array 
+     */
+    public function getWelcomeMsg()
+    {
+        return $this->welcomeMsg;
+    }
+
+    /**
+     * Set questionInvitationMsg
+     *
+     * @param array $questionInvitationMsg
+     * @return ConfigAvi
+     */
+    public function setQuestionInvitationMsg($questionInvitationMsg)
+    {
+        $this->questionInvitationMsg = $questionInvitationMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get questionInvitationMsg
+     *
+     * @return array 
+     */
+    public function getQuestionInvitationMsg()
+    {
+        return $this->questionInvitationMsg;
+    }
+
+    /**
+     * Set unansweredMsg
+     *
+     * @param array $unansweredMsg
+     * @return ConfigAvi
+     */
+    public function setUnansweredMsg($unansweredMsg)
+    {
+        $this->unansweredMsg = $unansweredMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get unansweredMsg
+     *
+     * @return array 
+     */
+    public function getUnansweredMsg()
+    {
+        return $this->unansweredMsg;
+    }
+
+    /**
+     * Set unsatisfactoryMsg
+     *
+     * @param array $unsatisfactoryMsg
+     * @return ConfigAvi
+     */
+    public function setUnsatisfactoryMsg($unsatisfactoryMsg)
+    {
+        $this->unsatisfactoryMsg = $unsatisfactoryMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get unsatisfactoryMsg
+     *
+     * @return array 
+     */
+    public function getUnsatisfactoryMsg()
+    {
+        return $this->unsatisfactoryMsg;
+    }
+
+    /**
+     * Set satisfactoryMsg
+     *
+     * @param array $satisfactoryMsg
+     * @return ConfigAvi
+     */
+    public function setSatisfactoryMsg($satisfactoryMsg)
+    {
+        $this->satisfactoryMsg = $satisfactoryMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get satisfactoryMsg
+     *
+     * @return array 
+     */
+    public function getSatisfactoryMsg()
+    {
+        return $this->satisfactoryMsg;
+    }
+
+    /**
+     * Set redirectionMsg
+     *
+     * @param array $redirectionMsg
+     * @return ConfigAvi
+     */
+    public function setRedirectionMsg($redirectionMsg)
+    {
+        $this->redirectionMsg = $redirectionMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get redirectionMsg
+     *
+     * @return array 
+     */
+    public function getRedirectionMsg()
+    {
+        return $this->redirectionMsg;
     }
 
     /**

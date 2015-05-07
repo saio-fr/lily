@@ -134,11 +134,7 @@
 	    config.licence = "{{ licence }}";
     	config.root = '{{ app.request.getBaseURL() }}/app';
 	    config.chatAvailable = "{{ chatAvailable }}";
-	    {% if app.environment == 'dev' %}
-			config.wsserver = 'ws://develop.saio.fr';
-			{% else %}
-			config.wsserver = 'ws://ws.saio.fr';
-			{% endif %}
+			config.wsserver = "{{ ws_host }}";
 		</script>
 
 		<script>

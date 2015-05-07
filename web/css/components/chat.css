@@ -31,6 +31,94 @@ LIVE CHAT
   float: left;
 }
 
+.conversations .editor {
+  margin: 10px;
+  height: 70px;
+  outline: none;
+}
+
+.conversations .toolbar .btn {
+  background: #EAECF0;
+  padding: 5px;
+}
+
+.suggestions {
+  border: 1px solid #EBEFF6;
+  background: #F9FAFC;
+  position: relative;
+}
+
+.suggestions-header {
+  padding: 5px;
+  border-bottom: 1px solid #EBEFF6;
+  height: 22px;
+}
+
+.suggestions-type {
+  font-size: 10px;
+  color: #ccc;
+  margin: 0;
+}
+
+.suggestions-help-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions-help-item {
+  display: inline-block;
+  color: #ccc;
+  font-size: 9px;
+  margin-left: 5px;
+}
+
+.suggestions-content {
+  padding: 10px;
+  max-height: 200px;
+}
+
+.suggestions-content::-webkit-scrollbar {
+  display: block;
+}
+
+.suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.suggestions-item {
+  cursor: pointer;
+  padding: 10px 10px;
+}
+
+.suggestions-item.focus {
+  background: #579ad7;
+  color: white;
+  border-radius: 2px;
+}
+
+.suggestion-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30%; 
+}
+
+.suggestion-description {
+  font-size: 10px;
+  color: #848484;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+.focus .suggestion-description {
+  color: white;
+}
+
 .live-nav.active a {
   background: #528DC3 !important;
   color: #f2f2f2 !important;
@@ -96,7 +184,7 @@ LIVE CHAT
   background: #f3f5f9 !important;
 }
 
-.header .dropdown-menu {
+.header .windows .dropdown-menu {
   margin-top: 5px;
   min-width: 125px;
   right: 4px;
@@ -504,7 +592,7 @@ LIVE CHAT
   float: left;
 }
 
-.conversation-section-item p.msg-visitor {
+.conversation-section-item div.msg-visitor {
   padding-right: 15px;
   text-align: right;
   font-size: 12px;
@@ -515,16 +603,17 @@ LIVE CHAT
   word-wrap: break-word;
 }
 
-.conversation-section-item p.msg-visitor .date {
+.conversation-section-item div.msg-visitor .date {
   color: #d6d6d6;
   font-weight: 300;
 }
 
-.conversation-section-item p.msg-operator {
+.conversation-section-item div.msg-operator {
   border-left: 2px solid #6e7d83;
   font-size: 12px;
   min-height: 35px;
   padding-left: 15px;
+  margin-top: 20px;
 }
 
 .msg-with-avatar {
@@ -532,12 +621,12 @@ LIVE CHAT
   border-left: 0 !important;
 }
 
-.conversation-section-item p span {
+.conversation-section-item span {
   color: #d6d6d6;
   display: block;
 }
 
-.conversation-section p.msg-server {
+.conversation-section div.msg-server {
   border-bottom: 1px dotted #a9abb1;
   padding-bottom: 8px;
   margin-bottom: 20px;

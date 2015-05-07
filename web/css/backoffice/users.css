@@ -97,12 +97,6 @@
   float:right;
 }
 
-.dropdown-label {
-  display: block;
-  margin-right: 9px;
-  overflow: hidden;
-}
-
 .users-counter-container {
   position: absolute;
 }

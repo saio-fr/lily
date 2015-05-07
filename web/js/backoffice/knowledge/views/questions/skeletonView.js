@@ -32,9 +32,9 @@ define(function (require) {
       'click .btn-group-create' : 'create',
       'click .btn-group-select a' : 'select',
       'click .btn-group-sort ul ul a' : 'sort',
+      'click .btn-group-trash' : 'trash',
       'click .paginator-nav' : 'paginateNav',
-      'click .paginator-max a' : 'paginateMax',
-      'click .btn-group-trash' : 'trash'
+      'click .paginator-max a' : 'paginateMax'
     },
     
     initialize: function () {

@@ -39,7 +39,17 @@ class ServerStartCommand extends ContainerAwareCommand
       	$zmqConfig = $input->getArgument('zmqConfig');
       	$zmqLog = $input->getArgument('zmqLog');
       	$port = $input->getArgument('port');
-        $env == 'prod' ? $host = 'ws.saio.fr' : $host = 'develop.saio.fr';  
+      	switch ($env) {
+        	  case 'prod': 
+                $host = 'ws.saio.fr';
+                break;
+            case 'dev':
+                $host = 'develop.saio.fr';
+                break;
+            case 'staging':
+                $host = 'staging.saio.fr';
+                break;
+      	}
 
     		// Setup services
     		$handler = $this->getContainer()->get('session.handler');
@@ -89,6 +99,7 @@ class ServerStartCommand extends ContainerAwareCommand
                 'prod1.saio.fr',
                 'prod2.saio.fr',
                 'develop.saio.fr',
+                'staging.saio.fr',
                 'saio.fr'
             ));
         $server->run();
