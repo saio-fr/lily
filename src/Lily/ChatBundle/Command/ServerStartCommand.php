@@ -44,10 +44,10 @@ class ServerStartCommand extends ContainerAwareCommand
                 $host = 'ws.saio.fr';
                 break;
             case 'dev':
-                $host = 'develop.saio.fr';
+                $host = 'ws.develop.saio.fr';
                 break;
             case 'staging':
-                $host = 'staging.saio.fr';
+                $host = 'ws.staging.saio.fr';
                 break;
       	}
 

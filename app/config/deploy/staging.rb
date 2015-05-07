@@ -22,6 +22,7 @@ set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules", "Capfile",
 set :use_composer, true
 set :update_vendors, true
 set :symfony_env_prod, "staging"
+set :clear_controllers, false
 
 set :user, "saio"
 set :use_sudo, false
@@ -30,33 +31,27 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=staging"
+  run "cd #{deploy_to}/current && php app/console cache:clear --env=staging"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=staging"
+  run "cd #{deploy_to}/current && php app/console assetic:dump --env=staging"
   
   # update bower components
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
+  run "cd #{deploy_to}/current && bower update"
   
 end
 
 namespace :ws do
   task :stop do
     # clear the cache
-    run "sudo supervisorctl stop stagingwslog"
-    run "sudo supervisorctl stop stagingwsserver"
+    run "sudo supervisorctl stop staging_ws_log"
+    run "sudo supervisorctl stop staging_ws_server"
   end
   task :start do
     # clear the cache
-    run "sudo supervisorctl start stagingwsserver"
-    run "sudo supervisorctl start stagingwslog"
+    run "sudo supervisorctl start staging_ws_server"
+    run "sudo supervisorctl start staging_ws_log"
   end
-end
-
-task :clear_opcache do
-	opcache_file = "#{deploy_to}/current/opcache-clear.php"
-	put "<?php opcache_reset(); ?>", opcache_file, :mode => 0644
-	run "cd #{deploy_to}/current && php opcache-clear.php"
 end
 
 task :upload_parameters do
@@ -70,7 +65,6 @@ end
 
 after "deploy:setup", "upload_parameters"
 after "deploy", "deploy:cleanup"
-after "deploy", "clear_opcache"
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL
