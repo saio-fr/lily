@@ -46,7 +46,7 @@ class AviController extends BaseController
     
     
     /**
-     * @Post("/{licence}/log/question/{id}")
+     * @Post("/{licence}/log/request/{id}")
      */
     public function postLogRequestAction($licence, $id, Request $request) {
       
@@ -58,15 +58,18 @@ class AviController extends BaseController
             return $this->handleView($view);
         }
         
-        $question = $em->getRepository('LilyKnowledgeBundle:Question')
-        ->find($id);
-        
-        if (!$question) {
-          throw $this->createNotFoundException();
+        if ($id) {
+            $question = $em->getRepository('LilyKnowledgeBundle:Question')
+            ->find($id);
+            
+            if (!$question) {
+                throw $this->createNotFoundException();
+            }
+            
+            $log->setQuestion($question);
         }
-        
+      
         $log->setSession($request->getSession()->getId());
-        $log->setQuestion($question);
         $log->setDate(new \Datetime());
         $this->setMedia($log);
         

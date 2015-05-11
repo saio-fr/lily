@@ -585,6 +585,11 @@ LIVE CHAT
   display: block;
 }
 
+.conversation-section-item {
+  padding-bottom: 20px;
+  position: relative;
+}
+
 .conversation-section-item img.img-circle {
   width: 35px;
   height: 35px;
@@ -597,10 +602,64 @@ LIVE CHAT
   text-align: right;
   font-size: 12px;
   font-weight: 600;
-  color: #6075a4;
+  color: #747474;
   border-right: 2px solid #6075a4;
   min-height: 35px;
   word-wrap: break-word;
+}
+
+.btn-flag-question {
+  display: none;
+  position: absolute;
+  z-index: 999;
+  right: 15px;
+  bottom: -10px;
+  float: right;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: #F9FAFC;
+  border: 1px solid #E1E1E4;
+  color: #4C4C4C;
+  box-shadow: 1px 1px 1px #DDD;
+  outline: none;
+}
+
+.btn-flag-question:hover {
+  color: #579ad7;
+  background: white;
+}
+
+.btn-flag-question:before, .btn-flag-question:after {
+  bottom: 100%;
+	left: 90%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.btn-flag-question:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: #F9FAFC;
+	border-width: 4px;
+	margin-left: -4px;
+}
+
+.btn-flag-question:before {
+  border-color: rgba(194, 225, 245, 0);
+	border-bottom-color: #E1E1E4;
+	border-width: 6px;
+	margin-left: -6px;
+}
+
+.btn-flag-question.sent {
+  color: #3cb037;
+}
+
+.conversation-section-item:hover .btn-flag-question {
+  display: block;
 }
 
 .conversation-section-item div.msg-visitor .date {
@@ -613,7 +672,6 @@ LIVE CHAT
   font-size: 12px;
   min-height: 35px;
   padding-left: 15px;
-  margin-top: 20px;
 }
 
 .msg-with-avatar {

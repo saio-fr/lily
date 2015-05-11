@@ -31,6 +31,9 @@ after "deploy" do
   # clear the cache
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=prod"
 
+  # clear memcache
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:flush default --env=prod"
+
   # dump assets (if using assetic)
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
   
@@ -83,7 +86,9 @@ end
 
 after "deploy:setup", "upload_parameters"
 after "deploy", "deploy:cleanup"
-after "deploy", "clear_opcache"
+after "deploy:cleanup", "clear_opcache"
+after "deploy:clear_opcache", "ws:stop"
+after "ws:stop", "ws:start"
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL

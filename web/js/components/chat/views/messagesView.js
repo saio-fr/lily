@@ -43,7 +43,32 @@ define(function(require) {
   Messages.Visitor = Messages.template.extend({
     tagName: 'li',
     className: 'conversation-section-item animated',
-    template: _.template($('#liveMessageVisitorTpl').html())
+    template: _.template($('#liveMessageVisitorTpl').html()),
+    
+    events: {
+      'click .btn-flag-question': 'flagQuestion'
+    },
+    
+    flagQuestion: function () {
+      
+      var that = this;
+      this.$('.btn-flag-question').addClass('show');
+      
+      $.ajax({
+        url: '/questions/unanswered',
+        type: 'POST',
+        data: JSON.stringify({title: this.model.get('msg')}),
+        contentType: 'json'
+      }).done(function () {
+        that.$('.btn-flag-question')
+          .text('Question remontée')
+          .addClass('sent');
+        setTimeout(function () {
+          that.$('.btn-flag-question').removeClass('show');
+        }, 2000);
+      });
+    }
+    
   });
   
   return Messages;

@@ -127,28 +127,4 @@ class LogRedirection
     {
         return $this->canal;
     }
-
-    /**
-     * Set session
-     *
-     * @param string $session
-     *
-     * @return LogRedirection
-     */
-    public function setSession($session)
-    {
-        $this->session = $session;
-
-        return $this;
-    }
-
-    /**
-     * Get session
-     *
-     * @return string
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
 }

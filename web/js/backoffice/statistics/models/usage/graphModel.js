@@ -18,7 +18,7 @@ define(function (require) {
 
     id: '',
     url: function() {
-      return '/' +
+      return '/statistics/' +
         this.type + '/' + 
         this.start + '/' + 
         this.end;

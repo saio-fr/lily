@@ -185,9 +185,9 @@ class Question
     
     public function toSolrDocument(AbstractDocument $doc)
     {
-        $doc->id         = $this->getId();
+        $doc->id       = $this->getId();
         $doc->title		 = $this->getTitle();
-        $doc->answer     = $this->getAnswer();
+        $doc->answer   = $this->getAnswer();
     
         return $doc;
 	  }

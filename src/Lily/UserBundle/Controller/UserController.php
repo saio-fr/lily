@@ -33,6 +33,7 @@ class UserController extends BaseController
     
     /**
      * @Get("/users/{id}")
+     * @Secure(roles="ROLE_USER")
      */
     public function getUserAction($id) {
       

@@ -1,0 +1,47 @@
+<?php
+
+namespace Lily\KnowledgeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Solarium\QueryType\Select\Result\AbstractDocument;
+
+use Gedmo\Mapping\Annotation as Gedmo;
+
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+
+/**
+ * UnansweredQuestion
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Lily\KnowledgeBundle\Entity\UnansweredQuestionRepository")
+ * @ExclusionPolicy("all")
+ */
+class UnansweredQuestion
+{    
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @Expose
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     * @Expose
+     */
+    private $title;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    protected $date;
+}

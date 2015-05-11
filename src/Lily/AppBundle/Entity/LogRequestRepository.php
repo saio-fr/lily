@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class LogRequestRepository extends EntityRepository
 {
 	
-	public function answered($from, $to, $intervalSize=null) {
+	public function countAnswered($from, $to, $intervalSize = null) {
 		
   		$qb = $this->createQueryBuilder('r');
           
@@ -23,12 +23,12 @@ class LogRequestRepository extends EntityRepository
          ->setParameter('start', $from)
          ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
          ->setParameter('end', $to)
-         ->andWhere('r.question is not null');
+         ->andWhere('r.question IS NOT NULL');
   
-      if ($intervalSize!==null) {
-         $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
-            ->setParameter('intervalSize', $intervalSize)
-            ->groupBy('intervalId');
+      if ($intervalSize !== null) {
+          $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
+             ->setParameter('intervalSize', $intervalSize)
+             ->groupBy('intervalId');
           return $qb->getQuery()->getResult();
       } else {
           return $qb->getQuery()->getSingleScalarResult() ?: 0;
@@ -36,7 +36,7 @@ class LogRequestRepository extends EntityRepository
 		
 	}
 	
-	public function requests($from, $to, $intervalSize=null) {
+	public function countRequests($from, $to, $intervalSize = null) {
 
   		$qb = $this->createQueryBuilder('r');
           
@@ -47,10 +47,10 @@ class LogRequestRepository extends EntityRepository
          ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
          ->setParameter('end', $to);
   
-      if($intervalSize!==null) {
-         $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
-            ->setParameter('intervalSize', $intervalSize)
-            ->groupBy('intervalId');
+      if ($intervalSize !== null) {
+          $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
+          ->setParameter('intervalSize', $intervalSize)
+          ->groupBy('intervalId');
           return $qb->getQuery()->getResult();
       } else {
           return $qb->getQuery()->getSingleScalarResult() ?: 0;
@@ -90,7 +90,7 @@ class LogRequestRepository extends EntityRepository
          ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
          ->setParameter('end', $to);
   
-      if($intervalSize!==null) {
+      if ($intervalSize !== null) {
           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:intervalSize)) as intervalId')
              ->setParameter('intervalSize', $intervalSize)
              ->groupBy('intervalId');
@@ -108,13 +108,12 @@ class LogRequestRepository extends EntityRepository
 		          
 	}
 	
-	public function topQuestions($from, $to, $max) {
+	public function getTopQuestions($from, $to, $max) {
 		
   		$qb = $this->createQueryBuilder('r');
   		
-  		$qb->addSelect('count(r.id) AS nbs')
-  		   ->leftJoin('r.question', 'q')
-  		   ->addSelect('q')
+  		$qb->select('count(r) as nbs, q.title')
+  		   ->join('r.question', 'q')
   		   ->where('r.date >= :from')
   		   ->setParameter('from', $from)
   		   ->andWhere('r.date <= :to')
@@ -125,17 +124,17 @@ class LogRequestRepository extends EntityRepository
   		   ->setMaxResults($max);
   		   
   		return $qb->getQuery()
-  		          ->getResult();
+  		->getResult();
 		
 	}
 	
-	public function topCategories($from, $to, $max) {
+	public function getTopCategories($from, $to, $max) {
 		
   		$qb = $this->createQueryBuilder('r');
   		
-  		$qb->select('count(r.id) AS nbs, c.title')
-  		   ->leftJoin('r.question', 'q')
-  		   ->leftJoin('q.category', 'c')
+  		$qb->select('count(r.id) as nbs, c.title')
+  		   ->join('r.question', 'q')
+  		   ->join('q.category', 'c')
   		   ->where('r.date >= :from')
   		   ->setParameter('from', $from)
   		   ->andWhere('r.date <= :to')
@@ -147,7 +146,7 @@ class LogRequestRepository extends EntityRepository
   		   ->setMaxResults($max);
   		   
   		return $qb->getQuery()
-                ->getResult();
+      ->getResult();
 		
 	}
 	

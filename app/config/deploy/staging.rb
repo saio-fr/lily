@@ -33,6 +33,9 @@ after "deploy" do
   # clear the cache
   run "cd #{deploy_to}/current && php app/console cache:clear --env=staging"
 
+  # clear memcache
+  run "cd #{deploy_to}/current && php app/console cache:flush default --env=staging"
+
   # dump assets (if using assetic)
   run "cd #{deploy_to}/current && php app/console assetic:dump --env=staging"
   
@@ -65,6 +68,8 @@ end
 
 after "deploy:setup", "upload_parameters"
 after "deploy", "deploy:cleanup"
+after "deploy", "ws:stop"
+after "ws:stop", "ws:start"
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL
