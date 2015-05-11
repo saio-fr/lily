@@ -1,39 +1,59 @@
 {
-    "camelcase": false,
-    "curly": true,
-    "eqeqeq": true,
-    "undef": true,
-    "unused": "vars",
-    "strict": true,
-    "forin": true,
+  /*
+   * ENVIRONMENTS
+   * =================
+   */
 
-    "immed": true,
-    "indent": 2,
-    "white": true,
-    "latedef": "nofunc",
-    "newcap": true,
-    "noarg": true,
-    "noempty": true,
-    "nonew": true,
-    "plusplus": false,
+  // Define globals exposed by modern browsers.
+  "browser": true,
 
-    "strict": true,
-    "trailing": true,
+  // Define globals exposed by jQuery.
+  "jquery": true,
 
-    "boss": false,
-    "debug": false,
-    "smarttabs": false,
-    "eqnull": true,
-    "laxcomma": true,
+  // Define globals exposed by Node.js.
+  "node": true,
 
-    "browser": true,
-    "devel": true,
-    "jquery": true,
+  /*
+   * ENFORCING OPTIONS
+   * =================
+   */
 
-    "globals": {
-        "require": false,
-        "define": false,
-        "module": false,
-        "isMobile": false
-    }
+  // Force all variable names to use either camelCase style or UPPER_CASE
+  // with underscores.
+  "camelcase": true,
+
+  // Prohibit use of == and != in favor of === and !==.
+  "eqeqeq": true,
+
+  // Enforce tab width of 2 spaces.
+  "indent": 2,
+
+  // Prohibit use of a variable before it is defined.
+  "latedef": true,
+
+  // Enforce line length to 80 characters
+  "maxlen": 100,
+
+  // Require capitalized names for constructor functions.
+  "newcap": true,
+
+  // Enforce use of single quotation marks for strings.
+  "quotmark": "single",
+
+  // Enforce placing 'use strict' at the top function scope
+  "strict": true,
+
+  // Prohibit use of explicitly undeclared variables.
+  "undef": true,
+
+  // Warn when variables are defined but never used.
+  "unused": true,
+
+  /*
+   * RELAXING OPTIONS
+   * =================
+   */
+
+  // Suppress warnings about == null comparisons.
+  "eqnull": true
 }

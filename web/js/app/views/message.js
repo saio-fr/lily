@@ -8,7 +8,9 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-    config = require('app/globals'),
+    _ = require('underscore'),
+    config     = require('app/globals'),
+    app        = require('app/app'),
     // Object wrapper returned as a module
     MessageView;
 
@@ -23,7 +25,7 @@ define(function(require) {
     render: function() {
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('#lily-box-messages');
+      this.$el.appendTo('.lily-box-messages');
       this.transitionInMessage();
       this.trigger('render');
       return this;
@@ -32,16 +34,19 @@ define(function(require) {
     transitionInMessage: function(callback) {
 
       var $message = this.$el,
-        $messageBox = $('#lily-box-messages'),
-        inClass = 'lily-message-show';
+          inClass = 'lily-message-show';
 
-      $message.addClass(inClass).on(config.animEndEventName, function() {
+      // Scroll all the way down
+      var objDiv = document.getElementsByClassName('lily-box-messages')[0];
+      objDiv.scrollTop = objDiv.scrollHeight + $message.height();
 
-        $message.off(config.animEndEventName);
-        $messageBox.animate({
-          scrollTop: this.scrollHeight
-        }, 500);
-      });
+      // Show the message w/ animation
+      $message.addClass(inClass);
+
+      // Scroll all the way down again after showing the msg
+      objDiv.scrollTop = objDiv.scrollHeight + $message.height();
+
+      app.onAnimEnd($message, callback);
     }
 
   });

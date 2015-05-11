@@ -16,11 +16,7 @@ define(function(require) {
   Models.Content = Backbone.Model.extend({});
   Models.TopQuestions = Backbone.Model.extend({});
   Models.MessageUser = Backbone.Model.extend({});
-  Models.LilyRedirection = Backbone.Model.extend({});
-  Models.LilyPrecision = Backbone.Model.extend({});
-  Models.LilyNotation = Backbone.Model.extend({});
-  Models.LilyCompletion = Backbone.Model.extend({});
-  Models.LilySimple = Backbone.Model.extend({});
+  Models.Message = Backbone.Model.extend({});
   Models.ChatMessage = Backbone.Model.extend({});
   Models.ServerMessage = Backbone.Model.extend({});
 

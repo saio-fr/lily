@@ -61,14 +61,14 @@ class AviController extends BaseController
         if ($id) {
             $question = $em->getRepository('LilyKnowledgeBundle:Question')
             ->find($id);
-            
+
             if (!$question) {
                 throw $this->createNotFoundException();
             }
-            
+
             $log->setQuestion($question);
         }
-      
+
         $log->setSession($request->getSession()->getId());
         $log->setDate(new \Datetime());
         $this->setMedia($log);

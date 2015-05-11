@@ -48,8 +48,8 @@ class AviController extends BaseController
     public function getAviAction($timestampfrom, $timestampto)
     {       	
       	$em = $this->getEntityManager();
-      	
-      	$from = round($timestampfrom / 1000);
+
+	      $from = round($timestampfrom / 1000);
         $to = round($timestampto / 1000);
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
@@ -103,7 +103,7 @@ class AviController extends BaseController
       	
       	// QUESTIONS   		
         $requests = $em->getRepository('LilyAppBundle:LogRequest')
-        ->countRequests($from, $to, null);	
+        ->countRequests($from, $to, null);
         
         // ANSWERED  		
         $answered = $em->getRepository('LilyAppBundle:LogRequest')
@@ -131,7 +131,7 @@ class AviController extends BaseController
     	
         // CATEGORIES    	
         $categories = $em->getRepository('LilyAppBundle:LogRequest')
-        ->getTopCategories($from, $to, 5); 
+        ->getTopCategories($from, $to, 5);
    					  	   
         return $categories;	        		
     }
@@ -151,7 +151,7 @@ class AviController extends BaseController
     	
         // CATEGORIES    	
         $questions = $em->getRepository('LilyAppBundle:LogRequest')
-        ->getTopQuestions($from, $to, 5); 
+        ->getTopQuestions($from, $to, 5);
    					  	   
         return $questions;	        		
     }

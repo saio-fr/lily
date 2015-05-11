@@ -13,13 +13,14 @@ define(function(require) {
     Models = require('app/data/models'),
     api = require('app/data/api'),
     PageView = require('app/views/page'),
+
     // Object wrapper returned as a module
     MailPage;
 
   MailPage = PageView.extend({
 
     events: {
-      'click button': 'send',
+      'click button': 'send'
     },
 
     model: Models.Mail,
@@ -30,6 +31,8 @@ define(function(require) {
         page: true
       }).el).appendTo('#lily-wrapper-page');
       this.errors = {};
+
+      this.$('.btn-close').on('click', this.goBack);
     },
 
     render: function() {
@@ -153,6 +156,10 @@ define(function(require) {
       }, function(err) {
         app.showInfo("error", config.mailSentError);
       });
+    },
+
+    goBack: function() {
+      window.history.back();
     }
 
   });

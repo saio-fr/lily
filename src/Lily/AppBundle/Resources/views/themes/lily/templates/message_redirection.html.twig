@@ -1,10 +1,38 @@
-<p>Comment souhaitez-vous nous contacter ?</p>
-	<% if (data.isMail) { %>
-	<i class="lily-redirection-mail lily-cst-redirection-mail"><a href="#/mail"><span class="lily-icon lily-icon-mail"></span></a></i>
-	<% } %>
-	<% if (data.isTel)  { %>
-	<i class="lily-redirection-tel lily-cst-redirection-tel"><a href="tel:<%=data.redirection.phone%>"><span class="lily-icon lily-icon-phone"></a></span></i>
-	<% } %>
-	<% if (data.isChat && data.chatAvailable)  { %>
-	<i class="lily-redirection-chat lily-cst-redirection-chat"><a href="#/chat"><span class="lily-icon lily-icon-chat"></a></span></i>
-	<% } %>
+<ul class="choices-container">
+
+<% if (config.hasChat && config.chatAvailable)  { %>
+	<li class="lily-redirection-item lily-redirection-chat">
+		<a href="#/chat">
+			<span class="lily-icon lily-icon-conversation"></span>
+			<%= copy.chat %>
+			<span class="lily-icon lily-icon-arrow-right"></span>
+		</a>
+	</li>
+<% } %>
+
+<% if (config.hasTel) { %>
+	<li class="lily-redirection-item lily-redirection-mail">
+		<a href="#/mail">
+			<span class="lily-icon lily-icon-mail"></span>
+			<%= copy.mail %>
+			<span class="lily-icon lily-icon-arrow-right"></span>
+		</a>
+	</li>
+<% } %>
+
+<% if (config.hasMail)  { %>
+	<li class="lily-redirection-item lily-redirection-tel">
+		<a href="tel:<%= redirections.tel %>">
+			<span class="lily-icon lily-icon-phone"></span>
+			<%= copy.tel %>
+			<span class="lily-icon lily-icon-arrow-right"></span>
+		</a>
+	</li>
+<% } %>
+
+	<li class="lily-redirection-item lily-redirection-none">
+		<span class="lily-icon lily-icon-cross"></span>
+		<%= copy.none %>
+		<span class="lily-icon lily-icon-arrow-right"></span>
+	</li>
+</ul>

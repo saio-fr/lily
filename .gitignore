@@ -16,3 +16,4 @@ tmp
 temp
 ftpsync.settings
 .remote-sync.json
+npm-debug.log

@@ -18,7 +18,7 @@ define(function (require) {
 
     id: '',
     url: function() {
-      return '/statistics/avi/' + 
+      return '/statistics/avi/' +
         this.start + '/' + 
         this.end;
     },

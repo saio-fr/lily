@@ -2,48 +2,77 @@
        Chat Operator View
    ========================== */
 
-define(function (require) {
+define(function(require) {
 
 'use strict';
 
 // Require CommonJS like includes
 var _ = require('underscore'),
+    Backbone = require('backbone'),
     app = require('app/app'),
     config = require('app/globals'),
     api = require('app/data/api'),
     MessageView = require('app/views/message'),
+
     // Object wrapper returned as a module
     MessageLilyRedirection;
 
-MessageLilyRedirection = MessageView.extend({
+// MessageLilyRedirection = MessageView.extend({
+MessageLilyRedirection = Backbone.View.extend({
 
-	className: 'lily-msg-redirection lily-cst-msg-redirection',
-	template: _.template( $('#lily-message-redirection').html()),
+  // className: 'lily-msg-avatar lily-msg lily-msg-redirection',
+  className: 'lily-redirection',
+  template: _.template($('#lily-message-redirection').html()),
 
-	initialize: function () {
+  events: {
+    'click': 'dismiss'
+  },
 
-		this.listenTo( this, 'render', this.triggerRedirectionTel );
-		this.listenTo( this, 'render', this.triggerRedirectionMail );
-	},
+  initialize: function() {
+    this.listenTo(this, 'render', this.triggerRedirections.bind(this));
+  },
 
-	redirectionMail: function() {
-    api.redirectionMail('mail', this.model.get('id'));
-	},
+  render: function() {
+    this.$el.html(this.template(this.model.toJSON()));
+    this.$el.appendTo('.action-container');
+    this.transitionInMessage();
+    this.trigger('render');
+    return this;
+  },
 
-	triggerRedirectionTel: function () {
-		this.$('.lily-redirection-tel')
-			.on( 'click', this.triggerRedirection, 'redirectionTel', this);
-	},
+  dismiss: function() {
+    this.$el.addClass('component-hide');
 
-	triggerRedirectionMail: function () {
-		this.$('.lily-redirection-mail')
-			.on('click', this.triggerRedirection, 'redirectionMail', this);
-	},
+    app.onAnimEnd(this.$el, function() {
+      app.trigger('avi:choicesViewDismiss', 'redirectionView');
+    });
+  },
 
-	triggerRedirection: function (redirection) {
-		var id = this.model.get('id');
-		app.trigger(redirection, id, 'true', '', this);
-	}
+  transitionInMessage: function(callback) {
+
+    var $message = this.$el,
+        inClass = 'component-show';
+
+    // Show the message w/ animation
+    $message.addClass(inClass);
+
+    app.onAnimEnd(this.$el, callback);
+  },
+
+  // Useless for now
+  triggerRedirections: function() {
+    this.$('.lily-redirection-tel')
+      .on('click', null, 'redirectionTel', this.triggerRedirection.bind(this));
+    this.$('.lily-redirection-mail')
+      .on('click', null, 'redirectionMail', this.triggerRedirection.bind(this));
+    this.$('.lily-redirection-chat')
+      .on('click', null, 'redirectionChat', this.triggerRedirection.bind(this));
+  },
+
+  triggerRedirection: function(redirection) {
+    var id = this.model.get('id');
+    app.trigger(redirection, id, 'true', '', this);
+  }
 
 });
 

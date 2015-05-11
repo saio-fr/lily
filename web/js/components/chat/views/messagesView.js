@@ -44,16 +44,16 @@ define(function(require) {
     tagName: 'li',
     className: 'conversation-section-item animated',
     template: _.template($('#liveMessageVisitorTpl').html()),
-    
+
     events: {
       'click .btn-flag-question': 'flagQuestion'
     },
-    
+
     flagQuestion: function () {
-      
+
       var that = this;
       this.$('.btn-flag-question').addClass('show');
-      
+
       $.ajax({
         url: '/questions/unanswered',
         type: 'POST',
@@ -68,7 +68,6 @@ define(function(require) {
         }, 2000);
       });
     }
-    
   });
   
   return Messages;

@@ -18,8 +18,13 @@ use JMS\Serializer\Annotation\Expose;
  * @ExclusionPolicy("all")
  */
 class UnansweredQuestion
+<<<<<<< HEAD
 {    
     
+=======
+{
+
+>>>>>>> 7408b2e02a642236f0380182408f12d1f8b2a652
     /**
      * @var integer
      *
@@ -37,7 +42,11 @@ class UnansweredQuestion
      * @Expose
      */
     private $title;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 7408b2e02a642236f0380182408f12d1f8b2a652
     /**
      * @var \DateTime
      *

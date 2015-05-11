@@ -112,8 +112,8 @@ class LogRequestRepository extends EntityRepository
 		
   		$qb = $this->createQueryBuilder('r');
   		
-  		$qb->select('count(r) as nbs, q.title')
-  		   ->join('r.question', 'q')
+      $qb->select('count(r) as nbs, q.title')
+		     ->join('r.question', 'q')
   		   ->where('r.date >= :from')
   		   ->setParameter('from', $from)
   		   ->andWhere('r.date <= :to')
@@ -124,7 +124,7 @@ class LogRequestRepository extends EntityRepository
   		   ->setMaxResults($max);
   		   
   		return $qb->getQuery()
-  		->getResult();
+      ->getResult();
 		
 	}
 	

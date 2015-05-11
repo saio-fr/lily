@@ -94,7 +94,8 @@ class LogChatCommand extends ContainerAwareCommand
                     $logConnection = new LogConnection();
                     $logConnection->setSession($item->id);
                     $logConnection->setDate(new \DateTime('@'.$item->startTime));
-                    $logConnection->setUsed($item->displayed);
+                    $logConnection->setWidgetUsed($item->widgetUsed);
+                    $logConnection->setWidgetDisplayed($item->widgetDisplayed);
                     $this->setMedia($logConnection);
                     $em->persist($logConnection);
     					

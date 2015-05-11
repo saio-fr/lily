@@ -32,7 +32,7 @@ define(function(require) {
     transitionInMessage: function(callback) {
 
       var $message = this.$el,
-        $messageBox = $('#lily-box-messages'),
+        $messageBox = $('.lily-box-messages'),
         inClass = 'lily-message-show';
 
       $message.addClass(inClass).on(config.animEndEventName, function() {

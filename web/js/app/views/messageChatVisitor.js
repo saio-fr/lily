@@ -15,7 +15,7 @@ define(function(require) {
 
   MessageChatVisitor = MessageChatView.extend({
 
-    className: 'lily-msg-chat-visitor lily-cst-msg-chat-visitor',
+    className: 'lily-msg lily-msg-chat-visitor lily-cst-msg-chat-visitor',
     model: Models.ChatMessage,
     template: _.template($('#chat-message-visitor').html())
   });
