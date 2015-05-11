@@ -44,6 +44,20 @@ class SynapseClient extends GuzzleClient
                         ]
                     ],
                 ],
+                "addadditionalquestion" => [
+                    "httpMethod" => "POST",
+                    "uri" => "{licence}/smartfaq/SmartFAQWCF.svc/rest/addadditionalquestion",
+                    "parameters" => [
+                        "licence" => [
+                            "type" => "string",
+                            "location" => "uri"
+                        ],
+                        "request" => [
+                            "type" => "string",
+                            "location" => "body"
+                        ]
+                    ],
+                ],
                 "updatequestion" => [
                     "httpMethod" => "POST",
                     "uri" => "{licence}/smartfaq/SmartFAQWCF.svc/rest/updatequestion",

@@ -84,11 +84,7 @@
       config.root = '{{ app.request.getBaseURL() }}/api';
       config.licence = '{{ app.user.client.licence }}';
       config.maxusers = '{{ app.user.client.config.maxusers }}';
-      {% if app.environment == 'dev' %}
-      config.wsserver = 'ws://develop.saio.fr';
-      {% else %}
-      config.wsserver = 'ws://ws.saio.fr';
-      {% endif %}
+      config.wsserver = '{{ ws_host }}';
     </script>
     {% endautoescape %}
   {% endblock %}

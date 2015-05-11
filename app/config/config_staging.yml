@@ -1,5 +1,5 @@
 imports:
-    - { resource: parameters.yml }
+    - { resource: parameters_staging.yml }
     - { resource: security.yml }
     - { resource: resources/solarium.yml }
     - { resource: resources/cache.yml }

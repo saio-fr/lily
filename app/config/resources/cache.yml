@@ -5,7 +5,7 @@ aequasi_cache:
           namespace: mc
           type: memcached
           hosts:
-              - { host: 172.16.0.5, port: 11211 }
+              - { host: %cache_host%, port: %cache_port% }
     doctrine:
         enabled: true
         metadata:

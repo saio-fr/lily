@@ -80,14 +80,8 @@
 	    <script type="text/javascript">
   	    
         var config = window.config || {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api';
-  	    
-  	    {% if app.environment == 'dev' %}
-  	      config.wsserver = 'ws://develop.saio.fr';
-  	    {% else %}
-  	      config.wsserver = 'ws://ws.saio.fr';
-        {% endif %}
-  	    
+        config.root = '{{ app.request.getBaseURL() }}/api';
+        config.wsserver = '{{ ws_host }}';
         config.licence = '{{ app.user.client.licence }}';
         config.userId = '{{ app.user.id }}';
 	    </script>

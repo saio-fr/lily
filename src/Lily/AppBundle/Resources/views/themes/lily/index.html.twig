@@ -130,15 +130,11 @@
     {% autoescape false %}
 		<script type="text/javascript">
 			var config = {{ config|serialize('json') }};
-	    config.licence = "{{ licence }}";
-    	config.root = '{{ app.request.getBaseURL() }}/app';
-	    config.chatAvailable = "{{ chatAvailable }}";
-	    config.avi.redirections.values = {{redirection|serialize('json') }};
-	    {% if app.environment == 'dev' %}
-			config.wsserver = 'ws://develop.saio.fr';
-			{% else %}
-			config.wsserver = 'ws://ws.saio.fr';
-			{% endif %}
+		    config.licence = "{{ licence }}";
+	    	config.root = '{{ app.request.getBaseURL() }}/app';
+		    config.chatAvailable = "{{ chatAvailable }}";
+		    config.avi.redirections.values = {{redirection|serialize('json') }};
+			config.wsserver = "{{ ws_host }}";
 		</script>
 
 		<script>

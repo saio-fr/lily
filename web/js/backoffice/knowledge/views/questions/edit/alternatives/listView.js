@@ -39,7 +39,6 @@ define(function(require) {
       var alternatives = this.model.get('alternatives');
       
       $.each(alternatives, function (index, alt) {
-        console.log(alt);
         that.add(alt);
       });
 
@@ -51,7 +50,6 @@ define(function(require) {
     },
       
     add: function (alt) {
-      console.log(alt);
       var model = new Models.AlternativeQuestion();
       if (alt) {
         model.set(alt);

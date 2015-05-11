@@ -118,15 +118,11 @@
 	{% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
-        var config = {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api';
+        var config = window.config || {};
+        config.root = '{{ app.request.getBaseURL() }}/api';
         config.counters = JSON.parse('{{ counters | serialize('json') }}');
         config.licence = '{{ app.user.client.licence }}';
-        {% if app.environment == 'dev' %}
-        config.wsserver = 'ws://develop.saio.fr';
-        {% else %}
-        config.wsserver = 'ws://ws.saio.fr';
-        {% endif %}
+        config.wsserver = '{{ ws_host }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}

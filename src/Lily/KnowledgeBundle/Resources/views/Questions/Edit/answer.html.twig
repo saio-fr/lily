@@ -18,15 +18,19 @@
     	</ul>
     </div>
     
-    <input class="form-control" type="text" value="<%= title %>">
+    <div class="editor" contenteditable="true">
+      <%= title %>
+    </div>
     
   </div>
 
 <% } else { %>
 
-<div class="parent title">  
-  <input class="form-control" type="text" value="<%= title %>">
-</div>
+  <div class="parent title">
+    <div class="editor" contenteditable="true">
+      <%= title %>
+    </div>
+  </div>
 
 <% } %>
 
@@ -88,33 +92,20 @@
     	</ul>
     </div>
     
-    <div class="editor">
+    <div class="editor" contenteditable="true">
       <%= answer %>
     </div>
-    
-    <div class="toolbar">
-      <button class="btn btn-sm btn-toolbar" data-command-name="bold">
-        <i class="icon-bold"></i>
-      </button>
-      <button class="btn btn-sm btn-toolbar" data-command-name="italic">
-        <i class="icon-italic"></i>
-      </button>
       
-      <% if (answerType == 'answer') { %>
+    <% if (answerType == 'answer') { %>
       
-        <button class="btn btn-sm btn-toolbar" data-command-name="h5">
-          <i class="icon-font"></i>
+      <div class="toolbar">
+        <button class="btn btn-sm btn-toolbar" data-command-name="bold">
+          <i class="icon-bold"></i>
         </button>
-        <button class="btn btn-sm btn-toolbar" data-command-name="insertOrderedList">
-          <i class="icon-list-ol"></i>
-        </button>
-        <button class="btn btn-sm btn-toolbar" data-command-name="insertUnorderedList">
-          <i class="icon-list-ul"></i>
-        </button>
-        
-      <% } %>
-        
-    </div>
+      </div>
+      
+    <% } %>
+
   </div>
     
 <% } %>
