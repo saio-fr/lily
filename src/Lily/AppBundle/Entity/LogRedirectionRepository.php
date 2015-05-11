@@ -15,30 +15,29 @@ class LogRedirectionRepository extends EntityRepository
 	
 	public function redirections($from, $to, $interval = null) {
 		
-		$qb = $this->createQueryBuilder('r');
+		  $qb = $this->createQueryBuilder('r');
         
-        // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
-        $qb->select('count(r) as value')
-           ->where('UNIX_TIMESTAMP(r.date) >= :start')
-           ->setParameter('start', $from)
-           ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
-           ->setParameter('end', $to);
+      // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
+      $qb->select('count(r) as value')
+         ->where('UNIX_TIMESTAMP(r.date) >= :start')
+         ->setParameter('start', $from)
+         ->andWhere('UNIX_TIMESTAMP(r.date) < :end')
+         ->setParameter('end', $to);
 
-        if($interval) {
-           $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:interval)) as intervalId')
-              ->setParameter('interval', $interval)
-              ->groupBy('intervalId');
-            return $qb->getQuery()->getResult();
-        } else {
-            return $qb->getQuery()->getSingleScalarResult() ?: 0;
-        }
-		          
+      if($interval) {
+         $qb->addSelect('ROUND(UNIX_TIMESTAMP(r.date)/(:interval)) as intervalId')
+            ->setParameter('interval', $interval)
+            ->groupBy('intervalId');
+          return $qb->getQuery()->getResult();
+      } else {
+          return $qb->getQuery()->getSingleScalarResult() ?: 0;
+      }
 	}
 	
-	public function mails($from, $to) {
+	public function byMail($from, $to) {
 		
 		$qb = $this->createQueryBuilder('r');
-		
+
 		$qb->select('count(r)')
 		   ->where('r.date >= :from')
 		   ->setParameter('from', $from)
@@ -46,16 +45,15 @@ class LogRedirectionRepository extends EntityRepository
 		   ->setParameter('to', $to)
 		   ->andWhere('r.canal = :canal')
 		   ->setParameter('canal', 'mail');
-		
+
 		return $qb->getQuery()
-		          ->getSingleScalarResult();
-		          
+		->getSingleScalarResult();
 	}
 	
-	public function phones($from, $to) {
+	public function byPhone($from, $to) {
 		
 		$qb = $this->createQueryBuilder('r');
-		
+
 		$qb->select('count(r)')
 		   ->where('r.date >= :from')
 		   ->setParameter('from', $from)
@@ -63,10 +61,25 @@ class LogRedirectionRepository extends EntityRepository
 		   ->setParameter('to', $to)
 		   ->andWhere('r.canal = :canal')
 		   ->setParameter('canal', 'phone');
-		
+
 		return $qb->getQuery()
-		          ->getSingleScalarResult();
-		          
+		->getSingleScalarResult();
+	}
+
+	public function byChat($from, $to) {
+		
+		$qb = $this->createQueryBuilder('r');
+
+		$qb->select('count(r)')
+		   ->where('r.date >= :from')
+		   ->setParameter('from', $from)
+		   ->andWhere('r.date <= :to')
+		   ->setParameter('to', $to)
+		   ->andWhere('r.canal = :canal')
+		   ->setParameter('canal', 'chat');
+
+		return $qb->getQuery()
+		->getSingleScalarResult();
 	}
 	
 }

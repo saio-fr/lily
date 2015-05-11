@@ -35,7 +35,9 @@
     "oneup/flysystem-bundle": "dev-master",
     "vich/uploader-bundle": "~0.11",
     "symfony/var-dumper": "~2.6",
-    "league/flysystem-sftp": "~1.0"
+    "league/flysystem-sftp": "~1.0",
+    "guzzlehttp/guzzle": "~5.0",
+    "guzzlehttp/guzzle-services": "0.5.*"
   },
   "scripts": {
     "post-install-cmd": [

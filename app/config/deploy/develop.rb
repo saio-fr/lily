@@ -30,10 +30,10 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console cache:clear --env=prod"
+  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console cache:clear"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console assetic:dump --env=prod"
+  run "cd /var/www/vhosts/saio.fr/#{domain}/current && php app/console assetic:dump"
   
   # update bower components
   run "cd /var/www/vhosts/saio.fr/#{domain}/current && bower update"

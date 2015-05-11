@@ -1,30 +1,27 @@
 <div id="lily-chat" class="lily-page-cont"><!-- wrapper page les différentes pages -->
-	<header id="lily-header" class="lily-cst-header">
-		<span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
-		{% if config.avi.active %}
-		<a href="#/avi" class="lily-right"><p>Posez votre question à {{ config.avi.name }}<i class="lily-icon lily-icon-avatar"></i></p></a>
-		{% endif %}
-	</header>
-	<section id="lily-chat-notation-wrapper">
-		<p>Etes-vous satisfait de la conversation ?</p>
-		<i class="lily-chat-notation lily-icon lily-icon-thumb-up lily-cst-icon-thumb-up"></i>
-		<i class="lily-chat-notation lily-icon lily-icon-thumb-down lily-cst-icon-thumb-down"></i>
-	</section>
+	{% if config.avi.active %}
+<!-- 	<header id="lily-header" class="lily-cst-header">
+		<a href="#/avi" class="lily-right"><p>Posez votre question à {{ config.avi.name }}<i class="lily-icon lily-icon-arrow-right"></i></p></a>
+	</header> -->
+	{% endif %}
 	<section class="lily-main-content">
-		<div id="chat-box-messages" class="chat-messages scrollable">
-		<!-- Here goes the bubbles-->
-		  <div class="lily-msg-chat-operator lily-cst-msg-chat-operator lily-msg-chat-wait">
-		    <p>Bonjour. Veuillez poser votre question, un opérateur va y répondre.</p>
-		  </div>
-		</div>		
-	</section>
-	<section class="lily-search lily-cst-search lily-search-open" id="lily-search">
-		<form id="lily-search-form">
-			<div class="lily-search-input-wrap">
-				<input class="lily-search-input lily-cst-search-input" placeholder="Votre message" type="text" value="" name="s" id="s">
+		<section class="lily-avatar-wrapper">
+			<div id="chat-box-messages" class="chat-messages scrollable">
+			<!-- Here goes the bubbles-->
+			  <div class="lily-msg-chat-wait">
+			    <p>Bonjour. Veuillez poser votre question, un opérateur va y répondre.</p>
+			  </div>
 			</div>
-			<span class="lily-icon lily-icon-search"></span>
-			<input class="lily-search-submit" type="submit" id="lily-go" value="">
-		</form>
-	</section>		
+		</section>
+	</section>
+
+	<section class="action-container">
+		<form class="chat-input-component">
+	      <div class="wrapper-input group">
+	        <div name="ai-input" contenteditable="true" type="contenteditable" data-placeholder="Commencer une discussion..." class="textarea-input chat-input">
+	        </div>
+	        <button class="btn btn-sendmsg btn--nostyle">envoyer</button>
+	      </div>
+	  </form>
+  </section>
 </div>

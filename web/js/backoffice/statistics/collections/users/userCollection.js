@@ -18,7 +18,7 @@ define(function (require) {
     model: UserModel,
     sortCriteria : 'lastname',
     url: function () {
-      return '/../users';
+      return '/users';
     },
     
     initialize: function () {

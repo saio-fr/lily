@@ -1,3 +1,8 @@
 lily_chat:
     pattern:  /chat
     defaults: { _controller: LilyChatBundle:Index:dashboard }
+    
+lily_shortcut_api:
+    resource: "@LilyChatBundle/Controller/ShortcutController.php"
+    type:     rest
+    prefix:   /api/chat

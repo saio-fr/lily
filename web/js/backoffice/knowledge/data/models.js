@@ -20,7 +20,8 @@ define(function(require) {
       questionType: '',
       answer: '',
       answerType: '',
-      children: []
+      children: [],
+      alternatives: []
     },
     
     initialize: function () {
@@ -28,6 +29,14 @@ define(function(require) {
     },
     
   });
+
+  Models.AlternativeQuestion = Backbone.NestedModel.extend({
+    
+    defaults: {
+      title: 'Nouvelle question alternative',
+    }
+  });
+  
   Models.QuestionTree = Models.Question.extend({
     
     defaults: {
@@ -97,9 +106,13 @@ define(function(require) {
   Models.CategoryNull = Backbone.Model.extend({
     
     defaults: {
-      id: null,
+      id: 0,
       title: 'Sans catégorie',
       children: null
+    },
+    
+    initialize: function () {
+      this.urlRoot = "/questions/categories";
     },
     
   });

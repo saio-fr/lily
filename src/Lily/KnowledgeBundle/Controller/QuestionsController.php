@@ -16,6 +16,8 @@ use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\SerializationContext;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
+use GuzzleHttp\Exception\RequestException;
+
 use Lily\KnowledgeBundle\Entity\Question;
 use Lily\KnowledgeBundle\Form\QuestionType;
 use Lily\BackOfficeBundle\Controller\BaseController;
@@ -75,41 +77,24 @@ class QuestionsController extends BaseController
         $form = $this->getForm(new QuestionType(), $question, $request);
         
         if ($form->isValid()) {
-    
+            
             $user = $this->getUser();
+            $client = $user->getClient();
             $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
       
             $em->persist($question);
             $em->flush();
+            
+            // SEND INFOS TO SYNAPSE ENGINE
+            $synapse = $this->container->get('synapse_connector');
+            $synapse->addQuestionAnswer($client, $question);
         
         } else {
           
             $view = $this->view($form, 400);
             return $this->handleView($view); 
         }
-  
-/*
-        if (!$parent) {
-  
-            // On récupère le client
-            $cname = $this->getEnterprise()->getCname();
-            $client = $this->get('solarium.client.' . $cname);
-    
-            // On crée l'update query
-            $update = $client->createUpdate();
-    
-            // On crée les documents
-            $documents[] = $question->toSolrDocument($update->CreateDocument());
-    
-            $update->addDocuments($documents);
-            $update->addCommit();
-      
-            // On exécute la query
-            $client->update($update);
-  
-        }
-*/
-  
+
         return $question;
     }
 
@@ -127,11 +112,18 @@ class QuestionsController extends BaseController
         ->find($id);
          
         $originalChildren = new ArrayCollection();
+        $originalAlternatives = new ArrayCollection();
 
         // Crée un tableau contenant les objects children courants de la
         // base de données
         foreach ($question->getChildren() as $child) {
             $originalChildren->add($child);
+        }
+
+        // Crée un tableau contenant les objects alternatives courants de la
+        // base de données
+        foreach ($question->getAlternatives() as $alt) {
+            $originalAlternatives->add($alt);
         }
   
         $form = $this->getForm(new QuestionType(), $question, $request);
@@ -142,35 +134,24 @@ class QuestionsController extends BaseController
                 $em->remove($child);
             }
         }
+
+        foreach ($originalAlternatives as $alt) {
+            if ($question->getAlternatives()->contains($alt) == false) {
+                // Delete the child question entity
+                $em->remove($alt);
+            }
+        }
   
         $user = $this->getUser();
+        $client = $user->getClient();
         $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
   
         $em->persist($question);
         $em->flush();
-  
-        /*
-        if (!$parent) {
-  
-            // On récupère le client
-            $cname = $this->getEnterprise()->getCname();
-            $client = $this->get('solarium.client.' . $cname);
-      
-            // On crée l'update query
-            $update = $client->createUpdate();
-      
-            // On crée les documents
-            $documents[] = $question->toSolrDocument($update->CreateDocument());
-      
-            $update->addDeleteQuery('id:' . $id);
-            $update->addDocuments($documents);
-            $update->addCommit();
-      
-            // On exécute la query
-            $client->update($update);
-  
-        }
-        */
+        
+        // SEND INFOS TO SYNAPSE ENGINE
+        $synapse = $this->container->get('synapse_connector');
+        $synapse->updateQuestionAnswer($client, $question);
   
         return $question;
     }
@@ -184,6 +165,7 @@ class QuestionsController extends BaseController
     {
 
         $em = $this->getEntityManager();
+        $client = $this->getClient();
 
         $question = $em->getRepository('LilyKnowledgeBundle:Question')
         ->find($id);
@@ -191,17 +173,11 @@ class QuestionsController extends BaseController
         if (!$question) {
             throw $this->createNotFoundException();
         }
-
-        /*
-        // On supprime la question de l'index
-        $client = $this->get('solarium.client.' . $licence);
-        $update = $client->createUpdate();
-    
-        $update->addDeleteQuery('id:' . $id);
-        $update->addCommit();
-        $client->update($update);
-        */
-    
+        
+        // SEND INFOS TO SYNAPSE ENGINE
+        $synapse = $this->container->get('synapse_connector');
+        $synapse->removeAnswer($client, $question);
+        
         $em->remove($question);
         $em->flush();
     }

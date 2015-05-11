@@ -68,8 +68,9 @@ class VisitorTopic implements TopicInterface
         $visitor->email = null;
         
         // APP INFOS
-        $visitor->display = false; // Display the app ?
-        $visitor->displayed = false; // Is the app been displayed ?
+        $visitor->appDisplay = false; // Display the app ?
+        $visitor->widgetUsed = false; // Is the app been displayed ?
+        $visitor->widgetDisplayed = false; // Is the widget been displayed ?
         $visitor->questions = array(); // Questions asked to the avatar
         $visitor->pages = array(); // Pages seen by the visitor
         

@@ -1,4 +1,4 @@
-
+<?php 
     /**
      * @Post("/{licence}/query")
      */
@@ -189,6 +189,7 @@
      * @View()
      */
     public function getPrecisionAction($licence, $id) {
+      
         // Initialisation des variables
         $response = $this->getEntityManager($licence)
         ->getRepository('LilyKnowledgeBundle:Question')
@@ -283,6 +284,7 @@
      * @Post("/{licence}/logredirection/{redirection}")
      */
     public function geRedirectionSupportAction($licence, $redirection, Request $request) {
+      
         // On initialise nos variables
         $em = $this->get('doctrine')->getManager($licence);
         $mobileDetector = $this->get('mobile_detect.mobile_detector');

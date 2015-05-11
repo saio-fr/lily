@@ -26,7 +26,7 @@ class Question
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"list", "precision", "categories"})
+     * @Groups({"list", "app", "categories"})
      */
     protected $id;
     
@@ -50,9 +50,16 @@ class Question
     /**
      * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\Question", mappedBy="parent", 
      *    cascade={"persist", "remove"})
-     * @Groups({"list"})
+     * @Groups({"list", "app"})
      **/
     protected $children;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Lily\KnowledgeBundle\Entity\AlternativeQuestion", mappedBy="question", 
+     *    cascade={"persist", "remove"})
+     * @Groups({"list", "app"})
+     **/
+    protected $alternatives;
     
     /**
      * @ORM\OneToMany(targetEntity="Lily\AppBundle\Entity\LogRequest", mappedBy="question",
@@ -79,7 +86,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     * @Groups({"app", "precision", "list"})
+     * @Groups({"app", "list"})
      * @Gedmo\Versioned
      */
     protected $title;
@@ -88,7 +95,7 @@ class Question
      * @var text
      *
      * @ORM\Column(name="answer", type="string", nullable=true)
-     * @Groups({"answer", "precision", "list"})
+     * @Groups({"answer", "app", "list"})
      * @Gedmo\Versioned
      */
     protected $answer;
@@ -97,7 +104,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="questionType", type="string", length=10, nullable=true)
-     * @Groups({"app", "precision", "list"})
+     * @Groups({"app", "list"})
      * @JMS\SerializedName("questionType")
      * @Gedmo\Versioned
      */
@@ -107,7 +114,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="answerType", type="string", length=10, nullable=true)
-     * @Groups({"app", "precision", "list"})
+     * @Groups({"app", "list"})
      * @JMS\SerializedName("answerType")
      * @Gedmo\Versioned
      */
@@ -171,15 +178,16 @@ class Question
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->alternatives = new \Doctrine\Common\Collections\ArrayCollection();
         $this->satisfaction = 0;
         $this->requests = 0;
     }
     
     public function toSolrDocument(AbstractDocument $doc)
     {
-        $doc->id         = $this->getId();
+        $doc->id       = $this->getId();
         $doc->title		 = $this->getTitle();
-        $doc->answer     = $this->getAnswer();
+        $doc->answer   = $this->getAnswer();
     
         return $doc;
 	  }
@@ -616,5 +624,40 @@ class Question
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Add alternative
+     *
+     * @param \Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative
+     *
+     * @return Question
+     */
+    public function addAlternative(\Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative)
+    {
+        $alternative->setQuestion($this);
+        $this->alternatives[] = $alternative;
+
+        return $this;
+    }
+
+    /**
+     * Remove alternative
+     *
+     * @param \Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative
+     */
+    public function removeAlternative(\Lily\KnowledgeBundle\Entity\AlternativeQuestion $alternative)
+    {
+        $this->alternatives->removeElement($alternative);
+    }
+
+    /**
+     * Get alternatives
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAlternatives()
+    {
+        return $this->alternatives;
     }
 }

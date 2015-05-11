@@ -22,6 +22,7 @@ define(['../common', 'require'], function(common, require) {
 
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
+      console.log(options.url);
     });
 
     // Set locale in moment JS

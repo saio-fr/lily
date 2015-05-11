@@ -33,11 +33,11 @@ define(function (require) {
     validation: {
       'firstname': {
         required: true,
-        msg: 'Veuillez renseiger un prénom'
+        msg: 'Veuillez renseigner un prénom'
       },
       'lastname': {
         required: true,
-        msg: 'Veuillez renseiger un nom'
+        msg: 'Veuillez renseigner un nom'
       },
       'phone': {
         required: false,

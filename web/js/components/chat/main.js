@@ -7,8 +7,9 @@ define(function(require) {
       Backbone = require('backbone'),
       moment = require('moment'),
       moment_fr = require('moment-fr'),
+      globals = require('globals'),
       timers = require('components/chat/utils/timers'),
-      SkeletonView = require('components/chat/views/skeleton'),
+      SkeletonView = require('components/chat/views/skeletonView'),
       Collections = require('components/chat/data/collections'),
       ModalConfirmationView = require('components/modals/confirmView'),
       ModalModel= require('components/modals/model'),
@@ -24,6 +25,7 @@ define(function(require) {
       app.trigger('operator:setAvailability', app.available);
 
       app.chatUsers = new Collections.Users();
+      app.chatShortcuts = new Collections.Shortcuts();
 
       app.liveChatSkeleton = new SkeletonView();
       app.isLiveChatInit = true;

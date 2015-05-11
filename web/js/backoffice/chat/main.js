@@ -25,6 +25,29 @@ define(['../common', 'require'], function(common, require) {
 ], function($, _, Backbone, ab, when, app, ChatRouter, ModalConfirmationView,
     ModalModel, LiveChat, moment, globals) {
 
+    $.ajaxPrefilter(function(options) {
+      options.url = globals.root + options.url;
+    });
+    
+    app.createModal = function(content, callback, context) {
+      var modalModel, modalView;
+
+      modalModel = new ModalModel();
+      modalModel.set(content);
+
+      modalView = new ModalView({
+        model: modalModel,
+        appendEl: ".js-skeleton-container"
+      });
+
+      $('.js-modal-action').on('click', function() {
+        if (_.isFunction(callback)) {
+          callback.apply(context, arguments);
+          $('.js-modal-action').off('click');
+        }
+      });
+    };
+
     // Set locale in moment JS
     moment.locale('fr');
 

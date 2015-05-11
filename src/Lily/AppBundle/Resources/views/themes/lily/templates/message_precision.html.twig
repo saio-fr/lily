@@ -1,4 +1,10 @@
-{%verbatim%}
-<p><%= precision %></p>
-<% _.each(actions, function(action) { %> <li class = 'lily-precision-list lily-cst-precision-list'><%= action.title %></li> <% }); %>
-{%endverbatim%}
+<ul class='lily-precision-list'>
+<% _.each(children, function(child) { %>
+	<li class="lily-precision-item wrapper-radio-input">
+        <label class="radio-input">
+            <input type="radio" name="choice">
+            <span class="icon-circle-empty"><%= child.title %></span>
+        </label>
+    </li>
+<% }); %>
+</ul>

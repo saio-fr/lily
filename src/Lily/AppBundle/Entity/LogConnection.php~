@@ -1,0 +1,58 @@
+<?php
+
+namespace Lily\AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Connection
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Lily\AppBundle\Entity\LogConnectionRepository")
+ */
+class LogConnection
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="session", type="string", length=255)
+     */
+    protected $session;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="widgetUsed", type="boolean")
+     */
+    protected $widgetUsed;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="widgetDisplayed", type="boolean")
+     */
+    protected $widgetDisplayed;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    protected $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="media", type="string", length=6)
+     */
+    protected $media;
+}

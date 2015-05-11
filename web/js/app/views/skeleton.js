@@ -13,6 +13,7 @@ define(function(require) {
     app = require('app/app'),
     Collections = require('app/data/collections'),
     PageView = require('app/views/page'),
+
     // Object wrapper returned as a module
     Skeleton;
 
@@ -20,13 +21,16 @@ define(function(require) {
 
     initialize: function() {
 
-      if (config.isMobile) { this.initRouter(); }
+      if (config.isMobile) {
+        this.initRouter();
+      }
+
       this.listenTo(app, 'app:isShown', this.initRouter);
       this.messages = new Collections.Messages();
 
       /***********************
       MENU (Snap.js)
-    ***********************/
+      ***********************/
 
       // Snap is global on the window object
       var snapper = new window.Snap({
@@ -37,16 +41,17 @@ define(function(require) {
         touchToDrag: false,
         maxPosition: 230,
         minPosition: -230,
+        transitionSpeed: 0.35,
+        easing: 'cubic-bezier(0.28, 0.33, 0, 1.41)'
       });
 
-      $('#lily-wrapper-page').on('click', '.lily-bt-menu', function() {
-        if (snapper.state().state === "left") {
+      $('.app-wrapper').on('click', '.lily-bt-menu', function() {
+        if (snapper.state().state === 'left') {
           snapper.close();
         } else {
           snapper.open('left');
-          app.track("menu/open");
+          app.track('menu/open');
         }
-
       });
 
       $('.lily-menu-body li a').click(function() {
@@ -60,8 +65,9 @@ define(function(require) {
       // Event listener for mobile
       if (config.isMobile.phone) {
         $('#icon-iframe-close').click(function() {
-          open("/", '_self').close();
+          open('/', '_self').close();
         });
+
         $('#icon-iframe-fullscreen').css('display', 'none');
       }
     },

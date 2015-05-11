@@ -1,15 +1,28 @@
-<header class="header menu-header bg-light lt">
+<header class="header edit-header">
   <ul class="nav nav-tabs nav-tabs-wrapper">
-    <li class="answer-nav active"><a href="#answer">Réponse</a></li>
-    <li class="versions-nav"><a href="#chat">Versions</a></li>
+    <li class="answer-nav active"><a href="#answer-edit" data-toggle="tab">Réponse</a></li>
+    <li class="alternatives-nav"><a href="#alternatives-edit" data-toggle="tab">Alternatives</a></li>
   </ul>
 </header>
-<section class="w-f">
-  <ul class="js-question-tree wrapper scrollable stretch">
-    <!--
-      Here goes our questions/precisions/action/answer list
-     -->
-  </ul>
+<section class="tab-content w-f">
+  <div id="answer-edit" class="tab-pane wrapper scrollable stretch active">
+    <ul class="js-answer-tree">
+      <!--
+        Here goes our precisions/action/answer list
+       -->
+    </ul>
+  </div>
+  <div id="alternatives-edit" class="js-alternatives tab-pane wrapper scrollable stretch">
+    <p class="alternative-help">
+      Une question alternative est une formulation différente de la question qui permet d'améliorer le matching et le comportement de la solution.
+    </p>
+    <ul class="js-alternatives-list scrollable">
+      <!--
+        Here goes our precisions/action/answer list
+       -->
+    </ul>
+    <button class="btn btn-block btn-sm add-alternative">Ajouter une alternative</button>
+  </div>
 </section>
 <footer class="lter footer text-center">
 	<button class="btn btn-sm btn-success button-update">Sauvegarder</button>

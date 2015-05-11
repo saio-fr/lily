@@ -16,7 +16,7 @@ define(function(require) {
 
   MessageChatOperator = MessageChatView.extend({
 
-    className: 'lily-msg-chat-operator lily-cst-msg-chat-operator',
+    className: 'lily-msg lily-msg-chat-operator lily-cst-msg-chat-operator',
     model: Models.ChatMessage,
     template: _.template($('#chat-message-operator').html()),
 

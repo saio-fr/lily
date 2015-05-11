@@ -18,7 +18,7 @@ define(function (require) {
 
     sortCriteria : 'start',
     url: function () {
-      return '/user/'+this.userId+'/history/logs/'+this.start+'/'+this.end;
+      return '/statistics/user/'+this.userId+'/history/logs/'+this.start+'/'+this.end;
     },
     
     initialize: function () {
