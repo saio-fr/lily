@@ -147,6 +147,23 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 		    }
         return $redirection;
     }
+
+    protected function getSynapsePassword($licence)
+    {
+  	    $cache = $this->get('aequasi_cache.instance.default');
+  	    $synapse = $cache->fetch($licence.'_synapse_password');
+  		
+        if (!$synapse) {
+            // App
+            $client = $this->getDoctrine()->getManager('default')
+            ->getRepository('LilyUserBundle:Client')
+            ->findOneByLicence($licence);
+            
+            $synapse = $client->getSynapsePassword();
+            $cache->save( $licence.'_synapse_password', $synapse, 0);
+		    }
+        return $synapse;
+    }
         
     protected function getEntityManager($licence)
     {	   	  			  
