@@ -242,10 +242,10 @@ define(function(require) {
       //      AVI
       ////////////////////
 
-      onAviNewQuestion: function(question, id) {
+      onNewAviQuestion: function(question) {
         app.call('visitor/newAviQuestion', {
           sid: config.sid,
-          satisfaction: satisfied
+          satisfaction: question
         });
       },
 
