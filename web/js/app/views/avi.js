@@ -229,7 +229,7 @@ define(function(require) {
       .then(function() {
         try {
           if (callback && _.isFunction(callback)) {
-            callback();
+            return callback();
           } else {
             return;
           }
@@ -568,6 +568,7 @@ define(function(require) {
 
       // print the visitor question
       that.askQuestion(question);
+      app.trigger('avi:newAviQuestion', question);
 
       // clear the search field
       that._clearInput();
