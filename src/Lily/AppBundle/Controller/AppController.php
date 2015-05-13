@@ -24,6 +24,7 @@ class AppController extends BaseController
         $config = $this->getAppConfig($licence);
         $redirection = $this->getDefaultRedirection($licence);
         $chatAvailable = $this->isChatAvailable($licence);
+        $synapsePassword = $this->getSynapsePassword($licence);
 
         $session = $this->container->get('session');
         if (!$session->isStarted()) {
@@ -32,6 +33,7 @@ class AppController extends BaseController
 
         return $this->render('LilyAppBundle:themes:lily/index.html.twig',
           array('licence' => $licence,
+                'synapsePassword' => $synapsePassword,
                 'config' => $config,
                 'redirection' => $redirection,
                 'chatAvailable' => $chatAvailable
