@@ -974,6 +974,10 @@ MESSAGES
   display: none;
 }
 
+.lily-msg-chat-notation {
+  text-align: center;
+}
+
 .lily-msg-user,
 .lily-msg-chat-visitor {
 	background: #e5e5e5;
@@ -1014,10 +1018,10 @@ MESSAGES
 
 .lily-msg-server-title {
   color: #575757;
-  font-size: 12px;
+  font-size: 14px;
   width: 200px;
 	text-align: center;
-	margin: 30px auto 0;
+	margin: 20px auto 0;
   font-style: italic;
   position: relative;
 }
@@ -1382,6 +1386,10 @@ MESSAGES
 	-webkit-user-drag: none;
 	margin-top: 10px;
 	margin-left: 11px;
+}
+
+.lily-msg-chat-notation .lily-chat-notation:first-child {
+  margin-left: 0;
 }
 
 .lily-icon-thumb-up,

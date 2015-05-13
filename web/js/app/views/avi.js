@@ -165,7 +165,10 @@ define(function(require) {
       var that = this;
 
       // 1) Log the unAnswered question to create a ticket
-      api.logRequest(question);
+      if (question) {
+        api.logRequest(question);
+      }
+
       that._asyncWithLoading(function() {
       }, 500)
       .then(function() {
@@ -214,7 +217,7 @@ define(function(require) {
     // Internals:
     // ==============================================
 
-    _asyncWithLoading: function(callback, delay) {
+    _asyncWithLoading: function(callback, delay, failure) {
       var that = this;
 
       // 1) Show loading indicator
@@ -224,12 +227,16 @@ define(function(require) {
       // 2) call callback method
       // ------------------------------------
       .then(function() {
-        if (callback && _.isFunction(callback)) {
-          return callback();
-        } else {
-          return;
+        try {
+          if (callback && _.isFunction(callback)) {
+            return callback();
+          } else {
+            return;
+          }
+        } catch (error) {
+          return _.isFunction(failure) ? failure(error) : undefined;
         }
-      })
+      }, failure || that._failedPromise)
 
       // 3) Clear the loading sign
       // ------------------------------------
@@ -245,11 +252,15 @@ define(function(require) {
 
         // 2) call callback method
         // ------------------------------------
-        if (callback && _.isFunction(callback)) {
-          callback();
-        }
+        try {
+          if (callback && _.isFunction(callback)) {
+            callback();
+          }
 
-        defer.resolve();
+          defer.resolve();
+        } catch (error) {
+          defer.reject(error);
+        }
       }, delay);
 
       return defer.promise;
@@ -557,6 +568,7 @@ define(function(require) {
 
       // print the visitor question
       that.askQuestion(question);
+      app.trigger('avi:newAviQuestion', question);
 
       // clear the search field
       that._clearInput();
@@ -572,7 +584,7 @@ define(function(require) {
       // ------------------------------------
       that._asyncWithLoading(function() {
         return api.getAnswerFromId(id);
-      }, 500)
+      }, 500, that.hasNoAnswer)
 
       // 2) Print answer
       // ------------------------------------

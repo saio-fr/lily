@@ -163,13 +163,14 @@
           },
 
           filter: function(response) {
-            var resultsJson = JSON.parse(response.searchResults.searchResults);
+            var rawResults = response.searchResults.searchResults !== '' ? response.searchResults.searchResults : '{}';
+            var resultsJson = JSON.parse(rawResults);
             console.log(resultsJson);
             var results = [];
             var textResults = [];
 
             // a table containing only the text of the matched question to efficiently test duplicates in following loops
-            if (resultsJson.QA.results.suggestions) {
+            if (resultsJson.QA && resultsJson.QA.results.suggestions) {
               // when there are seva=eral suggestions, .NET serializes resultsJson.QA.results.suggestions.suggestion as a table
               // otherwise, it is just a javascript object
               // this ugly if is here to fix this

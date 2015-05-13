@@ -13,8 +13,8 @@ define(function(require) {
   _.extend(g, window.config);
 
   g.synapse = {
-    user: 'saio',
-    password: 'uJk9!-m',
+    user: window.config.licence,
+    password: window.config.synapsePassword,
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
@@ -85,7 +85,7 @@ define(function(require) {
     transferMsg: 'a transféré la conversation à',
     banMsg: 'Vous avez été banni du chat par l\'opérateur',
     closeMsg: 'L\'opérateur a clôt la conversation',
-    notationMsg: 'Cette conversation vous a-t-elle été utile ?'
+    notationMsg: 'Cette conversation vous a-t-elle été utile ? Notez votre échange avec nos conseillers'
   };
 
   g.unableToConnectError = 'La connexion a été interrompue';

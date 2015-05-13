@@ -242,7 +242,12 @@ define(function(require) {
       //      AVI
       ////////////////////
 
-
+      onNewAviQuestion: function(question) {
+        app.call('visitor/newAviQuestion', {
+          sid: config.sid,
+          question: question
+        });
+      },
 
       ////////////////////
       //  Global Notifs
@@ -420,6 +425,7 @@ define(function(require) {
   app.on('chat:send',            app.onChatSend);
   app.on('app:isShown',          app.pageView);
   app.on('chat:writing',         app.onChatWriting);
+  app.on('avi:newAviQuestion',   app.onNewAviQuestion);
   app.on('chat:reconnect',       app.onChatReconnect);
   app.on('chat:satisfaction',    app.onChatSatisfaction);
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
