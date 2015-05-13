@@ -85,7 +85,7 @@ define(function(require) {
     transferMsg: 'a transféré la conversation à',
     banMsg: 'Vous avez été banni du chat par l\'opérateur',
     closeMsg: 'L\'opérateur a clôt la conversation',
-    notationMsg: 'Cette conversation vous a-t-elle été utile ?'
+    notationMsg: 'Cette conversation vous a-t-elle été utile ? Notez votre échange avec nos conseillers'
   };
 
   g.unableToConnectError = 'La connexion a été interrompue';

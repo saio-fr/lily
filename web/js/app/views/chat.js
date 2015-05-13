@@ -92,7 +92,7 @@ define(function(require) {
           message.set('info', '');
           break;
         case 'close':
-          this.onConversationClose(config.notationMsg);
+          this.onConversationClose(config.chat.notationMsg);
           message.set('msg', config.chat.closeMsg);
           break;
         case undefined:

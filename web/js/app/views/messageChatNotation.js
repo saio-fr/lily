@@ -17,25 +17,25 @@ define(function(require) {
 
   MessageChatOperator = MessageChatView.extend({
 
-    className: 'lily-msg lily-msg-chat-operator lily-cst-msg-chat-operator',
+    className: 'lily-msg lily-msg-chat-notation lily-msg-server',
     model: Models.ChatMessage,
     template: _.template($('#chat-message-notation').html()),
 
     events: {
-      'click  .lily-icon-thumb-up': 'satisfaction',
-      'click  .lily-icon-thumb-down': 'satisfaction',
+      'click .lily-icon-thumb-up': 'satisfaction',
+      'click .lily-icon-thumb-down': 'satisfaction'
     },
 
     initialize: function() {
 
     },
 
-    satisfaction: function(e) {
+    satisfaction: function(ev) {
 
-      var target = $(e.target),
+      var target = $(ev.target),
         satisfaction;
 
-      this.$el.find('#lily-chat-notation-wrapper i').removeClass('active');
+      $('.lily-msg-chat-notation i').removeClass('active');
 
       if (target.hasClass('lily-icon-thumb-up')) {
         this.$el.find('.lily-icon-thumb-up').addClass('active');
@@ -46,7 +46,7 @@ define(function(require) {
       }
 
       app.trigger('chat:satisfaction', satisfaction);
-    },
+    }
 
   });
 
