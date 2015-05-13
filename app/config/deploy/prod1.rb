@@ -1,6 +1,6 @@
 set :application, "saio"
 set :domain,      "prod1.#{application}.fr"
-set :deploy_to,   "/var/www/vhosts/saio.fr/httpdocs"
+set :deploy_to,   "/var/www/vhosts/saio.fr/lily.saio.fr"
 set :app_path,    "app"
 
 set :repository,  "git@github.com:saio-fr/lily.git"
@@ -29,16 +29,16 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=prod"
+  run "cd #{deploy_to}/current && php app/console cache:clear --env=prod"
 
   # clear memcache
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:flush default --env=prod"
+  run "cd #{deploy_to}/current && php app/console cache:flush default --env=prod"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
+  run "cd #{deploy_to}/current && php app/console assetic:dump --env=prod"
   
   # update bower components
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
+  run "cd #{deploy_to}/current && bower update"
   
 end
 
