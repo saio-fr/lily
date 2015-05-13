@@ -13,8 +13,8 @@ define(function(require) {
   _.extend(g, window.config);
 
   g.synapse = {
-    user: 'saio',
-    password: 'uJk9!-m',
+    user: window.config.licence,
+    password: window.config.synapsePassword,
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
