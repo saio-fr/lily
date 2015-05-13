@@ -245,7 +245,7 @@ define(function(require) {
       onNewAviQuestion: function(question) {
         app.call('visitor/newAviQuestion', {
           sid: config.sid,
-          satisfaction: question
+          question: question
         });
       },
 

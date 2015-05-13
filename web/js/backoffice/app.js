@@ -31,7 +31,7 @@ define(function(require) {
               if (_.isFunction(callback)) {
                 callback(result);
               }
-              
+
               app.available = !!result.available;
 
               app.isConnectionAlive();
@@ -64,7 +64,7 @@ define(function(require) {
 
       subscribe: function() {
         app.ws.subscribe('operator/' + config.licence, function(topic, records) {
-          
+
           if (app.chatUsers && app.chatUsers instanceof Backbone.Collection) {
             app.chatUsers.set(records);
           }
@@ -105,7 +105,7 @@ define(function(require) {
 
       showLiveChat: function(id) {
 
-        if (!app.isLiveChatInit) { 
+        if (!app.isLiveChatInit) {
           return;
         }
 
@@ -126,7 +126,7 @@ define(function(require) {
       },
 
       showLiveChatModal: function() {
-        $('#chatModal').modal('toggle');
+        $('#chatModal').modal('show');
       },
 
       hideLiveChatModal: function() {
@@ -135,7 +135,7 @@ define(function(require) {
 
       chatDestroy: function() {
         if (app.liveChat) {
-          app.liveChat.remove();          
+          app.liveChat.remove();
         }
       },
 
@@ -186,9 +186,9 @@ define(function(require) {
         var callAction = available ? 'operator/available' :'operator/unavailable';
         // Set the operator availability on the server:
         app.ws.call(callAction).then(function () {
-          if (available) { 
-            app.available = true; 
-            return; 
+          if (available) {
+            app.available = true;
+            return;
           }
 
           app.available = false;
