@@ -208,6 +208,9 @@ define(function(require) {
     unsetActiveWindow: function(id, model) {
 
       model = model || this.collection.get(id);
+
+      if (!model) return;
+
       model.set({
         active: false,
         selected: false
