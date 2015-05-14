@@ -2,33 +2,33 @@
              MODAL VIEW
 =======================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     _ = require('underscore'),
-    app = require('app'),
+    Modal = require('components/modals/modal'),
 
     // Object wrapper returned as a module
     ModalView;
 
-  ModalView = Backbone.View.extend({
-	  
-	  className: "modal fade",
-    template: _.template($('#modalTpl').html()),
-    
-    initialize: function() {
-	    this.render();
-	  },
+  ModalView = Modal.extend({
 
-    render: function () {
-	    this.$el.html(this.template());
-      this.$el.appendTo('#config');
-      this.$el.attr( { 'tabindex':'-1', 'role':'dialog', 'aria-labelledby':'close', 'aria-hidden':'true' } );
+    className: 'modal fade',
+    template: _.template($('#modalTpl').html()),
+
+    initialize: function() {
+      this.render();
+      this.open();
+    },
+
+    render: function() {
+      this.$el.html(this.template());
+      this.$el.appendTo('body');
     }
-	
   });
+
   return ModalView;
 });

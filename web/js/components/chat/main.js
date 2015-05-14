@@ -12,11 +12,11 @@ define(function(require) {
       SkeletonView = require('components/chat/views/skeletonView'),
       Collections = require('components/chat/data/collections'),
       ModalConfirmationView = require('components/modals/confirmView'),
-      ModalModel= require('components/modals/model'),
+      ModalModel = require('components/modals/model'),
       Notifs = require('components/notifications/notifsCollectionView'),
       app = require('app');
 
-  var chat = function (config) {
+  var chat = function(config) {
     // Set locale in moment JS
     moment.locale('fr');
 
@@ -38,16 +38,18 @@ define(function(require) {
       $('.app-main-header .header-widget.notifications-menu')
         .on('click', app.showLiveChat);
 
-      $('#chatModal').on('hidden.bs.modal', function (e) {
+      $('#chatModal').on('hidden.bs.modal', function(ev) {
         window.sessionStorage.setItem("chatModalVisible", false);
         // app.chatDestroy();
       });
 
       var chatModalVisible = window.sessionStorage.getItem("chatModalVisible");
-      if (chatModalVisible === "true") { app.showLiveChat(); }
+      if (chatModalVisible === "true") {
+        app.showLiveChat();
+      }
     };
 
-    // TODO: Move logic to a more suitable location 
+    // TODO: Move logic to a more suitable location
     // (like a mixin/helper/components file)
     app.createModal = function(content, callback, context) {
       var modalModel, modalView;
@@ -56,7 +58,7 @@ define(function(require) {
       modalModel.set(content);
 
       modalView = new ModalConfirmationView({
-        model: modalModel,
+        model: modalModel
       });
 
       $('.js-modal-action').on('click', function() {

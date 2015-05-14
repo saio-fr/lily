@@ -98,9 +98,7 @@ define(function(require) {
 
       isConnectionAlive: function() {
         // Hide connection lost modal if present:
-        if ($('.js-modal-connection-lost').get(0)) {
-          $('.js-modal-connection-lost').modal('hide');
-        }
+        app.modalConnectionLost.close();
       },
 
       showLiveChat: function(id) {
@@ -111,7 +109,7 @@ define(function(require) {
 
         if (app.available) {
           app.showLiveChatModal();
-          window.sessionStorage.setItem("chatModalVisible", true);
+          window.sessionStorage.setItem('chatModalVisible', true);
 
           if (id) {
             app.trigger('chat:showConversation', id);
@@ -126,11 +124,11 @@ define(function(require) {
       },
 
       showLiveChatModal: function() {
-        $('#chatModal').modal('show');
+        app.trigger('chatWindow:open');
       },
 
       hideLiveChatModal: function() {
-        $('#chatModal').modal('hide');
+        app.trigger('chatWindow:close');
       },
 
       chatDestroy: function() {
@@ -211,9 +209,7 @@ define(function(require) {
       },
 
       onConnectionError: function() {
-        if ($('.js-modal-connection-lost').get(0)) {
-          $('.js-modal-connection-lost').modal('show');
-        }
+        app.modalConnectionLost.open();
       },
 
       ////////////////////
