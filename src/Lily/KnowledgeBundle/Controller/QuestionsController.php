@@ -149,14 +149,6 @@ class QuestionsController extends BaseController
                 $em->remove($alt);
             }
         }
-        
-        foreach ($question->getAlternatives() as $alt) {
-            if ($originalAlternatives->contains($alt) == false) {
-                $synapse->addadditionalquestion($client, $alt);
-            } else {
-                $synapse->updatequestion($client, $alt);
-            }
-        }
   
         $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
   
@@ -164,6 +156,14 @@ class QuestionsController extends BaseController
         $em->flush();
         
         // SEND INFOS TO SYNAPSE ENGINE
+        foreach ($question->getAlternatives() as $alt) {
+            if ($originalAlternatives->contains($alt) == false) {              
+                $synapse->addadditionalquestion($client, $alt);
+            } else {
+                $synapse->updatequestion($client, $alt);
+            }
+        }
+        
         $synapse->updateQuestionAnswer($client, $question);
   
         return $question;
