@@ -1087,7 +1087,7 @@ MESSAGES
 /* Position tooltip above the element */
 [data-tooltip]:before {
   position: absolute;
-  top: 30px;
+  top: -15px;
   left: 10px;
   margin-bottom: 5px;
   margin-left: 0;
@@ -1099,7 +1099,7 @@ MESSAGES
   color: #fff;
   content: attr(data-tooltip);
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.2;
 }
 
@@ -1699,6 +1699,7 @@ SNAP.JS
 *********************/
 
 .snap-content {
+	border-radius: 4px 4px 0 0;
 	position: absolute;
 	top: 0;
 	right: 0;
