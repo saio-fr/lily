@@ -21,7 +21,6 @@ define(function(require) {
 
     initialize: function() {
       this.render();
-      this.open();
     },
 
     render: function() {
