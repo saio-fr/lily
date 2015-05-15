@@ -40,8 +40,6 @@ define(function(require) {
         collection: app.categories.collection.toJSON()
       }));
       this.$el.appendTo('body');
-      this.$el.on('hide.bs.modal', this.cancel.bind(this));
-
       return this;
     },
 
