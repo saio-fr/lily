@@ -185,11 +185,15 @@ define(function(require) {
         return;
       }
 
-      var message = this.$input.val();
-      if (message.trim().length > 0) {
+      var message = this.$input
+        .val()
+        .trim()
+        .replace(/<\/?(\w+)\s*[\w\W]*?>/g, '');
+
+      if (message.length > 0) {
         // On vérifie que le champ n'est pas vide
         // ou contient uniquement des espaces
-        this.send(message.trim());
+        this.send(message);
       }
 
       // clear the search field
