@@ -713,6 +713,9 @@ HEADER
   overflow: scroll;
 }
 
+/* Most disgusting css selector in the history of css selectors.
+ * My eyes are litteraly crying right now... :'(
+*/
 *[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
   content: attr(data-placeholder);
   float: left;
