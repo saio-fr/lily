@@ -1058,7 +1058,7 @@ MESSAGES
 	display: block;
 }
 
-#chat-box-messages .lily-msg-chat-wait {
+.lily-msg-chat-wait {
   display: block;
   text-align: center;
   margin: 0 0 15px;
