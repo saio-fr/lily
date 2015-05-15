@@ -710,6 +710,7 @@ HEADER
   line-height: 1;
   vertical-align: bottom;
   z-index: 3;
+  overflow: scroll;
 }
 
 *[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
@@ -892,13 +893,13 @@ MESSAGES
 	text-decoration: underline;
 }
 
-.lily-box-messages, 
+.lily-box-messages,
 .chat-messages {
 	position: absolute;
 	top: 0px;
 	height: 100%;
   width: 100%;
-	padding: 13px 13px 184px;
+	padding: 13px;
 	font-size: 15px;
 	z-index: 3;
 	overflow-y: auto;
@@ -917,8 +918,11 @@ MESSAGES
   opacity: 1;
 }
 
-.chat-messages {
-  padding: 13px 13px 85px;
+.chat-messages div:last-child {
+  margin-bottom: 83px;
+}
+.lily-box-messages div:last-child {
+  margin-bottom: 183px;
 }
 
 .avatar-wrapper {
