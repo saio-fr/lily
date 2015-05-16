@@ -97,12 +97,6 @@
   float:right;
 }
 
-.dropdown-label {
-  display: block;
-  margin-right: 9px;
-  overflow: hidden;
-}
-
 .users-counter-container {
   position: absolute;
 }
@@ -171,23 +165,12 @@
   padding: 5px 15px;
 }
 
-.modal-content {
-  border-radius: 3px;
-}
-
-.modal-footer {
-  border-top: none;
-  padding: 15px;
-  margin-top: 0 !important;
-}
-
-.modal-remove {
+.modal-trash {
   margin: 0;
   position: absolute;
-  z-index: 9999;
+  z-index: 10001;
   opacity: 1,
   width: 500px;
-  height: 400px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
 }
@@ -221,7 +204,7 @@
 
 .uploader {
   position: absolute;
-  z-index: 9999;
+  z-index: 10001;
   top: 50px;
   left: 25px;
   opacity: 0;

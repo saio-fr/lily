@@ -1,20 +1,18 @@
-<div class="checkbox">
-		<input type="checkbox" name="select">
-</div>
-
-<p class="title">
-  <%=title %>
-</p>
-
-<div>
-  <div class="categories">
-  </div>
-  <div class="labels">
-  </div>
-  <div class="informations pull-right">
-    <span>
-      Posée <%= requests %> fois - Modifié le <%= moment(date).format('DD/MM/YY') %> par <%= modified_by %>
+<div class="item-wrapper">
+  <div class="item">
+    <div class="checkbox">
+      <input type="checkbox" data-id="<%= id %>" name="select">
+    </div>
+    <% if (category) { %>
+      <span class="category-label bg-dark lter">
+        <i class="icon-folder-open-alt"></i>
+        <%= category.title %>
+      </span>
+    <% } %>
+    <h5 class="title"><%= title %></h5>
+    <span class="informations">
+      Posée <%= requests %> fois - Modifié le 
+      <%= moment(date).format('DD/MM/YY') %> par <%= modifiedBy %>
     </span>
   </div>
 </div>
-

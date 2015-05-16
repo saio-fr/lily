@@ -38,9 +38,13 @@
     "backbone-nested-model": "~2.0.1",
     "raphael": "~2.1.2",
     "morrisjs": "~0.5.1",
-    "backbone-validation": "~0.9.1"
-  },
-  "resolutions": {
-    "moment": "~2.9.0"
+    "backbone-validation": "~0.9.1",
+    "scribe": "~1.2.4",
+    "scribe-plugin-toolbar": "~0.1.4",
+    "scribe-plugin-smart-lists": "~0.1.7",
+    "scribe-plugin-heading-command": "~0.1.0",
+    "interact": "~1.2.2",
+    "typeahead.js": "~0.10.5",
+    "jquery-autosize": "~3.0.3"
   }
 }

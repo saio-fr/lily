@@ -42,13 +42,12 @@ class LogRedirection
      */
     protected $canal;
     
-        
     /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Redirection", inversedBy="logsRedirection")
-     * @ORM\JoinColumn(nullable=true)
+     * @var string
+     *
+     * @ORM\Column(name="session", type="string", length=255, nullable=true)
      */
-    protected $redirection;
-
+    protected $session;
 
     /**
      * Get id
@@ -69,7 +68,7 @@ class LogRedirection
     public function setDate($date)
     {
         $this->date = $date;
-    
+
         return $this;
     }
 
@@ -92,7 +91,7 @@ class LogRedirection
     public function setMedia($media)
     {
         $this->media = $media;
-    
+
         return $this;
     }
 
@@ -107,29 +106,6 @@ class LogRedirection
     }
 
     /**
-     * Set redirection
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Redirection $redirection
-     * @return LogRedirection
-     */
-    public function setRedirection(\Lily\KnowledgeBundle\Entity\Redirection $redirection = null)
-    {
-        $this->redirection = $redirection;
-    
-        return $this;
-    }
-
-    /**
-     * Get redirection
-     *
-     * @return \Lily\KnowledgeBundle\Entity\Redirection 
-     */
-    public function getRedirection()
-    {
-        return $this->redirection;
-    }
-
-    /**
      * Set canal
      *
      * @param string $canal
@@ -138,7 +114,7 @@ class LogRedirection
     public function setCanal($canal)
     {
         $this->canal = $canal;
-    
+
         return $this;
     }
 
@@ -150,5 +126,29 @@ class LogRedirection
     public function getCanal()
     {
         return $this->canal;
+    }
+
+    /**
+     * Set session
+     *
+     * @param string $session
+     *
+     * @return LogRedirection
+     */
+    public function setSession($session)
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    /**
+     * Get session
+     *
+     * @return string
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 }

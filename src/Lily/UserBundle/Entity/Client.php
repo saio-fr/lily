@@ -58,6 +58,12 @@ class Client
      * @ORM\Column(name="licence", type="string", length=50)
      */
     protected $licence;
+    
+    /**
+     * @var string
+     * @ORM\Column(name="synapsePassword", type="string", length=10)
+     */
+    protected $synapsePassword;
 
     /**
      * Constructor
@@ -234,5 +240,28 @@ class Client
     public function getGroups()
     {
         return $this->groups;
+    }
+
+    /**
+     * Set synapsePassword
+     *
+     * @param string $synapsePassword
+     * @return Client
+     */
+    public function setSynapsePassword($synapsePassword)
+    {
+        $this->synapsePassword = $synapsePassword;
+
+        return $this;
+    }
+
+    /**
+     * Get synapsePassword
+     *
+     * @return string 
+     */
+    public function getSynapsePassword()
+    {
+        return $this->synapsePassword;
     }
 }

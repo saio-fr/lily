@@ -15,7 +15,7 @@ define(function (require) {
   CategoryCollection = Backbone.Collection.extend({
 
     url: function () {
-      return '/avi/topcategories';
+      return '/statistics/avi/topcategories';
     },
     
     initialize: function () {

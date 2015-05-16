@@ -11,9 +11,11 @@ define(function(require) {
 
   // Require CommonJS like includes
   var _ = require('underscore'),
-    Backbone = require('backbone'),
-    config = require('globals'),
-    Autobahn = require('autobahn'),
+      $ = require("jquery"),
+      Backbone = require('backbone'),
+      config = require('globals'),
+      Autobahn = require('autobahn'),
+      ModalConnectionLost = require('components/modals/connectionLost'),
 
     app = {
 
@@ -29,18 +31,27 @@ define(function(require) {
               if (_.isFunction(callback)) {
                 callback(result);
               }
-              app.onConnect(result);
+
+              app.available = !!result.available;
+
+              app.isConnectionAlive();
               app.ping();
+              app.onConnect(result);
             }, function(err) {
               console.warn(err);
-              app.trigger("status:connectionError");
+
+              window.setTimeout(function() {
+                app.trigger("status:connectionError");
+              }, 3000);
             });
           },
 
           function onhangup(code, reason, detail) { // When the connection is closed
             console.warn(code + reason + detail);
             // Todo put that somewhere else
-            app.trigger("status:connectionError");
+            window.setTimeout(function() {
+              app.trigger("status:connectionError");
+            }, 3000);
           },
 
           { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
@@ -53,9 +64,9 @@ define(function(require) {
 
       subscribe: function() {
         app.ws.subscribe('operator/' + config.licence, function(topic, records) {
-          if (app.users) {
-            app.users.set(records);
-            console.log(records);
+
+          if (app.chatUsers && app.chatUsers instanceof Backbone.Collection) {
+            app.chatUsers.set(records);
           }
         });
       },
@@ -71,7 +82,7 @@ define(function(require) {
             app.unsubscribe();
           } catch (e) {
             // An error ca occur in case of connection timeout,
-            console.log(e);
+            console.warn(e);
           }
         }
         app.subscribe();
@@ -80,9 +91,50 @@ define(function(require) {
 
       ping: function() {
         window.setInterval(function() {
-          app.ws.call("operator/ping");
+          app.ws.call("operator/ping").then(app.isConnectionAlive);
           console.log("ping");
         }, 25000);
+      },
+
+      isConnectionAlive: function() {
+        // Hide connection lost modal if present:
+        app.modalConnectionLost.close();
+      },
+
+      showLiveChat: function(id) {
+
+        if (!app.isLiveChatInit) {
+          return;
+        }
+
+        if (app.available) {
+          app.showLiveChatModal();
+          window.sessionStorage.setItem('chatModalVisible', true);
+
+          if (id) {
+            app.trigger('chat:showConversation', id);
+          }
+        } else {
+
+          app.createModal(config.modalConfirm.chatUnavailable, function() {
+            app.trigger('operator:setAvailability', true);
+            app.showLiveChatModal();
+          }, this);
+        }
+      },
+
+      showLiveChatModal: function() {
+        app.trigger('chatWindow:open');
+      },
+
+      hideLiveChatModal: function() {
+        app.trigger('chatWindow:close');
+      },
+
+      chatDestroy: function() {
+        if (app.liveChat) {
+          app.liveChat.remove();
+        }
       },
 
       onChatOpen: function() {
@@ -99,16 +151,18 @@ define(function(require) {
       //   });
       // },
 
-      onConversationClose: function(sid) {
+      onConversationClose: function(id) {
         app.ws.call('operator/close', {
-          sid: sid
+          sid: id
         });
+        app.trigger('conversation:closed', id);
       },
 
-      onConversationBan: function(sid) {
+      onConversationBan: function(id) {
         app.ws.call('operator/ban', {
-          sid: sid
+          sid: id
         });
+        app.trigger('conversation:banned', id);
       },
 
       onConversationTransfer: function(sid, id) {
@@ -116,6 +170,7 @@ define(function(require) {
           sid: sid,
           operator: id
         });
+        app.trigger('conversation:transfered', sid);
       },
 
       onChangeName: function(sid, name) {
@@ -125,24 +180,22 @@ define(function(require) {
         });
       },
 
-      onSetAvailable: function() {
-        app.ws.call('operator/available');
-        app.available = true;
-      },
+      onAvailabilityChange: function(available) {
+        var callAction = available ? 'operator/available' :'operator/unavailable';
+        // Set the operator availability on the server:
+        app.ws.call(callAction).then(function () {
+          if (available) {
+            app.available = true;
+            return;
+          }
 
-      onSetUnAvailable: function() {
-        app.ws.call('operator/unavailable');
-        app.available = false;
-        if (app.router) {
-          app.router.navigate('dashboard', {
-            trigger: true,
-            replace: true
-          });
-        }
+          app.available = false;
+          app.hideLiveChatModal();
+        });
       },
 
       onSetOperator: function(id) {
-        return app.ws.call('operator/set_operator', {
+        return app.ws.call('operator/setOperator', {
           sid: id
         });
       },
@@ -156,9 +209,7 @@ define(function(require) {
       },
 
       onConnectionError: function() {
-        if ($('.js-modal-connection-lost').get(0)) {
-          $('.js-modal-connection-lost').modal('show');
-        }
+        app.modalConnectionLost.open();
       },
 
       ////////////////////
@@ -194,25 +245,53 @@ define(function(require) {
 
       },
 
-      ///////////////////
-      //
-      ///////////////////
+      //////////////////////
+      // DOM Event Handlers
+      //////////////////////
+
+      onSetAvailability: function(availability) {
+        var status = _.isObject(availability) ? availability.data.status : availability;
+        var statusButton = $('.app-main-header .status-selector');
+        var nextClass = status ? 'available' : 'unavailable',
+            prevClass = status ? 'unavailable' : 'available',
+            // Abstract in Global / i18n class
+            label = status ? 'Disponible' : 'Indisponible';
+
+        if (!statusButton.hasClass('show')) {
+          statusButton.addClass('show');
+        }
+
+        statusButton.find('.status-icon')
+          .removeClass(prevClass)
+          .addClass(nextClass);
+        statusButton.find('.status-label').html(label);
+
+        app.onAvailabilityChange(status);
+      }
 
     };
 
   _.extend(app, Backbone.Events);
 
-  app.on('chat:open', app.onChatOpen);
-  app.on('chat:send', app.onChatSend);
-  app.on('chat:writing', app.onChatWriting);
+  // Chat status events:
+  app.on('chat:open',         app.onChatOpen);
+  app.on('chat:send',         app.onChatSend);
+  app.on('chat:writing',      app.onChatWriting);
   app.on('chat:satisfaction', app.onChatSatisfaction);
-  app.on('operator:unavailable', app.onSetUnAvailable);
-  app.on('operator:available', app.onSetAvailable);
-  app.on('operator:close', app.onConversationClose);
-  app.on('operator:transfer', app.onConversationTransfer);
-  app.on('operator:ban', app.onConversationBan);
-  app.on('operator:updateInformations', app.onUpdateInfos);
+  // Operator actions events:
+  app.on('operator:ban',             app.onConversationBan);
+  app.on('operator:close',           app.onConversationClose);
+  app.on('operator:transfer',        app.onConversationTransfer);
+  app.on('operator:updateInfos',     app.onUpdateInfos);
+  app.on('operator:setAvailability', app.onSetAvailability);
+  // Global app state events:
+  app.modalConnectionLost = new ModalConnectionLost();
   app.on('status:connectionError', app.onConnectionError);
+  // App wide DOM Event handlers:
+  $('.app-main-header .status-selector a[data="available"]')
+    .on('click', { status: true }, app.onSetAvailability);
+  $('.app-main-header .status-selector a[data="unavailable"]')
+    .on('click', { status: false }, app.onSetAvailability);
 
   return app;
 });

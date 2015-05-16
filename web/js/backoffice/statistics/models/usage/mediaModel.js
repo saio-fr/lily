@@ -16,7 +16,7 @@ define(function (require) {
   MediaModel = Backbone.Model.extend({
 
     id: '',
-    url: '/media',
+    url: '/statistics/media',
 
     initialize: function () {
     }

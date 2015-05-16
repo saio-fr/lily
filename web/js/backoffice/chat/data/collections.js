@@ -16,9 +16,10 @@ define(function(require) {
   Collections.Users = Backbone.Collection.extend({
     model: Models.Operator
   });
-
-  Collections.Messages = Backbone.Collection.extend({
-    model: Models.Messages
+  
+  Collections.Shortcuts = Backbone.Collection.extend({
+    url: '/chat/shortcuts',
+    model: Models.Shortcut
   });
 
   return Collections;

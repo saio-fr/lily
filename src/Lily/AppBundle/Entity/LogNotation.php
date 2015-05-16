@@ -47,6 +47,13 @@ class LogNotation
      * @ORM\Column(name="date", type="date")
      */
     protected $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="session", type="string", length=255, nullable=true)
+     */
+    protected $session;
     
     /**
      * Constructor
@@ -155,5 +162,29 @@ class LogNotation
     public function getQuestion()
     {
         return $this->question;
+    }
+
+    /**
+     * Set session
+     *
+     * @param string $session
+     *
+     * @return LogNotation
+     */
+    public function setSession($session)
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    /**
+     * Get session
+     *
+     * @return string
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 }

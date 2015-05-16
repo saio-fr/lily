@@ -22,6 +22,7 @@ define(function(require) {
       isUserInactive: false,
       hasChatConnected: false,
       hasSubscribed: false,
+      showAviAnswerNotation: true,
       trackingQueue: [],
       chatting: false,
       isShown: false,
@@ -32,7 +33,8 @@ define(function(require) {
 
       connect: function() {
         // var deferred = when.defer();
-        if (app.hasSubscribed) {
+        // Authobah subscription list not empty:
+        if (app.hasSubscribed && Object.getOwnPropertyNames(app.ws._subscriptions).length !== 0) {
           try {
             app.unsubscribe();
           } catch (e) {
@@ -40,10 +42,11 @@ define(function(require) {
             console.log(e);
           }
         }
+
         app.subscribe();
         return app.ws.call('visitor/connect', {
           // top.location.href can't be accessed from iframe
-          // with a domain that differs from the host
+          // with a domain that differs from the host@
           'href': app.hostHref,
           'pathname': app.hostPathName
         });
@@ -54,6 +57,7 @@ define(function(require) {
           function(topic, payload) {
             app.processWsPayload(payload);
           });
+
         app.hasSubscribed = true;
       },
 
@@ -73,20 +77,24 @@ define(function(require) {
           app.connect().then(function() {
             // brackets notation to avoid confusion with Javascript call method;
             app.isUserInactive = false;
-            app.ws["call"].apply(app.ws, args).then(function(data) {
+            app.ws['call'].apply(app.ws, args).then(function(data) {
               deferred.resolve(data);
-            }, function(err) {
+            },
+
+            function(err) {
               deferred.reject(err);
             });
-          }, function(err) {
-            app.showInfo("error", config.unableToConnectError);
+          },
+
+          function(err) {
+            app.showInfo('error', config.unableToConnectError);
             deferred.reject(err);
           });
 
           return deferred.promise;
 
         } else {
-          return app.ws["call"].apply(app.ws, args);
+          return app.ws['call'].apply(app.ws, args);
         }
 
       },
@@ -96,15 +104,15 @@ define(function(require) {
         if (config.chat.active && config.chatAvailable ||
           config.avi.active || app.chatting) {
           app.sendToHost({
-            title: "ws:connect:success",
-            callback: "showWidget"
+            title: 'ws:connect:success',
+            callback: 'showWidget'
           });
         }
 
-        if (info.display === true) {
+        if (info.appDisplay === true) {
           app.sendToHost({
-            title: "app:display",
-            callback: "showIframe"
+            title: 'app:appDisplay',
+            callback: 'showIframe'
           });
         }
       },
@@ -113,25 +121,28 @@ define(function(require) {
         var length = payload.length;
         _.each(payload, function(item, index) {
           switch (item.action) {
-            case "close":
+            case 'close':
+
               // If the close action is the last received message,
               // set conversation to close:
               if (index === length - 1) {
                 app.conversationClosed(true);
               }
+
               break;
-            case "inactivity":
+            case 'inactivity':
               app.isUserInactive = true;
               break;
-            case "transfered":
+            case 'transfered':
               break;
-            case "ban":
+            case 'ban':
               break;
             case undefined:
 
               break;
           }
         });
+
         app.payload = payload;
         app.trigger('ws:subscribedToChat', payload);
       },
@@ -155,7 +166,7 @@ define(function(require) {
 
       onChatSend: function(message) {
         app.ws.publish('operator/' + config.licence, message);
-        app.track("chat/send_message");
+        app.track('chat/send_message');
       },
 
       onChatWriting: function(writing) {
@@ -171,20 +182,25 @@ define(function(require) {
           satisfaction: satisfied
         });
 
-        app.track("chat/click_satisfaction", {
+        app.track('chat/click_satisfaction', {
           satisfied: satisfied
         });
       },
 
       onChatReconnect: function() {
-        app.trigger("chat:resetConversation");
+        app.trigger('chat:resetConversation');
+
+        // Chat has been disconnected. Hence the reconnect. (not the best way to do it)
+        app.hasChatConnected = false;
+
+        app.wsConnect();
         app.onChatOpen().then(function() {
-          app.trigger("chat:reconnected");
+          app.trigger('chat:reconnected');
         }, function(err) {
           // TODO: process error;
         });
 
-        app.track("chat/click_reconnect");
+        app.track('chat/click_reconnect');
       },
 
       onSubmitInfos: function(infos) {
@@ -206,20 +222,31 @@ define(function(require) {
           });
         });
 
-        app.track("welcomeScreen/submit_infos");
+        app.track('welcomeScreen/submit_infos');
       },
 
       conversationClosed: function(isClosed) {
         var closed = isClosed ? true : false;
         app.isClosed = closed;
-        window.sessionStorage.setItem("isConversationClosed", closed);
+        window.sessionStorage.setItem('isConversationClosed', closed);
       },
 
       isConversationClosed: function() {
         var isClosed = app.isClosed ||
-          window.sessionStorage.getItem("isConversationClosed") ||
+          window.sessionStorage.getItem('isConversationClosed') ||
           false;
         return isClosed;
+      },
+
+      ////////////////////
+      //      AVI
+      ////////////////////
+
+      onNewAviQuestion: function(question) {
+        app.call('visitor/newAviQuestion', {
+          sid: config.sid,
+          question: question
+        });
       },
 
       ////////////////////
@@ -227,12 +254,12 @@ define(function(require) {
       ////////////////////
 
       showInfo: function(type, info) {
-        var typeClass = type + "-info";
-        $("#lily-wrapper-page").append(
+        var typeClass = type + '-info';
+        $('#lily-wrapper-page').append(
           '<div class="info-popup animated fadeInUp ' + typeClass + '">' + info + '</div>'
         );
         window.setTimeout(function() {
-          $(".info-popup").fadeOut();
+          $('.info-popup').fadeOut();
         }, 3000);
       },
 
@@ -248,9 +275,9 @@ define(function(require) {
           return;
         }
 
-        // Only track if hte iframe is actually shown to the user:
+        // Only track if the iframe is actually shown to the user:
         if (_.isFunction(window.ga) && url) {
-          ga('send', 'pageview', {
+          window.ga('send', 'pageview', {
             'page': url,
             'title': config.licence
           });
@@ -264,12 +291,6 @@ define(function(require) {
       },
 
       track: function(event, options, value) {
-        var category = config.licence,
-          action = event,
-          label = tostring(options);
-        if (_.isFunction(window.ga)) {
-          ga('send', 'event', category, action, label, value);
-        }
 
         function tostring(obj) {
           var str = '';
@@ -280,6 +301,37 @@ define(function(require) {
           }
         }
 
+        var category = config.licence,
+          action = event,
+          label = tostring(options);
+        if (_.isFunction(window.ga)) {
+          window.ga('send', 'event', category, action, label, value);
+        }
+
+        if (_.isFunction(window.mixpanel)) {
+          window.mixpanel.track(event, options);
+        }
+      },
+
+      ////////////////////
+      //    Utils
+      ////////////////////
+
+      onAnimEnd: function(jqueryEl, callback, args, context) {
+        var cont = context || window;
+        if (config.support) { // Browser support for onEndAnim event
+          jqueryEl.on(config.animEndEventName, function() {
+            if (_.isFunction(callback)) {
+              callback.call(cont, args);
+            }
+
+            jqueryEl.off(config.animEndEventName);
+          });
+        } else {
+          if (_.isFunction(callback)) {
+            callback.call(cont, args);
+          }
+        }
       },
 
       ////////////////////
@@ -287,23 +339,23 @@ define(function(require) {
       ////////////////////
 
       onLoadApp: function() {
-        app.track("app::load");
+        app.track('app::load');
       },
 
       onWidgetClick: function(visible) {
-        visible = visible === "true" ? true : false;
-        app.call('visitor/display', {
+        visible = visible === 'true' ? true : false;
+        app.call('visitor/appDisplay', {
           display: visible
         });
 
-        app.track("widget::click");
+        app.track('widget::click');
       },
 
       onShowIframe: function(firstOpen) {
         app.isShown = true;
         app.trigger('app:isShown');
 
-        app.track("displayed", {
+        app.track('appDisplayed', {
           fistOpen: firstOpen
         });
 
@@ -312,24 +364,29 @@ define(function(require) {
         }
       },
 
+      onShowWidget: function() {
+        app.track('widget::isShown');
+        app.call('visitor/widgetDisplayed');
+      },
+
       onReduceClick: function() {
-        app.call('visitor/display', {
+        app.call('visitor/appDisplay', {
           display: false
         });
         app.sendToHost({
-          title: "app:hide",
-          callback: "hideIframe"
+          title: 'app:hide',
+          callback: 'hideIframe'
         });
 
         app.isShown = false;
 
-        app.track("click_reduce_app");
+        app.track('click_reduce_app');
       },
 
       receiveFromHost: function(message, response) {
 
         if (message.data && message.data.title) {
-          console.log("saio:: " + message.data.title);
+          console.log('saio:: ' + message.data.title);
         }
 
         // Call callback if exists, and apply eventual arguments:
@@ -358,21 +415,22 @@ define(function(require) {
         if (window.parent && document.referrer) {
           window.parent.postMessage(message, document.referrer || app.hostDomain);
         }
-      },
+      }
 
     };
 
   _.extend(app, Backbone.Events);
 
-  app.on('chat:open', app.onChatOpen);
-  app.on('chat:send', app.onChatSend);
-  app.on('app:isShown', app.pageView);
-  app.on('chat:writing', app.onChatWriting);
-  app.on('chat:reconnect', app.onChatReconnect);
-  app.on('chat:satisfaction', app.onChatSatisfaction);
+  app.on('chat:open',            app.onChatOpen);
+  app.on('chat:send',            app.onChatSend);
+  app.on('app:isShown',          app.pageView);
+  app.on('chat:writing',         app.onChatWriting);
+  app.on('avi:newAviQuestion',   app.onNewAviQuestion);
+  app.on('chat:reconnect',       app.onChatReconnect);
+  app.on('chat:satisfaction',    app.onChatSatisfaction);
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
 
-  window.addEventListener("message", function() {
+  window.addEventListener('message', function() {
     app.receiveFromHost.apply(app, arguments);
   }, false);
 

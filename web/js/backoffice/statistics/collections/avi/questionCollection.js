@@ -15,7 +15,7 @@ define(function (require) {
   QuestionCollection = Backbone.Collection.extend({
 
     url: function () {
-      return '/avi/topquestions';
+      return '/statistics/avi/topquestions';
     },
     
     initialize: function () {

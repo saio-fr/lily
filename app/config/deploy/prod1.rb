@@ -1,6 +1,6 @@
 set :application, "saio"
 set :domain,      "prod1.#{application}.fr"
-set :deploy_to,   "/var/www/vhosts/saio.fr/httpdocs"
+set :deploy_to,   "/var/www/vhosts/saio.fr/lily.saio.fr"
 set :app_path,    "app"
 
 set :repository,  "git@github.com:saio-fr/lily.git"
@@ -29,24 +29,43 @@ set :ssh_options, {:forward_agent => true}
 # perform tasks after deploying
 after "deploy" do
   # clear the cache
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=prod"
+  run "cd #{deploy_to}/current && php app/console cache:clear --env=prod"
+
+  # clear memcache
+  run "cd #{deploy_to}/current && php app/console cache:flush default --env=prod"
 
   # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
+  run "cd #{deploy_to}/current && php app/console assetic:dump --env=prod"
   
   # update bower components
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
+  run "cd #{deploy_to}/current && bower update"
   
 end
 
 namespace :ws do
   task :stop do
     # clear the cache
-    run "sudo supervisorctl stop all"
+    run "sudo supervisorctl stop wslog"
+    run "sudo supervisorctl stop wsserver"
   end
   task :start do
     # clear the cache
-    run "sudo supervisorctl start all"
+    run "sudo supervisorctl start wsserver"
+    run "sudo supervisorctl start wslog"
+  end
+end
+
+namespace :home do
+  task :stop do
+    # clear the cache
+    run "sudo supervisorctl stop homepage"
+  end
+  task :start do
+    # clear the cache
+    run "cd /var/www/vhosts/saio.fr/httpdocs && rm -Rf homepage"
+    run "cd /var/www/vhosts/saio.fr/httpdocs && git clone git@github.com:saio-fr/homepage.git"
+    run "cd /var/www/vhosts/saio.fr/httpdocs/homepage && npm install"
+    run "sudo supervisorctl start homepage"
   end
 end
 
@@ -67,7 +86,9 @@ end
 
 after "deploy:setup", "upload_parameters"
 after "deploy", "deploy:cleanup"
-after "deploy", "clear_opcache"
+after "deploy:cleanup", "clear_opcache"
+after "deploy:clear_opcache", "ws:stop"
+after "ws:stop", "ws:start"
 
 # Be more verbose by uncommenting the following line
  logger.level = Logger::MAX_LEVEL

@@ -8,13 +8,10 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-
       // Object wrapper returned as a module
       Modal;
 
-  Modal = Backbone.Model.extend({
+  Modal = Backbone.Model.extend({});
 
-  });
-
-return Modal;
+  return Modal;
 });

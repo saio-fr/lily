@@ -55,7 +55,8 @@ define(function(require) {
 
         skeleton.modalView = new ModalView();
       });
-      app.pageView("/config");
+
+      app.pageView('/config');
       // TODO: same as profile: route tabs and track page
     },
 

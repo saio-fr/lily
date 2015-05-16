@@ -31,9 +31,16 @@ class LogConnection
     /**
      * @var boolean
      *
-     * @ORM\Column(name="used", type="boolean")
+     * @ORM\Column(name="widgetUsed", type="boolean")
      */
-    protected $used;
+    protected $widgetUsed;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="widgetDisplayed", type="boolean")
+     */
+    protected $widgetDisplayed;
 
     /**
      * @var \DateTime
@@ -49,11 +56,10 @@ class LogConnection
      */
     protected $media;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -61,22 +67,95 @@ class LogConnection
     }
 
     /**
+     * Set session
+     *
+     * @param string $session
+     *
+     * @return LogConnection
+     */
+    public function setSession($session)
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    /**
+     * Get session
+     *
+     * @return string
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * Set widgetUsed
+     *
+     * @param boolean $widgetUsed
+     *
+     * @return LogConnection
+     */
+    public function setWidgetUsed($widgetUsed)
+    {
+        $this->widgetUsed = $widgetUsed;
+
+        return $this;
+    }
+
+    /**
+     * Get widgetUsed
+     *
+     * @return boolean
+     */
+    public function getWidgetUsed()
+    {
+        return $this->widgetUsed;
+    }
+
+    /**
+     * Set widgetDisplayed
+     *
+     * @param boolean $widgetDisplayed
+     *
+     * @return LogConnection
+     */
+    public function setWidgetDisplayed($widgetDisplayed)
+    {
+        $this->widgetDisplayed = $widgetDisplayed;
+
+        return $this;
+    }
+
+    /**
+     * Get widgetDisplayed
+     *
+     * @return boolean
+     */
+    public function getWidgetDisplayed()
+    {
+        return $this->widgetDisplayed;
+    }
+
+    /**
      * Set date
      *
      * @param \DateTime $date
-     * @return Connection
+     *
+     * @return LogConnection
      */
     public function setDate($date)
     {
         $this->date = $date;
-    
+
         return $this;
     }
 
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -87,68 +166,23 @@ class LogConnection
      * Set media
      *
      * @param string $media
-     * @return Connection
+     *
+     * @return LogConnection
      */
     public function setMedia($media)
     {
         $this->media = $media;
-    
+
         return $this;
     }
 
     /**
      * Get media
      *
-     * @return string 
+     * @return string
      */
     public function getMedia()
     {
         return $this->media;
-    }
-
-    /**
-     * Set session
-     *
-     * @param string $session
-     * @return LogConnection
-     */
-    public function setSession($session)
-    {
-        $this->session = $session;
-    
-        return $this;
-    }
-
-    /**
-     * Get session
-     *
-     * @return string 
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
-     * Set used
-     *
-     * @param boolean $used
-     * @return LogConnection
-     */
-    public function setUsed($used)
-    {
-        $this->used = $used;
-
-        return $this;
-    }
-
-    /**
-     * Get used
-     *
-     * @return boolean 
-     */
-    public function getUsed()
-    {
-        return $this->used;
     }
 }

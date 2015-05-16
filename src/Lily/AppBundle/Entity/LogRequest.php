@@ -27,13 +27,6 @@ class LogRequest
      */
     protected $question;
 
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="Lily\KnowledgeBundle\Entity\Faq", inversedBy="logRequests")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    protected $faq;
-
     /**
      * @var \DateTime
      *
@@ -107,7 +100,7 @@ class LogRequest
      * Set media
      *
      * @param string $media
-     * @return Request
+     * @return LogRequest
      */
     public function setMedia($media)
     {
@@ -130,7 +123,7 @@ class LogRequest
      * Set question
      *
      * @param \Lily\KnowledgeBundle\Entity\Question $question
-     * @return Request
+     * @return LogRequest
      */
     public function setQuestion(\Lily\KnowledgeBundle\Entity\Question $question = null)
     {
@@ -147,29 +140,6 @@ class LogRequest
     public function getQuestion()
     {
         return $this->question;
-    }
-
-    /**
-     * Set faq
-     *
-     * @param \Lily\KnowledgeBundle\Entity\Faq $faq
-     * @return Requete
-     */
-    public function setFaq(\Lily\KnowledgeBundle\Entity\Faq $faq = null)
-    {
-        $this->faq = $faq;
-    
-        return $this;
-    }
-
-    /**
-     * Get faq
-     *
-     * @return \Lily\KnowledgeBundle\Entity\Faq 
-     */
-    public function getFaq()
-    {
-        return $this->faq;
     }
 
     /**

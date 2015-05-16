@@ -48,6 +48,7 @@ define(function(require) {
       if (this.editView) {
         this.editView.remove();
       }
+
       this.editView = new RedirectionEditView({
         model: model
       });
@@ -59,10 +60,8 @@ define(function(require) {
       var modalModel = new ModalModel(globals.modalAlert.redirection);
 
       this.modalView = new ModalView({
-        model: modalModel,
-        appendEl: ".js-app"
+        model: modalModel
       });
-      this.modalView.$el.modal('show');
     },
 
     getActiveItem: function() {

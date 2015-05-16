@@ -2,65 +2,40 @@
           MODAL Alert
 =======================================*/
 
-define(function (require) {
+define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
+      ModalView = require('components/modals/modal'),
 
       // Object wrapper returned as a module
       ModalConfirm;
 
 
-  ModalConfirm = Backbone.View.extend({
-  
-    attributes: {
-      'tabindex' : -1,
-      'role' : 'dialog',
-      'aria-labelledby' : 'close',
-      'aria-hidden' : 'true'
-    },
+  ModalConfirm = ModalView.extend({
+
     className: 'modal',
-    template: _.template( $('#modalConfirmTpl').html()),
+    template: _.template($('#modalConfirmTpl').html()),
 
-    events: {
-      'click' : 'remove'
-    },
-
-    initialize: function(options) {
-      if (options && options.appendEl) {
-        this.appendEl = options.appendEl;
-      }
-
+    initialize: function() {
       this.render();
-      this.$el.modal('show');
+      this.open();
     },
 
     render: function() {
-      var container = $(this.appendEl);
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.prependTo(container);
+      this.$el.appendTo('body');
       return this;
     },
 
-    remove: function (e) {
-      if ( e.target.classList.contains('modal-backdrop') ||
-           e.target.classList.contains('btn') ||
-           e.target.classList.contains('close') ) {
-
-        // Bootstrap modal plugin takes care of the displaying non stuff,
-        // so we just remove the view and model.
-        this.model.destroy();
-        this.$el.remove();
-        $('.modal-backdrop').remove();
-        this.stopListening();
-        return this;
-      }
+    remove: function() {
+      this.model.destroy();
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
-
   });
 
   return ModalConfirm;

@@ -8,6 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('app'),
+      ChildViewContainer = require('utils/backbone-childviewcontainer'),
       GroupView = require('backoffice/users/views/groups/groupView'),
 
       // Object wrapper returned as a module
@@ -18,6 +19,7 @@ define(function (require) {
     el: '.js-groups-list',
 
     initialize: function () {
+      this.childViews = new Backbone.ChildViewContainer();
       // Associated collection events
       this.listenTo(this.collection, 'add', this.add);
       this.render();
@@ -31,8 +33,22 @@ define(function (require) {
     // Add group to the list
     add: function (group) {
       var view = new GroupView({model: group});
+      this.childViews.add(view);
       this.$el.append(view.render().el);
-    }
+    },
+    
+    remove: function () {
+      var that = this;
+      
+      this.childViews.forEach(function (view){
+        // delete index for that view
+        that.childViews.remove(view);
+        // remove the view
+        view.remove();
+      });
+      Backbone.View.prototype.remove.apply(this, arguments);
+      
+    },
 
   });
 

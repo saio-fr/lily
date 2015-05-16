@@ -7,9 +7,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
-use Lily\StatisticsBundle\Controller\DefaultController;
+use Lily\StatisticsBundle\Controller\BaseController;
 
-class AviController extends DefaultController
+class AviController extends BaseController
 {
     /**
      * @Get("/redirections")
@@ -26,13 +26,17 @@ class AviController extends DefaultController
       	
       	// REDIRECTIONS
       	$mails = $em->getRepository('LilyAppBundle:LogRedirection')
-        ->mails($from, $to); 
+        ->byMail($from, $to); 
         
         $phones = $em->getRepository('LilyAppBundle:LogRedirection')
-        ->phones($from, $to);
+        ->byPhone($from, $to);
+
+        $chats = $em->getRepository('LilyAppBundle:LogRedirection')
+        ->byChat($from, $to);
      				  	 
         $data[0] = array('label' => 'Mail', 'data' => $mails);		
-        $data[1] = array('label' => 'Phone', 'data' => $phones);	
+        $data[1] = array('label' => 'Phone', 'data' => $phones);
+        $data[2] = array('label' => 'Chat', 'data' => $chats);	
         return $data;        		
     }
     
@@ -44,23 +48,23 @@ class AviController extends DefaultController
     public function getAviAction($timestampfrom, $timestampto)
     {       	
       	$em = $this->getEntityManager();
-      	
-      	$from = round($timestampfrom/1000);
-        $to = round($timestampto/1000);
+
+	      $from = round($timestampfrom / 1000);
+        $to = round($timestampto / 1000);
         $interval = $this->getInterval($from, $to);
         $size = $interval['size'];
         
-        // QUESTIONS
-    		$questions = $em->getRepository('LilyAppBundle:LogRequest')
-    		->requests($from, $to, $size);
+        // Requests
+    		$requests = $em->getRepository('LilyAppBundle:LogRequest')
+    		->countRequests($from, $to, $size);
 			 	 	      
-  	    foreach($questions as $item) {
-  			    $nzQuestions[$item['intervalId']] = round($item['value']);
+  	    foreach($requests as $item) {
+  			    $nzRequests[$item['intervalId']] = round($item['value']);
   		  }				 	 	  	
 		
-        // REPONDUES   		
+        // Answered  		
         $answered = $em->getRepository('LilyAppBundle:LogRequest')
-        ->answered($timestampfrom, $timestampto, $size);
+        ->countAnswered($from, $to, $size);
 		
     		foreach($answered as $item) {
     			  $nzAnswered[$item['intervalId']] = round($item['value']);
@@ -70,15 +74,15 @@ class AviController extends DefaultController
         $to = round($to / $size);
         
         for ($n = $from; $n <= $to; $n++) {
-            // Questions
-	    	    $dataQ[] = [(string) ($n * $size * 1000), //x value: microtimestamp
-	        		(string) (isset($nzQuestions[$n]) ? $nzQuestions[$n] : 0)];  //y value : data
+            // Requests
+	    	    $dataR[] = [(string) ($n * $size * 1000), //x value: microtimestamp
+	        		(string) (isset($nzRequests[$n]) ? $nzRequests[$n] : 0)];  //y value : data
             // Answered
             $dataA[] = [(string) ($n * $size * 1000), //x value: microtimestamp
 	        		(string) (isset($nzAnswered[$n]) ? $nzAnswered[$n] : 0)];  //y value : data
 	      }
         
-        $values[] = $dataQ;
+        $values[] = $dataR;
         $values[] = $dataA;
         
         return array('period' => $interval['period'], 'step' => $interval['step'], 'type' => 'int', 'values' => $values);
@@ -99,11 +103,11 @@ class AviController extends DefaultController
       	
       	// QUESTIONS   		
         $requests = $em->getRepository('LilyAppBundle:LogRequest')
-        ->requests($from, $to, null);	
+        ->countRequests($from, $to, null);
         
         // ANSWERED  		
         $answered = $em->getRepository('LilyAppBundle:LogRequest')
-        ->answered($from, $to, null);
+        ->countAnswered($from, $to, null);
      							 
         // REUSSITE  
         if ($requests > 0) { $successrate = round(($answered/$requests),2) * 100; }
@@ -127,7 +131,7 @@ class AviController extends DefaultController
     	
         // CATEGORIES    	
         $categories = $em->getRepository('LilyAppBundle:LogRequest')
-        ->topCategories($from, $to, 5); 
+        ->getTopCategories($from, $to, 5);
    					  	   
         return $categories;	        		
     }
@@ -147,7 +151,7 @@ class AviController extends DefaultController
     	
         // CATEGORIES    	
         $questions = $em->getRepository('LilyAppBundle:LogRequest')
-        ->topQuestions($from, $to, 5); 
+        ->getTopQuestions($from, $to, 5);
    					  	   
         return $questions;	        		
     }

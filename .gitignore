@@ -5,6 +5,7 @@
 /web/bundles/*
 /app/config/parameters.yml
 /app/config/parameters_dev.yml
+/app/config/parameters_staging.yml
 /web/js/bower_components
 /web/js/compiled
 /web/css/compiled
@@ -15,3 +16,4 @@ tmp
 temp
 ftpsync.settings
 .remote-sync.json
+npm-debug.log

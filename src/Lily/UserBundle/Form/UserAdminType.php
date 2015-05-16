@@ -32,7 +32,6 @@ class UserAdminType extends AbstractType
                 'property' => 'id',
                 'multiple' => true,
                 'expanded' => true))
-
         ;
     }
     

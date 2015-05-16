@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use Lily\KnowledgeBundle\Form\QuestionType;
+
 class CategoryType extends AbstractType
 {
         /**
@@ -16,7 +18,14 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('color')
+            ->add('parent', 'entity', array (
+                'class' => 'LilyKnowledgeBundle:Category',
+                'property' => 'id',
+                'multiple' => false))
+            ->add('questions', 'entity', array(
+                'class' => 'LilyKnowledgeBundle:Question',
+                'property' => 'id',
+                'multiple' => true))
         ;
     }
     
@@ -26,7 +35,9 @@ class CategoryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Lily\KnowledgeBundle\Entity\Category'
+            'data_class' => 'Lily\KnowledgeBundle\Entity\Category',
+            'allow_extra_fields' => true,
+            'csrf_protection' => false,
         ));
     }
 

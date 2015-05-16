@@ -21,8 +21,8 @@ define(function(require) {
     ContentView = require('app/views/content'),
     TopQuestionsView = require('app/views/topQuestions'),
     MessageLilySimpleView = require('app/views/messageLilySimple'),
+    MessageLilyNotation = require('app/views/messageLilyNotation'),
     ChatWelcomeScreenView = require('app/views/welcomeScreen'),
-    MessagesCollectionView = require('app/views/messagesCollection'),
 
     // Object wrapper returned as a module
     Router;
@@ -41,10 +41,7 @@ define(function(require) {
       'faq': 'faq',
       'faq/': 'faq',
       'faq/:parent': 'faq',
-      'faq/:parent/content/:id': 'content',
-      'top-questions': 'topQuestions',
-      'top-questions/': 'topQuestions',
-      'top-questions/:id': 'topQuestions'
+      'faq/:parent/content/:id': 'content'
     },
 
     initialize: function() {
@@ -76,18 +73,10 @@ define(function(require) {
 
     avi: function() {
 
-      app.skeleton.collectionView = new MessagesCollectionView();
       var view = new AviView();
       utils.goTo(view);
 
-      this.welcome = new Models.LilySimple({
-        message_content: config.avi.welcomeMsg
-      });
-      this.message = new MessageLilySimpleView({
-        model: this.welcome
-      }).render();
-
-      app.pageView("/avi");
+      app.pageView('/avi');
     },
 
     chat: function() {
@@ -100,7 +89,7 @@ define(function(require) {
       } else {
         view = new ChatView();
         utils.goTo(view);
-        app.pageView("/chat");
+        app.pageView('/chat');
       }
     },
 
@@ -109,7 +98,7 @@ define(function(require) {
       var view = new ChatWelcomeScreenView();
       utils.goTo(view);
 
-      app.pageView("/welcomeScreen");
+      app.pageView('/welcomeScreen');
     },
 
     mail: function() {
@@ -117,7 +106,7 @@ define(function(require) {
       var view = new MailView();
       utils.goTo(view);
 
-      app.pageView("/mail");
+      app.pageView('/mail');
     },
 
     faq: function(id) {
@@ -126,10 +115,10 @@ define(function(require) {
       var router = this,
         view;
 
-      app.skeleton.faqCollection = app.skeleton.faqCollection || new Collections.Faqs();
+      app.faqCollection = app.faqCollection || new Collections.Faqs();
       api.getFaqModel(id).then(function(model) {
 
-        app.skeleton.faqCollection.add(model);
+        app.faqCollection.add(model);
 
         view = new FaqView({
           model: model
@@ -144,7 +133,7 @@ define(function(require) {
         });
       });
 
-      app.pageView("/faq/" + id);
+      app.pageView('/faq/' + id);
     },
 
     content: function(parent, id) {

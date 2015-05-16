@@ -2,6 +2,8 @@
 
 namespace Lily\AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
@@ -78,7 +80,7 @@ class BaseController extends FOSRestController implements ClassResourceInterface
     {
   	    $cache = $this->get('aequasi_cache.instance.default');
   	    $config = $cache->fetch($licence.'_config_app_chat');
-  		
+
         if (!$config) {	
       			$em = $this->getEntityManager($licence);
       			$config = $em->getRepository('LilyBackOfficeBundle:Config')
@@ -144,6 +146,23 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 		
 		    }
         return $redirection;
+    }
+
+    protected function getSynapsePassword($licence)
+    {
+  	    $cache = $this->get('aequasi_cache.instance.default');
+  	    $synapse = $cache->fetch($licence.'_synapse_password');
+  		
+        if (!$synapse) {
+            // App
+            $client = $this->getDoctrine()->getManager('default')
+            ->getRepository('LilyUserBundle:Client')
+            ->findOneByLicence($licence);
+            
+            $synapse = $client->getSynapsePassword();
+            $cache->save( $licence.'_synapse_password', $synapse, 0);
+		    }
+        return $synapse;
     }
         
     protected function getEntityManager($licence)

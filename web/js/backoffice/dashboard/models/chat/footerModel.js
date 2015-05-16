@@ -18,7 +18,7 @@ define(function (require) {
 
     id: '',
     url: function(start, end) {
-      return '/user/' + 
+      return '/statistics/user/' + 
       this.userId + 
       '/chat/footer/' + 
       this.start + '/' + 

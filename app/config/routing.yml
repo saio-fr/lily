@@ -1,22 +1,24 @@
+lily_root:
+    pattern: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: http://saio.fr
+
 lily_media:
     resource: "@LilyMediaBundle/Resources/config/routing.yml"
     prefix:   /
 
-home:
-    resource: "@LilyHomePageBundle/Resources/config/routing.yml"
-    prefix:   /
-
 lily_chat:
     resource: "@LilyChatBundle/Resources/config/routing.yml"
-    prefix:   /lily
+    prefix:   /
 
 lily_knowledge:
     resource: "@LilyKnowledgeBundle/Resources/config/routing.yml"
-    prefix:   /lily
+    prefix:   /
     
 lily_statistics:
     resource: "@LilyStatisticsBundle/Resources/config/routing.yml"
-    prefix:   /lily
+    prefix:   /
 
 lily_app:
     resource: "@LilyAppBundle/Resources/config/routing.yml"
@@ -28,11 +30,11 @@ lily_admin:
 
 lily_back_office:
     resource: "@LilyBackOfficeBundle/Resources/config/routing.yml"
-    prefix:   /lily
+    prefix:   /
     
 lily_user:
     resource: "@LilyUserBundle/Resources/config/routing.yml"
-    prefix:   /lily
+    prefix:   /
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

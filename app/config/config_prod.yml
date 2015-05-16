@@ -14,6 +14,7 @@ imports:
     - { resource: resources/mobiledetect.yml }
     - { resource: resources/flysystem.yml }
     - { resource: resources/uploader.yml } 
+    - { resource: resources/twig.yml } 
 
 monolog:
     handlers:

@@ -124,13 +124,9 @@
   {% block bootstrap %}
     {% autoescape false %}
       <script type="text/javascript">
-        var config = {};
-        config.root = '{{ app.request.getBaseURL() }}/lily/api/statistics';
-        {% if app.environment == 'dev' %}
-        config.wsserver = 'ws://develop.saio.fr';
-        {% else %}
-        config.wsserver = 'ws://ws.saio.fr';
-        {% endif %}
+        var config = window.config || {};
+        config.root = '{{ app.request.getBaseURL() }}/api';
+        config.wsserver = '{{ ws_host }}';
         config.licence = '{{ app.user.client.licence }}';
 	    </script>
     {% endautoescape %}

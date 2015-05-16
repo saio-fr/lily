@@ -25,8 +25,8 @@ define(function(require) {
   AppRouter = Backbone.Router.extend({
 
     routes: {
-      "": "category",
-      "category/:id": "category",
+      '': 'category',
+      'category/:id': 'category',
     },
 
     initialize: function() {
@@ -38,7 +38,7 @@ define(function(require) {
 
     category: function(id) {
       this.showView(id);
-      app.pageView("/faq/" + id || "");
+      app.pageView('/faq/' + id || '');
     },
 
     showView: function(id) {
@@ -58,8 +58,8 @@ define(function(require) {
         app.skeleton.closeEditView();
       }
 
-      app.skeleton.faqCollection.url = "/faqs/" + id;
-      app.skeleton.breadcrumbs.url = "/faqs/breadcrumbs/" + id;
+      app.skeleton.faqCollection.url = '/faqs/' + id;
+      app.skeleton.breadcrumbs.url = '/faqs/breadcrumbs/' + id;
 
       // Fetch breadcrumb models and init view
       app.skeleton.breadcrumbs.fetch({
@@ -72,6 +72,7 @@ define(function(require) {
 
           fetchItems();
         },
+
         error: function(model, err) {
           app.router.navigate('/', {
             trigger: true
@@ -101,11 +102,11 @@ define(function(require) {
       var modalModel = new ModalModel(globals.modalAlert.faq);
 
       if (app.skeleton.modalView) {
-        app.skeleton.modalView.remove();
+        app.skeleton.modalView.close();
       }
+
       app.skeleton.modalView = new ModalView({
-        model: modalModel,
-        appendEl: ".js-app"
+        model: modalModel
       });
     }
 

@@ -1,23 +1,27 @@
 require.config({
   baseUrl: '/js',
   paths: {
-    'jquery': 'bower_components/jquery/dist/jquery',
-    'underscore': 'bower_components/underscore/underscore',
-    'backbone': 'bower_components/backbone/backbone',
-    'autobahn': 'vendor/autobahn-v1',
-    'isMobile': 'bower_components/isMobile/isMobile',
-    'Snap': 'bower_components/snapjs/snap',
-    'Modernizr': 'app/libs/modernizr-custom',
-    'when': 'vendor/when',
-    'FastClick': 'bower_components/fastclick/lib/fastclick',
-    'jquery-placeholder': 'bower_components/jquery-placeholder/jquery.placeholder'
+    'jquery':             'bower_components/jquery/dist/jquery',
+    'underscore':         'bower_components/underscore/underscore-min',
+    'backbone':           'bower_components/backbone/backbone',
+    'autobahn':           'vendor/autobahn-v1',
+    'isMobile':           'bower_components/isMobile/isMobile.min',
+    'Snap':               'bower_components/snapjs/snap.min',
+    'Modernizr':          'app/libs/modernizr-custom',
+    'when':               'vendor/when',
+    'FastClick':          'bower_components/fastclick/lib/fastclick',
+    'jquery-placeholder': 'bower_components/jquery-placeholder/jquery.placeholder',
+    'synapse':            'app/libs/synapse-suggest',
+    'autosize':           'bower_components/jquery-autosize/dest/autosize',
+    'bloodhound':         'app/libs/bloodhound',
+    'typeahead':          'app/libs/typeahead'
   },
   shim: {
     'underscore': {
       exports: '_'
     },
     'backbone': {
-      deps: ["underscore", "jquery"],
+      deps: ['underscore', 'jquery'],
       exports: 'Backbone'
     },
     'autobahn': {
@@ -29,26 +33,43 @@ require.config({
     },
     'jquery-placeholder': {
       deps: ['jquery']
+    },
+    'autosize': {
+      deps: ['jquery'],
+      exports: 'autosize'
+    },
+    'synapse_suggest': {
+      deps: ['jquery', 'typeahead', 'bloodhound'],
+      exports: 'synapse_suggest'
+    },
+    'typeahead': {
+      deps: ['jquery'],
+      exports: 'Typeahead'
+    },
+    'bloodhound': {
+      deps: ['jquery'],
+      exports: 'Bloodhound'
     }
   }
 });
 
 require([
-  "jquery",
-  "underscore",
-  "backbone",
-  "autobahn",
-  "when",
-  "isMobile",
-  "app/app",
-  "app/globals",
-  "app/views/skeleton",
-  "utils/pages",
+  'jquery',
+  'underscore',
+  'backbone',
+  'autobahn',
+  'when',
+  'isMobile',
+  'app/app',
+  'app/globals',
+  'app/views/skeleton',
+  'utils/pages',
 
   // Libraries required at bootstrap for the UI.
-  "Snap",
-  "Modernizr",
+  'Snap',
+  'Modernizr',
   'jquery-placeholder'
+
   // Autobahn V1 AMD broken.
 ], function($, _, Backbone, ab, when, isMobile, app, config, SkeletonView,
   utils) {
@@ -57,12 +78,14 @@ require([
 
   app.init = function() {
 
-    $.ajaxPrefilter(function(options) {
-      options.url = config.root + options.url;
-    });
     config.isMobile = isMobile;
 
     app.skeleton = new SkeletonView();
+
+    if (config.isMobile) {
+      app.onShowIframe();
+    }
+
     // Backbone.history.start();
   };
 
@@ -70,7 +93,9 @@ require([
   app.wsConnect = function(callback) {
     return ab.connect(
 
-      config.wsserver + '/chat/' + config.licence, // The host
+      config.wsserver + '/chat/' + config.licence,
+
+ // The host
 
       function onconnect(session) { // Once the connection has been established
 
@@ -79,12 +104,15 @@ require([
 
         app.connect().then(function(result) {
           callback(result);
+
           // Successfuly connected to ws server;
           // Show widget on host site:
           app.onConnect(result);
-        }, function(err) {
+        },
+
+        function(err) {
           console.warn(err);
-          app.trigger("status:connectionError");
+          app.trigger('status:connectionError');
           app.init();
         });
 
@@ -97,7 +125,7 @@ require([
 
       { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
         'skipSubprotocolCheck': true,
-        'maxRetries': 60,
+        'maxRetries': 10000,
         'retryDelay': 2000
       }
     );
@@ -110,6 +138,7 @@ require([
     } else {
       return '';
     }
+
     return id;
   }
 
@@ -123,5 +152,36 @@ require([
   });
 
   app.onLoadApp();
+
+  $(function() {
+    // Ugly, uuuuuugly hack to allow a div with contenteditable set to "true"
+    // to work with typeahead:
+    $.valHooks['contenteditable'] = {
+      get: function(el) {
+        return $(el).html();
+      },
+
+      set: function(el, val) {
+        $(el).html(val);
+      }
+    };
+
+    $.fn.myedit = function() {
+      this.each(function() {
+        this.type = 'contenteditable';
+      });
+
+      return this;
+    };
+
+    // Placeholder hack for contenteditable
+    $(document).on('change keydown keypress input', '*[data-placeholder]', function() {
+      if (this.textContent) {
+        this.setAttribute('data-div-placeholder-content', 'true');
+      } else {
+        this.removeAttribute('data-div-placeholder-content');
+      }
+    });
+  });
 
 });
