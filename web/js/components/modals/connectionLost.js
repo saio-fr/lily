@@ -9,23 +9,18 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     _ = require('underscore'),
+    ModalView = require('components/modals/modal'),
 
     // Object wrapper returned as a module
     ConnectionLostModal;
 
 
-  ConnectionLostModal = Backbone.View.extend({
+  ConnectionLostModal = ModalView.extend({
 
-    attributes: {
-      'tabindex': -1,
-      'role': 'dialog',
-      'aria-hidden': 'true',
-      'data-backdrop': 'true'
-    },
     className: 'js-modal-connection-lost modal',
     template: _.template($('#modalConnectionLostTpl').html()),
 
-
+    // ConnectionLost modal should not open directly when created
     initialize: function() {
       this.render();
     },
@@ -35,7 +30,6 @@ define(function(require) {
       this.$el.appendTo('body');
       return this;
     }
-
   });
 
   return ConnectionLostModal;

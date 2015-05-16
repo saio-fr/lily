@@ -130,10 +130,14 @@ define(function(require) {
       return this._printAviMsg(config.avi.messages.welcomeMsg);
     },
 
-    offerRedirection: function(question) {
-      var that = this;
+    offerRedirection: function(question, context) {
+      var that = this,
+          redirectionMsg = context === 'unSatisfied' ?
+            config.avi.messages.unSatisfiedRedirection :
+            config.avi.messages.noAnswerRedirection;
 
-      that._printAviMsg(config.avi.messages.unSatisfiedFeedback);
+
+      that._printAviMsg(redirectionMsg);
       var model = new Models.Message({
         config: {
           hasTel: config.avi.redirections.mail,
@@ -176,7 +180,7 @@ define(function(require) {
         that.apologise();
         that._asyncWithoutLoading(null, 0)
         .then(function() {
-          return that.offerRedirection(question);
+          return that.offerRedirection(question, 'notFound');
         });
       });
     },
@@ -615,7 +619,7 @@ define(function(require) {
         // Ask for precision on bad answer
         that._asyncWithoutLoading(null, 0)
         .then(function() {
-          return that.offerRedirection(answer.id);
+          return that.offerRedirection(answer.id, 'unSatisfied');
         });
       }
     },

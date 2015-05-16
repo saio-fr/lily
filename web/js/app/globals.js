@@ -20,10 +20,12 @@ define(function(require) {
 
   g.avi = g.avi || {};
   g.avi.messages = {
-    welcomeMsg: 'Bonjour, je m\'appelle Lily! Vous pouvez me poser un question relative à SosMalus',
+    welcomeMsg: 'Enchanté ! Je m\'appelle Eric. En quoi puis-je vous aider ?',
     satisfiedFeedback: 'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
-    unSatisfiedFeedback: 'Il semblerait que je ne peux pas répondre de façon satisfaisant à votre question. <p><b>Souhaitez vous être redirigé vers un de nos conseillers ?</b></p>',
-    apologize: 'Je suis désolé de ne pas avoir pu vous répondre',
+    unSatisfiedRedirection: 'J\'ai dû faire une erreur dans la réponse que je vous ai donnée.' +
+      '<p><b>Souhaitez vous que je vous mette en relation avec un conseiller ?</b></p>',
+    noAnswerRedirection: '<b>Voulez-vous que je vous mette en relation avec un conseiller ?</b>',
+    apologize: 'Malheureusement, je ne sais pas répondre à cette question pour le moment',
     askForedirection: 'Souhaitez vous être redirigé vers un de nos conseillers ?',
     askForFeedback: ''
   };
@@ -31,7 +33,7 @@ define(function(require) {
   g.avi.messages.redirection = {
     tel: 'Nous téléphoner',
     mail: 'Nous envoyer un mail',
-    chat: 'Discuter avec un de nos conseillers via chat',
+    chat: 'Discuter en ligne avec un de nos conseillers',
     none: 'Je ne veux pas être redirigé'
   };
 
@@ -80,12 +82,13 @@ define(function(require) {
     'Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur';
 
   g.chat = {
-    inactivityAction: 'Reconnecter',
-    inactivityMsg: 'La connexion a été interrompue pour cause d\'inactivité',
+    inactivityAction: 'Relancer une discussion',
+    inactivityMsg: 'Votre conversation a été coupée pour cause d\'inactivité',
     transferMsg: 'a transféré la conversation à',
     banMsg: 'Vous avez été banni du chat par l\'opérateur',
-    closeMsg: 'L\'opérateur a clôt la conversation',
-    notationMsg: 'Cette conversation vous a-t-elle été utile ? Notez votre échange avec nos conseillers'
+    closeMsg: 'Votre conversation est terminée. ' +
+      'N\'hésitez pas à nous envoyer un message si vous avez une nouvelle question.',
+    notationMsg: 'Cette conversation vous a-t-elle été utile ?'
   };
 
   g.unableToConnectError = 'La connexion a été interrompue';

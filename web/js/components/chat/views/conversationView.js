@@ -20,7 +20,7 @@ define(function(require) {
     ModalModel =         require('components/modals/model'),
     StatusHelpers =      require('components/chat/utils/status'),
     Timers =             require('components/chat/utils/timers'),
-    
+
     // Object wrapper returned as a module
     ConversationView;
 
@@ -87,7 +87,7 @@ define(function(require) {
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
-    
+
     renderShell: function () {
 
       var appendEl = this.$('.js-conversation-shell');
@@ -136,37 +136,37 @@ define(function(require) {
       var conversation = this.$el.find('.conversation-section');
       conversation.scrollTop(conversation[0].scrollHeight);
     },
-    
+
     // Todo: abstract dom logic in skeleton
     select: function(e) {
-      
+
       if (!this.model.get('selected')) {
-        
+
         $('.conversations .selected').removeClass('selected');
         this.$el.addClass('selected');
-  
+
         var live = app.liveChatSkeleton;
-        
+
         // Unselect current window & select this one
         live.windows.call('unselect');
         this.model.set({selected: true});
-    
-  
+
+
         if (live.informations && live.informations.model.get('id') !== this.id) {
           live.informations.remove();
         }
-  
+
         if (!live.informations && live.windows.length <= 1) {
           live.informations = new InformationsView({
             model: this.model
           });
         }
-  
+
         app.trigger('change:windows');
         app.trigger('conversation:selected', this.id);
       }
     },
-    
+
     unselect: function () {
       this.model.set({selected: false});
     },
@@ -178,7 +178,7 @@ define(function(require) {
       }
 
       app.trigger('conversation:unsetActive', this.id);
-      
+
       this.remove();
     },
 

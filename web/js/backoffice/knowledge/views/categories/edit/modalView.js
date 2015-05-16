@@ -10,26 +10,18 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app'),
-    ChildViewContainer = require('utils/backbone-childviewcontainer'),
+    ModalView = require('components/modals/modal'),
 
-    // Object wrapper returned as a module
-    ModalCategories;
+    // Object wrapper returned as a modules
+    Modal;
 
 
-  ModalCategories = Backbone.View.extend({
+  Modal = ModalView.extend({
 
-    attributes: {
-      'tabindex': -1,
-      'role': 'dialog',
-      'aria-labelledby': 'close',
-      'aria-hidden': 'true'
-    },
-    className: 'modal',
     templateModal: _.template($('#modalAppTpl').html()),
     templateEdit: _.template($('#categoriesEditTpl').html()),
 
     events: {
-      'click': 'cancel',
       'click .btn-update': 'update'
     },
 
@@ -37,7 +29,7 @@ define(function(require) {
       this.category = options.category;
 
       this.render();
-      this.$el.modal('show');
+      this.open();
     },
 
     render: function() {
@@ -48,35 +40,28 @@ define(function(require) {
         collection: app.categories.collection.toJSON()
       }));
       this.$el.appendTo('body');
-
       return this;
     },
-    
-    update: function () {
+
+    update: function(ev) {
+      if (ev) ev.preventDefault();
       var that = this;
       var title = this.$('input[name="title"]').val();
       var parent = parseInt(this.$('select[name="parent"]').val());
-      
+
       this.category.save({
           title: title,
           parent: parent
-        },{
-        success: function () {
+        }, {
+        success: function() {
           console.log(that.category);
           app.categories.collection.fetch({
-            success: function () {
-              that.remove();
+            success: function() {
+              that.close();
             }
-          });            
+          });
         }
       });
-    },
-    
-    cancel: function (e) {
-      var classList = e.target.classList;
-      if (classList.contains('modal-backdrop') || classList.contains('btn-cancel')) {
-        this.remove();
-      }  
     },
 
     remove: function() {
@@ -86,5 +71,5 @@ define(function(require) {
 
   });
 
-  return ModalCategories;
+  return Modal;
 });

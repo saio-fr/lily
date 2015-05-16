@@ -28,13 +28,14 @@ define(['../common', 'require'], function(common, require) {
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
     });
-    
+
     app.createModal = function(content, callback, context) {
       var modalModel, modalView;
 
       modalModel = new ModalModel();
       modalModel.set(content);
 
+      // Todo: chack that (undefined ModalView :/ what is that ???)
       modalView = new ModalView({
         model: modalModel,
         appendEl: ".js-skeleton-container"
@@ -59,15 +60,17 @@ define(['../common', 'require'], function(common, require) {
       if (Backbone.History.started) {
         Backbone.history.stop();
       }
+
       Backbone.history.start();
     };
-    
+
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
 
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat(result);
       }
+
       // Get diff between server time and user to sync timers
       timers.serverTime = result.time - new moment().unix();
     };
