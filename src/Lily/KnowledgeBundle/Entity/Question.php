@@ -94,7 +94,7 @@ class Question
     /**
      * @var text
      *
-     * @ORM\Column(name="answer", type="string", nullable=true)
+     * @ORM\Column(name="answer", type="text", nullable=true)
      * @Groups({"answer", "app", "list"})
      * @Gedmo\Versioned
      */
