@@ -100,6 +100,7 @@ class ServerStartCommand extends ContainerAwareCommand
                 'prod2.saio.fr',
                 'develop.saio.fr',
                 'staging.saio.fr',
+                'lily.saio.fr',
                 'saio.fr'
             ));
         $server->run();
