@@ -81,7 +81,8 @@ define(function(require) {
   g.connexionIssue =
     'Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur';
 
-  g.chat = {
+  g.chat = g.chat || {};
+  _.extend(g.chat, {
     inactivityAction: 'Relancer une discussion',
     inactivityMsg: 'Votre conversation a été coupée pour cause d\'inactivité',
     transferMsg: 'a transféré la conversation à',
@@ -89,7 +90,7 @@ define(function(require) {
     closeMsg: 'Votre conversation est terminée. ' +
       'N\'hésitez pas à nous envoyer un message si vous avez une nouvelle question.',
     notationMsg: 'Cette conversation vous a-t-elle été utile ?'
-  };
+  });
 
   g.unableToConnectError = 'La connexion a été interrompue';
   return g;
