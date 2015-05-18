@@ -130,12 +130,14 @@
     {% autoescape false %}
 		<script type="text/javascript">
 			var config = {{ config|serialize('json') }};
-		    config.licence = "{{ licence }}";
-		    config.synapsePassword = "{{ synapsePassword }}";
-	    	config.root = '{{ app.request.getBaseURL() }}/app';
-		    config.chatAvailable = "{{ chatAvailable }}";
-		    config.avi.redirections.values = {{redirection|serialize('json') }};
-			config.wsserver = "{{ ws_host }}";
+			config.ws = {};
+		  config.licence = "{{ licence }}";
+		  config.synapsePassword = "{{ synapsePassword }}";
+      config.root = '{{ app.request.getBaseURL() }}/app';
+		  config.chatAvailable = "{{ chatAvailable }}";
+		  config.avi.redirections.values = {{redirection|serialize('json') }};
+		  config.ws.host = "{{ ws_host }}";
+      config.ws.protocol = "{{ ws_protocol }}";
 		</script>
 
 		<script>

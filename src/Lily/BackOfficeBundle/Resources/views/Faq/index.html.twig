@@ -100,8 +100,10 @@
 
   <script type="text/javascript">
     var config = window.config || {};
+    config.ws = {};
     config.root = '{{ app.request.getBaseURL() }}/api';
-		config.wsserver = '{{ ws_host }}';
+		config.ws.host = "{{ ws_host }}";
+    config.ws.protocol = "{{ ws_protocol }}";
     config.licence = '{{ app.user.client.licence }}';
   </script>
 

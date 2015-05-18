@@ -119,10 +119,12 @@
     {% autoescape false %}
       <script type="text/javascript">
         var config = window.config || {};
+        config.ws = {};
         config.root = '{{ app.request.getBaseURL() }}/api';
         config.counters = JSON.parse('{{ counters | serialize('json') }}');
         config.licence = '{{ app.user.client.licence }}';
-        config.wsserver = '{{ ws_host }}';
+        config.ws.host = "{{ ws_host }}";
+        config.ws.protocol = "{{ ws_protocol }}";
 	    </script>
     {% endautoescape %}
 	{% endblock %}
