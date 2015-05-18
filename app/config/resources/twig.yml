@@ -1,3 +1,4 @@
 twig:
   globals:
     ws_host: %ws_host%
+    ws_protocol: %ws_protocol%

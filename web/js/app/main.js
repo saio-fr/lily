@@ -93,7 +93,7 @@ require([
   app.wsConnect = function(callback) {
     return ab.connect(
 
-      config.wsserver + '/chat/' + config.licence,
+      'ws://' + config.ws.host + '/chat/' + config.licence,
 
  // The host
 
