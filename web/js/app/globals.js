@@ -20,7 +20,7 @@ define(function(require) {
 
   g.avi = g.avi || {};
   g.avi.messages = {
-    welcomeMsg: 'Enchanté ! Je m\'appelle Eric. En quoi puis-je vous aider ?',
+    welcomeMsg: 'Enchanté ! Je m\'appelle Labelette. En quoi puis-je vous aider ?',
     satisfiedFeedback: 'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
     unSatisfiedRedirection: 'J\'ai dû faire une erreur dans la réponse que je vous ai donnée.' +
       '<p><b>Souhaitez vous que je vous mette en relation avec un conseiller ?</b></p>',
