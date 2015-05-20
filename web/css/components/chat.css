@@ -32,14 +32,26 @@ LIVE CHAT
 }
 
 .conversations .editor {
-  margin: 10px;
-  height: 70px;
+  padding: 15px;
   outline: none;
+}
+
+.conversations .editor p {
+  margin: 0; 
 }
 
 .conversations .toolbar .btn {
   background: #EAECF0;
   padding: 5px;
+}
+
+.shell-alert {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #FF7A7A;
+  text-align: center;
+  border-radius: 2px;
+  color: white;
 }
 
 .suggestions {
@@ -565,6 +577,8 @@ LIVE CHAT
   top: -25px;
   right: 25px;
   font-size: 12px;
+  color: #747474;
+  font-weight: 600;
 }
 
 .conversation-footer textarea {
@@ -575,7 +589,7 @@ LIVE CHAT
 
 .conversation-section {
   padding: 20px;
-  margin-bottom: 180px;
+  margin-bottom: 150px;
 }
 
 .conversation-section-list {

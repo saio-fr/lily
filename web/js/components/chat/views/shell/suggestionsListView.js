@@ -89,7 +89,7 @@ define(function(require) {
       if (this.collection.length) {
         this.selectedId = (this.selectedId <= 0) ? this.collection.length - 1 : this.selectedId - 1;
         app.trigger('shell:suggestions:select', this.collection.at(this.selectedId).attributes);
-        this.changeFocus(this.selectedId);          
+        this.changeFocus(this.selectedId);      
       }    
     },
     

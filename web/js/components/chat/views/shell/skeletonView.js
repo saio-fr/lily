@@ -11,6 +11,7 @@ define(function(require) {
     app = require('app'),
     _ = require('underscore'),
     SuggestionsListView = require('components/chat/views/shell/suggestionsListView'),
+    AlertView = require('components/chat/views/shell/alertView'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     Shell = require('components/chat/utils/shell'),
     Scribe = require('scribe'),
@@ -24,7 +25,7 @@ define(function(require) {
   SkeletonView = Backbone.View.extend({
 
     tagName: 'section',
-    className: 'shell-container panel',
+    className: 'shell-container',
     template: _.template($('#liveConversationShellTpl').html()),
 
     events: {
@@ -211,6 +212,16 @@ define(function(require) {
           
           if (command) {
             this.sendMsg(command.get('message'));
+          } else {
+            
+            var alertView = new AlertView({
+              title: commandTitle
+            });
+            
+            var alertEl = this.$('.js-shell-alert');
+            
+            alertEl.html();
+            alertEl.append(alertView.$el);
           }
           break;
       }

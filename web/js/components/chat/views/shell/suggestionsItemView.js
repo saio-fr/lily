@@ -39,6 +39,17 @@ define(function(require) {
       if (this.model.get('focused')) {
         $('.js-suggestions-list .focus').removeClass('focus');
         this.$el.addClass('focus');
+        
+        var toScroll = $('.suggestions-content');
+        var top = this.$el.position().top;
+
+        if (top > 182) {
+          toScroll.scrollTop(toScroll.scrollTop() + top - 180);
+        }
+        
+        if (top < 32) {
+          toScroll.scrollTop(toScroll.scrollTop() + top - 32);
+        }
       }  
     },
     
