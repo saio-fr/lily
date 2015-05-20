@@ -46,6 +46,7 @@ require.config({
     "scribe-plugin-smart-lists": "bower_components/scribe-plugin-smart-lists/scribe-plugin-smart-lists",
     "scribe-plugin-heading-command": "bower_components/scribe-plugin-heading-command/scribe-plugin-heading-command",
     "scribe-plugin-shell-command" : "components/chat/utils/scribe-plugin-shell-command",
+    "scribe-plugin-sanitizer": "bower_components/scribe-plugin-sanitizer/scribe-plugin-sanitizer",
     "interact" : "bower_components/interact/interact"
   },
 
