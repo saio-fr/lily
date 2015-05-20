@@ -1,7 +1,7 @@
 require.config({
 
   "baseUrl": "/js",
-  "urlArgs": "v=1",
+  "urlArgs": "v=1.2",
 
   "paths": {
 

@@ -284,6 +284,7 @@ define(function(require) {
   app.on('operator:transfer',        app.onConversationTransfer);
   app.on('operator:updateInfos',     app.onUpdateInfos);
   app.on('operator:setAvailability', app.onSetAvailability);
+  app.on('operator:changeName',      app.onChangeName);
   // Global app state events:
   app.modalConnectionLost = new ModalConnectionLost();
   app.on('status:connectionError', app.onConnectionError);
