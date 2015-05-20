@@ -42,18 +42,11 @@ define(function(require) {
       
       this.childViews = new Backbone.ChildViewContainer();
       
-      /*
-       * A command state to know what action to trigger on click/enter event
-       * null, when isCommand return false
-       * searching, when commands are found but no enter/click was fired
-       * ready, when a command is selected and ready to execute
-       */      
-      this.initCommand();
-      
-      this.render();      
+      this.render();  
       this.getWysiEditor();
+      this.initSuggestions(); 
       
-      this.listenTo(app, 'shell:suggestions:focus', this.onFocusSuggestion);
+      this.listenTo(app, 'shell:suggestions:select', this.onSelectSuggestion);
       this.listenTo(app, 'shell:suggestions:validate', this.onValidateSuggestion);
     },
 
@@ -64,8 +57,10 @@ define(function(require) {
       this.$el.html(this.template());
       this.$el.prependTo(container);
       
-      // Render suggestions view
-      var suggestionsView = new SuggestionsListView();
+      // Render suggestionsView
+      var suggestionsView = new SuggestionsListView({
+        el: this.$('.js-suggestions-container')
+      });
       this.$('.js-suggestions-container').append(suggestionsView.$el);
       this.childViews.add(suggestionsView, 'suggestionsView');
       
@@ -82,36 +77,17 @@ define(function(require) {
       this.editor.use(ScribePluginShellCommand());
     },
     
-    initCommand: function () {
-      this.command = {
-        attributes: null,
-        type: null,
-        state: null
+    initSuggestions: function () {
+      this.suggestions = {
+        visible: false,
+        type: null
       };
-    },
-    
-    executeCommand: function () {
-      
-      // TODO: handle the case where an incorrect shortcut is typed
-      if (this.command.state !== 'ready') {
-        this.onValidateSuggestion();
-        return;
-      }
-
-      switch (this.command.type) {
-        case 'shortcuts':
-          var msg = this.command.attributes.message;
-          this.sendMsg(msg);
-          break;
-      }
-
-      this.initCommand();
+      this.childViews.findByCustom('suggestionsView').hide();
     },
     
     disableDefaultTabNav: function (e) {
       
       // disable the default browser tab navigation behaviour
-      
       if (e.keyCode === 9) {
         e.preventDefault();
         e.stopImmediatePropagation();        
@@ -120,40 +96,41 @@ define(function(require) {
     
     onShellRequest: function (e) {
 
-      var textMsg = $(this.editor.el).text().trim();
+      var textMsg = $(this.editor.el).text();
       var navAction = Shell.isNavigationAction(e);
-      this.command.type = Shell.isCommand(textMsg);
-      
-      if (this.command.type) {
+      this.suggestions.type = Shell.isCommandType(textMsg);
+
+      if (this.suggestions.type) {
 
         switch (navAction) {
           
-          case 'validate': 
+          case 'validate':
             this.executeCommand();
             break;
           
           case 'next':
-            this.childViews.findByCustom('suggestionsView').selectNextItem();
+            this.childViews.findByCustom('suggestionsView').selectNextItem();              
             break;
           
           case 'prev':
             this.childViews.findByCustom('suggestionsView').selectPrevItem();
-            break; 
+            break;
             
-          default:
+          case 'left-right':
+            break;
+          
+          default:     
             this.setSuggestions();
         }
-        
         return;
       }
       
-      this.initCommand();  
-      this.childViews.findByCustom('suggestionsView').hide();
+      this.initSuggestions();
       
       // Else we want to send the msg
       if (navAction === 'validate') {
-        var htmlMsg = $.trim( $(this.editor.el).html() );
-        var textMsg = $.trim( $(this.editor.el).text() );
+        var htmlMsg = $.trim($(this.editor.el).html());
+        var textMsg = $.trim($(this.editor.el).text());
       
         if (textMsg.length) {
           this.sendMsg(htmlMsg);
@@ -161,39 +138,33 @@ define(function(require) {
       }
     },
     
-    onFocusSuggestion: function (attributes) {
-
-      this.command = {
-        attributes: attributes,
-        state: 'searching'
-      }
-    },
-    
-    onValidateSuggestion: function () {
-
-      var commandTitle = this.command.attributes.title;
-      this.command.state = 'ready';
+    onSelectSuggestion: function (selected) {
       
       var event = new CustomEvent('commandSelected', {
         detail: {
-          commandTitle: commandTitle
+          commandTitle: selected.title
         }
       });
       this.editor.el.dispatchEvent(event);
-      this.childViews.findByCustom('suggestionsView').hide();
     },
     
-    setSuggestions: function (commandType) {
-      
+    onValidateSuggestion: function () {
+      this.initSuggestions();
+    },
+    
+    setSuggestions: function () {
+
       var commandsCollection,
       filteredCommands,
-      translatedCommandType,
-      textMsg = $(this.editor.el).text().toLowerCase();
+      translatedType,
+      suggestionsView = this.childViews.findByCustom('suggestionsView'),
+      textMsg = $(this.editor.el).text()
+        .toLowerCase();
       
-      switch (this.command.type) {
+      switch (this.suggestions.type) {
         case 'shortcuts':
          commandsCollection = app.chatShortcuts;
-         translatedCommandType = 'Messages pré-enregistrés';
+         translatedType = 'Messages pré-enregistrés';
          break;
       }
       
@@ -203,11 +174,46 @@ define(function(require) {
         }
       });
 
-      this.childViews.findByCustom('suggestionsView').setCollection({
+      suggestionsView.setCollection({
         // TODO, add it to an translation file
-        type: translatedCommandType,
+        type: translatedType,
         suggestions: filteredCommands
       });
+      
+      if (filteredCommands.length) {
+        suggestionsView.show();
+        this.suggestions.visible = true;
+      } else {
+        suggestionsView.hide();
+        this.suggestions.visible = false;
+      }
+    },
+
+    executeCommand: function () {
+      // TODO: handle the case where an incorrect shortcut is typed
+      if (this.suggestions.visible) {
+        var item = this.childViews.findByCustom('suggestionsView')
+          .getSelectedItem();
+        this.onSelectSuggestion(item);
+        this.onValidateSuggestion();
+        return;
+      }
+      
+      switch (this.suggestions.type) {
+        
+        case 'shortcuts':
+          
+          var commandTitle = $.trim(
+            $(this.editor.el).text()
+            .toLowerCase().split(' ')[0]
+          );
+          var command = app.chatShortcuts.findWhere({title: commandTitle});
+          
+          if (command) {
+            this.sendMsg(command.get('message'));
+          }
+          break;
+      }
     },
     
     sendMsg: function (msg) {

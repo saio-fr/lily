@@ -27,7 +27,8 @@ define(function(require) {
       
       this.collection = new Backbone.Collection();
       this.childViews = new Backbone.ChildViewContainer();
-      this.listenTo(this.collection, 'add change remove', this.render);
+      this.listenTo(this.collection, 'add remove', this.render);
+      this.listenTo(this.collection, 'shell:suggestions:select', this.onItemSelect);
     },
 
     render: function() {
@@ -36,7 +37,6 @@ define(function(require) {
         type: this.type
       }));
       this.renderItems();
-      this.selectFirstItem();
       return this;
     },
     
@@ -58,44 +58,43 @@ define(function(require) {
       
       this.type = options.type;
       this.collection.set(options.suggestions);
-      
-      if (options.suggestions.length) {
-        this.show();
-      } else {
-        this.hide();
+      if (this.collection.length) {
+        this.changeFocus(0);        
       }
-    },    
+      this.selectedId = 0;
+    },
     
-    selectFirstItem: function () {
-      if (this.collection.length) {   
-             
-        this.collection.at(0).trigger('suggestions:focus');
-              
-        // The id of the current focused model in suggestions list
-        this.selectedId = 0;
-      }
+    onItemSelect: function (model) {
+      var id = this.collection.indexOf(model);
+      this.selectedId = id;
+      this.changeFocus(id);
+    },
+    
+    changeFocus: function (id) {
+      this.collection.invoke('set', {focused: false});
+      this.collection.at(id).set({focused: true});
     },
     
     selectNextItem: function () {
-
-      this.selectedId += 1;
-    
-      if (this.selectedId > this.collection.length - 1) {
-        this.selectedId = 0;
+      
+      if (this.collection.length) {
+        this.selectedId = (this.selectedId >= this.collection.length - 1) ? 0 : this.selectedId + 1;
+        app.trigger('shell:suggestions:select', this.collection.at(this.selectedId).attributes);
+        this.changeFocus(this.selectedId);
       }
-
-      this.collection.at(this.selectedId).trigger('suggestions:focus');
     },
 
     selectPrevItem: function () {
       
-      this.selectedId -= 1;
-      
-      if (this.selectedId < 0) {
-        this.selectedId = this.collection.length - 1;
-      }
-
-      this.collection.at(this.selectedId).trigger('suggestions:focus');      
+      if (this.collection.length) {
+        this.selectedId = (this.selectedId <= 0) ? this.collection.length - 1 : this.selectedId - 1;
+        app.trigger('shell:suggestions:select', this.collection.at(this.selectedId).attributes);
+        this.changeFocus(this.selectedId);          
+      }    
+    },
+    
+    getSelectedItem: function () {
+      return this.collection.at(this.selectedId).attributes;
     },
     
     show: function () {

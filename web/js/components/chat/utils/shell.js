@@ -12,7 +12,7 @@ define(function(require) {
     
   return {
 
-    isCommand: function(text) {
+    isCommandType: function(text) {
       
       var commandChar = text.slice(0, 1);
       
@@ -28,8 +28,7 @@ define(function(require) {
     isNavigationAction: function(e) {
       
       var validateCondition = e.type === 'click' ||
-        (e.keyCode === 13 && !e.shiftKey) || 
-        e.keyCode === 39;
+        (e.keyCode === 13 && !e.shiftKey);
       
       if (validateCondition) {
         return 'validate';
@@ -41,6 +40,10 @@ define(function(require) {
       
       if (e.keyCode === 38) {
         return 'prev';
+      }
+      
+      if (e.keyCode === 37 || e.keyCode === 39) {
+        return 'left-right';
       }
       
     }
