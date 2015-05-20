@@ -45,6 +45,7 @@
     "scribe-plugin-heading-command": "~0.1.0",
     "interact": "~1.2.2",
     "typeahead.js": "~0.10.5",
-    "jquery-autosize": "~3.0.3"
+    "jquery-autosize": "~3.0.3",
+    "scribe-plugin-sanitizer": "~0.1.9"
   }
 }

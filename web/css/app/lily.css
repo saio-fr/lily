@@ -717,15 +717,19 @@ HEADER
  * My eyes are litteraly crying right now... :'(
 */
 *[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
-  content: attr(data-placeholder);
-  float: left;
-  margin-left: 0;
-  color: #b3b3b3;
-  pointer-events: none;
-  z-index: 2;
-  margin-top: 3px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+	content: attr(data-placeholder);
+	position: relative;
+	left: 3px;
+	top: 2px;
+	margin-left: 0;
+	color: #b3b3b3;
+	pointer-events: none;
+	z-index: 2;
+	margin-top: 3px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 .btn-sendmsg {
