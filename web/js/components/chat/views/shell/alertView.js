@@ -24,7 +24,7 @@ define(function(require) {
 
     initialize: function(options) {
       var title = options.title;
-      this.render();
+      this.render(title);
     },
 
     render: function(title) {
