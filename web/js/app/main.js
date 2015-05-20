@@ -1,6 +1,6 @@
 require.config({
   baseUrl: '/js',
-  urlArgs: 'v=1',
+  urlArgs: 'v=2',
   paths: {
     'jquery':             'bower_components/jquery/dist/jquery',
     'underscore':         'bower_components/underscore/underscore-min',
@@ -11,9 +11,7 @@ require.config({
     'Modernizr':          'app/libs/modernizr-custom',
     'when':               'vendor/when',
     'FastClick':          'bower_components/fastclick/lib/fastclick',
-    'jquery-placeholder': 'bower_components/jquery-placeholder/jquery.placeholder',
     'synapse':            'app/libs/synapse-suggest',
-    'autosize':           'bower_components/jquery-autosize/dest/autosize',
     'bloodhound':         'app/libs/bloodhound',
     'typeahead':          'app/libs/typeahead'
   },
@@ -31,13 +29,6 @@ require.config({
     },
     'Modernizr': {
       exports: 'Modernizr'
-    },
-    'jquery-placeholder': {
-      deps: ['jquery']
-    },
-    'autosize': {
-      deps: ['jquery'],
-      exports: 'autosize'
     },
     'synapse_suggest': {
       deps: ['jquery', 'typeahead', 'bloodhound'],
@@ -69,7 +60,6 @@ require([
   // Libraries required at bootstrap for the UI.
   'Snap',
   'Modernizr',
-  'jquery-placeholder'
 
   // Autobahn V1 AMD broken.
 ], function($, _, Backbone, ab, when, isMobile, app, config, SkeletonView,

@@ -1882,6 +1882,7 @@ CONTACT FORM
   text-align: center;
   font-size: 12px;
   color: rgba(0, 0, 0, 0.6);
+  z-index: 15;
 }
 
 .saio-brandmark {

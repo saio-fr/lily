@@ -17,7 +17,6 @@ define(function(require) {
     synapse_suggest  = require('synapse'),
     typeahead        = require('typeahead'),
     when             = require('when'),
-    autosize         = require('autosize'),
 
     MessageUserSimple      = require('app/views/messageUserSimple'),
     MessageLilySimple      = require('app/views/messageLilySimple'),
