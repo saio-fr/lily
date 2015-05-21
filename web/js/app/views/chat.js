@@ -65,7 +65,7 @@ define(function(require) {
       this.$input.on('touchstart', function(ev) {
         $(ev.currentTarget).focus();
         // force scroll to bottom when virtual keyboard scrolls into view
-        if (!isMobile.any) return;
+        if (!isMobile.apple) return;
         window.scrollTo(0,document.body.scrollHeight);
       });
 
