@@ -11,11 +11,12 @@ var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app/app'),
     Models = require('app/data/models'),
+    MessageView = require('app/views/message'),
 
     // Object wrapper returned as a module
     MessageLilyNotation;
 
-MessageLilyNotation = Backbone.View.extend({
+MessageLilyNotation = MessageView.extend({
 
   className: 'lily-msg lily-msg-avatar lily-message-show lily-msg-reporting',
 
@@ -36,6 +37,7 @@ MessageLilyNotation = Backbone.View.extend({
     this.$el.insertAfter('.lily-box-messages .lily-msg-avatar:last');
     $('.lily-box-messages .lily-msg-avatar:last')
       .addClass('lily-notation-wrapper');
+    this.transitionInMessage();
     return this;
   },
 
