@@ -259,6 +259,12 @@ body {
 	text-shadow: none;
 }
 
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+	border:none;
+	outline:none;
+}
+
 .group:after {
   content: "";
   display: table;
@@ -675,9 +681,10 @@ HEADER
   width: 100%;
 	padding: 0 13px;
   margin: 0;
-	margin-bottom: 18px;
+	margin-bottom: 23px;
   display: block;
   min-height: 30px;
+  z-index: 11;
 }
 
 .chat-input:focus,
@@ -697,20 +704,21 @@ HEADER
 }
 
 .textarea-input {
-  position: relative;
-  display: inline-block;
-  padding: 6px;
-  width: calc(100% - 72px);
-  min-height: 36px;
-  max-height: 64px;
-  border: 1px solid rgba(181, 181, 181, 0.25);
-  background-color: rgba(255, 255, 255, 1);
-  color: #5e5e5e;
-  border-radius: 2px;
-  line-height: 1;
-  vertical-align: bottom;
-  z-index: 3;
-  overflow: scroll;
+	position: relative;
+	display: block;
+	padding: 6px;
+	width: calc(100% - 72px);
+	min-height: 36px;
+	max-height: 64px;
+	border: 1px solid rgba(181, 181, 181, 0.25);
+	background-color: rgba(255, 255, 255, 1);
+	color: #5e5e5e;
+	border-radius: 2px;
+	line-height: 1;
+	vertical-align: bottom;
+	z-index: 3;
+	overflow: auto;
+	overflow-x: hidden;
 }
 
 /* Most disgusting css selector in the history of css selectors.
@@ -719,7 +727,7 @@ HEADER
 *[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
 	content: attr(data-placeholder);
 	position: relative;
-	left: 3px;
+	left: 0px;
 	top: 2px;
 	margin-left: 0;
 	color: #b3b3b3;
@@ -870,6 +878,7 @@ Typeahead Styles
 }
 .twitter-typeahead {
   width: 100%;
+  display: table!important;
 }
 
 /* Ugliest thing I ever had to write in css... :'( */
@@ -904,7 +913,7 @@ MESSAGES
 .chat-messages {
 	position: absolute;
 	top: 0px;
-	height: 100%;
+	height: calc(100% - 69px);
   width: 100%;
 	padding: 13px;
 	font-size: 15px;
@@ -925,16 +934,16 @@ MESSAGES
   opacity: 1;
 }
 
-.chat-messages div:last-child {
-  margin-bottom: 83px;
+.chat-messages {
+  /*padding-bottom: 26px;*/
 }
-.lily-box-messages div:last-child {
-  margin-bottom: 183px;
+.lily-box-messages {
+  /*padding-bottom: 100px;*/
 }
 
 .avatar-wrapper {
   position: absolute;
-	bottom: 70px;
+	bottom: 76px;
   left: 13px;
   width: 75px;
   height: 75px;
@@ -964,18 +973,12 @@ MESSAGES
   margin-top: 2px;
 }
 
-.lily-msg-user,
-.lily-msg-avatar,
-.lily-msg-chat-visitor,
-.lily-msg-precision,
-/*.lily-msg-redirection,*/
-.lily-msg-chat-operator {
+.msg-wrapper {
 	max-width: 85%;
 	border-radius: 10px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	margin-bottom: 13px;
   padding: 5px 8px 7px;
   text-align: left;
   text-indent: inherit;
@@ -989,8 +992,8 @@ MESSAGES
   text-align: center;
 }
 
-.lily-msg-user,
-.lily-msg-chat-visitor {
+.lily-msg-user .msg-wrapper,
+.lily-msg-chat-visitor .msg-wrapper{
 	background: #e5e5e5;
 }
 
@@ -1136,7 +1139,7 @@ MESSAGES
   padding: 0 13px;
   bottom: 22px;
   width: 100%;
-  z-index: 5;
+	z-index: 12;
   display: none;
 }
 
@@ -1260,44 +1263,15 @@ MESSAGES
 	text-overflow: ellipsis;
 }
 
-.lily-box-messages .lily-msg-user,
-#chat-box-messages .lily-msg-chat-visitor {
-	float: right;
+.lily-msg-user,
+.lily-msg-chat-visitor {
+	text-align: right;
 }
 
-.lily-box-messages .lily-msg-user:before,
-#chat-box-messages .lily-msg-chat-visitor:before {
-/*	content: "";
-	position: absolute;
-	bottom: -10px;
-	right: 10px;
-	border-width: 10px 0 0 10px;
-	border-style: solid;
-	display: block;
-	width: 0;*/
-
-	/*content: "";*/
-	position: absolute;
-	bottom: -8.5px;
-	right: 10px;
-	border-width: 9px 0 0 9px;
-	border-style: solid;
-	border-color: rgba(255, 255, 255, 0.97) rgba(255, 255, 255, 0);
-	display: block;
-	width: 0;
-}
-
-.lily-box-messages .lily-msg-user:after,
-#chat-box-messages .lily-msg-chat-visitor:after {
-	/*content: "";*/
-	position: absolute;
-	bottom: -7px;
-	right: 11.5px;
-	border-width: 8px 0 0 8px;
-	border-style: solid;
-	border-color: white transparent;
-	display: block;
-	width: 0;
+.lily-msg-user .msg-wrapper,
+.lily-msg-chat-visitor .msg-wrapper{
+	float: none;
+	display: inline-block;
 }
 
 .lily-box-messages .lily-msg-redirection:before{
@@ -1323,8 +1297,9 @@ MESSAGES
 	height: 0;
 }
 
-.lily-box-messages .lily-msg-avatar {
-	float: left;
+.lily-msg-avatar .msg-wrapper{
+	float: none;
+	display: inline-block;
 	margin-left: 0;
 }
 
@@ -1334,10 +1309,24 @@ MESSAGES
   -webkit-user-select: initial;
 }
 
+/*.lily-box-messages .lily-msg:last-child {
+	margin-bottom: 126px;
+}
+.chat-messages .lily-msg:last-child {
+	margin-bottom: 52px;
+}*/
+
+.lily-box-messages:after {
+	content: '';
+	position: relative;
+	display: block;
+	height: 75px;
+	width: 100%;
+}
+
 /* Messages of a different type following each other have a
    larger margin in between */
 .lily-msg-user + .lily-msg-avatar,
-.message-ai + .lily-msg-user,
 .lily-msg-chat-operator + .lily-msg-chat-visitor ,
 .lily-msg-chat-visitor + .lily-msg-chat-operator {
   margin-bottom: 13px;
@@ -1879,14 +1868,14 @@ CONTACT FORM
 
 .brand-footer {
 	position: absolute;
-  bottom: 2px;
+  bottom: 4px;
   left: 0;
   right: 0;
   margin: 0 auto;
   text-align: center;
   font-size: 12px;
   color: rgba(0, 0, 0, 0.6);
-  z-index: 15;
+  z-index: 10;
 }
 
 .saio-brandmark {
