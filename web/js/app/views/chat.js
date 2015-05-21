@@ -7,21 +7,22 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var _ = require('underscore'),
-    Backbone = require('backbone'),
-    app = require('app/app'),
-    config = require('app/globals'),
-    Models = require('app/data/models'),
-    Collections = require('app/data/collections'),
-    PageView = require('app/views/page'),
-    MessageChatOperator = require('app/views/messageChatOperator'),
-    MessageChatVisitor = require('app/views/messageChatVisitor'),
-    MessageChatNotation = require('app/views/messageChatNotation'),
-    MessageChatReconnect = require('app/views/messageChatReconnect'),
-    MessageChatTransfer = require('app/views/messageChatTransfer'),
-    MessageChatBan = require('app/views/messageChatBan'),
-    MessageChatClose = require('app/views/messageChatClose'),
-    ChildViewContainer = require('utils/backbone-childviewcontainer'),
+  var _                   = require('underscore'),
+    Backbone              = require('backbone'),
+    isMobile              = require('isMobile'),
+    app                   = require('app/app'),
+    config                = require('app/globals'),
+    Models                = require('app/data/models'),
+    Collections           = require('app/data/collections'),
+    PageView              = require('app/views/page'),
+    MessageChatOperator   = require('app/views/messageChatOperator'),
+    MessageChatVisitor    = require('app/views/messageChatVisitor'),
+    MessageChatNotation   = require('app/views/messageChatNotation'),
+    MessageChatReconnect  = require('app/views/messageChatReconnect'),
+    MessageChatTransfer   = require('app/views/messageChatTransfer'),
+    MessageChatBan        = require('app/views/messageChatBan'),
+    MessageChatClose      = require('app/views/messageChatClose'),
+    ChildViewContainer    = require('utils/backbone-childviewcontainer'),
     // Object wrapper returned as a module
     ChatView;
 
@@ -58,6 +59,15 @@ define(function(require) {
 
       // Post-render
       this.$input = this.$el.find('.chat-input').myedit();
+
+      // fix bug where [contenteditable="true"] elements would not
+      // take focus on touchend on iOS (Android ?) devices
+      this.$input.on('touchstart', function(ev) {
+        $(ev.currentTarget).focus();
+        // force scroll to bottom when virtual keyboard scrolls into view
+        if (!isMobile.any) return;
+        window.scrollTo(0,document.body.scrollHeight);
+      });
 
       if (app.hasSubscribed && app.hasChatConnected && app.payload) {
         this.onSubscribedChat(app.payload);

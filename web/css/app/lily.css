@@ -1309,13 +1309,6 @@ MESSAGES
   -webkit-user-select: initial;
 }
 
-/*.lily-box-messages .lily-msg:last-child {
-	margin-bottom: 126px;
-}
-.chat-messages .lily-msg:last-child {
-	margin-bottom: 52px;
-}*/
-
 .lily-box-messages:after {
 	content: '';
 	position: relative;
