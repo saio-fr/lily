@@ -16,7 +16,7 @@ var _ = require('underscore'),
 
 MessageUserSimple = MessageView.extend({
 
-	className: 'lily-msg-user lily-cst-msg-user',
+	className: 'lily-msg lily-msg-user lily-cst-msg-user',
 	model: Models.MessageUser,
 	template: _.template( $('#lily-message-user').html() )
 });

@@ -1,17 +1,15 @@
 <div id="lily-home" class="lily-page-cont"><!-- wrapper page les différentes pages -->
 	<section class="lily-main-content">
 	  {% if config.chat and chatAvailable %}
-<!-- 		<header id="lily-header" class="lily-cst-header">
+<!-- <header id="lily-header" class="lily-cst-header">
 			<a href="#/chat" class=""><p>Parler à un conseiller<i class="lily-icon lily-icon-arrow-right"></i></p></a>
 		</header> -->
 	  {% endif %}
 
-	    <div class="avatar-wrapper">
-	      <img class="avatar" src="http://cdn-saio.fr/customer/{{licence}}/images/avatars/avatar2x.png">
-	    </div>
-			{# http://cdn-saio.fr/customer/{licence}/templates/avatar-svg.html.twig
-			{% include '@customer/'~licence~'/templates/avatar-svg.html.twig' %}
-			<img src="{{asset('customer/'~licence~'/images/universe.png')}}" class="lily-cst-universe" class="lily-cst-universe" /> #}
+    <div class="avatar-wrapper">
+      <img class="avatar" src="http://cdn-saio.fr/customer/{{licence}}/images/avatars/avatar2x.png">
+    </div>
+
 		<div class="lily-box-messages scrollable">
 			<div class="lily-msg-chat-wait">
 				<p>Posez vos questions sur SOS-Malus à Labelette notre assistant virtuel</p>
@@ -22,13 +20,14 @@
 
   <section class="action-container">
 		<form class="avi-input-component">
-	      <div class="wrapper-input group">
-          <div name="avi-input" contenteditable="true" type="contenteditable" data-placeholder="Poser une question..." class="textarea-input avi-input">
-	        </div>
+      <div class="wrapper-input group">
+        <div name="avi-input" contenteditable="true" type="contenteditable" data-placeholder="Poser une question..." class="textarea-input avi-input">
+        </div>
 
-	        <button class="btn btn-sendmsg btn--nostyle">envoyer</button>
-	      </div>
+        <button class="btn btn-sendmsg btn--nostyle">envoyer</button>
+      </div>
 	  </form>
+
 	  <footer class="brand-footer">
   		<a class="saio-brandmark" href="http://saio.fr" alt="saio.fr" target="_blank" rel="nofollow">
         Créé par <img class="saio-logo" src="http://cdn-saio.fr/customer/{{licence}}/images/saioBrand2x.png">
