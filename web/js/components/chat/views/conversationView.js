@@ -151,7 +151,6 @@ define(function(require) {
         live.windows.call('unselect');
         this.model.set({selected: true});
 
-
         if (live.informations && live.informations.model.get('id') !== this.id) {
           live.informations.remove();
         }
@@ -172,12 +171,16 @@ define(function(require) {
     },
 
     minus: function(e) {
-
       if (typeof(e) !== 'undefined') {
         e.stopPropagation();
       }
+      
+      this.model.set({
+        active: false,
+        selected: false
+      });
 
-      app.trigger('conversation:unsetActive', this.id);
+      app.trigger('conversation:unsetActive', this.cid);
 
       this.remove();
     },
@@ -243,7 +246,16 @@ define(function(require) {
 
     remove: function() {
 
-      var self = this;
+      var self = this,
+      live = app.liveChatSkeleton;
+
+      if (live.informations && 
+        live.informations.model.get('id') === this.model.get('id')) {
+
+        live.informations.remove();
+        live.informations = undefined;
+      }
+      
       this.childViews.forEach(function(view) {
         // delete index for that view
         self.childViews.remove(view);

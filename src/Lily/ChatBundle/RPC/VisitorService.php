@@ -28,7 +28,7 @@ class VisitorService {
                 
                 $result = array(
                     'appDisplay' => $item->appDisplay,
-                    'chatting' => !$item->closed, 
+                    'isConversationClosed' => $item->closed, 
                     'showContactForm' => $item->showContactForm,
                     'time' => time()
                 ); 
@@ -102,9 +102,9 @@ class VisitorService {
     }
 
     /**
-     * Open the conversation with the visitor
+     * Start the conversation with the visitor
      */
-    public function open(Conn $conn, $params, \StdClass $client) {
+    public function startChat(Conn $conn, $params, \StdClass $client) {
       
         foreach ($client->users as $item) {
 
@@ -113,6 +113,7 @@ class VisitorService {
                 $item->chats < $client->config->getMax()) {
                   
                 $availables[] = $item;
+
             }
         }
 
@@ -129,13 +130,10 @@ class VisitorService {
                       'action' => 'startChat'
                     );
                 } 
-                
+
                 if ($item->operator) {
-                    $item->topic->broadcast($item->messages);
                     return;
                 }
-                
-                var_dump($client->config->getAutoSetOperator());
 
                 if (!empty($availables) && $client->config->getAutoSetOperator()) {
 
@@ -150,16 +148,8 @@ class VisitorService {
                     $item->operator = $availables[$key]->id;
                     $item->operators[] = $availables[$key]->id;
                     $item->startChatTime = time();
-                    $item->received += 1;
-                    $item->messages[] = array(
-                        'id' => uniqid(),
-                        'from' => 'operator',
-                        'operator' => $operator,
-                        'date' => time(),
-                        'msg' => $availables[$key]->welcome);
                 }
 
-                $item->topic->broadcast($item->messages);
                 $item->closed = false;
             }
         }

@@ -38,9 +38,7 @@ define(function(require) {
       this.listenTo(this.collection, 'add', this.add);
       this.listenTo(this.collection, 'change:operator', this.add);
       this.listenTo(this.collection, 'change:closed', this.add);
-      this.listenTo(this.collection, 'add', this.counters);
-      this.listenTo(this.collection, 'change', this.counters);
-      this.listenTo(this.collection, 'remove', this.counters);
+      this.listenTo(this.collection, 'add change remove', this.counters);
       this.listenTo(app, 'change:windows', this.setWindows, this);
       this.listenTo(app, 'conversation:setActive', this.setActiveWindow, this);
       this.listenTo(app, 'conversation:unsetActive', this.unsetActiveWindow, this);
@@ -205,35 +203,13 @@ define(function(require) {
       that.setWindows();
     },
 
-    unsetActiveWindow: function(id, model) {
-
-      model = model || this.collection.get(id);
-
-      if (!model) return;
-
-      model.set({
-        active: false,
-        selected: false
-      });
-
-      var conversation = this.windows.findByModel(model);
+    unsetActiveWindow: function(cid) {
+      
+      var conversation = this.windows.findByCid(cid);
       this.windows.remove(conversation);
 
+
       this.setWindows();
-
-      if (this.informations && this.informations.model.get('id') === id) {
-
-        this.informations.remove();
-        this.informations = undefined;
-
-        if (this.windows.length === 1) {
-
-          this.informations = new InformationsView({
-            model: model
-          });
-        }
-      }
-
     },
 
     setCurrent: function(id, model) {
