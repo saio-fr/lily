@@ -26,6 +26,8 @@ set :user, "saio"
 set :use_sudo, false
 set :ssh_options, {:forward_agent => true}
 
+set :bugsnag_api_key, "38313d808c52c00caa38aeed097efd1d"
+
 # perform tasks after deploying
 after "deploy" do
   # clear the cache

@@ -24,15 +24,6 @@ filter='cssrewrite' %}
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
 {% endstylesheets %}
-  
-  <!-- BEGIN BUGSNAG -->
-{% if app.environment == 'prod' %}
-<script
-  src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js"
-  data-apikey="38313d808c52c00caa38aeed097efd1d">
-</script>
-{% endif %}
-  <!-- END BUGSNAG -->
 
 {% endblock %}
 
@@ -115,9 +106,30 @@ filter='cssrewrite' %}
   <script type="text/template" id="modalTransferOperatorTpl">
     {% include 'LilyBackOfficeBundle:Utils/Chat/Modals/Transfer:operator.html.twig' %}
   </script>
+  
+  <!-- 
+    Load Bugsnag
+  -->  
+  <script
+    src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js"
+    data-apikey="38313d808c52c00caa38aeed097efd1d">
+  </script>
+
+  <!-- 
+    Set Bugsnag Config
+  -->  
+  <script>
+    
+    Bugsnag.user = {
+      id: "{{ app.user.id }}",
+      email: "{{ app.user.email }}"
+    };
+    
+    Bugsnag.releaseStage = "{{ app.environment }}";
+    Bugsnag.notifyReleaseStages = ["prod"];    
+  </script>
 
   <script>
-
     /*
      * GOOGLE ANALYTICS
      */
