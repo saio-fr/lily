@@ -64,7 +64,6 @@ define(function(require) {
 
       subscribe: function() {
         app.ws.subscribe('operator/' + config.licence, function(topic, records) {
-          console.log(records);
           if (app.chatUsers && app.chatUsers instanceof Backbone.Collection) {
             app.chatUsers.set(records);
           }
