@@ -1,6 +1,6 @@
 require.config({
   baseUrl: '/js',
-  urlArgs: 'v=1.2',
+  urlArgs: "v" + config.version,
   paths: {
     'jquery':             'bower_components/jquery/dist/jquery',
     'underscore':         'bower_components/underscore/underscore-min',
