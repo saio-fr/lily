@@ -45,12 +45,7 @@ define(function(require) {
       this.listenTo(this.collection, 'add', this.processMessage);
 
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
-      this.listenTo(app, 'chat:reconnected', this.onReconnected, this);
-      this.listenTo(app, 'chat:resetConversation', this.onResetConversation, this);
-
-      if (app.isConversationClosed().toString() !== 'true') {
-        app.trigger('chat:open');
-      }
+      this.listenTo(app, 'chat:connected', this.onReconnected, this);
 
       $(this.render({
         page: true
@@ -59,7 +54,7 @@ define(function(require) {
       // Post-render
       this.$input = this.$el.find('.chat-input').myedit();
 
-      if (app.hasSubscribed && app.hasChatConnected && app.payload) {
+      if (app.isConnectionActive && app.payload) {
         this.onSubscribedChat(app.payload);
       }
 
@@ -239,11 +234,11 @@ define(function(require) {
 
     onReconnected: function() {
       var that = this;
-
+      
       // Add a 500ms delay to show user something has happenned.
       window.setTimeout(function() {
         that.$el.find('.lily-msg-reconnect').hide();
-        this.reconnectionMsgVisible = false;
+        that.reconnectionMsgVisible = false;
       }, 400);
     },
 
@@ -254,11 +249,6 @@ define(function(require) {
         msg: msg
       });
       this.addItem(model);
-    },
-
-    onResetConversation: function() {
-      this.collection.reset();
-      this.closeChildren();
     },
 
     closeChildren: function() {
