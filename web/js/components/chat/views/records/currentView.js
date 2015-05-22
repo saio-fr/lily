@@ -76,10 +76,9 @@ define(function(require) {
     },
 
     close: function() {
-      
+      app.trigger('conversation:stopFollow', this.id);
       this.model.trigger('minus');
       this.remove();
-      app.trigger('conversation:stopFollow', this.id);
     }
 
   });

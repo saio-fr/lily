@@ -82,11 +82,11 @@ require([
 
   // Connect to our ws serv
   app.wsConnect = function(callback) {
-    return ab.connect(
+    
+    return when(ab.connect(
 
+      // The host
       'ws://' + config.ws.host + '/chat/' + config.licence,
-
- // The host
 
       function onconnect(session) { // Once the connection has been established
 
@@ -99,6 +99,7 @@ require([
           // Successfuly connected to ws server;
           // Show widget on host site:
           app.onConnect(result);
+          app.trigger('chat:connected');
         },
 
         function(err) {
@@ -116,10 +117,9 @@ require([
 
       { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
         'skipSubprotocolCheck': true,
-        'maxRetries': 10000,
-        'retryDelay': 2000
+        'maxRetries': 0
       }
-    );
+    ));
   };
 
   function getSessionId() {
@@ -136,9 +136,9 @@ require([
   config.sid = getSessionId();
 
   app.wsConnect(function(result) {
-    app.isUserInactive = false;
-    app.chatting = result.chatting;
+    app.isConnectionActive = true;
     app.showContactForm = result.showContactForm;
+    app.setIsConversationClosed(result.isConversationClosed);
     app.init();
   });
 

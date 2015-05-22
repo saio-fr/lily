@@ -67,9 +67,8 @@ define(function(require) {
     },
 
     close: function() {
-
-      this.remove();
       app.trigger('conversation:stopFollow', this.id);
+      this.remove();
     }
 
   });

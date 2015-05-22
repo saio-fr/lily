@@ -54,7 +54,7 @@ define(function(require) {
       if (config.chat.active &&
         config.home === 'chat' &&
         config.chatAvailable ||
-        app.chatting) {
+        !app.isConversationClosed) {
 
         this.navigate('chat', {
           trigger: true
