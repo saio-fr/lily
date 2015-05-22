@@ -55,8 +55,6 @@ define(function(require) {
       // Post-render
       this.$input = this.$el.find('.chat-input').myedit();
 
-      if (app.isConnectionActive && app.payload) {
-        
       // fix bug where [contenteditable="true"] elements would not
       // take focus on touchend on iOS (Android ?) devices
       this.$input.on('touchstart', function(ev) {
@@ -66,6 +64,7 @@ define(function(require) {
         window.scrollTo(0,document.body.scrollHeight);
       });
 
+      if (app.isConnectionActive && app.payload) {
         this.onSubscribedChat(app.payload);
       }
 

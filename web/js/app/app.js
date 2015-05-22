@@ -51,7 +51,7 @@ define(function(require) {
         var args = arguments;
 
         if (!app.isConnectionActive) {
-          
+
           return app.wsConnect(function() {
             // brackets notation to avoid confusion with Javascript call method;
             return app.ws['call'].apply(app.ws, args);
@@ -61,12 +61,12 @@ define(function(require) {
           return app.ws['call'].apply(app.ws, args);
         }
       },
-      
+
       publish: function() {
         var args = arguments;
 
         if (!app.isConnectionActive) {
-          
+
           return app.wsConnect(function() {
             // brackets notation to avoid confusion with Javascript call method;
             return app.ws['publish'].apply(app.ws, args);
@@ -75,7 +75,7 @@ define(function(require) {
         } else {
           return app.ws['publish'].apply(app.ws, args);
         }
-      },     
+      },
 
       onConnect: function(info) {
 
@@ -111,6 +111,7 @@ define(function(require) {
 
               break;
             case 'inactivity':
+              app.isConnectionActive = false;
               break;
             case 'transfered':
               break;
