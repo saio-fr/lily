@@ -19,12 +19,10 @@ define(function(require) {
 
       // Global vars:
       showContactForm: false,
-      isUserInactive: false,
-      hasChatConnected: false,
-      hasSubscribed: false,
+      isConnectionActive: false,
       showAviAnswerNotation: true,
       trackingQueue: [],
-      chatting: false,
+      isConversationClosed: true,
       isShown: false,
       hostHref: '',
       payload: {},
@@ -32,17 +30,6 @@ define(function(require) {
       hostDomain: '',
 
       connect: function() {
-        // var deferred = when.defer();
-        // Authobah subscription list not empty:
-        if (app.hasSubscribed && Object.getOwnPropertyNames(app.ws._subscriptions).length !== 0) {
-          try {
-            app.unsubscribe();
-          } catch (e) {
-            // An error ca occur in case of connection timeout,
-            console.log(e);
-          }
-        }
-
         app.subscribe();
         return app.ws.call('visitor/connect', {
           // top.location.href can't be accessed from iframe
@@ -56,50 +43,43 @@ define(function(require) {
         app.ws.subscribe('visitor/' + config.licence + '/' + config.sid,
           function(topic, payload) {
             app.processWsPayload(payload);
-          });
-
-        app.hasSubscribed = true;
-      },
-
-      unsubscribe: function() {
-        app.ws.unsubscribe('visitor/' + config.licence + '/' + config.sid);
-        app.hasSubscribed = false;
+          }
+        );
       },
 
       call: function() {
         var args = arguments;
 
-        app.conversationClosed(false);
-
-        if (app.isUserInactive) {
-          var deferred = when.defer();
-
-          app.connect().then(function() {
+        if (!app.isConnectionActive) {
+          
+          return app.wsConnect(function() {
             // brackets notation to avoid confusion with Javascript call method;
-            app.isUserInactive = false;
-            app.ws['call'].apply(app.ws, args).then(function(data) {
-              deferred.resolve(data);
-            },
-
-            function(err) {
-              deferred.reject(err);
-            });
-          },
-
-          function(err) {
-            app.showInfo('error', config.unableToConnectError);
-            deferred.reject(err);
+            return app.ws['call'].apply(app.ws, args);
           });
-
-          return deferred.promise;
 
         } else {
           return app.ws['call'].apply(app.ws, args);
         }
-
       },
+      
+      publish: function() {
+        var args = arguments;
+
+        if (!app.isConnectionActive) {
+          
+          return app.wsConnect(function() {
+            // brackets notation to avoid confusion with Javascript call method;
+            return app.ws['publish'].apply(app.ws, args);
+          });
+
+        } else {
+          return app.ws['publish'].apply(app.ws, args);
+        }
+      },     
 
       onConnect: function(info) {
+
+        app.isConnectionActive = true;
 
         if (config.chat.active && config.chatAvailable ||
           config.avi.active || app.chatting) {
@@ -126,12 +106,11 @@ define(function(require) {
               // If the close action is the last received message,
               // set conversation to close:
               if (index === length - 1) {
-                app.conversationClosed(true);
+                app.setIsConversationClosed(true);
               }
 
               break;
             case 'inactivity':
-              app.isUserInactive = true;
               break;
             case 'transfered':
               break;
@@ -148,25 +127,35 @@ define(function(require) {
       },
 
       ////////////////////
+      //  Ws Events
+      ////////////////////
+
+      onConnectionHangup: function () {
+        app.isConnectionActive = false;
+        app.setIsConversationClosed(true);
+      },
+
+      ////////////////////
       //  Chat Events
       ////////////////////
 
-      onChatOpen: function() {
-        var deferred = when.defer();
-
-        if (app.hasSubscribed && !app.hasChatConnected) {
-          app.hasChatConnected = true;
-
-          return app.call('visitor/open');
-        } else {
-          deferred.resolve();
-          return deferred.promise;
-        }
+      onChatStart: function() {
+        return app.call('visitor/startChat');
       },
 
       onChatSend: function(message) {
-        app.ws.publish('operator/' + config.licence, message);
-        app.track('chat/send_message');
+        // If the chat is close we can send a msg
+        if (app.getIsConversationClosed().toString() !== 'true') {
+          app.publish('operator/' + config.licence, message);
+          app.track('chat/send_message');
+          return;
+        }
+        // Else, we need to start the chat
+        // That will show a record in operator back office
+        app.onChatStart().then(function () {
+          app.setIsConversationClosed(false);
+          app.onChatSend(message);
+        });
       },
 
       onChatWriting: function(writing) {
@@ -188,19 +177,11 @@ define(function(require) {
       },
 
       onChatReconnect: function() {
-        app.trigger('chat:resetConversation');
-
-        // Chat has been disconnected. Hence the reconnect. (not the best way to do it)
-        app.hasChatConnected = false;
-
-        app.wsConnect();
-        app.onChatOpen().then(function() {
-          app.trigger('chat:reconnected');
-        }, function(err) {
-          // TODO: process error;
-        });
-
-        app.track('chat/click_reconnect');
+        if (!app.isConnectionActive) {
+          app.wsConnect(function () {
+            app.track('chat/click_reconnect'); 
+          });         
+        }
       },
 
       onSubmitInfos: function(infos) {
@@ -225,17 +206,16 @@ define(function(require) {
         app.track('welcomeScreen/submit_infos');
       },
 
-      conversationClosed: function(isClosed) {
-        var closed = isClosed ? true : false;
-        app.isClosed = closed;
+      setIsConversationClosed: function(closed) {
+        app.isConversationClosed = closed;
         window.sessionStorage.setItem('isConversationClosed', closed);
       },
 
-      isConversationClosed: function() {
-        var isClosed = app.isClosed ||
+      getIsConversationClosed: function() {
+        var isConversationClosed = app.isConversationClosed ||
           window.sessionStorage.getItem('isConversationClosed') ||
           false;
-        return isClosed;
+        return isConversationClosed;
       },
 
       ////////////////////
@@ -421,7 +401,8 @@ define(function(require) {
 
   _.extend(app, Backbone.Events);
 
-  app.on('chat:open',            app.onChatOpen);
+  app.on('ws:connectionHangup',  app.onConnectionHangup);
+  app.on('chat:start',           app.onChatStart);
   app.on('chat:send',            app.onChatSend);
   app.on('app:isShown',          app.pageView);
   app.on('chat:writing',         app.onChatWriting);

@@ -39,7 +39,7 @@ class VisitorTopic implements TopicInterface
     	    			
         // Delete the topic when the visitor leaves
         $topic->autoDelete = true;
-    	
+
         // Test if visitor is already connected
         foreach ($users as $item) {
             if ($item->id === $sid && $item->type === 'visitor') { 
