@@ -133,15 +133,6 @@
       if (this.strategy === 'suggestions') {
         params.limit = this.semanticOffset;
 
-        console.log(JSON.stringify({
-          credentials: this.credentialsJson,
-          searchRequest: {
-            index: 'Saio',
-            lang: 'fr',
-            request: '%QUERY'
-          }
-        }));
-
         params.remote = {
           // we need to put the query in the url because typehead.js
           // uses the url as a cache key (https://github.com/twitter/typeahead.js/issues/894#issuecomment-48852916)
