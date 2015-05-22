@@ -985,6 +985,8 @@ MESSAGES
   line-height: 1.3;
   position: relative;
   clear: both;
+  float: none;
+  display: inline-block;
 }
 
 .lily-msg-chat-notation {
@@ -1271,12 +1273,6 @@ MESSAGES
   text-align: right;
 }
 
-.lily-msg-user .msg-wrapper,
-.lily-msg-chat-visitor .msg-wrapper{
-  float: none;
-  display: inline-block;
-}
-
 .lily-box-messages .lily-msg-redirection:before{
   /*content: "";*/
   position: absolute;
@@ -1301,8 +1297,6 @@ MESSAGES
 }
 
 .lily-msg-avatar .msg-wrapper{
-  float: none;
-  display: inline-block;
   margin-left: 0;
 }
 
