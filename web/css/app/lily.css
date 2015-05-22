@@ -8,228 +8,228 @@ FONTS
 @import url("http://fonts.googleapis.com/css?family=Lato:400,700,400italic");
 
 @font-face {
-	font-family: 'lily';
-	src:url('../../font/api/lily.eot?-75mdob');
-	src:url('../../font/api/lily.eot?#iefix-75mdob') format('embedded-opentype'),
-		url('../../font/api/lily.woff?-75mdob') format('woff'),
-		url('../../font/api/lily.ttf?-75mdob') format('truetype'),
-		url('../../font/api/lily.svg?-75mdob#lily') format('svg');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'lily';
+  src:url('../../font/api/lily.eot?-75mdob');
+  src:url('../../font/api/lily.eot?#iefix-75mdob') format('embedded-opentype'),
+    url('../../font/api/lily.woff?-75mdob') format('woff'),
+    url('../../font/api/lily.ttf?-75mdob') format('truetype'),
+    url('../../font/api/lily.svg?-75mdob#lily') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .lily-icon {
-	font-family: 'lily';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	font-size: 15px;
+  font-family: 'lily';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 15px;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .lily-icon-refresh {
-	height: 1em;
-	vertical-align: text-top;
-	margin-right: 3px;
-	stroke: rgba(206, 206, 206, 0.28);
-	opacity: .94;
+  height: 1em;
+  vertical-align: text-top;
+  margin-right: 3px;
+  stroke: rgba(206, 206, 206, 0.28);
+  opacity: .94;
 }
 
 /*Avatar icons*/
 .lily-icon-search:before {
-	content: "\e616";
-	display: inline-block;
-	height: 40px;
-	vertical-align: middle;
-	line-height: 55px;
-	text-align: center;
-	font-size: 22px;
+  content: "\e616";
+  display: inline-block;
+  height: 40px;
+  vertical-align: middle;
+  line-height: 55px;
+  text-align: center;
+  font-size: 22px;
 }
 .lily-icon-avatar:before {
-	content: "\e61c";
-	line-height: 45px;
+  content: "\e61c";
+  line-height: 45px;
 }
 .lily-icon-conversation:before {
-	content: "\e607";
-	line-height: 45px;
+  content: "\e607";
+  line-height: 45px;
 }
 .lily-icon-faq:before {
-	content: "\e615";
-	line-height: 45px;
+  content: "\e615";
+  line-height: 45px;
 }
 .lily-icon-menu:before {
-	content: "\e618";
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	text-align: center;
-	line-height: 40px;
-	vertical-align: middle;
+  content: "\e618";
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  text-align: center;
+  line-height: 40px;
+  vertical-align: middle;
   font-size: 26px;
 }
 .lily-icon-chat:before {
-	content: "\e608";
-	line-height: 45px;
-	font-size: 14px;
+  content: "\e608";
+  line-height: 45px;
+  font-size: 14px;
 }
 .lily-icon-arrow-right:before {
-	content: "\e602";
-	font-size: 12px;
-	line-height: 1;
+  content: "\e602";
+  font-size: 12px;
+  line-height: 1;
 }
 .lily-icon-arrow-left:before {
-	content: "\e60b";
-	font-size: 12px;
+  content: "\e60b";
+  font-size: 12px;
 }
 .lily-icon-thumb-down:before {
-	content: "\e61d";
+  content: "\e61d";
   font-size: 22px;
 }
 .lily-icon-thumb-up:before {
-	content: "\e61e";
+  content: "\e61e";
   font-size: 22px;
 }
 
 .lily-icon-arrow-down:before {
-	content: "\e600";
+  content: "\e600";
 }
 
 .lily-icon-arrow-left:before {
-	content: "\e601";
+  content: "\e601";
 }
 
 .lily-icon-arrow-right:before {
-	content: "\e602";
+  content: "\e602";
 }
 
 .lily-icon-arrow-up:before {
-	content: "\e603";
+  content: "\e603";
 }
 
 .lily-icon-emoji-flirt:before {
-	content: "\e604";
+  content: "\e604";
 }
 
 .lily-icon-attachment:before {
-	content: "\e605";
+  content: "\e605";
 }
 
 .lily-icon-bar-graph:before {
-	content: "\e606";
+  content: "\e606";
 }
 
 .icon-conversation:before {
-	content: "\e607";
+  content: "\e607";
 }
 
 .lily-icon-check:before {
-	content: "\e608";
+  content: "\e608";
 }
 
 .lily-icon-parameters:before {
-	content: "\e609";
+  content: "\e609";
 }
 
 .lily-icon-cross:before {
-	content: "\e60a";
+  content: "\e60a";
 }
 
 .lily-icon-refresh:before {
-	content: "\e60b";
+  content: "\e60b";
 }
 
 .lily-icon-emoji-happy:before {
-	content: "\e60c";
+  content: "\e60c";
 }
 
 .lily-icon-emoji-neutral:before {
-	content: "\e60d";
+  content: "\e60d";
 }
 
 .lily-icon-emoji-sad:before {
-	content: "\e60e";
+  content: "\e60e";
 }
 
 .lily-icon-flash:before {
-	content: "\e60f";
+  content: "\e60f";
 }
 
 .lily-icon-heart-outlined:before {
-	content: "\e610";
+  content: "\e610";
 }
 
 .lily-icon-heart:before {
-	content: "\e611";
+  content: "\e611";
 }
 
 .lily-icon-help:before {
-	content: "\e612";
+  content: "\e612";
 }
 
 .lily-icon-home:before {
-	content: "\e613";
+  content: "\e613";
 }
 
 .lily-icon-light-bulb:before {
-	content: "\e614";
+  content: "\e614";
 }
 
 .lily-icon-list:before {
-	content: "\e615";
+  content: "\e615";
 }
 
 .lily-icon-search:before {
-	content: "\e616";
+  content: "\e616";
 }
 
 .lily-icon-mail:before {
-	content: "\e617";
+  content: "\e617";
 }
 
 .lily-icon-menu:before {
-	content: "\e618";
+  content: "\e618";
 }
 
 .lily-icon-message:before {
-	content: "\e619";
+  content: "\e619";
 }
 
 .lily-icon-minus:before {
-	content: "\e61a";
+  content: "\e61a";
 }
 
 .lily-icon-phone:before {
-	content: "\e61b";
+  content: "\e61b";
 }
 
 .lily-icon-thumb-down:before {
-	content: "\e61d";
+  content: "\e61d";
 }
 
 .lily-icon-thumb-up:before {
-	content: "\e61e";
+  content: "\e61e";
 }
 
 .lily-icon-typing:before {
-	content: "\e61f";
+  content: "\e61f";
 }
 
 .lily-icon-unread:before {
-	content: "\e620";
+  content: "\e620";
 }
 
 .lily-icon-radio-checked:before {
-	content: "\ea54";
+  content: "\ea54";
 }
 
 .lily-icon-radio-unchecked:before {
-	content: "\ea56";
+  content: "\ea56";
 }
 
 /* ==========================================================================
@@ -241,22 +241,28 @@ button,
 input,
 select,
 textarea {
-	color: #222;
+  color: #222;
 }
 
 body {
-	font-size: 100%;
-	line-height: 1.4;
+  font-size: 100%;
+  line-height: 1.4;
 }
 
 ::-moz-selection {
-	background: #b3d4fc;
-	text-shadow: none;
+  background: #b3d4fc;
+  text-shadow: none;
 }
 
 ::selection {
-	background: #b3d4fc;
-	text-shadow: none;
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+  border:none;
+  outline:none;
 }
 
 .group:after {
@@ -285,36 +291,36 @@ html {
 }
 
 hr {
-	display: block;
-	height: 1px;
-	border: 0;
-	border-top: 1px solid #ccc;
-	margin: 1em 0;
-	padding: 0;
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
 }
 
 img {
-	vertical-align: middle;
+  vertical-align: middle;
 }
 
 fieldset {
-	border: 0;
-	margin: 0;
-	padding: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 
 textarea {
-	resize: vertical;
+  resize: vertical;
 }
 
 ul{
-	padding: 0;
-	margin: 0;
-	list-style: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 p{
-	margin: 0;
+  margin: 0;
 }
 
 /*********************
@@ -322,24 +328,24 @@ GENERAL
 *********************/
 
 html{
-	height: 100%;
-	min-height: 100%;
-	overflow: hidden;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
 }
 
 body{
-	margin: 0;
-	padding: 0;
-	min-height: 100%;
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-	font-family: 'Lato', 'helvetica', 'roboto', sans-serif;
-	font-weight: 400;
-	font-size: 15px;
-	color: #282828;
-	background: #fff;
-	-webkit-user-select: none;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Lato', 'helvetica', 'roboto', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #282828;
+  background: #fff;
+  -webkit-user-select: none;
 }
 
 input,
@@ -355,168 +361,168 @@ textarea,
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-weight: 400;
+  font-weight: 400;
 }
 
 * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 
 a{
-	color: inherit;
-	text-decoration: none;
-	font-style: normal;
-	outline: none;
+  color: inherit;
+  text-decoration: none;
+  font-style: normal;
+  outline: none;
 }
 
 .lily-page{
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	padding-top: 40px !important;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	overflow-x: hidden;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
-	opacity: 0.8;
-	visibility: hidden;
-	background: #fff;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 40px !important;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  overflow-x: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  opacity: 0.8;
+  visibility: hidden;
+  background: #fff;
 }
 
 .lily-page-visible {
 
-	-webkit-transform: translate3d(0, 0, 0);
-	-moz-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
-	-ms-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 
-	visibility: visible;
-	opacity: 1;
-	z-index: 9999;
+  visibility: visible;
+  opacity: 1;
+  z-index: 9999;
 }
 
 #lily-wrapper-page{
-	width: 100%;
-	height: 100%;
-	background: #fff;
-	/*
-	-webkit-box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
-	-moz-box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
-	box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
-	*/
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	overflow-x: hidden;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  /*
+  -webkit-box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
+  -moz-box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
+  box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
+  */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  overflow-x: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }
 
 #lily-home, #lily-chat {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .lily-main-content-home{
-	/*
-	padding-bottom: 90px;
-	padding-top: 60px;
-	*/
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	height: 100%;
-	position: static;
-	overflow: hidden;
+  /*
+  padding-bottom: 90px;
+  padding-top: 60px;
+  */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  height: 100%;
+  position: static;
+  overflow: hidden;
 }
 
 .lily-main-content{
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	clear: both;
-	width: 100%;
-	position: relative;
-	height: 325px; /* fallback for navigators who don't support the calc function */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  clear: both;
+  width: 100%;
+  position: relative;
+  height: 325px; /* fallback for navigators who don't support the calc function */
   height: calc(100% - 55px);
   height: 100%;
 }
 
 .lily-avatar-wrapper {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   z-index: 2;
   /*display: none;*/
 }
 
 #canvas{
-	display: block;
-	position: absolute;
-	bottom: 0;
-	width: 190px !important;
-	height: 230px !important;
-	z-index: 2;
-	-webkit-user-select: none;
-	-webkit-user-drag: none;
-	overflow: hidden;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 190px !important;
+  height: 230px !important;
+  z-index: 2;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 
 }
 
 #lily-avatar-bas {
-	display: none;
+  display: none;
 }
 
 #lily-avatar-haut {
-	display: none;
+  display: none;
 }
 
 #canvas{
-	position: absolute;
-	left: -10px;
-	z-index: 3;
-	-webkit-user-select: none;
-	-webkit-user-drag: none;
-	overflow: hidden;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  position: absolute;
+  left: -10px;
+  z-index: 3;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 
 }
 
 .info-popup {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;
-	width: 200px;
-	z-index: 99999;
-	color: #fff;
-	padding: 5px;
-	font-size: 12px;
-	text-align: center;
-	border-radius: 2px 2px 0 0;
-	box-shadow: 1px 3px 12px 0px rgba(98, 98, 98, 0.54);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 200px;
+  z-index: 99999;
+  color: #fff;
+  padding: 5px;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 2px 2px 0 0;
+  box-shadow: 1px 3px 12px 0px rgba(98, 98, 98, 0.54);
 }
 
 .success-info {
-	background: rgba(114, 174, 98, 1);
+  background: rgba(114, 174, 98, 1);
 }
 
 .error-info {
-	background: #EC7171;
+  background: #EC7171;
 }
 
 /*********************
@@ -576,88 +582,88 @@ HEADER
 }
 
 #lily-header i{
-	margin-left: 18px;
+  margin-left: 18px;
 }
 
 .lily-btn{
-	border: none;
-	border-radius: 5px;
-	font-family: inherit;
-	font-size: inherit;
-	color: inherit;
-	cursor: pointer;
-	text-align: center;
-	text-transform: uppercase;
-	vertical-align: top;
-	letter-spacing: 1px;
-	font-weight: 600;
-	outline: none;
-	position: relative;
-	height: 40px;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	transition: all 0.3s;
-	z-index: 5;
-	display: block;
-	padding: 0;
+  border: none;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: top;
+  letter-spacing: 1px;
+  font-weight: 600;
+  outline: none;
+  position: relative;
+  height: 40px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  z-index: 5;
+  display: block;
+  padding: 0;
 }
 
 .lily-header-title{
-	margin: 0 auto;
-	font-size: 1.2em;
-	line-height: 40px;
-	height: 40px;
-	vertical-align: middle;
-	display: block;
-	text-align: left;
-	font-weight: 400;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	padding-left: 90px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	padding-top: 10px;
+  margin: 0 auto;
+  font-size: 1.2em;
+  line-height: 40px;
+  height: 40px;
+  vertical-align: middle;
+  display: block;
+  text-align: left;
+  font-weight: 400;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 90px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding-top: 10px;
 }
 
 .lily-bt-menu{
-	display: block;
-	z-index: 5;
-	position: relative;
-	cursor: pointer;
+  display: block;
+  z-index: 5;
+  position: relative;
+  cursor: pointer;
   margin-left: 2px;
 }
 
 #lily-bt-home{
-	display: block;
-	z-index: 5;
-	position: relative;
-	width: 30px;
+  display: block;
+  z-index: 5;
+  position: relative;
+  width: 30px;
 }
 
 #lily-search{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	z-index: 3;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }
 
 #lily-search,
 .lily-search-input-wrap{
-	width: 100%;
-	height: 50px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }
 
 .action-container {
@@ -673,18 +679,19 @@ HEADER
 .chat-input-component,
 .avi-input-component {
   width: 100%;
-	padding: 0 13px;
+  padding: 0 13px;
   margin: 0;
-	margin-bottom: 18px;
+  margin-bottom: 23px;
   display: block;
   min-height: 30px;
+  z-index: 11;
 }
 
 .chat-input:focus,
 .avi-input:focus {
-	outline: none;
-	border: solid 1px #B6B6B6;
-	box-shadow: 0 0 3px 0 #cecece;
+  outline: none;
+  border: solid 1px #B6B6B6;
+  box-shadow: 0 0 3px 0 #cecece;
 }
 
 .wrapper-input {
@@ -698,7 +705,7 @@ HEADER
 
 .textarea-input {
   position: relative;
-  display: inline-block;
+  display: block;
   padding: 6px;
   width: calc(100% - 72px);
   min-height: 36px;
@@ -710,26 +717,27 @@ HEADER
   line-height: 1;
   vertical-align: bottom;
   z-index: 3;
-  overflow: scroll;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 /* Most disgusting css selector in the history of css selectors.
  * My eyes are litteraly crying right now... :'(
 */
 *[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
-	content: attr(data-placeholder);
-	position: relative;
-	left: 3px;
-	top: 2px;
-	margin-left: 0;
-	color: #b3b3b3;
-	pointer-events: none;
-	z-index: 2;
-	margin-top: 3px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	-webkit-user-select: none;
-	user-select: none;
+  content: attr(data-placeholder);
+  position: relative;
+  left: 0px;
+  top: 2px;
+  margin-left: 0;
+  color: #b3b3b3;
+  pointer-events: none;
+  z-index: 2;
+  margin-top: 3px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .btn-sendmsg {
@@ -751,32 +759,32 @@ HEADER
 }
 
 .lily-search-input-wrap{
-	-webkit-user-drag: none;
-	position: relative;
+  -webkit-user-drag: none;
+  position: relative;
 }
 
 .lily-search-input{
-	border: none;
-	display: inline-block;
-	height: 50px;
-	width: 100%;
-	padding: 0 45px 0 1em;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-webkit-user-drag: none;
+  border: none;
+  display: inline-block;
+  height: 50px;
+  width: 100%;
+  padding: 0 45px 0 1em;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-user-drag: none;
 }
 
 .placeholder {
-	color: #777;
+  color: #777;
 }
 
 .lily-search-input:active,
 .lily-search-input:focus{
-	opacity: 0.95;
-	border-radius: 5px;
-	border: none;
-	outline: none;
+  opacity: 0.95;
+  border-radius: 5px;
+  border: none;
+  outline: none;
 }
 
 :-moz-placeholder {color: #575757;}
@@ -786,26 +794,26 @@ HEADER
 
 
 .lily-search-submit{
-	border: none;
-	display: inline-block;
-	position: absolute;
-	right: 0;
-	top: 0;
-	background: transparent;
-	width: 45px;
-	height: 100%;
-	border-radius: 5px;
-	z-index: 5;
+  border: none;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: transparent;
+  width: 45px;
+  height: 100%;
+  border-radius: 5px;
+  z-index: 5;
 }
 
 #lily-search .lily-icon-search{
-	display: block;
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 40px;
-	height: 40px;
-	z-index: 4;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  z-index: 4;
 }
 
 /******************
@@ -854,7 +862,7 @@ Typeahead Styles
 }
 
 .tt-suggestions .tt-suggestion:last-child {
-	border-bottom: none;
+  border-bottom: none;
 }
 
 .tt-suggestions .tt-suggestion {
@@ -870,6 +878,7 @@ Typeahead Styles
 }
 .twitter-typeahead {
   width: 100%;
+  display: table!important;
 }
 
 /* Ugliest thing I ever had to write in css... :'( */
@@ -896,45 +905,45 @@ MESSAGES
 
 
 #chat-box-messages a, .lily-box-messages a {
-	font-weight: 700;
-	text-decoration: underline;
+  font-weight: 700;
+  text-decoration: underline;
 }
 
 .lily-box-messages,
 .chat-messages {
-	position: absolute;
-	top: 0px;
-	height: 100%;
+  position: absolute;
+  top: 0px;
+  height: calc(100% - 69px);
   width: 100%;
-	padding: 13px;
-	font-size: 15px;
-	z-index: 3;
-	overflow-y: auto;
-	margin: 0;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-webkit-user-select: initial;
-	/*-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(19%,rgba(255,255,255,0.3)), color-stop(29%,rgba(255,255,255,1)));*/
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  padding: 13px;
+  font-size: 15px;
+  z-index: 3;
+  overflow-y: auto;
+  margin: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-user-select: initial;
+  /*-webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(19%,rgba(255,255,255,0.3)), color-stop(29%,rgba(255,255,255,1)));*/
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
   -webkit-animation: opacity .2s  cubic-bezier(0.25, 0.1, 0, 1.46) both;
   -moz-animation: opacity .2 cubic-bezier(0.25, 0.1, 0, 1.46) both;
   animation: opacity .2s cubic-bezier(0.25, 0.1, 0, 1.46) both;
   opacity: 1;
 }
 
-.chat-messages div:last-child {
-  margin-bottom: 83px;
+.chat-messages {
+  /*padding-bottom: 26px;*/
 }
-.lily-box-messages div:last-child {
-  margin-bottom: 183px;
+.lily-box-messages {
+  /*padding-bottom: 100px;*/
 }
 
 .avatar-wrapper {
   position: absolute;
-	bottom: 70px;
+  bottom: 76px;
   left: 13px;
   width: 75px;
   height: 75px;
@@ -942,9 +951,9 @@ MESSAGES
   overflow: hidden;
   text-align: center;
   border-radius: 50%;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }
 
 .avatar-wrapper.lily-avi-show {
@@ -964,47 +973,40 @@ MESSAGES
   margin-top: 2px;
 }
 
-.lily-msg-user,
-.lily-msg-avatar,
-.lily-msg-chat-visitor,
-.lily-msg-precision,
-/*.lily-msg-redirection,*/
-.lily-msg-chat-operator {
-	max-width: 85%;
-	border-radius: 10px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	margin-bottom: 13px;
+.msg-wrapper {
+  max-width: 85%;
+  border-radius: 10px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   padding: 5px 8px 7px;
   text-align: left;
   text-indent: inherit;
   line-height: 1.3;
-	position: relative;
-	clear: both;
-  display: none;
+  position: relative;
+  clear: both;
 }
 
 .lily-msg-chat-notation {
   text-align: center;
 }
 
-.lily-msg-user,
-.lily-msg-chat-visitor {
-	background: #e5e5e5;
+.lily-msg-user .msg-wrapper,
+.lily-msg-chat-visitor .msg-wrapper{
+  background: #e5e5e5;
 }
 
 .lily-msg-precision {
-	background: #fff;
+  background: #fff;
 }
 
 .lily-msg-reporting {
-	background: none;
+  background: none;
 }
 
 .lily-msg-precision {
-	background: #fff;
-	border: solid 1px #888888;
+  background: #fff;
+  border: solid 1px #888888;
 }
 
 .lily-message-show {
@@ -1015,14 +1017,18 @@ MESSAGES
   opacity: 1;
 }
 
+.lily-msg.lily-message-show {
+  display: block;
+  opacity: 1;
+}
+
 .lily-msg-chat-operator {
-	float: left;
-	margin-left: 29px;
-	margin-top: 0;
+  margin-left: 29px;
+  margin-top: 0;
 }
 
 #chat-box-messages .lily-msg-server {
-	display: block;
+  display: block;
   clear: both;
   padding: 1px;
 }
@@ -1031,42 +1037,42 @@ MESSAGES
   color: #575757;
   font-size: 14px;
   width: 200px;
-	text-align: center;
-	margin: 20px auto 0;
+  text-align: center;
+  margin: 20px auto 0;
   font-style: italic;
   position: relative;
 }
 
 .lily-msg-server .lily-msg-server-title:before ,
 .lily-msg-server .lily-msg-server-title:after {
-	content: '';
-	display: block;
-	height: 1px;
-	width: 33px;
-	background: #575757;
-	position: absolute;
-	top: .7em;
+  content: '';
+  display: block;
+  height: 1px;
+  width: 33px;
+  background: #575757;
+  position: absolute;
+  top: .7em;
 }
 
 .lily-msg-server .lily-msg-server-title:before {
-	left: -30px;
+  left: -30px;
 }
 
 .lily-msg-server .lily-msg-server-title:after {
-	right: -30px;
+  right: -30px;
 }
 
 .lily-msg-server-action {
-	-webkit-appearance: none;
-	border: solid 1px #575757;
-	background-color: #fff;
-	border-radius: 3px;
-	vertical-align: middle;
-	line-height: 1em;
-	font-size: 12px;
-	padding: 3px 5px;
-	margin: 10px auto;
-	display: block;
+  -webkit-appearance: none;
+  border: solid 1px #575757;
+  background-color: #fff;
+  border-radius: 3px;
+  vertical-align: middle;
+  line-height: 1em;
+  font-size: 12px;
+  padding: 3px 5px;
+  margin: 10px auto;
+  display: block;
 }
 
 .lily-msg-chat-wait {
@@ -1081,10 +1087,10 @@ MESSAGES
 }
 
 #chat-box-messages .lily-msg-chat-operator-info {
-	position: absolute;
+  position: absolute;
   left: -29px;
-	top: 0;
-	text-align: center;
+  top: 0;
+  text-align: center;
 }
 
 /* Hide the tooltip content by default */
@@ -1122,9 +1128,9 @@ MESSAGES
 }
 
 #chat-box-messages .thumb-sm.avatar {
-	width: 23px;
+  width: 23px;
   height: 23px;
-	border-radius: 50%;
+  border-radius: 50%;
 }
 
 .lily-redirection {
@@ -1136,7 +1142,7 @@ MESSAGES
   padding: 0 13px;
   bottom: 22px;
   width: 100%;
-  z-index: 5;
+  z-index: 12;
   display: none;
 }
 
@@ -1154,7 +1160,7 @@ MESSAGES
 }
 
 .choices-container {
-	display: block;
+  display: block;
   background: #fff;
   border: solid 1px #888888;
   margin-top: 0px;
@@ -1163,9 +1169,9 @@ MESSAGES
 }
 
 .lily-msg-redirection {
-	display: block;
-	background: #fff;
-	border: solid 1px #888888;
+  display: block;
+  background: #fff;
+  border: solid 1px #888888;
   margin-top: 0px;
   padding: 0;
   width: 100%;
@@ -1173,15 +1179,15 @@ MESSAGES
 }
 
 .lily-redirection-item {
-	display: block;
-	border-bottom: solid 1px #888888;
-	width: 100%;
-	-webkit-transition: all 0.3s;
+  display: block;
+  border-bottom: solid 1px #888888;
+  width: 100%;
+  -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s;
-	background: transparent;
-	position: relative;
-	cursor: pointer;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
 }
 
 .lily-redirection-item .lily-icon-mail,
@@ -1202,7 +1208,7 @@ MESSAGES
 }
 
 .lily-redirection-item:first-child {
-	border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 
 .lily-redirection-item:last-child {
@@ -1221,7 +1227,7 @@ MESSAGES
 }
 .lily-redirection-item:active a ,
 .lily-redirection-item.lily-redirection-none:active {
-	padding-left: 15px;
+  padding-left: 15px;
 }
 
 .lily-redirection-item .lily-icon-arrow-right {
@@ -1233,12 +1239,12 @@ MESSAGES
 }
 
 .lily-msg-redirection ul .lily-redirection-item:last-child {
-	border-bottom: none;
+  border-bottom: none;
 }
 
 .lily-redirection-item a,
 .lily-redirection-item.lily-redirection-none {
-	text-decoration: none;
+  text-decoration: none;
   padding: 5px 30px 7px 8px;
   display: inline-block;
   width: 100%;
@@ -1248,7 +1254,7 @@ MESSAGES
 }
 
 #lily-msg-avatar a {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .lily-box-messages .lily-msg-user p,
@@ -1256,88 +1262,68 @@ MESSAGES
 .lily-box-messages .lily-msg-redirection p,
 #chat-box-messages .lily-msg-chat-operator p,
 #chat-box-messages .lily-msg-chat-visitor p {
-	word-wrap: break-word;
-	text-overflow: ellipsis;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
 }
 
-.lily-box-messages .lily-msg-user,
-#chat-box-messages .lily-msg-chat-visitor {
-	float: right;
+.lily-msg-user,
+.lily-msg-chat-visitor {
+  text-align: right;
 }
 
-.lily-box-messages .lily-msg-user:before,
-#chat-box-messages .lily-msg-chat-visitor:before {
-/*	content: "";
-	position: absolute;
-	bottom: -10px;
-	right: 10px;
-	border-width: 10px 0 0 10px;
-	border-style: solid;
-	display: block;
-	width: 0;*/
-
-	/*content: "";*/
-	position: absolute;
-	bottom: -8.5px;
-	right: 10px;
-	border-width: 9px 0 0 9px;
-	border-style: solid;
-	border-color: rgba(255, 255, 255, 0.97) rgba(255, 255, 255, 0);
-	display: block;
-	width: 0;
-}
-
-.lily-box-messages .lily-msg-user:after,
-#chat-box-messages .lily-msg-chat-visitor:after {
-	/*content: "";*/
-	position: absolute;
-	bottom: -7px;
-	right: 11.5px;
-	border-width: 8px 0 0 8px;
-	border-style: solid;
-	border-color: white transparent;
-	display: block;
-	width: 0;
+.lily-msg-user .msg-wrapper,
+.lily-msg-chat-visitor .msg-wrapper{
+  float: none;
+  display: inline-block;
 }
 
 .lily-box-messages .lily-msg-redirection:before{
-	/*content: "";*/
-	position: absolute;
-	bottom: -10px;
-	left: 10px;
-	border-width: 10px 10px 0 0px;
-	border-left: 0px solid transparent;
-	border-right: 10px solid transparent;
-	width: 0;
-	height: 0;
+  /*content: "";*/
+  position: absolute;
+  bottom: -10px;
+  left: 10px;
+  border-width: 10px 10px 0 0px;
+  border-left: 0px solid transparent;
+  border-right: 10px solid transparent;
+  width: 0;
+  height: 0;
 }
 
 .lily-box-messages .lily-msg-redirection:after{
-	/*content: "";*/
-	position: absolute;
-	bottom: -8px;
-	left: 11px;
-	border-left: 0px solid transparent;
-	border-right: 10px solid transparent;
-	width: 0;
-	height: 0;
+  /*content: "";*/
+  position: absolute;
+  bottom: -8px;
+  left: 11px;
+  border-left: 0px solid transparent;
+  border-right: 10px solid transparent;
+  width: 0;
+  height: 0;
 }
 
-.lily-box-messages .lily-msg-avatar {
-	float: left;
-	margin-left: 0;
+.lily-msg-avatar .msg-wrapper{
+  float: none;
+  display: inline-block;
+  margin-left: 0;
 }
 
 .lily-msg {
   margin-bottom: 13px;
   position: relative;
   -webkit-user-select: initial;
+  display: none;
+}
+
+.lily-box-messages:after {
+  content: '';
+  position: relative;
+  display: block;
+  height: 75px;
+  width: 100%;
 }
 
 /* Messages of a different type following each other have a
    larger margin in between */
 .lily-msg-user + .lily-msg-avatar,
-.message-ai + .lily-msg-user,
 .lily-msg-chat-operator + .lily-msg-chat-visitor ,
 .lily-msg-chat-visitor + .lily-msg-chat-operator {
   margin-bottom: 13px;
@@ -1351,52 +1337,52 @@ MESSAGES
 /* End logic for spacing between messages */
 
 .lily-msg-reporting li.lily-precision-list:nth-child(2){
-	margin-top: 5px;
+  margin-top: 5px;
 }
 
 .lily-precision-list {
-	display: inline-block;
-	padding: 6px;
-	margin-right: 11px;
-	margin-top: 10px;
-	border-radius: 3px;
+  display: inline-block;
+  padding: 6px;
+  margin-right: 11px;
+  margin-top: 10px;
+  border-radius: 3px;
 }
 
 .icon-thumb-down{
-	margin-left: 3px;
+  margin-left: 3px;
 }
 
 .lily-box-messages .lily-notation-wrapper{
-	margin-bottom: 13px;
+  margin-bottom: 13px;
   padding: 0;
 }
 
 #lily-chat-notation-wrapper {
-	position: relative;
-	z-index: 4;
-	background: rgba(255, 255, 255, 1);
-	width: 100%;
-	text-align: right;
-	margin-right: 15px;
-	height: 40px;
-	box-shadow: 0px 2px 6px 0px rgba(155, 155, 155, 0.38);
+  position: relative;
+  z-index: 4;
+  background: rgba(255, 255, 255, 1);
+  width: 100%;
+  text-align: right;
+  margin-right: 15px;
+  height: 40px;
+  box-shadow: 0px 2px 6px 0px rgba(155, 155, 155, 0.38);
 }
 
 #lily-chat-notation-wrapper p {
-	display: inline-block;
-	color: #373737;
-	font-size: 11px;
+  display: inline-block;
+  color: #373737;
+  font-size: 11px;
 }
 
 .lily-chat-notation{
-	display: inline-block;
-	cursor: pointer;
-	font-style: normal;
-	user-select: none;
-	-webkit-user-select: none;
-	-webkit-user-drag: none;
-	margin-top: 10px;
-	margin-left: 11px;
+  display: inline-block;
+  cursor: pointer;
+  font-style: normal;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  margin-top: 10px;
+  margin-left: 11px;
 }
 
 .lily-msg-chat-notation .lily-chat-notation:first-child {
@@ -1410,96 +1396,96 @@ MESSAGES
 
 .lily-icon-thumb-up.active,
 .lily-icon-thumb-down.active {
-	color: #333333;
+  color: #333333;
 }
 
 .lily-notation-list{
-	display: inline-block;
-	cursor: pointer;
-	list-style: none;
-	padding-left: 0;
-	padding: 7px 7px;
-	font-style: normal;
-	user-select: none;
-	-webkit-user-select: none;
-	-webkit-user-drag: none;
-	margin-top: 0px;
-	margin-left: 5px;
-	border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+  list-style: none;
+  padding-left: 0;
+  padding: 7px 7px;
+  font-style: normal;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  margin-top: 0px;
+  margin-left: 5px;
+  border-radius: 3px;
 }
 
 .lily-avatar-bubble {
-	left: 15px;
-	bottom: -8px;
-	width: 0;
-	height: 0;
-	border-left: 0px solid transparent;
-	border-right: 10px solid transparent;
-	position: absolute;
+  left: 15px;
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-left: 0px solid transparent;
+  border-right: 10px solid transparent;
+  position: absolute;
 }
 
 .lily-reporting-bubble {
-	background-image: url(../../images/api/bubble-arrow-reporting.png);
-	background-repeat: no-repeat;
-	background-size: auto;
-	background-position: 0 0;
-	height: 10px;
-	left: 15px;
-	bottom: -10px;
-	width: 10px;
-	position: absolute;
+  background-image: url(../../images/api/bubble-arrow-reporting.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: 0 0;
+  height: 10px;
+  left: 15px;
+  bottom: -10px;
+  width: 10px;
+  position: absolute;
 }
 
 .lily-loading {
-	text-align: center;
-	width: 50px;
+  text-align: center;
+  width: 50px;
 }
 
 .lily-loading span {
-	display: inline-block;
-	vertical-align: middle;
-	width: 5px;
-	height: 5px;
-	margin: 0 2px;
-	background: rgba(255, 255, 255, 0.9);
-	border-radius: 10px;
-	-webkit-animation: loader 0.9s infinite alternate;
-	-moz-animation: loader 0.9s infinite alternate;
+  display: inline-block;
+  vertical-align: middle;
+  width: 5px;
+  height: 5px;
+  margin: 0 2px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  -webkit-animation: loader 0.9s infinite alternate;
+  -moz-animation: loader 0.9s infinite alternate;
 }
 .lily-loading span:nth-of-type(2) {
-	-webkit-animation-delay: 0.3s;
-	-moz-animation-delay: 0.3s;
+  -webkit-animation-delay: 0.3s;
+  -moz-animation-delay: 0.3s;
 }
 .lily-loading span:nth-of-type(3) {
-	-webkit-animation-delay: 0.6s;
-	-moz-animation-delay: 0.6s;
+  -webkit-animation-delay: 0.6s;
+  -moz-animation-delay: 0.6s;
 }
 @-webkit-keyframes loader {
-	0% {
-		width: 5px;
-		height: 5px;
-		opacity: 0.9;
-		-webkit-transform: translateY(-8px);
-	}
+  0% {
+    width: 5px;
+    height: 5px;
+    opacity: 0.9;
+    -webkit-transform: translateY(-8px);
+  }
 100% {
-	width: 10px;
-	height: 10px;
-	opacity: 0.1;
-	-webkit-transform: translateY(2px);
+  width: 10px;
+  height: 10px;
+  opacity: 0.1;
+  -webkit-transform: translateY(2px);
 }
 }
 @-moz-keyframes loader {
-	0% {
-		width: 5px;
-		height: 5px;
-		opacity: 0.9;
-		-moz-transform: translateY(-8px);
-	}
+  0% {
+    width: 5px;
+    height: 5px;
+    opacity: 0.9;
+    -moz-transform: translateY(-8px);
+  }
 100% {
-	width: 10px;
-	height: 10px;
-	opacity: 0.1;
-	-moz-transform: translateY(2px);
+  width: 10px;
+  height: 10px;
+  opacity: 0.1;
+  -moz-transform: translateY(2px);
 }
 }
 
@@ -1508,71 +1494,71 @@ THEMATIQUE
 *******************/
 
 .lily-faq-title {
-	font-size: 14px !important;
+  font-size: 14px !important;
 }
 
 .lily-faq-link {
-	position: relative;
-	height: 52px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	border-bottom: solid 1px #efefef;
+  position: relative;
+  height: 52px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: solid 1px #efefef;
 }
 
 .lily-back-link a .lily-icon-arrow-left{
-	display: block;
-	position: absolute;
-	right: 15px;
-	top: 0;
-	width: 45px;
-	height: 45px;
-	line-height: 50px;
+  display: block;
+  position: absolute;
+  right: 15px;
+  top: 0;
+  width: 45px;
+  height: 45px;
+  line-height: 50px;
 }
 
 .lily-faq-link .lily-icon-arrow-right{
-	display: block;
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 40px;
-	height: 45px;
-	line-height: 45px;
-	text-align: center;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
 }
 
 .lily-back-link p{
-	display: inline-block;
-	position: absolute;
-	right: 18px;
-	font-size: 12px;
-	line-height: 52px;
-	font-weight: 400;
-	text-transform: uppercase;
+  display: inline-block;
+  position: absolute;
+  right: 18px;
+  font-size: 12px;
+  line-height: 52px;
+  font-weight: 400;
+  text-transform: uppercase;
 
 }
 
 .lily-faq-link a {
-	position: relative;
-	display: inline-block;
-	width: 100%;
-	height: 51px;
-	vertical-align: middle;
-	padding-right: 40px;
-	line-height: 50px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	font-size: 0.9em;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 51px;
+  vertical-align: middle;
+  padding-right: 40px;
+  line-height: 50px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  font-size: 0.9em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .lily-wrapper-faq-content{
-	margin: 20px 15px;
-	border-bottom: solid 1px #efefef;
-	padding-bottom: 20px;
+  margin: 20px 15px;
+  border-bottom: solid 1px #efefef;
+  padding-bottom: 20px;
 }
 
 /*********************
@@ -1580,90 +1566,90 @@ MENU
 *********************/
 
 #lily-menu{
-	padding-top: 45px !important;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	border-right: solid 1px rgba(205, 205, 205, 0.4);
+  padding-top: 45px !important;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-right: solid 1px rgba(205, 205, 205, 0.4);
 }
 
 #lily-menu footer{
-	position: absolute;
-	bottom: 17px;
-	right: 17px;
-	font-size: 11px;
+  position: absolute;
+  bottom: 17px;
+  right: 17px;
+  font-size: 11px;
 }
 
 #lily-menu footer a{
-	color: #6cc0f5;
+  color: #6cc0f5;
 }
 
 .lily-menu-body{
-	width: 100%;
+  width: 100%;
 }
 
 .lily-menu-body ul{
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .lily-menu-body li{
-	display: block;
-	height: 3.75em; /*120px*/
-	width: 100%;
-	line-height: 3.75em; /*centrage vertical*/
+  display: block;
+  height: 3.75em; /*120px*/
+  width: 100%;
+  line-height: 3.75em; /*centrage vertical*/
 }
 
 .lily-menu-body li a{
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	font-style: normal;
-	text-decoration: none;
-	display: inline-block;
-	width: 100%;
-	height: 100%;
-	/*	line-height: 1; */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  font-style: normal;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  /*  line-height: 1; */
 }
 
 .lily-menu-body li a span{
-	display: inline-block;
-	width: 50px;
-	height: 60px;
-	display: inline-block;
-	text-align: center;
-	vertical-align: middle;
-	line-height: 56px;
+  display: inline-block;
+  width: 50px;
+  height: 60px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 56px;
 }
 
 .lily-menu-body li li a span{
-	width: 50px;
-	height: 60px;
-	display: inline-block;
-	text-align: center;
-	vertical-align: middle;
-	line-height: 56px;
+  width: 50px;
+  height: 60px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 56px;
 }
 
 .lily-menu-separator{
-	width: 100%;
-	height: 1px;
+  width: 100%;
+  height: 1px;
 }
 
 #lily-toolbar{
-	height: 40px;
-	width: 100%;
-	line-height: 40px;
-	z-index: 2000;
-	position: absolute;
-	top: 0;
-	left: 0;
+  height: 40px;
+  width: 100%;
+  line-height: 40px;
+  z-index: 2000;
+  position: absolute;
+  top: 0;
+  left: 0;
   color: #fff;
   border-radius: 3px 3px 0 0;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
   padding: 0;
 }
 
@@ -1682,13 +1668,13 @@ MENU
 }
 
 #lily-toolbar-icons{
-	display: block;
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 40px;
-	cursor: pointer;
-	text-align: center;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  cursor: pointer;
+  text-align: center;
   height: 40px;
   margin-right: 8px;
   padding: 0;
@@ -1710,57 +1696,57 @@ SNAP.JS
 *********************/
 
 .snap-content {
-	border-radius: 4px 4px 0 0;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	width: auto;
-	height: auto;
-	z-index: 2;
-	overflow: auto;
-	overflow-x: hidden;
-	background: #fff;
-	-webkit-overflow-scrolling: touch;
-	-webkit-transform: translate3d(0, 0, 0);
-	-moz-transform: translate3d(0, 0, 0);
-	-ms-transform: translate3d(0, 0, 0);
-	-o-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
+  border-radius: 4px 4px 0 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  z-index: 2;
+  overflow: auto;
+  overflow-x: hidden;
+  background: #fff;
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }
 
 .snap-drawer {
-	position: absolute;
-	top: 0;
-	right: auto;
-	bottom: 0;
-	left: auto;
-	width: 230px;
-	height: auto;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-	-webkit-transition: width 0.3s ease;
-	-moz-transition: width 0.3s ease;
-	-ms-transition: width 0.3s ease;
-	-o-transition: width 0.3s ease;
-	transition: width 0.3s ease;
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: auto;
+  width: 230px;
+  height: auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -webkit-transition: width 0.3s ease;
+  -moz-transition: width 0.3s ease;
+  -ms-transition: width 0.3s ease;
+  -o-transition: width 0.3s ease;
+  transition: width 0.3s ease;
 }
 
 .snap-drawer-left {
-	left: 0;
-	z-index: 1;
+  left: 0;
+  z-index: 1;
 }
 
 .snapjs-left .snap-drawer-right{
-	display: none;
+  display: none;
 }
 
 .snapjs-expand-left .snap-drawer-left{
-	width: 100%;
+  width: 100%;
 }
 
 /*******************
@@ -1768,7 +1754,7 @@ CONTACT FORM
 *******************/
 
 .btn-close {
-	position: absolute;
+  position: absolute;
   top: 7px;
   right: 8px;
   width: 30px;
@@ -1779,51 +1765,51 @@ CONTACT FORM
 }
 
 .btn-close .lily-icon-cross:before {
-	font-size: 25px;
+  font-size: 25px;
 }
 
 .lily-contact-form .lily-contact-form-label {
-	margin-top: 15px;
+  margin-top: 15px;
   margin-bottom: 3px;
   font-size: 15px;
   font-weight: 700;
 }
 
 .lily-contact-form .lily-contact-form-label:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .lily-contact-form .lily-contact-form-title {
-	font-size: 14px;
-	line-height: 20px;
-	margin: 20px auto 15px;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 20px auto 15px;
 }
 
 .lily-contact-form {
-	position: relative;
-	width: 100%;
-	margin: 0;
-	padding: 15px 12px 0;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	color: #404040;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 15px 12px 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  color: #404040;
 }
 
 .lily-contact-form input,
 .lily-contact-form textarea{
-	font-size: 14px;
-	line-height: 18px;
-	padding-left: 10px;
-	height: 40px;
-	display: block;
-	width: 100%;
-	background: transparent;
-	display: block;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	outline: 0;
-	border-radius: 3px;
+  font-size: 14px;
+  line-height: 18px;
+  padding-left: 10px;
+  height: 40px;
+  display: block;
+  width: 100%;
+  background: transparent;
+  display: block;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  outline: 0;
+  border-radius: 3px;
 }
 
 .form-section-title {
@@ -1831,43 +1817,43 @@ CONTACT FORM
 }
 
 .lily-contact-form label{
-	color: #f62441;
-	display: inline;
-	color: 11px;
-	font-weight: 400;
+  color: #f62441;
+  display: inline;
+  color: 11px;
+  font-weight: 400;
 }
 
 .lily-contact-form input.warning, .lily-contact-form textarea.warning {
-	border-color: #f62441;
+  border-color: #f62441;
 }
 
 .lily-contact-form textarea{
-	min-height: 80px;
-	padding-top: 5px;
-	line-height: 25px;
+  min-height: 80px;
+  padding-top: 5px;
+  line-height: 25px;
 }
 
 .lily-contact-form button{
-	display: block;
-	width: 100%;
-	border: none;
-	text-align: center;
-	line-height: 35px;
-	margin-top: 15px;
-	margin-bottom: 15px;
-	padding-top: 5px;
-	outline: 0;
+  display: block;
+  width: 100%;
+  border: none;
+  text-align: center;
+  line-height: 35px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-top: 5px;
+  outline: 0;
 }
 
 .lily-skip-link {
-	font-size: 13px;
-	font-style: normal;
-	font-weight: normal;
-	text-align: center;
-	display: block;
-	text-decoration: underline;
-	opacity: .7;
-	margin-top: -5px;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: normal;
+  text-align: center;
+  display: block;
+  text-decoration: underline;
+  opacity: .7;
+  margin-top: -5px;
 }
 
 .lily-contact-form p {
@@ -1878,19 +1864,19 @@ CONTACT FORM
 }
 
 .brand-footer {
-	position: absolute;
-  bottom: 2px;
+  position: absolute;
+  bottom: 4px;
   left: 0;
   right: 0;
   margin: 0 auto;
   text-align: center;
   font-size: 12px;
   color: rgba(0, 0, 0, 0.6);
-  z-index: 15;
+  z-index: 10;
 }
 
 .saio-brandmark {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .saio-brandmark .saio-logo {
@@ -1912,71 +1898,71 @@ USEFUL
 
 
 .scrollable{
-	overflow-x: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
-	-webkit-transition-property: top, bottom;
-	transition-property: top, bottom;
-	-webkit-transition-duration: .2s, .2s;
-	transition-duration: .2s, .2s;
-	-webkit-transition-timing-function: linear, linear;
-	transition-timing-function: linear, linear;
-	-webkit-overflow-scrolling: touch;
+  -webkit-transition-property: top, bottom;
+  transition-property: top, bottom;
+  -webkit-transition-duration: .2s, .2s;
+  transition-duration: .2s, .2s;
+  -webkit-transition-timing-function: linear, linear;
+  transition-timing-function: linear, linear;
+  -webkit-overflow-scrolling: touch;
 }
 
 .lily-left{
-	float: left;
+  float: left;
 }
 
 .lily-right{
-	float: right;
+  float: right;
 }
 
 ::-webkit-scrollbar {
-	width: 5px;
-	height: 5px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #929292;
-	border-radius: 5px;
+  background: #929292;
+  border-radius: 5px;
   width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-	border-radius: 5px;
-	background: none;
+  border-radius: 5px;
+  background: none;
 }
 
 ::-webkit-scrollbar-thumb:hover{
-	background: #6a6a6a;
+  background: #6a6a6a;
   width: 8px;
 }
 
 ::-webkit-scrollbar-thumb:active{
-	background: #6a6a6a;
+  background: #6a6a6a;
   width: 8px;
 }
 
 .hidden {
-	display: none !important;
-	visibility: hidden;
+  display: none !important;
+  visibility: hidden;
 }
 
 .invisible {
-	visibility: hidden;
+  visibility: hidden;
 }
 .clearfix:before,
 .clearfix:after {
-	content: " ";
-	display: table;
+  content: " ";
+  display: table;
 }
 
 .clearfix:after {
-	clear: both;
+  clear: both;
 }
 
 .clearfix {
-	*zoom: 1;
+  *zoom: 1;
 }
 
 
@@ -1985,211 +1971,211 @@ ANIMATIONS
 *******************/
 
 .lily-page-moveToLeft {
-	-webkit-animation: moveToLeft .5s ease both;
-	-moz-animation: moveToLeft .6s ease both;
-	animation: moveToLeft .6s ease both;
+  -webkit-animation: moveToLeft .5s ease both;
+  -moz-animation: moveToLeft .6s ease both;
+  animation: moveToLeft .6s ease both;
 }
 
 .lily-page-moveFromLeft {
-	-webkit-animation: moveFromLeft .5s ease both;
-	-moz-animation: moveFromLeft .6s ease both;
-	animation: moveFromLeft .6s ease both;
+  -webkit-animation: moveFromLeft .5s ease both;
+  -moz-animation: moveFromLeft .6s ease both;
+  animation: moveFromLeft .6s ease both;
 }
 
 .lily-page-moveToRight {
-	-webkit-animation: moveToRight .5s ease both;
-	-moz-animation: moveToRight .6s ease both;
-	animation: moveToRight .6s ease both;
+  -webkit-animation: moveToRight .5s ease both;
+  -moz-animation: moveToRight .6s ease both;
+  animation: moveToRight .6s ease both;
 }
 
 .lily-page-moveFromRight {
-	-webkit-animation: moveFromRight .5s ease both;
-	-moz-animation: moveFromRight .6s ease both;
-	animation: moveFromRight .6s ease both;
+  -webkit-animation: moveFromRight .5s ease both;
+  -moz-animation: moveFromRight .6s ease both;
+  animation: moveFromRight .6s ease both;
 }
 
 .lily-async-action {
-	-webkit-animation: halfFade .3s ease both;
-	-moz-animation: halfFade .3s ease both;
-	animation: halfFade .3s ease both;
+  -webkit-animation: halfFade .3s ease both;
+  -moz-animation: halfFade .3s ease both;
+  animation: halfFade .3s ease both;
 }
 
 @-webkit-keyframes halfFade {
-	to { opacity: 0.5; }
+  to { opacity: 0.5; }
 }
 @-moz-keyframes halfFade {
-	to { opacity: 0.5; }
+  to { opacity: 0.5; }
 }
 @keyframes halfFade {
-	to { opacity: 0.5; }
+  to { opacity: 0.5; }
 }
 
 @-webkit-keyframes showFromBottom {
-	from { -webkit-transform: translateY(30px); opacity: .5}
+  from { -webkit-transform: translateY(30px); opacity: .5}
 }
 @-moz-keyframes showFromBottom {
-	from { -moz-transform: translateY(30px); opacity: .5}
+  from { -moz-transform: translateY(30px); opacity: .5}
 }
 @keyframes showFromBottom {
-	from { transform: translateY(30px); opacity: .5}
+  from { transform: translateY(30px); opacity: .5}
 }
 @-webkit-keyframes bubbleIn {
-	from { -webkit-transform: scale(.7); opacity: 0 }
+  from { -webkit-transform: scale(.7); opacity: 0 }
   to { -webkit-transform: scale(1); opacity: 1;}
 }
 
 @keyframes bubbleIn {
-	from { transform: scale(.7); opacity: 0 }
+  from { transform: scale(.7); opacity: 0 }
   to { transform: scale(1); opacity: 1;}
 }
 @-webkit-keyframes bubbleIn {
-	from { -webkit-transform: scale(.7); opacity: 0 }
+  from { -webkit-transform: scale(.7); opacity: 0 }
   to { -webkit-transform: scale(1); opacity: 1;}
 }
 @-moz-keyframes bubbleIn {
-	from { -moz-transform: scale(.7); opacity: 0 }
+  from { -moz-transform: scale(.7); opacity: 0 }
   to { -moz-transform: scale(1); opacity: 1;}
 }
 
 
 @keyframes bubbleInSoft {
-	from { transform: scale(.9); opacity: .5 }
+  from { transform: scale(.9); opacity: .5 }
   to { transform: scale(1); opacity: 1;}
 }
 @-webkit-keyframes bubbleInSoft {
-	from { -webkit-transform: scale(.9); opacity: .5 }
+  from { -webkit-transform: scale(.9); opacity: .5 }
   to { -webkit-transform: scale(1); opacity: 1;}
 }
 @-moz-keyframes bubbleInSoft {
-	from { -moz-transform: scale(.9); opacity: .5 }
+  from { -moz-transform: scale(.9); opacity: .5 }
   to { -moz-transform: scale(1); opacity: 1;}
 }
 
 @keyframes bubbleOutSoft {
-	from { transform: scale(1); opacity: 1 }
+  from { transform: scale(1); opacity: 1 }
   to { transform: scale(.9); opacity: .5;}
 }
 @-webkit-keyframes bubbleOutSoft {
-	from { -webkit-transform: scale(1); opacity: 1 }
+  from { -webkit-transform: scale(1); opacity: 1 }
   to { -webkit-transform: scale(.9); opacity: .5;}
 }
 @-moz-keyframes bubbleOutSoft {
-	from { -moz-transform: scale(1); opacity: 1 }
+  from { -moz-transform: scale(1); opacity: 1 }
   to { -moz-transform: scale(.9); opacity: .5;}
 }
 
 @-webkit-keyframes bubbleOut {
-	from { -webkit-transform: scale(1); opacity: 1 }
+  from { -webkit-transform: scale(1); opacity: 1 }
   to { -webkit-transform: scale(.7); opacity: 0;}
 }
 
 @keyframes bubbleOut {
-	from { transform: scale(1); opacity: 1 }
+  from { transform: scale(1); opacity: 1 }
   to { transform: scale(.7); opacity: 0;}
 }
 
 @-webkit-keyframes moveToLeft {
-	to { -webkit-transform: translateX(-100%); }
+  to { -webkit-transform: translateX(-100%); }
 }
 @-moz-keyframes moveToLeft {
-	to { -moz-transform: translateX(-100%); }
+  to { -moz-transform: translateX(-100%); }
 }
 @keyframes moveToLeft {
-	to { transform: translateX(-100%); }
+  to { transform: translateX(-100%); }
 }
 
 @-webkit-keyframes moveFromLeft {
-	from { -webkit-transform: translateX(-100%); }
+  from { -webkit-transform: translateX(-100%); }
 }
 @-moz-keyframes moveFromLeft {
-	from { -moz-transform: translateX(-100%); }
+  from { -moz-transform: translateX(-100%); }
 }
 @keyframes moveFromLeft {
-	from { transform: translateX(-100%); }
+  from { transform: translateX(-100%); }
 }
 
 @-webkit-keyframes moveToRight {
-	to { -webkit-transform: translateX(100%); }
+  to { -webkit-transform: translateX(100%); }
 }
 @-moz-keyframes moveToRight {
-	to { -moz-transform: translateX(100%); }
+  to { -moz-transform: translateX(100%); }
 }
 @keyframes moveToRight {
-	to { transform: translateX(100%); }
+  to { transform: translateX(100%); }
 }
 
 @-webkit-keyframes moveFromRight {
-	from { -webkit-transform: translateX(100%); }
+  from { -webkit-transform: translateX(100%); }
 }
 @-moz-keyframes moveFromRight {
-	from { -moz-transform: translateX(100%); }
+  from { -moz-transform: translateX(100%); }
 }
 @keyframes moveFromRight {
-	from { transform: translateX(100%); }
+  from { transform: translateX(100%); }
 }
 
 @-webkit-keyframes fadeInUp {
-	0% {
-		opacity: 0;
-		-webkit-transform: translateY(20px);
-	}
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+  }
 
-	100% {
-		opacity: 1;
-		-webkit-transform: translateY(0);
-	}
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
 }
 
 @-moz-keyframes fadeInUp {
-	0% {
-		opacity: 0;
-		-moz-transform: translateY(20px);
-	}
+  0% {
+    opacity: 0;
+    -moz-transform: translateY(20px);
+  }
 
-	100% {
-		opacity: 1;
-		-moz-transform: translateY(0);
-	}
+  100% {
+    opacity: 1;
+    -moz-transform: translateY(0);
+  }
 }
 
 @-o-keyframes fadeInUp {
-	0% {
-		opacity: 0;
-		-o-transform: translateY(20px);
-	}
+  0% {
+    opacity: 0;
+    -o-transform: translateY(20px);
+  }
 
-	100% {
-		opacity: 1;
-		-o-transform: translateY(0);
-	}
+  100% {
+    opacity: 1;
+    -o-transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
-	0% {
-		opacity: 0;
-		transform: translateY(20px);
-	}
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animated {
-	-webkit-animation-duration: 0.45s;
-	   -moz-animation-duration: 0.45s;
-	     -o-animation-duration: 0.45s;
-	        animation-duration: 0.45s;
-	-webkit-animation-fill-mode: both;
-	   -moz-animation-fill-mode: both;
-	     -o-animation-fill-mode: both;
-	        animation-fill-mode: both;
+  -webkit-animation-duration: 0.45s;
+     -moz-animation-duration: 0.45s;
+       -o-animation-duration: 0.45s;
+          animation-duration: 0.45s;
+  -webkit-animation-fill-mode: both;
+     -moz-animation-fill-mode: both;
+       -o-animation-fill-mode: both;
+          animation-fill-mode: both;
 }
 
 .animated.fadeInUp {
-	-webkit-animation-name: fadeInUp;
-	-moz-animation-name: fadeInUp;
-	-o-animation-name: fadeInUp;
-	animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+  -moz-animation-name: fadeInUp;
+  -o-animation-name: fadeInUp;
+  animation-name: fadeInUp;
 }

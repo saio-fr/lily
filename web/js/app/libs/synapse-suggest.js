@@ -294,7 +294,7 @@
       $(selector).typeahead({
         hint: false,
         highlight: true,
-        minLength: 2
+        minLength: 2,
       }, params);
     };
 

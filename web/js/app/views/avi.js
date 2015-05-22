@@ -17,6 +17,7 @@ define(function(require) {
     synapse_suggest  = require('synapse'),
     typeahead        = require('typeahead'),
     when             = require('when'),
+    isMobile         = require('isMobile'),
 
     MessageUserSimple      = require('app/views/messageUserSimple'),
     MessageLilySimple      = require('app/views/messageLilySimple'),
@@ -54,6 +55,15 @@ define(function(require) {
       that.$avi    =         that.$('.avatar-wrapper');
       that.$inputComponent = that.$('.avi-input-component');
       that.$msgBox = $('.lily-box-messages');
+
+      // fix bug where [contenteditable="true"] elements would not
+      // take focus on touchend on iOS (Android ?) devices
+      that.$input.on('touchstart', function(ev) {
+        $(ev.currentTarget).focus();
+        // force scroll to bottom when virtual keyboard scrolls into view
+        if (!isMobile.apple) return;
+        window.scrollTo(0,document.body.scrollHeight);
+      });
 
       that.showAvi = true;
       that._handleAvi();
