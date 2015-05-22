@@ -139,7 +139,7 @@ define(function(require) {
       return this._printAviMsg(config.avi.messages.welcomeMsg);
     },
 
-    offerRedirection: function(question, context) {
+    offerRedirection: function(context) {
       var that = this,
           redirectionMsg = context === 'unSatisfied' ?
             config.avi.messages.unSatisfiedRedirection :
@@ -169,13 +169,16 @@ define(function(require) {
       that._disableInput(true);
       that._asyncWithoutLoading(null, 800)
       .then(function() {
-        // return that._addMessage(question, 'lily-redirection', model);
         return that._createRedirectionView(model);
       });
     },
 
     hasNoAnswer: function(question) {
       var that = this;
+
+      if(that._isPromise(question)) {
+        question = null;
+      }
 
       // 1) Log the unAnswered question to create a ticket
       if (question) {
@@ -189,7 +192,7 @@ define(function(require) {
         that.apologise();
         that._asyncWithoutLoading(null, 0)
         .then(function() {
-          return that.offerRedirection(question, 'notFound');
+          return that.offerRedirection('notFound');
         });
       });
     },
@@ -230,7 +233,7 @@ define(function(require) {
     // Internals:
     // ==============================================
 
-    _asyncWithLoading: function(callback, delay, failure) {
+    _asyncWithLoading: function(callback, delay) {
       var that = this;
 
       // 1) Show loading indicator
@@ -240,22 +243,14 @@ define(function(require) {
       // 2) call callback method
       // ------------------------------------
       .then(function() {
-        try {
-          if (callback && _.isFunction(callback)) {
-            return callback();
-          } else {
-            return;
-          }
-        } catch (error) {
-          return _.isFunction(failure) ? failure(error) : undefined;
-        }
-      }, failure || that._failedPromise)
+        return callback();
+      })
 
       // 3) Clear the loading sign
       // ------------------------------------
       .then(function(answer) {
         return that._clearLoading(answer);
-      }, that._failedPromise);
+      });
     },
 
     _asyncWithoutLoading: function(callback, delay) {
@@ -398,6 +393,10 @@ define(function(require) {
         this.$('.lily-box-messages').append(config.loadingTpl);
         this.isLoadingShown = true;
         this.isMsgAnimating = true;
+        // Scroll all the way down
+        var objDiv = document.getElementsByClassName('lily-box-messages')[0];
+        objDiv.scrollTop = objDiv.scrollHeight;
+
         setTimeout(function() {
           defer.resolve(args);
         }, typeDelay);
@@ -433,9 +432,8 @@ define(function(require) {
       var defer = when.defer(),
           that = this;
 
-      if (this.$('.lily-loading').length) {
-        this.$('.lily-loading')
-          .parent()
+      if (this.$('.lily-msg-loading').length) {
+        this.$('.lily-msg-loading')
           .fadeOut(function() {
             $(this).remove();
             that.isLoadingShown = false;
@@ -552,6 +550,10 @@ define(function(require) {
       throw err;
     },
 
+    _isPromise: function(obj) {
+      return obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+    },
+
     // ==============================================
 
 
@@ -597,19 +599,19 @@ define(function(require) {
       // ------------------------------------
       that._asyncWithLoading(function() {
         return api.getAnswerFromId(id);
-      }, 500, that.hasNoAnswer)
+      }, 500)
 
       // 2) Print answer
       // ------------------------------------
       .then(function(answer) {
         return that._handleAviAnswer(answer);
-      }, that._failedPromise)
+      })
 
       // 3) Ask for feedback
       // ------------------------------------
       .then(function(answer) {
         return that._addNotationView(answer);
-      }, that._failedPromise);
+      }, that.hasNoAnswer.bind(that));
     },
 
     onNewMessage: function() {
@@ -628,7 +630,7 @@ define(function(require) {
         // Ask for precision on bad answer
         that._asyncWithoutLoading(null, 0)
         .then(function() {
-          return that.offerRedirection(answer.id, 'unSatisfied');
+          return that.offerRedirection('unSatisfied');
         });
       }
     },
