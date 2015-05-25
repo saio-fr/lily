@@ -29,7 +29,7 @@ MessageLilyRedirection = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.listenTo(this, 'render', this.triggerRedirections.bind(this));
+    this.listenTo(this, 'render', this.bindRedirections.bind(this));
   },
 
   render: function() {
@@ -60,18 +60,20 @@ MessageLilyRedirection = Backbone.View.extend({
   },
 
   // Useless for now
-  triggerRedirections: function() {
+  bindRedirections: function() {
     this.$('.lily-redirection-tel')
-      .on('click', null, 'redirectionTel', this.triggerRedirection.bind(this));
+      .on('click', null, 'phone', this.triggerRedirection.bind(this));
     this.$('.lily-redirection-mail')
-      .on('click', null, 'redirectionMail', this.triggerRedirection.bind(this));
+      .on('click', null, 'mail', this.triggerRedirection.bind(this));
     this.$('.lily-redirection-chat')
-      .on('click', null, 'redirectionChat', this.triggerRedirection.bind(this));
+      .on('click', null, 'chat', this.triggerRedirection.bind(this));
   },
 
-  triggerRedirection: function(redirection) {
-    var id = this.model.get('id');
-    app.trigger(redirection, id, 'true', '', this);
+  triggerRedirection: function(ev) {
+    var id = this.model.get('id'),
+        redirection = ev.data;
+
+    app.trigger('avi:chooseRedirection', redirection, id);
   }
 
 });
