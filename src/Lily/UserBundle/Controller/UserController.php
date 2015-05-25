@@ -134,8 +134,9 @@ class UserController extends BaseController
         $users = $client->getUsers();
         $maxusers = $client->getConfig()->getMaxusers();
         
-        if(count($users) >= $maxusers)
-        throw new \Exception("User limit reached.");
+        if (count($users) >= $maxusers) {
+            throw new \Exception("User limit reached.");
+        }
         
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->createUser();
@@ -152,8 +153,7 @@ class UserController extends BaseController
             
             $view = $this->view($user);
             return $this->handleView($view);
-        
-        } 
+        }
         
         $view = $this->view($form, 400);
         return $this->handleView($view);
@@ -190,7 +190,6 @@ class UserController extends BaseController
             
             $view = $this->view($config);
             return $this->handleView($view);
-          
         }
         
         $view = $this->view($form, 400);
