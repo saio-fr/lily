@@ -101,7 +101,7 @@ class LogConnectionRepository extends EntityRepository
 		   ->andWhere('c.date <= :to')
 		   ->setParameter('to', $to)
 		   ->andWhere('c.media = :media')
-		   ->setParameter('media', 'mobile');
+		   ->setParameter('media', 'phone');
 		
 		return $qb->getQuery()
 		          ->getSingleScalarResult();
