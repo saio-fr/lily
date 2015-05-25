@@ -69,7 +69,7 @@ class AviController extends BaseController
             $log->setQuestion($question);
         }
 
-        $log->setSession($request->getSession()->getId());
+        $log->setSession($request->cookies->get('PHPSESSID'));
         $log->setDate(new \Datetime());
         $this->setMedia($log);
         
@@ -94,7 +94,7 @@ class AviController extends BaseController
         }
         
         $this->setMedia($unanswered);
-        $unanswered->setSession($request->getSession()->getId());
+        $unanswered->setSession($request->cookies->get('PHPSESSID'));
         $unanswered->setDate(new \Datetime());
         
         $em->persist($unanswered);
@@ -120,7 +120,7 @@ class AviController extends BaseController
         $question = $em->getRepository('LilyKnowledgeBundle:Question')
         ->find($id);
 
-        $notation->setSession($request->getSession()->getId());
+        $notation->setSession($request->cookies->get('PHPSESSID'));
         $notation->setQuestion($question);
         $notation->setDate(new \Datetime());
 
@@ -145,7 +145,7 @@ class AviController extends BaseController
         }
         
         $this->setMedia($logRedirection);
-        $logRedirection->setSession($request->getSession()->getId());
+        $logRedirection->setSession($request->cookies->get('PHPSESSID'));
         $logRedirection->setDate(new \Datetime());
 
         $em->persist($logRedirection);

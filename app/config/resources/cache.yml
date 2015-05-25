@@ -6,6 +6,12 @@ aequasi_cache:
           type: memcached
           hosts:
               - { host: %cache_host%, port: %cache_port% }
+        session:
+          persistent: true # Boolean or persistent_id
+          namespace: sess
+          type: memcached
+          hosts:
+              - { host: %cache_host%, port: %cache_port% }
     doctrine:
         enabled: true
         metadata:
@@ -20,7 +26,7 @@ aequasi_cache:
             entity_managers: [ default, client ]
     session:
         enabled: true
-        instance: default
+        instance: session
         prefix: "session_"
         ttl: 7200
     router:
