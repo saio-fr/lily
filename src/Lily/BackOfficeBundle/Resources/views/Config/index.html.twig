@@ -4,10 +4,7 @@
 
 {{ parent() }}
 
-{% stylesheets 'css/backoffice/config.css' filter='cssrewrite' output='css/compiled/config.css' %}
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-
-{% endstylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/backoffice/config.css', version=getAppVersion()) }}" type="text/css" />
 
 {% endblock %}
 
@@ -52,6 +49,7 @@
       <script type="text/javascript">
         var config = window.config || {};
         config.ws = {};
+        config.version = "{{ getAppVersion() }}";
         config.root = '{{ app.request.getBaseURL() }}/api';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
         config.ws.host = "{{ ws_host }}";
