@@ -5,11 +5,11 @@
     </span>
     <div class="msg-operator msg-with-avatar">
       <%= msg %>
-      <span class="date"><%= moment(date*1000).format('hh:mm') %></span>
+      <span class="date"><%= moment(date*1000).format('HH:mm') %></span>
     </div>
 <% } else { %>
     <div class="msg-operator">
       <%= msg %>
-      <span class="date"><%= moment(date*1000).format('hh:mm') %></span>
+      <span class="date"><%= moment(date*1000).format('HH:mm') %></span>
     </div>
 <% } %>

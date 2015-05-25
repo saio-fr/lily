@@ -564,6 +564,9 @@ ul {
 
 .alternative {
   position: relative;
+}
+
+.alternative .title {
   background: #F5F7FA;
   border: 1px solid #EFF1F4;
   padding: 10px 20px 10px 10px;
@@ -574,11 +577,11 @@ ul {
   color: #828282;
 }
 
-.alternative:hover {
+.alternative:hover .title {
   border: 1px dashed #62a5e2;
 }
 
-.alternative.editing {
+.alternative.editing .title {
   border: 1px dashed #b8bcc1 !important;
 }
 
@@ -611,6 +614,6 @@ ul {
   cursor: pointer;
 }
 
-.alternative:hover .icon-remove {
+.alternative:hover .icon-remove, .alternative.editing .icon-remove {
   display: block;
 }

@@ -25,6 +25,7 @@ class VisitorService {
             if ($item->id === $conn->Session->getId()) {
               
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
+                $item->media = $params['media'];
                 
                 $result = array(
                     'appDisplay' => $item->appDisplay,
@@ -47,11 +48,11 @@ class VisitorService {
             if ($item->id === $conn->Session->getId()) {
               
                 // Set displayed to true for usage statistics
-                if ($params['appDisplay']) {
+                if ($params['display']) {
                   $item->widgetUsed = true;
                 }
                 // Show or not the app on new page
-                $item->appDisplay = $params['appDisplay'];
+                $item->appDisplay = $params['display'];
             }
         }
         return array('result' => true);

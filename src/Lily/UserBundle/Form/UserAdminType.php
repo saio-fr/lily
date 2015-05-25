@@ -22,10 +22,13 @@ class UserAdminType extends AbstractType
             ->add('firstname')
             ->add('post')
             ->add('country')
-            ->add('roles')
             ->add('phone')
             ->add('email')
             ->add('plainPassword')
+            ->add('roles', 'collection', array(
+                'type' => 'text',
+                'allow_add' => true,
+                'allow_delete' => true))
             ->add('config', new AvatarType())
             ->add('groups', 'entity', array(
                 'class' => 'LilyUserBundle:UserGroup',
@@ -42,8 +45,8 @@ class UserAdminType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Lily\UserBundle\Entity\User',
-            'csrf_protection'   => false,
-            'allow_extra_fields' => true
+            'allow_extra_fields' => true,
+            'csrf_protection'   => false
         ));
     }
 
