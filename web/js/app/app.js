@@ -13,6 +13,7 @@ define(function(require) {
   var _ = require('underscore'),
     Backbone = require('backbone'),
     config = require('app/globals'),
+    isMobile = require('isMobile'),
     when = require('when'),
 
     app = {
@@ -30,12 +31,14 @@ define(function(require) {
       hostDomain: '',
 
       connect: function() {
+        var media = isMobile.phone ? 'phone' : (isMobile.tablet ? 'tablet' : 'pc');
         app.subscribe();
         return app.ws.call('visitor/connect', {
           // top.location.href can't be accessed from iframe
           // with a domain that differs from the host@
           'href': app.hostHref,
-          'pathname': app.hostPathName
+          'pathname': app.hostPathName,
+          'media': media
         });
       },
 
