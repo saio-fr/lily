@@ -11,8 +11,8 @@
 
 {% block stylesheets %}
 
-  <link rel="stylesheet" href="{{ asset('css/app/lily.css') }}" type="text/css" />
-  <link rel="stylesheet" href="http://cdn-saio.fr/customer/{{ licence }}/css/lily-custom.css" type="text/css" />
+  <link rel="stylesheet" href="{{ asset('css/app/lily.css', version=getAppVersion()) }}" type="text/css" />
+  <link rel="stylesheet" href="http://cdn-saio.fr/customer/{{ licence }}/css/lily-custom.css?{{ getAppVersion() }}" type="text/css" />
 
 {% endblock %}
 
@@ -130,6 +130,7 @@
     {% autoescape false %}
 		<script type="text/javascript">
 			var config = {{ config|serialize('json') }};
+      config.version = "{{ getAppVersion() }}";
 			config.ws = {};
 		  config.licence = "{{ licence }}";
 		  config.synapsePassword = "{{ synapsePassword }}";

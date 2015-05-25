@@ -4,12 +4,8 @@
 {% block stylesheets %}
 
   {{ parent() }}
-
-  {% stylesheets 'css/backoffice/redirection.css'
-     filter='cssrewrite'
-     output='css/compiled/redirections.css' %}
-  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-  {% endstylesheets %}
+  
+  <link rel="stylesheet" href="{{ asset('css/backoffice/redirection.css', version=getAppVersion()) }}" type="text/css" />
 
 {% endblock %}
 
@@ -91,6 +87,7 @@
     {% autoescape false %}
       <script type="text/javascript">
         var config = window.config || {};
+        config.version = "{{ getAppVersion() }}";
         config.ws = {};
         config.root = '{{ app.request.getBaseURL() }}/api';
         config.ws.host = "{{ ws_host }}";

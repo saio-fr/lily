@@ -4,11 +4,13 @@
 
 {{ parent() }}
 
-{% stylesheets 'css/backoffice/statistics.css' 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}
+{% stylesheets 'css/utils/daterangepicker.css' filter='cssrewrite' output='css/compiled/statistics.css' %}
 
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
 {% endstylesheets %}
+
+  <link rel="stylesheet" href="{{ asset('css/backoffice/statistics.css', version=getAppVersion()) }}" type="text/css"/>
 
 {% endblock %}
 
@@ -125,6 +127,7 @@
     {% autoescape false %}
       <script type="text/javascript">
         var config = window.config || {};
+        config.version = "{{ getAppVersion() }}";
         config.ws = {};
         config.root = '{{ app.request.getBaseURL() }}/api';
         config.ws.host = "{{ ws_host }}";

@@ -2,12 +2,7 @@
 
 {% block stylesheets %}
 {{ parent() }}
-
-{% stylesheets 'css/backoffice/users.css' filter='cssrewrite' output='css/compiled/users.css' %}
-
-	<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-
-{% endstylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/backoffice/users.css', version=getAppVersion()) }}" type="text/css"/>
 {% endblock %}
 
 
@@ -81,6 +76,7 @@
     {% autoescape false %}
     <script type="text/javascript">
       var config = window.config || {};
+      config.version = "{{ getAppVersion() }}";
       config.ws = {};
       config.root = '{{ app.request.getBaseURL() }}/api';
       config.licence = '{{ app.user.client.licence }}';
