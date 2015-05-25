@@ -90,7 +90,7 @@ class AppController extends BaseController
 
             // On crée un log de requete
             $request = new LogRequest();
-            $request->setSession($session->getId());
+            $request->setSession($request->cookies->get('PHPSESSID'));
 
             $this->setMedia($request);
             $request->setFaq($faq);
