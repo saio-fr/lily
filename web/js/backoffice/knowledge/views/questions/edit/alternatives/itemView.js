@@ -18,6 +18,7 @@ define(function(require) {
   AltQuestionView = Backbone.View.extend({
 
     tagName: "li",
+    className: "alternative",
 
     template: _.template($('#questionsEditAlternativeTpl').html()),
 
@@ -38,12 +39,12 @@ define(function(require) {
     editTitle: function (e) {
       e.stopImmediatePropagation();
       $('.editing').removeClass('editing');
-      this.$('.title').addClass('editing');
+      this.$el.addClass('editing');
     },
     
     leaveEditTitle: function (e) {
       e.stopImmediatePropagation();
-      this.$('.editing').removeClass('editing');
+      this.$el.removeClass('editing');
       var title = this.$('.title').text();
       this.model.set({title: title});
     },
