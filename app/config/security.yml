@@ -29,7 +29,7 @@ security:
                 use_referer:                    false       
             logout:
                 path: fos_user_security_logout
-                target: home_index
+                target: http://saio.fr
             anonymous:    true
 
     access_control:
