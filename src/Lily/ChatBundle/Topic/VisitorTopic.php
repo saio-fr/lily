@@ -73,6 +73,7 @@ class VisitorTopic implements TopicInterface
         $visitor->widgetDisplayed = false; // Is the widget been displayed ?
         $visitor->questions = array(); // Questions asked to the avatar
         $visitor->pages = array(); // Pages seen by the visitor
+        $visitor->media = 'pc';
         
         // CHAT INFOS
         $visitor->operator = null;
