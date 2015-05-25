@@ -180,8 +180,8 @@ define(function(require) {
       onChatReconnect: function() {
         if (!app.isConnectionActive) {
           app.wsConnect(function () {
-            app.track('chat/click_reconnect'); 
-          });         
+            app.track('chat/click_reconnect');
+          });
         }
       },
 

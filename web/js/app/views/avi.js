@@ -45,6 +45,7 @@ define(function(require) {
       that.listenTo(app, 'precision',              that.sendPrecision);
       that.listenTo(app, 'avi:satisfaction',       that.onSatisfaction);
       that.listenTo(app, 'avi:choicesViewDismiss', that._onDismissChoicesView);
+      that.listenTo(app, 'avi:chooseRedirection',  that.chooseRedirection);
 
       that.listenTo(that, 'conversation:newMessage', that.onNewMessage);
 
@@ -205,10 +206,8 @@ define(function(require) {
       return this._printAviMsg(config.avi.messages.apologize);
     },
 
-    askForFeedback: function(msg, showNotation) {
-      if (!showNotation) {
-        return;
-      }
+    askForFeedback: function(msg) {
+      if (!app.showAviAnswerNotation) { return; }
 
       return this._addMessage(msg, 'lily-notation');
     },
@@ -457,12 +456,6 @@ define(function(require) {
       this._isNotMsgAnimating();
     },
 
-    _addNotationView: function(msg) {
-      if (!app.showAviAnswerNotation) { return; }
-
-      return this._addMessage(msg, 'lily-notation');
-    },
-
     _handleAvi: function() {
       var that = this;
       function logScroll() {
@@ -502,12 +495,14 @@ define(function(require) {
 
       // Simple answer
       if (!answer.children || answer.children.length <= 0) {
-        return this._printAviMsg(answer.answer);
+        this._printAviMsg(answer.answer);
+        return answer;
       }
 
       // Handle complex answer (with precisions/actions needed)
       // Do that for now, until complex answer Logic gets implemented
-      return this._printAviMsg(answer.answer);
+      this._printAviMsg(answer.answer);
+      return answer;
     },
 
     _isNotMsgAnimating: function() {
@@ -610,7 +605,7 @@ define(function(require) {
       // 3) Ask for feedback
       // ------------------------------------
       .then(function(answer) {
-        return that._addNotationView(answer);
+        return that.askForFeedback(answer);
       }, that.hasNoAnswer.bind(that));
     },
 
@@ -635,8 +630,8 @@ define(function(require) {
       }
     },
 
-    sendRedirection: function(id, type) {
-      app.trigger('avi:redirection', type, id);
+    chooseRedirection: function(canal) {
+      api.logRedirection(canal);
     },
 
     avatar: function() {

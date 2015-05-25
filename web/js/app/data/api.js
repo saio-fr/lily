@@ -139,7 +139,7 @@ define(function(require) {
    */
   api.logRedirection = function(canal) {
     var data = JSON.stringify({
-      query: canal
+      'canal': canal
     });
     return this.send('POST', '/api/' + config.licence + '/log/redirection', data);
   };
