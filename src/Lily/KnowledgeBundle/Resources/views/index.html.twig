@@ -5,11 +5,7 @@
 
   {{ parent() }}
 
-  {% stylesheets 'css/backoffice/knowledge.css'
-     filter='cssrewrite'
-     output='css/compiled/questions.css' %}
-  <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-  {% endstylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/backoffice/knowledge.css', version=getAppVersion()) }}" type="text/css"/>
 
 {% endblock %}
 
@@ -119,6 +115,7 @@
     {% autoescape false %}
       <script type="text/javascript">
         var config = window.config || {};
+        config.version = "{{ getAppVersion() }}";
         config.ws = {};
         config.root = '{{ app.request.getBaseURL() }}/api';
         config.counters = JSON.parse('{{ counters | serialize('json') }}');

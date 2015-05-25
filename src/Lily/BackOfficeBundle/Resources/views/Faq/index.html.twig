@@ -4,10 +4,8 @@
 
 {{ parent() }}
 
-{% stylesheets 'css/backoffice/faq.css' 'css/vendor/wysihtml5.css' filter='cssrewrite' output='css/compiled/faq.css' %}
-<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-
-{% endstylesheets %}
+<link rel="stylesheet" href="{{ asset('css/backoffice/faq.css', version=getAppVersion()) }}" type="text/css" />
+<link rel="stylesheet" href="{{ asset('css/vendor/wysihtml5.css', version=getAppVersion()) }}" type="text/css" />
 
 {% endblock %}
 
@@ -101,6 +99,7 @@
   <script type="text/javascript">
     var config = window.config || {};
     config.ws = {};
+    config.version = "{{ getAppVersion() }}";
     config.root = '{{ app.request.getBaseURL() }}/api';
 		config.ws.host = "{{ ws_host }}";
     config.ws.protocol = "{{ ws_protocol }}";
