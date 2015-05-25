@@ -19,3 +19,8 @@ services:
         tags:
             - { name: twig.extension }
         arguments: [ "%cdn%" ]
+
+    lily.twig.getAppVersion_extension:
+        class: Lily\BackOfficeBundle\Twig\GetAppVersionExtension
+        tags:
+            - { name: twig.extension }

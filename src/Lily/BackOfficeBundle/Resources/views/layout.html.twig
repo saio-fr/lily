@@ -15,15 +15,16 @@
   'css/vendor/font-awesome.min.css'
   'css/vendor/font.css'
   'css/vendor/plugin.css'
-  'css/vendor/app.css'
-  'css/backoffice/main.css'
-  'css/components/chat.css'
 
 filter='cssrewrite' %}
 
   <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 
 {% endstylesheets %}
+
+  <link rel="stylesheet" href="{{ asset('css/vendor/app.css', version=getAppVersion()) }}" type="text/css"/>
+  <link rel="stylesheet" href="{{ asset('css/backoffice/main.css', version=getAppVersion()) }}" type="text/css"/>
+  <link rel="stylesheet" href="{{ asset('css/components/chat.css', version=getAppVersion()) }}" type="text/css"/>
 
 {% endblock %}
 
