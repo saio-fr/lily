@@ -175,7 +175,20 @@ define(function(require) {
     },
 
     writing: function() {
-      app.trigger('chat:writing', !!this.$input.val());
+      var isWriting = !!this.$input.val().trim();
+
+      app.trigger('chat:writing', isWriting);
+
+      if (typeof this.writingTimeout === 'number') {
+        window.clearTimeout(this.writingTimeout);
+        delete this.writingTimeout;
+      }
+
+      // User may have started writing a message in chat,
+      // but has been idle for a while
+      this.writingTimeout = window.setTimeout(function() {
+        app.trigger('chat:writing', false);
+      }, 10000);
     },
 
     doChat: function(ev) {
