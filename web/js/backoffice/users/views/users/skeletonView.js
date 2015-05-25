@@ -34,6 +34,7 @@ define(function (require) {
     initialize: function () {
       this.childViews = new Backbone.ChildViewContainer();
       this.render();
+      this.checkMaxUsers();
       
       this.listenTo(this.collection, 'add remove', this.checkMaxUsers);
     },

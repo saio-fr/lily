@@ -15,30 +15,6 @@ use Lily\ChatBundle\Entity\LogChat;
 
 class LogChatCommand extends ContainerAwareCommand
 {	
-
-    protected function setMedia($log) 
-    {
-        $mobileDetector = $this->getContainer()->get('mobile_detect.mobile_detector');
-        
-        // Support d'utilisation
-        switch ($mobileDetector->isMobile()) {
-          
-            case 'mobile' : 
-                $log->setMedia('mobile');
-                break;
-                
-            case 'tablet' : 
-                $log->setMedia('tablet');
-                break;
-
-            default : 
-                $log->setMedia('pc');
-                break;    
-            
-        }
-        return $log;
-    }
-
     protected function getEntityManager($licence) 
     {
         // Get the client' entity manager
@@ -96,7 +72,7 @@ class LogChatCommand extends ContainerAwareCommand
                     $logConnection->setDate(new \DateTime('@'.$item->startTime));
                     $logConnection->setWidgetUsed($item->widgetUsed);
                     $logConnection->setWidgetDisplayed($item->widgetDisplayed);
-                    $this->setMedia($logConnection);
+                    $logConnection->setMedia($item->media);
                     $em->persist($logConnection);
     					
                     if ($item->received > 0 && $item->sent > 0) {
