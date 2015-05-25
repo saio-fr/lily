@@ -82,7 +82,7 @@ require([
 
   // Connect to our ws serv
   app.wsConnect = function(callback) {
-    
+
     return when(ab.connect(
 
       // The host
