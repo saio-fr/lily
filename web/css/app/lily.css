@@ -1133,6 +1133,7 @@ MESSAGES
   width: 23px;
   height: 23px;
   border-radius: 50%;
+  border: solid 1px #E5E5E5;
 }
 
 .lily-redirection {
