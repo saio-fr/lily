@@ -11,6 +11,8 @@ define(function(require) {
     _ = require('underscore'),
     app = require('app'),
     Models = require('backoffice/knowledge/data/models'),
+    Scribe = require('scribe'),
+    scribePluginSanitizer = require('scribe-plugin-sanitizer'),
 
     // Object wrapper returned as a module
     AltQuestionView;
@@ -18,6 +20,7 @@ define(function(require) {
   AltQuestionView = Backbone.View.extend({
 
     tagName: "li",
+    className: "alternative",
 
     template: _.template($('#questionsEditAlternativeTpl').html()),
 
@@ -32,18 +35,29 @@ define(function(require) {
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      this.getWysiEditor();
       return this;
+    },
+    
+    getWysiEditor: function () {
+      var edit = this.$('.title')[0];
+      var scribe = new Scribe(edit, {
+        allowBlockElements: false
+      });
+      scribe.use(scribePluginSanitizer({
+        tags: {}
+      }));
     },
     
     editTitle: function (e) {
       e.stopImmediatePropagation();
       $('.editing').removeClass('editing');
-      this.$('.title').addClass('editing');
+      this.$el.addClass('editing');
     },
     
     leaveEditTitle: function (e) {
       e.stopImmediatePropagation();
-      this.$('.editing').removeClass('editing');
+      this.$el.removeClass('editing');
       var title = this.$('.title').text();
       this.model.set({title: title});
     },
