@@ -60,12 +60,14 @@ define(function(require) {
 
   // AVI
   g.loadingTpl =
-    '<div class="lily-msg-avatar lily-cst-msg-avatar lily-message-show">' +
+    '<div class="lily-msg lily-msg-avatar lily-cst-msg-avatar lily-message-show lily-msg-loading">' +
+    '<div class="msg-wrapper">' +
     '<p class="lily-loading">' +
     '<span></span>' +
     '<span></span>' +
     '<span></span>' +
     '</p>' +
+    '</div>' +
     '</div>';
 
   g.emptySearch = 'Il semblerait qu\'il y ait un problème. ' +
