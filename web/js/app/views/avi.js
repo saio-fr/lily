@@ -181,11 +181,6 @@ define(function(require) {
         question = null;
       }
 
-      // 1) Log the unAnswered question to create a ticket
-      if (question) {
-        api.logRequest(question);
-      }
-
       that._asyncWithLoading(function() {
       }, 500)
       .then(function() {
@@ -486,8 +481,6 @@ define(function(require) {
 
     _handleAviAnswer: function(answer) {
 
-      api.logRequest(answer.answer, answer.id);
-
       // answer is empty or white spaces
       if (!answer.answer || /^\s+$/.test(answer.answer)) {
         return answer;
@@ -568,27 +561,32 @@ define(function(require) {
       }
 
       var that = this;
-      var question = that.$input.val();
+      var question = that.$input.val().trim();
       var id;
 
       // Question is empty or only spaces
-      if ($.trim(question).length <= 0) {
+      if (question.length <= 0) {
         return;
       }
 
-      // print the visitor question
+      // Print the visitor question
       that.askQuestion(question);
       app.trigger('avi:newAviQuestion', question);
 
-      // clear the search field
+      // Clear the search field
       that._clearInput();
+
+      // Convert the question id from synapse's syntax;
+      // ex: "r_54" to ours: "54"
+      id = suggestion ? that._stripIdPrefix(suggestion.answerId) : 0;
+
+      // Log request a this question
+      api.logRequest(question, id);
 
       // There was no mathing question
       if (!suggestion) {
         return that.hasNoAnswer(question);
       }
-
-      id = that._stripIdPrefix(suggestion.answerId);
 
       // 1) Get the answer from this question
       // ------------------------------------
