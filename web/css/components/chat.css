@@ -12,6 +12,7 @@ LIVE CHAT
 
 .operator-connected-list .thumb-sm {
   text-align: center;
+  border: solid 1px #DBDFE5;
 }
 
 .js-main-container i {

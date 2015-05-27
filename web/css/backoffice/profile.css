@@ -99,6 +99,11 @@ USER EDIT
 .avatar-wrapper img {
   width: 80px;
   height: 80px;
+  width: 80px;
+  height: 80px;
+  border: solid 1px #D8DDE5;
+  padding: 3px;
+  background: #fff;
 }
 
 .avatar-wrapper:hover .uploader {
