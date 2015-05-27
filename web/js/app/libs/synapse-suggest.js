@@ -42,7 +42,7 @@
     };
 
     var normalize = function(str) {
-      $.each(frMap, function(normalized, regex) {
+      _.each(frMap, function(regex, normalized) {
         str = str.replace(regex, normalized);
       });
 
@@ -63,7 +63,7 @@
     };
 
     var filterPrefetch = function(response) {
-      var result = $.map(response.questions, function(question) {
+      var result = _.map(response.questions, function(question) {
         return {
           normalizedText: normalize(question.text),
           text: question.text,
@@ -97,7 +97,7 @@
         var suggestions = resultsJson.QA.results.suggestions.suggestion;
 
         if (_.isArray(suggestions)) {
-          $.each(suggestions, function(index, sugestion) {
+          _.each(suggestions, function(sugestion, index) {
             // suggestion is not in text result table
             if (_.indexOf(textResults, suggestions.sentence) === -1) {
               results.push({
@@ -158,7 +158,7 @@
 
         filter: filterRemote,
 
-        // The time interval in milliseconds that will be used by rateLimitBy. 
+        // The time interval in milliseconds that will be used by rateLimitBy.
         // Defaults to 300
         rateLimitWait: 400,
 
