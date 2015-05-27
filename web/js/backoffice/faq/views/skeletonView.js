@@ -26,7 +26,7 @@ define(function (require) {
       var faq;
       if (this.faqCollection) {
         faq = this.faqCollection.create({
-            "title": "Nouvelle Category",
+            "title": "Nouvelle Categorie",
             "type": "category",
           }, {
           wait: true

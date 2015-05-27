@@ -174,11 +174,11 @@ require([
     // to work with typeahead:
     $.valHooks['contenteditable'] = {
       get: function(el) {
-        return $(el).html();
+        return $(el).text();
       },
 
       set: function(el, val) {
-        $(el).html(val);
+        $(el).text(val);
       }
     };
 

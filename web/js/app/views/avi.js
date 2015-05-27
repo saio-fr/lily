@@ -558,6 +558,8 @@ define(function(require) {
       // if key pressed is not Enter, don't submit
       if (ev && ev.keyCode && ev.keyCode !== 13) {
         return;
+      } else {
+        ev.preventDefault();
       }
 
       var that = this;
