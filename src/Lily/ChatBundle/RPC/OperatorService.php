@@ -247,8 +247,7 @@ class OperatorService {
     public function connect(Conn $conn, $params, \StdClass $client) {
       
         // Security check
-        if (!isset($conn->User)) { 
-          echo 'operator/connect: conn->user failed';
+        if (!isset($conn->User)) {
           return; 
         }
         

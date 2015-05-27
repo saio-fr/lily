@@ -29,10 +29,6 @@ define(function(require) {
       if (!app.chatUsers || !app.chatUsers instanceof Backbone.Collection) {
         app.chatUsers = new Collections.Users();
       }
-
-      $('.live-nav').on('click', function() {
-        app.showLiveChat();
-      });
     },
 
     dashboard: function() {
