@@ -212,12 +212,12 @@ define(function(require) {
 
       setIsConversationClosed: function(closed) {
         app.isConversationClosed = closed;
-        window.sessionStorage.setItem('isConversationClosed', closed);
+        window.localStorage.setItem('isConversationClosed', closed);
       },
 
       getIsConversationClosed: function() {
         var isConversationClosed = app.isConversationClosed ||
-          window.sessionStorage.getItem('isConversationClosed') ||
+          window.localStorage.getItem('isConversationClosed') ||
           false;
         return isConversationClosed;
       },
