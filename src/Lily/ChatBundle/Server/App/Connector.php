@@ -170,8 +170,8 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
                 foreach ($client->users as $user) {
                     if ($user->type == 'operator' && $user->available) {
-                          ++$operators;
-                          if ($user->chats < $client->config->getMax()) {
+                        ++$operators;
+                        if ($user->chats < $client->config->getMax()) {
                             $client->available = true;
                         }
                     }
