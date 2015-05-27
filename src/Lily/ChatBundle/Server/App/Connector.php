@@ -70,7 +70,8 @@ class Connector implements WampServerInterface, MessageComponentInterface {
     		    $client->licence = $licence;
     		    $client->users = new \SplObjectStorage;
     		    $client->available = false;
-    		    $client->operator = new Topic('operator/'.$licence);
+            $client->operator = ($topic->getId() == 'operator/'.$licence) ? 
+              $topic : new Topic('operator/'.$licence);
     		    $this->app->clients->attach($client);
     		    $this->config($licence);
 	      }

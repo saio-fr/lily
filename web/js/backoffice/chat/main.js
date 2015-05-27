@@ -66,18 +66,13 @@ define(['../common', 'require'], function(common, require) {
 
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
-
+  
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat(result);
       }
-
-      // Get diff between server time and user to sync timers
-      timers.serverTime = result.time - new moment().unix();
     };
-
-    app.init();
-
+  
     app.wsConnect();
-
+    app.init();
   });
 });
