@@ -41,13 +41,14 @@ define(function(require) {
         //Adjust the modal and backdrop z-index; for dealing with multiple modals
         var modals = $('.modal'),
             numBackdrops = $('.modal-backdrop').length - 1,
-            numModals = modals.length,
-            $backdrop = $('.modal-backdrop:eq(' + numBackdrops + ')'),
-            backdropIndex = parseInt($backdrop.css('z-index'), 10),
-            elIndex = parseInt($backdrop.css('z-index'), 10);
+            $backdrop = $('.modal-backdrop:eq(' + numBackdrops + ')');
 
-        $backdrop.css('z-index', backdropIndex + 30 * numModals);
-        that.$el.css('z-index', elIndex + 30 * numModals + 1);
+        var maxIndex = _.reduce(modals, function(index, modal) {
+          return $(modal).css('z-index') > index ? $(modal).css('z-index') : index;
+        }, 1030);
+
+        $backdrop.css('z-index', parseInt(maxIndex, 10) + 30);
+        that.$el.css('z-index', parseInt(maxIndex, 10) + 31);
       });
 
       //Create it (and show it, ofc)
@@ -76,17 +77,6 @@ define(function(require) {
 
         that.trigger('hidden');
       });
-
-      function countIsShown(elems) {
-        var count = 0;
-        _.forEach(elems, function(elem) {
-          if ($(elem).is(':visible')) {
-            count++;
-          }
-        });
-
-        return count;
-      }
     },
 
     close: function() {
