@@ -243,8 +243,6 @@
         minLength: options.minLenght || 2,
       }, params);
     };
-
-    this.setUpBloodhound();
   };
 
 }));
