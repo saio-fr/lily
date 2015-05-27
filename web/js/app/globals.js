@@ -18,6 +18,11 @@ define(function(require) {
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
+  g.typeahead = {
+    autoselect: true,
+    highlight: true
+  };
+
   g.avi = g.avi || {};
   g.avi.messages = {
     welcomeMsg: 'Enchanté ! Je m\'appelle Labelette. En quoi puis-je vous aider ?',
