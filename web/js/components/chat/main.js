@@ -23,8 +23,10 @@ define(function(require) {
     var init = function() {
       app.available = !!config.available;
       app.trigger('operator:setAvailability', app.available);
-
-      app.chatUsers = new Collections.Users();
+      
+      if (!app.chatUsers || !app.chatUsers instanceof Backbone.Collection) {
+        app.chatUsers = new Collections.Users();
+      }
       app.chatShortcuts = new Collections.Shortcuts();
 
       app.liveChatSkeleton = new SkeletonView();
