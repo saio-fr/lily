@@ -97,6 +97,7 @@ define(function(require) {
 
       isConnectionAlive: function() {
         // Hide connection lost modal if present:
+        if (!app.modalConnectionLost) return;
         app.modalConnectionLost.close();
       },
 
@@ -208,7 +209,12 @@ define(function(require) {
       },
 
       onConnectionError: function() {
-        app.modalConnectionLost.open();
+        if (!app.modalConnectionLost) {
+          app.modalConnectionLost = new ModalConnectionLost();
+        }
+        if (!app.modalConnectionLost.$el.is(':visible')) {
+          app.modalConnectionLost.open();
+        }
       },
 
       ////////////////////
@@ -285,7 +291,6 @@ define(function(require) {
   app.on('operator:setAvailability', app.onSetAvailability);
   app.on('operator:changeName',      app.onChangeName);
   // Global app state events:
-  app.modalConnectionLost = new ModalConnectionLost();
   app.on('status:connectionError', app.onConnectionError);
   // App wide DOM Event handlers:
   $('.app-main-header .status-selector a[data="available"]')

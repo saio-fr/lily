@@ -113,8 +113,7 @@ define(function(require) {
     var data = JSON.stringify({
       query: question
     });
-    var _id = id || 0;
-    return this.send('POST', '/api/' + config.licence + '/log/request/' + _id, data);
+    return this.send('POST', '/api/' + config.licence + '/log/request/' + id, data);
   };
 
   /**

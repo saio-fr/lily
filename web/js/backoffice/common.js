@@ -1,9 +1,10 @@
 require.config({
 
-  "baseUrl": "/js",
-  "urlArgs": "v" + config.version,
+  baseUrl: "/js",
+  urlArgs: "v" + config.version,
+  waitSeconds: 20,
 
-  "paths": {
+  paths: {
 
     "FastClick": "bower_components/fastclick/lib/fastclick",
     "Modernizr": "app/libs/modernizr-custom",
@@ -50,7 +51,7 @@ require.config({
     "interact" : "bower_components/interact/interact"
   },
 
-  "shim": {
+  shim: {
 
     "Modernizr": {
       "exports": "Modernizr"

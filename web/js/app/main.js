@@ -1,6 +1,8 @@
 require.config({
   baseUrl: '/js',
   urlArgs: "v" + config.version,
+  waitSeconds: 20,
+
   paths: {
     'jquery':             'bower_components/jquery/dist/jquery',
     'underscore':         'bower_components/underscore/underscore-min',
@@ -123,17 +125,40 @@ require([
   };
 
   function getSessionId() {
-    var id = document.cookie.match('PHPSESSID=([^;]*)');
-    if (id !== null && id.length) {
-      id = id[1];
+    
+    var sid = document.cookie.match('PHPSESSID=([^;]*)');
+    
+    if (sid && sid.length) {
+      return sid[1];
     } else {
-      return '';
+      // Oops the browser doesnt allow cookie :'(
+      // Fall back to local storage
+      try {
+              
+        sid = window.localStorage.getItem('sid');
+        
+        // IF it is the first visit, we generate a uniqid
+        if (!sid) {
+          sid = (new Date().getTime()*1000000 + Math.floor((Math.random()*10000)+1)).toString(16);
+          window.localStorage.setItem('sid', sid);
+        }
+        return sid;
+        
+      } catch(e) {
+        // Aie, no local storage eigher !!
+        return null;
+      }
     }
-
-    return id;
   }
-
+  
   config.sid = getSessionId();
+  if (!config.sid) {
+    // We were unable to store an uniqid
+    // We won't show the widget
+    // To do: track this event;
+    console.log('unable to generate uniqid');
+    return;
+  }
 
   app.wsConnect(function(result) {
     app.isConnectionActive = true;
