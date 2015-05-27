@@ -34,7 +34,7 @@ define(function(require) {
       'keyup  .chat-input-component': 'writing',
       'submit .chat-input-component': 'doChat',
       'keydown .chat-input':          'doChat',
-      'click  .btn-sendmsg': 'doChat',
+      'click  .btn-sendmsg':          'doChat',
       'click  .js-reconnect-action': 'reconnect'
     },
 
@@ -201,6 +201,8 @@ define(function(require) {
       // if key pressed is not Enter, don't submit
       if (ev && ev.keyCode && ev.keyCode !== 13) {
         return;
+      } else {
+        ev.preventDefault();
       }
 
       var message = this.$input
@@ -223,10 +225,10 @@ define(function(require) {
 
       // Automaticaly hide device keyboard
       if (config.isMobile.phone) {
-        this.$input.val('')
+        this.$input.empty()
           .blur();
       } else {
-        this.$input.val('')
+        this.$input.empty()
           .focus()
           .select();
       }
