@@ -254,7 +254,7 @@ define(function(require) {
         }
       });
 
-      // that._disableInput(true);
+      that._disableInput(true);
       that._asyncWithoutLoading(null, 800)
       .then(function() {
         return that._createRedirectionView(model);
@@ -489,6 +489,18 @@ define(function(require) {
       // } else {
       //   this.$input.typeahead('val', '');
       // }
+    },
+
+    _disableInput: function(disable) {
+      if (disable) {
+        this.$input
+          .blur()
+          .typeahead('close');
+      } else {
+        this.$input
+          .focus()
+          .typeahead('open');
+      }
     },
 
     _clearLoading: function(args) {
