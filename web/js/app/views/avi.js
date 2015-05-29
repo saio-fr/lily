@@ -39,46 +39,62 @@ define(function(require) {
 
     initialize: function() {
       var that = this;
-      that.listenTo(this, 'page:transitionnedIn', that.setupSynapse, that);
       that.childViews = new Backbone.ChildViewContainer();
+      that.listenTo(that, 'page:transitionnedIn', that.onPagetransitionnedIn, that);
 
       that.listenTo(app, 'precision',              that.sendPrecision);
       that.listenTo(app, 'avi:satisfaction',       that.onSatisfaction);
       that.listenTo(app, 'avi:choicesViewDismiss', that._onDismissChoicesView);
       that.listenTo(app, 'avi:chooseRedirection',  that.chooseRedirection);
 
+      // Search ev listeners
+      that.listenTo(that, 'search:asyncrequest', that.indicateLoading);
+      that.listenTo(that, 'search:asyncreceive', that.concealLoading);
+      that.listenTo(that, 'search:render', that.makeSuggestionsScrollable, that);
+      that.listenTo(that, 'search:open', that.onSearchOpen, that);
+      that.listenTo(that, 'search:close', that.onSearchClose, that);
+      that.listenTo(that, 'search:select', that.getAviToAnswer, that);
+
       that.listenTo(that, 'conversation:newMessage', that.onNewMessage);
 
       that.render({ page: true }).$el
         .appendTo('#lily-wrapper-page');
 
-      that.$input  =         that.$('.avi-input').myedit();
-      that.$avi    =         that.$('.avatar-wrapper');
-      that.$inputComponent = that.$('.avi-input-component');
-      that.$msgBox = $('.lily-box-messages');
-
-      // fix bug where [contenteditable="true"] elements would not
-      // take focus on touchend on iOS (Android ?) devices
-      that.$input.on('touchstart', function(ev) {
-        $(ev.currentTarget).focus();
-        // force scroll to bottom when virtual keyboard scrolls into view
-        if (!isMobile.apple) return;
-        window.scrollTo(0,document.body.scrollHeight);
-      });
-
       that.showAvi = true;
-      that._handleAvi();
+      that.lastQuestionWasUnanswered = false;
+      that.lastQuestionReceivedBadFeedBack = false;
 
       this.welcomeVisitor();
     },
 
-    render: function() {
+    specialKeyCodeMap: {
+      9: 'tab',
+      37: 'left',
+      39: 'right',
+      38: 'up',
+      40: 'down'
+    },
 
+    render: function() {
       var template = _.template($('#lily-page-avi-template').html());
       this.$el.html(template());
       this.trigger('render');
 
       return PageView.prototype.render.apply(this, arguments);
+    },
+
+    onPagetransitionnedIn: function() {
+      this.$input  =         this.$('.avi-input');
+      this.$avi    =         this.$('.avatar-wrapper');
+      this.$inputComponent = this.$('.avi-input-component');
+      this.$msgBox =         $('.lily-box-messages');
+      this.$header =         $('#lily-toolbar');
+
+      this._handleAvi();
+      this.setupSynapse();
+      this.setupTypeahead();
+      this.hideAviOnKeyup();
+      this.hideOnboardingOnBlur();
     },
 
     // ==============================================
@@ -95,26 +111,30 @@ define(function(require) {
 
       this.suggest = new SynapseSuggest(credentials, typeaheadOptions);
       this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
-      this.setQuestionSelectedHandler(this.getAviToAnswer);
     },
 
-    setQuestionSelectedHandler: function(handler) {
-      var that = this,
-          callback = _.bind(handler, that);
-      that.$input.on('typeahead:selected', function(event, suggest) {
-        callback(null, suggest);
-      })
-
-      .on('typeahead:showed', function() {
-        $('.lily-box-messages').addClass('tt-overlay');
-
-        if ($('.tt-suggestion').length > 0 && config.typeahead.autoselect) {
-          that.highlightFirstItem();
-        }
-      })
-
-      .on('typeahead:hidden', function() {
-        $('.lily-box-messages').removeClass('tt-overlay');
+    setupTypeahead: function() {
+      var that = this;
+      // Listen to typeahead events and translate them into backbone events
+      _.each([
+        'active',
+        'idle',
+        'open',
+        'close',
+        'change',
+        'render',
+        'select',
+        'autocomplete',
+        'cursorchange',
+        'asyncrequest',
+        'asynccancel',
+        'asyncreceive'
+      ], function(action) {
+        that.$input.on('typeahead:' + action, function() {
+          var args = Array.prototype.slice.call(arguments);
+          args.unshift('search:' + action);
+          that.trigger.apply(that, args);
+        });
       });
     },
 
@@ -125,6 +145,55 @@ define(function(require) {
       $('.tt-suggestion:first').addClass('tt-cursor');
     },
 
+    makeSuggestionsScrollable: function() {
+      var maxMenuHeight = this.$msgBox[0].clientHeight;
+      $('.tt-menu')
+      .css('max-height', maxMenuHeight)
+      .scrollTop($('.tt-menu')[0].scrollHeight);
+    },
+
+    hideAviOnKeyup: function() {
+      var that = this;
+
+      that.$input.on('keyup', function(ev) {
+        if (that.specialKeyCodeMap[ev.which || ev.keyCode] || $(this).val().length <= 1) {
+          return;
+        }
+        that.$avi.removeClass('overlay');
+        that._showAvi(false);
+      });
+    },
+
+    hideOnboardingOnBlur: function() {
+      var that = this;
+      that.$input.on('blur', function() {
+        that.$avi.removeClass('overlay');
+        that._showAvi(true);
+        that.$avi.removeClass('lily-avi-show');
+      });
+    },
+
+    onSearchOpen: function() {
+      var that = this;
+
+      // Increase focus on suggestions by partialy hiding the conversation
+      that.$msgBox.addClass('tt-overlay');
+      that._showAvi(true);
+
+      // Show Avi onboarding message
+      that.$avi.addClass('overlay');
+
+      // Autoselect (wip)
+      if ($('.tt-suggestion').length > 0 && config.typeahead.autoselect) {
+        // that.highlightFirstItem();
+      }
+    },
+
+    onSearchClose: function() {
+      this.$msgBox.removeClass('tt-overlay');
+      this.$avi.removeClass('lily-avi-show');
+      this._showAvi(true);
+    },
 
     // ==============================================
 
@@ -185,7 +254,7 @@ define(function(require) {
         }
       });
 
-      that._disableInput(true);
+      // that._disableInput(true);
       that._asyncWithoutLoading(null, 800)
       .then(function() {
         return that._createRedirectionView(model);
@@ -231,10 +300,6 @@ define(function(require) {
         config.avi.messages.satisfaction.fausse
       ];
       this._createChoicesView(choices, this.handleFeedback);
-    },
-
-    handleFeedbackPrecision: function(reason) {
-
     },
 
     // ==============================================
@@ -384,7 +449,6 @@ define(function(require) {
       this.childViews.remove(choicesView);
       choicesView.remove();
       this._showAvi(true);
-      this._disableInput(false);
     },
 
     /**
@@ -418,26 +482,13 @@ define(function(require) {
     },
 
     _clearInput: function() {
-      if (config.isMobile) {
+      // if (config.isMobile) {
         this.$input.typeahead('val', '')
-          .blur();
-      } else {
-        this.$input.typeahead('val', '');
-      }
-    },
-
-    _disableInput: function(disable) {
-      if (disable) {
-        this.$input
-          .blur()
           .typeahead('close')
-          .attr('contenteditable', 'false');
-      } else {
-        this.$input
-          .focus()
-          .typeahead('open')
-          .attr('contenteditable', 'true').myedit();
-      }
+          .blur();
+      // } else {
+      //   this.$input.typeahead('val', '');
+      // }
     },
 
     _clearLoading: function(args) {
@@ -487,9 +538,9 @@ define(function(require) {
         }
       }
 
-      var throttled = _.throttle(logScroll, 1);
+      var throttle = _.throttle(logScroll, 1);
 
-      $('.lily-box-messages')[0].onscroll = throttled;
+      $('.lily-box-messages')[0].onscroll = throttle;
 
       // Rectify padding if header button is shown
       if ($('.lily-cst-header').is(':visible')) {
@@ -576,9 +627,9 @@ define(function(require) {
       // if key pressed is not Enter, don't submit
       if (ev && ev.keyCode && ev.keyCode !== 13) {
         return;
-      } 
-      
-      if (ev && ev.keyCode && ev.keyCode == 13) {
+      }
+
+      if (ev && ev.keyCode && ev.keyCode === 13) {
         ev.preventDefault();
       }
 
@@ -591,12 +642,12 @@ define(function(require) {
         return;
       }
 
+      // Clear the search field
+      that._clearInput();
+
       // Print the visitor question
       that.askQuestion(question);
       app.trigger('avi:newAviQuestion', question);
-
-      // Clear the search field
-      that._clearInput();
 
       // Convert the question id from synapse's syntax;
       // ex: "r_54" to ours: "54"

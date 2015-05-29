@@ -1,35 +1,21 @@
-(function(root, factory) {
-  /* istanbul ignore next */
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery', 'typeahead', 'underscore'], function($, typeahead, _) {
-      return (root.synapse = factory(root, $, typeahead, _));
-    });
-  } else if (typeof exports !== 'undefined') {
-    var $ = require('jquery');
-    window.jQuery = $;
-    var typeahead = require('typeahead');
-    var _ = require('underscore');
-    module.exports = factory(root, $, typeahead, _);
-  } else {
-    root.synapse = factory(root, root.$, root.typeahead, root._);
-  }
 
-}(this, function(root, $, typeahead, _) {
+define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Bloodhound) {
+
   'use strict';
 
   return function synapseSuggest(credentials, options) {
+
+    var that = this;
 
     if (!credentials) {
       console.error('No credentials set for synapse');
       return;
     }
-    this.credentials = credentials;
-    this.strategy = 'words';
-
-    var that = this;
+    that.credentials = credentials;
 
     // PRIVATE
     var restRoot = 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/';
+    var wildcard = "%QUERY";
 
     var frMap = {
       'a': /[àáâ]/gi,
@@ -54,15 +40,34 @@
       return Bloodhound.tokenizers.whitespace(normalized);
     };
 
-    var dupDetector = function(remoteMatch, localMatch) {
-      if (remoteMatch.answerId && localMatch.answerId) {
-        return remoteMatch.answerId == localMatch.answerId;
-      }
-
-      return false;
+    var preparePrefetch = function() {
+      return {
+          url: restRoot + 'GetListQuestions',
+          type: 'POST',
+          dataType: 'json',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify(that.credentials),
+        };
     };
 
-    var filterPrefetch = function(response) {
+    var prepareRemote = function(query) {
+      return {
+          url: restRoot + 'DoSmartSearch?query=%QUERY'.replace(wildcard, query),
+          type: 'POST',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            credentials: that.credentials,
+            searchRequest: {
+              index: 'Saio',
+              lang: 'fr',
+              request: '%QUERY'
+            }
+          }).replace(wildcard, query)
+        };
+    };
+
+    var transformPrefetch = function(response) {
       var result = _.map(response.questions, function(question) {
         return {
           normalizedText: normalize(question.text),
@@ -75,7 +80,19 @@
       return result;
     };
 
-    var filterRemote = function(response) {
+    var identify = function(obj) {
+      return obj.answerId;
+    };
+
+    var sortSuggestionsByScore = function(a, b) {
+      var scoreA = a.score || 0;
+      var scoreB = b.score || 0;
+      return scoreA > scoreB;
+    };
+
+    // A function that allows you to transform the remote response
+    // before the Bloodhound instance operates on it.
+    var transformRemote = function(response) {
 
       var rawResults = response.searchResults.searchResults !== '' ?
         response.searchResults.searchResults : '{}';
@@ -88,36 +105,39 @@
 
       // A table containing only the text of the matched question
       // to efficiently test duplicates in following loops
-      if (resultsJson.QA && resultsJson.QA.results.suggestions) {
+      if (!resultsJson.QA || !resultsJson.QA.results.suggestions) {
+        return [];
+      }
 
-        // when there are seva=eral suggestions, .NET serializes
-        // resultsJson.QA.results.suggestions.suggestion as a table
-        // otherwise, it is just a javascript object
-        // this ugly if is here to fix this
-        var suggestions = resultsJson.QA.results.suggestions.suggestion;
+      // when there are seva=eral suggestions, .NET serializes
+      // resultsJson.QA.results.suggestions.suggestion as a table
+      // otherwise, it is just a javascript object
+      // this ugly if is here to fix this
+      var suggestions = resultsJson.QA.results.suggestions.suggestion;
 
-        if (_.isArray(suggestions)) {
-          _.each(suggestions, function(sugestion, index) {
-            // suggestion is not in text result table
-            if (_.indexOf(textResults, suggestions.sentence) === -1) {
-              results.push({
-                text: sugestion.sentence,
-                answerId: (sugestion['@bIsQuestion'] === 'true' ?
-                  sugestion['@answerId'] : sugestion['@id']),
-                source: 'remote'
-              });
+      if (_.isArray(suggestions)) {
+        _.each(suggestions, function(suggestion) {
+          // suggestion is not in text result table
+          if (_.indexOf(textResults, suggestions.sentence) === -1) {
+            results.push({
+              text: suggestion.sentence,
+              answerId: (suggestion['@bIsQuestion'] === 'true' ?
+                suggestion['@answerId'] : suggestion['@id']),
+              source: 'remote',
+              score: suggestion['@score']
+            });
 
-              textResults.push(sugestion.sentence);
-            }
-          });
-        } else {
-          results.push({
-            text: suggestions.sentence,
-            answerId: (suggestions['@bIsQuestion'] === 'true' ?
-              suggestions['@answerId'] : suggestions['@id']),
-            source: 'remote'
-          });
-        }
+            textResults.push(suggestion.sentence);
+          }
+        });
+      } else {
+        results.push({
+          text: suggestions.sentence,
+          answerId: (suggestions['@bIsQuestion'] === 'true' ?
+            suggestions['@answerId'] : suggestions['@id']),
+          source: 'remote',
+          score: suggestions['@score'] ? parseFloat(suggestions['@score'], 10) : 0
+        });
       }
 
       return results;
@@ -127,7 +147,13 @@
     var settings = {
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('normalizedText'),
       queryTokenizer: queryTokenizer,
-      dupDetector: dupDetector,
+      identify: identify,
+
+      // If the number of datums provided from the internal search index
+      // is less than sufficient, remote will be used to backfill search requests
+      // triggered by calling #search. Defaults to 5.
+      sufficient: 3,
+      sorter: sortSuggestionsByScore,
 
       prefetch: {
         url: restRoot + 'GetListQuestions',
@@ -139,42 +165,23 @@
         // in local storage; default is one day
         ttl: 86400000, // (One day)
 
-        filter: filterPrefetch,
+        prepare: preparePrefetch,
 
-        ajax: {
-          type: 'POST',
-          dataType: 'json',
-          contentType: 'application/json; charset=utf-8',
-          data: JSON.stringify(this.credentials),
-          crossDomain: true
-        }
+        transform: transformPrefetch
       },
 
       remote: {
-        // we need to put the query in the url because typehead.js
-        // uses the url as a cache key (https://github.com/twitter/typeahead.js/issues/894#issuecomment-48852916)
-        // url: restRoot + 'DoSmartSearch',
         url: restRoot + 'DoSmartSearch?query=%QUERY',
 
-        filter: filterRemote,
+        prepare: prepareRemote,
+
+        rateLimitBy: 'debounce',
 
         // The time interval in milliseconds that will be used by rateLimitBy.
         // Defaults to 300
-        rateLimitWait: 400,
+        rateLimitWait: 300,
 
-        ajax: {
-          type: 'POST',
-          dataType: 'json',
-          contentType: 'application/json',
-          dataWithWildcard: JSON.stringify({
-            credentials: this.credentials,
-            searchRequest: {
-              index: 'Saio',
-              lang: 'fr',
-              request: '%QUERY'
-            }
-          })
-        }
+        transform: transformRemote
       }
     };
 
@@ -200,6 +207,7 @@
     };
 
     this.clearPrefetchCache = function() {
+
       console.log('clear prefetching cache');
       this.bloodhound.clearPrefetchCache();
     };
@@ -222,10 +230,11 @@
       var params = {
         name: 'questions',
         displayKey: 'text',
+        limit: 3,
         // custom tpls:
         templates: {
           suggestion: function(suggestion) {
-            return '<span class="' + suggestion.source + '"">' + suggestion.text + '</span>';
+            return '<div class="' + suggestion.source + '"">' + suggestion.text + '</div>';
           }
         }
       };
@@ -237,7 +246,6 @@
       }
 
       $(selector).typeahead({
-        autoselect: options.autoselect || false,
         hint: options.hint || false,
         highlight: options.highlight || false,
         minLength: options.minLenght || 2,
@@ -245,4 +253,4 @@
     };
   };
 
-}));
+});

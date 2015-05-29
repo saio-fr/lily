@@ -303,13 +303,30 @@ define(function(require) {
 
       onAnimEnd: function(jqueryEl, callback, args, context) {
         var cont = context || window;
-        if (config.support) { // Browser support for onEndAnim event
+        if (config.supportAnimations) { // Browser support for onEndAnim event
           jqueryEl.on(config.animEndEventName, function() {
             if (_.isFunction(callback)) {
               callback.call(cont, args);
             }
 
             jqueryEl.off(config.animEndEventName);
+          });
+        } else {
+          if (_.isFunction(callback)) {
+            callback.call(cont, args);
+          }
+        }
+      },
+
+      onTransEnd: function(jqueryEl, callback, args, context) {
+        var cont = context || window;
+        if (config.supportTransitions) { // Browser support for onEndAnim event
+          jqueryEl.on(config.transEndEventName, function() {
+            if (_.isFunction(callback)) {
+              callback.call(cont, args);
+            }
+
+            jqueryEl.off(config.transEndEventName);
           });
         } else {
           if (_.isFunction(callback)) {

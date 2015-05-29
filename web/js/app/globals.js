@@ -56,12 +56,18 @@ define(function(require) {
     'animation': 'animationend'
   };
 
-  // animation end event name
-  g.animEndEventName = g.animEndEventNames[window.Modernizr.prefixed(
-    'animation')];
+  g.transEndEventNames = {
+    'WebkitTransition' : 'webkitTransitionEnd',// Saf 6, Android Browser
+    'MozTransition'    : 'transitionend',      // only for FF < 15
+    'transition'       : 'transitionend'       // IE10, Opera, Chrome, FF 15+, Saf 7+
+  };
+
+  g.transEndEventName = g.transEndEventNames[ Modernizr.prefixed('transition') ];
+  g.animEndEventName = g.animEndEventNames[window.Modernizr.prefixed('animation')];
 
   // support css animations
-  g.support = window.Modernizr.cssanimations;
+  g.supportAnimations = window.Modernizr.cssanimations;
+  g.supportTransitions = window.Modernizr.csstransitions;
 
   // AVI
   g.loadingTpl =
