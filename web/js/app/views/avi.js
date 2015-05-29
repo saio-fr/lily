@@ -14,7 +14,7 @@ define(function(require) {
     Models           = require('app/data/models'),
     api              = require('app/data/api'),
     PageView         = require('app/views/page'),
-    synapse_suggest  = require('synapse'),
+    SynapseSuggest   = require('synapse'),
     typeahead        = require('typeahead'),
     when             = require('when'),
     isMobile         = require('isMobile'),
@@ -87,7 +87,13 @@ define(function(require) {
 
     setupSynapse: function() {
       // After rendering the view, hooks the input with synapse:
-      this.suggest = new synapse_suggest(config.synapse.user, config.synapse.password);
+      var credentials = {
+        'user': config.synapse.user,
+        'password': config.synapse.password
+      },
+      typeaheadOptions = config.typeahead;
+
+      this.suggest = new SynapseSuggest(credentials, typeaheadOptions);
       this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
       this.setQuestionSelectedHandler(this.getAviToAnswer);
     },
@@ -95,18 +101,30 @@ define(function(require) {
     setQuestionSelectedHandler: function(handler) {
       var that = this,
           callback = _.bind(handler, that);
-      $('.avi-input').on('typeahead:selected', function(event, suggest, dataset) {
+      that.$input.on('typeahead:selected', function(event, suggest) {
         callback(null, suggest);
       })
 
       .on('typeahead:showed', function() {
         $('.lily-box-messages').addClass('tt-overlay');
+
+        if ($('.tt-suggestion').length > 0 && config.typeahead.autoselect) {
+          that.highlightFirstItem();
+        }
       })
 
       .on('typeahead:hidden', function() {
         $('.lily-box-messages').removeClass('tt-overlay');
       });
     },
+
+    // Adds a highlight class if autoselect is true
+    // (rather than actually moving the cursor down
+    // which would overwrite the user's typing)
+    highlightFirstItem: function() {
+      $('.tt-suggestion:first').addClass('tt-cursor');
+    },
+
 
     // ==============================================
 
@@ -661,8 +679,8 @@ define(function(require) {
 
     remove: function() {
       this.closeChildren();
+      this.suggest.destroy();
 
-      // app.skeleton.chatCollection = null;
       Backbone.View.prototype.remove.apply(this, arguments);
     }
 
