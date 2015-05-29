@@ -10,6 +10,7 @@ define(function(require) {
   var app = require('app'),
     _ = require('underscore'),
     Backbone = require('backbone'),
+    SearchView = require('components/chat/views/search/searchView'),
     // Object wrapper returned as a module
     InformationsView;
 
@@ -32,6 +33,7 @@ define(function(require) {
       this.listenTo(this.model, 'change:questions', this.render);
 
       this.render();
+      this.searchView = new SearchView();
     },
 
     render: function() {

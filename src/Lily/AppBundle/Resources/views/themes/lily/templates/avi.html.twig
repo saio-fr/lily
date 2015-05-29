@@ -1,13 +1,10 @@
 <div id="lily-home" class="lily-page-cont"><!-- wrapper page les différentes pages -->
 	<section class="lily-main-content">
-	  {% if config.chat and chatAvailable %}
-<!-- <header id="lily-header" class="lily-cst-header">
-			<a href="#/chat" class=""><p>Parler à un conseiller<i class="lily-icon lily-icon-arrow-right"></i></p></a>
-		</header> -->
-	  {% endif %}
 
     <div class="avatar-wrapper">
-      <img class="avatar" src="http://cdn-saio.fr/customer/{{licence}}/images/avatars/avatar2x.png">
+      <div class = "avatar-overflowhide">
+        <img class="avatar" src="http://cdn-saio.fr/customer/{{licence}}/images/avatars/avatar2x.png">
+      </div>
     </div>
 
 		<div class="lily-box-messages">
@@ -19,18 +16,16 @@
 	</section>
 
   <section class="action-container">
-		<form class="avi-input-component">
+    <form class="avi-input-component">
       <div class="wrapper-input group">
-        <div name="avi-input" contenteditable="true" type="contenteditable" data-placeholder="Poser une question..." class="textarea-input avi-input">
-        </div>
-
+        <input placeholder="Poser une question..." class="textarea-input avi-input">
         <button class="btn btn-sendmsg btn--nostyle">envoyer</button>
       </div>
-	  </form>
+    </form>
 
 	  <footer class="brand-footer">
-  		<a class="saio-brandmark" href="http://saio.fr" alt="saio.fr" target="_blank" rel="nofollow">
-        Créé par <img class="saio-logo" src="http://cdn-saio.fr/customer/{{licence}}/images/saioBrand2x.png">
+  		Créé par <a class="saio-brandmark" href="http://saio.fr" alt="saio.fr" target="_blank" rel="nofollow">
+        <img class="saio-logo" src="http://cdn-saio.fr/customer/{{licence}}/images/saioBrand2x.png">
       </a>
 	  </footer>
   </section>
