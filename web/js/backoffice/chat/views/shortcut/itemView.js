@@ -60,7 +60,7 @@ define(function(require) {
       
       var that = this;
       
-      app.createModal(globals.modalConfirm.shortcutTrash, function() {
+      app.createModal.confirm(globals.modalConfirm.shortcutTrash, function() {
         that.model.destroy();
         that.remove();
       }, that);

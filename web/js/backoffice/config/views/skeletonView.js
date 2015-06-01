@@ -44,11 +44,7 @@ define(function(require) {
 
       this.model.save(null, {
         success: function() {
-
-          app.skeleton.modalView.open();
-          setTimeout(function() {
-            app.skeleton.modalView.close();
-          }, 2500);
+          app.createModal.alert(globals.modalAlert.configSucess, 3000);
         }
       });
     }

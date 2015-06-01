@@ -1,5 +1,5 @@
 /*======================================
-          MODAL Alert
+          MODAL PROMPT
 =======================================*/
 
 define(function(require) {
@@ -9,17 +9,16 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
-      ModalView = require('components/modals/modal'),
+      ModalLayoutView = require('components/modals/views/layoutView'),
 
       // Object wrapper returned as a module
-      ModalAlert;
+      ModalPrompt;
 
 
-  ModalAlert = ModalView.extend({
+  ModalPrompt = ModalLayoutView.extend({
 
     className: 'modal',
-
-    template: _.template($('#modalAlertTpl').html()),
+    template: _.template($('#modalPromptTpl').html()),
 
     initialize: function() {
       this.render();
@@ -27,6 +26,7 @@ define(function(require) {
     },
 
     render: function() {
+
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.appendTo('body');
       return this;
@@ -38,5 +38,5 @@ define(function(require) {
     }
   });
 
-  return ModalAlert;
+  return ModalPrompt;
 });

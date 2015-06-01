@@ -1,5 +1,5 @@
 /*======================================
-          MODAL CATEGORIES
+          MODAL LAYOUT
 =======================================*/
 
 define(function(require) {
@@ -12,10 +12,10 @@ define(function(require) {
       Bootstrap = require('bootstrap'),
 
     // Object wrapper returned as a module
-    ModalView;
+    ModalLayoutView;
 
 
-  ModalView = Backbone.View.extend({
+  ModalLayoutView = Backbone.View.extend({
 
     attributes: {
       'tabindex': -1,
@@ -92,5 +92,5 @@ define(function(require) {
     }
   });
 
-  return ModalView;
+  return ModalLayoutView;
 });

@@ -39,16 +39,22 @@ define(function(require) {
 
   g.modalAlert.redirection = {
     name: "modal-default-redirection",
-    title: "Attention",
     body: "Vous ne pouvez pas supprimer une redirection par défaut. " +
       "Vous devez d\'abord choisir une nouvelle redirection par " +
       "défaut avant de pouvoir supprimer celle-ci."
   };
   g.modalAlert.faq = {
     name: "modal-redirection",
-    title: "Cette catégorie n\'existe plus.",
-    body: "Nous vous avons redirigé vers l\'accueil"
+    body: "Cette catégorie n\'existe plus. Nous vous avons redirigé vers l\'accueil"
   };
+  g.modalAlert.configSucess = {
+    name: "modal-config-saved",
+    body: "Vos informations <strong>ont bien</strong> été sauvegardé."
+  }
+  g.modalAlert.wsConnectionLost = {
+    name: "modal-connection-lost",
+    body: "La connexion avec nos serveurs n'a pas pu être établi. Rafraichissez la page pour essayer de vous reconnecter."
+  }
   g.modalConfirm.groupTrash = {
     name: "modal-trash",
     title: "Etes-vous sur de vouloir ce groupe ?",

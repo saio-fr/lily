@@ -134,7 +134,7 @@ define(function (require) {
       var that = this;
       
       if (!$('.btn-group-trash button').attr('disabled')) {
-        app.createModal(globals.modalConfirm.questionsTrash, function() {
+        app.createModal.confirm(globals.modalConfirm.questionsTrash, function() {
           app.trigger('questions:toTrash');
         }, that);
       }

@@ -41,7 +41,7 @@ define(function (require) {
       var that = this;
       
       e.stopPropagation();
-      app.createModal(globals.modalConfirm.groupTrash, function() {
+      app.createModal.confirm(globals.modalConfirm.groupTrash, function() {
         that.model.destroy();
         that.remove();
       }, that);

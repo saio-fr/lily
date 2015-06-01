@@ -13,12 +13,21 @@ define(function(require) {
   var _ = require('underscore'),
       $ = require("jquery"),
       Backbone = require('backbone'),
+      globals = require('globals'),
       config = require('globals'),
       Autobahn = require('autobahn'),
-      ModalConnectionLost = require('components/modals/connectionLost'),
+      createModal = require('components/modals/main'),
 
     app = {
+         
+      ////////////////////
+      // Modal component
+      ////////////////////
+      createModal: {},
 
+      ////////////////////
+      //  Ws Component
+      ////////////////////
       wsConnect: function(callback) {
         return ab.connect(
 
@@ -116,7 +125,7 @@ define(function(require) {
           }
         } else {
 
-          app.createModal(config.modalConfirm.chatUnavailable, function() {
+          app.createModal.confirm(config.modalConfirm.chatUnavailable, function() {
             app.trigger('operator:setAvailability', true);
             app.showLiveChatModal();
           }, this);
@@ -210,13 +219,13 @@ define(function(require) {
 
       onConnectionError: function() {
         if (!app.modalConnectionLost) {
-          app.modalConnectionLost = new ModalConnectionLost();
+          app.modalConnectionLost = app.createModal.alert(globals.modalAlert.wsConnectionLost);
         }
         if (!app.modalConnectionLost.$el.is(':visible')) {
           app.modalConnectionLost.open();
         }
       },
-
+      
       ////////////////////
       //    GA Utils
       ////////////////////
@@ -277,6 +286,7 @@ define(function(require) {
     };
 
   _.extend(app, Backbone.Events);
+  _.extend(app.createModal, createModal);
 
   // Chat status events:
   app.on('chat:open',         app.onChatOpen);
