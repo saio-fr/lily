@@ -39,11 +39,11 @@ define(function(require) {
 
     initialize: function() {
       this.childViews = new Backbone.ChildViewContainer();
-      this.listenTo(this, 'page:transitionnedIn', this.onPagetransitionnedIn);
+      this.listenTo(this, 'page:transitionnedIn', this.setupSearch);
 
       this.listenTo(app, 'precision',              this.sendPrecision);
       this.listenTo(app, 'avi:satisfaction',       this.onSatisfaction);
-      this.listenTo(app, 'avi:choicesViewDismiss', this._onDismissChoicesView);
+      this.listenTo(app, 'avi:choicesViewDismiss', this.onDismissChoicesView);
       this.listenTo(app, 'avi:chooseRedirection',  this.chooseRedirection);
 
       // Search ev listeners
@@ -57,13 +57,35 @@ define(function(require) {
 
       this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
 
+      // Flag used to avoid visual conflicts between the avi && other UI elements
+      // ex: suggestions overlay
       this.aviShown = true;
-      this.lastQuestionWasUnanswered = false;
+
+      // Flags used to get the conversation status and choose the apropriate msg
+      // to show the user, in the right context
       this.lastQuestionReceivedBadFeedBack = false;
+      this.lastQuestionWasUnanswered = false;
       this.countQuestionsAsked = 0;
 
+      // Render \o/
       this.render({ page: true }).$el.appendTo('#lily-wrapper-page');
 
+      // OnAfterRender
+      this.$input   =   this.$('.avi-input');
+      this.$avi     =   this.$('.avatar-wrapper');
+      this.$choices =   this.$('.avi-input-component');
+      this.$msgBox  =   $('.lily-box-messages');
+      this.$header  =   $('#lily-toolbar');
+
+      this.$msgBox.on('scroll', this.toggleAviOnScroll.bind(this));
+
+      // Handles bahaviours related to showing/hiding the avi,
+      // or showing/hihing the suggestions overlay
+      this.$input
+        .on('keyup', this.onInputKeyup.bind(this))
+        .on('blur', this.endFocusSuggestion.bind(this));
+
+      // Print Welcome msg (defined in globals.js)
       this.welcomeVisitor();
     },
 
@@ -83,25 +105,27 @@ define(function(require) {
       return PageView.prototype.render.apply(this, arguments);
     },
 
-    onPagetransitionnedIn: function() {
-      this.$input   =   this.$('.avi-input');
-      this.$avi     =   this.$('.avatar-wrapper');
-      this.$choices =   this.$('.avi-input-component');
-      this.$msgBox  =   $('.lily-box-messages');
-      this.$header  =   $('#lily-toolbar');
-
-      $('.lily-box-messages').on('scroll', this._toggleAviOnScroll.bind(this));
-
+    /**
+     * Method called after the page view was rendered and it transitionned in
+     * (Instantiating typeahead before transitionEnd won't work)
+     *
+     * @return {undefined}
+     */
+    setupSearch: function() {
       this.setupSynapse();
       this.setupTypeahead();
-      this.hideAviOnKeyup();
-      this.hideOnboardingOnBlur();
     },
 
     // ==============================================
     // Search Methods:
     // ==============================================
 
+    /**
+     * Get the credentials from config,
+     * Init synapse module, setup bloodhound
+     *
+     * @return {undefined}
+     */
     setupSynapse: function() {
       // After rendering the view, hooks the input with synapse:
       var credentials = {
@@ -112,11 +136,20 @@ define(function(require) {
       restRoot = config.synapse.restRoot;
 
       this.suggest = new SynapseSuggest(credentials, restRoot, typeaheadOptions);
-      this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
     },
 
+    /**
+     * Init Typeahead
+     * Trigger all typeahead events bound to the input using Backbone events
+     *
+     * @return {undefined}
+     */
     setupTypeahead: function() {
       var that = this;
+
+      // Init Typeahead on '.avi-input'
+      this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
+
       // Listen to typeahead events and translate them into backbone events
       _.each(['active', 'idle', 'open', 'close', 'change', 'render', 'select',
         'autocomplete', 'cursorchange', 'asyncrequest', 'asynccancel', 'asyncreceive'
@@ -129,13 +162,24 @@ define(function(require) {
       });
     },
 
-    // Adds a highlight class if autoselect is true
-    // (rather than actually moving the cursor down
-    // which would overwrite the user's typing)
+    /**
+     * Adds a highlight class if autoselect is true
+     * (rather than actually moving the cursor down
+     * which would overwrite the user's typing)
+     *
+     * @return {undefined}
+     */
     highlightFirstItem: function() {
       $('.tt-suggestion:first').addClass('tt-cursor');
     },
 
+    /**
+     * When the suggestion menu is rendered, make it scrollable
+     * (has to happen at render time to get the right height for the element)
+     * Important for mobile/small screens
+     *
+     * @return {undefined}
+     */
     makeSuggestionsScrollable: function() {
       var maxMenuHeight = this.$msgBox[0].clientHeight;
       $('.tt-menu')
@@ -143,36 +187,42 @@ define(function(require) {
         .scrollTop($('.tt-menu')[0].scrollHeight);
     },
 
-    hideAviOnKeyup: function() {
-      var that = this;
+    /**
+     * A bit cryptic, handles corner cases when interacting w/ the input
+     *
+     * @param  {jQuery event} ev keyup event
+     * @return {undefined}
+     */
+    onInputKeyup: function(ev) {
+      // If key used is an action key (esc, arrowLeft...)
+      if (this.specialKeyCodeMap[ev.which || ev.keyCode] || $(this).val().length <= 1) {
+        return;
+      }
 
-      that.$input.on('keyup', function(ev) {
-        if (that.specialKeyCodeMap[ev.which || ev.keyCode] || $(this).val().length <= 1) {
-          return;
-        }
-        if ($('.tt-menu').is(':visible')) {
-          that.$avi.removeClass('overlay');
-          that._showAvi(false);
-        }
+      // If the suggestions menu is visible, hide the avi
+      if ($('.tt-menu').is(':visible')) {
+        this.$avi.removeClass('overlay');
+        this.showAvi(false);
+      }
 
-        // If it was hidden after scroll, show it again
-        that._showMsgListOverlay();
-      });
+      // If it was hidden after scroll, show it again
+      this.showMsgListOverlay();
     },
 
-    hideOnboardingOnBlur: function() {
-      var that = this;
-      that.$input.on('blur', function() {
-        that._endFocusSuggestion();
-      });
-    },
-
+    /**
+     * When the search is open (happens when the input was focused)
+     * See Typeahead documentation:
+     * https://github.com/twitter/typeahead.js/blob/master/doc/jquery_typeahead.md#custom-events,
+     * Create an overlay on top of the conversation and show a custom avatar msg
+     *
+     * @return {undefined}
+     */
     onSearchOpen: function() {
       var overlayMsg = this.getOverlayMsg();
 
       // Increase focus on suggestions by partialy hiding the conversation
       this.isSearchOpen = true;
-      this._showMsgListOverlay();
+      this.showMsgListOverlay();
 
       // Show Avi onboarding message
       if (overlayMsg) {
@@ -180,37 +230,55 @@ define(function(require) {
         this.$avi.addClass('overlay');
       }
 
-      this._showAvi(true);
+      this.showAvi(true);
     },
 
+    /**
+     * When the search is closed (again see typeahead doc for when that happens),
+     *
+     * @return {undefined}
+     */
     onSearchClose: function() {
       this.isSearchOpen = false;
-      this._endFocusSuggestion();
+      this.endFocusSuggestion();
     },
 
+    // Do the same when a user selects a suggestion
     onSearchSelect: function() {
-      this._endFocusSuggestion();
+      this.endFocusSuggestion();
     },
 
-    _endFocusSuggestion: function() {
+    /**
+     * Hide the overlay above the conversation, and the custom msg,
+     * Show the avi if showable.
+     *
+     * @return {undefined}
+     */
+    endFocusSuggestion: function() {
       this.$avi.removeClass('overlay');
-      this._showAvi(this._isMsgListScrolled());
-      this._hideMsgListOverlay();
+      this.showAvi(this.isMsgListScrolled());
+      this.hideMsgListOverlay();
       this.$avi.removeClass('lily-avi-show');
     },
 
-    _showMsgListOverlay: function() {
+    showMsgListOverlay: function() {
       if (this.isSearchOpen && !this.$msgBox.hasClass('tt-overlay')) {
         this.$msgBox.addClass('tt-overlay');
       }
     },
 
-    _hideMsgListOverlay: function() {
+    hideMsgListOverlay: function() {
       if (!this.aviShown || !this.isSearchOpen) {
         this.$msgBox.removeClass('tt-overlay');
       }
     },
 
+    /**
+     * Get the current state of the conversation;
+     * used to profide a custom msg for the user
+     *
+     * @return {string} custom msg
+     */
     getOverlayMsg: function() {
       var firstMsg = this.countQuestionsAsked === 0,
           overlayMsg;
@@ -239,13 +307,12 @@ define(function(require) {
 
     askQuestion: function(question) {
 
-      var query = question || this.$input.val();
+      var query = question || this.$input.val().trim();
 
-      // Check for empty or
-      // ou contient uniquement des espaces
-      if ($.trim(query).length <= 0) { return; }
+      // Check for empty
+      if (!query.length) { return; }
 
-      this._printVisitorMsg(query);
+      this.printVisitorMsg(query);
       this.countQuestionsAsked += 1;
     },
 
@@ -258,7 +325,7 @@ define(function(require) {
 
     welcomeVisitor: function() {
       console.log(config.avi.messages.welcomeMsg);
-      return this._printAviMsg(config.avi.messages.welcomeMsg);
+      return this.printAviMsg(config.avi.messages.welcomeMsg);
     },
 
     offerRedirection: function(context) {
@@ -268,7 +335,7 @@ define(function(require) {
             config.avi.messages.noAnswerRedirection;
 
 
-      that._printAviMsg(redirectionMsg);
+      that.printAviMsg(redirectionMsg);
       var model = new Models.Message({
         config: {
           hasTel:        config.avi.redirections.mail,
@@ -288,10 +355,10 @@ define(function(require) {
         }
       });
 
-      that._disableInput(true);
-      that._asyncWithoutLoading(null, 300)
+      that.disableInput(true);
+      that.asyncWithoutLoading(null, 300)
       .then(function() {
-        return that._createRedirectionView(model);
+        return that.createRedirectionView(model);
       });
     },
 
@@ -300,16 +367,16 @@ define(function(require) {
 
       that.lastQuestionWasUnanswered = true;
 
-      if(that._isPromise(question)) {
+      if(that.isPromise(question)) {
         question = null;
       }
 
-      that._asyncWithLoading(function() {
+      that.asyncWithLoading(function() {
       }, 500)
       .then(function() {
         // 2) Propose the visitor to be forwarded to tel/mail/chat
         that.apologise();
-        that._asyncWithoutLoading(null, 0)
+        that.asyncWithoutLoading(null, 0)
         .then(function() {
           return that.offerRedirection('notFound');
         });
@@ -317,313 +384,23 @@ define(function(require) {
     },
 
     sayThanks: function() {
-      return this._printAviMsg(config.avi.messages.satisfiedFeedback);
+      return this.printAviMsg(config.avi.messages.satisfiedFeedback);
     },
 
     apologise: function() {
-      return this._printAviMsg(config.avi.messages.apologize);
+      return this.printAviMsg(config.avi.messages.apologize);
     },
 
     askForFeedback: function(msg) {
       if (!app.showAviAnswerNotation) { return; }
 
-      return this._addMessage(msg, 'lily-notation');
+      return this.addMessage(msg, 'lily-notation');
     },
 
     // ==============================================
 
 
-
-    // ==============================================
-    // Internals:
-    // ==============================================
-
-    _asyncWithLoading: function(callback, delay) {
-      var that = this;
-
-      // 1) Show loading indicator
-      // ------------------------------------
-      return that._showLoading(delay)
-
-      // 2) call callback method
-      // ------------------------------------
-      .then(function() {
-        return callback();
-      })
-
-      // 3) Clear the loading sign
-      // ------------------------------------
-      .then(function(answer) {
-        return that._clearLoading(answer);
-      });
-    },
-
-    _asyncWithoutLoading: function(callback, delay) {
-      var defer = when.defer();
-
-      setTimeout(function() {
-
-        // 2) call callback method
-        // ------------------------------------
-        try {
-          if (callback && _.isFunction(callback)) {
-            callback();
-          }
-
-          defer.resolve();
-        } catch (error) {
-          defer.reject(error);
-        }
-      }, delay);
-
-      return defer.promise;
-    },
-
-    _printVisitorMsg: function(msg) {
-      this._addMessage(msg, 'user-simple');
-      return msg;
-    },
-
-    _printAviMsg: function(msg) {
-      this._addMessage(msg, 'lily-simple');
-      return msg;
-    },
-
-    _addMessage: function(msg, messageType, model) {
-      // remove waiting message if exists.
-
-      var messageModel = model || new Models.Message({
-        message_content: msg
-      });
-
-      // create an instance of the sub-view to render the single message item.
-      var message, indexer;
-
-      var msgViews = {
-        'user-simple': MessageUserSimple,
-        'lily-simple': MessageLilySimple,
-        'lily-redirection': MessageLilyRedirection,
-        'lily-precision': MessageLilyPrecision,
-        'lily-notation': MessageLilyNotation,
-        'lily-completion': MessageLilyCompletion,
-      };
-
-      if (!msgViews[messageType]) { return; }
-
-      message = new msgViews[messageType]({
-        model: messageModel
-      }).render();
-
-      if (messageType === 'lily-notation') {
-        // if message is notation, keep an index of the view
-        // to be able to remove it when needed
-        indexer = 'notationView';
-      } else {
-        // If message is not notation, trigger the onNewMessage method
-        this.trigger('conversation:newMessage');
-      }
-
-      this.isMsgAnimating = true;
-      this.childViews.add(message, indexer);
-      this._isNotMsgAnimating();
-      return msg;
-    },
-
-    _createRedirectionView: function(model) {
-      var indexer = 'redirectionView';
-
-      if (this.childViews.findByCustom(indexer)) {
-        return;
-      }
-
-      this._showAvi(false);
-      this.$choices
-        .removeClass('component-show')
-        .addClass('component-hide');
-
-      var redirection = new MessageLilyRedirection({
-        model: model
-      }).render();
-
-      this.childViews.add(redirection, indexer);
-    },
-
-    // Not used yet
-    _onDismissChoicesView: function(viewType) {
-      this.$choices
-        .removeClass('component-hide')
-        .addClass('component-show');
-
-      var choicesView = this.childViews.findByCustom(viewType);
-      this.childViews.remove(choicesView);
-      choicesView.remove();
-      this._showAvi(true);
-    },
-
-    /**
-     * Shows a 'writing' indicator to show that the avi is thinking
-     * Semi random delay before showing an avi answer
-     * (affordance: something is hapenning)
-     *
-     * @param  int  delay (takes valors between 1 and 10)
-     * @return promise
-     */
-    _showLoading: function(delay, args) {
-      var defer = when.defer();
-      var typeDelay = delay + (Math.random() * -1) * (Math.random() * 300);
-
-      if (this.isLoadingShown) {
-        defer.resolve(args);
-      } else {
-        this.$('.avatar-wrapper').append(config.loadingTpl);
-        this.isLoadingShown = true;
-        this.isMsgAnimating = true;
-
-        // Scroll all the way down
-        var objDiv = document.getElementsByClassName('lily-box-messages')[0];
-        objDiv.scrollTop = objDiv.scrollHeight;
-
-        setTimeout(function() {
-          defer.resolve(args);
-        }, typeDelay);
-      }
-
-      return defer.promise;
-    },
-
-    _clearLoading: function(args) {
-      var defer = when.defer(),
-          that = this;
-
-      if (this.$('.lily-msg-loading').length) {
-        this.$('.lily-msg-loading')
-          .fadeOut(function() {
-            $(this).remove();
-            that.isLoadingShown = false;
-          });
-
-        setTimeout(function() {
-          defer.resolve(args);
-          that.isMsgAnimating = false;
-        }, 500);
-      }
-
-      return defer.promise;
-    },
-
-    _clearInput: function() {
-      this.$input.typeahead('val', '')
-        .typeahead('close')
-        .blur();
-    },
-
-    _disableInput: function(disable) {
-      if (disable) {
-        this.$input
-          .blur()
-          .typeahead('close');
-      } else {
-        this.$input
-          .focus()
-          .typeahead('open');
-      }
-    },
-
-    _removeNotationView: function() {
-      var notationView = this.childViews.findByCustom('notationView');
-      if (!notationView) { return; }
-
-      this.childViews.remove(notationView);
-      notationView.remove();
-      this._isNotMsgAnimating();
-    },
-
-    _printAnswer: function(answer) {
-
-      // answer is empty or white spaces
-      if (!answer.answer || /^\s+$/.test(answer.answer)) {
-        return answer;
-      }
-
-      // Simple answer
-      if (!answer.children || answer.children.length <= 0) {
-        this._printAviMsg(answer.answer);
-        return answer;
-      }
-
-      // Handle complex answer (with precisions/actions needed)
-      // Do that for now, until complex answer Logic gets implemented
-      this._printAviMsg(answer.answer);
-      return answer;
-    },
-
-    _toggleAviOnScroll: function(ev) {
-      var elem = $(ev.currentTarget);
-      var that = this;
-
-      // while a msg is animating into view, don't do anything
-      if (this.isMsgAnimating) { return; }
-
-      function _toggleAvi() {
-        if (elem[0].scrollHeight - elem.scrollTop() === elem.outerHeight()) {
-          that._showMsgListOverlay();
-          that._showAvi(true);
-        } else {
-          that._showAvi(false);
-          that._hideMsgListOverlay();
-        }
-      }
-
-      // Msg list scrolled all the way down. Debounce to avoid hundreds of call/s
-      // 3rd argument set as true to have "debounce immediate"
-      // (see http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
-      var toggle = _.debounce(_toggleAvi, 50, true);
-      toggle();
-    },
-
-    _isMsgListScrolled: function() {
-      var elem = $('.lily-box-messages');
-      return elem[0].scrollHeight - elem.scrollTop() === elem.outerHeight();
-    },
-
-    // Todo: refactor that w/ animationEnd event handler
-    _isNotMsgAnimating: function() {
-      var that = this;
-      setTimeout(function() {
-        that.isMsgAnimating = false;
-      }, 300);
-    },
-
-    _showAvi: function(show) {
-      var animClassIn = show ? 'lily-avi-show' : 'lily-avi-hide';
-      var animClassOut = show ? 'lily-avi-hide' : 'lily-avi-show';
-
-      this.$avi
-        .removeClass(animClassOut)
-        .addClass(animClassIn);
-
-      this.aviShown = show;
-    },
-
-    _stripIdPrefix: function(id) {
-      var prefix = /^r_/;
-      return id.replace(prefix, '');
-    },
-
-    _failedPromise: function(err) {
-      console.error('handle error: ' + err.stack);
-      throw err;
-    },
-
-    _isPromise: function(obj) {
-      return obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-    },
-
-    // ==============================================
-
-
-
-    // Chat Logic
+    // Conversation Logic
     // ==============================================
     getAviToAnswer: function(ev, suggestion) {
 
@@ -653,7 +430,7 @@ define(function(require) {
       }
 
       // Clear the search field
-      that._clearInput();
+      that.clearInput();
 
       // Print the visitor question
       that.askQuestion(question);
@@ -662,7 +439,7 @@ define(function(require) {
 
       // Convert the question id from synapse's syntax;
       // ex: "r_54" to ours: "54"
-      id = suggestion ? that._stripIdPrefix(suggestion.answerId) : 0;
+      id = suggestion ? that.stripIdPrefix(suggestion.answerId) : 0;
 
       // Log request a this question
       api.logRequest(question, id);
@@ -674,14 +451,14 @@ define(function(require) {
 
       // 1) Get the answer from this question
       // ------------------------------------
-      that._asyncWithLoading(function() {
+      that.asyncWithLoading(function() {
         return api.getAnswerFromId(id);
       }, 0)
 
       // 2) Print answer
       // ------------------------------------
       .then(function(answer) {
-        return that._printAnswer(answer);
+        return that.printAnswer(answer);
       })
 
       // 3) Ask for feedback
@@ -691,10 +468,21 @@ define(function(require) {
       }, that.hasNoAnswer.bind(that));
     },
 
+    /**
+     * Before a new message is added to the conversation,
+     * hide the notation (satisfaction) view if it's there
+     *
+     * @return {undefined} [description]
+     */
     onNewMessage: function() {
-      this._removeNotationView();
+      this.removeNotationView();
     },
 
+    /**
+     * Set some flags back to their initial state
+     *
+     * @return {undefined}
+     */
     resetConversationState: function() {
       this.lastQuestionReceivedBadFeedBack = false;
       this.lastQuestionWasUnanswered = false;
@@ -702,17 +490,17 @@ define(function(require) {
 
     onSatisfaction: function(satisfaction, answer) {
       var that = this;
-      this._removeNotationView();
+      this.removeNotationView();
       api.logSatisfaction(answer.id, satisfaction);
 
-      if (satisfaction === true) {
+      if (satisfaction) {
         that.sayThanks();
         this.lastQuestionReceivedBadFeedBack = false;
       } else {
         this.lastQuestionReceivedBadFeedBack = true;
         // For later:
         // Ask for precision on bad answer
-        that._asyncWithoutLoading(null, 0)
+        that.asyncWithoutLoading(null, 0)
         .then(function() {
           return that.offerRedirection('unSatisfied');
         });
@@ -723,8 +511,341 @@ define(function(require) {
       api.logRedirection(canal);
     },
 
-    closeChildren: function() {
 
+    // ==============================================
+    // Internals:
+    // ==============================================
+
+    /**
+     * Do something asynchronous, and show a "avatar typing" spinner
+     * to show something is happenning
+     *
+     * @param  {Function} callback A function to be executed after agiven wait timer
+     * @param  {Number}   delay    A wait timer (in ms)
+     * @return {promise}
+     */
+    asyncWithLoading: function(callback, delay) {
+      var that = this;
+
+      // 1) Show loading indicator
+      // ------------------------------------
+      return that.showLoading(delay)
+
+      // 2) call callback method
+      // ------------------------------------
+      .then(function() {
+        return callback();
+      })
+
+      // 3) Clear the loading sign
+      // ------------------------------------
+      .then(function(answer) {
+        return that.clearLoading(answer);
+      });
+    },
+
+    /**
+     * Do something asynchronous, without showing a spinner
+     *
+     * @param  {Function} callback A function to be executed after agiven wait timer
+     * @param  {Number}   delay    A wait timer (in ms)
+     * @return {promise}
+     */
+    asyncWithoutLoading: function(callback, delay) {
+      var defer = when.defer();
+
+      setTimeout(function() {
+
+        // Not sure that's the right way to do it...
+        // Need to refactor the whole error handling in promises anyway
+        try {
+          if (callback && _.isFunction(callback)) {
+            callback();
+          }
+
+          defer.resolve();
+        } catch (error) {
+          defer.reject(error);
+        }
+      }, delay);
+
+      return defer.promise;
+    },
+
+    addMessage: function(msg, messageType, model) {
+      // remove waiting message if exists.
+
+      var messageModel = model || new Models.Message({
+        messageContent: msg
+      });
+
+      // create an instance of the sub-view to render the single message item.
+      var message, indexer;
+
+      var msgViews = {
+        'user-simple': MessageUserSimple,
+        'lily-simple': MessageLilySimple,
+        'lily-redirection': MessageLilyRedirection,
+        'lily-precision': MessageLilyPrecision,
+        'lily-notation': MessageLilyNotation,
+        'lily-completion': MessageLilyCompletion,
+      };
+
+      if (!msgViews[messageType]) { return; }
+
+      message = new msgViews[messageType]({
+        model: messageModel
+      }).render();
+
+      // if message is notation, keep an index of the view
+      // to be able to remove it when needed
+      if (messageType === 'lily-notation') {
+        indexer = 'notationView';
+      } else {
+        // If message is not notation, trigger the onNewMessage method
+        this.trigger('conversation:newMessage');
+      }
+
+      this.isMsgAnimating = true;
+      this.childViews.add(message, indexer);
+      this.isNotMsgAnimating();
+      return msg;
+    },
+
+    printVisitorMsg: function(msg) {
+      this.addMessage(msg, 'user-simple');
+      return msg;
+    },
+
+    printAviMsg: function(msg) {
+      this.addMessage(msg, 'lily-simple');
+      return msg;
+    },
+
+    createRedirectionView: function(model) {
+      var indexer = 'redirectionView';
+
+      if (this.childViews.findByCustom(indexer)) {
+        return;
+      }
+
+      this.showAvi(false);
+      this.$choices
+        .removeClass('component-show')
+        .addClass('component-hide');
+
+      var redirection = new MessageLilyRedirection({
+        model: model
+      }).render();
+
+      this.childViews.add(redirection, indexer);
+    },
+
+    // Not used yet, build on the same logic as the redirection component.
+    // Will be used for complex answers/polls & others.
+    onDismissChoicesView: function(viewType) {
+      this.$choices
+        .removeClass('component-hide')
+        .addClass('component-show');
+
+      var choicesView = this.childViews.findByCustom(viewType);
+      this.childViews.remove(choicesView);
+      choicesView.remove();
+      this.showAvi(true);
+    },
+
+    /**
+     * Shows a 'writing' indicator to show that the avi is thinking
+     * Semi random delay before showing an avi answer
+     * (affordance: something is hapenning)
+     *
+     * @param  int  delay (takes valors between 1 and 10)
+     * @return promise
+     */
+    showLoading: function(delay, args) {
+      var defer = when.defer();
+      var typeDelay = delay + (Math.random() * -1) * (Math.random() * 300);
+
+      if (this.isLoadingShown) {
+        defer.resolve(args);
+      } else {
+        this.$('.avatar-wrapper').append(config.loadingTpl);
+        this.isLoadingShown = true;
+        this.isMsgAnimating = true;
+
+        // Scroll all the way down
+        var objDiv = this.$msgBox[0];
+        objDiv.scrollTop = objDiv.scrollHeight;
+
+        setTimeout(function() {
+          defer.resolve(args);
+        }, typeDelay);
+      }
+
+      return defer.promise;
+    },
+
+    clearLoading: function(args) {
+      var defer = when.defer(),
+          that = this;
+
+      if (this.$('.lily-msg-loading').length) {
+        this.$('.lily-msg-loading')
+          .fadeOut(function() {
+            $(this).remove();
+            that.isLoadingShown = false;
+          });
+
+        setTimeout(function() {
+          defer.resolve(args);
+          that.isMsgAnimating = false;
+        }, 500);
+        // Warning!
+        //
+        // Wait 500ms before resolving for the msg not to jump off brusquely into view
+        // (500ms might be too much, consider making the number smaller/null
+        // if fetching answers from the server takes too much time and the experience feels slugish)
+      }
+
+      return defer.promise;
+    },
+
+    clearInput: function() {
+      this.$input.typeahead('val', '')
+        .typeahead('close')
+        .blur();
+    },
+
+    //
+    disableInput: function(disable) {
+      if (disable) {
+        this.$input
+          .blur()
+          .typeahead('close');
+      } else {
+        this.$input
+          .focus()
+          .typeahead('open');
+      }
+    },
+
+    removeNotationView: function() {
+      var notationView = this.childViews.findByCustom('notationView');
+      if (!notationView) { return; }
+
+      this.childViews.remove(notationView);
+      notationView.remove();
+      this.isNotMsgAnimating();
+    },
+
+    printAnswer: function(answer) {
+
+      // answer is empty or white spaces
+      if (!answer.answer || /^\s+$/.test(answer.answer)) {
+        return answer;
+      }
+
+      // Simple answer
+      if (!answer.children || answer.children.length <= 0) {
+        this.printAviMsg(answer.answer);
+        return answer;
+      }
+
+      // Handle complex answer (with precisions/actions needed)
+      // Do that for now, until complex answer Logic gets implemented
+      this.printAviMsg(answer.answer);
+      return answer;
+    },
+
+    /**
+     * Hide the avi when the conversation view is scrolled up
+     *
+     * @param  {Jquery event} ev scroll event
+     * @return {undefined}
+     */
+    toggleAviOnScroll: function(ev) {
+      var elem = $(ev.currentTarget);
+      var that = this;
+
+      // while a msg is animating into view, don't do anything
+      if (this.isMsgAnimating) { return; }
+
+      function _toggleAvi() {
+        if (elem[0].scrollHeight - elem.scrollTop() === elem.outerHeight()) {
+          that.showMsgListOverlay();
+          that.showAvi(true);
+        } else {
+          that.showAvi(false);
+          that.hideMsgListOverlay();
+        }
+      }
+
+      // Msg list scrolled all the way down. Debounce to avoid hundreds of call/s
+      // 3rd argument set as true to have "debounce immediate"
+      // (see http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
+      var toggle = _.debounce(_toggleAvi, 50, true);
+      toggle();
+    },
+
+    /**
+     * Get current scroll state for the conversation view
+     *
+     * @return {Boolean} Conversation view scrolled all the way down
+     */
+    isMsgListScrolled: function() {
+      var elem = this.$msgBox;
+      return elem[0].scrollHeight - elem.scrollTop() === elem.outerHeight();
+    },
+
+    // Todo: refactor that w/ animationEnd event handler
+    isNotMsgAnimating: function() {
+      var that = this;
+      setTimeout(function() {
+        that.isMsgAnimating = false;
+      }, 300);
+    },
+
+    /**
+     * Show/hide the avi
+     *
+     * @param  {Boolean}    show
+     * @return {undefined}
+     */
+    showAvi: function(show) {
+      var animClassIn = show ? 'lily-avi-show' : 'lily-avi-hide';
+      var animClassOut = show ? 'lily-avi-hide' : 'lily-avi-show';
+
+      this.$avi
+        .removeClass(animClassOut)
+        .addClass(animClassIn);
+
+      this.aviShown = show;
+    },
+
+    /**
+     * Transform an id with synpase's syntax (w/ prefix "r_")
+     * into a regular id
+     *
+     * @param  {String} id
+     * @return {String}
+     */
+    stripIdPrefix: function(id) {
+      var prefix = /^r_/;
+      return id.replace(prefix, '');
+    },
+
+    failedPromise: function(err) {
+      console.error('handle error: ' + err.stack);
+      throw err;
+    },
+
+    isPromise: function(obj) {
+      return obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+    },
+
+    // ==============================================
+
+    closeChildren: function() {
       var that = this;
       this.childViews.forEach(function(view) {
 
@@ -738,13 +859,15 @@ define(function(require) {
 
     remove: function() {
       this.closeChildren();
+
+      // Destroy typeahead (will unbind any typeahead event bound to the input)
       this.suggest.destroy();
 
-      this.$input.typeahead('destroy')
+      this.$input
         .off('keyup')
         .off('blur');
 
-      $('.lily-box-messages').off('scroll');
+      this.$msgBox.off('scroll');
 
       Backbone.View.prototype.remove.apply(this, arguments);
     }

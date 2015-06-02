@@ -26,8 +26,8 @@ define(function(require) {
   g.avi = g.avi || {};
 
   g.avi.overlay = {
-    onboardingMsg: 'Demandez moi par exemple: "Comment vous contacter ?"',
-    lastQuestionReceivedBadFeedBack: 'J\'espère avoir l\'information que vous cherchez cette fois!',
+    onboardingMsg: 'Demandez moi par exemple "Quel est votre numéro de téléphone ?"',
+    lastQuestionReceivedBadFeedBack: 'J\'espère avoir l\'information que vous cherchez cette fois !',
     lastQuestionUnanswered: 'Si vous ne trouvez pas votre question dans les suggestions, essayez de reformuler',
     defaultMsg: 'Que voulez vous savoir ? :-)',
   };

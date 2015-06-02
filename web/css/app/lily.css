@@ -1078,8 +1078,8 @@ MESSAGES
   overflow: auto;
   overflow-x: hidden;
   -webkit-user-select: initial;
-  -webkit-transition: opacity .2s ease-in-out;
-          transition: opacity .2s ease-in-out;
+  -webkit-transition: opacity .15s ease-in-out;
+          transition: opacity .15s ease-in-out;
   opacity: 1;
 
   -webkit-backface-visibility: hidden;
@@ -1142,7 +1142,7 @@ MESSAGES
   content: "";
   position: absolute;
   z-index: 1000;
-  top: 15%;
+  top: 3px;
   left: 100%;
   display: inline-block;
   width: 0;
@@ -1240,9 +1240,8 @@ MESSAGES
 
 .lily-message-show {
   display: block;
-  -webkit-animation: showFromBottom .25s cubic-bezier(.1, .91, .43, 1.29) both;
-  -webkit-animation: showFromBottom .2s cubic-bezier(0.18, 0.68, 0.55, 1.25) both;
-          animation: showFromBottom .25s cubic-bezier(.1, .91, .43, 1.29) both;
+  -webkit-animation: showFromBottom .3s cubic-bezier(0.18, 0.68, 0.55, 1.25) both;
+          animation: showFromBottom .3s cubic-bezier(0.18, 0.68, 0.55, 1.25) both;
   opacity: 1;
 }
 
