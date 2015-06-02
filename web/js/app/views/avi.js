@@ -195,7 +195,7 @@ define(function(require) {
      */
     onInputKeyup: function(ev) {
       // If key used is an action key (esc, arrowLeft...)
-      if (this.specialKeyCodeMap[ev.which || ev.keyCode] || $(this).val().length <= 1) {
+      if (this.specialKeyCodeMap[ev.which || ev.keyCode] || $(ev.currentTarget).val().length <= 1) {
         return;
       }
 
