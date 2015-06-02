@@ -38,31 +38,31 @@ define(function(require) {
     },
 
     initialize: function() {
-      var that = this;
-      that.childViews = new Backbone.ChildViewContainer();
-      that.listenTo(that, 'page:transitionnedIn', that.onPagetransitionnedIn, that);
+      this.childViews = new Backbone.ChildViewContainer();
+      this.listenTo(this, 'page:transitionnedIn', this.onPagetransitionnedIn);
 
-      that.listenTo(app, 'precision',              that.sendPrecision);
-      that.listenTo(app, 'avi:satisfaction',       that.onSatisfaction);
-      that.listenTo(app, 'avi:choicesViewDismiss', that._onDismissChoicesView);
-      that.listenTo(app, 'avi:chooseRedirection',  that.chooseRedirection);
+      this.listenTo(app, 'precision',              this.sendPrecision);
+      this.listenTo(app, 'avi:satisfaction',       this.onSatisfaction);
+      this.listenTo(app, 'avi:choicesViewDismiss', this._onDismissChoicesView);
+      this.listenTo(app, 'avi:chooseRedirection',  this.chooseRedirection);
 
       // Search ev listeners
-      that.listenTo(that, 'search:asyncrequest', that.indicateLoading);
-      that.listenTo(that, 'search:asyncreceive', that.concealLoading);
-      that.listenTo(that, 'search:render', that.makeSuggestionsScrollable, that);
-      that.listenTo(that, 'search:open', that.onSearchOpen, that);
-      that.listenTo(that, 'search:close', that.onSearchClose, that);
-      that.listenTo(that, 'search:select', that.getAviToAnswer, that);
+      this.listenTo(this, 'search:asyncrequest', this.indicateLoading);
+      this.listenTo(this, 'search:asyncreceive', this.concealLoading);
+      this.listenTo(this, 'search:render',       this.makeSuggestionsScrollable);
+      this.listenTo(this, 'search:open',         this.onSearchOpen);
+      this.listenTo(this, 'search:close',        this.onSearchClose);
+      this.listenTo(this, 'search:select',       this.getAviToAnswer);
+      this.listenTo(this, 'search:select',       this.onSearchSelect);
 
-      that.listenTo(that, 'conversation:newMessage', that.onNewMessage);
+      this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
 
-      that.render({ page: true }).$el
-        .appendTo('#lily-wrapper-page');
+      this.aviShown = true;
+      this.lastQuestionWasUnanswered = false;
+      this.lastQuestionReceivedBadFeedBack = false;
+      this.countQuestionsAsked = 0;
 
-      that.showAvi = true;
-      that.lastQuestionWasUnanswered = false;
-      that.lastQuestionReceivedBadFeedBack = false;
+      this.render({ page: true }).$el.appendTo('#lily-wrapper-page');
 
       this.welcomeVisitor();
     },
@@ -84,13 +84,14 @@ define(function(require) {
     },
 
     onPagetransitionnedIn: function() {
-      this.$input  =         this.$('.avi-input');
-      this.$avi    =         this.$('.avatar-wrapper');
-      this.$inputComponent = this.$('.avi-input-component');
-      this.$msgBox =         $('.lily-box-messages');
-      this.$header =         $('#lily-toolbar');
+      this.$input   =   this.$('.avi-input');
+      this.$avi     =   this.$('.avatar-wrapper');
+      this.$choices =   this.$('.avi-input-component');
+      this.$msgBox  =   $('.lily-box-messages');
+      this.$header  =   $('#lily-toolbar');
 
-      this._handleAvi();
+      $('.lily-box-messages').on('scroll', this._toggleAviOnScroll.bind(this));
+
       this.setupSynapse();
       this.setupTypeahead();
       this.hideAviOnKeyup();
@@ -107,28 +108,18 @@ define(function(require) {
         'user': config.synapse.user,
         'password': config.synapse.password
       },
-      typeaheadOptions = config.typeahead;
+      typeaheadOptions = config.typeahead,
+      restRoot = config.synapse.restRoot;
 
-      this.suggest = new SynapseSuggest(credentials, typeaheadOptions);
+      this.suggest = new SynapseSuggest(credentials, restRoot, typeaheadOptions);
       this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
     },
 
     setupTypeahead: function() {
       var that = this;
       // Listen to typeahead events and translate them into backbone events
-      _.each([
-        'active',
-        'idle',
-        'open',
-        'close',
-        'change',
-        'render',
-        'select',
-        'autocomplete',
-        'cursorchange',
-        'asyncrequest',
-        'asynccancel',
-        'asyncreceive'
+      _.each(['active', 'idle', 'open', 'close', 'change', 'render', 'select',
+        'autocomplete', 'cursorchange', 'asyncrequest', 'asynccancel', 'asyncreceive'
       ], function(action) {
         that.$input.on('typeahead:' + action, function() {
           var args = Array.prototype.slice.call(arguments);
@@ -148,8 +139,8 @@ define(function(require) {
     makeSuggestionsScrollable: function() {
       var maxMenuHeight = this.$msgBox[0].clientHeight;
       $('.tt-menu')
-      .css('max-height', maxMenuHeight)
-      .scrollTop($('.tt-menu')[0].scrollHeight);
+        .css('max-height', maxMenuHeight)
+        .scrollTop($('.tt-menu')[0].scrollHeight);
     },
 
     hideAviOnKeyup: function() {
@@ -159,40 +150,82 @@ define(function(require) {
         if (that.specialKeyCodeMap[ev.which || ev.keyCode] || $(this).val().length <= 1) {
           return;
         }
-        that.$avi.removeClass('overlay');
-        that._showAvi(false);
+        if ($('.tt-menu').is(':visible')) {
+          that.$avi.removeClass('overlay');
+          that._showAvi(false);
+        }
+
+        // If it was hidden after scroll, show it again
+        that._showMsgListOverlay();
       });
     },
 
     hideOnboardingOnBlur: function() {
       var that = this;
       that.$input.on('blur', function() {
-        that.$avi.removeClass('overlay');
-        that._showAvi(true);
-        that.$avi.removeClass('lily-avi-show');
+        that._endFocusSuggestion();
       });
     },
 
     onSearchOpen: function() {
-      var that = this;
+      var overlayMsg = this.getOverlayMsg();
 
       // Increase focus on suggestions by partialy hiding the conversation
-      that.$msgBox.addClass('tt-overlay');
-      that._showAvi(true);
+      this.isSearchOpen = true;
+      this._showMsgListOverlay();
 
       // Show Avi onboarding message
-      that.$avi.addClass('overlay');
-
-      // Autoselect (wip)
-      if ($('.tt-suggestion').length > 0 && config.typeahead.autoselect) {
-        // that.highlightFirstItem();
+      if (overlayMsg) {
+        this.$avi.attr('data-msg', overlayMsg);
+        this.$avi.addClass('overlay');
       }
+
+      this._showAvi(true);
     },
 
     onSearchClose: function() {
-      this.$msgBox.removeClass('tt-overlay');
+      this.isSearchOpen = false;
+      this._endFocusSuggestion();
+    },
+
+    onSearchSelect: function() {
+      this._endFocusSuggestion();
+    },
+
+    _endFocusSuggestion: function() {
+      this.$avi.removeClass('overlay');
+      this._showAvi(this._isMsgListScrolled());
+      this._hideMsgListOverlay();
       this.$avi.removeClass('lily-avi-show');
-      this._showAvi(true);
+    },
+
+    _showMsgListOverlay: function() {
+      if (this.isSearchOpen && !this.$msgBox.hasClass('tt-overlay')) {
+        this.$msgBox.addClass('tt-overlay');
+      }
+    },
+
+    _hideMsgListOverlay: function() {
+      if (!this.aviShown || !this.isSearchOpen) {
+        this.$msgBox.removeClass('tt-overlay');
+      }
+    },
+
+    getOverlayMsg: function() {
+      var firstMsg = this.countQuestionsAsked === 0,
+          overlayMsg;
+
+      if (firstMsg) {
+        overlayMsg = config.avi.overlay.onboardingMsg;
+      } else if (this.lastQuestionWasUnanswered) {
+        overlayMsg = config.avi.overlay.lastQuestionUnanswered;
+      } else if (this.lastQuestionReceivedBadFeedBack) {
+        overlayMsg = config.avi.overlay.lastQuestionReceivedBadFeedBack;
+      } else {
+        overlayMsg = config.avi.overlay.defaultMsg;
+      }
+
+      return overlayMsg;
     },
 
     // ==============================================
@@ -213,6 +246,7 @@ define(function(require) {
       if ($.trim(query).length <= 0) { return; }
 
       this._printVisitorMsg(query);
+      this.countQuestionsAsked += 1;
     },
 
     // ==============================================
@@ -237,17 +271,17 @@ define(function(require) {
       that._printAviMsg(redirectionMsg);
       var model = new Models.Message({
         config: {
-          hasTel: config.avi.redirections.mail,
-          hasMail: config.avi.redirections.phone,
-          hasChat: config.avi.redirections.chat,
+          hasTel:        config.avi.redirections.mail,
+          hasMail:       config.avi.redirections.phone,
+          hasChat:       config.avi.redirections.chat,
           chatAvailable: config.chatAvailable
         },
         redirections: {
           mail: config.avi.redirections.values.mail,
-          tel: config.avi.redirections.values.phone
+          tel:  config.avi.redirections.values.phone
         },
         copy: {
-          tel: config.avi.messages.redirection.tel,
+          tel:  config.avi.messages.redirection.tel,
           mail: config.avi.messages.redirection.mail,
           chat: config.avi.messages.redirection.chat,
           none: config.avi.messages.redirection.none
@@ -255,7 +289,7 @@ define(function(require) {
       });
 
       that._disableInput(true);
-      that._asyncWithoutLoading(null, 800)
+      that._asyncWithoutLoading(null, 300)
       .then(function() {
         return that._createRedirectionView(model);
       });
@@ -263,6 +297,8 @@ define(function(require) {
 
     hasNoAnswer: function(question) {
       var that = this;
+
+      that.lastQuestionWasUnanswered = true;
 
       if(that._isPromise(question)) {
         question = null;
@@ -292,14 +328,6 @@ define(function(require) {
       if (!app.showAviAnswerNotation) { return; }
 
       return this._addMessage(msg, 'lily-notation');
-    },
-
-    askPrecisionOnFeedback: function() {
-      var choices = [
-        config.avi.messages.satisfaction.incompete,
-        config.avi.messages.satisfaction.fausse
-      ];
-      this._createChoicesView(choices, this.handleFeedback);
     },
 
     // ==============================================
@@ -370,41 +398,25 @@ define(function(require) {
 
       // create an instance of the sub-view to render the single message item.
       var message, indexer;
-      switch (messageType) {
-        case 'user-simple':
-          message = new MessageUserSimple({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-simple':
-          message = new MessageLilySimple({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-redirection':
-          message = new MessageLilyRedirection({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-precision':
-          message = new MessageLilyPrecision({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-notation':
-          message = new MessageLilyNotation({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-completion':
-          message = new MessageLilyCompletion({
-            model: messageModel
-          }).render();
-          break;
-      }
+
+      var msgViews = {
+        'user-simple': MessageUserSimple,
+        'lily-simple': MessageLilySimple,
+        'lily-redirection': MessageLilyRedirection,
+        'lily-precision': MessageLilyPrecision,
+        'lily-notation': MessageLilyNotation,
+        'lily-completion': MessageLilyCompletion,
+      };
+
+      if (!msgViews[messageType]) { return; }
+
+      message = new msgViews[messageType]({
+        model: messageModel
+      }).render();
 
       if (messageType === 'lily-notation') {
-        // if message is notation, keep an index of it to be able to remove it when needed
+        // if message is notation, keep an index of the view
+        // to be able to remove it when needed
         indexer = 'notationView';
       } else {
         // If message is not notation, trigger the onNewMessage method
@@ -417,10 +429,6 @@ define(function(require) {
       return msg;
     },
 
-    _createChoicesView: function(choices, handler) {
-
-    },
-
     _createRedirectionView: function(model) {
       var indexer = 'redirectionView';
 
@@ -429,7 +437,7 @@ define(function(require) {
       }
 
       this._showAvi(false);
-      this.$inputComponent
+      this.$choices
         .removeClass('component-show')
         .addClass('component-hide');
 
@@ -440,8 +448,9 @@ define(function(require) {
       this.childViews.add(redirection, indexer);
     },
 
+    // Not used yet
     _onDismissChoicesView: function(viewType) {
-      this.$inputComponent
+      this.$choices
         .removeClass('component-hide')
         .addClass('component-show');
 
@@ -457,7 +466,7 @@ define(function(require) {
      * (affordance: something is hapenning)
      *
      * @param  int  delay (takes valors between 1 and 10)
-     * @return undefined
+     * @return promise
      */
     _showLoading: function(delay, args) {
       var defer = when.defer();
@@ -466,9 +475,10 @@ define(function(require) {
       if (this.isLoadingShown) {
         defer.resolve(args);
       } else {
-        this.$('.lily-box-messages').append(config.loadingTpl);
+        this.$('.avatar-wrapper').append(config.loadingTpl);
         this.isLoadingShown = true;
         this.isMsgAnimating = true;
+
         // Scroll all the way down
         var objDiv = document.getElementsByClassName('lily-box-messages')[0];
         objDiv.scrollTop = objDiv.scrollHeight;
@@ -479,28 +489,6 @@ define(function(require) {
       }
 
       return defer.promise;
-    },
-
-    _clearInput: function() {
-      // if (config.isMobile) {
-        this.$input.typeahead('val', '')
-          .typeahead('close')
-          .blur();
-      // } else {
-      //   this.$input.typeahead('val', '');
-      // }
-    },
-
-    _disableInput: function(disable) {
-      if (disable) {
-        this.$input
-          .blur()
-          .typeahead('close');
-      } else {
-        this.$input
-          .focus()
-          .typeahead('open');
-      }
     },
 
     _clearLoading: function(args) {
@@ -523,6 +511,24 @@ define(function(require) {
       return defer.promise;
     },
 
+    _clearInput: function() {
+      this.$input.typeahead('val', '')
+        .typeahead('close')
+        .blur();
+    },
+
+    _disableInput: function(disable) {
+      if (disable) {
+        this.$input
+          .blur()
+          .typeahead('close');
+      } else {
+        this.$input
+          .focus()
+          .typeahead('open');
+      }
+    },
+
     _removeNotationView: function() {
       var notationView = this.childViews.findByCustom('notationView');
       if (!notationView) { return; }
@@ -532,35 +538,7 @@ define(function(require) {
       this._isNotMsgAnimating();
     },
 
-    _handleAvi: function() {
-      var that = this;
-      function logScroll() {
-        var topAvatar = that.$avi.offset().top;
-        var lastMessage = $('.lily-box-messages .lily-msg:last-child');
-        var lastMessageOffsetTop = lastMessage.offset() ? lastMessage.offset().top + 40 : 0;
-        var lastMessageOffsetBottom = lastMessageOffsetTop + lastMessage.height();
-        var covers = lastMessageOffsetBottom - 50 > topAvatar;
-        var showAvi = !covers;
-
-        if (that.isMsgAnimating) {return;}
-
-        if (showAvi !== that.showAvi) {
-          that.showAvi = showAvi;
-          that._showAvi(showAvi);
-        }
-      }
-
-      var throttle = _.throttle(logScroll, 1);
-
-      $('.lily-box-messages')[0].onscroll = throttle;
-
-      // Rectify padding if header button is shown
-      if ($('.lily-cst-header').is(':visible')) {
-        that.$msgBox.css('padding-top', 69);
-      }
-    },
-
-    _handleAviAnswer: function(answer) {
+    _printAnswer: function(answer) {
 
       // answer is empty or white spaces
       if (!answer.answer || /^\s+$/.test(answer.answer)) {
@@ -579,6 +557,36 @@ define(function(require) {
       return answer;
     },
 
+    _toggleAviOnScroll: function(ev) {
+      var elem = $(ev.currentTarget);
+      var that = this;
+
+      // while a msg is animating into view, don't do anything
+      if (this.isMsgAnimating) { return; }
+
+      function _toggleAvi() {
+        if (elem[0].scrollHeight - elem.scrollTop() === elem.outerHeight()) {
+          that._showMsgListOverlay();
+          that._showAvi(true);
+        } else {
+          that._showAvi(false);
+          that._hideMsgListOverlay();
+        }
+      }
+
+      // Msg list scrolled all the way down. Debounce to avoid hundreds of call/s
+      // 3rd argument set as true to have "debounce immediate"
+      // (see http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
+      var toggle = _.debounce(_toggleAvi, 50, true);
+      toggle();
+    },
+
+    _isMsgListScrolled: function() {
+      var elem = $('.lily-box-messages');
+      return elem[0].scrollHeight - elem.scrollTop() === elem.outerHeight();
+    },
+
+    // Todo: refactor that w/ animationEnd event handler
     _isNotMsgAnimating: function() {
       var that = this;
       setTimeout(function() {
@@ -587,26 +595,14 @@ define(function(require) {
     },
 
     _showAvi: function(show) {
-      var that = this;
       var animClassIn = show ? 'lily-avi-show' : 'lily-avi-hide';
       var animClassOut = show ? 'lily-avi-hide' : 'lily-avi-show';
 
-      if (that.aviAnimating) {return;}
-
-      that.aviAnimating = true;
-
-      that.$avi
-        .addClass(animClassIn)
+      this.$avi
         .removeClass(animClassOut)
-        .on(config.animEndEventName, function() {
-          that.aviAnimating = false;
-          return that.$avi.off(config.animEndEventName);
-        });
+        .addClass(animClassIn);
 
-      setTimeout(function() {
-        that.aviAnimating = false;
-        return;
-      }, 400);
+      this.aviShown = show;
     },
 
     _stripIdPrefix: function(id) {
@@ -645,6 +641,8 @@ define(function(require) {
         ev.preventDefault();
       }
 
+      this.onSearchSelect();
+
       var that = this;
       var question = that.$input.val().trim();
       var id;
@@ -659,6 +657,7 @@ define(function(require) {
 
       // Print the visitor question
       that.askQuestion(question);
+      that.resetConversationState();
       app.trigger('avi:newAviQuestion', question);
 
       // Convert the question id from synapse's syntax;
@@ -677,12 +676,12 @@ define(function(require) {
       // ------------------------------------
       that._asyncWithLoading(function() {
         return api.getAnswerFromId(id);
-      }, 500)
+      }, 0)
 
       // 2) Print answer
       // ------------------------------------
       .then(function(answer) {
-        return that._handleAviAnswer(answer);
+        return that._printAnswer(answer);
       })
 
       // 3) Ask for feedback
@@ -696,6 +695,11 @@ define(function(require) {
       this._removeNotationView();
     },
 
+    resetConversationState: function() {
+      this.lastQuestionReceivedBadFeedBack = false;
+      this.lastQuestionWasUnanswered = false;
+    },
+
     onSatisfaction: function(satisfaction, answer) {
       var that = this;
       this._removeNotationView();
@@ -703,7 +707,9 @@ define(function(require) {
 
       if (satisfaction === true) {
         that.sayThanks();
+        this.lastQuestionReceivedBadFeedBack = false;
       } else {
+        this.lastQuestionReceivedBadFeedBack = true;
         // For later:
         // Ask for precision on bad answer
         that._asyncWithoutLoading(null, 0)
@@ -715,16 +721,6 @@ define(function(require) {
 
     chooseRedirection: function(canal) {
       api.logRedirection(canal);
-    },
-
-    avatar: function() {
-      // On charge l'avatar du client
-      if (config.avi.animations) {
-        setTimeout(function() {
-          $.getScript('http://cdn-saio.fr/customer/' + config.licence +
-            '/js/avatar.js', function(data) {});
-        }, 500);
-      }
     },
 
     closeChildren: function() {
@@ -743,6 +739,12 @@ define(function(require) {
     remove: function() {
       this.closeChildren();
       this.suggest.destroy();
+
+      this.$input.typeahead('destroy')
+        .off('keyup')
+        .off('blur');
+
+      $('.lily-box-messages').off('scroll');
 
       Backbone.View.prototype.remove.apply(this, arguments);
     }
