@@ -17,10 +17,16 @@ define(function(require) {
     avatars: "http://cdn-saio.fr/customer/" + g.licence + "/images/avatars/",
     defaultAvatar: "http://cdn-saio.fr/images/default-avatar.png",
   };
-  
+
+  g.synapse = {
+    user: window.config.licence,
+    password: window.config.synapsePassword,
+    restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
+  };
+
   g.knowledge = {};
   g.knowledge.questionsSortUrl = '/questions/sort';
-  g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' + 
+  g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' +
     'catégories sélectionnée(s)</h5>';
 
   g.faqWysiConfig = {

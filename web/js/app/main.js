@@ -1,6 +1,6 @@
 require.config({
   baseUrl: '/js',
-  urlArgs: "v" + config.version,
+  urlArgs: "v" + window.config.version,
   waitSeconds: 20,
 
   paths: {
@@ -14,8 +14,8 @@ require.config({
     'when':               'vendor/when',
     'FastClick':          'bower_components/fastclick/lib/fastclick',
     'synapse':            'app/libs/synapse-suggest',
-    'bloodhound':         'app/libs/bloodhound',
-    'typeahead':          'app/libs/typeahead'
+    'typeahead':          'app/libs/typeahead.jquery',
+    'bloodhound':         'bower_components/typeahead.js/dist/bloodhound'
   },
   shim: {
     'underscore': {
@@ -38,7 +38,7 @@ require.config({
     },
     'typeahead': {
       deps: ['jquery'],
-      exports: 'Typeahead'
+      exports: 'typeahead'
     },
     'bloodhound': {
       deps: ['jquery'],
@@ -125,32 +125,34 @@ require([
   };
 
   function getSessionId() {
-    
     var sid = document.cookie.match('PHPSESSID=([^;]*)');
-    
+
     if (sid && sid.length) {
       return sid[1];
     } else {
       // Oops the browser doesnt allow cookie :'(
       // Fall back to local storage
       try {
-              
         sid = window.localStorage.getItem('sid');
-        
+        var date = new Date().getTime() * 1000000,
+            rand = Math.floor((Math.random() * 10000) + 1);
+
+
         // IF it is the first visit, we generate a uniqid
         if (!sid) {
-          sid = (new Date().getTime()*1000000 + Math.floor((Math.random()*10000)+1)).toString(16);
+          sid = (date + rand).toString(16);
           window.localStorage.setItem('sid', sid);
         }
         return sid;
-        
-      } catch(e) {
+
+      } catch(error) {
         // Aie, no local storage eigher !!
+        console.error(error);
         return null;
       }
     }
   }
-  
+
   config.sid = getSessionId();
   if (!config.sid) {
     // We were unable to store an uniqid

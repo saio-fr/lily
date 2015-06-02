@@ -198,10 +198,10 @@ define(function(require) {
 
             view = new AviView();
             question = new Models.MessageUserSimple({
-              message_content: data.title
+              messageContent: data.title
             });
             reponse = new Models.MessageLilySimple({
-              message_content: data.answer
+              messageContent: data.answer
             });
           }
 
@@ -212,6 +212,7 @@ define(function(require) {
             view.addItem(reponse, 'lily-simple');
           }
         }, function(err) {
+          console.error(err);
           router.navigate('/', {
             trigger: true
           });

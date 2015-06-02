@@ -18,7 +18,20 @@ define(function(require) {
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
+  g.typeahead = {
+    autoselect: true,
+    highlight: true
+  };
+
   g.avi = g.avi || {};
+
+  g.avi.overlay = {
+    onboardingMsg: 'Demandez moi par exemple "Quel est votre numéro de téléphone ?"',
+    lastQuestionReceivedBadFeedBack: 'J\'espère avoir l\'information que vous cherchez cette fois !',
+    lastQuestionUnanswered: 'Si vous ne trouvez pas votre question dans les suggestions, essayez de reformuler',
+    defaultMsg: 'Que voulez vous savoir ? :-)',
+  };
+
   g.avi.messages = {
     welcomeMsg: 'Enchanté ! Je m\'appelle Labelette. En quoi puis-je vous aider ?',
     satisfiedFeedback: 'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
@@ -51,16 +64,22 @@ define(function(require) {
     'animation': 'animationend'
   };
 
-  // animation end event name
-  g.animEndEventName = g.animEndEventNames[window.Modernizr.prefixed(
-    'animation')];
+  g.transEndEventNames = {
+    'WebkitTransition' : 'webkitTransitionEnd',// Saf 6, Android Browser
+    'MozTransition'    : 'transitionend',      // only for FF < 15
+    'transition'       : 'transitionend'       // IE10, Opera, Chrome, FF 15+, Saf 7+
+  };
+
+  g.transEndEventName = g.transEndEventNames[ Modernizr.prefixed('transition') ];
+  g.animEndEventName = g.animEndEventNames[window.Modernizr.prefixed('animation')];
 
   // support css animations
-  g.support = window.Modernizr.cssanimations;
+  g.supportAnimations = window.Modernizr.cssanimations;
+  g.supportTransitions = window.Modernizr.csstransitions;
 
   // AVI
   g.loadingTpl =
-    '<div class="lily-msg lily-msg-avatar lily-cst-msg-avatar lily-message-show lily-msg-loading">' +
+    '<div class="lily-msg-avatar lily-cst-msg-avatar lily-msg-loading">' +
     '<div class="msg-wrapper">' +
     '<p class="lily-loading">' +
     '<span></span>' +
@@ -91,7 +110,8 @@ define(function(require) {
     banMsg: 'Vous avez été banni du chat par l\'opérateur',
     closeMsg: 'Votre conversation est terminée. ' +
       'N\'hésitez pas à nous envoyer un message si vous avez une nouvelle question.',
-    notationMsg: 'Cette conversation vous a-t-elle été utile ?'
+    notationMsg: 'Cette conversation vous a-t-elle été utile ?',
+    onBoardingChat: 'Posez votre question. Un conseiller SOS Malus vous répondra le plus rapidement possible.'
   });
 
   g.unableToConnectError = 'La connexion a été interrompue';
