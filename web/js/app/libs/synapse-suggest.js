@@ -3,18 +3,17 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
 
   'use strict';
 
-  return function synapseSuggest(credentials, options) {
+  return function synapseSuggest(credentials, restRoot, options) {
 
     var that = this;
 
-    if (!credentials) {
+    if (!credentials || _.isEmpty(credentials)) {
       console.error('No credentials set for synapse');
       return;
     }
     that.credentials = credentials;
 
     // PRIVATE
-    var restRoot = 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/';
     var wildcard = "%QUERY";
 
     var frMap = {
