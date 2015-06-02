@@ -992,7 +992,7 @@ Typeahead Styles
 }
 
 .lily-box-messages.tt-overlay {
-  opacity: .15;
+  opacity: .3;
 }
 
 .tt-suggestion,
@@ -1772,7 +1772,7 @@ MENU
 
 #lily-menu {
   box-sizing: border-box;
-  padding-top: 45px !important;
+  padding-top: 40px !important;
   border-right: solid 1px rgba(205, 205, 205, .4);
 }
 
@@ -1800,8 +1800,18 @@ MENU
 .lily-menu-body li {
   display: block;
   width: 100%;
-  height: 3.75em; /*120px*/
+  height: 3.5em; /*120px*/
   line-height: 3.75em; /*centrage vertical*/
+}
+
+.lily-menu-body li:after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 180px;
+  background: rgba(136, 136, 136, 0.22);
+  right: 0;
+  position: absolute;
 }
 
 .lily-menu-body li a {

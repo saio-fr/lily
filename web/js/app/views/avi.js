@@ -509,6 +509,10 @@ define(function(require) {
 
     chooseRedirection: function(canal) {
       api.logRedirection(canal);
+
+      if (canal === 'none') {
+        this.printVisitorMsg(config.avi.messages.redirection.none);
+      }
     },
 
 
