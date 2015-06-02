@@ -992,7 +992,7 @@ Typeahead Styles
 }
 
 .lily-box-messages.tt-overlay {
-  opacity: .15;
+  opacity: .3;
 }
 
 .tt-suggestion,
