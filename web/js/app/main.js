@@ -15,7 +15,7 @@ require.config({
     'FastClick':          'bower_components/fastclick/lib/fastclick',
     'synapse':            'app/libs/synapse-suggest',
     'typeahead':          'app/libs/typeahead.jquery',
-    'bloodhound':         'bower_components/typeahead.js/dist/bloodhound'
+    'bloodhound':         'app/libs/bloodhound'
   },
   shim: {
     'underscore': {

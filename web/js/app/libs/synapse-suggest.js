@@ -14,7 +14,28 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
     that.credentials = credentials;
 
     // PRIVATE
-    var wildcard = "%QUERY";
+    var wildcard = '%QUERY';
+
+    /**
+     * Transform an id with synpase's syntax (w/ prefix "r_")
+     * into a regular id
+     *
+     * @param  {String} id
+     * @return {String}
+     */
+    var getBareAnswerId = function(id) {
+      var prefix = /^r_/;
+      return id.toString().replace(prefix, '');
+    };
+
+    var getBareQuestionId = function(id) {
+      var suffix = id.toString().match(/_(\d*)+$/);
+      return suffix ? suffix[0].replace(/^_/, '') : null;
+    };
+
+    var isParentQuestion = function(id) {
+      return _.isArray(id.match(/(_0)+$/));
+    };
 
     var frMap = {
       'a': /[àáâ]/gi,
@@ -71,7 +92,9 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
         return {
           normalizedText: normalize(question.text),
           text: question.text,
-          answerId: question.answerId,
+          answerId: parseInt(getBareAnswerId(question.answerId), 10),
+          id: parseInt(getBareQuestionId(question.id), 10),
+          isParent: isParentQuestion(question.id),
           source: 'prefetch'
         };
       });
@@ -80,7 +103,11 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
     };
 
     var identify = function(obj) {
-      return obj.answerId;
+      return obj.answerId + '_' + obj.id;
+    };
+
+    var dupDetector = function(remoteMatch, localMatch) {
+     return remoteMatch.answerId === localMatch.answerId;
     };
 
     var sortSuggestionsByScore = function(a, b) {
@@ -118,28 +145,52 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
         _.each(suggestions, function(suggestion) {
           // suggestion is not in text result table
           if (_.indexOf(textResults, suggestions.sentence) === -1) {
+            var answerId = (suggestion['@bIsQuestion'] === 'true' ?
+                suggestion['@answerId'] : suggestion['@id']);
+
             results.push({
               text: suggestion.sentence,
-              answerId: (suggestion['@bIsQuestion'] === 'true' ?
-                suggestion['@answerId'] : suggestion['@id']),
-              source: 'remote',
-              score: suggestion['@score']
+              normalizedText: normalize(suggestion.sentence),
+              answerId: parseInt(getBareAnswerId(answerId), 10),
+              id: parseInt(getBareQuestionId(suggestion['@questionId']), 10),
+              score: suggestion['@score'] ? parseFloat(suggestion['@score'], 10) : 0,
+              isParent: isParentQuestion(suggestion['@questionId']),
+              source: 'remote'
             });
 
             textResults.push(suggestion.sentence);
           }
         });
       } else {
+        var answerId = (suggestions['@bIsQuestion'] === 'true' ?
+            suggestions['@answerId'] : suggestions['@id']);
+
         results.push({
           text: suggestions.sentence,
-          answerId: (suggestions['@bIsQuestion'] === 'true' ?
-            suggestions['@answerId'] : suggestions['@id']),
-          source: 'remote',
-          score: suggestions['@score'] ? parseFloat(suggestions['@score'], 10) : 0
+          normalizedText: normalize(suggestions.sentence),
+          answerId: parseInt(getBareAnswerId(answerId), 10),
+          id: parseInt(getBareQuestionId(suggestions['@questionId']), 10),
+          score: suggestions['@score'] ? parseFloat(suggestions['@score'], 10) : 0,
+          isParent: isParentQuestion(suggestions['@questionId']),
+          source: 'remote'
         });
       }
 
+      // console.log(results);
       return results;
+    };
+
+    var parentSuggestion = function(suggestion) {
+      var parentId, parentQuestion, similarQuestions;
+
+      parentId = suggestion.answerId + '_' + 0;
+
+      similarQuestions = this.bloodhound.get(parentId);
+      parentQuestion = _.find(similarQuestions, function(question) {
+        return question.isParent === true;
+      });
+
+      return parentQuestion ? parentQuestion.text : suggestion.text;
     };
 
     // Bloodhound params
@@ -147,6 +198,7 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('normalizedText'),
       queryTokenizer: queryTokenizer,
       identify: identify,
+      dupDetector: dupDetector,
 
       // If the number of datums provided from the internal search index
       // is less than sufficient, remote will be used to backfill search requests
@@ -228,14 +280,8 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
       // Typeahead Params:
       var params = {
         name: 'questions',
-        displayKey: 'text',
+        display: parentSuggestion.bind(this),
         limit: 3,
-        // custom tpls:
-        templates: {
-          suggestion: function(suggestion) {
-            return '<div class="' + suggestion.source + '"">' + suggestion.text + '</div>';
-          }
-        }
       };
 
       if (this.strategy === 'suggestions') {

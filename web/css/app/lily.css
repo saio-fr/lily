@@ -1010,7 +1010,26 @@ Typeahead Styles
 
 .tt-suggestion {
   cursor: pointer;
-  border-bottom: solid 1px #cecece;
+  color: #494949;
+}
+
+.tt-suggestion:hover {
+  color: #000000;
+}
+
+.tt-suggestion:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: calc(100% - 30px);
+  height: 1px;
+  margin-right: 15px;
+  background: rgba(136, 136, 136, .3);
+}
+
+.tt-dataset-questions .tt-suggestion:last-child:after {
+  display: none;
 }
 
 .empty-suggestion {
@@ -1018,18 +1037,6 @@ Typeahead Styles
   color: #a1a1a1;
   border-top: solid 1px #cecece;
   border-bottom: none;
-}
-
-.tt-dataset-questions .tt-suggestion:last-child {
-  border-bottom: none;
-}
-
-.tt-suggestion {
-  color: #494949;
-}
-
-.tt-suggestion:hover {
-  color: #000000;
 }
 
 .tt-cursor {
@@ -1240,8 +1247,8 @@ MESSAGES
 
 .lily-message-show {
   display: block;
-  -webkit-animation: showFromBottom .3s cubic-bezier(0.18, 0.68, 0.55, 1.25) both;
-          animation: showFromBottom .3s cubic-bezier(0.18, 0.68, 0.55, 1.25) both;
+  -webkit-animation: showFromBottom .3s cubic-bezier(.18, .68, .55, 1.25) both;
+          animation: showFromBottom .3s cubic-bezier(.18, .68, .55, 1.25) both;
   opacity: 1;
 }
 
@@ -1805,13 +1812,13 @@ MENU
 }
 
 .lily-menu-body li:after {
-  content: '';
-  display: block;
-  height: 1px;
-  width: 180px;
-  background: rgba(136, 136, 136, 0.22);
-  right: 0;
+  content: "";
   position: absolute;
+  right: 0;
+  display: block;
+  width: 180px;
+  height: 1px;
+  background: rgba(136, 136, 136, .22);
 }
 
 .lily-menu-body li a {
