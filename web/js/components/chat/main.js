@@ -11,8 +11,6 @@ define(function(require) {
       timers = require('components/chat/utils/timers'),
       SkeletonView = require('components/chat/views/skeletonView'),
       Collections = require('components/chat/data/collections'),
-      ModalConfirmationView = require('components/modals/confirmView'),
-      ModalModel = require('components/modals/model'),
       Notifs = require('components/notifications/notifsCollectionView'),
       app = require('app');
 
@@ -49,26 +47,6 @@ define(function(require) {
       if (chatModalVisible === "true") {
         app.showLiveChat();
       }
-    };
-
-    // TODO: Move logic to a more suitable location
-    // (like a mixin/helper/components file)
-    app.createModal = function(content, callback, context) {
-      var modalModel, modalView;
-
-      modalModel = new ModalModel();
-      modalModel.set(content);
-
-      modalView = new ModalConfirmationView({
-        model: modalModel
-      });
-
-      $('.js-modal-action').on('click', function() {
-        if (_.isFunction(callback)) {
-          callback.apply(context, arguments);
-          $('.js-modal-action').off('click');
-        }
-      });
     };
 
     init();

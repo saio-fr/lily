@@ -15,8 +15,6 @@ define(function(require) {
     BreadcrumbCollectionView = require('backoffice/faq/views/breadcrumbCollectionView'),
     BreadcrumbCollection = require('backoffice/faq/collections/breadcrumbCollection'),
     FaqCollection = require('backoffice/faq/collections/faqCollection'),
-    ModalView = require('components/modals/alertView'),
-    ModalModel = require('components/modals/model'),
 
 
     // Object wrapper returned as a module
@@ -98,16 +96,8 @@ define(function(require) {
     },
 
     notFound: function() {
-      // Show modal with error:
-      var modalModel = new ModalModel(globals.modalAlert.faq);
-
-      if (app.skeleton.modalView) {
-        app.skeleton.modalView.close();
-      }
-
-      app.skeleton.modalView = new ModalView({
-        model: modalModel
-      });
+      // Show modal with error:      
+      var modal = app.createModal.alert(globals.modalAlert.faq);
     }
 
   });

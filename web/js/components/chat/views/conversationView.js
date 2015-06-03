@@ -15,9 +15,8 @@ define(function(require) {
     Collections =        require('components/chat/data/collections'),
     MessagesView =       require('components/chat/views/messagesView'),
     InformationsView =   require('components/chat/views/informationsView'),
-    ModalTransferView =  require('components/chat/views/transfer/modalView'),
+    OperatorView =       require('components/chat/views/transfer/operatorView'),
     ShellView =          require('components/chat/views/shell/skeletonView'),
-    ModalModel =         require('components/modals/model'),
     StatusHelpers =      require('components/chat/utils/status'),
     Timers =             require('components/chat/utils/timers'),
 
@@ -188,36 +187,52 @@ define(function(require) {
     close: function() {
       var that = this;
 
-      app.createModal(globals.modalConfirm.chatClose, function() {
-        app.trigger("operator:close", that.id);
-        that.minus();
-      }, that);
+      var modal = app.createModal.confirm(globals.modalConfirm.chatClose);
+      modal.promise.then(function (res) {
+        if (res) {
+          app.trigger('operator:close', this.id);
+          this.minus();          
+        }
+      }.bind(this));
     },
 
     ban: function() {
       var that = this;
-
-      app.createModal(globals.modalConfirm.chatBan, function() {
-        app.trigger("operator:ban", that.id);
-        that.minus();
-      }, that);
+      
+      var modal = app.createModal.confirm(globals.modalConfirm.chatBan);
+      modal.promise.then(function (res) {
+        if (res) {
+          app.trigger('operator:ban', this.id);
+          this.minus();          
+        }
+      }.bind(this));
     },
 
     transfer: function() {
+      var that = this;
+      
       var operators = app.chatUsers.filter(function(model) {
         return model.get('type') === 'operator' &&
           model.get('available') &&
           model.get('id') !== parseInt(globals.userId, 10);
       });
 
-      var modalModel = new ModalModel();
-      modalModel.set(globals.modalApp.chatTransfer);
+      var transferModalView = app.createModal.app(globals.modalApp.chatTransfer);
 
-      var modalTransfer = new ModalTransferView({
-        model: modalModel,
-        collection: operators,
-        visitor: this.model
-      });
+      if (_.isEmpty(operators)) {
+        transferModalView.$el.find('.modal-body').html('Aucun opérateur disponible.');
+      } else {
+
+        _.each(operators, function(operator) { // iterate through the collection
+          var view = new OperatorView({
+            model: operator,
+            visitor: that.model
+          });
+          transferModalView.childViews.add(view);
+          transferModalView.$el.find('.modal-body').append(view.el);
+        });
+      }
+
     },
 
     writing: function() {
