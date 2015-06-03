@@ -23,15 +23,8 @@ define(function(require) {
     template: _.template($('#modalAppTpl').html()),
 
     initialize: function() {
+      ModalLayoutView.prototype.initialize.apply(this, arguments);
       this.childViews = new Backbone.ChildViewContainer();
-      this.render();
-      this.open();
-    },
-
-    render: function() {
-      this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('body');
-      return this;
     },
 
     remove: function() {
@@ -44,9 +37,7 @@ define(function(require) {
         view.remove();
       });
 
-      this.model.destroy();
-      this.close();
-      Backbone.View.prototype.remove.call(this);
+      ModalLayoutView.prototype.remove.call(this);
     }
   });
 

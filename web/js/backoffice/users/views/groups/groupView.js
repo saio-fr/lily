@@ -38,14 +38,17 @@ define(function (require) {
 
     destroy: function (e) {
 
+      e.stopPropagation();
+      
       var that = this;
       
-      e.stopPropagation();
-      app.createModal.confirm(globals.modalConfirm.groupTrash, function() {
-        that.model.destroy();
-        that.remove();
-      }, that);
-
+      var modal = app.createModal.confirm(globals.modalConfirm.groupTrash);
+      modal.promise.then(function (res) {
+        if (res) {
+          this.model.destroy();
+          this.remove();          
+        }
+      }.bind(this));
     },
 
     edit: function() {

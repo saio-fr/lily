@@ -40,12 +40,15 @@ define(function (require) {
 
     destroy: function (e) {
 
+      e.stopPropagation();
       var that = this;
       
-      e.stopPropagation();
-      app.createModal.confirm(globals.modalConfirm.userTrash, function() {
-        that.model.destroy();
-      }, that);
+      var modal = app.createModal.confirm(globals.modalConfirm.userTrash);
+      modal.promise.then(function (res) {
+        if (res) {
+          this.model.destroy();          
+        }
+      }.bind(this));
     },
 
     edit: function () {

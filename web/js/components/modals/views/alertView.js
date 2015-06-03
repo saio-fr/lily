@@ -20,31 +20,20 @@ define(function(require) {
     className: 'modal',
 
     template: _.template($('#modalAlertTpl').html()),
-
+    
     initialize: function(options) {
+      ModalLayoutView.prototype.initialize.apply(this, arguments);
+      
       var that = this;
-      
-      this.render();
-      this.open();
-      
+
       if (options.timeout) {
         setTimeout(function() {
           that.close();
           that.remove();
         }, options.timeout);        
       }
-    },
-
-    render: function() {
-      this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('body');
-      return this;
-    },
-
-    remove: function() {
-      this.model.destroy();
-      Backbone.View.prototype.remove.apply(this, arguments);
     }
+    
   });
 
   return ModalAlert;

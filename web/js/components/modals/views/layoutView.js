@@ -7,9 +7,10 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var _ = require('underscore'),
-      Backbone = require('backbone'),
+  var _         = require('underscore'),
+      Backbone  = require('backbone'),
       Bootstrap = require('bootstrap'),
+      when      = require('when'),
 
     // Object wrapper returned as a module
     ModalLayoutView;
@@ -24,6 +25,21 @@ define(function(require) {
     },
 
     className: 'modal',
+    
+    initialize: function() {
+      this.deferred = when.defer();
+      this.promise = this.deferred.promise;
+      
+      this.render();
+      this.open();
+    },
+
+    render: function() {
+
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.appendTo('body');
+      return this;
+    },
 
     open: function(options, callback) {
 
@@ -51,7 +67,7 @@ define(function(require) {
         that.$el.css('z-index', parseInt(maxIndex, 10) + 31);
       });
 
-      //Create it (and show it, ofc)
+      // Create it (and show it, ofc)
       $el.modal(_.extend({
         keyboard: this.options.allowCancel,
         backdrop: this.options.allowCancel ? true : 'static',
@@ -89,6 +105,15 @@ define(function(require) {
       }
 
       $el.modal('hide');
+    },
+    
+    remove: function() {
+      // The value returned by the promise
+      // Ex: for a prompt modal, will be the input value
+      this.deferred.resolve(this.value);
+      
+      this.model.destroy();
+      Backbone.View.prototype.remove.apply(this, arguments);
     }
   });
 

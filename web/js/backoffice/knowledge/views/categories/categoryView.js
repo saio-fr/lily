@@ -118,10 +118,13 @@ define(function(require) {
     trash: function(e) {
       var that = this;
 
-      app.createModal.confirm(globals.modalConfirm.categoryTrash, function() {
-        that.model.destroy();
-        that.remove();
-      }, that);
+      var modal = app.createModal.confirm(globals.modalConfirm.categoryTrash);
+      modal.promise.then(function (res) {
+        if (res) {
+          this.model.destroy();
+          this.remove();
+        }
+      }.bind(this));
     }
 
   });

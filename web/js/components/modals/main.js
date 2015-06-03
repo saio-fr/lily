@@ -9,12 +9,13 @@ define(function(require) {
   // Require CommonJS like includes
   var ModalAlertView   = require('components/modals/views/alertView'),
       ModalConfirmView = require('components/modals/views/confirmView'),
-      ModalAppView = require('components/modals/views/appView'),
+      ModalAppView     = require('components/modals/views/appView'),
+      ModalPromptView  = require('components/modals/views/promptView'),
 
     // Object wrapper returned as a module
     CreateModal = {
       
-      confirm: function(content, callback, context) {
+      confirm: function(content) {
         var modalModel, modalView;
     
         modalModel = new Backbone.Model();
@@ -22,13 +23,6 @@ define(function(require) {
     
         modalView = new ModalConfirmView({
           model: modalModel
-        });
-    
-        $('.js-modal-action').on('click', function() {
-          if (_.isFunction(callback)) {
-            callback.apply(context, arguments);
-            $('.js-modal-action').off('click');
-          }
         });
         
         return modalView;
@@ -47,8 +41,22 @@ define(function(require) {
         
         return modalView;
       },
+            
+      prompt: function(content, value) {
+        var modalModel, modalView;
+    
+        modalModel = new Backbone.Model();
+        modalModel.set(content);
+        modalModel.set({value: value});
+        
+        modalView = new ModalPromptView({
+          model: modalModel
+        });
+        
+        return modalView;        
+      },
       
-      app: function(content, app, args) {
+      app: function(content) {
         var modalModel, modalView;
 
         modalModel = new Backbone.Model();

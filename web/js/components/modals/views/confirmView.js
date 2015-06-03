@@ -20,21 +20,17 @@ define(function(require) {
     className: 'modal',
     template: _.template($('#modalConfirmTpl').html()),
 
-    initialize: function() {
-      this.render();
-      this.open();
-    },
-
-    render: function() {
-
-      this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('body');
-      return this;
-    },
-
-    remove: function() {
-      this.model.destroy();
-      Backbone.View.prototype.remove.apply(this, arguments);
+    initialize: function () {
+      ModalLayoutView.prototype.initialize.apply(this, arguments);
+      
+      var that = this;
+      that.value = false;
+      
+      // That Listener need to be set after bootstrap event handler
+      // called in ModalLayoutView.open()
+      this.$('.js-modal-action').click(function () {
+        that.value = true;
+      });
     }
   });
 
