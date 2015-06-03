@@ -49,11 +49,6 @@ define(function(require) {
           app.categories.collection.fetch();
         }
       });
-    },
-
-    remove: function() {
-      this.model.destroy();
-      Backbone.View.prototype.remove.call(this);
     }
 
   });
