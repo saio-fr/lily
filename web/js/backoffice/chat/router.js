@@ -25,10 +25,7 @@ define(function(require) {
     },
 
     initialize: function() {
-
-      if (!app.chatUsers || !app.chatUsers instanceof Backbone.Collection) {
-        app.chatUsers = new Collections.Users();
-      }
+      app.chatUsers = new Collections.Users();
     },
 
     dashboard: function() {
