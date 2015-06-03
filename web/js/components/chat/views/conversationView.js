@@ -187,19 +187,25 @@ define(function(require) {
     close: function() {
       var that = this;
 
-      app.createModal.confirm(globals.modalConfirm.chatClose, function() {
-        app.trigger("operator:close", that.id);
-        that.minus();
-      }, that);
+      var modal = app.createModal.confirm(globals.modalConfirm.chatClose);
+      modal.promise.then(function (res) {
+        if (res) {
+          app.trigger('operator:close', this.id);
+          this.minus();          
+        }
+      }.bind(this));
     },
 
     ban: function() {
       var that = this;
-
-      app.createModal.confirm(globals.modalConfirm.chatBan, function() {
-        app.trigger("operator:ban", that.id);
-        that.minus();
-      }, that);
+      
+      var modal = app.createModal.confirm(globals.modalConfirm.chatBan);
+      modal.promise.then(function (res) {
+        if (res) {
+          app.trigger('operator:ban', this.id);
+          this.minus();          
+        }
+      }.bind(this));
     },
 
     transfer: function() {
@@ -217,7 +223,7 @@ define(function(require) {
         transferModalView.$el.find('.modal-body').html('Aucun opérateur disponible.');
       } else {
 
-        $.each(operators, function(index, operator) { // iterate through the collection
+        _.each(operators, function(operator) { // iterate through the collection
           var view = new OperatorView({
             model: operator,
             visitor: that.model
