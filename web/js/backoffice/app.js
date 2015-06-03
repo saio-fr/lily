@@ -125,10 +125,13 @@ define(function(require) {
           }
         } else {
 
-          app.createModal.confirm(config.modalConfirm.chatUnavailable, function() {
-            app.trigger('operator:setAvailability', true);
-            app.showLiveChatModal();
-          }, this);
+          var modal = app.createModal.confirm(config.modalConfirm.chatUnavailable);
+          modal.promise.then(function (res) {
+            if (res) {
+              app.trigger('operator:setAvailability', true);
+              app.showLiveChatModal();
+            }
+          }.bind(this));
         }
       },
 

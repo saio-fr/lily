@@ -60,10 +60,13 @@ define(function(require) {
       
       var that = this;
       
-      app.createModal.confirm(globals.modalConfirm.shortcutTrash, function() {
-        that.model.destroy();
-        that.remove();
-      }, that);
+      var modal = app.createModal.confirm(globals.modalConfirm.shortcutTrash);
+      modal.promise.then(function (res) {
+        if (res) {
+          this.model.destroy();
+          this.remove();          
+        }
+      }.bind(this));
     },
   });
 
