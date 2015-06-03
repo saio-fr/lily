@@ -1,0 +1,21 @@
+<!-- Modal -->
+<div class="modal-content <%=name %>">
+  <div class="modal-header">
+    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">
+      &times;
+    </button>
+    <h4 class="modal-title"><%=title %></h4>
+  </div>
+  <div class="modal-body">
+    <%=body %>
+    <input type="text" class="form-control" value="<%=value %>">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">
+      <%=cancel %>
+    </button>
+    <button type="button" class="btn btn-primary js-modal-action" data-dismiss="modal">
+      <%=confirm %>
+    </button>
+  </div>
+</div>

@@ -36,6 +36,7 @@ define(function(require) {
   g.modalAlert = {};
   g.modalConfirm = {};
   g.modalApp = {};
+  g.modalPrompt = {};
 
   g.modalAlert.redirection = {
     name: "modal-default-redirection",
@@ -132,6 +133,13 @@ define(function(require) {
     name: "modal-categories",
     title: "Modifier une catégorie"
   }; 
+  g.modalPrompt.insertLink = {
+    name: "modal-prompt",
+    title: "Veuillez entrer un lien",
+    body: "",
+    cancel: "Annuler",
+    confirm: "Valider"
+  }
 
   g.notifications = {
     countTitle: function(count) {

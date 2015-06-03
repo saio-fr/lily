@@ -98,6 +98,28 @@ ul {
   font-size: 14px;
 }
 
+.modal-content {
+  border-radius: 3px;
+}
+
+.modal-footer {
+  border-top: none;
+  padding: 15px;
+  margin-top: 0 !important;
+}
+
+.modal-title {
+  font-size: 14px;
+}
+
+.modal-prompt {
+  position: fixed;
+  width: 500px;
+  top: calc(50% - 100px) !important;
+  left: calc(50% - 250px) !important;
+}
+
+
 /****************************************************************************************
     MAIN MENU
 ****************************************************************************************/
@@ -483,6 +505,11 @@ ul {
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.tree-el .editor a {
+  text-decoration: underline;
+  color: #6a9bff;
 }
 
 .tree-el.editing .editor {

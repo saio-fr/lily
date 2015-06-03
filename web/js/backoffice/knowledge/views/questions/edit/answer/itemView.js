@@ -13,6 +13,7 @@ define(function(require) {
     Scribe = require('scribe'),
     scribePluginToolbar = require('scribe-plugin-toolbar'),
     scribePluginSanitizer = require('scribe-plugin-sanitizer'),
+    scribePluginPromptLink = require('utils/scribe-plugin-link-prompt-command'),
     Models = require('backoffice/knowledge/data/models'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
 
@@ -58,6 +59,7 @@ define(function(require) {
         allowBlockElements: false
       });
       scribe.use(scribePluginToolbar(toolbar));
+      scribe.use(scribePluginPromptLink());
       scribe.use(scribePluginSanitizer({
         tags: {
           p: true,
@@ -98,16 +100,20 @@ define(function(require) {
       var that = this;
 
       $('body').on('click', function (e) {
-        if (!$(e.target).parents('.answer.editing')
-          .length && getSelection() == "") {
+        
+        // Ugly but we need such to prevent loosing focus
+        // when click on modal etc
+        var cond1 = !$(e.target).parents('.answer.editing').length,
+            cond2 = !$(e.target).parents('.modal').length;
+        
+        if (cond1 && cond2 && getSelection().toString() === '') {
             that.$('.editing').removeClass('editing');
             $('body').off('click');
         }
       });
     },
-
-    leaveEditAnswer: function (e) {
-      e.stopImmediatePropagation();
+    
+    leaveEditAnswer: function () {
       var answer = this.$('.child .editor').first().html();
       this.model.set({answer: answer});
     },
