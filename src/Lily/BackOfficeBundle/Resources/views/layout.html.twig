@@ -98,11 +98,17 @@ filter='cssrewrite' %}
   <script type="text/template" id="modalConnectionLostTpl">
     {% include 'LilyChatBundle:Connection:lost.html.twig' %}
   </script>
+  <script type="text/template" id="modalAlertTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Modal:alert.html.twig' %}
+  </script>
   <script type="text/template" id="modalAppTpl">
     {% include 'LilyBackOfficeBundle:Utils/Modal:app.html.twig' %}
   </script>
   <script type="text/template" id="modalConfirmTpl">
     {% include 'LilyBackOfficeBundle:Utils/Modal:confirm.html.twig' %}
+  </script>
+  <script type="text/template" id="modalPromptTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Modal:prompt.html.twig' %}
   </script>
   <script type="text/template" id="modalTransferOperatorTpl">
     {% include 'LilyBackOfficeBundle:Utils/Chat/Modals/Transfer:operator.html.twig' %}

@@ -134,9 +134,12 @@ define(function (require) {
       var that = this;
       
       if (!$('.btn-group-trash button').attr('disabled')) {
-        app.createModal(globals.modalConfirm.questionsTrash, function() {
-          app.trigger('questions:toTrash');
-        }, that);
+        var modal = app.createModal.confirm(globals.modalConfirm.questionsTrash);
+        modal.promise.then(function (res) {
+          if (res) {
+            app.trigger('questions:toTrash');
+          }
+        });
       }
     },
     

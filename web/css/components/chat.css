@@ -452,14 +452,12 @@ LIVE CHAT
 }
 
 .modal-connection-lost {
-  margin: 0;
   position: absolute;
   width: 500px;
-  height: 400px;
+  background: #eed3d7;
+  color: #b94a48;
   top: calc(50% - 50px) !important;
   left: calc(50% - 250px) !important;
-  z-index: 9999;
-  opacity: 1;
 }
 
 .modal-transfer .list-group-item {
