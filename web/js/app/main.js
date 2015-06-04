@@ -185,7 +185,7 @@ require([
 
     if (!appInIframe()) {
       // Remove reduce icon
-      $('#lily-toolbar-icons').remove();
+      $('body').addClass('standalone');
     }
 
     // Ugly, uuuuuugly hack to allow a div with contenteditable set to "true"
