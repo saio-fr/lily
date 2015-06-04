@@ -180,19 +180,6 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
       return results;
     };
 
-    var parentSuggestion = function(suggestion) {
-      var parentId, parentQuestion, similarQuestions;
-
-      parentId = suggestion.answerId + '_' + 0;
-
-      similarQuestions = this.bloodhound.get(parentId);
-      parentQuestion = _.find(similarQuestions, function(question) {
-        return question.isParent === true;
-      });
-
-      return parentQuestion ? parentQuestion.text : suggestion.text;
-    };
-
     // Bloodhound params
     var settings = {
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('normalizedText'),
@@ -280,7 +267,8 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
       // Typeahead Params:
       var params = {
         name: 'questions',
-        display: parentSuggestion.bind(this),
+        // display: parentSuggestion.bind(this),
+        displayKey: 'text',
         limit: 3,
       };
 
