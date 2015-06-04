@@ -37,6 +37,11 @@ LIVE CHAT
   outline: none;
 }
 
+.conversations .editor a {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
 .conversations .editor p {
   margin: 0; 
 }
@@ -441,14 +446,11 @@ LIVE CHAT
   font-size: 14px;
 }
 
-.modal-transfer, .modal-close, .modal-ban, .modal-unavailable {
-  margin: 0;
+.modal-transfer, .modal-close, .modal-ban, .modal-unavailable, .modal-prompt {
   position: fixed;
   width: 500px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
-  z-index: 9999;
-  outline: 0;
 }
 
 .modal-connection-lost {
