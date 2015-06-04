@@ -183,9 +183,9 @@ require([
       }
     }
 
-    if (!appInIframe()) {
+    if (appInIframe()) {
       // Remove reduce icon
-      $('body').addClass('standalone');
+      $('body').addClass('embedded');
     }
 
     // Ugly, uuuuuugly hack to allow a div with contenteditable set to "true"

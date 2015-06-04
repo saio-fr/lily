@@ -1866,11 +1866,11 @@ MENU
   -webkit-transition: all .3s;
           transition: all .3s;
   color: #ffffff;
-  border-radius: 3px 3px 0 0;
+  border-radius: 0;
 }
 
-.standalone #lily-toolbar {
-  border-radius: 0;
+.embedded #lily-toolbar {
+  border-radius: 3px 3px 0 0;
 }
 
 #lily-toolbar-name {
@@ -1898,10 +1898,11 @@ MENU
   padding: 0;
   cursor: pointer;
   text-align: center;
+  display: none;
 }
 
-.standalone #lily-toolbar-icons {
-  display: none;
+.embedded #lily-toolbar-icons {
+  display: block;
 }
 
 .lily-icon-reduce {
