@@ -171,7 +171,23 @@ require([
 
   app.onLoadApp();
 
+  // On Dom loaded
   $(function() {
+
+    // App loading in an iframe (on the host website)
+    function appInIframe () {
+      try {
+        return window.self !== window.top;
+      } catch (e) {
+        return true;
+      }
+    }
+
+    if (!appInIframe()) {
+      // Remove reduce icon
+      $('#lily-toolbar-icons').remove();
+    }
+
     // Ugly, uuuuuugly hack to allow a div with contenteditable set to "true"
     // to work with typeahead:
     $.valHooks['contenteditable'] = {
