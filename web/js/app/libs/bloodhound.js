@@ -915,7 +915,8 @@
                 // Added by SAIO
                 function filterUnique(questions) {
                   var result = [],
-                      ids = [];
+                      ids = [],
+                      parents = [];
 
                   _.each(questions, function(question, index) {
                     var id = question.answerId;
@@ -924,7 +925,30 @@
                       result.push(question);
                     }
                   });
-                  return result;
+                  parents = filterParent(result);
+
+                  return parents;
+                }
+
+                function filterParent(questions) {
+                  var parentIds = [],
+                      parentQuestions = [];
+
+                  _.each(questions, function(question, index) {
+                    var parentId, parentQuestion;
+
+                    if (question.isParent) {
+                      parentQuestions.push(question);
+                      return;
+                    }
+
+                    parentId = question.answerId + '_' + 0;
+
+                    parentIds.push(parentId);
+                  });
+
+                  parentQuestions = parentQuestions.concat(that.index.get(parentIds));
+                  return parentQuestions;
                 }
                 // End added
             },
