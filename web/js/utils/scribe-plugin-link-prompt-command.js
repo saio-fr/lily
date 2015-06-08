@@ -42,7 +42,13 @@ define(function (require) {
                 prevRange.selectNode(anchorNode);
               } 
               prevSelection.selection.removeAllRanges();
-              prevSelection.selection.addRange(prevRange);                
+              prevSelection.selection.addRange(prevRange);
+              
+              // If no http/s protocol is provided, we automatically include it
+              var urlProtocolRegExp = /^https?\:\/\//;
+              if (!urlProtocolRegExp.test(link)) {
+                link = 'http://' + link;
+              }           
               
               scribe.api.SimpleCommand.prototype.execute.call(this, link);
             }
