@@ -459,7 +459,7 @@ ul {
   display: none;
 }
 
-.toolbar {
+.answer .toolbar {
   background: #DADEE2;
   border-radius: 3px;
   display: none;
