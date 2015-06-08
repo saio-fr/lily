@@ -439,7 +439,7 @@ define(function(require) {
 
       // Convert the question id from synapse's syntax;
       // ex: "r_54" to ours: "54"
-      id = suggestion ? that.stripIdPrefix(suggestion.answerId) : 0;
+      id = suggestion ? suggestion.answerId : 0;
 
       // Log request a this question
       api.logRequest(question, id);
@@ -824,18 +824,6 @@ define(function(require) {
         .addClass(animClassIn);
 
       this.aviShown = show;
-    },
-
-    /**
-     * Transform an id with synpase's syntax (w/ prefix "r_")
-     * into a regular id
-     *
-     * @param  {String} id
-     * @return {String}
-     */
-    stripIdPrefix: function(id) {
-      var prefix = /^r_/;
-      return id.replace(prefix, '');
     },
 
     failedPromise: function(err) {
