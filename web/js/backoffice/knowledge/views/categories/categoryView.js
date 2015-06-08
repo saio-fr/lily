@@ -12,8 +12,6 @@ define(function(require) {
     app = require('app'),
     interact = require('interact'),
     globals = require('globals'),
-    ModalModel = require('components/modals/model'),
-    ModalView = require('backoffice/knowledge/views/categories/edit/modalView'),
 
     // Object wrapper returned as a module
     CategoryView;
@@ -104,14 +102,14 @@ define(function(require) {
     },
 
     update: function(e) {
-      app.categories.updateModal(this.model);
+      app.trigger('category:edit', this.model);
 
       // Select the parent category to the parent of that one
       $('.modal-categories select[name="parent"]').val(this.model.get('parent'));
     },
 
     addChild: function(e) {
-      app.categories.updateModal(null);
+      app.trigger('category:edit');
 
       // Select the parent category to be that one
       $('.modal-categories select[name="parent"]').val(this.model.id);
@@ -120,10 +118,13 @@ define(function(require) {
     trash: function(e) {
       var that = this;
 
-      app.createModal(globals.modalConfirm.categoryTrash, function() {
-        that.model.destroy();
-        that.remove();
-      }, that);
+      var modal = app.createModal.confirm(globals.modalConfirm.categoryTrash);
+      modal.promise.then(function (res) {
+        if (res) {
+          this.model.destroy();
+          this.remove();
+        }
+      }.bind(this));
     }
 
   });

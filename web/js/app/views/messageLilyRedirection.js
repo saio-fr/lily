@@ -67,6 +67,8 @@ MessageLilyRedirection = Backbone.View.extend({
       .on('click', null, 'mail', this.triggerRedirection.bind(this));
     this.$('.lily-redirection-chat')
       .on('click', null, 'chat', this.triggerRedirection.bind(this));
+    this.$('.lily-redirection-none')
+      .on('click', null, 'none', this.triggerRedirection.bind(this));
   },
 
   triggerRedirection: function(ev) {

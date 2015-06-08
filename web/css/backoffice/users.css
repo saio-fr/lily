@@ -73,11 +73,11 @@
 }
 
 .list-group-item img {
-  width: 35px; 
+  width: 35px;
   height: 35px;
   margin-left: 10px;
+  border: solid 1px #E0E4E8;
 }
-
 
 .list-group-item .checkbox {
   display: inline-block;

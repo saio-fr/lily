@@ -15,12 +15,12 @@ define(function(require) {
     RecordWaiting = require('components/chat/views/records/waitingView'),
     InformationsView =   require('components/chat/views/informationsView'),
     ConversationView = require('components/chat/views/conversationView'),
-    ModalView = require('components/modals/modal'),
+    ModalLayoutView = require('components/modals/views/layoutView'),
 
     // Object wrapper returned as a module
     SkeletonView;
 
-  SkeletonView = ModalView.extend({
+  SkeletonView = ModalLayoutView.extend({
 
     tagName: 'section',
     id: 'chatModal',

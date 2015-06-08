@@ -14,8 +14,6 @@ define(function(require) {
     RedirectionEditView = require('backoffice/redirection/views/redirectionEditView'),
     RedirectionCollection = require('backoffice/redirection/collections/redirectionCollection'),
     globals = require('globals'),
-    ModalView = require('components/modals/alertView'),
-    ModalModel = require('components/modals/model'),
 
     // Object wrapper returned as a module
     SkeletonView;
@@ -56,12 +54,7 @@ define(function(require) {
     },
 
     onDeletePrevented: function() {
-
-      var modalModel = new ModalModel(globals.modalAlert.redirection);
-
-      this.modalView = new ModalView({
-        model: modalModel
-      });
+      app.createModal.alert(globals.modalAlert.redirection);
     },
 
     getActiveItem: function() {

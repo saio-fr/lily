@@ -56,7 +56,7 @@ MessageLilyNotation = MessageView.extend({
       satisfaction = false;
     }
 
-    msg = this.model.get('message_content');
+    msg = this.model.get('messageContent');
 
     if (!msg) { return; }
 

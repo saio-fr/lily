@@ -10,8 +10,6 @@ define(['../common', 'require'], function(common, require) {
   'when',
   'app',
   'backoffice/chat/router',
-  'components/modals/confirmView',
-  'components/modals/model',
   'components/chat/main',
   'moment',
   'globals',
@@ -22,32 +20,11 @@ define(['../common', 'require'], function(common, require) {
   'todoTpl',
   'polyfils',
   // Autobahn V1 AMD broken.
-], function($, _, Backbone, ab, when, app, ChatRouter, ModalConfirmationView,
-    ModalModel, LiveChat, moment, globals) {
+], function($, _, Backbone, ab, when, app, ChatRouter, LiveChat, moment, globals) {
 
     $.ajaxPrefilter(function(options) {
       options.url = globals.root + options.url;
     });
-
-    app.createModal = function(content, callback, context) {
-      var modalModel, modalView;
-
-      modalModel = new ModalModel();
-      modalModel.set(content);
-
-      // Todo: chack that (undefined ModalView :/ what is that ???)
-      modalView = new ModalView({
-        model: modalModel,
-        appendEl: ".js-skeleton-container"
-      });
-
-      $('.js-modal-action').on('click', function() {
-        if (_.isFunction(callback)) {
-          callback.apply(context, arguments);
-          $('.js-modal-action').off('click');
-        }
-      });
-    };
 
     // Set locale in moment JS
     moment.locale('fr');

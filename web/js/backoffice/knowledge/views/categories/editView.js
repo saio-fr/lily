@@ -1,5 +1,5 @@
 /*======================================
-          MODAL CATEGORIES
+            EDIT CATEGORY
 =======================================*/
 
 define(function(require) {
@@ -10,37 +10,29 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('app'),
-    ModalView = require('components/modals/modal'),
+    ModalLayoutView = require('components/modals/views/layoutView'),
 
     // Object wrapper returned as a modules
     Modal;
 
 
-  Modal = ModalView.extend({
+  Modal = Backbone.View.extend({
 
-    templateModal: _.template($('#modalAppTpl').html()),
-    templateEdit: _.template($('#categoriesEditTpl').html()),
+    template: _.template($('#categoriesEditTpl').html()),
 
     events: {
       'click .btn-update': 'update'
     },
 
-    initialize: function(options) {
-      this.category = options.category;
-
+    initialize: function() {
       this.render();
-      this.open();
     },
 
     render: function() {
-
-      this.$el.html(this.templateModal(this.model.toJSON()));
-      this.$('.modal-body').append(this.templateEdit({
-        category: this.category.toJSON(),
+      this.$el.html(this.template({
+        category: this.model.toJSON(),
         collection: app.categories.collection.toJSON()
       }));
-      this.$el.appendTo('body');
-      return this;
     },
 
     update: function(ev) {
@@ -49,24 +41,14 @@ define(function(require) {
       var title = this.$('input[name="title"]').val();
       var parent = parseInt(this.$('select[name="parent"]').val());
 
-      this.category.save({
+      this.model.save({
           title: title,
           parent: parent
         }, {
         success: function() {
-          console.log(that.category);
-          app.categories.collection.fetch({
-            success: function() {
-              that.close();
-            }
-          });
+          app.categories.collection.fetch();
         }
       });
-    },
-
-    remove: function() {
-      this.model.destroy();
-      Backbone.View.prototype.remove.call(this);
     }
 
   });

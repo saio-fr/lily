@@ -12,6 +12,7 @@ LIVE CHAT
 
 .operator-connected-list .thumb-sm {
   text-align: center;
+  border: solid 1px #DBDFE5;
 }
 
 .js-main-container i {
@@ -34,6 +35,11 @@ LIVE CHAT
 .conversations .editor {
   padding: 15px;
   outline: none;
+}
+
+.conversations .editor a {
+  text-decoration: underline;
+  font-weight: 600;
 }
 
 .conversations .editor p {
@@ -440,25 +446,20 @@ LIVE CHAT
   font-size: 14px;
 }
 
-.modal-transfer, .modal-close, .modal-ban, .modal-unavailable {
-  margin: 0;
+.modal-transfer, .modal-close, .modal-ban, .modal-unavailable, .modal-prompt {
   position: fixed;
   width: 500px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
-  z-index: 9999;
-  outline: 0;
 }
 
 .modal-connection-lost {
-  margin: 0;
   position: absolute;
   width: 500px;
-  height: 400px;
+  background: #eed3d7;
+  color: #b94a48;
   top: calc(50% - 50px) !important;
   left: calc(50% - 250px) !important;
-  z-index: 9999;
-  opacity: 1;
 }
 
 .modal-transfer .list-group-item {

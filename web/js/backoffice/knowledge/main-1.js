@@ -9,8 +9,6 @@ define(['../common', 'require'], function(common, require) {
   "app",
   "globals",
   "backoffice/knowledge/router",
-  "components/modals/confirmView",
-  "components/modals/model",
   "backoffice/knowledge/utils/counters",
   "utils/interact",
   'components/chat/main',
@@ -20,7 +18,7 @@ define(['../common', 'require'], function(common, require) {
   "bootstrap",
   "todoTpl"
 
-], function($, _, Backbone, app, globals, Router, ModalView, ModalModel, Counters, Interact, LiveChat) {
+], function($, _, Backbone, app, globals, Router, Counters, Interact, LiveChat) {
 
   $.ajaxPrefilter(function(options) {
     options.url = globals.root + options.url;
@@ -33,25 +31,6 @@ define(['../common', 'require'], function(common, require) {
     if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
       app.liveChat = new LiveChat();
     }
-  };
-
-  app.createModal = function(content, callback, context) {
-    var modalModel, modalView;
-
-    modalModel = new ModalModel();
-    modalModel.set(content);
-
-    modalView = new ModalView({
-      model: modalModel,
-      appendEl: ".js-skeleton-container"
-    });
-
-    $('.js-modal-action').on('click', function() {
-      if (_.isFunction(callback)) {
-        callback.apply(context, arguments);
-        $('.js-modal-action').off('click');
-      }
-    });
   };
 
   app.post = function() {

@@ -17,10 +17,16 @@ define(function(require) {
     avatars: "http://cdn-saio.fr/customer/" + g.licence + "/images/avatars/",
     defaultAvatar: "http://cdn-saio.fr/images/default-avatar.png",
   };
-  
+
+  g.synapse = {
+    user: window.config.licence,
+    password: window.config.synapsePassword,
+    restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
+  };
+
   g.knowledge = {};
   g.knowledge.questionsSortUrl = '/questions/sort';
-  g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' + 
+  g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' +
     'catégories sélectionnée(s)</h5>';
 
   g.faqWysiConfig = {
@@ -36,19 +42,26 @@ define(function(require) {
   g.modalAlert = {};
   g.modalConfirm = {};
   g.modalApp = {};
+  g.modalPrompt = {};
 
   g.modalAlert.redirection = {
     name: "modal-default-redirection",
-    title: "Attention",
     body: "Vous ne pouvez pas supprimer une redirection par défaut. " +
       "Vous devez d\'abord choisir une nouvelle redirection par " +
       "défaut avant de pouvoir supprimer celle-ci."
   };
   g.modalAlert.faq = {
     name: "modal-redirection",
-    title: "Cette catégorie n\'existe plus.",
-    body: "Nous vous avons redirigé vers l\'accueil"
+    body: "Cette catégorie n\'existe plus. Nous vous avons redirigé vers l\'accueil"
   };
+  g.modalAlert.configSucess = {
+    name: "modal-config-saved",
+    body: "Vos informations <strong>ont bien</strong> été sauvegardé."
+  }
+  g.modalAlert.wsConnectionLost = {
+    name: "modal-connection-lost",
+    body: "La connexion avec nos serveurs n'a pas pu être établi. Rafraichissez la page pour essayer de vous reconnecter."
+  }
   g.modalConfirm.groupTrash = {
     name: "modal-trash",
     title: "Etes-vous sur de vouloir ce groupe ?",
@@ -126,6 +139,13 @@ define(function(require) {
     name: "modal-categories",
     title: "Modifier une catégorie"
   }; 
+  g.modalPrompt.insertLink = {
+    name: "modal-prompt",
+    title: "Veuillez entrer un lien",
+    body: "",
+    cancel: "Annuler",
+    confirm: "Valider"
+  }
 
   g.notifications = {
     countTitle: function(count) {

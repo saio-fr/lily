@@ -13,13 +13,22 @@ define(function(require) {
   var _ = require('underscore'),
       $ = require("jquery"),
       Backbone = require('backbone'),
+      globals = require('globals'),
       config = require('globals'),
       Autobahn = require('autobahn'),
+      createModal = require('components/modals/main'),
       timers = require('components/chat/utils/timers'),
-      ModalConnectionLost = require('components/modals/connectionLost'),
 
     app = {
+         
+      ////////////////////
+      // Modal component
+      ////////////////////
+      createModal: {},
 
+      ////////////////////
+      //  Ws Component
+      ////////////////////
       wsConnect: function(callback) {
         return ab.connect(
 
@@ -122,10 +131,13 @@ define(function(require) {
           }
         } else {
 
-          app.createModal(config.modalConfirm.chatUnavailable, function() {
-            app.trigger('operator:setAvailability', true);
-            app.showLiveChatModal();
-          }, this);
+          var modal = app.createModal.confirm(config.modalConfirm.chatUnavailable);
+          modal.promise.then(function (res) {
+            if (res) {
+              app.trigger('operator:setAvailability', true);
+              app.showLiveChatModal();
+            }
+          }.bind(this));
         }
       },
 
@@ -216,13 +228,13 @@ define(function(require) {
 
       onConnectionError: function() {
         if (!app.modalConnectionLost) {
-          app.modalConnectionLost = new ModalConnectionLost();
+          app.modalConnectionLost = app.createModal.alert(globals.modalAlert.wsConnectionLost);
         }
         if (!app.modalConnectionLost.$el.is(':visible')) {
           app.modalConnectionLost.open();
         }
       },
-
+      
       ////////////////////
       //    GA Utils
       ////////////////////
@@ -283,6 +295,7 @@ define(function(require) {
     };
 
   _.extend(app, Backbone.Events);
+  _.extend(app.createModal, createModal);
 
   // Chat status events:
   app.on('chat:open',         app.onChatOpen);

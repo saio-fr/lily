@@ -8,22 +8,30 @@ define(function(require) {
       moment = require('moment'),
       moment_fr = require('moment-fr'),
       globals = require('globals'),
+      timers = require('components/chat/utils/timers'),
       SkeletonView = require('components/chat/views/skeletonView'),
       Collections = require('components/chat/data/collections'),
       Notifs = require('components/notifications/notifsCollectionView'),
       app = require('app');
 
-  var chat = function() {
+  var chat = function(config) {
     // Set locale in moment JS
     moment.locale('fr');
 
     var init = function() {
-
-      app.chatUsers = new Collections.Users();
+      app.available = !!config.available;
+      app.trigger('operator:setAvailability', app.available);
+      
+      if (!app.chatUsers || !app.chatUsers instanceof Backbone.Collection) {
+        app.chatUsers = new Collections.Users();
+      }
       app.chatShortcuts = new Collections.Shortcuts();
 
       app.liveChatSkeleton = new SkeletonView();
       app.isLiveChatInit = true;
+
+      // Get diff between server time and user to sync timers
+      timers.serverTime = config.time - new moment().unix();
 
       app.notifs = new Notifs();
 

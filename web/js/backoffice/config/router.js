@@ -16,7 +16,6 @@ define(function(require) {
     GlobalView = require('backoffice/config/views/globalView'),
     ChatView = require('backoffice/config/views/chatView'),
     AviView = require('backoffice/config/views/aviView'),
-    ModalView = require('backoffice/config/views/modalView'),
 
     // Object wrapper returned as a module
     AppRouter;
@@ -52,8 +51,6 @@ define(function(require) {
           skeleton.chatView = new ChatView({
             model: configModel
           });
-
-        skeleton.modalView = new ModalView();
       });
 
       app.pageView('/config');

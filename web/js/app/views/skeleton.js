@@ -54,6 +54,12 @@ define(function(require) {
         }
       });
 
+      $('#lily-wrapper-page').on('click', function() {
+        if (snapper.state().state === 'left') {
+          snapper.close();
+        }
+      });
+
       $('.lily-menu-body li a').click(function() {
         snapper.close();
       });
