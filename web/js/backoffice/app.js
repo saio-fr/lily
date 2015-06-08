@@ -15,6 +15,7 @@ define(function(require) {
       Backbone = require('backbone'),
       config = require('globals'),
       Autobahn = require('autobahn'),
+      timers = require('components/chat/utils/timers'),
       ModalConnectionLost = require('components/modals/connectionLost'),
 
     app = {
@@ -28,15 +29,20 @@ define(function(require) {
             app.ws = session;
 
             app.connect().then(function(result) {
+              
               if (_.isFunction(callback)) {
                 callback(result);
               }
 
               app.available = !!result.available;
+              app.trigger('operator:setAvailability', app.available);
+              
+              // Get diff between server time and user to sync timers
+              timers.serverTime = result.time - new moment().unix();
 
               app.isConnectionAlive();
               app.ping();
-              app.onConnect(result);
+              
             }, function(err) {
               console.warn(err);
 

@@ -23,18 +23,13 @@ define(['../common', 'require'], function(common, require) {
     app.init = function() {
       app.skeleton = new SkeletonView();
       app.pageView("/redirection");
-    };
-
-    // Will get called if ws connection is successful
-    app.onConnect = function(result) {
-      
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
-        app.liveChat = new LiveChat(result);
+        app.liveChat = new LiveChat();
       }
     };
 
-    app.wsConnect();
     app.init();
+    app.wsConnect();
     Backbone.history.start();
   });
 });
