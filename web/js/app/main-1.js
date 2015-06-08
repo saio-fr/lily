@@ -15,7 +15,7 @@ require.config({
     'FastClick':          'bower_components/fastclick/lib/fastclick',
     'synapse':            'app/libs/synapse-suggest',
     'typeahead':          'app/libs/typeahead.jquery',
-    'bloodhound':         'bower_components/typeahead.js/dist/bloodhound'
+    'bloodhound':         'app/libs/bloodhound'
   },
   shim: {
     'underscore': {
@@ -171,7 +171,23 @@ require([
 
   app.onLoadApp();
 
+  // On Dom loaded
   $(function() {
+
+    // App loading in an iframe (on the host website)
+    function appInIframe () {
+      try {
+        return window.self !== window.top;
+      } catch (e) {
+        return true;
+      }
+    }
+
+    if (appInIframe()) {
+      // Remove reduce icon
+      $('body').addClass('embedded');
+    }
+
     // Ugly, uuuuuugly hack to allow a div with contenteditable set to "true"
     // to work with typeahead:
     $.valHooks['contenteditable'] = {

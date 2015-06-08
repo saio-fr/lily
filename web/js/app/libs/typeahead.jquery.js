@@ -807,7 +807,8 @@
                     suggestions = suggestions || [];
                     if (!canceled && rendered < that.limit) {
                         that.cancel = $.noop;
-                        rendered += suggestions.length;
+                        // To be removed in Typeahead v11.2, not merge into master yet on their end
+                        // rendered += suggestions.length;
                         that._append(query, suggestions.slice(0, that.limit - rendered));
                         that.async && that.trigger("asyncReceived", query);
                     }
@@ -921,6 +922,8 @@
                 return this.$node.hasClass(this.classes.open);
             },
             open: function open() {
+                // Added in v11.2 by Typeahead:
+                this.$node.scrollTop(0);
                 this.$node.addClass(this.classes.open);
             },
             close: function close() {

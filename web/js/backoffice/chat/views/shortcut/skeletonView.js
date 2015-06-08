@@ -15,7 +15,6 @@ define(function(require) {
     EditView = require('backoffice/chat/views/shortcut/editView'),
     Collections = require('backoffice/chat/data/collections'),
     globals = require('globals'),
-    ModalModel = require('components/modals/model'),
 
     // Object wrapper returned as a module
     SkeletonView;

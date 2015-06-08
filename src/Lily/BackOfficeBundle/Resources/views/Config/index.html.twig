@@ -39,9 +39,6 @@
 	<script type="text/template" id="chatTpl">
     {% include 'LilyBackOfficeBundle:Config:chat.html.twig' %}
   </script>
-	<script type="text/template" id="modalTpl">
-    {% include 'LilyBackOfficeBundle:Config:modal.html.twig' %}
-  </script>
   {% endblock %}
 
 	{% block bootstrap %}
@@ -62,7 +59,7 @@
 	</section>
 
 <script src="{{ asset('js/bower_components/requirejs/require.js')}}"
-  data-main="{{ asset('js/backoffice/config/main.js')}}">
+  data-main="{{ asset('js/backoffice/config/main-1.js')}}">
 </script>
 
 {% endblock %}

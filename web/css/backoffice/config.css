@@ -79,15 +79,14 @@ h5 {
   border-radius: 3px;
 }
 
-.modal-saved {
-  margin: 0;
+.modal-config-saved {
   position: absolute;
   width: 500px;
-  height: 400px;
+  background: #dff0d8;
+  color: #468847;
   top: calc(50% - 50px) !important;
   left: calc(50% - 250px) !important;
-  z-index: 10001;
-  opacity: 1;
+  z-index: 1030;
 }
 .switch input:checked + span {
   background-color: #71aee5;

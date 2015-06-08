@@ -17,6 +17,7 @@ define(function(require) {
     Scribe = require('scribe'),
     scribePluginToolbar = require('scribe-plugin-toolbar'),
     scribePluginShellCommand = require('scribe-plugin-shell-command'),
+    scribePluginPromptLink = require('utils/scribe-plugin-link-prompt-command'),
     scribePluginSanitizer = require('scribe-plugin-sanitizer'),
 
     // Object wrapper returned as a module
@@ -76,6 +77,7 @@ define(function(require) {
 
       this.editor = new Scribe(editorEl);
       this.editor.use(scribePluginToolbar(toolbarEl));
+      this.editor.use(scribePluginPromptLink());
       this.editor.use(scribePluginShellCommand());
       this.editor.use(scribePluginSanitizer({
         tags: {

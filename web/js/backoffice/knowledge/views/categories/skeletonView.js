@@ -7,16 +7,15 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-      app = require('app'),
-      globals = require('globals'),
-      Interact = require('utils/interact'),
+  var Backbone           = require('backbone'),
+      app                = require('app'),
+      globals            = require('globals'),
+      Interact           = require('utils/interact'),
       ChildViewContainer = require('utils/backbone-childviewcontainer'),
-      Models = require('backoffice/knowledge/data/models'),
-      Collections = require('backoffice/knowledge/data/collections'),
-      CategoryView = require('backoffice/knowledge/views/categories/categoryView'),
-      ModalModel = require('components/modals/model'),
-      ModalView = require('backoffice/knowledge/views/categories/edit/modalView'),
+      Models             = require('backoffice/knowledge/data/models'),
+      Collections        = require('backoffice/knowledge/data/collections'),
+      CategoryView       = require('backoffice/knowledge/views/categories/categoryView'),
+      EditView           = require('backoffice/knowledge/views/categories/editView'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -35,6 +34,7 @@ define(function (require) {
       this.childViews = new Backbone.ChildViewContainer();
       this.collection = new Collections.Categories();
       
+      this.listenTo(app, 'category:edit', this.createEditModal);
       this.listenTo(app, 'categories:select', this.selectCategory);
       this.listenTo(app, 'categories:unselect', this.unselectCategory);
       this.listenTo(this.collection, 'add remove change', this.render);
@@ -157,26 +157,27 @@ define(function (require) {
       }
     },
     
-    updateModal: function (categoryModel) {
+    createEditModal: function (categoryModel) {
       
-      var modalModel = new ModalModel();
+      var modalView;
       
       if (!categoryModel) {
         categoryModel = new Models.Category();
-        modalModel.set(globals.modalApp.newCategory);       
+        modalView = app.createModal.app(globals.modalApp.newCategory);       
       } else {
-        modalModel.set(globals.modalApp.updateCategory); 
+        modalView = app.createModal.app(globals.modalApp.updateCategory); 
       }
+      
+      var editView = new EditView({
+        model: categoryModel
+      });
 
-      var modalView = new ModalView({
-        model: modalModel,
-        category: categoryModel,
-        appendEl: ".js-skeleton-container"
-      });      
+      editView.$el.appendTo(modalView.$('.modal-body'));
+      modalView.childViews.add(editView);     
     },
     
     create: function () {
-      this.updateModal(null);
+      this.createEditModal(null);
     }
     
   });
