@@ -28,6 +28,9 @@ define(['../common', 'require'], function(common, require) {
     app.router = new Router();
     Interact.resizeNavigator();
     Counters.set(config);
+    if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+      app.liveChat = new LiveChat();
+    }
   };
 
   app.post = function() {
@@ -39,16 +42,8 @@ define(['../common', 'require'], function(common, require) {
     });
   };
 
-  // Will get called if ws connection is successful
-  app.onConnect = function(result) {
-
-    if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
-      app.liveChat = new LiveChat(result);
-    }
-  };
-
-  app.wsConnect();
   app.init();
+  app.wsConnect();
   Backbone.history.start();
 });
 });
