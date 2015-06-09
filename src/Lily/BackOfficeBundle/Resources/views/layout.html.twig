@@ -113,6 +113,13 @@ filter='cssrewrite' %}
   <script type="text/template" id="modalTransferOperatorTpl">
     {% include 'LilyBackOfficeBundle:Utils/Chat/Modals/Transfer:operator.html.twig' %}
   </script>
+  <!-- 
+      Audio
+  -->
+  <audio 
+    src="http://{{ cdn }}/audio/chat/new_notification.mp3" 
+    class="new-chat-notification" preload="auto">
+  </audio>
   
   <!-- 
     Load Bugsnag
