@@ -29,27 +29,11 @@ define(function(require) {
 
       $('.app-main-header .header-widget.notifications-menu')
         .on('click', app.showLiveChat);
-
-      $('#chatModal').on('hidden.bs.modal', function(ev) {
-        window.sessionStorage.setItem("chatModalVisible", false);
-        // app.chatDestroy();
-      });
-
-      var chatModalVisible = window.sessionStorage.getItem("chatModalVisible");
-      if (chatModalVisible === "true") {
-        app.showLiveChat();
-      }
     };
 
     init();
 
   };
-
-  _.extend(chat, function remove() {
-    if (app.liveChatSkeleton) {
-      app.liveChatSkeleton.remove();
-    }
-  });
 
   return chat;
 

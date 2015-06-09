@@ -124,7 +124,6 @@ define(function(require) {
 
         if (app.available) {
           app.showLiveChatModal();
-          window.sessionStorage.setItem('chatModalVisible', true);
 
           if (id) {
             app.trigger('chat:showConversation', id);
