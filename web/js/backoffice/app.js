@@ -118,13 +118,8 @@ define(function(require) {
 
       showLiveChat: function(id) {
 
-        if (!app.isLiveChatInit) {
-          return;
-        }
-
         if (app.available) {
           app.showLiveChatModal();
-          window.sessionStorage.setItem('chatModalVisible', true);
 
           if (id) {
             app.trigger('chat:showConversation', id);
