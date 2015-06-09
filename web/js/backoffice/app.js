@@ -118,10 +118,6 @@ define(function(require) {
 
       showLiveChat: function(id) {
 
-        if (!app.isLiveChatInit) {
-          return;
-        }
-
         if (app.available) {
           app.showLiveChatModal();
 

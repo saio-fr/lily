@@ -23,7 +23,6 @@ define(function(require) {
       app.chatShortcuts = new Collections.Shortcuts();
 
       app.liveChatSkeleton = new SkeletonView();
-      app.isLiveChatInit = true;
 
       app.notifs = new Notifs();
 
