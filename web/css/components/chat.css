@@ -2,8 +2,8 @@
 LIVE CHAT
 =======================================================================================================*/
 .conversation-section-list a {
-  text-decoration: underline;
   font-weight: 600;
+  text-decoration: underline;
 }
 
 .conversation-section-item .avatar-thumb {
@@ -12,7 +12,7 @@ LIVE CHAT
 
 .operator-connected-list .thumb-sm {
   text-align: center;
-  border: solid 1px #DBDFE5;
+  border: solid 1px #dbdfe5;
 }
 
 .js-main-container i {
@@ -25,7 +25,7 @@ LIVE CHAT
 
 .conversations.show-conversation-list {
   padding-left: 275px;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .conversations .avatar {
@@ -35,65 +35,73 @@ LIVE CHAT
 .conversations .editor {
   padding: 15px;
   outline: none;
+  margin: 5px;
+  border: solid 1px rgba(136, 136, 136, 0.25);
+  border-radius: 3px;
+}
+
+.conversations .editor:focus,
+.conversations .editor:active {
+  border: solid 1px rgba(87, 154, 215, 0.6);
 }
 
 .conversations .editor a {
-  text-decoration: underline;
   font-weight: 600;
+  text-decoration: underline;
 }
 
 .conversations .editor p {
-  margin: 0; 
+  margin: 0;
 }
 
 .conversations .toolbar .btn {
-  background: #EAECF0;
   padding: 5px;
+  background: #eaecf0;
 }
 
 .shell-alert {
-  padding: 10px;
   margin-bottom: 10px;
-  background: #A5A5A5;
+  padding: 10px;
   text-align: center;
-  border-radius: 2px;
   color: white;
+  border-radius: 2px;
+  background: #a5a5a5;
 }
 
 .suggestions {
-  border: 1px solid #EBEFF6;
-  background: #F9FAFC;
   position: relative;
+  border: 1px solid #ebeff6;
+  background: #f9fafc;
 }
 
 .suggestions-header {
-  padding: 5px;
-  border-bottom: 1px solid #EBEFF6;
   height: 22px;
+  padding: 5px;
+  border-bottom: 1px solid #ebeff6;
 }
 
 .suggestions-type {
-  font-size: 10px;
-  color: #ccc;
   margin: 0;
+  font-size: 10px;
+  color: #cccccc;
 }
 
 .suggestions-help-list {
-  list-style-type: none;
   margin: 0;
   padding: 0;
+  list-style-type: none;
 }
 
 .suggestions-help-item {
   display: inline-block;
-  color: #ccc;
-  font-size: 9px;
   margin-left: 5px;
+  font-size: 9px;
+  color: #cccccc;
 }
 
 .suggestions-content {
-  padding: 10px;
   max-height: 200px;
+  padding: 10px;
 }
 
 .suggestions-content::-webkit-scrollbar {
@@ -107,30 +115,30 @@ LIVE CHAT
 }
 
 .suggestions-item {
-  cursor: pointer;
   padding: 10px 10px;
+  cursor: pointer;
 }
 
 .suggestions-item.focus {
-  background: #579ad7;
   color: white;
   border-radius: 2px;
+  background: #579ad7;
 }
 
 .suggestion-title {
-  white-space: nowrap;
+  max-width: 30%;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 30%; 
 }
 
 .suggestion-description {
-  font-size: 10px;
-  color: #848484;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   max-width: 60%;
+  font-size: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #848484;
 }
 
 .focus .suggestion-description {
@@ -138,32 +146,32 @@ LIVE CHAT
 }
 
 .live-nav.active a {
-  background: #528DC3 !important;
   color: #f2f2f2 !important;
+  background: #528dc3 !important;
 }
 
 .aside-chat-left {
-  width: 275px;
   position: absolute;
   z-index: 4;
+  width: 275px;
+  border-right: solid 1px rgba(136, 136, 136, .2);
   border-radius: 3px 0 0 3px;
 }
 
 .aside-chat-right {
   width: 50px;
+  overflow: hidden;
+  border-left: solid 1px rgba(136, 136, 136, 0.17);
   border-radius: 3px 3px 0 0;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .chat-header {
   background: #6075a4;
 }
 
-.chat-message-show{
+.chat-message-show {
   -webkit-animation: showFromBottom .3s ease both;
-  -moz-animation: showFromBottom .3s ease both;
-  animation: showFromBottom .3s ease both;
+          animation: showFromBottom .3s ease both;
 }
 
 .conversation-header {
@@ -177,20 +185,21 @@ LIVE CHAT
 
 .header-control a i {
   font-size: 20px;
-  color: #f9f9f9;
   line-height: 30px;
+  color: #f9f9f9;
 }
 
 .header-control button {
+  margin-right: 5px;
+  font-size: 12px;
+  color: #f9f9f9;
+  outline: none;
   background: #565f71;
   box-shadow: 3px 3px 1px -2px #454d5f;
-  outline: none;
-  color: #f9f9f9;
-  font-size: 12px;
-  margin-right: 5px;
 }
 
-.header-control button:hover, .header-control button:focus {
+.header-control button:hover,
+.header-control button:focus {
   color: white;
 }
 
@@ -203,25 +212,27 @@ LIVE CHAT
 }
 
 .header .windows .dropdown-menu {
-  margin-top: 5px;
-  min-width: 125px;
   right: 4px;
   left: auto;
+  min-width: 125px;
+  margin-top: 5px;
 }
 
-.windows .dropdown-menu a, .status .dropdown-menu a {
+.windows .dropdown-menu a,
+.status .dropdown-menu a {
   color: #999999;
 }
 
-.windows .dropdown-menu a:hover, .status .dropdown-menu a:hover {
+.windows .dropdown-menu a:hover,
+.status .dropdown-menu a:hover {
+  color: #999999;
   background: #f3f5f9;
-  color: #999999;
 }
 
 .status {
+  display: inline-block;
   width: 11px;
   height: 11px;
-  display: inline-block;
 }
 
 .status:before {
@@ -229,8 +240,8 @@ LIVE CHAT
 }
 
 .status-button .icon-stop {
-  font-size: 11px;
   margin-right: 3px;
+  font-size: 11px;
 }
 
 .status-button .available {
@@ -241,27 +252,24 @@ LIVE CHAT
   color: #ff6455;
 }
 
-.header-current, .header-waiting {
-  border-bottom: 1px solid #d1d1d1;
+.header-collapsible {
   height: 40px;
   padding: 0 10px 0 15px;
   cursor: pointer;
-}
-
-.header-current span, .header-waiting span {
-  margin-top: 10px;
-  background: #e7e9ed;
-  color: #7e7f84;
-}
-
-.header-current {
   border-top: 1px solid #d1d1d1;
+  border-bottom: 1px solid #d1d1d1;
+}
+
+.header-collapsible span {
+  margin-top: 10px;
+  color: #7e7f84;
+  background: #e7e9ed;
 }
 
 .header-queue {
+  position: relative;
   height: 50px;
   padding: 0px 10px 0 15px;
-  position: relative;
 }
 
 .header-queue h5 {
@@ -272,8 +280,8 @@ LIVE CHAT
 
 .windows-selector {
   position: absolute;
-  right: 10px;
   top: 10px;
+  right: 10px;
 }
 
 .windows-selector .dropdown-menu {
@@ -282,49 +290,46 @@ LIVE CHAT
 }
 
 .windows-selector .btn {
+  color: #8c8c8c;
+  border: solid 1px rgba(206, 206, 206, .65);
   background: transparent;
-  border: solid 1px rgba(206, 206, 206, 0.65);
-  color: #8C8C8C;
 }
 
-.header-waiting {
-  border-top: 1px solid #d1d1d1;
-}
-
-.header-current h5, .header-waiting h5 {
+.header-collapsible h5 {
+  display: inline-block;
+  margin: 0;
   font-size: 10px;
   font-weight: 900;
-  color: #67686b;
-  margin: 0;
   line-height: 40px;
-  display: inline-block;
+  color: #67686b;
 }
 
 .header-current > i {
   font-size: 20px;
-  color: #67686b;
   line-height: 38px;
   cursor: pointer;
+  color: #67686b;
 }
 
 .header-waiting > i {
   font-size: 20px;
-  color: #67686b;
   line-height: 38px;
   cursor: pointer;
+  color: #67686b;
 }
 
-.list-current, .list-waiting {
-  padding: 0;
+.list-current,
+.list-waiting {
   margin: 0;
+  padding: 0;
 }
 
 .list-record-item {
   position: relative;
-  border-bottom: 1px solid #f1f0f0;
-  height: 55px;
   width: 100%;
+  height: 55px;
   cursor: pointer;
+  border-bottom: 1px solid #f1f0f0;
 }
 
 .list-record-item:hover {
@@ -332,8 +337,8 @@ LIVE CHAT
 }
 
 .list-record-item.active {
-  background: #F3F5F9;
-  box-shadow: -9px 0px 20px -12px rgba(179, 179, 179, 0.75) inset;
+  background: #f3f5f9;
+  box-shadow: -9px 0px 20px -12px rgba(179, 179, 179, .75) inset;
 }
 
 .list-record-item:last-child {
@@ -342,31 +347,31 @@ LIVE CHAT
 
 .list-record-item .status-full {
   position: absolute;
-  left: 10px;
   top: 10px;
-  height: 30px;
+  left: 10px;
   width: 10px;
+  height: 30px;
 }
 
 .list-record-item .status-half-first {
   position: absolute;
-  left: 10px;
   top: 10px;
-  height: 15px;
+  left: 10px;
   width: 10px;
+  height: 15px;
 }
 
 .list-record-item .status-half-last {
   position: absolute;
-  left: 10px;
   top: 27px;
-  height: 15px;
+  left: 10px;
   width: 10px;
+  height: 15px;
 }
 
 .answered {
-  background: #31bf7a;
   color: #31bf7a;
+  background: #31bf7a;
 }
 
 .text-answered {
@@ -374,13 +379,13 @@ LIVE CHAT
 }
 
 .unanswered {
-  background: #f8ca12;
   color: #f8ca12;
+  background: #f8ca12;
 }
 
 .urgent {
-  background: #e74c3c !important;
   color: #e75c3c;
+  background: #e74c3c !important;
 }
 
 .text-urgent {
@@ -396,40 +401,32 @@ LIVE CHAT
 }
 
 .multiple {
-  margin: 20px;
   display: inline-block;
+  margin: 15px;
   background: #f9fafb;
+  overflow: hidden;
+  border-radius: 3px;
 }
 
 .multiple.selected {
-  -moz-box-shadow:    0px 0px 30px 0px #D5D5D5;
-  -webkit-box-shadow: 0px 0px 30px 0px #D5D5D5;
-  box-shadow:         0px 0px 30px 0px #D5D5D5;
+  box-shadow: 0 0 20px 0 rgba(74, 83, 100, 0.4);
 }
 
 .half-width {
-  max-width: -moz-calc(50% - 40px);
-  max-width: -webkit-calc(50% - 40px);
-  max-width: -o-calc(50% - 40px);
-  max-width: calc(50% - 40px);
-  height: calc(100% - 40px);
-  height: -moz-calc(100% - 40px);
-  height: -webkit-calc(100% - 40px);
-  height: -o-calc(100% - 40px);
+  max-width: -o-calc(50% - 30px);
+  max-width:    calc(50% - 30px);
+  height:    calc(100% - 30px);
+  height: -o-calc(100% - 30px);
 }
 
 .half-height {
-  max-height: -moz-calc(50% - 40px);
-  max-height: -webkit-calc(50% - 40px);
-  max-height: -o-calc(50% - 40px);
-  max-height: calc(50% - 40px);
+  max-height: -o-calc(50% - 30px);
+  max-height:    calc(50% - 30px);
 }
 
 .full-width {
-  max-width: -moz-calc(100% - 40px);
-  max-width: -webkit-calc(100% - 40px);
-  max-width: -o-calc(100% - 40px);
-  max-width: calc(100% - 40px);
+  max-width: -o-calc(100% - 30px);
+  max-width:    calc(100% - 30px);
 }
 
 .modal-content {
@@ -437,29 +434,33 @@ LIVE CHAT
 }
 
 .modal-footer {
-  border-top: none;
-  padding: 15px;
   margin-top: 0 !important;
+  padding: 15px;
+  border-top: none;
 }
 
 .modal-title {
   font-size: 14px;
 }
 
-.modal-transfer, .modal-close, .modal-ban, .modal-unavailable, .modal-prompt {
+.modal-transfer,
+.modal-close,
+.modal-ban,
+.modal-unavailable,
+.modal-prompt {
   position: fixed;
-  width: 500px;
   top: calc(50% - 100px) !important;
   left: calc(50% - 250px) !important;
+  width: 500px;
 }
 
 .modal-connection-lost {
   position: absolute;
-  width: 500px;
-  background: #eed3d7;
-  color: #b94a48;
   top: calc(50% - 50px) !important;
   left: calc(50% - 250px) !important;
+  width: 500px;
+  color: #b94a48;
+  background: #eed3d7;
 }
 
 .modal-transfer .list-group-item {
@@ -472,57 +473,59 @@ LIVE CHAT
 
 .modal-close-button {
   position: absolute;
-  right: 10px;
+  z-index: 10002;
   top: 10px;
-  -webkit-appearance: none;
+  right: 10px;
+  font-size: 20px;
+  opacity: 1;
+  color: #ffffff;
   border: none;
   background: transparent;
-  color: #fff;
-  opacity: 1;
-  font-size: 20px;
-  z-index: 10002;
+
+  -webkit-appearance: none;
 }
 
 .list-record-item .informations {
   display: inline-block;
-  margin-top: 10px;
-  margin-left: 30px;
   width: 150px;
   height: 35px;
+  margin-top: 10px;
+  margin-left: 30px;
   border-right: 1px solid #efefef;
 }
 
 .list-record-item .informations p {
+  width: 100%;
   margin: 0;
-  color: #787878;
   font-size: 12px;
   overflow: hidden;
-  -o-text-overflow: ellipsis; /* pour Opera 9 */
-  text-overflow: ellipsis;
-  width: 100%;
   white-space: nowrap;
+     text-overflow: ellipsis;
+  color: #787878;
+
+  -o-text-overflow: ellipsis; /* pour Opera 9 */
 }
 
 .list-record-item .informations label {
-  color: #787878;
-  font-size: 10px;
-  margin: 0 0 0 -2px;
   position: relative;
   top: -4px;
+  margin: 0 0 0 -2px;
+  font-size: 10px;
+  color: #787878;
 }
 
 .list-record-item .informations icon {
-  font-size: 12px;
   margin-right: 3px;
+  font-size: 12px;
 }
 
 .list-record-item .timer-lastmsg {
-  color: #999999;
   display: inline-block;
-  font-size: 14px;
   width: 90px;
+  font-size: 14px;
   text-align: center;
   vertical-align: 35%;
+  color: #999999;
 }
 
 .aside-chat-left {
@@ -530,27 +533,25 @@ LIVE CHAT
 }
 
 .conversation-header p {
-  margin-left: 5px;
   width: 100%;
-  max-width: -moz-calc(100% - 310px);
-  max-width: -webkit-calc(100% - 310px);
   max-width: -o-calc(100% - 310px);
-  max-width: calc(100% - 310px);
+  max-width:    calc(100% - 310px);
+  margin-left: 5px;
 }
 
 .conversation-header-control {
-  color: #6e7d83;
+  margin-top: 10px;
   font-size: 12px;
   font-weight: 600;
-  margin-top: 10px;
+  color: #6e7d83;
 }
 
 .conversation-minus {
-  color: #6e7d83;
-  font-size: 18px;
   float: right;
   margin: 18px 0 0 15px;
+  font-size: 18px;
   cursor: pointer;
+  color: #6e7d83;
 }
 
 .conversation-close:hover,
@@ -561,16 +562,23 @@ LIVE CHAT
 
 .conversation-header-control .transfer,
 .conversation-header-control .ban,
-.conversation-header-control .conversation-close{
-  cursor: pointer;
+.conversation-header-control .conversation-close {
   display: inline-block;
   padding: 5px 8px 5px 0px;
-  border: solid 1px rgba(206, 206, 206, 0.65);
+  cursor: pointer;
+  border: solid 1px rgba(206, 206, 206, .65);
   border-radius: 3px;
 }
 
-.conversation-footer  {
-  padding: 0 20px;
+.conversation-footer {
+  padding: 0 10px 10px 10px;
+}
+
+.conversation-footer .panel {
+  margin: 0;
+  border: solid 1px rgba(136, 136, 136, 0.32);
+  box-shadow: none;
+  border-radius: 3px;
 }
 
 .conversation-footer .alert-writing {
@@ -578,8 +586,8 @@ LIVE CHAT
   top: -25px;
   right: 25px;
   font-size: 12px;
-  color: #747474;
   font-weight: 600;
+  color: #747474;
 }
 
 .conversation-footer textarea {
@@ -589,8 +597,8 @@ LIVE CHAT
 }
 
 .conversation-section {
-  padding: 20px;
   margin-bottom: 150px;
+  padding: 20px;
 }
 
 .conversation-section-list {
@@ -602,42 +610,42 @@ LIVE CHAT
 }
 
 .conversation-section-item {
-  padding-bottom: 20px;
   position: relative;
+  padding-bottom: 20px;
 }
 
 .conversation-section-item img.img-circle {
+  float: left;
   width: 35px;
   height: 35px;
   margin-left: 5px;
-  float: left;
 }
 
 .conversation-section-item div.msg-visitor {
+  min-height: 35px;
   padding-right: 15px;
-  text-align: right;
   font-size: 12px;
   font-weight: 600;
+  text-align: right;
+  word-wrap: break-word;
   color: #747474;
   border-right: 2px solid #6075a4;
-  min-height: 35px;
-  word-wrap: break-word;
 }
 
 .btn-flag-question {
-  display: none;
   position: absolute;
   z-index: 999;
   right: 15px;
   bottom: -10px;
+  display: none;
   float: right;
   padding: 5px 10px;
+  color: #4c4c4c;
+  border: 1px solid #e1e1e4;
   border-radius: 3px;
-  background: #F9FAFC;
-  border: 1px solid #E1E1E4;
-  color: #4C4C4C;
-  box-shadow: 1px 1px 1px #DDD;
   outline: none;
+  background: #f9fafc;
+  box-shadow: 1px 1px 1px #dddddd;
 }
 
 .btn-flag-question:hover {
@@ -645,29 +653,30 @@ LIVE CHAT
   background: white;
 }
 
-.btn-flag-question:before, .btn-flag-question:after {
+.btn-flag-question:before,
+.btn-flag-question:after {
+  content: " ";
+  position: absolute;
   bottom: 100%;
-	left: 90%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
+  left: 90%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border: solid transparent;
 }
 
 .btn-flag-question:after {
-	border-color: rgba(136, 183, 213, 0);
-	border-bottom-color: #F9FAFC;
-	border-width: 4px;
-	margin-left: -4px;
+  margin-left: -4px;
+  border-width: 4px;
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #f9fafc;
 }
 
 .btn-flag-question:before {
+  margin-left: -6px;
+  border-width: 6px;
   border-color: rgba(194, 225, 245, 0);
-	border-bottom-color: #E1E1E4;
-	border-width: 6px;
-	margin-left: -6px;
+  border-bottom-color: #e1e1e4;
 }
 
 .btn-flag-question.sent {
@@ -679,15 +688,15 @@ LIVE CHAT
 }
 
 .conversation-section-item div.msg-visitor .date {
-  color: #d6d6d6;
   font-weight: 300;
+  color: #d6d6d6;
 }
 
 .conversation-section-item div.msg-operator {
-  border-left: 2px solid #6e7d83;
-  font-size: 12px;
   min-height: 35px;
   padding-left: 15px;
+  font-size: 12px;
+  border-left: 2px solid #6e7d83;
 }
 
 .msg-with-avatar {
@@ -696,32 +705,33 @@ LIVE CHAT
 }
 
 .conversation-section-item span {
-  color: #d6d6d6;
   display: block;
+  color: #d6d6d6;
 }
 
 .conversation-section div.msg-server {
-  border-bottom: 1px dotted #a9abb1;
-  padding-bottom: 8px;
   margin-bottom: 20px;
+  padding-bottom: 8px;
   color: #a9abb1;
+  border-bottom: 1px dotted #a9abb1;
 }
 
 .informations-header {
-  background: #f9fafc;
-  -webkit-touch-callout: none;
   -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background: #EAECF0;
+
   -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .informations-header h5 {
+  display: inline-block;
   margin: 0;
   padding: 18px 0 18px 0;
   font-size: 13px;
-  display: inline-block;
 }
 
 .informations-header icon {
@@ -731,31 +741,251 @@ LIVE CHAT
 }
 
 .informations-section {
-  padding: 20px 10px;
+  padding: 10px 15px 15px;
 }
 
-.informations-section p {
-  overflow: hidden;
-  -o-text-overflow: ellipsis; /* pour Opera 9 */
-  text-overflow: ellipsis;
+.search-panel,
+.informations-panel {
+  position: relative;
+  margin-bottom: 0;
+  box-shadow: none;
+  background: #F3F5F9;
+  border-color: transparent;
 }
 
-.name-form-control {
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #6e7d83;
-  font-weight: 600;
-  overflow: hidden;
-  -o-text-overflow: ellipsis; /* pour Opera 9 */
-  text-overflow: ellipsis;
+.informations-panel {
+  max-height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.informations-panel.scrollable {
+  box-shadow: 0 -15px 15px -12px rgba(69, 69, 69, 0.15) inset;
+}
+
+.search-panel {
+  position: absolute;
+  bottom: 0;
   width: 100%;
 }
 
-.informations-form-control {
+.panel-group .search-panel {
+  margin-top: 0;
+  border-radius: 0;
+}
+
+.wrapper-search {
+  height: 300px;
+  min-height: 300px;
+}
+
+.wrapper-search .action-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0 auto;
+  background: #F3F5F9;
+}
+
+.wrapper-search .wrapper-answers {
+  height: calc(100% - 60px);
+  overflow: auto;
+  padding: 15px;
+  overflow-x: hidden;
+}
+
+.search-answer .msg-wrapper {
+  padding: 0 5px 0 10px;
+  background: rgba(255, 255, 255, 0);
+  border-left: solid 2px rgba(68, 76, 92, 0.54);
+}
+
+.msg-wrapper.msg-warning{
+  border-left: solid 2px rgba(231, 76, 60, 0.7);
+}
+
+.msg-wrapper p {
+  margin: 0;
+}
+
+/******************
+Typeahead Styles
+******************/
+
+.lily-search-input,
+.tt-suggestion {
+  position: relative;
+}
+
+.tt-suggestion,
+.empty-suggestion {
+  /*padding: 11px 9px;*/
+  padding: 10px 15px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.tt-highlight {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.tt-suggestion {
+  cursor: pointer;
+  color: #494949;
+}
+
+.tt-suggestion:hover {
+  color: #000000;
+  background: rgba(87, 154, 215, 0.3);
+}
+
+.tt-suggestion:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: calc(100% - 30px);
+  height: 1px;
+  margin-right: 15px;
+  background: rgba(136, 136, 136, .15);
+}
+
+.tt-dataset-questions .tt-suggestion:last-child:after {
+  display: none;
+}
+
+.empty-suggestion {
+  cursor: default;
+  color: #a1a1a1;
+  border-top: solid 1px #cecece;
+  border-bottom: none;
+}
+
+.tt-cursor,
+.tt-suggestion:active {
+  background: #579ad7;
+  color: #fff;
+}
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+/* Ugliest thing I ever had to write in css... :'( */
+.twitter-typeahead .tt-menu {
+  z-index: 100;
+  top: auto !important;
+  right: -10px;
+  bottom: calc(100% + 11px);
+  left: -15px!important;
+  min-width: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  text-align: left;
+  background: rgba(249, 250, 252, 1);
+  border-top: solid 1px #D9D9D9;
+}
+
+.action-container {
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 50px;
+}
+
+.search-input-component {
+  z-index: 11;
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  margin: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.search-input:focus {
+  border: solid 1px #b6b6b6;
+  outline: none;
+  box-shadow: 0 0 3px 0 #cecece;
+}
+
+.wrapper-input {
+  position: relative;
+  height: 100%;
+  padding: 10px;
+  border-top: solid 1px rgba(136, 136, 136, .16);
+  border-radius: 0;
+}
+
+.textarea-input {
+  position: relative;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  min-height: 36px;
+  max-height: 64px;
+  padding: 6px;
+  line-height: 1;
+  overflow: auto;
+  overflow-x: hidden;
+  vertical-align: bottom;
+  color: #333333;
+  border: 1px solid rgba(181, 181, 181, 0.53);
+  border-radius: 2px;
+  outline: none;
+  background-color: #fff;
+  -webkit-appearance: none;;
+}
+
+.textarea-input:-moz-placeholder {
+  color: #888888;
+}
+.textarea-input::-moz-placeholder {
+  color: #888888;
+}
+.textarea-input:ms-input-placeholder {
+  color: #888888;
+}
+.textarea-input::-webkit-input-placeholder {
+  color: #888888;
+}
+
+/************************/
+
+.informations-section p {
+  overflow: hidden;
+     text-overflow: ellipsis;
+  margin-bottom: 5px;
+}
+
+.informations-personal {
+  padding-bottom: 3px;
+  margin-bottom: 15px;
+  border-bottom: solid 1px rgba(136, 136, 136, 0.24);
+}
+
+.name-form-control {
+  width: 100%;
+  font-weight: 600;
+  overflow: hidden;
+     text-overflow: ellipsis;
+  color: #6e7d83;
   border: none;
   outline: none;
+  background: transparent;
+
+  -o-text-overflow: ellipsis; /* pour Opera 9 */
+}
+
+.informations-form-control {
   color: #787878;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 
 .informations-form-control:focus {
@@ -763,22 +993,32 @@ LIVE CHAT
 }
 
 .informations-list {
+  padding-left: 0;
   list-style-type: none;
-  padding-left: 5px;
+}
+
+.informations-list-header {
+  margin: 10px auto 5px;
+  font-size: 12px;
+  color: #717171;
+  font-weight: bold;
 }
 
 .informations-item a {
-  max-width: 100%;
   display: inline-block;
-  text-overflow: ellipsis;
+  max-width: 100%;
   overflow-x: hidden;
+  text-overflow: ellipsis;
+  color: #949494;
 }
 
 .informations-item a:hover {
   text-decoration: underline;
 }
 
-.icon-gear.active, .icon-bar-chart.active, .icon-comments-alt.active {
+.icon-gear.active,
+.icon-bar-chart.active,
+.icon-comments-alt.active {
   color: #fcc44d;
 }
 
@@ -788,7 +1028,7 @@ LIVE CHAT
 
 /* Need to specify with all the way down to the textarea 
  * for wywihtml5 to set the proper width */
-.conversation-form, 
+.conversation-form,
 .conversation-form .panel,
 .conversation-form .panel form,
 .conversation-form .panel form textarea {
@@ -796,10 +1036,10 @@ LIVE CHAT
 }
 
 .wysihtml5-toolbar {
-  margin-right: 5px;
+  display: inline-block;
   width: 100%;
   max-width: 700px;
-  display: inline-block;
+  margin-right: 5px;
 }
 
 .wysihtml5-toolbar a {
@@ -830,30 +1070,31 @@ LIVE CHAT
 }
 
 @media (max-width: 767px) {
-
   .aside-chat-left {
     width: 100%;
   }
 
   .list-record-item .informations {
     width: 100%;
-    max-width: -moz-calc(100% - 130px);
-    max-width: -webkit-calc(100% - 130px);
     max-width: -o-calc(100% - 130px);
-    max-width: calc(100% - 130px);
+    max-width:    calc(100% - 130px);
   }
 
-  .modal-close, .modal-ban, .modal-transfer {
-    margin: 0;
+  .modal-close,
+  .modal-ban,
+  .modal-transfer {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    z-index: 9999;
     top: 0 !important;
     left: 0 !important;
-    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    margin: 0;
   }
 
-  body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+  body.modal-open,
+  .modal-open .navbar-fixed-top,
+  .modal-open .navbar-fixed-bottom {
     margin-right: 0;
   }
 
@@ -867,5 +1108,4 @@ LIVE CHAT
     position: absolute;
     bottom: 0;
   }
-
 }

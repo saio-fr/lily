@@ -41,7 +41,7 @@ define(function(require) {
         touchToDrag: false,
         maxPosition: 230,
         minPosition: -230,
-        transitionSpeed: 0.35,
+        transitionSpeed: 0.25,
         easing: 'cubic-bezier(0.28, 0.33, 0, 1.41)'
       });
 

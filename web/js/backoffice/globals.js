@@ -24,6 +24,11 @@ define(function(require) {
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
+  g.typeahead = {
+    autoselect: true,
+    highlight: true
+  };
+
   g.knowledge = {};
   g.knowledge.questionsSortUrl = '/questions/sort';
   g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' +

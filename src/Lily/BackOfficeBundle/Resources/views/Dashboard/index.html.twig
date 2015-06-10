@@ -74,10 +74,12 @@
         config.version = "{{ getAppVersion() }}";
         config.ws = {};
         config.root = '{{ app.request.getBaseURL() }}/api';
+        config.appRoot = '{{ app.request.getBaseURL() }}/app/api';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
         config.ws.host = "{{ ws_host }}";
         config.ws.protocol = "{{ ws_protocol }}";
         config.licence = '{{ app.user.client.licence }}';
+        config.synapsePassword = '{{ app.user.client.synapsePassword }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}

@@ -14,8 +14,7 @@ define(function(require) {
     Models           = require('app/data/models'),
     api              = require('app/data/api'),
     PageView         = require('app/views/page'),
-    SynapseSuggest   = require('synapse'),
-    typeahead        = require('typeahead'),
+    search           = require('components/search/search'),
     when             = require('when'),
     isMobile         = require('isMobile'),
 
@@ -89,14 +88,6 @@ define(function(require) {
       this.welcomeVisitor();
     },
 
-    specialKeyCodeMap: {
-      9: 'tab',
-      37: 'left',
-      39: 'right',
-      38: 'up',
-      40: 'down'
-    },
-
     render: function() {
       var template = _.template($('#lily-page-avi-template').html());
       this.$el.html(template());
@@ -112,55 +103,22 @@ define(function(require) {
      * @return {undefined}
      */
     setupSearch: function() {
-      this.setupSynapse();
-      this.setupTypeahead();
+      var options = {
+        credentials: {
+          'user': config.synapse.user,
+          'password': config.synapse.password
+        },
+        typeahead: config.typeahead,
+        url: config.synapse.restRoot
+      };
+
+      this.setupSynapse(options);
+      this.setupTypeahead('.avi-input');
     },
 
     // ==============================================
     // Search Methods:
     // ==============================================
-
-    /**
-     * Get the credentials from config,
-     * Init synapse module, setup bloodhound
-     *
-     * @return {undefined}
-     */
-    setupSynapse: function() {
-      // After rendering the view, hooks the input with synapse:
-      var credentials = {
-        'user': config.synapse.user,
-        'password': config.synapse.password
-      },
-      typeaheadOptions = config.typeahead,
-      restRoot = config.synapse.restRoot;
-
-      this.suggest = new SynapseSuggest(credentials, restRoot, typeaheadOptions);
-    },
-
-    /**
-     * Init Typeahead
-     * Trigger all typeahead events bound to the input using Backbone events
-     *
-     * @return {undefined}
-     */
-    setupTypeahead: function() {
-      var that = this;
-
-      // Init Typeahead on '.avi-input'
-      this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
-
-      // Listen to typeahead events and translate them into backbone events
-      _.each(['active', 'idle', 'open', 'close', 'change', 'render', 'select',
-        'autocomplete', 'cursorchange', 'asyncrequest', 'asynccancel', 'asyncreceive'
-      ], function(action) {
-        that.$input.on('typeahead:' + action, function() {
-          var args = Array.prototype.slice.call(arguments);
-          args.unshift('search:' + action);
-          that.trigger.apply(that, args);
-        });
-      });
-    },
 
     /**
      * Adds a highlight class if autoselect is true
@@ -865,6 +823,8 @@ define(function(require) {
     }
 
   });
+
+  _.extend(AviView.prototype, search);
 
   return AviView;
 });

@@ -72,10 +72,6 @@ define(function(require) {
     return deferred.promise;
   };
 
-  api.synapse_getAnswerFromId = function(answerId) {
-    return this.sendSynapse('POST', 'getAnswerTextFromId', { id: answerId });
-  };
-
   /**
    * Gets the answer to a question in the KB by its Id
    * @param  int answerId

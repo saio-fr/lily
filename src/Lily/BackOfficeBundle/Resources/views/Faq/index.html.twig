@@ -101,9 +101,11 @@
     config.ws = {};
     config.version = "{{ getAppVersion() }}";
     config.root = '{{ app.request.getBaseURL() }}/api';
+    config.appRoot = '{{ app.request.getBaseURL() }}/app/api';
 		config.ws.host = "{{ ws_host }}";
     config.ws.protocol = "{{ ws_protocol }}";
     config.licence = '{{ app.user.client.licence }}';
+    config.synapsePassword = '{{ app.user.client.synapsePassword }}';
   </script>
 
   {% endautoescape %}

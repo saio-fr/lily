@@ -1,7 +1,3 @@
-/* ===========================
-        Faq Page
-   ========================== */
-
 define(function(require) {
 
   'use strict';
@@ -9,608 +5,121 @@ define(function(require) {
   // Require CommonJS like includes
   var _              = require('underscore'),
     Backbone         = require('backbone'),
-    app              = require('backoffice/app'),
-    SynapseSuggest   = require('synapse'),
-    typeahead        = require('typeahead'),
+    app              = require('app'),
+    search           = require('components/search/search'),
     when             = require('when'),
+    config           = require('globals'),
 
-    SearchAnswerView    = require('components/chet/views/search/searchAnswerView'),
-    ChildViewContainer  = require('utils/backbone-childviewcontainer'),
+    SearchAnswerView    = require('components/chat/views/search/searchAnswerView'),
 
     // Object wrapper returned as a module
-    AviView;
+    SearchView;
 
-  AviView = Backbone.View.extend({
+  SearchView = Backbone.View.extend({
+
+    className: 'wrapper-search',
 
     events: {
-      'submit  .avi-input-component': 'getAviToAnswer',
-      'keydown .avi-input':           'getAviToAnswer'
+      'submit .search-input': 'onSubmitInput',
     },
 
     initialize: function() {
-      var that = this;
-      that.childViews = new Backbone.ChildViewContainer();
-      that.listenTo(that, 'page:transitionnedIn', that.onPagetransitionnedIn, that);
-
-      that.listenTo(app, 'precision',              that.sendPrecision);
-      that.listenTo(app, 'avi:satisfaction',       that.onSatisfaction);
-      that.listenTo(app, 'avi:choicesViewDismiss', that._onDismissChoicesView);
-      that.listenTo(app, 'avi:chooseRedirection',  that.chooseRedirection);
-
       // Search ev listeners
-      that.listenTo(that, 'search:asyncrequest', that.indicateLoading);
-      that.listenTo(that, 'search:asyncreceive', that.concealLoading);
-      that.listenTo(that, 'search:render', that.makeSuggestionsScrollable, that);
-      that.listenTo(that, 'search:open', that.onSearchOpen, that);
-      that.listenTo(that, 'search:close', that.onSearchClose, that);
-      that.listenTo(that, 'search:select', that.getAviToAnswer, that);
+      this.listenTo(this, 'search:asyncrequest', this.indicateLoading);
+      this.listenTo(this, 'search:asyncreceive', this.concealLoading);
+      this.listenTo(this, 'search:open',         this.onSearchOpen);
+      this.listenTo(this, 'search:close',        this.onSearchClose);
+      this.listenTo(this, 'search:select',       this.getSearchResult);
+      this.listenTo(this, 'search:select',       this.onSearchSelect);
 
-      that.listenTo(that, 'conversation:newMessage', that.onNewMessage);
+      this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
 
-      that.render({ page: true }).$el
-        .appendTo('#lily-wrapper-page');
+      // Render \o/
+      this.render({ page: true }).$el.appendTo('.search-panel');
 
-      that.showAvi = true;
-      that.lastQuestionWasUnanswered = false;
-      that.lastQuestionReceivedBadFeedBack = false;
+      // OnAfterRender
+      this.$input             = this.$('.search-input');
+      this.$searchBody        = $('.wrapper-search');
+      this.$searchHeader      = $('.header-search');
+      this.$informationsPanel = $('.informations-panel');
 
-      this.welcomeVisitor();
-    },
+      this.makeTogglable();
 
-    specialKeyCodeMap: {
-      9: 'tab',
-      37: 'left',
-      39: 'right',
-      38: 'up',
-      40: 'down'
+      this.setupSearch();
     },
 
     render: function() {
-      var template = _.template($('#lily-page-avi-template').html());
+      var template = _.template($('#searchKnowledgeTpl').html());
       this.$el.html(template());
       this.trigger('render');
-
-      return PageView.prototype.render.apply(this, arguments);
+      return this;
     },
 
-    onPagetransitionnedIn: function() {
-      this.$input  =         this.$('.avi-input');
-      this.$avi    =         this.$('.avatar-wrapper');
-      this.$inputComponent = this.$('.avi-input-component');
-      this.$msgBox =         $('.lily-box-messages');
-      this.$header =         $('#lily-toolbar');
+    makeTogglable: function() {
+      var that = this;
+      this.$searchHeader.on('click', function() {
+        that.$searchBody.toggleClass('collapse');
+        that.trigger('search:resize');
+      });
+    },
 
-      this._handleAvi();
-      this.setupSynapse();
-      this.setupTypeahead();
-      this.hideAviOnKeyup();
-      this.hideOnboardingOnBlur();
+    /**
+     * Method called after the page view was rendered and it transitionned in
+     * (Instantiating typeahead before transitionEnd won't work)
+     *
+     * @return {undefined}
+     */
+    setupSearch: function() {
+      var options = {
+        credentials: {
+          'user': config.synapse.user,
+          'password': config.synapse.password
+        },
+        typeahead: config.typeahead,
+        url: config.synapse.restRoot
+      };
+
+      this.setupSynapse(options);
+      this.setupTypeahead('.search-input');
+    },
+
+    refreshSuggestions: function() {
+      if (!this.suggest) { return; }
+
+      this.suggest.refresh();
+      this.setupSearch();
     },
 
     // ==============================================
     // Search Methods:
     // ==============================================
 
-    setupSynapse: function() {
-      // After rendering the view, hooks the input with synapse:
-      var credentials = {
-        'user': config.synapse.user,
-        'password': config.synapse.password
-      },
-      typeaheadOptions = config.typeahead;
-
-      this.suggest = new SynapseSuggest(credentials, typeaheadOptions);
-      this.suggest.addSuggestionsToInput('.avi-input', 'suggestions', 3, 3);
-    },
-
-    setupTypeahead: function() {
-      var that = this;
-      // Listen to typeahead events and translate them into backbone events
-      _.each([
-        'active',
-        'idle',
-        'open',
-        'close',
-        'change',
-        'render',
-        'select',
-        'autocomplete',
-        'cursorchange',
-        'asyncrequest',
-        'asynccancel',
-        'asyncreceive'
-      ], function(action) {
-        that.$input.on('typeahead:' + action, function() {
-          var args = Array.prototype.slice.call(arguments);
-          args.unshift('search:' + action);
-          that.trigger.apply(that, args);
-        });
-      });
-    },
-
-    // Adds a highlight class if autoselect is true
-    // (rather than actually moving the cursor down
-    // which would overwrite the user's typing)
-    highlightFirstItem: function() {
-      $('.tt-suggestion:first').addClass('tt-cursor');
-    },
-
-    makeSuggestionsScrollable: function() {
-      var maxMenuHeight = this.$msgBox[0].clientHeight;
-      $('.tt-menu')
-      .css('max-height', maxMenuHeight)
-      .scrollTop($('.tt-menu')[0].scrollHeight);
-    },
-
-    hideAviOnKeyup: function() {
-      var that = this;
-
-      that.$input.on('keyup', function(ev) {
-        if (that.specialKeyCodeMap[ev.which || ev.keyCode] || $(this).val().length <= 1) {
-          return;
-        }
-        that.$avi.removeClass('overlay');
-        that._showAvi(false);
-      });
-    },
-
-    hideOnboardingOnBlur: function() {
-      var that = this;
-      that.$input.on('blur', function() {
-        that.$avi.removeClass('overlay');
-        that._showAvi(true);
-        that.$avi.removeClass('lily-avi-show');
-      });
-    },
-
-    onSearchOpen: function() {
-      var that = this;
-
-      // Increase focus on suggestions by partialy hiding the conversation
-      that.$msgBox.addClass('tt-overlay');
-      that._showAvi(true);
-
-      // Show Avi onboarding message
-      that.$avi.addClass('overlay');
-
-      // Autoselect (wip)
-      if ($('.tt-suggestion').length > 0 && config.typeahead.autoselect) {
-        // that.highlightFirstItem();
-      }
-    },
-
-    onSearchClose: function() {
-      this.$msgBox.removeClass('tt-overlay');
-      this.$avi.removeClass('lily-avi-show');
-      this._showAvi(true);
-    },
-
-    // ==============================================
-
-
-
-
-    // ==============================================
-    // Visitor Methods:
-    // ==============================================
-
-    askQuestion: function(question) {
-
-      var query = question || this.$input.val();
-
-      // Check for empty or
-      // ou contient uniquement des espaces
-      if ($.trim(query).length <= 0) { return; }
-
-      this._printVisitorMsg(query);
-    },
-
-    // ==============================================
-
-
-    // ==============================================
-    // AVI Methods:
-    // ==============================================
-
-    welcomeVisitor: function() {
-      console.log(config.avi.messages.welcomeMsg);
-      return this._printAviMsg(config.avi.messages.welcomeMsg);
-    },
-
-    offerRedirection: function(context) {
-      var that = this,
-          redirectionMsg = context === 'unSatisfied' ?
-            config.avi.messages.unSatisfiedRedirection :
-            config.avi.messages.noAnswerRedirection;
-
-
-      that._printAviMsg(redirectionMsg);
-      var model = new Models.Message({
-        config: {
-          hasTel: config.avi.redirections.mail,
-          hasMail: config.avi.redirections.phone,
-          hasChat: config.avi.redirections.chat,
-          chatAvailable: config.chatAvailable
-        },
-        redirections: {
-          mail: config.avi.redirections.values.mail,
-          tel: config.avi.redirections.values.phone
-        },
-        copy: {
-          tel: config.avi.messages.redirection.tel,
-          mail: config.avi.messages.redirection.mail,
-          chat: config.avi.messages.redirection.chat,
-          none: config.avi.messages.redirection.none
-        }
-      });
-
-      // that._disableInput(true);
-      that._asyncWithoutLoading(null, 800)
-      .then(function() {
-        return that._createRedirectionView(model);
-      });
-    },
-
-    hasNoAnswer: function(question) {
-      var that = this;
-
-      if(that._isPromise(question)) {
-        question = null;
-      }
-
-      that._asyncWithLoading(function() {
-      }, 500)
-      .then(function() {
-        // 2) Propose the visitor to be forwarded to tel/mail/chat
-        that.apologise();
-        that._asyncWithoutLoading(null, 0)
-        .then(function() {
-          return that.offerRedirection('notFound');
-        });
-      });
-    },
-
-    sayThanks: function() {
-      return this._printAviMsg(config.avi.messages.satisfiedFeedback);
-    },
-
-    apologise: function() {
-      return this._printAviMsg(config.avi.messages.apologize);
-    },
-
-    askForFeedback: function(msg) {
-      if (!app.showAviAnswerNotation) { return; }
-
-      return this._addMessage(msg, 'lily-notation');
-    },
-
-    askPrecisionOnFeedback: function() {
-      var choices = [
-        config.avi.messages.satisfaction.incompete,
-        config.avi.messages.satisfaction.fausse
-      ];
-      this._createChoicesView(choices, this.handleFeedback);
-    },
-
-    // ==============================================
-
-
-
-    // ==============================================
-    // Internals:
-    // ==============================================
-
-    _asyncWithLoading: function(callback, delay) {
-      var that = this;
-
-      // 1) Show loading indicator
-      // ------------------------------------
-      return that._showLoading(delay)
-
-      // 2) call callback method
-      // ------------------------------------
-      .then(function() {
-        return callback();
-      })
-
-      // 3) Clear the loading sign
-      // ------------------------------------
-      .then(function(answer) {
-        return that._clearLoading(answer);
-      });
-    },
-
-    _asyncWithoutLoading: function(callback, delay) {
-      var defer = when.defer();
-
-      setTimeout(function() {
-
-        // 2) call callback method
-        // ------------------------------------
-        try {
-          if (callback && _.isFunction(callback)) {
-            callback();
-          }
-
-          defer.resolve();
-        } catch (error) {
-          defer.reject(error);
-        }
-      }, delay);
-
-      return defer.promise;
-    },
-
-    _printVisitorMsg: function(msg) {
-      this._addMessage(msg, 'user-simple');
-      return msg;
-    },
-
-    _printAviMsg: function(msg) {
-      this._addMessage(msg, 'lily-simple');
-      return msg;
-    },
-
-    _addMessage: function(msg, messageType, model) {
-      // remove waiting message if exists.
-
-      var messageModel = model || new Models.Message({
-        message_content: msg
-      });
-
-      // create an instance of the sub-view to render the single message item.
-      var message, indexer;
-      switch (messageType) {
-        case 'user-simple':
-          message = new MessageUserSimple({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-simple':
-          message = new MessageLilySimple({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-redirection':
-          message = new MessageLilyRedirection({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-precision':
-          message = new MessageLilyPrecision({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-notation':
-          message = new MessageLilyNotation({
-            model: messageModel
-          }).render();
-          break;
-        case 'lily-completion':
-          message = new MessageLilyCompletion({
-            model: messageModel
-          }).render();
-          break;
-      }
-
-      if (messageType === 'lily-notation') {
-        // if message is notation, keep an index of it to be able to remove it when needed
-        indexer = 'notationView';
-      } else {
-        // If message is not notation, trigger the onNewMessage method
-        this.trigger('conversation:newMessage');
-      }
-
-      this.isMsgAnimating = true;
-      this.childViews.add(message, indexer);
-      this._isNotMsgAnimating();
-      return msg;
-    },
-
-    _createChoicesView: function(choices, handler) {
-
-    },
-
-    _createRedirectionView: function(model) {
-      var indexer = 'redirectionView';
-
-      if (this.childViews.findByCustom(indexer)) {
-        return;
-      }
-
-      this._showAvi(false);
-      this.$inputComponent
-        .removeClass('component-show')
-        .addClass('component-hide');
-
-      var redirection = new MessageLilyRedirection({
-        model: model
-      }).render();
-
-      this.childViews.add(redirection, indexer);
-    },
-
-    _onDismissChoicesView: function(viewType) {
-      this.$inputComponent
-        .removeClass('component-hide')
-        .addClass('component-show');
-
-      var choicesView = this.childViews.findByCustom(viewType);
-      this.childViews.remove(choicesView);
-      choicesView.remove();
-      this._showAvi(true);
-    },
-
     /**
-     * Shows a 'writing' indicator to show that the avi is thinking
-     * Semi random delay before showing an avi answer
-     * (affordance: something is hapenning)
+     * A bit cryptic, handles corner cases when interacting w/ the input
      *
-     * @param  int  delay (takes valors between 1 and 10)
-     * @return undefined
+     * @param  {jQuery event} ev keyup event
+     * @return {undefined}
      */
-    _showLoading: function(delay, args) {
-      var defer = when.defer();
-      var typeDelay = delay + (Math.random() * -1) * (Math.random() * 300);
-
-      if (this.isLoadingShown) {
-        defer.resolve(args);
-      } else {
-        this.$('.lily-box-messages').append(config.loadingTpl);
-        this.isLoadingShown = true;
-        this.isMsgAnimating = true;
-        // Scroll all the way down
-        var objDiv = document.getElementsByClassName('lily-box-messages')[0];
-        objDiv.scrollTop = objDiv.scrollHeight;
-
-        setTimeout(function() {
-          defer.resolve(args);
-        }, typeDelay);
-      }
-
-      return defer.promise;
-    },
-
-    _clearInput: function() {
-      // if (config.isMobile) {
-        this.$input.typeahead('val', '')
-          .typeahead('close')
-          .blur();
-      // } else {
-      //   this.$input.typeahead('val', '');
-      // }
-    },
-
-    _clearLoading: function(args) {
-      var defer = when.defer(),
-          that = this;
-
-      if (this.$('.lily-msg-loading').length) {
-        this.$('.lily-msg-loading')
-          .fadeOut(function() {
-            $(this).remove();
-            that.isLoadingShown = false;
-          });
-
-        setTimeout(function() {
-          defer.resolve(args);
-          that.isMsgAnimating = false;
-        }, 500);
-      }
-
-      return defer.promise;
-    },
-
-    _removeNotationView: function() {
-      var notationView = this.childViews.findByCustom('notationView');
-      if (!notationView) { return; }
-
-      this.childViews.remove(notationView);
-      notationView.remove();
-      this._isNotMsgAnimating();
-    },
-
-    _handleAvi: function() {
-      var that = this;
-      function logScroll() {
-        var topAvatar = that.$avi.offset().top;
-        var lastMessage = $('.lily-box-messages .lily-msg:last-child');
-        var lastMessageOffsetTop = lastMessage.offset() ? lastMessage.offset().top + 40 : 0;
-        var lastMessageOffsetBottom = lastMessageOffsetTop + lastMessage.height();
-        var covers = lastMessageOffsetBottom - 50 > topAvatar;
-        var showAvi = !covers;
-
-        if (that.isMsgAnimating) {return;}
-
-        if (showAvi !== that.showAvi) {
-          that.showAvi = showAvi;
-          that._showAvi(showAvi);
-        }
-      }
-
-      var throttle = _.throttle(logScroll, 1);
-
-      $('.lily-box-messages')[0].onscroll = throttle;
-
-      // Rectify padding if header button is shown
-      if ($('.lily-cst-header').is(':visible')) {
-        that.$msgBox.css('padding-top', 69);
-      }
-    },
-
-    _handleAviAnswer: function(answer) {
-
-      // answer is empty or white spaces
-      if (!answer.answer || /^\s+$/.test(answer.answer)) {
-        return answer;
-      }
-
-      // Simple answer
-      if (!answer.children || answer.children.length <= 0) {
-        this._printAviMsg(answer.answer);
-        return answer;
-      }
-
-      // Handle complex answer (with precisions/actions needed)
-      // Do that for now, until complex answer Logic gets implemented
-      this._printAviMsg(answer.answer);
-      return answer;
-    },
-
-    _isNotMsgAnimating: function() {
-      var that = this;
-      setTimeout(function() {
-        that.isMsgAnimating = false;
-      }, 300);
-    },
-
-    _showAvi: function(show) {
-      var that = this;
-      var animClassIn = show ? 'lily-avi-show' : 'lily-avi-hide';
-      var animClassOut = show ? 'lily-avi-hide' : 'lily-avi-show';
-
-      if (that.aviAnimating) {return;}
-
-      that.aviAnimating = true;
-
-      that.$avi
-        .addClass(animClassIn)
-        .removeClass(animClassOut)
-        .on(config.animEndEventName, function() {
-          that.aviAnimating = false;
-          return that.$avi.off(config.animEndEventName);
-        });
-
-      setTimeout(function() {
-        that.aviAnimating = false;
+    onInputKeyup: function(ev) {
+      // If key used is an action key (esc, arrowLeft...)
+      if (this.specialKeyCodeMap[ev.which || ev.keyCode] || !$(ev.currentTarget).val().length) {
         return;
-      }, 400);
+      }
     },
 
-    _stripIdPrefix: function(id) {
-      var prefix = /^r_/;
-      return id.replace(prefix, '');
+    onSubmitInput: function(ev) {
+      if (ev && ev.type === 'submit') {
+        ev.preventDefault();
+      }
     },
 
-    _failedPromise: function(err) {
-      console.error('handle error: ' + err.stack);
-      throw err;
-    },
 
-    _isPromise: function(obj) {
-      return obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-    },
-
+    // Conversation Logic
     // ==============================================
-
-
-
-    // Chat Logic
-    // ==============================================
-    getAviToAnswer: function(ev, suggestion) {
+    getSearchResult: function(ev, suggestion) {
 
       // The method was triggered by the "submit" event handler
-      if (ev && ev.type === 'submit') {
+      if (ev && (ev.type === 'submit' || ev.keyCode && ev.keyCode === 13)) {
         ev.preventDefault();
       }
 
@@ -619,113 +128,236 @@ define(function(require) {
         return;
       }
 
-      if (ev && ev.keyCode && ev.keyCode === 13) {
-        ev.preventDefault();
-      }
-
       var that = this;
       var question = that.$input.val().trim();
       var id;
 
       // Question is empty or only spaces
-      if (question.length <= 0) {
+      if (!question.length) {
+        return;
+      }
+
+      id = suggestion ? suggestion.answerId : 0;
+
+      // There was no mathing question
+      if (!suggestion) {
         return;
       }
 
       // Clear the search field
-      that._clearInput();
-
-      // Print the visitor question
-      that.askQuestion(question);
-      app.trigger('avi:newAviQuestion', question);
-
-      // Convert the question id from synapse's syntax;
-      // ex: "r_54" to ours: "54"
-      id = suggestion ? that._stripIdPrefix(suggestion.answerId) : 0;
-
-      // Log request a this question
-      api.logRequest(question, id);
-
-      // There was no mathing question
-      if (!suggestion) {
-        return that.hasNoAnswer(question);
-      }
+      that.clearInput();
 
       // 1) Get the answer from this question
       // ------------------------------------
-      that._asyncWithLoading(function() {
-        return api.getAnswerFromId(id);
-      }, 500)
+      that.asyncWithLoading(function() {
+        return that.getAnswerFromId(id);
+      }, 0)
 
       // 2) Print answer
       // ------------------------------------
       .then(function(answer) {
-        return that._handleAviAnswer(answer);
-      })
+        return that.printAnswer(answer);
+      }, that.noAnswerFound.bind(that));
+    },
 
-      // 3) Ask for feedback
+    noAnswerFound: function() {
+      // Try refreshing suggestions
+      this.refreshSuggestions();
+      this.printWarning('La réponse à cette question est inconnue. Il semblerait qu\'il y ait eu une erreur. Veuillez vérifier la base de connaissance');
+    },
+
+    // ==============================================
+    // Internals:
+    // ==============================================
+
+    /**
+     * Do something asynchronous, and show spinner
+     * to show something is happenning
+     *
+     * @param  {Function} callback A function to be executed after agiven wait timer
+     * @return {promise}
+     */
+    asyncWithLoading: function(callback) {
+      var that = this;
+
+      // 1) Show loading indicator
+      // ------------------------------------
+      that.showLoading();
+
+      // 2) call callback method
+      // ------------------------------------
+      return callback()
+
+      // 3) Clear the loading sign
       // ------------------------------------
       .then(function(answer) {
-        return that.askForFeedback(answer);
-      }, that.hasNoAnswer.bind(that));
-    },
-
-    onNewMessage: function() {
-      this._removeNotationView();
-    },
-
-    onSatisfaction: function(satisfaction, answer) {
-      var that = this;
-      this._removeNotationView();
-      api.logSatisfaction(answer.id, satisfaction);
-
-      if (satisfaction === true) {
-        that.sayThanks();
-      } else {
-        // For later:
-        // Ask for precision on bad answer
-        that._asyncWithoutLoading(null, 0)
-        .then(function() {
-          return that.offerRedirection('unSatisfied');
-        });
-      }
-    },
-
-    chooseRedirection: function(canal) {
-      api.logRedirection(canal);
-    },
-
-    avatar: function() {
-      // On charge l'avatar du client
-      if (config.avi.animations) {
-        setTimeout(function() {
-          $.getScript('http://cdn-saio.fr/customer/' + config.licence +
-            '/js/avatar.js', function(data) {});
-        }, 500);
-      }
-    },
-
-    closeChildren: function() {
-
-      var that = this;
-      this.childViews.forEach(function(view) {
-
-        // delete index for that view
-        that.childViews.remove(view);
-
-        // remove the view
-        view.remove();
+        return that.clearLoading(answer);
       });
     },
 
+    printKbAnswer: function(msg, type) {
+
+      var AnswerModel = Backbone.Model.extend({});
+      var messageModel = new AnswerModel({
+        messageContent: msg,
+        type: type
+      });
+
+      // create an instance of the sub-view to render the single message item.
+      var message;
+
+      message = new SearchAnswerView({
+        model: messageModel
+      }).render();
+    },
+
+    printWarning: function(msg) {
+      this.printKbAnswer(msg, 'warning');
+    },
+
+    /**
+     * Gets the answer to a question in the KB by its Id
+     * @param  int answerId
+     * @return {} answer:
+     *
+     *  id int
+     *  children []
+     *  title string
+     *  answer string
+     *  questionType string (question, action)
+     *  answerType string (answer, precision)
+     */
+    getAnswerFromId: function(id) {
+      return this.send('GET', '/' + config.licence + '/question/' + id);
+    },
+
+    send: function(method, url, data) {
+      var deferred = when.defer();
+
+      if (method && url) {
+        $.ajax({
+          external: true,
+          type: method,
+          url: url,
+          data: data,
+
+          success: function(data) {
+            deferred.resolve(data);
+            console.log(data);
+          },
+
+          error: function(err) {
+            deferred.reject(err);
+          }
+        });
+      }
+
+      return deferred.promise;
+    },
+
+    /**
+     * Shows a 'writing' indicator to show that the avi is thinking
+     *
+     * @param  int  delay (takes valors between 1 and 10)
+     * @return promise
+     */
+    showLoading: function() {
+      if (this.isLoadingShown) {
+        return;
+      } else {
+        this.$('.search-answers-wrapper').append(config.loadingTpl);
+      }
+    },
+
+    clearLoading: function(args) {
+      var defer = when.defer(),
+          that = this;
+
+      if (this.$('.search-loading').length) {
+        this.$('.search-loading')
+          .fadeOut(function() {
+            $(this).remove();
+            that.isLoadingShown = false;
+            that.isMsgAnimating = false;
+            defer.resolve(args);
+          });
+      } else {
+        setTimeout(function() {
+          that.isLoadingShown = false;
+          that.isMsgAnimating = false;
+          defer.resolve(args);
+        }, 100);
+      }
+
+      return defer.promise;
+    },
+
+    clearInput: function() {
+      this.$input.typeahead('val', '')
+        .typeahead('close')
+        .blur();
+    },
+
+    disableInput: function(disable) {
+      if (disable) {
+        this.$input
+          .blur()
+          .typeahead('close');
+      } else {
+        this.$input
+          .focus()
+          .typeahead('open');
+      }
+    },
+
+    printAnswer: function(answer) {
+      // answer is empty or white spaces
+      if (!answer.answer || /^\s+$/.test(answer.answer)) {
+        return answer;
+      }
+
+      // Simple answer
+      if (!answer.children || answer.children.length <= 0) {
+        this.printKbAnswer(answer.answer);
+        return answer;
+      }
+    },
+
+    /**
+     * Transform an id with synpase's syntax (w/ prefix "r_")
+     * into a regular id
+     *
+     * @param  {String} id
+     * @return {String}
+     */
+    stripIdPrefix: function(id) {
+      var prefix = /^r_/;
+      return id.replace(prefix, '');
+    },
+
+    failedPromise: function(err) {
+      console.error('handle error: ' + err.stack);
+      throw err;
+    },
+
+    isPromise: function(obj) {
+      return obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+    },
+
     remove: function() {
-      this.closeChildren();
+      // Destroy typeahead (will unbind any typeahead event bound to the input)
       this.suggest.destroy();
+
+      this.$input
+        .off('keyup')
+        .off('blur');
 
       Backbone.View.prototype.remove.apply(this, arguments);
     }
 
   });
 
-  return AviView;
+  _.extend(SearchView.prototype, search);
+
+  return SearchView;
 });

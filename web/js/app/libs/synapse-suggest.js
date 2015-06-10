@@ -244,10 +244,11 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
       return nbSpaces >= this.semanticOffset;
     };
 
-    this.clearPrefetchCache = function() {
+    this.refresh = function() {
 
       console.log('clear prefetching cache');
-      this.bloodhound.clearPrefetchCache();
+      this.bloodhound.clear();
+      this.bloodhound.initialize();
     };
 
     this.destroy = function() {
