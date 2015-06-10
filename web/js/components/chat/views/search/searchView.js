@@ -19,10 +19,6 @@ define(function(require) {
 
     className: 'wrapper-search',
 
-    events: {
-      'submit .search-input': 'onSubmitInput',
-    },
-
     initialize: function() {
       // Search ev listeners
       this.listenTo(this, 'search:asyncrequest', this.indicateLoading);
@@ -30,7 +26,6 @@ define(function(require) {
       this.listenTo(this, 'search:open',         this.onSearchOpen);
       this.listenTo(this, 'search:close',        this.onSearchClose);
       this.listenTo(this, 'search:select',       this.getSearchResult);
-      this.listenTo(this, 'search:select',       this.onSearchSelect);
 
       this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
 
@@ -46,6 +41,13 @@ define(function(require) {
       this.makeTogglable();
 
       this.setupSearch();
+
+      this.$input
+        .on('keyup', this.onInputKeyup.bind(this))
+        .on('submit', function(ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+        });
     },
 
     render: function() {
@@ -106,13 +108,6 @@ define(function(require) {
         return;
       }
     },
-
-    onSubmitInput: function(ev) {
-      if (ev && ev.type === 'submit') {
-        ev.preventDefault();
-      }
-    },
-
 
     // Conversation Logic
     // ==============================================
