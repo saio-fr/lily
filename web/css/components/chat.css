@@ -2,8 +2,8 @@
 LIVE CHAT
 =======================================================================================================*/
 .conversation-section-list a {
-  font-weight: 600;
   text-decoration: underline;
+  color: #6a9bff;
 }
 
 .conversation-section-item .avatar-thumb {
@@ -46,8 +46,8 @@ LIVE CHAT
 }
 
 .conversations .editor a {
-  font-weight: 600;
   text-decoration: underline;
+  color: #6a9bff;
 }
 
 .conversations .editor p {

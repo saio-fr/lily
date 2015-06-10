@@ -38,6 +38,10 @@ define(['../common', 'require'], function(common, require) {
     app.init = function() {
 
       app.router = new ChatRouter();
+      
+      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+        app.liveChat = new LiveChat();
+      }
 
       // Start routing
       if (Backbone.History.started) {
@@ -47,15 +51,7 @@ define(['../common', 'require'], function(common, require) {
       Backbone.history.start();
     };
 
-    // Will get called if ws connection is successful
-    app.onConnect = function(result) {
-  
-      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
-        app.liveChat = new LiveChat(result);
-      }
-    };
-  
+    app.init();  
     app.wsConnect();
-    app.init();
   });
 });

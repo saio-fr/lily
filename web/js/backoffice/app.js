@@ -17,6 +17,7 @@ define(function(require) {
       config = require('globals'),
       Autobahn = require('autobahn'),
       createModal = require('components/modals/main'),
+      timers = require('components/chat/utils/timers'),
 
     app = {
          
@@ -37,15 +38,20 @@ define(function(require) {
             app.ws = session;
 
             app.connect().then(function(result) {
+              
               if (_.isFunction(callback)) {
                 callback(result);
               }
 
               app.available = !!result.available;
+              app.trigger('operator:setAvailability', app.available);
+              
+              // Get diff between server time and user to sync timers
+              timers.serverTime = result.time - new moment().unix();
 
               app.isConnectionAlive();
               app.ping();
-              app.onConnect(result);
+              
             }, function(err) {
               console.warn(err);
 
@@ -112,13 +118,8 @@ define(function(require) {
 
       showLiveChat: function(id) {
 
-        if (!app.isLiveChatInit) {
-          return;
-        }
-
         if (app.available) {
           app.showLiveChatModal();
-          window.sessionStorage.setItem('chatModalVisible', true);
 
           if (id) {
             app.trigger('chat:showConversation', id);
