@@ -502,7 +502,7 @@ LIVE CHAT
   font-size: 12px;
   overflow: hidden;
   white-space: nowrap;
-     text-overflow: ellipsis;
+  text-overflow: ellipsis;
   color: #787878;
 
   -o-text-overflow: ellipsis; /* pour Opera 9 */
@@ -614,6 +614,7 @@ LIVE CHAT
 .conversation-section-item {
   position: relative;
   margin-bottom: 20px;
+  color: #3C3C3C;
 }
 
 .conversation-section-item.item-visitor {
@@ -651,7 +652,6 @@ LIVE CHAT
   font-weight: 300;
   text-align: left;
   word-wrap: break-word;
-  color: #515151;
   border-radius: 5px;
   background-color: rgba(206, 206, 206, .4);
 }
@@ -834,6 +834,7 @@ LIVE CHAT
   padding: 7px 8px;
   border-radius: 5px;
   background-color: #d9eafb;
+  color: #3C3C3C;
 }
 
 .msg-wrapper.msg-warning {
