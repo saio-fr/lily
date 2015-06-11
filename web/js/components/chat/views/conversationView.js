@@ -108,7 +108,7 @@ define(function(require) {
     onCopyToChat: function(msg) {
       if (this.model.get('active') && this.model.get('selected')) {
         this.$editor
-          .html(msg.trim().replace(/<\/?(\w+)\s*[\w\W]*?>/g, ''))
+          .html(msg)
           .focus();
       }
     },
