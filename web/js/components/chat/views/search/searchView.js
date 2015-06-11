@@ -34,20 +34,17 @@ define(function(require) {
 
       // OnAfterRender
       this.$input             = this.$('.search-input');
-      this.$searchBody        = $('.wrapper-search');
+      this.$searchPanel       = $('.search-panel');
       this.$searchHeader      = $('.header-search');
       this.$informationsPanel = $('.informations-panel');
 
       this.makeTogglable();
 
       this.setupSearch();
+      this.refreshSuggestions();
 
       this.$input
-        .on('keyup', this.onInputKeyup.bind(this))
-        .on('submit', function(ev) {
-          ev.preventDefault();
-          ev.stopPropagation();
-        });
+        .on('keyup', this.onInputKeyup.bind(this));
     },
 
     render: function() {
@@ -60,7 +57,7 @@ define(function(require) {
     makeTogglable: function() {
       var that = this;
       this.$searchHeader.on('click', function() {
-        that.$searchBody.toggleClass('collapse');
+        that.$searchPanel.toggleClass('closed');
         that.trigger('search:resize');
       });
     },
@@ -144,9 +141,8 @@ define(function(require) {
 
       // 1) Get the answer from this question
       // ------------------------------------
-      that.asyncWithLoading(function() {
-        return that.getAnswerFromId(id);
-      }, 0)
+      that.showLoading();
+      that.getAnswerFromId(id)
 
       // 2) Print answer
       // ------------------------------------
@@ -165,37 +161,12 @@ define(function(require) {
     // Internals:
     // ==============================================
 
-    /**
-     * Do something asynchronous, and show spinner
-     * to show something is happenning
-     *
-     * @param  {Function} callback A function to be executed after agiven wait timer
-     * @return {promise}
-     */
-    asyncWithLoading: function(callback) {
-      var that = this;
-
-      // 1) Show loading indicator
-      // ------------------------------------
-      that.showLoading();
-
-      // 2) call callback method
-      // ------------------------------------
-      return callback()
-
-      // 3) Clear the loading sign
-      // ------------------------------------
-      .then(function(answer) {
-        return that.clearLoading(answer);
-      });
-    },
-
     printKbAnswer: function(msg, type) {
 
       var AnswerModel = Backbone.Model.extend({});
       var messageModel = new AnswerModel({
         messageContent: msg,
-        type: type
+        type: type || 'answer'
       });
 
       // create an instance of the sub-view to render the single message item.
@@ -257,52 +228,13 @@ define(function(require) {
      * @return promise
      */
     showLoading: function() {
-      if (this.isLoadingShown) {
-        return;
-      } else {
-        this.$('.search-answers-wrapper').append(config.loadingTpl);
-      }
-    },
-
-    clearLoading: function(args) {
-      var defer = when.defer(),
-          that = this;
-
-      if (this.$('.search-loading').length) {
-        this.$('.search-loading')
-          .fadeOut(function() {
-            $(this).remove();
-            that.isLoadingShown = false;
-            that.isMsgAnimating = false;
-            defer.resolve(args);
-          });
-      } else {
-        setTimeout(function() {
-          that.isLoadingShown = false;
-          that.isMsgAnimating = false;
-          defer.resolve(args);
-        }, 100);
-      }
-
-      return defer.promise;
+      this.$('.answer-box').html(config.loadingTpl);
     },
 
     clearInput: function() {
       this.$input.typeahead('val', '')
         .typeahead('close')
         .blur();
-    },
-
-    disableInput: function(disable) {
-      if (disable) {
-        this.$input
-          .blur()
-          .typeahead('close');
-      } else {
-        this.$input
-          .focus()
-          .typeahead('open');
-      }
     },
 
     printAnswer: function(answer) {
@@ -318,34 +250,12 @@ define(function(require) {
       }
     },
 
-    /**
-     * Transform an id with synpase's syntax (w/ prefix "r_")
-     * into a regular id
-     *
-     * @param  {String} id
-     * @return {String}
-     */
-    stripIdPrefix: function(id) {
-      var prefix = /^r_/;
-      return id.replace(prefix, '');
-    },
-
-    failedPromise: function(err) {
-      console.error('handle error: ' + err.stack);
-      throw err;
-    },
-
-    isPromise: function(obj) {
-      return obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-    },
-
     remove: function() {
       // Destroy typeahead (will unbind any typeahead event bound to the input)
       this.suggest.destroy();
 
       this.$input
-        .off('keyup')
-        .off('blur');
+        .off('keyup');
 
       Backbone.View.prototype.remove.apply(this, arguments);
     }

@@ -33,10 +33,9 @@ LIVE CHAT
 }
 
 .conversations .editor {
-  padding: 15px;
+  padding: 10px;
   outline: none;
   margin: 5px;
-  border: solid 1px rgba(136, 136, 136, 0.25);
   border-radius: 3px;
 }
 
@@ -154,7 +153,7 @@ LIVE CHAT
   position: absolute;
   z-index: 4;
   width: 275px;
-  border-right: solid 1px rgba(136, 136, 136, .2);
+  border-right: solid 1px rgba(136, 136, 136, .4);
   border-radius: 3px 0 0 3px;
 }
 
@@ -176,6 +175,8 @@ LIVE CHAT
 
 .conversation-header {
   background: #eaecf0;
+  border-bottom: solid 1px rgba(136, 136, 136, 0.1);
+  height: 51px;
 }
 
 .header-control {
@@ -275,7 +276,7 @@ LIVE CHAT
 .header-queue h5 {
   margin: 0;
   padding-top: 17px;
-  font-size: 12px;
+  font-size: 13.5px;
 }
 
 .windows-selector {
@@ -298,9 +299,10 @@ LIVE CHAT
 .header-collapsible h5 {
   display: inline-block;
   margin: 0;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
   line-height: 40px;
+  text-transform: uppercase;
   color: #67686b;
 }
 
@@ -566,12 +568,12 @@ LIVE CHAT
   display: inline-block;
   padding: 5px 8px 5px 0px;
   cursor: pointer;
-  border: solid 1px rgba(206, 206, 206, .65);
+  border: solid 1px rgba(206, 206, 206, 1);
   border-radius: 3px;
 }
 
 .conversation-footer {
-  padding: 0 10px 10px 10px;
+  padding: 0 15px 10px 15px;
 }
 
 .conversation-footer .panel {
@@ -597,8 +599,8 @@ LIVE CHAT
 }
 
 .conversation-section {
-  margin-bottom: 150px;
-  padding: 20px;
+  margin-bottom: 110px;
+  padding: 15px;
 }
 
 .conversation-section-list {
@@ -611,31 +613,53 @@ LIVE CHAT
 
 .conversation-section-item {
   position: relative;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.conversation-section-item.item-visitor {
+  text-align: left;
+}
+.conversation-section-item.item-operator {
+  text-align: right;
+}
+
+/* Messages of a different type following each other have a
+   larger margin in between */
+.item-operator + .item-visitor,
+.item-visitor + .item-operator {
+  margin-bottom: 20px;
+}
+.item-visitor + .item-visitor,
+.item-operator + .item-operator {
+  margin-top: -15px;
 }
 
 .conversation-section-item img.img-circle {
-  float: left;
+  float: right;
   width: 35px;
   height: 35px;
-  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .conversation-section-item div.msg-visitor {
   min-height: 35px;
-  padding-right: 15px;
+  padding-left: 15px;
   font-size: 12px;
-  font-weight: 600;
-  text-align: right;
+  font-weight: 300;
+  text-align: left;
   word-wrap: break-word;
-  color: #747474;
-  border-right: 2px solid #6075a4;
+  color: #515151;
+  padding: 7px 8px;
+  background-color: rgba(206, 206, 206, 0.4);
+  border-radius: 5px;
+  max-width: 85%;
+  display: inline-block;
 }
 
 .btn-flag-question {
   position: absolute;
   z-index: 999;
-  right: 15px;
+  left: 15px;
   bottom: -10px;
   display: none;
   float: right;
@@ -658,7 +682,7 @@ LIVE CHAT
   content: " ";
   position: absolute;
   bottom: 100%;
-  left: 90%;
+  left: 10%;
   width: 0;
   height: 0;
   pointer-events: none;
@@ -689,27 +713,35 @@ LIVE CHAT
 
 .conversation-section-item div.msg-visitor .date {
   font-weight: 300;
-  color: #d6d6d6;
+  color: #A0A0A0;
+  font-size: 9px;
 }
 
 .conversation-section-item div.msg-operator {
   min-height: 35px;
-  padding-left: 15px;
+  padding-right: 10px;
   font-size: 12px;
-  border-left: 2px solid #6e7d83;
+  text-align: left;
+  padding: 7px 8px;
+  background-color: rgba(158, 209, 255, 0.3);
+  border-radius: 5px;
+  max-width: 85%;
+  display: inline-block;
 }
 
 .msg-with-avatar {
-  margin-left: 30px;
-  border-left: 0 !important;
+  margin-right: 30px;
+  border-right: 0 !important;
 }
 
 .conversation-section-item span {
   display: block;
-  color: #d6d6d6;
+  font-weight: 300;
+  color: #A0A0A0;
+  font-size: 9px;
 }
 
-.conversation-section div.msg-server {
+.conversation-section .msg-server {
   margin-bottom: 20px;
   padding-bottom: 8px;
   color: #a9abb1;
@@ -722,19 +754,19 @@ LIVE CHAT
       -ms-user-select: none;
           user-select: none;
   background: #EAECF0;
-
-  -khtml-user-select: none;
+  border-bottom: solid 1px rgba(136, 136, 136, 0.1);
   -webkit-touch-callout: none;
+  cursor: pointer;
 }
 
 .informations-header h5 {
   display: inline-block;
   margin: 0;
-  padding: 18px 0 18px 0;
-  font-size: 13px;
+  padding: 18px 0 17px 0;
+  font-size: 13.5px;
 }
 
-.informations-header icon {
+.informations-header .icon-toggle {
   padding: 15px 0 15px 0;
   font-size: 20px;
   cursor: pointer;
@@ -767,16 +799,18 @@ LIVE CHAT
   position: absolute;
   bottom: 0;
   width: 100%;
-}
-
-.panel-group .search-panel {
   margin-top: 0;
   border-radius: 0;
 }
 
 .wrapper-search {
-  height: 300px;
-  min-height: 300px;
+  height: 280px;
+  min-height: 280px;
+  max-height: 65%;
+}
+
+.search-panel.closed .wrapper-search {
+  display: none;
 }
 
 .wrapper-search .action-container {
@@ -796,17 +830,78 @@ LIVE CHAT
 }
 
 .search-answer .msg-wrapper {
-  padding: 0 5px 0 10px;
-  background: rgba(255, 255, 255, 0);
-  border-left: solid 2px rgba(68, 76, 92, 0.54);
+  padding: 7px 8px;
+  border-radius: 5px;
+  background-color: #D9EAFB;
 }
 
 .msg-wrapper.msg-warning{
   border-left: solid 2px rgba(231, 76, 60, 0.7);
+  padding: 0 5px 0 10px;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 0;
 }
 
 .msg-wrapper p {
   margin: 0;
+}
+
+.msg-wrapper .btn-copy-msg {
+  margin-top: 8px;
+  font-size: 10px;
+  text-align: right;
+}
+
+.btn-copy-msg span {
+  display: inline-block;
+  padding: 5px 8px 5px 5px;
+  cursor: pointer;
+  border: solid 1px rgba(182, 182, 182, 1);
+  border-radius: 3px;
+  color: #757576;
+  font-weight: 600;
+}
+
+.lily-loading {
+  width: 50px;
+  text-align: center;
+  background: #D9EAFB;
+  padding: 5px 3px;
+  border-radius: 10px;
+}
+
+.lily-loading span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 2.5px;
+  -webkit-animation: loader .75s infinite alternate;
+     -moz-animation: loader .75s infinite alternate;
+  vertical-align: middle;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 1);
+}
+.lily-loading span:nth-of-type(2) {
+  -webkit-animation-delay: .25s;
+     -moz-animation-delay: .25s;
+}
+.lily-loading span:nth-of-type(3) {
+  -webkit-animation-delay: .5s;
+     -moz-animation-delay: .5s;
+}
+@-webkit-keyframes loader {
+  0% {
+    width: 7px;
+    height: 7px;
+    -webkit-transform: translate3d(0, -6px, 0);
+    opacity: 1;
+  }
+  100% {
+    width: 8px;
+    height: 8px;
+    -webkit-transform: translate3d(0, 0, 0);
+    opacity: .7;
+  }
 }
 
 /******************
@@ -908,9 +1003,7 @@ Typeahead Styles
 }
 
 .search-input:focus {
-  border: solid 1px #b6b6b6;
-  outline: none;
-  box-shadow: 0 0 3px 0 #cecece;
+  border: solid 1px rgba(87, 154, 215, 0.6);
 }
 
 .wrapper-input {

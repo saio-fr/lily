@@ -152,6 +152,15 @@ define(function(require) {
     confirm: "Valider"
   }
 
+  g.loadingTpl =
+    '<div class="msg-wrapper">' +
+    '<p class="lily-loading">' +
+    '<span></span>' +
+    '<span></span>' +
+    '<span></span>' +
+    '</p>' +
+    '</div>';
+
   g.notifications = {
     countTitle: function(count) {
       return "Vous avez " + count + " notification" + 

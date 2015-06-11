@@ -10,7 +10,7 @@ define(function (require) {
 var _ = require('underscore'),
     Backbone = require('backbone'),
     Models = require('components/chat/data/models'),
-    // MessageView = require('app/views/message'),
+    app = require('app'),
     // Object wrapper returned as a module
     SearchAnswerView;
 
@@ -19,6 +19,10 @@ SearchAnswerView = Backbone.View.extend({
   className: 'search-answer',
   model: Models.SearchAnswerModel,
   template: _.template($('#searchKnowledgeAnswerTpl').html()),
+
+  events: {
+    'click .btn-copy-msg': 'copyToChat'
+  },
 
   initialize: function() {
     // bind model's changes to the render() method to mantain interface up to date.
@@ -29,6 +33,11 @@ SearchAnswerView = Backbone.View.extend({
     this.$el.html(this.template(this.model.toJSON()));
     $('.answer-box').html(this.$el);
     return this;
+  },
+
+  copyToChat: function() {
+    var msg = this.model.get('messageContent');
+    app.trigger('search:copyToChat', msg);
   },
 });
 
