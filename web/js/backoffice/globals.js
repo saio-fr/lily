@@ -154,7 +154,7 @@ define(function(require) {
 
   g.loadingTpl =
     '<div class="msg-wrapper">' +
-    '<p class="lily-loading">' +
+    '<p class="search-loading">' +
     '<span></span>' +
     '<span></span>' +
     '<span></span>' +

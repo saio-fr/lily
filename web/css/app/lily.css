@@ -1706,6 +1706,22 @@ MESSAGES
   }
 }
 
+@keyframes loader {
+  0% {
+    width: 7px;
+    height: 7px;
+    -webkit-transform: translate3d(0, -6px, 0);
+            transform: translate3d(0, -6px, 0);
+    opacity: 1;
+  }
+  100% {
+    width: 8px;
+    height: 8px;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+    opacity: .7;
+  }
+}
 /*******************
 THEMATIQUE
 *******************/
