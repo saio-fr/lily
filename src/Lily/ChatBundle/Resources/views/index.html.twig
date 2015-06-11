@@ -1,8 +1,8 @@
 {% extends "LilyBackOfficeBundle::layout.html.twig" %}
 
-{% block stylesheets %} 	   
+{% block stylesheets %}
 
-{{ parent() }} 	   
+{{ parent() }}
 
   <link rel="stylesheet" href="{{ asset('css/backoffice/chat.css', version=getAppVersion()) }}" type="text/css"/>
 
@@ -16,7 +16,7 @@
   {% include "LilyBackOfficeBundle::menu.html.twig" with {'user': 'user'}  %}
 
 	{% block content %}
-	
+
   	<section>
   	  <section class="js-skeleton-container vbox">
         <header class="header bg-dark lter">
@@ -28,14 +28,14 @@
         <!--
           Here start our application
           Main Skelton View
-        -->  	  
+        -->
   	  </section>
   	</section>
 
 	{% endblock %}
-	
+
 	{% block templates %}
-    <!-- 
+    <!--
   		  Dashboard
     -->
 		<script type="text/template" id="dashboardSkeletonTpl">
@@ -56,7 +56,7 @@
 		<script type="text/template" id="dashboardVisitorsTpl">
       {% include 'LilyChatBundle:Dashboard:visitors.html.twig' %}
     </script>
-    <!-- 
+    <!--
   		  Shortcuts
     -->
 		<script type="text/template" id="shortcutsSkeletonTpl">
@@ -68,25 +68,27 @@
 		<script type="text/template" id="shortcutsItemTpl">
       {% include 'LilyChatBundle:Shortcuts:item.html.twig' %}
     </script>
-    
+
   {% endblock %}
 
 	{% block bootstrap %}
     {% autoescape false %}
 	    <script type="text/javascript">
-  	    
+
         var config = window.config || {};
         config.ws = {};
         config.version = "{{ getAppVersion() }}";
         config.root = '{{ app.request.getBaseURL() }}/api';
+        config.appRoot = '{{ app.request.getBaseURL() }}/app/api';
         config.ws.host = "{{ ws_host }}";
         config.ws.protocol = "{{ ws_protocol }}";
         config.licence = '{{ app.user.client.licence }}';
         config.userId = '{{ app.user.id }}';
+        config.synapsePassword = '{{ app.user.client.synapsePassword }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}
-	
+
   </section>
 </section>
 

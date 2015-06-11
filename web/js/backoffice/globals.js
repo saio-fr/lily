@@ -24,6 +24,11 @@ define(function(require) {
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
+  g.typeahead = {
+    autoselect: true,
+    highlight: true
+  };
+
   g.knowledge = {};
   g.knowledge.questionsSortUrl = '/questions/sort';
   g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' +
@@ -146,6 +151,15 @@ define(function(require) {
     cancel: "Annuler",
     confirm: "Valider"
   }
+
+  g.loadingTpl =
+    '<div class="msg-wrapper">' +
+    '<p class="search-loading">' +
+    '<span></span>' +
+    '<span></span>' +
+    '<span></span>' +
+    '</p>' +
+    '</div>';
 
   g.notifications = {
     countTitle: function(count) {

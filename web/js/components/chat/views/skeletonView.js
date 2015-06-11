@@ -204,7 +204,7 @@ define(function(require) {
     },
 
     unsetActiveWindow: function(cid) {
-      
+
       var conversation = this.windows.findByCid(cid);
       this.windows.remove(conversation);
 

@@ -48,7 +48,10 @@ require.config({
     "scribe-plugin-heading-command": "bower_components/scribe-plugin-heading-command/scribe-plugin-heading-command",
     "scribe-plugin-shell-command" : "components/chat/utils/scribe-plugin-shell-command",
     "scribe-plugin-sanitizer": "bower_components/scribe-plugin-sanitizer/scribe-plugin-sanitizer",
-    "interact" : "bower_components/interact/interact"
+    "interact" : "bower_components/interact/interact",
+    'synapse':            'app/libs/synapse-suggest',
+    'typeahead':          'app/libs/typeahead.jquery',
+    'bloodhound':         'app/libs/bloodhound'
   },
 
   shim: {
@@ -93,7 +96,18 @@ require.config({
     },
     "quill": {
       "exports": "Quill"
+    },
+    'synapse_suggest': {
+      deps: ['jquery', 'typeahead', 'bloodhound'],
+      exports: 'synapse_suggest'
+    },
+    'typeahead': {
+      deps: ['jquery'],
+      exports: 'typeahead'
+    },
+    'bloodhound': {
+      deps: ['jquery'],
+      exports: 'Bloodhound'
     }
-
   }
 });

@@ -13,6 +13,7 @@ define(function(require) {
     // Object wrapper returned as a module
     Models = {};
 
+  Models.SearchAnswerModel = Backbone.Model.extend({});
   Models.Loading = Backbone.Model.extend({});
   Models.Operator = Backbone.NestedModel.extend({
 
@@ -32,7 +33,7 @@ define(function(require) {
       });
     }
   });
-  
+
   Models.Messages = Backbone.NestedModel.extend({
 
     convertAvatar: function() {
@@ -46,9 +47,9 @@ define(function(require) {
         'operator.avatar': avatar
       });
     }
-    
+
   });
-  
+
   Models.Shortcut = Backbone.NestedModel.extend({
 
     initialize: function () {
@@ -59,7 +60,7 @@ define(function(require) {
       var title = '/' + this.get('title');
       this.set({title: title});
     }
-    
+
   });
 
 

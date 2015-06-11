@@ -19,12 +19,18 @@ define(['../common', 'require'], function(common, require) {
 ], function($, _, Backbone, UserRouter, globals, app, LiveChat) {
 
     $.ajaxPrefilter(function(options) {
-      options.url = globals.root + options.url;
+      if (options.external) {
+        options.url = globals.appRoot + options.url;
+      } else if (options.url.match(/^(http|www)/)) {
+        options.url = options.url;
+      } else  {
+        options.url = globals.root + options.url;
+      }
     });
 
     app.init = function() {
       app.router = new UserRouter();
-      
+
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat();
       }

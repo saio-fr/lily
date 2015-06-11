@@ -21,8 +21,13 @@ define(['../common', 'require'], function(common, require) {
 ], function($, _, Backbone, StatisticsRouter, globals, app, LiveChat) {
 
     $.ajaxPrefilter(function(options) {
-      options.url = globals.root + options.url;
-      console.log(options.url);
+      if (options.external) {
+        options.url = globals.appRoot + options.url;
+      } else if (options.url.match(/^(http|www)/)) {
+        options.url = options.url;
+      } else  {
+        options.url = globals.root + options.url;
+      }
     });
 
     // Set locale in moment JS
@@ -30,6 +35,7 @@ define(['../common', 'require'], function(common, require) {
 
     app.init = function() {
       app.router = new StatisticsRouter();
+
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat();
       }

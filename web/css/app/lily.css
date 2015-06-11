@@ -870,9 +870,9 @@ HEADER
   vertical-align: bottom;
   color: #888888;
   border: 1px solid rgba(181, 181, 181, .25);
-  border-radius: 2px;
+  border-radius: 3px;
   outline: none;
-  background-color: rgba(232, 232, 232, .4);
+  background-color: rgba(232, 232, 232, 0.6);
 
   -webkit-appearance: none;;
 }
@@ -946,16 +946,16 @@ HEADER
 }
 
 :-moz-placeholder {
-  color: #888888;
+  color: #777777;
 }
 ::-moz-placeholder {
-  color: #888888;
+  color: #777777;
 }
 :ms-input-placeholder {
-  color: #888888;
+  color: #777777;
 }
 ::-webkit-input-placeholder {
-  color: #888888;
+  color: #777777;
 }
 
 
@@ -1706,6 +1706,22 @@ MESSAGES
   }
 }
 
+@keyframes loader {
+  0% {
+    width: 7px;
+    height: 7px;
+    -webkit-transform: translate3d(0, -6px, 0);
+            transform: translate3d(0, -6px, 0);
+    opacity: 1;
+  }
+  100% {
+    width: 8px;
+    height: 8px;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+    opacity: .7;
+  }
+}
 /*******************
 THEMATIQUE
 *******************/

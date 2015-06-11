@@ -67,7 +67,6 @@ define(function(require) {
     },
 
     onActiveChange: function(model) {
-      
       if (model.get('active') === true) {
         this.$el.addClass('active');
       } else {

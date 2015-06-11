@@ -22,7 +22,13 @@ define(['../common', 'require'], function(common, require) {
 ], function($, _, Backbone, ProfileRouter, globals, app, LiveChat) {
 
     $.ajaxPrefilter(function(options) {
-      options.url = globals.root + options.url;
+      if (options.external) {
+        options.url = globals.appRoot + options.url;
+      } else if (options.url.match(/^(http|www)/)) {
+        options.url = options.url;
+      } else  {
+        options.url = globals.root + options.url;
+      }
     });
 
     // Set locale in moment JS
@@ -34,7 +40,7 @@ define(['../common', 'require'], function(common, require) {
 
     // Will get called if ws connection is successful
     app.onConnect = function(result) {
-      
+
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat(result);
       }
