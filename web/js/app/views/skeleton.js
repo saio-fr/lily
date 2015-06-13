@@ -7,12 +7,13 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var Backbone = require('backbone'),
-    Router = require('app/router'),
-    config = require('app/globals'),
-    app = require('app/app'),
+  var Backbone  = require('backbone'),
+    Router      = require('app/router'),
+    config      = require('app/globals'),
+    Snap        = require('Snap'),
+    app         = require('app/app'),
     Collections = require('app/data/collections'),
-    PageView = require('app/views/page'),
+    PageView    = require('app/views/page'),
 
     // Object wrapper returned as a module
     Skeleton;

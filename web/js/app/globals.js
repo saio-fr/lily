@@ -70,12 +70,12 @@ define(function(require) {
     'transition'       : 'transitionend'       // IE10, Opera, Chrome, FF 15+, Saf 7+
   };
 
-  g.transEndEventName = g.transEndEventNames[ Modernizr.prefixed('transition') ];
-  g.animEndEventName = g.animEndEventNames[window.Modernizr.prefixed('animation')];
+  g.transEndEventName = g.transEndEventNames[Modernizr.prefixed('transition')];
+  g.animEndEventName = g.animEndEventNames[Modernizr.prefixed('animation')];
 
   // support css animations
-  g.supportAnimations = window.Modernizr.cssanimations;
-  g.supportTransitions = window.Modernizr.csstransitions;
+  g.supportAnimations  = Modernizr.cssanimations;
+  g.supportTransitions = Modernizr.csstransitions;
 
   // AVI
   g.loadingTpl =

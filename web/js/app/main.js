@@ -1,51 +1,4 @@
-require.config({
-  baseUrl: '/js',
-  urlArgs: "v" + window.config.version,
-  waitSeconds: 20,
-
-  paths: {
-    'jquery':             'bower_components/jquery/dist/jquery',
-    'underscore':         'bower_components/underscore/underscore-min',
-    'backbone':           'bower_components/backbone/backbone',
-    'autobahn':           'vendor/autobahn-v1',
-    'isMobile':           'bower_components/isMobile/isMobile.min',
-    'Snap':               'bower_components/snapjs/snap.min',
-    'Modernizr':          'app/libs/modernizr-custom',
-    'when':               'vendor/when',
-    'FastClick':          'bower_components/fastclick/lib/fastclick',
-    'synapse':            'app/libs/synapse-suggest',
-    'typeahead':          'app/libs/typeahead.jquery',
-    'bloodhound':         'app/libs/bloodhound'
-  },
-  shim: {
-    'underscore': {
-      exports: '_'
-    },
-    'backbone': {
-      deps: ['underscore', 'jquery'],
-      exports: 'Backbone'
-    },
-    'autobahn': {
-      deps: ['when'],
-      exports: 'ab'
-    },
-    'Modernizr': {
-      exports: 'Modernizr'
-    },
-    'synapse_suggest': {
-      deps: ['jquery', 'typeahead', 'bloodhound'],
-      exports: 'synapse_suggest'
-    },
-    'typeahead': {
-      deps: ['jquery'],
-      exports: 'typeahead'
-    },
-    'bloodhound': {
-      deps: ['jquery'],
-      exports: 'Bloodhound'
-    }
-  }
-});
+'use strict';
 
 require([
   'jquery',
@@ -57,17 +10,12 @@ require([
   'app/app',
   'app/globals',
   'app/views/skeleton',
-  'utils/pages',
 
   // Libraries required at bootstrap for the UI.
   'Snap',
   'Modernizr',
-
   // Autobahn V1 AMD broken.
-], function($, _, Backbone, ab, when, isMobile, app, config, SkeletonView,
-  utils) {
-
-  'use strict';
+], function($, _, Backbone, ab, when, isMobile, app, config, SkeletonView, Snap, Modernizr) {
 
   app.init = function() {
 

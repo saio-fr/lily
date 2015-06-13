@@ -8,13 +8,16 @@
 /app/config/parameters_staging.yml
 /web/js/bower_components
 /web/js/compiled
+/web/js/build
 /web/css/compiled
 node_modules
 node_modules/*/node_modules
 compiled
 tmp
 temp
+bin
 ftpsync.settings
 .remote-sync.json
 npm-debug.log
 composer.phar
+composer.lock
