@@ -21,10 +21,17 @@ define(function(require) {
       timers      = require('components/chat/utils/timers'),
 
     app = {
+
+      ////////////////////
       // Modal component
+      ////////////////////
+
       createModal: {},
 
-      // Ws Component
+      ////////////////////
+      // Ws component
+      ////////////////////
+
       wsConnect: function(callback) {
         return ab.connect(
 
