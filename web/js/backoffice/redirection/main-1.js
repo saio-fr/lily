@@ -16,6 +16,7 @@ define(['../common', 'require'], function(common, require) {
   "todoTpl",
 ], function($, _, Backbone, app, globals, SkeletonView, LiveChat) {
 
+<<<<<<< HEAD
     $.ajaxPrefilter(function(options) {
       if (options.external) {
         options.url = globals.appRoot + options.url;
@@ -26,6 +27,8 @@ define(['../common', 'require'], function(common, require) {
       }
     });
 
+=======
+>>>>>>> 89bca660728a56d3a7badc1f4d47f0c20912a75f
     app.init = function() {
       app.skeleton = new SkeletonView();
       app.pageView("/redirection");
@@ -35,6 +38,7 @@ define(['../common', 'require'], function(common, require) {
       }
     };
 
+    app.ajaxConfig();
     app.init();
     app.wsConnect();
     Backbone.history.start();

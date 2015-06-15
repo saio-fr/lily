@@ -22,23 +22,12 @@ define(['../common', 'require'], function(common, require) {
   // Autobahn V1 AMD broken.
 ], function($, _, Backbone, ab, when, app, ChatRouter, LiveChat, moment, globals) {
 
-    $.ajaxPrefilter(function(options) {
-      if (options.external) {
-        options.url = globals.appRoot + options.url;
-      } else if (options.url.match(/^(http|www)/)) {
-        options.url = options.url;
-      } else  {
-        options.url = globals.root + options.url;
-      }
-    });
-
     // Set locale in moment JS
     moment.locale('fr');
 
     app.init = function() {
-
       app.router = new ChatRouter();
-      
+
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
@@ -51,7 +40,8 @@ define(['../common', 'require'], function(common, require) {
       Backbone.history.start();
     };
 
-    app.init();  
+    app.ajaxConfig();
+    app.init();
     app.wsConnect();
   });
 });

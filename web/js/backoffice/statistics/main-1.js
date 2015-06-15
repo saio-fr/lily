@@ -11,24 +11,14 @@ define(['../common', 'require'], function(common, require) {
   'globals',
   'app',
   'components/chat/main',
+  'moment',
 
   // Libraries required at bootstrap for the UI.
   'todoTpl',
   'bootstrap',
-  'moment',
   'moment-fr',
 
-], function($, _, Backbone, StatisticsRouter, globals, app, LiveChat) {
-
-    $.ajaxPrefilter(function(options) {
-      if (options.external) {
-        options.url = globals.appRoot + options.url;
-      } else if (options.url.match(/^(http|www)/)) {
-        options.url = options.url;
-      } else  {
-        options.url = globals.root + options.url;
-      }
-    });
+], function($, _, Backbone, StatisticsRouter, globals, app, LiveChat, moment) {
 
     // Set locale in moment JS
     moment.locale('fr');
@@ -41,6 +31,7 @@ define(['../common', 'require'], function(common, require) {
       }
     };
 
+    app.ajaxConfig();
     app.init();
     app.wsConnect();
     Backbone.history.start();

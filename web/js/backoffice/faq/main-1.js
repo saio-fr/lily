@@ -4,32 +4,22 @@ define(['../common', 'require'], function(common, require) {
   'use strict';
 
   require([
-  "jquery",
-  "underscore",
-  "backbone",
-  "globals",
-  "app",
-  "backoffice/faq/router",
+  'jquery',
+  'underscore',
+  'backbone',
+  'globals',
+  'app',
+  'backoffice/faq/router',
   'components/chat/main',
 
   // Libraries required at bootstrap for the UI.
-  "bootstrap",
-  "todoTpl",
-  "sortable",
-  "wysihtml5",
+  'bootstrap',
+  'todoTpl',
+  'sortable',
+  'wysihtml5',
   'wysihtml5-parser'
 
 ], function($, _, Backbone, globals, app, Router, LiveChat) {
-
-    $.ajaxPrefilter(function(options) {
-      if (options.external) {
-        options.url = globals.appRoot + options.url;
-      } else if (options.url.match(/^(http|www)/)) {
-        options.url = options.url;
-      } else  {
-        options.url = globals.root + options.url;
-      }
-    });
 
     app.init = function() {
       app.router = new Router();
@@ -39,6 +29,7 @@ define(['../common', 'require'], function(common, require) {
       }
     };
 
+    app.ajaxConfig();
     app.init();
     app.wsConnect();
     Backbone.history.start();

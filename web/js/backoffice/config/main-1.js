@@ -17,16 +17,6 @@ define(['../common', 'require'], function(common, require) {
 
 ], function($, _, Backbone, ConfigRouter, globals, app, LiveChat) {
 
-    $.ajaxPrefilter(function(options) {
-      if (options.external) {
-        options.url = globals.appRoot + options.url;
-      } else if (options.url.match(/^(http|www)/)) {
-        options.url = options.url;
-      } else  {
-        options.url = globals.root + options.url;
-      }
-    });
-
     app.init = function() {
       app.router = new ConfigRouter();
 
@@ -35,6 +25,7 @@ define(['../common', 'require'], function(common, require) {
       }
     };
 
+    app.ajaxConfig();
     app.init();
     app.wsConnect();
     Backbone.history.start();
