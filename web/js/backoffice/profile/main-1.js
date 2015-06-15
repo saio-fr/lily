@@ -18,7 +18,6 @@ define(['../common', 'require'], function(common, require) {
   'bootstrap',
   'moment-fr',
   'statistics'
-
 ], function($, _, Backbone, Router, globals, app, LiveChat, moment) {
 
     // Set locale in moment JS
