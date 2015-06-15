@@ -10,18 +10,14 @@ define(['../common', 'require'], function(common, require) {
   'backoffice/dashboard/views/skeletonView',
   'components/chat/main',
   'globals',
+  'moment',
 
   // Libraries required at bootstrap for the UI.
   'todoTpl',
   'bootstrap',
-  'moment',
   'moment-fr',
 
-], function($, _, Backbone, app, SkeletonView, LiveChat, globals) {
-
-    $.ajaxPrefilter(function(options) {
-      options.url = globals.root + options.url;
-    });
+], function($, _, Backbone, app, SkeletonView, LiveChat, globals, moment) {
 
     // Set locale in moment JS
     moment.locale('fr');
@@ -35,6 +31,7 @@ define(['../common', 'require'], function(common, require) {
       }
     };
 
+    app.ajaxConfig();
     app.init();
     app.wsConnect();
     Backbone.history.start();

@@ -20,11 +20,6 @@ define(['../common', 'require'], function(common, require) {
 
 ], function($, _, Backbone, StatisticsRouter, globals, app, LiveChat) {
 
-    $.ajaxPrefilter(function(options) {
-      options.url = globals.root + options.url;
-      console.log(options.url);
-    });
-
     // Set locale in moment JS
     moment.locale('fr');
 
@@ -35,6 +30,7 @@ define(['../common', 'require'], function(common, require) {
       }
     };
 
+    app.ajaxConfig();
     app.init();
     app.wsConnect();
     Backbone.history.start();

@@ -3,32 +3,28 @@
    ========================== */
 
 /*
- ** Main module: serves as namespace and EventBus
+ * Main module: serves as namespace and EventBus
  */
 define(function(require) {
 
   'use strict';
 
   // Require CommonJS like includes
-  var _ = require('underscore'),
-      $ = require("jquery"),
-      Backbone = require('backbone'),
-      globals = require('globals'),
-      config = require('globals'),
-      Autobahn = require('autobahn'),
+  var _           = require('underscore'),
+      $           = require('jquery'),
+      Backbone    = require('backbone'),
+      Moment      = require('moment'),
+      globals     = require('globals'),
+      config      = require('globals'),
+      ab          = require('autobahn'),
       createModal = require('components/modals/main'),
-      timers = require('components/chat/utils/timers'),
+      timers      = require('components/chat/utils/timers'),
 
     app = {
-         
-      ////////////////////
       // Modal component
-      ////////////////////
       createModal: {},
 
-      ////////////////////
-      //  Ws Component
-      ////////////////////
+      // Ws Component
       wsConnect: function(callback) {
         return ab.connect(
 
@@ -37,36 +33,14 @@ define(function(require) {
           function onconnect(session) { // Once the connection has been established
             app.ws = session;
 
-            app.connect().then(function(result) {
-              
-              if (_.isFunction(callback)) {
-                callback(result);
-              }
-
-              app.available = !!result.available;
-              app.trigger('operator:setAvailability', app.available);
-              
-              // Get diff between server time and user to sync timers
-              timers.serverTime = result.time - new moment().unix();
-
-              app.isConnectionAlive();
-              app.ping();
-              
-            }, function(err) {
-              console.warn(err);
-
-              window.setTimeout(function() {
-                app.trigger("status:connectionError");
-              }, 3000);
-            });
+            app.connect().then(function(config) {
+              app.onWsConnect(config, callback);
+            }, app.onWsError);
           },
 
           function onhangup(code, reason, detail) { // When the connection is closed
-            console.warn(code + reason + detail);
-            // Todo put that somewhere else
-            window.setTimeout(function() {
-              app.trigger("status:connectionError");
-            }, 3000);
+            var err = code + reason + detail;
+            app.onWsError(err);
           },
 
           { // Additional parameters, we're ignoring the WAMP sub-protocol for older browsers
@@ -75,6 +49,29 @@ define(function(require) {
             'retryDelay': 1000
           }
         );
+      },
+
+      onWsConnect: function(config, callback) {
+        if (_.isFunction(callback)) {
+          callback(config);
+        }
+
+        app.available = !!config.available;
+        app.trigger('operator:setAvailability', app.available);
+
+        // Get diff between server time and user to sync timers
+        timers.serverTime = config.time - new Moment().unix();
+
+        app.isConnectionAlive();
+        app.ping();
+      },
+
+      onWsError: function(err) {
+        console.warn(err);
+
+        setTimeout(function() {
+          app.trigger('status:connectionError');
+        }, 3000);
       },
 
       subscribe: function() {
@@ -103,10 +100,23 @@ define(function(require) {
         return app.ws.call('operator/connect');
       },
 
+      ajaxConfig: function() {
+        $.ajaxPrefilter(function(options) {
+          options.url = globals.root + options.url;
+        });
+
+        // Log ajax errors in Bugsnag
+        $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+          if (window.Bugsnag) {
+            window.Bugsnag.notify('AjaxError', thrownError);
+          }
+        });
+      },
+
       ping: function() {
         window.setInterval(function() {
-          app.ws.call("operator/ping").then(app.isConnectionAlive);
-          console.log("ping");
+          app.ws.call('operator/ping').then(app.isConnectionAlive);
+          console.log('ping');
         }, 25000);
       },
 
@@ -229,7 +239,7 @@ define(function(require) {
           app.modalConnectionLost.open();
         }
       },
-      
+
       ////////////////////
       //    GA Utils
       ////////////////////
@@ -237,7 +247,7 @@ define(function(require) {
       pageView: function(page) {
         var url = page || Backbone.history.fragment;
         if (_.isFunction(window.ga)) {
-          ga('send', 'pageview', {
+          window.ga('send', 'pageview', {
             'page': url,
             'title': config.licence
           });
@@ -249,7 +259,7 @@ define(function(require) {
           action = event,
           label = tostring(options);
         if (_.isFunction(window.ga)) {
-          ga('send', 'event', category, action, label, value);
+          window.ga('send', 'event', category, action, label, value);
         }
 
         function tostring(obj) {

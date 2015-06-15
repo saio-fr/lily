@@ -20,10 +20,6 @@ define(['../common', 'require'], function(common, require) {
 
 ], function($, _, Backbone, app, globals, Router, Counters, Interact, LiveChat) {
 
-  $.ajaxPrefilter(function(options) {
-    options.url = globals.root + options.url;
-  });
-
   app.init = function() {
     app.router = new Router();
     Interact.resizeNavigator();
@@ -42,6 +38,7 @@ define(['../common', 'require'], function(common, require) {
     });
   };
 
+  app.ajaxConfig();
   app.init();
   app.wsConnect();
   Backbone.history.start();
