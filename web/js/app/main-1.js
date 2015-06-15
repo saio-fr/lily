@@ -208,6 +208,13 @@ require([
       return this;
     };
 
+    // Log ajax errors in Bugsnag
+    $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+      if (window.Bugsnag) {
+        window.Bugsnag.notify('AjaxError', thrownError);
+      }
+    });
+
     // Placeholder hack for contenteditable
     $(document).on('change keydown keypress input', '*[data-placeholder]', function() {
       if (this.textContent) {

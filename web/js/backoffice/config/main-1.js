@@ -17,18 +17,15 @@ define(['../common', 'require'], function(common, require) {
 
 ], function($, _, Backbone, ConfigRouter, globals, app, LiveChat) {
 
-    $.ajaxPrefilter(function(options) {
-      options.url = globals.root + options.url;
-    });
-
     app.init = function() {
       app.router = new ConfigRouter();
-      
+
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
     };
 
+    app.ajaxConfig();
     app.init();
     app.wsConnect();
     Backbone.history.start();
