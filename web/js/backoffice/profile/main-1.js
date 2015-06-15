@@ -11,27 +11,24 @@ define(['../common', 'require'], function(common, require) {
   'globals',
   'app',
   'components/chat/main',
+  'moment',
 
   // Libraries required at bootstrap for the UI.
   'todoTpl',
   'bootstrap',
-  'moment',
   'moment-fr',
   'statistics'
 
-], function($, _, Backbone, ProfileRouter, globals, app, LiveChat) {
+], function($, _, Backbone, ProfileRouter, globals, app, LiveChat, moment) {
 
     // Set locale in moment JS
     moment.locale('fr');
 
     app.init = function() {
       app.router = new ProfileRouter();
-    };
 
-    // Will get called if ws connection is successful
-    app.onConnect = function(result) {
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
-        app.liveChat = new LiveChat(result);
+        app.liveChat = new LiveChat();
       }
     };
 
