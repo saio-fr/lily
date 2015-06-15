@@ -105,7 +105,15 @@ class ConfigChat
      * @JMS\SerializedName("contactFormAvoidable")
      * @ORM\Column(name="contactFormAvoidable", type="boolean")
      */
-    protected $contactFormAvoidable;       
+    protected $contactFormAvoidable; 
+
+    /**
+     * @var array
+     *
+     * @JMS\SerializedName("onBoardingMsg")
+     * @ORM\Column(name="onBoardingMsg", type="array")
+     */
+    protected $onBoardingMsg;      
  
     public function __construct()
     {
@@ -120,7 +128,10 @@ class ConfigChat
     		$this->contactFirstNameField = true;
     		$this->contactLastNameField = true;
     		$this->contactEmailField = true;  
-        $this->contactFormAvoidable = true; 
+        $this->contactFormAvoidable = true;
+        $this->onBoardingMsg = [
+          "Posez votre question. Un conseiller vous répondra le plus rapidement possible."
+        ]; 
               
 	  }
 
@@ -385,5 +396,28 @@ class ConfigChat
     public function getContactFormAvoidable()
     {
         return $this->contactFormAvoidable;
+    }
+
+    /**
+     * Set onBoardingMsg
+     *
+     * @param array $onBoardingMsg
+     * @return ConfigChat
+     */
+    public function setOnBoardingMsg($onBoardingMsg)
+    {
+        $this->onBoardingMsg = $onBoardingMsg;
+
+        return $this;
+    }
+
+    /**
+     * Get onBoardingMsg
+     *
+     * @return array 
+     */
+    public function getOnBoardingMsg()
+    {
+        return $this->onBoardingMsg;
     }
 }

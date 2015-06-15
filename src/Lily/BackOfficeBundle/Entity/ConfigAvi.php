@@ -69,42 +69,10 @@ class ConfigAvi
     /**
      * @var array
      *
-     * @JMS\SerializedName("questionInvitationMsg")
-     * @ORM\Column(name="questionInvitationMsg", type="array")
+     * @JMS\SerializedName("onBoardingMsg")
+     * @ORM\Column(name="onBoardingMsg", type="array")
      */
-    protected $questionInvitationMsg;
-    
-    /**
-     * @var array
-     *
-     * @JMS\SerializedName("unansweredMsg")
-     * @ORM\Column(name="unansweredMsg", type="array")
-     */
-    protected $unansweredMsg;
-
-    /**
-     * @var array
-     *
-     * @JMS\SerializedName("unsatisfactoryMsg")
-     * @ORM\Column(name="unsatisfactoryMsg", type="array")
-     */
-    protected $unsatisfactoryMsg;
-
-    /**
-     * @var array
-     *
-     * @JMS\SerializedName("satisfactoryMsg")
-     * @ORM\Column(name="satisfactoryMsg", type="array")
-     */
-    protected $satisfactoryMsg;
-    
-    /**
-     * @var array
-     *
-     * @JMS\SerializedName("redirectionMsg")
-     * @ORM\Column(name="redirectionMsg", type="array")
-     */
-    protected $redirectionMsg;   
+    protected $onBoardingMsg;
     
     
     public function __construct()
@@ -114,20 +82,10 @@ class ConfigAvi
         $this->aviIfNoOperator = true;
         $this->animations = true;
         $this->welcomeMsg = [
-          "Bonjour, quelle est votre question ?",
-          "Hello there, que puis-je faire pour vous ?"
+          "Bonjour ! En quoi puis-je vous aider ?"
         ];
-        $this->unansweredMsg = [
-          "Désolé de ne pas avoir compris votre question :(",
-          "Je suis une vilaine, vilaine fille"
-        ];
-        $this->satisfactoryMsg = [
-          "Haha je t'avais bien dit que j'étais une génie",
-          "Merci pour votre feedback."
-        ];
-
-        $this->redirectionMsg = [
-          "Souhaitez vous contacter un opérateur humain ?"
+        $this->onBoardingMsg = [
+          "Posez vos questions à notre assistant virtuel"
         ];
 	  }
 
@@ -257,118 +215,26 @@ class ConfigAvi
     }
 
     /**
-     * Set questionInvitationMsg
+     * Set onBoardingMsg
      *
-     * @param array $questionInvitationMsg
+     * @param array $onBoardingMsg
      * @return ConfigAvi
      */
-    public function setQuestionInvitationMsg($questionInvitationMsg)
+    public function setOnBoardingMsg($onBoardingMsg)
     {
-        $this->questionInvitationMsg = $questionInvitationMsg;
+        $this->onBoardingMsg = $onBoardingMsg;
 
         return $this;
     }
 
     /**
-     * Get questionInvitationMsg
+     * Get onBoardingMsg
      *
      * @return array 
      */
-    public function getQuestionInvitationMsg()
+    public function getOnBoardingMsg()
     {
-        return $this->questionInvitationMsg;
-    }
-
-    /**
-     * Set unansweredMsg
-     *
-     * @param array $unansweredMsg
-     * @return ConfigAvi
-     */
-    public function setUnansweredMsg($unansweredMsg)
-    {
-        $this->unansweredMsg = $unansweredMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get unansweredMsg
-     *
-     * @return array 
-     */
-    public function getUnansweredMsg()
-    {
-        return $this->unansweredMsg;
-    }
-
-    /**
-     * Set unsatisfactoryMsg
-     *
-     * @param array $unsatisfactoryMsg
-     * @return ConfigAvi
-     */
-    public function setUnsatisfactoryMsg($unsatisfactoryMsg)
-    {
-        $this->unsatisfactoryMsg = $unsatisfactoryMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get unsatisfactoryMsg
-     *
-     * @return array 
-     */
-    public function getUnsatisfactoryMsg()
-    {
-        return $this->unsatisfactoryMsg;
-    }
-
-    /**
-     * Set satisfactoryMsg
-     *
-     * @param array $satisfactoryMsg
-     * @return ConfigAvi
-     */
-    public function setSatisfactoryMsg($satisfactoryMsg)
-    {
-        $this->satisfactoryMsg = $satisfactoryMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get satisfactoryMsg
-     *
-     * @return array 
-     */
-    public function getSatisfactoryMsg()
-    {
-        return $this->satisfactoryMsg;
-    }
-
-    /**
-     * Set redirectionMsg
-     *
-     * @param array $redirectionMsg
-     * @return ConfigAvi
-     */
-    public function setRedirectionMsg($redirectionMsg)
-    {
-        $this->redirectionMsg = $redirectionMsg;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectionMsg
-     *
-     * @return array 
-     */
-    public function getRedirectionMsg()
-    {
-        return $this->redirectionMsg;
+        return $this->onBoardingMsg;
     }
 
     /**
