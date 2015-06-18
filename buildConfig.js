@@ -6,12 +6,10 @@ config.baseConfig = {
   baseUrl: 'web/js',
   mainConfigFile: 'web/js/common.js',
 
-  //All the built layers will use almond.
-
   // wrap: true,
   wrapShim: true,
   useStrict: true,
-  optimize: 'uglify2',
+  optimize: 'none',
   locale: 'fr',
   removeCombined: true,
   skipDirOptimize: true,
@@ -138,6 +136,7 @@ config.configs = {
   }
 };
 
+// Add baseConfig to each "module" config:
 config.mix = function(target) {
   target = config.configs[target];
 
