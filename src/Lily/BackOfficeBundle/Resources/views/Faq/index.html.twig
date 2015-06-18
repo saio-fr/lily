@@ -111,9 +111,15 @@
   {% endautoescape %}
 {% endblock %}
 
+{% if app.environment == 'dev' %}
 <script
   src="{{ asset('js/bower_components/requirejs/require.js')}}"
-  data-main="{{ asset('js/backoffice/faq/main-1.js')}}">
+  data-main="{{ asset('js/backoffice/faq/main.js')}}">
 </script>
+{% else %}
+<script src="{{ asset('js-build/common.js')}}"></script>
+<script src="{{ asset('js-build/chatComp.js')}}"></script>
+<script src="{{ asset('js-build/faq/main.js')}}"></script>
+{% endif %}
 
 {% endblock %}

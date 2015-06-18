@@ -1,0 +1,22 @@
+{
+  "name": "saio-lily",
+  "version": "1.0.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-concurrent": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-imagemin": "*",
+    "grunt-contrib-requirejs": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-newer": "*",
+    "inherits": "^2.0.1",
+    "load-grunt-config": "*",
+    "lru-cache": "^2.6.4",
+    "sigmund": "^1.0.1"
+  },
+  "dependencies": {
+    "time-grunt": "*"
+  }
+}

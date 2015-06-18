@@ -1,26 +1,35 @@
 'use strict';
 
 var fs = module.require('fs'),
-		requirejs = require('requirejs'),
-		amdclean = module.require('amdclean');
+		requirejs = require('requirejs');
 
 var config = {
 
-	baseUrl: 'web/js',
+  appDir: 'web/js/',
+	baseUrl: './',
 	mainConfigFile: 'web/js/app/config.js',
+  dir:'web/js/appBuild/',
 
-	name: '../../node_modules/almond/almond',
-	include: ['./app/main'],
-	insertRequire: ['./app/main'],
+  // name: '../../node_modules/almond/almond',
+  // include: ['./app/main'],
+  // insertRequire: ['./app/main'],
 
-	out: 'web/js/build/appBuild.js',
+  modules: [{
+    name: 'app/config',
+    include: ['./app/main'],
+    insertRequire: ['./app/main'],
+  }],
 
 	wrap: true,
 	wrapShim: true,
 	useStrict: true,
-	optimize: 'uglify2',
-	skipModuleInsertion: true,
-	findNestedDependencies: true,
+	optimize: 'none',
+	removeCombined: true,
+  skipDirOptimize: true,
+
+  // Important to get a define() wrapper around non module deps (ex: Modernizer, Snap.js)
+  skipModuleInsertion: false,
+  findNestedDependencies: true,
 	preserveLicenseComments: true,
 
 	onBuildWrite: function( name, path, contents ) {
@@ -28,13 +37,12 @@ var config = {
 		return contents;
 	},
 
-	onModuleBundleComplete: function (data) {
-
-	},
+  onModuleBundleComplete: function (data) {
+    console.log(data);
+  },
 };
 
 requirejs.optimize(config, function (buildResponse) {
-	// var contents = fs.readFileSync(config.out, 'utf8');
 }, function(err) {
 	console.error(err);
 });

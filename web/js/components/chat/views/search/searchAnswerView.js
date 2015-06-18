@@ -10,7 +10,7 @@ define(function (require) {
 var _ = require('underscore'),
     Backbone = require('backbone'),
     Models = require('components/chat/data/models'),
-    app = require('app'),
+    app = require('backoffice/app'),
     // Object wrapper returned as a module
     SearchAnswerView;
 

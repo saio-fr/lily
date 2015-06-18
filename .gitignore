@@ -12,12 +12,14 @@
 /web/css/compiled
 node_modules
 node_modules/*/node_modules
+web/js-build/
 compiled
 tmp
 temp
 bin
 ftpsync.settings
 .remote-sync.json
+sftp-config.json
 npm-debug.log
 composer.phar
 composer.lock

@@ -7,7 +7,7 @@ define(function(require) {
   'use strict';
 
   var Backbone = require('backbone'),
-    app = require('app'),
+    app = require('backoffice/app'),
     DashboardSkeletonView = require('backoffice/chat/views/dashboard/skeletonView'),
     ShortcutSkeletonView = require('backoffice/chat/views/shortcut/skeletonView'),
     Collections = require('components/chat/data/collections'),

@@ -7,7 +7,7 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app'),
+  var app = require('backoffice/app'),
       utils = require('utils/default'),
       validation = require('utils/backbone-validation'),
 

@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-    app = require('app'),
+    app = require('backoffice/app'),
     globals = require('globals'),
     SkeletonView = require('backoffice/faq/views/skeletonView'),
     FaqCollectionView = require('backoffice/faq/views/faqCollectionView'),

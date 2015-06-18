@@ -134,9 +134,15 @@
 
 <div class="dragger hide"></div>
 
+{% if app.environment == 'dev' %}
 <script
   src="{{ asset('js/bower_components/requirejs/require.js')}}"
-  data-main="{{ asset('js/backoffice/knowledge/main-1.js')}}">
+  data-main="{{ asset('js/backoffice/knowledge/main.js')}}">
 </script>
+{% else %}
+<script src="{{ asset('js-build/common.js')}}"></script>
+<script src="{{ asset('js-build/chatComp.js')}}"></script>
+<script src="{{ asset('js-build/knowledge/main.js')}}"></script>
+{% endif %}
 
 {% endblock %}

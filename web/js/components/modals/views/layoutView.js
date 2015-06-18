@@ -25,11 +25,11 @@ define(function(require) {
     },
 
     className: 'modal',
-    
+
     initialize: function() {
       this.deferred = when.defer();
       this.promise = this.deferred.promise;
-      
+
       this.render();
       this.open();
     },
@@ -106,12 +106,12 @@ define(function(require) {
 
       $el.modal('hide');
     },
-    
+
     remove: function() {
       // The value returned by the promise
       // Ex: for a prompt modal, will be the input value
       this.deferred.resolve(this.value);
-      
+
       this.model.destroy();
       Backbone.View.prototype.remove.apply(this, arguments);
     }

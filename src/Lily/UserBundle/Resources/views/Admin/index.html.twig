@@ -92,8 +92,15 @@
   </section>
 </section>
 
-<script src="{{ asset('js/bower_components/requirejs/require.js')}}"
-        data-main="{{ asset('js/backoffice/users/main-1.js')}}">
+{% if app.environment == 'dev' %}
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/users/main.js')}}">
 </script>
+{% else %}
+<script src="{{ asset('js-build/common.js')}}"></script>
+<script src="{{ asset('js-build/chatComp.js')}}"></script>
+<script src="{{ asset('js-build/users/main.js')}}"></script>
+{% endif %}
 
 {% endblock %}

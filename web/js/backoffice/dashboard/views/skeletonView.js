@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
-      app = require('app'),
+      app = require('backoffice/app'),
       g = require('globals'),
       UsageGraphModel = require('backoffice/dashboard/models/usage/graphModel'),
       UsageFooterModel = require('backoffice/dashboard/models/usage/footerModel'),

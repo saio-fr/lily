@@ -7,7 +7,7 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app'),
+  var app = require('backoffice/app'),
       UserCollection = require('backoffice/statistics/collections/users/userCollection'),
       ActivitiesSkeletonView = require('backoffice/statistics/views/users/activities/skeletonView'),
       UserView = require('backoffice/statistics/views/users/userView'),
