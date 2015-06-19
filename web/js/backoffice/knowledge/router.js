@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var _ = require('underscore'),
       Backbone = require('backbone'),
-      app = require('app'),
+      app = require('backoffice/app'),
       CategoriesSkeletonView = require('backoffice/knowledge/views/categories/skeletonView'),
       QuestionsSkeletonView = require('backoffice/knowledge/views/questions/skeletonView'),
 

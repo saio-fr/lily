@@ -84,8 +84,15 @@
     {% endautoescape %}
 	{% endblock %}
 
-<script src="{{ asset('js/bower_components/requirejs/require.js')}}"
-  data-main="{{ asset('js/backoffice/dashboard/main-1.js')}}">
+{% if app.environment == 'dev' %}
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/dashboard/main.js')}}">
 </script>
+{% else %}
+<script src="{{ asset('js-build/common.js')}}"></script>
+<script src="{{ asset('js-build/chatComp.js')}}"></script>
+<script src="{{ asset('js-build/dashboard/main.js')}}"></script>
+{% endif %}
 
 {% endblock %}

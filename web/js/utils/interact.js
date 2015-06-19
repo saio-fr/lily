@@ -4,7 +4,7 @@ define(function (require) {
 
   // Object wrapper returned as a module
   var _ = require('underscore'),
-      app = require('app'),
+      app = require('backoffice/app'),
       interact = require('interact'),
       Utils = require('utils/default'),
 

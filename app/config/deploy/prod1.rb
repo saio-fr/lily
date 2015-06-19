@@ -38,10 +38,15 @@ after "deploy" do
 
   # dump assets (if using assetic)
   run "cd #{deploy_to}/current && php app/console assetic:dump --env=prod"
-  
+
+  # update node modules
+  run "cd #{deploy_to}/current && npm install"
+
   # update bower components
   run "cd #{deploy_to}/current && bower update"
-  
+
+  # build project
+  run "cd #{deploy_to}/current && grunt build"
 end
 
 namespace :ws do

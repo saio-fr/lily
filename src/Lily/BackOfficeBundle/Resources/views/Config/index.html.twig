@@ -60,8 +60,15 @@
 
 	</section>
 
-<script src="{{ asset('js/bower_components/requirejs/require.js')}}"
-  data-main="{{ asset('js/backoffice/config/main-1.js')}}">
+{% if app.environment == 'dev' %}
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/config/main.js')}}">
 </script>
+{% else %}
+<script src="{{ asset('js-build/common.js')}}"></script>
+<script src="{{ asset('js-build/chatComp.js')}}"></script>
+<script src="{{ asset('js-build/config/main.js')}}"></script>
+{% endif %}
 
 {% endblock %}

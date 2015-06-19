@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var app     = require('app'),
+  var app     = require('backoffice/app'),
       globals = require('globals');
 
   /**

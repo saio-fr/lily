@@ -33,10 +33,15 @@ after "deploy" do
 
   # dump assets (if using assetic)
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
-  
+
+  # update bower components
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && npm install"
+
   # update bower components
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
-  
+
+  # update bower components
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && grunt build"
 end
 
 task :clear_opcache do
