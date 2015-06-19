@@ -28,12 +28,6 @@ set :ssh_options, {:forward_agent => true}
 
 # perform tasks after deploying
 after "deploy" do
-  # clear the cache
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=prod"
-
-  # dump assets (if using assetic)
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
-
   # update bower components
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && npm install"
 
@@ -42,6 +36,12 @@ after "deploy" do
 
   # update bower components
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && ./node_modules/.bin/grunt build"
+
+  # clear the cache
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=prod"
+
+  # dump assets (if using assetic)
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console assetic:dump --env=prod"
 end
 
 task :clear_opcache do

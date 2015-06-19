@@ -121,6 +121,7 @@ module.exports = function(grunt) {
         ],
         // File that refers to above files and needs to be updated with the hashed name
         dest: [
+          'src/Lily/AppBundle/Resources/views/themes/Lily/index.html.twig',
           'src/Lily/ChatBundle/Resources/views/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Config/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Dashboard/index.html.twig',
@@ -169,6 +170,7 @@ module.exports = function(grunt) {
         ],
         // File that refers to above files and needs to be updated with the hashed name
         dest: [
+          'src/Lily/AppBundle/Resources/views/themes/Lily/index.html.twig',
           'src/Lily/ChatBundle/Resources/views/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Config/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Dashboard/index.html.twig',
