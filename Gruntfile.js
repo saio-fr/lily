@@ -207,11 +207,10 @@ module.exports = function(grunt) {
 
   // Default task. Compile all modules
   grunt.registerTask('build', ['clean', 'requireMulti', 'cacheBust']);
-  grunt.registerTask('buildFront', ['clean', 'requireMulti:front', 'cacheBust']);
-  grunt.registerTask('buildChat', ['clean', 'requireMulti:chatComp', 'cacheBust']);
-  grunt.registerTask('buildLibs', ['clean', 'requireMulti:common', 'cacheBust']);
+  grunt.registerTask('buildFront', ['requireMulti:front', 'cacheBust']);
+  grunt.registerTask('buildChat', ['requireMulti:chatComp', 'cacheBust']);
+  grunt.registerTask('buildLibs', ['requireMulti:common', 'cacheBust']);
   grunt.registerTask('buildBo', [
-    'clean',
     'requireMulti:chat',
     'requireMulti:config',
     'requireMulti:dashboard',

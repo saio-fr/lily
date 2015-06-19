@@ -66,7 +66,6 @@ config.configs = {
 
   chatComp: {
     name: 'components/chat/main',
-    insertRequire: ['components/chat/main'],
     out: 'web/js-build/chatComp.js',
     include: config.chatIncludes,
     exclude: config.commonIncludes

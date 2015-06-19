@@ -9,6 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
+      $ = require('jquery'),
       ModalLayoutView = require('components/modals/views/layoutView'),
 
       // Object wrapper returned as a module
@@ -20,20 +21,20 @@ define(function(require) {
     className: 'modal',
 
     template: _.template($('#modalAlertTpl').html()),
-    
+
     initialize: function(options) {
       ModalLayoutView.prototype.initialize.apply(this, arguments);
-      
+
       var that = this;
 
       if (options.timeout) {
         setTimeout(function() {
           that.close();
           that.remove();
-        }, options.timeout);        
+        }, options.timeout);
       }
     }
-    
+
   });
 
   return ModalAlert;
