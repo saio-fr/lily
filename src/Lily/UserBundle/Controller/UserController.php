@@ -30,28 +30,28 @@ class UserController extends BaseController
         $users = $this->getClient()->getUsers();
         return $users;
     }
-    
+
     /**
      * @Get("/users/{id}")
      * @Secure(roles="ROLE_USER")
      */
     public function getUserAction($id) {
-      
+
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->findUserBy(Array('id' => $id));
-        
+
         // conditions
         $admin = $this->get('security.context')->isGranted('ROLE_ADMIN');
         $conditions1 = !$admin && $user !== $this->getUser();
-        $conditions2 = $user->getClient() !== $this->getClient();       
-        
+        $conditions2 = $user->getClient() !== $this->getClient();
+
         if (!$user || $conditions1 || $conditions2) {
             throw $this->createNotFoundException();
         }
-    
+
         $view = $this->view($user);
         return $this->handleView($view);
-        
+
     }
 
     /**
@@ -60,7 +60,7 @@ class UserController extends BaseController
      * @View(statusCode=204)
      */
     public function deleteAction($id) {
-    
+
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->findUserBy(Array('id' => $id));
 
@@ -73,9 +73,9 @@ class UserController extends BaseController
         if ($user === $this->getUser()) {
             throw new \Exception("You cannot delete your own account.");
         }
-		
+
         $manager->deleteUser($user);
-        
+
         // Publish to chat servers
         $licence = $this->getLicence();
         $cache = $this->get('aequasi_cache.instance.default');
@@ -87,7 +87,7 @@ class UserController extends BaseController
         $socket->connect("tcp://172.16.0.4:5555");
 
         $socket->send(json_encode(array(
-            'action' => 'removeOperator', 
+            'action' => 'removeOperator',
             'licence' => $licence,
             'id' => $id
         )));
@@ -100,29 +100,41 @@ class UserController extends BaseController
 
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->findUserBy(Array('id' => $id));
-        
+
         // conditions
         $admin = $this->get('security.context')->isGranted('ROLE_ADMIN');
         $conditions1 = !$admin && $user !== $this->getUser();
-        $conditions2 = $user->getClient() !== $this->getClient();       
-        
+        $conditions2 = $user->getClient() !== $this->getClient();
+
         if (!$user || $conditions1 || $conditions2) {
             throw $this->createNotFoundException();
         }
-        
-        $form = $this->getForm(new UserAdminType(), $user, $request);   
+
+        $form = $this->getForm(new UserAdminType(), $user, $request);
 
         if ($form->isValid()) {
 
             $manager->updateUser($user);
-            
+
+            // Send new user info to segment
+            $segment = $this->container->get('segmentio');
+            $segment::identify(array(
+                'userId' => $user->getId(),
+                'traits' => array(
+                  '$first_name' => $user->getFirstName(),
+                  '$last_name'  => $user->getLastName(),
+                  '$email'      => $user->getEmail(),
+                  'client'      => $user->getClient()->getName()
+                )
+            ));
+
             $view = $this->view($user);
             return $this->handleView($view);
-        } 
-        
+        }
+
         $view = $this->view($form, 400);
         return $this->handleView($view);
-     
+
     }
 
     /**
@@ -133,33 +145,46 @@ class UserController extends BaseController
         $client = $this->getClient();
         $users = $client->getUsers();
         $maxusers = $client->getConfig()->getMaxusers();
-        
+
         if (count($users) >= $maxusers) {
             throw new \Exception("User limit reached.");
         }
-        
+
         $manager = $this->get('fos_user.user_manager');
         $user = $manager->createUser();
-        
+
         $user->setUsername(uniqid());
 
         $form = $this->getForm(new UserAdminType(), $user, $request);
-        
+
         if ($form->isValid()) {
 
             $user->setClient($client);
             $user->setEnabled(true);
             $manager->updateUser($user);
-            
+
+            // Send new user info to segment
+            $segment = $this->container->get('segmentio');
+            $segment::identify(array(
+                'userId'  => $user->getId(),
+                'groupId' => $user->getClient()->getId(),
+                'traits'  => array(
+                    '$first_name' => $user->getFirstName(),
+                    '$last_name'  => $user->getLastName(),
+                    '$email'      => $user->getEmail(),
+                    'client'      => $user->getClient()->getName()
+                )
+            ));
+
             $view = $this->view($user);
             return $this->handleView($view);
         }
-        
+
         $view = $this->view($form, 400);
         return $this->handleView($view);
 
-    } 
-    
+    }
+
     /**
      * @Post("/users/{id}/avatar", requirements={"id" = "\d+"})
      * @Secure(roles="ROLE_ADMIN")
@@ -173,27 +198,27 @@ class UserController extends BaseController
         // conditions
         $admin = $this->get('security.context')->isGranted('ROLE_ADMIN');
         $conditions1 = !$admin && $user !== $this->getUser();
-        $conditions2 = $user->getClient() !== $this->getClient();       
-        
+        $conditions2 = $user->getClient() !== $this->getClient();
+
         if (!$user || $conditions1 || $conditions2) {
             throw $this->createNotFoundException();
         }
-        
+
         $config = $user->getConfig();
         $form = $this->getForm(new AvatarType(), $config, $request);
 
         if ($form->isValid()) {
-          
+
             $config->setAvatarFile($request->files->get('avatarFile'));
             $em->persist($config);
             $em->flush();
-            
+
             $view = $this->view($config);
             return $this->handleView($view);
         }
-        
+
         $view = $this->view($form, 400);
         return $this->handleView($view);
-        
+
     }
 }
