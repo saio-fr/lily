@@ -2,9 +2,10 @@
   "name": "saio-lily",
   "version": "1.0.0",
   "devDependencies": {
+    "almond": "^0.3.1",
     "grunt": "~0.4.2",
     "grunt-autoprefixer": "^3.0.3",
-    "grunt-cli": "*",
+    "grunt-cli": "^0.1.13",
     "grunt-concurrent": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-concat": "*",
@@ -22,5 +23,9 @@
   },
   "dependencies": {
     "time-grunt": "*"
+  },
+  "scripts": {
+    "build": "grunt build",
+    "dev": "grunt dev"
   }
 }

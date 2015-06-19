@@ -41,7 +41,7 @@ after "deploy" do
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
 
   # update bower components
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && grunt build"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && ./node_modules/.bin/grunt build"
 end
 
 task :clear_opcache do

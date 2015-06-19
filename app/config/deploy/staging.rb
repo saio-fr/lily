@@ -46,7 +46,7 @@ after "deploy" do
   run "cd #{deploy_to}/current && bower update"
 
   # build project
-  run "cd #{deploy_to}/current && grunt build"
+  run "cd #{deploy_to}/current && ./node_modules/.bin/grunt build"
 end
 
 namespace :ws do
