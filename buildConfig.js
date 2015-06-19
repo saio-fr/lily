@@ -9,7 +9,7 @@ config.baseConfig = {
   // wrap: true,
   wrapShim: true,
   useStrict: true,
-  optimize: 'none',
+  optimize: 'uglify2',
   locale: 'fr',
   removeCombined: true,
   skipDirOptimize: true,
