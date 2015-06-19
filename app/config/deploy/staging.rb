@@ -30,6 +30,9 @@ set :ssh_options, {:forward_agent => true}
 
 # perform tasks after deploying
 after "deploy" do
+  # dump assets (if using assetic)
+  run "cd #{deploy_to}/current && php app/console assetic:dump --env=staging"
+
   # update node modules
   run "cd #{deploy_to}/current && npm install"
 
@@ -44,9 +47,6 @@ after "deploy" do
 
   # clear memcache
   run "cd #{deploy_to}/current && php app/console cache:flush default --env=staging"
-
-  # dump assets (if using assetic)
-  run "cd #{deploy_to}/current && php app/console assetic:dump --env=staging"
 end
 
 namespace :ws do
