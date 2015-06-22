@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Client
 {
-	
+
     /**
      * @var integer
      *
@@ -29,7 +29,7 @@ class Client
      * @ORM\OneToMany(targetEntity="Lily\UserBundle\Entity\User", mappedBy="client", cascade={"persist", "remove"})
      */
     protected $users;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Lily\UserBundle\Entity\UserGroup", mappedBy="client", cascade={"persist", "remove"})
      */
@@ -39,29 +39,29 @@ class Client
      * @ORM\OneToOne(targetEntity="Lily\UserBundle\Entity\ClientConfig", cascade={"persist", "remove"})
      */
     protected $config;
-    
+
     /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
-    
+
     /**
      * @var string
      * @ORM\Column(name="logo", type="string", length=255, nullable=true)
      */
     protected $logo;
-    
+
     /**
      * @var string
      * @ORM\Column(name="licence", type="string", length=50)
      */
     protected $licence;
-    
+
     /**
      * @var string
-     * @ORM\Column(name="synapsePassword", type="string", length=10)
+     * @ORM\Column(name="synapsePassword", type="string", length=10, nullable=true)
      */
     protected $synapsePassword;
 
@@ -77,7 +77,7 @@ class Client
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -100,7 +100,7 @@ class Client
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -123,7 +123,7 @@ class Client
     /**
      * Get logo
      *
-     * @return string 
+     * @return string
      */
     public function getLogo()
     {
@@ -146,7 +146,7 @@ class Client
     /**
      * Get licence
      *
-     * @return string 
+     * @return string
      */
     public function getLicence()
     {
@@ -179,7 +179,7 @@ class Client
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {
@@ -202,7 +202,7 @@ class Client
     /**
      * Get config
      *
-     * @return \Lily\UserBundle\Entity\ClientConfig 
+     * @return \Lily\UserBundle\Entity\ClientConfig
      */
     public function getConfig()
     {
@@ -235,7 +235,7 @@ class Client
     /**
      * Get groups
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGroups()
     {
@@ -258,7 +258,7 @@ class Client
     /**
      * Get synapsePassword
      *
-     * @return string 
+     * @return string
      */
     public function getSynapsePassword()
     {
