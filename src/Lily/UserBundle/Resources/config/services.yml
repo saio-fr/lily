@@ -4,4 +4,4 @@ parameters:
 services:
     RedirectAfterLogin:
         class: Lily\UserBundle\Redirection\UserRedirection
-        arguments: [@router, @security.context]
+        arguments: [@router, @security.context, @service_container]

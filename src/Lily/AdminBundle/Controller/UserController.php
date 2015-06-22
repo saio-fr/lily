@@ -42,18 +42,9 @@ class UserController extends BaseController
             $user->setEnabled($user);
             $manager->updateUser($user);
 
-            // Send new user info to segment
-            $segment = $this->container->get('segmentio');
-            $segment::identify(array(
-                'userId'  => $user->getId(),
-                'groupId' => $user->getClient()->getId(),
-                'traits'  => array(
-                    '$first_name' => $user->getFirstName(),
-                    '$last_name'  => $user->getLastName(),
-                    '$email'      => $user->getEmail(),
-                    'client'      => $user->getClient()->getName()
-                )
-            ));
+            // Send new user info to analytics
+            $analytics = $this->container->get('analytics');
+            $analytics->identify($user);
 
             $view = $this->view($user);
             return $this->handleView($view);

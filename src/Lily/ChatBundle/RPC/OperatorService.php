@@ -218,13 +218,9 @@ class OperatorService {
             if ($item->id === $conn->User->getId()) {
 
                 if ($item->available) {
-                    // Send informations to mixpanel
-                    $segment = $this->container->get('segmentio');
-                    $segment::track(array(
-                        'userId' => $item->id,
-                        'event'  => 'unavailable'
-                    ));
-                    $segment::flush();
+                    // Send informations to analytics
+                    $analytics = $this->container->get('analytics');
+                    $analytics->track($item->id, 'unavailable');
                 }
 
                 $item->available = false;
@@ -247,13 +243,9 @@ class OperatorService {
             if ($item->id === $conn->User->getId()) {
 
                 if (!$item->available) {
-                      // Send informations to mixpanel
-                      $segment = $this->container->get('segmentio');
-                      $segment::track(array(
-                          'userId' => $item->id,
-                          'event'  => 'available'
-                      ));
-                      $segment::flush();
+                    // Send informations to analytics
+                    $analytics = $this->container->get('analytics');
+                    $analytics->track($item->id, 'available');
                 }
 
                 $item->available = true;
