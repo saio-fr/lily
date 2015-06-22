@@ -22,7 +22,7 @@ class OperatorService {
     public function setOperator(Conn $conn, $params, \StdClass $client) {
         // Security check
         if (!isset($conn->User)) { return; }
-      
+
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
 
@@ -46,18 +46,18 @@ class OperatorService {
     public function ban(Conn $conn, $params, \StdClass $client) {
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->banned = true;
-                
+
                 $item->messages[] = array(
-                  'id' => uniqid(), 
-                  'from' => 'server', 
-                  'action' => 'ban', 
+                  'id' => uniqid(),
+                  'from' => 'server',
+                  'action' => 'ban',
                   'date' => time()
                 );
-                
+
                 $item->topic->broadcast($item->messages);
             }
             // Decrease the operator' active chats
@@ -75,7 +75,7 @@ class OperatorService {
     public function updateInformations(Conn $conn, $params, \StdClass $client) {
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->firstname = $params['firstname'];
@@ -92,7 +92,7 @@ class OperatorService {
     public function changeName(Conn $conn, $params, \StdClass $client) {
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
                 $item->name = $params['name'];
@@ -106,10 +106,10 @@ class OperatorService {
      * Close the conversation with the visitor
      */
     public function close(Conn $conn, $params, \StdClass $client) {
-      
+
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
         foreach ($client->users as $item) {
             // Close the conversation
             if ($item->id === $params['sid']) {
@@ -117,14 +117,14 @@ class OperatorService {
                 $item->operator = null;
                 $item->lastMsgTime = time();
                 $item->closed = true;
-                
+
                 $item->messages[] = array(
-                  'id' => uniqid(), 
-                  'from' => 'server', 
-                  'action' => 'close', 
+                  'id' => uniqid(),
+                  'from' => 'server',
+                  'action' => 'close',
                   'date' => time()
                 );
-                
+
                 $item->topic->broadcast($item->messages);
 
             }
@@ -141,41 +141,41 @@ class OperatorService {
      * Transfer the visitor to another operator
      */
     public function transfer(Conn $conn, $params, \StdClass $client) {
-      
+
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
         foreach ($client->users as $operator) {
-          
+
             // Decrease the operator' active chats
             if ($operator->id === $conn->User->getId()) {
-                
+
                 $from = $operator;
                 $operator->chats -= 1;
             }
 
             // Increase the new operator' active chats
             if ($operator->id === $params['operator']) {
-                
+
                 $to = $operator;
                 $operator->chats += 1;
             }
         }
-        
+
         foreach ($client->users as $item) {
-          
+
             // Close the conversation
             if ($item->id === $params['sid']) {
-              
+
                 $item->operator = $params['operator'];
                 $item->operators[] = $params['operator'];
                 $item->transfered = true;
-                
+
                 $item->messages[] = array(
-                  
-                  'id' => uniqid(), 
-                  'from' => 'server', 
-                  'date' => time(), 
+
+                  'id' => uniqid(),
+                  'from' => 'server',
+                  'date' => time(),
                   'action' => 'transfer',
                   'transfer_from' => array(
                       'id' => $from->id,
@@ -183,7 +183,7 @@ class OperatorService {
                       'lastname' => $from->lastname
                   ),
                   'transfer_to' => array(
-                      'id' => $to->id,    
+                      'id' => $to->id,
                       'firstname' => $to->firstname,
                       'lastname' => $to->lastname
                   )
@@ -199,10 +199,10 @@ class OperatorService {
      * Set the operator as unavailable
      */
     public function unavailable(Conn $conn, $params, \StdClass $client) {
-      
+
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
         $chats = 0;
 
         foreach ($client->users as $item) {
@@ -216,6 +216,17 @@ class OperatorService {
 
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
+
+                if ($item->available) {
+                    // Send informations to mixpanel
+                    $segment = $this->container->get('segmentio');
+                    $segment::track(array(
+                        'userId' => $item->id,
+                        'event'  => 'unavailable'
+                    ));
+                    $segment::flush();
+                }
+
                 $item->available = false;
                 $item->chats -= $chats;
             }
@@ -228,12 +239,23 @@ class OperatorService {
      * Set the operator as available
      */
     public function available(Conn $conn, $params, \StdClass $client) {
-      
+
         // Security check
         if (!isset($conn->User)) { return; }
 
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
+
+                if (!$item->available) {
+                      // Send informations to mixpanel
+                      $segment = $this->container->get('segmentio');
+                      $segment::track(array(
+                          'userId' => $item->id,
+                          'event'  => 'available'
+                      ));
+                      $segment::flush();
+                }
+
                 $item->available = true;
             }
         }
@@ -245,12 +267,12 @@ class OperatorService {
      * Is the operator available ?
      */
     public function connect(Conn $conn, $params, \StdClass $client) {
-      
+
         // Security check
         if (!isset($conn->User)) {
-          return; 
+          return;
         }
-        
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
                 $available = $item->available ? true : false;
@@ -261,20 +283,20 @@ class OperatorService {
             'time' => time()
         );
     }
-    
+
     /**
      * Heartbeat to ensure operator is still connected
      */
     public function ping(Conn $conn, $params, \StdClass $client) {
-      
+
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->User->getId()) {
                 $item->lastPing = time();
             }
         }
         return true;
-    } 
+    }
 }

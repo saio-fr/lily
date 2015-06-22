@@ -9,7 +9,7 @@ use Ratchet\ConnectionInterface as Conn;
 class OperatorTopic implements TopicInterface
 {
 	  protected $container;
-	
+
     public function setContainer($container)
     {
         $this->container = $container;
@@ -32,19 +32,19 @@ class OperatorTopic implements TopicInterface
      * @return mixed|void
      */
     public function onSubscribe(Conn $conn, $topic, $users)
-    {	
+    {
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
     	  // Test if opeartor is already connected
         foreach ($users as $item) {
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
                 $item->lastPing = time();
-                $item->conn = $conn; 
+                $item->conn = $conn;
 				        return;
 			      }
 		    }
-		
+
     	  $operator = new \StdClass;
         $operator->id = $conn->User->getId();
         $operator->conn = $conn;
@@ -58,7 +58,7 @@ class OperatorTopic implements TopicInterface
         $operator->messages = array();
         $operator->available = false;
         $operator->chats = 0;
-        
+
         $users->attach($operator);
     }
 
@@ -72,10 +72,10 @@ class OperatorTopic implements TopicInterface
      */
     public function onUnSubscribe(Conn $conn, $topic, $users)
     {
-      
+
         // Security check
         if (!isset($conn->User)) { return; }
-        
+
     	  foreach ($users as $item) {
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
 				        $users->detach($item);
@@ -96,11 +96,11 @@ class OperatorTopic implements TopicInterface
      * @return mixed|void
      */
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $users)
-    {   
+    {
 		foreach ($users as $item) {
-		
-            if ($item->id === $conn->Session->getId()) { 
-        		
+
+            if ($item->id === $conn->Session->getId()) {
+
                 $item->sent += 1;
                 $item->lastMsgTime = time();
                 $item->messages[] = array(
@@ -109,7 +109,7 @@ class OperatorTopic implements TopicInterface
                     'date' => time(),
                     'msg' => $event);
                 $item->topic->broadcast($item->messages);
-        		
+
         	}
         }
     }
