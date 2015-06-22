@@ -188,7 +188,7 @@ define(function(require) {
         this.$avi.addClass('overlay');
       }
 
-      this.showAvi(true);
+      this.showAvi(!$('.tt-menu').is(':visible'));
     },
 
     /**

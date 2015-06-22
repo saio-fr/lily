@@ -20,7 +20,7 @@ define(function(require) {
   };
 
   g.typeahead = {
-    autoselect: true,
+    autoSelect: true,
     highlight: true
   };
 
