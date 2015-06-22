@@ -121,17 +121,6 @@ define(function(require) {
     // ==============================================
 
     /**
-     * Adds a highlight class if autoselect is true
-     * (rather than actually moving the cursor down
-     * which would overwrite the user's typing)
-     *
-     * @return {undefined}
-     */
-    highlightFirstItem: function() {
-      $('.tt-suggestion:first').addClass('tt-cursor');
-    },
-
-    /**
      * When the suggestion menu is rendered, make it scrollable
      * (has to happen at render time to get the right height for the element)
      * Important for mobile/small screens

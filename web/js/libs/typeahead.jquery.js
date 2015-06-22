@@ -1133,7 +1133,7 @@
             _onTabKeyed: function onTabKeyed(type, $e) {
                 var $selectable;
                 if ($selectable = this.menu.getActiveSelectable()) {
-                    this.select($selectable) && $e.preventDefault();
+                    this.autocomplete($selectable) && $e.preventDefault();
                 } else if ($selectable = this.menu.getTopSelectable()) {
                     this.autocomplete($selectable) && $e.preventDefault();
                 }
@@ -1273,6 +1273,10 @@
                 if (isValid && !this.eventBus.before("autocomplete", data.obj)) {
                     this.input.setQuery(data.val);
                     this.eventBus.trigger("autocomplete", data.obj);
+                    var $suggestionList = $(this.menu.$node[0].children[0]).find(this.selectors.suggestion + this.selectors.selectable);
+                    if (this.menu.autoSelect && $suggestionList.length > 0) {
+                        $suggestionList.first().addClass(this.classes.cursor);
+                    }
                     return true;
                 }
                 return false;

@@ -25,7 +25,7 @@ define(function(require) {
   };
 
   g.typeahead = {
-    autoselect: true,
+    autoSelect: true,
     highlight: true
   };
 
@@ -143,7 +143,7 @@ define(function(require) {
   g.modalApp.updateCategory = {
     name: "modal-categories",
     title: "Modifier une catégorie"
-  }; 
+  };
   g.modalPrompt.insertLink = {
     name: "modal-prompt",
     title: "Veuillez entrer un lien",
@@ -163,7 +163,7 @@ define(function(require) {
 
   g.notifications = {
     countTitle: function(count) {
-      return "Vous avez " + count + " notification" + 
+      return "Vous avez " + count + " notification" +
         (count <= 1 ? '' : 's') + " en attente";
     },
     messageUnAnswered: "Message en attente",

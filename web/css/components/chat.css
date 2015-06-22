@@ -729,6 +729,14 @@ LIVE CHAT
   background-color: rgba(158, 209, 255, .3);
 }
 
+.msg-operator p {
+  margin-bottom: 8px;
+}
+
+.msg-operator p:last-child {
+  margin-bottom: 0;
+}
+
 .msg-with-avatar {
   margin-right: 30px;
   border-right: 0 !important;
@@ -738,7 +746,7 @@ LIVE CHAT
   display: block;
   font-size: 9px;
   font-weight: 300;
-  color: #a0a0a0;
+  color: rgba(160, 160, 160, 0.8);
 }
 
 .conversation-section .msg-server {
@@ -1139,7 +1147,7 @@ Typeahead Styles
   cursor: default;
 }
 
-/* Need to specify with all the way down to the textarea 
+/* Need to specify with all the way down to the textarea
  * for wywihtml5 to set the proper width */
 .conversation-form,
 .conversation-form .panel,
