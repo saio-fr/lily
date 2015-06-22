@@ -24,3 +24,7 @@ services:
         class: Lily\BackOfficeBundle\Twig\GetAppVersionExtension
         tags:
             - { name: twig.extension }
+    segmentio:
+        class: Lily\BackOfficeBundle\Service\SegmentioService
+        arguments:
+            [ "%segment_enabled%", "%segment_key%" ]
