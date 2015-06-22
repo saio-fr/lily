@@ -807,7 +807,7 @@
             o = oParser(o);
             this.sorter = o.sorter;
             this.identify = o.identify;
-            this.dupDetector = o.dupDetector,
+            this.dupDetector = o.dupDetector;
             this.sufficient = o.sufficient;
             this.local = o.local;
             this.remote = o.remote ? new Remote(o.remote) : null;
@@ -815,7 +815,7 @@
             this.index = new SearchIndex({
                 identify: this.identify,
                 datumTokenizer: o.datumTokenizer,
-                queryTokenizer: o.queryTokenizer,
+                queryTokenizer: o.queryTokenizer
             });
             o.initialize !== false && this.initialize();
         }
@@ -879,11 +879,7 @@
             search: function search(query, sync, async) {
                 var that = this, local;
                 local = this.sorter(this.index.search(query));
-
-                // Added by SAIO
                 local = filterUnique(local);
-                // End added
-
                 sync(this.remote ? local.slice() : local);
                 if (this.remote && local.length < this.sufficient) {
                     this.remote.get(query, processRemote);
@@ -893,64 +889,44 @@
                 return this;
                 function processRemote(remote) {
                     var nonDuplicates = [];
-
-                    // Added by SAIO
                     remote = filterUnique(remote);
-                    // End added
-
                     _.each(remote, function(r) {
                         !_.some(local, function(l) {
-                          // Modified by SAIO
-                          if (that.dupDetector) {
-                            return that.dupDetector(r, l);;
-                          } else {
-                            return that.identify(r) === that.identify(l);
-                          }
-                          // End modified
+                            if (that.dupDetector) {
+                                return that.dupDetector(r, l);
+                            } else {
+                                return that.identify(r) === that.identify(l);
+                            }
                         }) && nonDuplicates.push(r);
                     });
                     async && async(nonDuplicates);
                 }
-
-                // Added by SAIO
-                function filterUnique(questions) {
-                  var result = [],
-                      ids = [],
-                      parents = [];
-
-                  _.each(questions, function(question, index) {
-                    var id = question.answerId;
-                    if (!ids[id]) {
-                      ids[id] = true;
-                      result.push(question);
-                    }
-                  });
-                  parents = filterParent(result);
-
-                  return parents;
+                function filterUnique(local) {
+                    var result = [], ids = [], parents = [];
+                    _.each(local, function(question, index) {
+                        var id = question.answerId;
+                        if (!ids[id] || !id) {
+                            ids[id] = true;
+                            result.push(question);
+                        }
+                    });
+                    parents = filterParent(result);
+                    return result;
                 }
-
                 function filterParent(questions) {
-                  var parentIds = [],
-                      parentQuestions = [];
-
-                  _.each(questions, function(question, index) {
-                    var parentId, parentQuestion;
-
-                    if (question.isParent) {
-                      parentQuestions.push(question);
-                      return;
-                    }
-
-                    parentId = question.answerId + '_' + 0;
-
-                    parentIds.push(parentId);
-                  });
-
-                  parentQuestions = parentQuestions.concat(that.index.get(parentIds));
-                  return parentQuestions;
+                    var parentIds = [], parentQuestions = [];
+                    _.each(questions, function(question, index) {
+                        var parentId, parentQuestion;
+                        if (question.isParent) {
+                            parentQuestions.push(question);
+                            return;
+                        }
+                        parentId = question.answerId + "_" + 0;
+                        parentIds.push(parentId);
+                    });
+                    parentQuestions = parentQuestions.concat(that.index.get(parentIds));
+                    return parentQuestions;
                 }
-                // End added
             },
             all: function all() {
                 return this.index.all();

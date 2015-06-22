@@ -807,8 +807,6 @@
                     suggestions = suggestions || [];
                     if (!canceled && rendered < that.limit) {
                         that.cancel = $.noop;
-                        // To be removed in Typeahead v11.2, not merge into master yet on their end
-                        // rendered += suggestions.length;
                         that._append(query, suggestions.slice(0, that.limit - rendered));
                         that.async && that.trigger("asyncReceived", query);
                     }
@@ -863,6 +861,7 @@
             this.$node = $(o.node);
             this.query = null;
             this.datasets = _.map(o.datasets, initializeDataset);
+            this.autoSelect = !!o.autoSelect;
             function initializeDataset(oDataset) {
                 var node = that.$node.find(oDataset.node).first();
                 oDataset.node = node.length ? node : $("<div>").appendTo(that.$node);
@@ -922,7 +921,10 @@
                 return this.$node.hasClass(this.classes.open);
             },
             open: function open() {
-                // Added in v11.2 by Typeahead:
+                var $suggestionList = $(this.$node[0].children[0]).find(this.selectors.suggestion + this.selectors.selectable);
+                if (this.autoSelect && $suggestionList.length > 0) {
+                    $suggestionList.first().addClass(this.classes.cursor);
+                }
                 this.$node.scrollTop(0);
                 this.$node.addClass(this.classes.open);
             },
@@ -1185,6 +1187,9 @@
                     frontMatchRegEx = new RegExp("^(?:" + escapedQuery + ")(.+$)", "i");
                     match = frontMatchRegEx.exec(data.val);
                     match && this.input.setHint(val + match[1]);
+                    if (this.menu.autoSelect && !$selectable.hasClass(this.classes.cursor)) {
+                        $selectable.addClass(this.classes.cursor);
+                    }
                 } else {
                     this.input.clearHint();
                 }
@@ -1354,6 +1359,7 @@
                     }, www);
                     menu = new MenuConstructor({
                         node: $menu,
+                        autoselect: !!o.autoSelect,
                         datasets: datasets
                     }, www);
                     typeahead = new Typeahead({
