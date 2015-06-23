@@ -1,17 +1,17 @@
 <?php
- 
+
 namespace Lily\KnowledgeBundle\Service;
- 
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
- 
- 
+
+
 class SynapseClient extends GuzzleClient
 {
     public function __construct()
     {
- 
+
         // initialisation du client standard Guzzle
         $client = new Client([
             "defaults" => [
@@ -22,17 +22,17 @@ class SynapseClient extends GuzzleClient
                 ],
             ]
         ]);
- 
+
         // définition des requètes supportées par notre service
         $description = new Description([
             "name" => 'Synapse',
             "description" => "API smartFAQ synapse",
-            'baseUrl' => 'http://search.saio.fr/api/',
+            'baseUrl' => 'http://search.saio.fr/api/saio//smartfaq/SmartFAQWCF.svc/rest/',
             // list des opérations supportées
             "operations" => [
                 "addquestionanswer" => [
                     "httpMethod" => "POST",
-                    "uri" => "{licence}/smartfaq/SmartFAQWCF.svc/rest/addquestionanswer",
+                    "uri" => "addquestionanswer",
                     "parameters" => [
                         "licence" => [
                             "type" => "string",
@@ -46,7 +46,7 @@ class SynapseClient extends GuzzleClient
                 ],
                 "addadditionalquestion" => [
                     "httpMethod" => "POST",
-                    "uri" => "{licence}/smartfaq/SmartFAQWCF.svc/rest/addadditionalquestion",
+                    "uri" => "addadditionalquestion",
                     "parameters" => [
                         "licence" => [
                             "type" => "string",
@@ -60,7 +60,7 @@ class SynapseClient extends GuzzleClient
                 ],
                 "updatequestion" => [
                     "httpMethod" => "POST",
-                    "uri" => "{licence}/smartfaq/SmartFAQWCF.svc/rest/updatequestion",
+                    "uri" => "updatequestion",
                     "parameters" => [
                         "licence" => [
                             "type" => "string",
@@ -74,7 +74,7 @@ class SynapseClient extends GuzzleClient
                 ],
                 "updateanswer" => [
                     "httpMethod" => "POST",
-                    "uri"=> "{licence}/smartfaq/SmartFAQWCF.svc/rest/updateanswer",
+                    "uri"=> "updateanswer",
                     "parameters" => [
                         "licence" => [
                             "type" => "string",
@@ -88,7 +88,7 @@ class SynapseClient extends GuzzleClient
                 ],
                 "removequestion" => [
                     "httpMethod" => "POST",
-                    "uri"=> "{licence}/smartfaq/SmartFAQWCF.svc/rest/removequestion",
+                    "uri"=> "removequestion",
                     "parameters" => [
                         "licence" => [
                             "type" => "string",
@@ -102,7 +102,7 @@ class SynapseClient extends GuzzleClient
                 ],
                 "removeanswer" => [
                     "httpMethod" => "POST",
-                    "uri"=> "{licence}/smartfaq/SmartFAQWCF.svc/rest/removeanswer",
+                    "uri"=> "removeanswer",
                     "parameters" => [
                         "licence" => [
                             "type" => "string",
@@ -116,7 +116,7 @@ class SynapseClient extends GuzzleClient
                 ],
                 "buildindex" => [
                     "httpMethod" => "POST",
-                    "uri"=> "{licence}/smartfaq/SmartFAQWCF.svc/rest/buildindex",
+                    "uri"=> "buildindex",
                     "parameters" => [
                         "licence" => [
                             "type" => "string",
@@ -130,7 +130,7 @@ class SynapseClient extends GuzzleClient
                 ]
             ]
         ]);
- 
+
         parent::__construct($client, $description);
     }
 }
