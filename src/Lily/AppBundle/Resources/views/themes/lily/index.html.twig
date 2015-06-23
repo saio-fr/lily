@@ -56,7 +56,7 @@
 					{% endif %}
 				</ul>
 			</div>
-			<footer><p>Crée par <a href="http://www.saio.fr" target="_blank">SAIO</a></p></footer>
+			<footer><p>Créé par <img class="saio-logo" src="http://cdn-saio.fr/customer/{{licence}}/images/saioBrand2x.png"></p></footer>
 		</div>
 
 		<div id="lily-wrapper-page" class="snap-content"><!-- wrapper page pour menu -->
@@ -140,21 +140,21 @@
 		  config.ws.host = "{{ ws_host }}";
       config.ws.protocol = "{{ ws_protocol }}";
 		</script>
-		  
-    <!-- 
+
+    <!--
       Load Bugsnag
-    -->  
+    -->
     <script
       src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js"
       data-apikey="38313d808c52c00caa38aeed097efd1d">
     </script>
-  
-    <!-- 
+
+    <!--
       Set Bugsnag Config
-    -->  
+    -->
     <script>
       Bugsnag.releaseStage = "{{ app.environment }}";
-      Bugsnag.notifyReleaseStages = ["prod"];    
+      Bugsnag.notifyReleaseStages = ["prod"];
     </script>
 
 		<script>
