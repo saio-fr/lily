@@ -30,12 +30,12 @@ define(function(require) {
     onboardingMsg: 'Demandez moi par exemple "Comment vous contacter ?"',
     lastQuestionReceivedBadFeedBack: 'J\'espère avoir l\'information que vous cherchez cette fois !',
     lastQuestionUnanswered: 'Si vous ne trouvez pas votre question dans les suggestions, essayez de la reformuler',
-    defaultMsg: 'Que voulez vous savoir ? :-)',
+    defaultMsg: 'Que voulez vous savoir ? N\'hésitez pas à me poser une autre question',
   };
 
   g.avi.messages = {
     welcomeMsg: 'Enchanté ! Je m\'appelle Labelette. En quoi puis-je vous aider ?',
-    satisfiedFeedback: 'Merci pour votre apréciation! N\'hesitez pas à me poser d\'autres questions!',
+    satisfiedFeedback: 'Merci pour votre appréciation! N\'hésitez pas à me poser d\'autres questions!',
     unSatisfiedRedirection: 'J\'ai dû faire une erreur dans la réponse que je vous ai donnée.' +
       '<p><b>Souhaitez vous que je vous mette en relation avec un conseiller ?</b></p>',
     noAnswerRedirection: '<b>Voulez-vous que je vous mette en relation avec un conseiller ?</b>',
