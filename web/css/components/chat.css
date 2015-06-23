@@ -650,7 +650,7 @@ LIVE CHAT
 .conversation-section-item div.msg-visitor {
   display: inline-block;
   max-width: 85%;
-  min-height: 35px;
+  min-height: 1em;
   padding: 7px 8px;
   font-size: 12px;
   font-weight: 300;
@@ -724,9 +724,8 @@ LIVE CHAT
 .conversation-section-item div.msg-operator {
   display: inline-block;
   max-width: 85%;
-  min-height: 35px;
+  min-height: 1em;
   padding: 7px 8px;
-  padding-right: 10px;
   font-size: 12px;
   text-align: left;
   border-radius: 5px;
