@@ -35,7 +35,7 @@ define(function(require) {
     onboardingMsg: 'Demandez moi par exemple "Comment vous contacter ?"',
     lastQuestionReceivedBadFeedBack: 'J\'espère avoir l\'information que vous cherchez cette fois !',
     lastQuestionUnanswered: 'Si vous ne trouvez pas votre question dans les suggestions, essayez de la reformuler',
-    defaultMsg: 'Que voulez vous savoir ? n\'hésitez pas à me poser une autre question',
+    defaultMsg: 'Que voulez vous savoir ? N\'hésitez pas à me poser une autre question',
   };
 
   g.avi.messages = {
