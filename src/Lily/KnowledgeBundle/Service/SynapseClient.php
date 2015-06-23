@@ -27,7 +27,11 @@ class SynapseClient extends GuzzleClient
         $description = new Description([
             "name" => 'Synapse',
             "description" => "API smartFAQ synapse",
+<<<<<<< HEAD
             'baseUrl' => 'http://search.saio.fr/api/saio//smartfaq/SmartFAQWCF.svc/rest/',
+=======
+            'baseUrl' => 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/',
+>>>>>>> update synapse root url in bo
             // list des opérations supportées
             "operations" => [
                 "addquestionanswer" => [
