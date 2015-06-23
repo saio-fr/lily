@@ -30,18 +30,23 @@ set :ssh_options, {:forward_agent => true}
 
 # perform tasks after deploying
 after "deploy" do
+  # dump assets (if using assetic)
+  run "cd #{deploy_to}/current && php app/console assetic:dump --env=staging"
+
+  # update node modules
+  run "cd #{deploy_to}/current && npm install"
+
+  # update bower components
+  run "cd #{deploy_to}/current && bower update"
+
+  # build project
+  run "cd #{deploy_to}/current && ./node_modules/.bin/grunt build"
+
   # clear the cache
   run "cd #{deploy_to}/current && php app/console cache:clear --env=staging"
 
   # clear memcache
   run "cd #{deploy_to}/current && php app/console cache:flush default --env=staging"
-
-  # dump assets (if using assetic)
-  run "cd #{deploy_to}/current && php app/console assetic:dump --env=staging"
-  
-  # update bower components
-  run "cd #{deploy_to}/current && bower update"
-  
 end
 
 namespace :ws do

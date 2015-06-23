@@ -112,7 +112,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
         $config = $this->cache->fetch($licence.'_config_app_chat');
 
         if (!$config) {
-          
+
             // Get the client' entity manager
             $connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
 
@@ -132,7 +132,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
             $this->cache->save($licence.'_config_app_chat', $config, 0);
         }
-        
+
         // Set client config
         foreach ($this->app->clients as $client) {
             if ($client->licence == $licence) {
@@ -140,7 +140,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
             }
         }
     }
-    
+
     public function removeOperator($licence, $id) {
 
         // For each clients
@@ -155,7 +155,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                     }
                 }
             }
-        }  
+        }
     }
 
     public function isAvailable($licence) {
@@ -202,7 +202,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
             // Test if visitor is still connected
             foreach ($client->users as $item) {
-              
+
                 if ($item->type === 'visitor') {
 
                     // If the user is an visitor
@@ -223,9 +223,9 @@ class Connector implements WampServerInterface, MessageComponentInterface {
 
                         // Close the connection
                         $item->messages[] = array(
-                          'id' => uniqid(), 
-                          'from' => 'server', 
-                          'action' => 'inactivity', 
+                          'id' => uniqid(),
+                          'from' => 'server',
+                          'action' => 'inactivity',
                           'date' => time()
                         );
 
@@ -241,7 +241,7 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                         $client->users->detach($item);
                     }
                 }
-                
+
                 if ($item->type === 'operator') {
 
                     // Set the operator unavailable if he is disconnected
@@ -250,14 +250,20 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                         $chats = 0;
 
                         foreach ($client->users as $user) {
-                
+
                             if (isset($user->operator) && $user->operator == $item->id) {
-                
+
                                 $user->operator = null;
                                 $chats += 1;
                             }
                         }
-                        
+
+                        if ($item->available) {
+                            // Send information to mixpanel
+                            $analytics = $this->container->get('analytics');
+                            $analytics->track($item->id, 'unavailable');
+                        }
+
                         $item->available = false;
                         $item->chats -= $chats;
                     }

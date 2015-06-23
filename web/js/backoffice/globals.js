@@ -24,6 +24,11 @@ define(function(require) {
     restRoot: 'http://search.saio.fr/api/saio/smartfaq/SmartFAQWCF.svc/rest/'
   };
 
+  g.typeahead = {
+    autoSelect: true,
+    highlight: true
+  };
+
   g.knowledge = {};
   g.knowledge.questionsSortUrl = '/questions/sort';
   g.knowledge.noQuestions = '<h5 class="no-item">Aucune questions dans la (les) ' +
@@ -138,7 +143,7 @@ define(function(require) {
   g.modalApp.updateCategory = {
     name: "modal-categories",
     title: "Modifier une catégorie"
-  }; 
+  };
   g.modalPrompt.insertLink = {
     name: "modal-prompt",
     title: "Veuillez entrer un lien",
@@ -147,9 +152,18 @@ define(function(require) {
     confirm: "Valider"
   }
 
+  g.loadingTpl =
+    '<div class="msg-wrapper">' +
+    '<p class="search-loading">' +
+    '<span></span>' +
+    '<span></span>' +
+    '<span></span>' +
+    '</p>' +
+    '</div>';
+
   g.notifications = {
     countTitle: function(count) {
-      return "Vous avez " + count + " notification" + 
+      return "Vous avez " + count + " notification" +
         (count <= 1 ? '' : 's') + " en attente";
     },
     messageUnAnswered: "Message en attente",

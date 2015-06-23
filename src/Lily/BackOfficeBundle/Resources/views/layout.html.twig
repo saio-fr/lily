@@ -47,18 +47,14 @@ filter='cssrewrite' %}
 
   </section>
 
-  <!-- 
-      Notifications
-  -->
+  <!-- Notifications -->
   <script type="text/template" id="notifsItemTpl">
     {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_item.html.twig' %}
   </script>
   <script type="text/template" id="notifsListTpl">
     {% include 'LilyBackOfficeBundle:Utils/Notifs:notif_list.html.twig' %}
   </script>
-  <!-- 
-      Chat
-  -->
+  <!-- Chat -->
   <script type="text/template" id="liveSkeletonTpl">
     {% include 'LilyBackOfficeBundle:Utils/Chat:skeleton.html.twig' %}
   </script>
@@ -92,9 +88,13 @@ filter='cssrewrite' %}
   <script type="text/template" id="liveMessageVisitorTpl">
     {% include 'LilyBackOfficeBundle:Utils/Chat/Message:visitor.html.twig' %}
   </script>
-  <!-- 
-      Modals
-  -->
+  <script type="text/template" id="searchKnowledgeTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Search:search.html.twig' %}
+  </script>
+  <script type="text/template" id="searchKnowledgeAnswerTpl">
+    {% include 'LilyBackOfficeBundle:Utils/Chat/Search:searchAnswer.html.twig' %}
+  </script>
+  <!-- Modals -->
   <script type="text/template" id="modalConnectionLostTpl">
     {% include 'LilyChatBundle:Connection:lost.html.twig' %}
   </script>
@@ -113,33 +113,39 @@ filter='cssrewrite' %}
   <script type="text/template" id="modalTransferOperatorTpl">
     {% include 'LilyBackOfficeBundle:Utils/Chat/Modals/Transfer:operator.html.twig' %}
   </script>
-  
-  <!-- 
-    Load Bugsnag
-  -->  
-  <script
-    src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js"
-    data-apikey="38313d808c52c00caa38aeed097efd1d">
+
+  <!-- Audio -->
+  <audio
+    src="http://cdn-saio.fr/audio/chat/new_notification.mp3"
+    class="new-chat-notification" preload="auto">
+  </audio>
+
+  <!-- custom config -->
+  <script>
+    window.config.chat = {{ app.user.client.config.chat }};
+    window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR') }};
+    window.config.userId = '{{ app.user.id }}';
   </script>
 
-  <!-- 
-    Set Bugsnag Config
-  -->  
-  <script>
-    
+  <!-- Load Bugsnag -->
+  <!--<script
+    src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js"
+    data-apikey="38313d808c52c00caa38aeed097efd1d">
+  </script> -->
+
+  <!-- Set Bugsnag Config -->
+  <!--<script>
     Bugsnag.user = {
       id: "{{ app.user.id }}",
       email: "{{ app.user.email }}"
     };
-    
-    Bugsnag.releaseStage = "{{ app.environment }}";
-    Bugsnag.notifyReleaseStages = ["prod"];    
-  </script>
 
+    Bugsnag.releaseStage = "{{ app.environment }}";
+    Bugsnag.notifyReleaseStages = ["prod"];
+  </script> -->
+
+  <!-- Load Google Analytics -->
   <script>
-    /*
-     * GOOGLE ANALYTICS
-     */
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -149,15 +155,10 @@ filter='cssrewrite' %}
     {% else %}
     ga('create', 'UA-58965885-1', 'auto');
     {% endif %}
-    window.config.chat = {{ app.user.client.config.chat }};
-    window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR') }};
-    window.config.userId = '{{ app.user.id }}';
   </script>
 
+  <!-- Load Zendesk -->
   <script>
-    /*
-     * Zendesk
-     */
   /*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(c){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var o=this.createElement("script");n&&(this.domain=n),o.id="js-iframe-async",o.src=e,this.t=+new Date,this.zendeskHost=t,this.zEQueue=a,this.body.appendChild(o)},o.write('<body onload="document._l();">'),o.close()}("//assets.zendesk.com/embeddable_framework/main.js","saio85.zendesk.com");/*]]>*/
   </script>
 

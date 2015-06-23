@@ -1,4 +1,4 @@
-define('scribe-plugin-shell-command',['app', 'components/chat/utils/shell'],function (app, Shell) {
+define('scribe-plugin-shell-command',['backoffice/app', 'components/chat/utils/shell'],function (app, Shell) {
 
   /**
    * This plugin handle shell command into scribe el

@@ -9,7 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     _ = require('underscore'),
-    app = require('app'),
+    app = require('backoffice/app'),
     globals = require('globals'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     NotifsCollection = require('components/notifications/notifsCollection'),
@@ -153,6 +153,8 @@ define(function(require) {
     // Could be improved with a subview containing the count label,
     // and another for the count sign, to prevent child views from being re-rendered.
     onNewNotif: function() {
+      // Play an audio alert
+      $('audio.new-chat-notification')[0].play();
       this.model.set('count', this.notifs.length);
     },
 

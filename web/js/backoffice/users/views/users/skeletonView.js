@@ -7,7 +7,7 @@ define(function (require) {
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app'),
+  var app = require('backoffice/app'),
       ChildViewContainer = require('utils/backbone-childviewcontainer'),
       UserModel = require('backoffice/users/models/userModel'),
       UsersView = require('backoffice/users/views/users/usersView'),

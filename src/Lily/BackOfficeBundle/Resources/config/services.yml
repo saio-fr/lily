@@ -24,3 +24,7 @@ services:
         class: Lily\BackOfficeBundle\Twig\GetAppVersionExtension
         tags:
             - { name: twig.extension }
+    analytics:
+        class: Lily\BackOfficeBundle\Service\AnalyticsService
+        arguments:
+            [ "%segment_enabled%", "%segment_key%" ]

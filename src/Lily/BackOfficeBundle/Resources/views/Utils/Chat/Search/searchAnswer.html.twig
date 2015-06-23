@@ -1,0 +1,8 @@
+<div class="msg-wrapper <% if (type && type === 'warning') { %> msg-warning <% } %>">
+	<p><%= messageContent %></p>
+	<% if (type === 'answer') { %>
+	<div class="btn-copy-msg">
+		<span class="icon-comment-alt">Copier dans le chat</span>
+	</div>
+	<% } %>
+</div>

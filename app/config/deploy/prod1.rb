@@ -30,6 +30,15 @@ set :bugsnag_api_key, "38313d808c52c00caa38aeed097efd1d"
 
 # perform tasks after deploying
 after "deploy" do
+  # update node modules
+  run "cd #{deploy_to}/current && npm install"
+
+  # update bower components
+  run "cd #{deploy_to}/current && bower update"
+
+  # build project
+  run "cd #{deploy_to}/current && ./node_modules/.bin/grunt build"
+
   # clear the cache
   run "cd #{deploy_to}/current && php app/console cache:clear --env=prod"
 
@@ -38,10 +47,6 @@ after "deploy" do
 
   # dump assets (if using assetic)
   run "cd #{deploy_to}/current && php app/console assetic:dump --env=prod"
-  
-  # update bower components
-  run "cd #{deploy_to}/current && bower update"
-  
 end
 
 namespace :ws do

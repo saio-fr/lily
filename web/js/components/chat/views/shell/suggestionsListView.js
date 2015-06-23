@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-    app = require('app'),
+    app = require('backoffice/app'),
     _ = require('underscore'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     SuggestionsItemView = require('components/chat/views/shell/suggestionsItemView'),

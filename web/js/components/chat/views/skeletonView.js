@@ -7,7 +7,7 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app'),
+  var app = require('backoffice/app'),
     _ = require('underscore'),
     Backbone = require('backbone'),
     globals = require('globals'),
@@ -204,7 +204,7 @@ define(function(require) {
     },
 
     unsetActiveWindow: function(cid) {
-      
+
       var conversation = this.windows.findByCid(cid);
       this.windows.remove(conversation);
 

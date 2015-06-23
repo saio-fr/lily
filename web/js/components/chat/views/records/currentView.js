@@ -7,7 +7,7 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var app = require('app'),
+  var app = require('backoffice/app'),
     _ = require('underscore'),
     Backbone = require('backbone'),
     Timers = require('components/chat/utils/timers'),
@@ -67,7 +67,6 @@ define(function(require) {
     },
 
     onActiveChange: function(model) {
-      
       if (model.get('active') === true) {
         this.$el.addClass('active');
       } else {

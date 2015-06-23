@@ -3,27 +3,20 @@ define(function(require) {
   'use strict';
 
   // Require CommonJS like includes
-  var _ = require('underscore'),
-      Backbone = require('backbone'),
-      moment = require('moment'),
-      moment_fr = require('moment-fr'),
-      globals = require('globals'),
+  var moment       = require('moment'),
       SkeletonView = require('components/chat/views/skeletonView'),
-      Collections = require('components/chat/data/collections'),
-      Notifs = require('components/notifications/notifsCollectionView'),
-      app = require('app');
+      Collections  = require('components/chat/data/collections'),
+      Notifs       = require('components/notifications/notifsCollectionView'),
+      app          = require('backoffice/app');
 
-  var chat = function() {
+  var Chat = function() {
     // Set locale in moment JS
     moment.locale('fr');
 
     var init = function() {
-
       app.chatUsers = new Collections.Users();
       app.chatShortcuts = new Collections.Shortcuts();
-
       app.liveChatSkeleton = new SkeletonView();
-
       app.notifs = new Notifs();
 
       $('.app-main-header .header-widget.notifications-menu')
@@ -31,9 +24,7 @@ define(function(require) {
     };
 
     init();
-
   };
 
-  return chat;
-
+  return Chat;
 });

@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-    app = require('app'),
+    app = require('backoffice/app'),
     _ = require('underscore'),
     globals = require('globals'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
@@ -59,9 +59,10 @@ define(function(require) {
       this.listenTo(this.messages, 'add', this.addMsg);
       this.listenTo(this.messages, 'add', this.status);
 
+      this.listenTo(app, 'search:copyToChat', this.onCopyToChat);
+
       // If the visitor is writing, show it
       this.$writing = this.$el.find('.alert-writing');
-
       // Create a child view container
       this.childViews = new Backbone.ChildViewContainer();
       // Create shell view
@@ -79,6 +80,8 @@ define(function(require) {
 
       // The conversation was selected. (Will notify the notification module)
       app.trigger('conversation:selected', this.id);
+
+      this.$editor  = $('.editor');
     },
 
     render: function() {
@@ -102,8 +105,15 @@ define(function(require) {
       this.messages.set(this.model.get('messages'));
     },
 
-    addMsg: function(msg) {
+    onCopyToChat: function(msg) {
+      if (this.model.get('active') && this.model.get('selected')) {
+        this.$editor
+          .html(msg)
+          .focus();
+      }
+    },
 
+    addMsg: function(msg) {
       var view,
         conversations = this.$el.find('.conversation-section-list');
       // create an instance of the sub-view to render the single message item.
@@ -137,8 +147,7 @@ define(function(require) {
     },
 
     // Todo: abstract dom logic in skeleton
-    select: function(e) {
-
+    select: function() {
       if (!this.model.get('selected')) {
 
         $('.conversations .selected').removeClass('selected');
@@ -173,7 +182,7 @@ define(function(require) {
       if (typeof(e) !== 'undefined') {
         e.stopPropagation();
       }
-      
+
       this.model.set({
         active: false,
         selected: false
@@ -185,32 +194,28 @@ define(function(require) {
     },
 
     close: function() {
-      var that = this;
-
       var modal = app.createModal.confirm(globals.modalConfirm.chatClose);
       modal.promise.then(function (res) {
         if (res) {
           app.trigger('operator:close', this.id);
-          this.minus();          
+          this.minus();
         }
       }.bind(this));
     },
 
     ban: function() {
-      var that = this;
-      
       var modal = app.createModal.confirm(globals.modalConfirm.chatBan);
       modal.promise.then(function (res) {
         if (res) {
           app.trigger('operator:ban', this.id);
-          this.minus();          
+          this.minus();
         }
       }.bind(this));
     },
 
     transfer: function() {
       var that = this;
-      
+
       var operators = app.chatUsers.filter(function(model) {
         return model.get('type') === 'operator' &&
           model.get('available') &&
@@ -246,31 +251,30 @@ define(function(require) {
       }
     },
 
-    changeNameOnEnter: function(e) {
-      if (e.keyCode === 13 && !e.shiftKey) {
+    changeNameOnEnter: function(ev) {
+      if (ev.keyCode === 13 && !ev.shiftKey) {
         this.$el.find('input[name=name]').blur();
         this.$el.find('input[name=name]').focusout();
       }
     },
 
-    changeName: function(e) {
+    changeName: function() {
       var name = this.$el.find('input[name="name"]').val();
       // Todo: listen to that event somewher maybe ?
       app.trigger('operator:changeName', this.id, name);
     },
 
     remove: function() {
-
       var self = this,
       live = app.liveChatSkeleton;
 
-      if (live.informations && 
+      if (live.informations &&
         live.informations.model.get('id') === this.model.get('id')) {
 
         live.informations.remove();
         live.informations = undefined;
       }
-      
+
       this.childViews.forEach(function(view) {
         // delete index for that view
         self.childViews.remove(view);

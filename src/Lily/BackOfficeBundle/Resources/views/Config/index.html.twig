@@ -48,18 +48,27 @@
         config.ws = {};
         config.version = "{{ getAppVersion() }}";
         config.root = '{{ app.request.getBaseURL() }}/api';
+        config.appRoot = '{{ app.request.getBaseURL() }}/app/api';
         config.client = JSON.parse('{{ client | serialize('json') | raw }}');
         config.ws.host = "{{ ws_host }}";
         config.ws.protocol = "{{ ws_protocol }}";
         config.licence = '{{ app.user.client.licence }}';
+        config.synapsePassword = '{{ app.user.client.synapsePassword }}';
 	    </script>
     {% endautoescape %}
 	{% endblock %}
 
 	</section>
 
-<script src="{{ asset('js/bower_components/requirejs/require.js')}}"
-  data-main="{{ asset('js/backoffice/config/main-1.js')}}">
+{% if app.environment == 'dev' %}
+<script
+  src="{{ asset('js/bower_components/requirejs/require.js')}}"
+  data-main="{{ asset('js/backoffice/config/main.js')}}">
 </script>
+{% else %}
+<script src="{{ asset('js-build/common.js')}}"></script>
+<script src="{{ asset('js-build/chatComp.js')}}"></script>
+<script src="{{ asset('js-build/config/main.js')}}"></script>
+{% endif %}
 
 {% endblock %}
