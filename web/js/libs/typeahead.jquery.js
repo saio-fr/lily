@@ -1149,12 +1149,14 @@
             },
             _onLeftKeyed: function onLeftKeyed() {
                 if (this.dir === "rtl" && this.input.isCursorAtEnd()) {
-                    this.autocomplete(this.menu.getTopSelectable());
+                  var $selectable = this.menu.getActiveSelectable() || this.menu.getTopSelectable();
+                  this.autocomplete($selectable);
                 }
             },
             _onRightKeyed: function onRightKeyed() {
                 if (this.dir === "ltr" && this.input.isCursorAtEnd()) {
-                    this.autocomplete(this.menu.getTopSelectable());
+                  var $selectable = this.menu.getActiveSelectable() || this.menu.getTopSelectable();
+                  this.autocomplete($selectable);
                 }
             },
             _onQueryChanged: function onQueryChanged(e, query) {
