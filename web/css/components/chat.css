@@ -635,6 +635,11 @@ LIVE CHAT
   margin-top: -15px;
 }
 
+.item-visitor + .item-visitor .date,
+.item-operator + .item-operator .date {
+  display: none;
+}
+
 .conversation-section-item img.img-circle {
   float: right;
   width: 35px;
@@ -647,7 +652,6 @@ LIVE CHAT
   max-width: 85%;
   min-height: 35px;
   padding: 7px 8px;
-  padding-left: 15px;
   font-size: 12px;
   font-weight: 300;
   text-align: left;
@@ -733,7 +737,7 @@ LIVE CHAT
   margin-bottom: 8px;
 }
 
-.msg-operator p:last-child {
+.msg-operator p:last-of-type {
   margin-bottom: 0;
 }
 
