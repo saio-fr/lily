@@ -2087,10 +2087,10 @@ CONTACT FORM
   position: absolute;
   z-index: 10;
   right: 0;
-  bottom: 4px;
+  bottom: 5px;
   left: 0;
   margin: 0 auto;
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
   color: rgba(0, 0, 0, .6);
 }
@@ -2099,10 +2099,10 @@ CONTACT FORM
   text-decoration: none;
 }
 
-.saio-brandmark .saio-logo {
+.saio-logo {
   position: relative;
   top: 2px;
-  height: 12px;
+  height: 11px;
   margin-left: 1px;
   vertical-align: baseline;
   opacity: 1;
