@@ -281,6 +281,7 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
 
       $(selector).typeahead({
         hint: options.hint || false,
+        autoSelect: options.autoSelect || false,
         highlight: options.highlight || false,
         minLength: options.minLenght || 2,
       }, params);

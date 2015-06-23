@@ -1051,14 +1051,15 @@ Typeahead Styles
   z-index: 100;
   top: auto !important;
   right: -5px;
-  bottom: calc(100% + 9px);
+  bottom: calc(100% + 8px);
   left: -13px!important;
   min-width: 100%;
   overflow: auto;
   overflow-x: hidden;
   text-align: left;
   background: #ffffff;
-  box-shadow: 0 -3px 9px -1px rgba(178, 178, 178, .6);
+  box-shadow: 0 -5px 15px -4px rgba(73, 73, 73, 0.45);
+  border-bottom: solid 1px #DBDBDB;
 }
 
 /******************
