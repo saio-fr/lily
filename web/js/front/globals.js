@@ -26,6 +26,11 @@ define(function(require) {
 
   g.avi = g.avi || {};
 
+  g.avi.onBoardingMsg = g.avi.onBoardingMsg ? g.avi.onBoardingMsg[0]:
+    'Posez vos questions à notre assistant virtuel';
+  g.avi.welcomeMsg = g.avi.welcomeMsg ? g.avi.welcomeMsg[0] :
+    'Bonjour ! En quoi puis-je vous aider ?';
+
   g.avi.overlay = {
     onboardingMsg: 'Demandez moi par exemple "Comment vous contacter ?"',
     lastQuestionReceivedBadFeedBack: 'J\'espère avoir l\'information que vous cherchez cette fois !',
@@ -104,6 +109,10 @@ define(function(require) {
     'Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur';
 
   g.chat = g.chat || {};
+
+  g.chat.onBoardingMsg = g.chat.onBoardingMsg ? g.chat.onBoardingMsg[0] :
+    'n\'hesitez pas à poser une question, un de nos conseillers va vous répondre';
+
   _.extend(g.chat, {
     inactivityAction: 'Relancer une discussion',
     inactivityMsg: 'Votre conversation a été coupée pour cause d\'inactivité',

@@ -72,8 +72,7 @@ define(function(require) {
     },
 
     render: function() {
-
-      this.$el.html(this.template());
+      this.$el.html(this.template(this.model.toJSON()));
 
       return PageView.prototype.render.apply(this, arguments);
     },
@@ -202,7 +201,7 @@ define(function(require) {
       if (ev && ev.keyCode && ev.keyCode !== 13) {
         return;
       }
-      
+
       if (ev && ev.keyCode && ev.keyCode == 13) {
         ev.preventDefault();
       }
@@ -261,7 +260,7 @@ define(function(require) {
 
     onReconnected: function() {
       var that = this;
-      
+
       // Add a 500ms delay to show user something has happenned.
       window.setTimeout(function() {
         that.$el.find('.lily-msg-reconnect').hide();
