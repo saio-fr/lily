@@ -65,40 +65,39 @@ define(function(require) {
     },
 
     avi: function() {
+      var model = new Backbone.Model(config.avi),
+          view = new AviView({ model: model});
 
-      var view = new AviView();
       utils.goTo(view);
-
       app.pageView('/avi');
     },
 
     chat: function() {
+      var view, model;
 
-      var view;
       if (config.chat.contactForm && app.showContactForm) {
         this.navigate('welcome-screen', {
           trigger: true
         });
       } else {
-        view = new ChatView();
+        model = new Backbone.Model(config.chat);
+        view = new ChatView({ model: model });
         utils.goTo(view);
         app.pageView('/chat');
       }
     },
 
     welcomeScreen: function() {
-
       var view = new ChatWelcomeScreenView();
-      utils.goTo(view);
 
+      utils.goTo(view);
       app.pageView('/welcomeScreen');
     },
 
     mail: function() {
-
       var view = new MailView();
-      utils.goTo(view);
 
+      utils.goTo(view);
       app.pageView('/mail');
     },
 
