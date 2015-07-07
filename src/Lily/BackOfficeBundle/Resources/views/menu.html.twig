@@ -22,17 +22,6 @@
             {% endif %}
           {% endif %}
 
-          {% if app.user.client.config.faq %}
-            {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
-          <li>
-            <a href="{{ path('lily_faq') }}" class="{% if app.request.attributes.get('_route') == 'lily_faq' %}active{% endif %}">
-              <i class="icon-sort-by-attributes-alt"></i>
-              <span>Faq</span>
-            </a>
-          </li>
-            {% endif %}
-          {% endif %}
-
           {% if app.user.client.config.chat %}
             {% if is_granted('ROLE_CHAT_OPERATOR') %}
           <li>
