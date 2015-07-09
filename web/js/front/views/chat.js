@@ -71,7 +71,7 @@ define(function(require) {
     },
 
     render: function() {
-      this.$el.html(this.template());
+      this.$el.html(this.template(this.model.toJSON()));
       return PageView.prototype.render.apply(this, arguments);
     },
 

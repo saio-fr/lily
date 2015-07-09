@@ -31,6 +31,8 @@ define(function(require) {
 
   AviView = PageView.extend({
 
+    template: _.template($('#lily-page-avi-template').html()),
+
     events: {
       'submit  .avi-input-component': 'getAviToAnswer',
       'keydown .avi-input':           'getAviToAnswer'
@@ -91,8 +93,7 @@ define(function(require) {
     },
 
     render: function() {
-      var template = _.template($('#lily-page-avi-template').html());
-      this.$el.html(template());
+      this.$el.html(this.template(this.model.toJSON()));
       this.trigger('render');
 
       return PageView.prototype.render.apply(this, arguments);
@@ -288,8 +289,8 @@ define(function(require) {
     // ==============================================
 
     welcomeVisitor: function() {
-      console.log(config.avi.messages.welcomeMsg);
-      return this.printAviMsg(config.avi.messages.welcomeMsg);
+      console.log(config.avi.welcomeMsg);
+      return this.printAviMsg(config.avi.welcomeMsg);
     },
 
     offerRedirection: function(context) {

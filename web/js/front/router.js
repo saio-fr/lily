@@ -59,19 +59,21 @@ define(function(require) {
     },
 
     avi: function() {
-      var view = new AviView();
-      utils.goTo(view);
+      var model = new Backbone.Model(config.avi),
+          view = new AviView({ model: model});
 
+      utils.goTo(view);
       app.trackPageView('Visitor saw page: Avi');
     },
 
     chat: function() {
-      var view;
+      var view, model;
 
       if (config.chat.contactForm && app.showContactForm) {
         this.navigate('welcome-screen', { trigger: true });
       } else {
-        view = new ChatView();
+        model = new Backbone.Model(config.chat);
+        view = new ChatView({ model: model });
         utils.goTo(view);
         app.trackPageView('Visitor saw page: chat');
       }
@@ -79,16 +81,14 @@ define(function(require) {
 
     welcomeScreen: function() {
       var view = new ChatWelcomeScreenView();
-      utils.goTo(view);
-
       app.trackPageView('Visitor saw page: welcomeScreen');
+      utils.goTo(view);
     },
 
     mail: function() {
       var view = new MailView();
-      utils.goTo(view);
-
       app.trackPageView('Visitor saw page: mail');
+      utils.goTo(view);
     },
 
     faq: function(id) {
