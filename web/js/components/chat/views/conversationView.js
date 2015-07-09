@@ -91,13 +91,12 @@ define(function(require) {
     },
 
     renderShell: function () {
-
       var appendEl = this.$('.js-conversation-shell');
-
       var shellView = new ShellView({
         appendEl: appendEl,
         model: this.model
       });
+
       this.childViews.add(shellView, 'shellView');
     },
 
@@ -111,6 +110,10 @@ define(function(require) {
           .html(msg)
           .focus();
       }
+
+      app.track.funnel('Copy kb answer to chat conversation', {
+        message: msg
+      });
     },
 
     addMsg: function(msg) {
@@ -181,6 +184,9 @@ define(function(require) {
     minus: function(e) {
       if (typeof(e) !== 'undefined') {
         e.stopPropagation();
+        app.track.click('Operator hid conversation by clicking the minus button', {
+          visitorId: this.model.get('id'),
+        });
       }
 
       this.model.set({
@@ -198,6 +204,10 @@ define(function(require) {
       modal.promise.then(function (res) {
         if (res) {
           app.trigger('operator:close', this.id);
+          app.track.funnel('Operator closed conversation', {
+            visitorId: this.id
+          });
+
           this.minus();
         }
       }.bind(this));
@@ -208,6 +218,7 @@ define(function(require) {
       modal.promise.then(function (res) {
         if (res) {
           app.trigger('operator:ban', this.id);
+          app.track.funnel('Operator banned visitor', { visitorId: this.id });
           this.minus();
         }
       }.bind(this));
@@ -233,6 +244,7 @@ define(function(require) {
             model: operator,
             visitor: that.model
           });
+
           transferModalView.childViews.add(view);
           transferModalView.$el.find('.modal-body').append(view.el);
         });

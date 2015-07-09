@@ -36,33 +36,32 @@ define(function(require) {
 
     users: function() {
 
-      if (typeof(app.skeleton) != 'undefined') {
+      if (typeof app.skeleton !== 'undefined') {
         app.skeleton.remove();
       }
 
       app.skeleton = new UsersSkeletonView({
         collection: app.userCollection
       });
-      
+
       app.userCollection.fetch();
       app.groupCollection.fetch();
-
-      app.pageView("/users/users");
+      app.trackPageView('Users page, users tab');
     },
 
     groups: function() {
 
-      if (typeof(app.skeleton) != 'undefined') {
+      if (typeof app.skeleton !== 'undefined') {
         app.skeleton.remove();
       }
-        
+
       app.skeleton = new GroupsSkeletonView({
         collection: app.groupCollection
       });
-      
+
       app.groupCollection.fetch();
-        
-      app.pageView("users/groups");
+
+      app.pageView('Users page, groups tab');
     }
 
   });

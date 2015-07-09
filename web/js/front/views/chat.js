@@ -31,11 +31,11 @@ define(function(require) {
     template: _.template($('#lily-page-chat-template').html()),
 
     events: {
-      'keyup  .chat-input-component': 'writing',
-      'submit .chat-input-component': 'doChat',
-      'keydown .chat-input':          'doChat',
-      'click  .btn-sendmsg':          'doChat',
-      'click  .js-reconnect-action': 'reconnect'
+      'keyup   .chat-input-component': 'isWriting',
+      'submit  .chat-input-component': 'onUserInput',
+      'keydown .chat-input':           'onUserInput',
+      'click   .btn-sendmsg':          'onUserInput',
+      'click   .js-reconnect-action':  'reconnect',
     },
 
     initialize: function() {
@@ -43,14 +43,15 @@ define(function(require) {
       this.collection = new Collections.Messages();
       this.childViews = new Backbone.ChildViewContainer();
 
-      this.listenTo(this.collection, 'add', this.processMessage);
+      this.listenTo(this.collection, 'add', this.onCollectionAdd);
 
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
       this.listenTo(app, 'chat:connected', this.onReconnected, this);
 
-      $(this.render({
-        page: true
-      }).el).appendTo('#lily-wrapper-page');
+      this.reconnectionMsgVisible = false;
+      this.visitorMsgSent = 0;
+
+      $(this.render().el).appendTo('#lily-wrapper-page');
 
       // Post-render
       this.$input = this.$el.find('.chat-input').myedit();
@@ -67,14 +68,10 @@ define(function(require) {
       if (app.isConnectionActive && app.payload) {
         this.onSubscribedChat(app.payload);
       }
-
-      this.reconnectionMsgVisible = false;
     },
 
     render: function() {
-
       this.$el.html(this.template());
-
       return PageView.prototype.render.apply(this, arguments);
     },
 
@@ -82,19 +79,30 @@ define(function(require) {
       this.collection.set(payload);
     },
 
-    processMessage: function(message) {
+    onCollectionAdd: function(message) {
       switch (message.get('action')) {
         case 'inactivity':
-          message.set('msg', config.chat.inactivityMsg);
-          message.set('userAction', config.chat.inactivityAction);
-          message.set('info', '');
+          message.set({
+            'msg': config.chat.inactivityMsg,
+            'userAction': config.chat.inactivityAction,
+            'info': ''
+          });
+
+          app.track.funnel('Visitor was idle for more than 15 min');
+
+          // Reset Conversation stats
+          // (if a visitor reconnects, a new conversation will be created)
+          this.visitorMsgSent = 0;
           break;
         case 'transfer':
           message.set('msg', config.chat.transferMsg);
           break;
         case 'ban':
-          message.set('msg', config.chat.banMsg);
-          message.set('info', '');
+          message.set({
+            'msg': config.chat.banMsg,
+            'info': ''
+          });
+
           break;
         case 'close':
           this.onConversationClose(config.chat.notationMsg);
@@ -104,64 +112,42 @@ define(function(require) {
           break;
       }
 
-      this.addItem(message);
+      this.createMessageView(message);
     },
 
-    addItem: function(message) {
+    createMessageView: function(message) {
       var messageView;
 
       // create an instance of the sub-view to render the single message item.
       switch (message.get('from')) {
         case 'visitor':
-          messageView = new MessageChatVisitor({
-            model: message
-          }).render();
+          messageView = new MessageChatVisitor({ model: message }).render();
           break;
-
         case 'operator':
-          messageView = new MessageChatOperator({
-            model: message
-          }).render();
+          messageView = new MessageChatOperator({ model: message }).render();
           break;
-
         case 'server':
 
           switch (message.get('action')) {
             case 'inactivity':
-              if (this.reconnectionMsgVisible) {
-                return;
-              }
-
-              messageView = new MessageChatReconnect({
-                model: message
-              }).render();
+              if (this.reconnectionMsgVisible) { return; }
+              messageView = new MessageChatReconnect({ model: message }).render();
               this.reconnectionMsgVisible = true;
               break;
-
             case 'ban':
-              messageView = new MessageChatBan({
-                model: message
-              }).render();
+              messageView = new MessageChatBan({ model: message }).render();
               break;
-
             case 'close':
-              messageView = new MessageChatClose({
-                model: message
-              }).render();
+              messageView = new MessageChatClose({ model: message }).render();
               break;
-
             case 'transfer':
-              messageView = new MessageChatTransfer({
-                model: message
-              }).render();
+              messageView = new MessageChatTransfer({ model: message }).render();
               break;
-
             case 'notation':
-              messageView = new MessageChatNotation({
-                model: message
-              }).render();
+              messageView = new MessageChatNotation({ model: message }).render();
               break;
           }
+
           break;
       }
 
@@ -170,14 +156,24 @@ define(function(require) {
       }
     },
 
-    send: function(message) {
-      app.trigger('chat:send', message);
+    trackMessage: function(message) {
+      this.visitorMsgSent ++;
+
+      app.track.funnel('Visitor sent a message', {
+        message: message,
+        visitorMsgSent: this.visitorMsgSent,
+      });
     },
 
-    writing: function() {
+    sendMessage: function(message) {
+      app.trigger('chat:send', message);
+      this.trackMessage(message);
+    },
+
+    isWriting: function() {
       var isWriting = !!this.$input.val().trim();
 
-      app.trigger('chat:writing', isWriting);
+      app.trigger('chat:isWriting', isWriting);
 
       if (typeof this.writingTimeout === 'number') {
         window.clearTimeout(this.writingTimeout);
@@ -187,11 +183,11 @@ define(function(require) {
       // User may have started writing a message in chat,
       // but has been idle for a while
       this.writingTimeout = window.setTimeout(function() {
-        app.trigger('chat:writing', false);
+        app.trigger('chat:isWriting', false);
       }, 10000);
     },
 
-    doChat: function(ev) {
+    onUserInput: function(ev) {
 
       // The method was triggered by the "submit" event handler
       if (ev && ev.type === 'submit') {
@@ -202,8 +198,8 @@ define(function(require) {
       if (ev && ev.keyCode && ev.keyCode !== 13) {
         return;
       }
-      
-      if (ev && ev.keyCode && ev.keyCode == 13) {
+
+      if (ev && ev.keyCode && ev.keyCode === 13) {
         ev.preventDefault();
       }
 
@@ -215,12 +211,12 @@ define(function(require) {
       if (message.length > 0) {
         // On vérifie que le champ n'est pas vide
         // ou contient uniquement des espaces
-        this.send(message);
+        this.sendMessage(message);
       }
 
       // clear the search field
       this.clearInput();
-      this.writing();
+      this.isWriting();
     },
 
     clearInput: function() {
@@ -261,7 +257,7 @@ define(function(require) {
 
     onReconnected: function() {
       var that = this;
-      
+
       // Add a 500ms delay to show user something has happenned.
       window.setTimeout(function() {
         that.$el.find('.lily-msg-reconnect').hide();
@@ -275,7 +271,8 @@ define(function(require) {
         from: 'server',
         msg: msg
       });
-      this.addItem(model);
+
+      this.createMessageView(model);
     },
 
     closeChildren: function() {

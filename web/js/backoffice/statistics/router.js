@@ -31,16 +31,13 @@ define(function(require) {
     },
 
     initialize: function() {
-
-      // Sekeleton
       var skeleton = new SkeletonView();
       app.skeleton = skeleton;
-      this.bind("all", app.pageView());
-
+      this.bind('all', app.trackPageView());
     },
 
     home: function() {
-      app.pageView("/statistics/home");
+      app.trackPageView('Statistics page, home tab');
     },
 
     usage: function() {
@@ -50,13 +47,12 @@ define(function(require) {
       $('.nav-tabs li').removeClass('active');
       $('.usage-nav').addClass('active');
 
-      if (typeof app.skeleton.usage == 'undefined') {
-        // Skeleton
+      if (typeof app.skeleton.usage === 'undefined') {
         var usageView = new UsageSkeletonView();
         app.skeleton.usage = usageView;
       }
 
-      app.pageView("/statistics/usage");
+      app.trackPageView('Statistics page, usage tab');
     },
 
     avi: function() {
@@ -66,12 +62,12 @@ define(function(require) {
       $('.nav-tabs li').removeClass('active');
       $('.avi-nav').addClass('active');
 
-      if (typeof app.skeleton.avi == 'undefined') {
-        // Skeleton
+      if (typeof app.skeleton.avi === 'undefined') {
         var aviView = new AviSkeletonView();
         app.skeleton.avi = aviView;
       }
-      app.pageView("/statistics/avi");
+
+      app.trackPageView('Statistics page, avi tab');
     },
 
     chat: function() {
@@ -81,12 +77,12 @@ define(function(require) {
       $('.nav-tabs-wrapper li').removeClass('active');
       $('.chat-nav').addClass('active');
 
-      if (typeof app.skeleton.chat == 'undefined') {
-        // Skeleton
+      if (typeof app.skeleton.chat === 'undefined') {
         var chatView = new ChatSkeletonView();
         app.skeleton.chat = chatView;
       }
-      app.pageView("/statistics/chat");
+
+      app.pageView('Statistics page, chat tab');
     },
 
     users: function() {
@@ -98,11 +94,12 @@ define(function(require) {
       $('.users-charts-nav').addClass('active');
       $('#users-charts-skeleton').addClass('active');
 
-      if (typeof app.skeleton.users == 'undefined') {
+      if (typeof app.skeleton.users === 'undefined') {
         var users = new UsersSkeletonView();
         app.skeleton.users = users;
       }
-      app.pageView("/statistics/users");
+
+      app.pageView('Statistics page, users tab');
     }
 
   });

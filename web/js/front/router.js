@@ -42,71 +42,59 @@ define(function(require) {
     },
 
     home: function() {
-
       this.navigate('/');
+
       if (config.chat.active &&
         config.home === 'chat' &&
         config.chatAvailable ||
         !app.isConversationClosed) {
 
-        this.navigate('chat', {
-          trigger: true
-        });
+        this.navigate('chat', { trigger: true });
       } else if (config.avi && config.avi.active) {
-        this.navigate('avi', {
-          trigger: true
-        });
+        this.navigate('avi', { trigger: true });
       } else {
         app.mailOnly = true;
-        this.navigate('mail', {
-          trigger: true
-        });
+        this.navigate('mail', { trigger: true });
       }
     },
 
     avi: function() {
-
       var view = new AviView();
       utils.goTo(view);
 
-      app.pageView('/avi');
+      app.trackPageView('Visitor saw page: Avi');
     },
 
     chat: function() {
-
       var view;
+
       if (config.chat.contactForm && app.showContactForm) {
-        this.navigate('welcome-screen', {
-          trigger: true
-        });
+        this.navigate('welcome-screen', { trigger: true });
       } else {
         view = new ChatView();
         utils.goTo(view);
-        app.pageView('/chat');
+        app.trackPageView('Visitor saw page: chat');
       }
     },
 
     welcomeScreen: function() {
-
       var view = new ChatWelcomeScreenView();
       utils.goTo(view);
 
-      app.pageView('/welcomeScreen');
+      app.trackPageView('Visitor saw page: welcomeScreen');
     },
 
     mail: function() {
-
       var view = new MailView();
       utils.goTo(view);
 
-      app.pageView('/mail');
+      app.trackPageView('Visitor saw page: mail');
     },
 
     faq: function(id) {
-
       id = id || "NULL";
       var router = this,
-        view;
+          view;
 
       app.faqCollection = app.faqCollection || new Collections.Faqs();
       api.getFaqModel(id).then(function(model) {
@@ -126,11 +114,13 @@ define(function(require) {
         });
       });
 
-      app.pageView('/faq/' + id);
+      app.trackPageView('Visitor saw page: faq', {
+        'id': id,
+        'content': false
+      });
     },
 
     content: function(parent, id) {
-
       var router = this,
         faq, contentModel, view;
 
@@ -159,7 +149,10 @@ define(function(require) {
         });
       });
 
-      app.pageView('/faq/' + 'content/' + id);
+      app.trackPageView('Visitor saw page: faq', {
+        'id': id,
+        'content': false
+      });
     }
   });
 

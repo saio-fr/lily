@@ -15,27 +15,28 @@ class AnalyticsService {
         $this->enabled = $enabled;
         $this->key = $key;
     }
-    
-    public function track($id, $event) {
+
+    public function track($id, $event, $properties) {
         if ($this->enabled && $this->key) {
-          
+
             Segment::Init($this->key);
-            
+
             Segment::track(array(
                 'userId' => $id,
-                'event'  => $event
+                'event'  => $event,
+                'properties' => $properties
             ));
-            
+
             Segment::flush();
         }
-        return;    
+        return;
     }
-    
+
     public function identify($user) {
         if ($this->enabled && $this->key) {
-          
+
             Segment::Init($this->key);
-          
+
             Segment::identify(array(
                 'userId' => $user->getId(),
                 'traits' => array(

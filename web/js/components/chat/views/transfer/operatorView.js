@@ -49,6 +49,11 @@ define(function(require) {
     transfer: function() {
       var that = this;
       app.trigger('operator:transfer', that.visitor.get('id'), that.model.get('id'));
+      app.track.funnel('Operator transfered a conversation', {
+        visitorId: this.visitor.get('id'),
+        newUserId: this.model.get('id')
+      });
+
       this.visitor.trigger('minus');
     }
 

@@ -11,6 +11,8 @@ define(function(require) {
 
   _.extend(g, window.config);
 
+  g.app = 'backofficeApp';
+
   g.path = {
     cdn: "http://cdn-saio.fr",
     customer: "http://cdn-saio.fr/customer/",
@@ -27,6 +29,17 @@ define(function(require) {
   g.typeahead = {
     autoSelect: true,
     highlight: true
+  };
+
+  g.wysiSanitize = {
+    tags: {
+      p: true,
+      b: true,
+      a: {
+        href: true,
+        target: '_blank'
+      }
+    }
   };
 
   g.knowledge = {};
@@ -62,11 +75,11 @@ define(function(require) {
   g.modalAlert.configSucess = {
     name: "modal-config-saved",
     body: "Vos informations <strong>ont bien</strong> été sauvegardé."
-  }
+  };
   g.modalAlert.wsConnectionLost = {
     name: "modal-connection-lost",
     body: "La connexion avec nos serveurs n'a pas pu être établi. Rafraichissez la page pour essayer de vous reconnecter."
-  }
+  };
   g.modalConfirm.groupTrash = {
     name: "modal-trash",
     title: "Etes-vous sur de vouloir ce groupe ?",

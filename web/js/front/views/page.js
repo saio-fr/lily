@@ -26,34 +26,27 @@ define(function(require) {
       reverse: ''
     },
 
-    render: function(options) {
-
-      options = options || {};
-
-      if (options.page === true) {
-        this.$el.find('.lily-page-cont').addClass('lily-page');
-      }
-
+    render: function() {
       var that = this;
 
-      that.$el.find('a')
+      this.$el
+        .find('.lily-page-cont')
+        .addClass('lily-page')
+        .find('a')
         .on('touch click', function(ev) {
           /* On regarde data-transition et data-reverse sur le lien cliqué*/
           that.setNextTransition(this);
         });
 
       return this;
-
     },
 
     setNextTransition: function(el) {
-
       this.nextTransition.type = $(el).attr('data-transition');
       this.nextTransition.reverse = $(el).attr('data-reverse');
     },
 
     transitionIn: function(previous, transition, reverse, callback) {
-
       var that = this,
         $nextPage = that.$el.find('.lily-page-cont'),
         $currPage = (previous) ? previous.$el.find('.lily-page-cont') : null,
@@ -77,7 +70,6 @@ define(function(require) {
     },
 
     onTransitionIn: function(data) {
-
       app.endNextPage = true;
       FastClick.attach(document.body);
 
@@ -99,7 +91,6 @@ define(function(require) {
     },
 
     transitionOut: function(transition, reverse, callback) {
-
       var that = this,
         $currPage = that.$el.find('.lily-page-cont'),
         outClass = reverse !== 'true' ? 'lily-page-moveToLeft' : 'lily-page-moveToRight',

@@ -121,6 +121,10 @@ define(function(require) {
       var modal = app.createModal.confirm(globals.modalConfirm.categoryTrash);
       modal.promise.then(function (res) {
         if (res) {
+          app.track.click('Delete kb category', {
+            category: that.model.get('title')
+          });
+
           this.model.destroy();
           this.remove();
         }

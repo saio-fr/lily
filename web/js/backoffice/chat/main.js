@@ -25,7 +25,7 @@ define(['require', '../../common'], function(require) {
     // Set locale in moment JS
     moment.locale('fr');
 
-    app.init = function() {
+    function bootstrap() {
       app.router = new ChatRouter();
 
       if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
@@ -38,10 +38,8 @@ define(['require', '../../common'], function(require) {
       }
 
       Backbone.history.start();
-    };
+    }
 
-    app.ajaxConfig();
-    app.init();
-    app.wsConnect();
+    app.init(bootstrap);
   });
 });

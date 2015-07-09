@@ -48,6 +48,7 @@ define(function(require) {
       // Search ev listeners
       this.listenTo(this, 'search:asyncrequest', this.indicateLoading);
       this.listenTo(this, 'search:asyncreceive', this.concealLoading);
+      this.listenTo(this, 'search:asyncreceive', this.onAsyncReceived);
       this.listenTo(this, 'search:render',       this.makeSuggestionsScrollable);
       this.listenTo(this, 'search:open',         this.onSearchOpen);
       this.listenTo(this, 'search:close',        this.onSearchClose);
@@ -67,7 +68,7 @@ define(function(require) {
       this.countQuestionsAsked = 0;
 
       // Render \o/
-      this.render({ page: true }).$el.appendTo('#lily-wrapper-page');
+      this.render().$el.appendTo('#lily-wrapper-page');
 
       // OnAfterRender
       this.$input   =   this.$('.avi-input');
@@ -82,7 +83,8 @@ define(function(require) {
       // or showing/hihing the suggestions overlay
       this.$input
         .on('keyup', this.onInputKeyup.bind(this))
-        .on('blur', this.endFocusSuggestion.bind(this));
+        .on('blur',  this.endFocusSuggestion.bind(this))
+        .on('focus', this.onFocusInput.bind(this));
 
       // Print Welcome msg (defined in globals.js)
       this.welcomeVisitor();
@@ -208,6 +210,21 @@ define(function(require) {
       this.$avi.removeClass('lily-avi-show');
     },
 
+    // Async suggestions for some reason don't trigger autoselect.
+    // Do it manually
+    onAsyncReceived: function() {
+      var firstSuggestion = $('.tt-menu .tt-suggestion') ?
+        $('.tt-menu .tt-suggestion').eq(0) : null;
+
+      if (firstSuggestion) {
+        firstSuggestion.addClass('tt-cursor');
+      }
+    },
+
+    onFocusInput: function() {
+      app.track.click('Visitor focused search Input');
+    },
+
     showMsgListOverlay: function() {
       if (this.isSearchOpen && !this.$msgBox.hasClass('tt-overlay')) {
         this.$msgBox.addClass('tt-overlay');
@@ -307,6 +324,10 @@ define(function(require) {
       .then(function() {
         return that.createRedirectionView(model);
       });
+
+      app.track.funnel('Visitor was offered to be redirected', {
+        chatAvailable: config.avi.redirections.chat
+      });
     },
 
     hasNoAnswer: function(question) {
@@ -319,7 +340,7 @@ define(function(require) {
       }
 
       that.asyncWithLoading(function() {
-      }, 500)
+      }, 400)
       .then(function() {
         // 2) Propose the visitor to be forwarded to tel/mail/chat
         that.apologise();
@@ -384,15 +405,21 @@ define(function(require) {
       that.resetConversationState();
       app.trigger('avi:newAviQuestion', question);
 
-      // Convert the question id from synapse's syntax;
-      // ex: "r_54" to ours: "54"
       id = suggestion ? suggestion.answerId : 0;
 
       // Log request a this question
       api.logRequest(question, id);
+      app.track.funnel('Visitor asked question to avi', {
+        question: question,
+        suggestion: !!suggestion
+      });
 
       // There was no mathing question
       if (!suggestion) {
+        app.track.funnel('Avi couldn\'t find an answer to visitor question', {
+          unansweredQuestion: question
+        });
+
         return that.hasNoAnswer(question);
       }
 
@@ -439,6 +466,10 @@ define(function(require) {
       var that = this;
       this.removeNotationView();
       api.logSatisfaction(answer.id, satisfaction);
+      app.track.click('Visitor was ' +
+        (satisfaction ? '' : 'not ') + 'satisfied by the avi Answer', {
+        answer: answer,
+      });
 
       if (satisfaction) {
         that.sayThanks();
@@ -459,7 +490,11 @@ define(function(require) {
 
       if (canal === 'none') {
         this.printVisitorMsg(config.avi.messages.redirection.none);
+        app.track.click('Visitor chose not to be redirected');
+        return;
       }
+
+      app.track.click('Visitor chose to be redirected', { canal: canal });
     },
 
 
@@ -699,12 +734,19 @@ define(function(require) {
       // Simple answer
       if (!answer.children || answer.children.length <= 0) {
         this.printAviMsg(answer.answer);
+
+        app.track.funnel('Avi answered visitor question', {
+          answer: answer.answer,
+          answerId: answer.id
+        });
+
         return answer;
       }
 
       // Handle complex answer (with precisions/actions needed)
       // Do that for now, until complex answer Logic gets implemented
       this.printAviMsg(answer.answer);
+
       return answer;
     },
 

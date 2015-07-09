@@ -140,7 +140,7 @@ define(function(require) {
   };
 
   api.sendMail = function(data) {
-    app.track('mail/send_mail');
+    app.track.submit('Successfuly sent a redirection Email');
     return this.send('POST', '/api/' + config.licence + '/mail', data);
   };
 

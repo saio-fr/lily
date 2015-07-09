@@ -29,33 +29,33 @@ define(function(require) {
     },
 
     dashboard: function() {
-      
+
       if (app.skeleton) {
         app.skeleton.remove();
       }
 
       app.skeleton = new DashboardSkeletonView({
-        collection: app.chatUsers       
+        collection: app.chatUsers
       });
-      
+
       this.toggleActiveTab('dashboard');
-      app.pageView('/chat/dashboard');
+      app.trackPageView('Chat page, dashboard tab');
     },
-    
+
     shortcut: function () {
-      
+
       if (app.skeleton) {
         app.skeleton.remove();
       }
-      
+
       app.skeleton = new ShortcutSkeletonView({});
-      
+
       this.toggleActiveTab('shortcut');
-      app.pageView('/chat/shortcut');
+      app.pageView('Chat page, shortcuts tab');
     },
 
     toggleActiveTab: function(next) {
-      
+
       $('.nav-tabs .active').removeClass('active');
       $('.' + next + '-nav').addClass('active');
     }
