@@ -51,7 +51,7 @@ define(function(require) {
       app.skeleton = new ShortcutSkeletonView({});
 
       this.toggleActiveTab('shortcut');
-      app.pageView('Chat page, shortcuts tab');
+      app.trackPageView('Chat page, shortcuts tab');
     },
 
     toggleActiveTab: function(next) {

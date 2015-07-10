@@ -125,7 +125,6 @@ filter='cssrewrite' %}
     window.config.chat = {{ app.user.client.config.chat }};
     window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR') }};
     window.config.userId = '{{ app.user.id }}';
-    // window.config.
   </script>
 
   <!-- Load Bugsnag -->
