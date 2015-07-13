@@ -16,8 +16,6 @@ use FOS\RestBundle\Controller\Annotations\View;
 use JMS\Serializer\SerializationContext;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
-use GuzzleHttp\Exception\RequestException;
-
 use Lily\KnowledgeBundle\Entity\Question;
 use Lily\KnowledgeBundle\Form\QuestionType;
 use Lily\BackOfficeBundle\Controller\BaseController;
@@ -33,7 +31,7 @@ class QuestionsController extends BaseController
     public function postSortAction(Request $request)
     {
         $data = json_decode($request->getContent());
-        
+
         $questions = $this->getEntityManager()
         ->getRepository('LilyKnowledgeBundle:Question')
         ->sortQuestions($data);
@@ -43,7 +41,7 @@ class QuestionsController extends BaseController
         ->countSortedQuestions($data);
 
         return array(
-            'questions' => $questions, 
+            'questions' => $questions,
             'counter' => $counter
         );
     }
@@ -72,31 +70,31 @@ class QuestionsController extends BaseController
     public function postAction(Request $request)
     {
         $em = $this->getEntityManager();
-        
+
         $question = new Question();
         $form = $this->getForm(new QuestionType(), $question, $request);
-        
+
         if ($form->isValid()) {
-            
+
             $user = $this->getUser();
             $client = $user->getClient();
             $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
-      
+
             $em->persist($question);
             $em->flush();
-            
+
             // SEND INFOS TO SYNAPSE ENGINE
             $synapse = $this->container->get('synapse_connector');
             $synapse->addQuestionAnswer($client, $question);
-            
+
             foreach ($question->getAlternatives() as $alt) {
                 $synapse->addAdditionalQuestion($client, $alt);
             }
-        
+
         } else {
-          
+
             $view = $this->view($form, 400);
-            return $this->handleView($view); 
+            return $this->handleView($view);
         }
 
         return $question;
@@ -113,11 +111,11 @@ class QuestionsController extends BaseController
         $user = $this->getUser();
         $client = $user->getClient();
         $synapse = $this->container->get('synapse_connector');
-  
+
         $question = $this->getEntityManager()
         ->getRepository('LilyKnowledgeBundle:Question')
         ->find($id);
-         
+
         $originalChildren = new ArrayCollection();
         $originalAlternatives = new ArrayCollection();
 
@@ -132,16 +130,16 @@ class QuestionsController extends BaseController
         foreach ($question->getAlternatives() as $alt) {
             $originalAlternatives->add($alt);
         }
-  
+
         $form = $this->getForm(new QuestionType(), $question, $request);
-        
+
         foreach ($originalChildren as $child) {
             if ($question->getChildren()->contains($child) == false) {
                 // Delete the child question entity
                 $em->remove($child);
             }
         }
-        
+
         foreach ($originalAlternatives as $alt) {
             if ($question->getAlternatives()->contains($alt) == false) {
                 $synapse->removequestion($client, $alt);
@@ -149,23 +147,23 @@ class QuestionsController extends BaseController
                 $em->remove($alt);
             }
         }
-  
+
         $question->setModifiedBy($user->getLastname() . ' ' . $user->getFirstname());
-  
+
         $em->persist($question);
         $em->flush();
-        
+
         // SEND INFOS TO SYNAPSE ENGINE
         foreach ($question->getAlternatives() as $alt) {
-            if ($originalAlternatives->contains($alt) == false) {              
+            if ($originalAlternatives->contains($alt) == false) {
                 $synapse->addadditionalquestion($client, $alt);
             } else {
                 $synapse->updatequestion($client, $alt);
             }
         }
-        
+
         $synapse->updateQuestionAnswer($client, $question);
-  
+
         return $question;
     }
 
@@ -182,15 +180,15 @@ class QuestionsController extends BaseController
 
         $question = $em->getRepository('LilyKnowledgeBundle:Question')
         ->find($id);
-    
+
         if (!$question) {
             throw $this->createNotFoundException();
         }
-        
+
         // SEND INFOS TO SYNAPSE ENGINE
         $synapse = $this->container->get('synapse_connector');
         $synapse->removeAnswer($client, $question);
-        
+
         $em->remove($question);
         $em->flush();
     }
@@ -206,15 +204,15 @@ class QuestionsController extends BaseController
         $versions = $this->getEntityManager()
         ->getRepository('Lily\BackOfficeBundle\Loggable\Entity\LogEntry')
         ->findBy(array('objectId' => $id), array("loggedAt" => "DESC"));
-  
+
         $versions = array_slice($versions, 0, 5);
-  
+
         $question = $this->getEntityManager()
         ->getRepository('Lily\KnowledgeBundle\Entity\Question')
         ->findById($id);
-  
+
         return array(
-            'versions' => $versions, 
+            'versions' => $versions,
             'question' => $question
         );
     }
