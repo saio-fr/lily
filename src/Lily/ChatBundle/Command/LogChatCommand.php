@@ -19,6 +19,7 @@ class LogChatCommand extends ContainerAwareCommand
     {
         // Get the client' entity manager
         $connection = $this->getContainer()->get(sprintf('doctrine.dbal.%s_connection', 'client'));
+        $connection->close();
 
   	    $refConn = new \ReflectionObject($connection);
   	    $refParams = $refConn->getProperty('_params');
@@ -65,7 +66,6 @@ class LogChatCommand extends ContainerAwareCommand
 
     				        $licence = $params->licence;
                     $item = $params->item;
-                    $this->getEntityManager($licence)->getConnection()->close();
                     $em = $this->getEntityManager($licence);
 
                     $logConnection = new LogConnection();

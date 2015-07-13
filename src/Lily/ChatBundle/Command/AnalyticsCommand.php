@@ -12,6 +12,7 @@ class AnalyticsCommand extends ContainerAwareCommand
     {
         // Get the client' entity manager
         $connection = $this->getContainer()->get(sprintf('doctrine.dbal.%s_connection', 'client'));
+        $connection->close();
 
         $refConn = new \ReflectionObject($connection);
         $refParams = $refConn->getProperty('_params');
@@ -46,7 +47,6 @@ class AnalyticsCommand extends ContainerAwareCommand
         foreach ($clients as $client) {
 
             $licence = $client->getLicence();
-            $this->getEntityManager($licence)->getConnection()->close();
             $em = $this->getEntityManager($licence);
 
             $logs = $em->getRepository('LilyChatBundle:LogChat')
