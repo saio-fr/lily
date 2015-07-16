@@ -131,7 +131,7 @@ define(function(require) {
   g.modalConfirm.shortcutTrash = {
     name: "modal-trash",
     title: "Etes-vous sur de vouloir supprimer ce message pré-enregistré ?",
-    body: "Une fois supprimée, vous ne pourrez plus y " +
+    body: "Une fois supprimé, vous ne pourrez plus y " +
       "avoir accès ",
     cancel: "Annuler",
     confirm: "Supprimer"
