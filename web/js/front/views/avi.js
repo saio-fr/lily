@@ -156,7 +156,7 @@ define(function(require) {
       }
 
       // If the suggestions menu is visible, hide the avi
-      if (this.$suggestionsMenu && this.$suggestionsMenu) {
+      if (this.$suggestionsMenu && this.$suggestionsMenu.is(':visible')) {
         this.$avi.removeClass('overlay');
         this.showAvi(false);
       }
