@@ -16,15 +16,14 @@ class AnalyticsService {
         $this->key = $key;
     }
 
-    public function track($id, $event, $properties) {
+    public function track($id, $event, $properties = null) {
         if ($this->enabled && $this->key) {
 
             Segment::Init($this->key);
 
             Segment::track(array(
                 'userId' => $id,
-                'event'  => $event,
-                'properties' => $properties
+                'event'  => $event
             ));
 
             Segment::flush();
