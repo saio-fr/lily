@@ -50,6 +50,7 @@ define(function(require) {
       // Search ev listeners
       this.listenTo(this, 'search:asyncrequest', this.indicateLoading);
       this.listenTo(this, 'search:asyncreceive', this.concealLoading);
+      this.listenTo(this, 'search:asyncreceive', this.onAsyncReceived);
       this.listenTo(this, 'search:render',       this.makeSuggestionsScrollable);
       this.listenTo(this, 'search:open',         this.onSearchOpen);
       this.listenTo(this, 'search:close',        this.onSearchClose);
@@ -115,6 +116,10 @@ define(function(require) {
 
       this.setupSynapse(options);
       this.setupTypeahead('.avi-input');
+
+      // Needs to happen after typeahead has been setup
+      // for the element to exist
+      this.$suggestionsMenu = $('.tt-menu');
     },
 
     // ==============================================
@@ -130,9 +135,12 @@ define(function(require) {
      */
     makeSuggestionsScrollable: function() {
       var maxMenuHeight = this.$msgBox[0].clientHeight;
-      $('.tt-menu')
+
+      if (!this.$suggestionsMenu) { return; }
+
+      this.$suggestionsMenu
         .css('max-height', maxMenuHeight)
-        .scrollTop($('.tt-menu')[0].scrollHeight);
+        .scrollTop(this.$suggestionsMenu[0].scrollHeight);
     },
 
     /**
@@ -148,7 +156,7 @@ define(function(require) {
       }
 
       // If the suggestions menu is visible, hide the avi
-      if ($('.tt-menu').is(':visible')) {
+      if (this.$suggestionsMenu && this.$suggestionsMenu.is(':visible')) {
         this.$avi.removeClass('overlay');
         this.showAvi(false);
       }
@@ -167,6 +175,7 @@ define(function(require) {
      */
     onSearchOpen: function() {
       var overlayMsg = this.getOverlayMsg();
+      var showAvi = this.$suggestionsMenu ? !this.$suggestionsMenu.is(':visible') : true;
 
       // Increase focus on suggestions by partialy hiding the conversation
       this.isSearchOpen = true;
@@ -178,7 +187,18 @@ define(function(require) {
         this.$avi.addClass('overlay');
       }
 
-      this.showAvi(!$('.tt-menu').is(':visible'));
+      this.showAvi(showAvi);
+    },
+
+    // Async suggestions for some reason don't trigger autoselect.
+    // Do it manually
+    onAsyncReceived: function() {
+      var firstSuggestion = $('.tt-menu .tt-suggestion') ?
+      $('.tt-menu .tt-suggestion').eq(0) : null;
+
+      if (firstSuggestion) {
+        firstSuggestion.addClass('tt-cursor');
+      }
     },
 
     /**
