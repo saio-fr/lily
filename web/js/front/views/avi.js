@@ -92,7 +92,7 @@ define(function(require) {
     },
 
     render: function() {
-      this.$el.html(this.template());
+      this.$el.html(this.template(this.model.toJSON()));
       this.trigger('render');
 
       return PageView.prototype.render.apply(this, arguments);
@@ -174,8 +174,8 @@ define(function(require) {
      * @return {undefined}
      */
     onSearchOpen: function() {
-      var overlayMsg = this.getOverlayMsg(),
-          showAvi = this.$suggestionsMenu ? !this.$suggestionsMenu.is(':visible') : true;
+      var overlayMsg = this.getOverlayMsg();
+      var showAvi = this.$suggestionsMenu ? !this.$suggestionsMenu.is(':visible') : true;
 
       // Increase focus on suggestions by partialy hiding the conversation
       this.isSearchOpen = true;
