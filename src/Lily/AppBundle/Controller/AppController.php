@@ -26,6 +26,7 @@ class AppController extends BaseController
         $chatAvailable = $this->isChatAvailable($licence);
         $synapsePassword = $this->getSynapsePassword($licence);
 
+        $ip = $this->container->get('request')->getClientIp();
         $session = $this->container->get('session');
         if (!$session->isStarted()) {
             $session->start();
@@ -35,6 +36,7 @@ class AppController extends BaseController
           array('licence' => $licence,
                 'synapsePassword' => $synapsePassword,
                 'config' => $config,
+                'visitorIp' => $ip,
                 'redirection' => $redirection,
                 'chatAvailable' => $chatAvailable
         ));

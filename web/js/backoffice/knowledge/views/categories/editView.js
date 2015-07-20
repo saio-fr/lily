@@ -47,6 +47,10 @@ define(function(require) {
         }, {
         success: function() {
           app.categories.collection.fetch();
+          app.track.click('Operator created new kb category', {
+            title: title,
+            parentCategory: parent
+          });
         }
       });
     }

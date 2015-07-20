@@ -1,5 +1,5 @@
 <?php
-	
+
 namespace Lily\UserBundle\Redirection;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
@@ -19,20 +19,20 @@ class UserRedirection implements AuthenticationSuccessHandlerInterface
         $this->security = $security;
         $this->container = $container;
     }
-    
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token){
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             $redirection = new RedirectResponse($this->router->generate('lily_admin'));
         } else {
             $redirection = new RedirectResponse($this->router->generate('lily_dashboard'));
-            
+
             $user = $this->security->getToken()->getUser();
-            
+
             // identify user to analytics
             $analytics = $this->container->get('analytics');
             $analytics->identify($user);
         }
-        
+
         return $redirection;
     }
 }

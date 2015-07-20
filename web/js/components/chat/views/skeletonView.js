@@ -75,9 +75,7 @@ define(function(require) {
     },
 
     openChatWindow: function() {
-      this.open({
-        removeOnClose: false
-      });
+      this.open({ removeOnClose: false });
     },
 
     add: function(user) {
@@ -88,23 +86,15 @@ define(function(require) {
       }
 
       if (user.get('operator') === parseInt(globals.userId, 10)) {
-        recordView = new RecordCurrent({
-          model: user
-        });
-        recordView.render();
+        recordView = new RecordCurrent({ model: user }).render();
       }
 
       if (!user.get('operator')) {
-        recordView = new RecordWaiting({
-          model: user
-        });
-        recordView.render();
+        recordView = new RecordWaiting({ model: user }).render();
       }
-
     },
 
     counters: function() {
-
       this.counter.current = this.$el.find('.list-current').children().length;
       this.$el.find('.header-current span').html(this.counter.current);
 
@@ -136,10 +126,11 @@ define(function(require) {
     },
 
     setActiveWindow: function(id, model) {
-
-      var that = this;
-
       model = model || this.collection.get(id);
+
+      var that = this,
+          existingView = that.windows.findByModel(model),
+          active = existingView ? true : false;
 
       if (!model) { return; }
 
@@ -148,9 +139,6 @@ define(function(require) {
           display: 'none'
         });
       }
-
-      var existingView = that.windows.findByModel(model),
-          active = existingView ? true : false;
 
       if (that.windows.length > 1 && that.informations) {
         that.informations.remove();
@@ -173,7 +161,6 @@ define(function(require) {
         );
 
         that.setWindows();
-
         return;
       }
 
@@ -204,16 +191,12 @@ define(function(require) {
     },
 
     unsetActiveWindow: function(cid) {
-
       var conversation = this.windows.findByCid(cid);
       this.windows.remove(conversation);
-
-
       this.setWindows();
     },
 
     setCurrent: function(id, model) {
-
       var that = this;
       model = model || this.collection.get(id);
 
@@ -233,7 +216,6 @@ define(function(require) {
     },
 
     setWindows: function() {
-
       var $conversations = $('.conversations').children(),
           $conversationList = $('.aside-chat-left'),
           $infoPanel = $('.aside-chat-right'),
@@ -263,14 +245,12 @@ define(function(require) {
       if ($container.width() > 1090) {
         $('.btn-group.windows').show();
       } else {
-
         $('.windows .dropdown-menu li:first-child a').trigger('click');
         $('.btn-group.windows').hide();
         $conversations.removeClass('multiple full-width half-width');
       }
 
       if ($container.height() < 900) {
-
         $('.windows .dropdown-menu li:nth-child(3) a').hide();
         if (this.maxWindows === 4) {
           $('.windows .dropdown-menu li:nth-child(2) a').trigger('click');
@@ -284,7 +264,6 @@ define(function(require) {
        * Show/Hide the list of current conversations:
        **/
       if ($container.width() > 768) {
-
         $conversationList.css({ display: 'table-cell' });
         $conversationsContainer.addClass('show-conversation-list');
       } else {

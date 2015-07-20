@@ -37,25 +37,19 @@ define(function(require) {
     },
 
     home: function() {
-
       this.navigate('/');
+
       if (config.chat.active &&
         config.home === 'chat' &&
         config.chatAvailable ||
         !app.isConversationClosed) {
 
-        this.navigate('chat', {
-          trigger: true
-        });
+        this.navigate('chat', { trigger: true });
       } else if (config.avi && config.avi.active) {
-        this.navigate('avi', {
-          trigger: true
-        });
+        this.navigate('avi', { trigger: true });
       } else {
         app.mailOnly = true;
-        this.navigate('mail', {
-          trigger: true
-        });
+        this.navigate('mail', { trigger: true });
       }
     },
 
@@ -64,36 +58,32 @@ define(function(require) {
           view = new AviView({ model: model});
 
       utils.goTo(view);
-      app.pageView('/avi');
+      app.trackPageView('Visitor saw page: Avi');
     },
 
     chat: function() {
       var view, model;
 
       if (config.chat.contactForm && app.showContactForm) {
-        this.navigate('welcome-screen', {
-          trigger: true
-        });
+        this.navigate('welcome-screen', { trigger: true });
       } else {
         model = new Backbone.Model(config.chat);
         view = new ChatView({ model: model });
         utils.goTo(view);
-        app.pageView('/chat');
+        app.trackPageView('Visitor saw page: chat');
       }
     },
 
     welcomeScreen: function() {
       var view = new ChatWelcomeScreenView();
-
+      app.trackPageView('Visitor saw page: welcomeScreen');
       utils.goTo(view);
-      app.pageView('/welcomeScreen');
     },
 
     mail: function() {
       var view = new MailView();
-
+      app.trackPageView('Visitor saw page: mail');
       utils.goTo(view);
-      app.pageView('/mail');
     }
 
   });

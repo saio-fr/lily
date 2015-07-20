@@ -10,6 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     app = require('backoffice/app'),
     _ = require('underscore'),
+    globals = require('globals'),
     SuggestionsListView = require('components/chat/views/shell/suggestionsListView'),
     AlertView = require('components/chat/views/shell/alertView'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
@@ -39,7 +40,7 @@ define(function(require) {
 
       if (options && options.appendEl) {
         this.appendEl = options.appendEl;
-        this.model = options.model
+        this.model = options.model;
       }
 
       this.childViews = new Backbone.ChildViewContainer();
@@ -53,7 +54,6 @@ define(function(require) {
     },
 
     render: function() {
-
       var container = $(this.appendEl);
 
       this.$el.html(this.template());
@@ -79,23 +79,14 @@ define(function(require) {
       this.editor.use(scribePluginToolbar(toolbarEl));
       this.editor.use(scribePluginPromptLink());
       this.editor.use(scribePluginShellCommand());
-      this.editor.use(scribePluginSanitizer({
-        tags: {
-          p: true,
-          b: true,
-          a: {
-            href: true,
-            target: '_blank'
-          }
-        }
-      }));
+      this.editor.use(scribePluginSanitizer(globals.wysiSanitize));
       this.editor.on('content-changed', this.makeLinksExternal.bind(this));
     },
 
     makeLinksExternal: function() {
       this.$('.editor')
-          .find('a')
-          .attr('target', '_blank');
+        .find('a')
+        .attr('target', '_blank');
     },
 
     initSuggestions: function () {
@@ -103,6 +94,7 @@ define(function(require) {
         visible: false,
         type: null
       };
+
       this.childViews.findByCustom('suggestionsView').hide();
     },
 
@@ -116,7 +108,6 @@ define(function(require) {
     },
 
     onShellRequest: function (e) {
-
       var textMsg = $(this.editor.el).text();
       var navAction = Shell.isNavigationAction(e);
       this.suggestions.type = Shell.isCommandType(textMsg);
@@ -151,7 +142,6 @@ define(function(require) {
       // Else we want to send the msg
       if (navAction === 'validate') {
         var htmlMsg = $.trim($(this.editor.el).html());
-        var textMsg = $.trim($(this.editor.el).text());
 
         if (textMsg.length) {
           this.sendMsg(htmlMsg);
@@ -160,7 +150,6 @@ define(function(require) {
     },
 
     onSelectSuggestion: function (selected) {
-
       var event = new CustomEvent('commandSelected', {
         detail: {
           commandTitle: selected.title
@@ -174,7 +163,6 @@ define(function(require) {
     },
 
     setSuggestions: function () {
-
       var commandsCollection,
       filteredCommands,
       translatedType,
@@ -248,11 +236,16 @@ define(function(require) {
     },
 
     sendMsg: function (msg) {
-
       app.trigger('chat:send', {
         message: msg,
         id: this.model.id
       });
+
+      app.track.funnel('Operator sent message to visitor', {
+        visitorId: this.model.id,
+        message: msg
+      });
+
       this.clearInput();
     },
 

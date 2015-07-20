@@ -17,17 +17,15 @@ define(['require', '../../common'], function(require) {
   'bootstrap'
 ], function($, _, Backbone, UserRouter, globals, app, LiveChat) {
 
-    app.init = function() {
+    function bootstrap() {
       app.router = new UserRouter();
+      Backbone.history.start();
 
       if (globals.chat && globals.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
-    };
+    }
 
-    app.ajaxConfig();
-    app.init();
-    app.wsConnect();
-    Backbone.history.start();
+    app.init(bootstrap);
   });
 });

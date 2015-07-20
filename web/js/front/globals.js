@@ -13,6 +13,8 @@ define(function(require) {
 
   _.extend(g, window.config);
 
+  g.app = 'frontApp';
+
   g.synapse = {
     user: window.config.licence,
     password: window.config.synapsePassword,

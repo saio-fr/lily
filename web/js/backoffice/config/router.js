@@ -53,7 +53,7 @@ define(function(require) {
           });
       });
 
-      app.pageView('/config');
+      app.trackPageView('Config page');
       // TODO: same as profile: route tabs and track page
     },
 

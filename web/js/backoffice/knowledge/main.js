@@ -19,15 +19,15 @@ define(['require', '../../common'], function(require) {
   'todoTpl'
 ], function($, _, Backbone, app, globals, Router, Counters, Interact, LiveChat) {
 
-  app.init = function() {
+  function bootstrap() {
     app.router = new Router();
+    Backbone.history.start();
     Interact.resizeNavigator();
-    Counters.set(config);
 
     if (globals.chat && globals.isChatOperator && !app.liveChat) {
       app.liveChat = new LiveChat();
     }
-  };
+  }
 
   app.post = function() {
     $('.icon-spinner').removeClass('hide');
@@ -38,9 +38,6 @@ define(['require', '../../common'], function(require) {
     });
   };
 
-  app.ajaxConfig();
-  app.init();
-  app.wsConnect();
-  Backbone.history.start();
+  app.init(bootstrap);
 });
 });

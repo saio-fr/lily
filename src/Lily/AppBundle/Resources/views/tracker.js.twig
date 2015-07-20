@@ -244,27 +244,38 @@
       this.firstOpen = true;
       this.widgetFirstShown = true;
       this.lilyIframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
+
       // (Useless for now)
       this.iframeHost = this.getIframeHost();
 
       // Append Iframe:
       this.appendIframe();
+
       // Get a reference to the iframe contentWindow:
       this.iframe = document.getElementById('lilyApp').contentWindow;
 
       // Listen to messages comming from Iframe:
       window.addEventListener("message", this.events.receiveFromIframe, false);
+
       // Bind UI Events :
       $widget.addEventListener("click",function() {
         self.onWidgetClick.apply(self, arguments);
       },false);
     };
 
-    this.onIframeLoad = function() {
+    this.onAppLoad = function() {
       // (Waiting for iframe message triggering showWidget method;)
       // Handshake to give iframe the host domain url and trigger a ga event in the iframe:
       this.events.send({
         title: 'Hello!',
+        callback: 'onGetHostOptions',
+        args: {
+          host: window.location.host || null,
+          path: window.location.pathname || null,
+          href: window.location.href || null,
+          protocol: window.location.protocol || null,
+          referrer: document.referrer || null
+        }
       });
     };
 
@@ -277,7 +288,7 @@
       this.events.send({
         title: "widget:click",
         callback: "onWidgetClick",
-        args: ["true"]
+        args: true
       });
 
     };
@@ -288,7 +299,7 @@
       this.events.send({
         title: "widget:click",
         callback: "onWidgetClick",
-        args: ["false"]
+        args: false
       });
     };
 
@@ -309,8 +320,8 @@
 
       this.events.send({
         title: "iframe:show",
-        callback: "onShowIframe",
-        args: [firstOpen]
+        callback: "onShowApp",
+        args: firstOpen
       });
       this.firstOpen = false;
     };
@@ -327,6 +338,7 @@
         title: "widget:show",
         callback: "onShowWidget",
       });
+
       this.widgetFirstShown = false;
     };
 

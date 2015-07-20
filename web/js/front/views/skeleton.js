@@ -51,7 +51,7 @@ define(function(require) {
           snapper.close();
         } else {
           snapper.open('left');
-          app.track('menu/open');
+          app.track.click('Openned menu by clicking the hamburger button');
         }
       });
 

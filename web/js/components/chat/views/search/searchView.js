@@ -27,10 +27,8 @@ define(function(require) {
       this.listenTo(this, 'search:close',        this.onSearchClose);
       this.listenTo(this, 'search:select',       this.getSearchResult);
 
-      this.listenTo(this, 'conversation:newMessage', this.onNewMessage);
-
       // Render \o/
-      this.render({ page: true }).$el.appendTo('.search-panel');
+      this.render().$el.appendTo('.search-panel');
 
       // OnAfterRender
       this.$input             = this.$('.search-input');
@@ -43,8 +41,7 @@ define(function(require) {
       this.setupSearch();
       this.refreshSuggestions();
 
-      this.$input
-        .on('keyup', this.onInputKeyup.bind(this));
+      this.$input.on('keyup', this.onInputKeyup.bind(this));
     },
 
     render: function() {
@@ -136,13 +133,18 @@ define(function(require) {
         return;
       }
 
+      // Track question asked
+      app.track.funnel('Search answer in KB from LiveChat', {
+        question: question,
+      });
+
       // Clear the search field
       that.clearInput();
 
       // 1) Get the answer from this question
       // ------------------------------------
       that.showLoading();
-      that.getAnswerFromId(id)
+      that.getAnswerFromId(id, question)
 
       // 2) Print answer
       // ------------------------------------
@@ -155,6 +157,7 @@ define(function(require) {
       // Try refreshing suggestions
       this.refreshSuggestions();
       this.printWarning('La réponse à cette question est inconnue. Il semblerait qu\'il y ait eu une erreur. Veuillez vérifier la base de connaissance');
+      app.track.error('Search in LiveChat failed (no answer found for that id)');
     },
 
     // ==============================================
@@ -193,7 +196,7 @@ define(function(require) {
      *  questionType string (question, action)
      *  answerType string (answer, precision)
      */
-    getAnswerFromId: function(id) {
+    getAnswerFromId: function(id, question) {
       return this.send('GET', '/' + config.licence + '/question/' + id);
     },
 
@@ -246,6 +249,11 @@ define(function(require) {
       // Simple answer
       if (!answer.children || answer.children.length <= 0) {
         this.printKbAnswer(answer.answer);
+        app.track.funnel('Showed KB answer in search view from LiveChat', {
+          answer: answer.answer,
+          answerId: answer.id
+        });
+
         return answer;
       }
     },
@@ -253,10 +261,7 @@ define(function(require) {
     remove: function() {
       // Destroy typeahead (will unbind any typeahead event bound to the input)
       this.suggest.destroy();
-
-      this.$input
-        .off('keyup');
-
+      this.$input.off('keyup');
       Backbone.View.prototype.remove.apply(this, arguments);
     }
 

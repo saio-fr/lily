@@ -64,6 +64,9 @@ define(function(require) {
     select: function(e) {
       e.preventDefault();
       app.trigger('conversation:setActive', this.id);
+      app.track.funnel('Operator opened conversation', {
+        visitorId: this.id,
+      });
     },
 
     onActiveChange: function(model) {
