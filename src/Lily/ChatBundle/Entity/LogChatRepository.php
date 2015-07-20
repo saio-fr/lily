@@ -30,9 +30,9 @@ class LogChatRepository extends EntityRepository
      *
      */
     public function numberOfConversations($operator = null, $start, $end, $interval = null) {
-        
+
         $qb = $this->createQueryBuilder('l');
-        
+
         // time_to_sec and timediff are personalized dql function, calling the correspondant sql function
         $qb->select('count(l) as value')
            ->where('UNIX_TIMESTAMP(l.start) >= :start')
@@ -52,7 +52,7 @@ class LogChatRepository extends EntityRepository
             return $qb->getQuery()->getResult();
         } else {
             return $qb->getQuery()->getSingleScalarResult() ?: 0;
-        }    
+        }
     }
 
     /**
@@ -73,7 +73,7 @@ class LogChatRepository extends EntityRepository
      */
     public function averageConversationTime($operator, $start, $end, $interval = null) {
         $qb = $this->createQueryBuilder('r');
-        
+
         // time_to_sec and timediff are personalized dql function, calling the correspondant sql function
         $qb->select('AVG(TIME_TO_SEC(TIMEDIFF(r.end, r.start))) as value')
            ->where('UNIX_TIMESTAMP(r.start) >= :start')
@@ -115,14 +115,14 @@ class LogChatRepository extends EntityRepository
      */
     public function averageWaited($operator, $start, $end, $interval = null) {
         $qb = $this->createQueryBuilder('r');
-        
+
         // UNIX_TIMESTAMP is a personalized dql function, calling the correspondant sql function
         $qb->select('avg(r.waited) as value');
         $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
            ->setParameter('end', $end);
-           
+
         if ($operator) {
             $qb->andWhere('r.operators LIKE :operator')
                ->setParameter('operator', '%'.$operator.'%');
@@ -157,7 +157,7 @@ class LogChatRepository extends EntityRepository
      */
     public function averageSatisfaction($operator, $start, $end, $interval = null) {
         $qb = $this->createQueryBuilder('r');
-        
+
         // UNIX_TIMESTAMP and ROUND are personalized dql functions, calling the correspondant sql functions
         $qb->select('avg(r.satisfaction) as value');
         $qb->where('UNIX_TIMESTAMP(r.start) >= :start')
@@ -165,7 +165,7 @@ class LogChatRepository extends EntityRepository
            ->andWhere('UNIX_TIMESTAMP(r.start) < :end')
            ->setParameter('end', $end)
            ->andWhere('r.satisfaction IS NOT NULL');
-           
+
         if ($operator) {
             $qb->andWhere('r.operators LIKE :operator')
                ->setParameter('operator', '%'.$operator.'%');
@@ -180,7 +180,7 @@ class LogChatRepository extends EntityRepository
             return $qb->getQuery()->getSingleScalarResult() ?: 0;
         }
     }
-    
+
     /**
      * Return the operator' conversations between period of time
      *
@@ -190,21 +190,33 @@ class LogChatRepository extends EntityRepository
      *
      */
     public function conversations($operator, $start, $end) {
-      
+
         $qb = $this->createQueryBuilder('l');
-        
+
         $qb->where('UNIX_TIMESTAMP(l.start) >= :start')
            ->setParameter('start', $start)
            ->andWhere('UNIX_TIMESTAMP(l.start) < :end')
            ->setParameter('end', $end);
-           
+
         if ($operator) {
             $qb->andWhere('l.operators LIKE :operator')
                ->setParameter('operator', '%'.$operator.'%');
         }
-        
+
         $qb->orderBy('l.start', 'DESC');
-		
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function dailyClientConversations() {
+
+        $yesterday = (new \DateTime())->modify('-24 hours');
+        $qb = $this->createQueryBuilder('l');
+
+        $qb->where('l.start >= :yesterday')
+           ->setParameter('yesterday', $yesterday);
+
+        $qb->orderBy('l.start', 'DESC');
         return $qb->getQuery()->getResult();
     }
 }
