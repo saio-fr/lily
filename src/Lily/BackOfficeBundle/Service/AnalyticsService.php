@@ -16,7 +16,7 @@ class AnalyticsService {
         $this->key = $key;
     }
 
-    public function track($id, $event, $properties) {
+    public function track($id, $event, $properties = null) {
         if ($this->enabled && $this->key) {
 
             Segment::Init($this->key);
