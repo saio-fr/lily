@@ -46,7 +46,7 @@ define(function(require) {
 
           app.connect().then(function(result) {
 
-            // Successfuly connected to ws server;
+            // Successfully connected to ws server;
             // Show widget on host site:
             app.onConnect(result);
             app.trigger('chat:connected');
@@ -256,7 +256,7 @@ define(function(require) {
         });
       });
 
-      app.track.submit('Successfuly sent personnal informations before chat');
+      app.track.submit('Successfully sent personal informations before chat');
     },
 
     setIsConversationClosed: function(closed) {
