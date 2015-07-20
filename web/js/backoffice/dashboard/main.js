@@ -24,7 +24,7 @@ define(['require', '../../common'], function(require) {
       app.skeleton = new SkeletonView();
       app.pageView('/dashboard');
 
-      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+      if (globals.chat && globals.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
     };
