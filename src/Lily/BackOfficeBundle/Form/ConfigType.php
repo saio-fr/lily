@@ -15,15 +15,13 @@ class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('faq')
-            ->add('topquestions')
             ->add('home')
             ->add('maintenance')
             ->add('chat',new ConfigChatType())
             ->add('avi',new ConfigAviType())
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

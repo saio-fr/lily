@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ClientConfig
 {
-	
+
     /**
      * @var integer
      *
@@ -27,35 +27,21 @@ class ClientConfig
      * @ORM\Column(name="maintenance", type="boolean")
      */
     protected $maintenance = false;
-    
+
     /**
      * @var boolean
      * @Assert\NotBlank()
      * @ORM\Column(name="chat", type="boolean")
      */
     protected $chat;
-    
+
     /**
      * @var boolean
      * @Assert\NotBlank()
      * @ORM\Column(name="avi", type="boolean")
      */
     protected $avi;
-    
-    /**
-     * @var boolean
-     * @Assert\NotBlank()
-     * @ORM\Column(name="faq", type="boolean")
-     */
-    protected $faq;
-    
-    /**
-     * @var boolean
-     * @Assert\NotBlank()
-     * @ORM\Column(name="topquestions", type="boolean")
-     */
-    protected $topquestions;
-    
+
     /**
      * @var integer
      * @Assert\NotBlank()
@@ -67,7 +53,7 @@ class ClientConfig
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -90,7 +76,7 @@ class ClientConfig
     /**
      * Get maintenance
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getMaintenance()
     {
@@ -113,7 +99,7 @@ class ClientConfig
     /**
      * Get chat
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getChat()
     {
@@ -136,57 +122,11 @@ class ClientConfig
     /**
      * Get avi
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAvi()
     {
         return $this->avi;
-    }
-
-    /**
-     * Set faq
-     *
-     * @param boolean $faq
-     * @return ClientConfig
-     */
-    public function setFaq($faq)
-    {
-        $this->faq = $faq;
-
-        return $this;
-    }
-
-    /**
-     * Get faq
-     *
-     * @return boolean 
-     */
-    public function getFaq()
-    {
-        return $this->faq;
-    }
-
-    /**
-     * Set topquestions
-     *
-     * @param boolean $topquestions
-     * @return ClientConfig
-     */
-    public function setTopquestions($topquestions)
-    {
-        $this->topquestions = $topquestions;
-
-        return $this;
-    }
-
-    /**
-     * Get topquestions
-     *
-     * @return boolean 
-     */
-    public function getTopquestions()
-    {
-        return $this->topquestions;
     }
 
     /**
@@ -205,7 +145,7 @@ class ClientConfig
     /**
      * Get maxusers
      *
-     * @return integer 
+     * @return integer
      */
     public function getMaxusers()
     {

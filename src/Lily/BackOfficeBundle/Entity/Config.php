@@ -20,124 +20,62 @@ class Config
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigChat", cascade={"persist", "remove"})
      */
     protected $chat;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="Lily\BackOfficeBundle\Entity\ConfigAvi", cascade={"persist", "remove"})
      */
-    protected $avi;  
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="faq", type="boolean")
-     */
-    protected $faq;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="topquestions", type="boolean")
-     */
-    protected $topquestions;
+    protected $avi;
 
     /**
      * @var string
      *
      * @ORM\Column(name="home", type="string", length=10)
      */
-    protected $home;   
-    
+    protected $home;
+
     /**
      * @var string
      *
      * @ORM\Column(name="theme", type="string", length=20)
      */
-    protected $theme; 
-        
+    protected $theme;
+
     /**
      * @var text
      *
      * @ORM\Column(name="widget", type="text")
      */
-    protected $widget; 
-     
-    
+    protected $widget;
+
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="maintenance", type="boolean")
      */
     protected $maintenance;
-    
+
     public function __construct()
-    {   
+    {
     		$this->theme = 'lily';
-    		$this->faq = true;
-    		$this->topquestions = true;
     		$this->maintenance = false;
         $this->widget = '<h3>Vous avez une question ?</h3>';
 	  }
-   
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set faq
-     *
-     * @param boolean $faq
-     * @return Config
-     */
-    public function setFaq($faq)
-    {
-        $this->faq = $faq;
-
-        return $this;
-    }
-
-    /**
-     * Get faq
-     *
-     * @return boolean 
-     */
-    public function getFaq()
-    {
-        return $this->faq;
-    }
-
-    /**
-     * Set topquestions
-     *
-     * @param boolean $topquestions
-     * @return Config
-     */
-    public function setTopquestions($topquestions)
-    {
-        $this->topquestions = $topquestions;
-
-        return $this;
-    }
-
-    /**
-     * Get topquestions
-     *
-     * @return boolean 
-     */
-    public function getTopquestions()
-    {
-        return $this->topquestions;
     }
 
     /**
@@ -156,7 +94,7 @@ class Config
     /**
      * Get home
      *
-     * @return string 
+     * @return string
      */
     public function getHome()
     {
@@ -179,7 +117,7 @@ class Config
     /**
      * Get theme
      *
-     * @return string 
+     * @return string
      */
     public function getTheme()
     {
@@ -202,7 +140,7 @@ class Config
     /**
      * Get maintenance
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getMaintenance()
     {
@@ -248,7 +186,7 @@ class Config
     /**
      * Get avi
      *
-     * @return \Lily\BackOfficeBundle\Entity\ConfigAvi 
+     * @return \Lily\BackOfficeBundle\Entity\ConfigAvi
      */
     public function getAvi()
     {
@@ -271,7 +209,7 @@ class Config
     /**
      * Get widget
      *
-     * @return string 
+     * @return string
      */
     public function getWidget()
     {
