@@ -36,7 +36,7 @@ define(function(require) {
 
     category: function(id) {
       this.showView(id);
-      app.pageView('/faq/' + id || '');
+      app.trackPageView('Faq page, id: ' + id || '');
     },
 
     showView: function(id) {
@@ -96,7 +96,7 @@ define(function(require) {
     },
 
     notFound: function() {
-      // Show modal with error:      
+      // Show modal with error:
       var modal = app.createModal.alert(globals.modalAlert.faq);
     }
 

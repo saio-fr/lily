@@ -220,7 +220,9 @@ class OperatorService {
                 if ($item->available) {
                     // Send informations to analytics
                     $analytics = $this->container->get('analytics');
-                    $analytics->track($item->id, 'unavailable');
+                    $analytics->track($item->id, 'Operator is unavailable', array(
+                        'client' => $client->licence
+                    ));
                 }
 
                 $item->available = false;
@@ -245,7 +247,9 @@ class OperatorService {
                 if (!$item->available) {
                     // Send informations to analytics
                     $analytics = $this->container->get('analytics');
-                    $analytics->track($item->id, 'available');
+                    $analytics->track($item->id, 'Operator is available', array(
+                        'client' => $client->licence
+                    ));
                 }
 
                 $item->available = true;

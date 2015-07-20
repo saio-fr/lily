@@ -16,18 +16,16 @@ define(['require', '../../common'], function(require) {
   'todoTpl',
 ], function($, _, Backbone, app, globals, SkeletonView, LiveChat) {
 
-    app.init = function() {
+    function bootstrap() {
       app.skeleton = new SkeletonView();
-      app.pageView('/redirection');
+      Backbone.history.start();
+      app.trackPageView('Redirection page');
 
-      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+      if (globals.chat && globals.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
-    };
+    }
 
-    app.ajaxConfig();
-    app.init();
-    app.wsConnect();
-    Backbone.history.start();
+    app.init(bootstrap);
   });
 });

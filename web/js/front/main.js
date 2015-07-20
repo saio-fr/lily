@@ -12,12 +12,14 @@ define(function(require) {
     config.isMobile = isMobile;
     app.skeleton = new SkeletonView();
 
-    if (config.isMobile) {
-      app.onShowIframe();
+    if (config.standaloneMode) {
+      app.onShowApp();
     }
   };
 
   config.sid = app.getSessionId();
+  config.standaloneMode = !app.appInIframe();
+
   if (!config.sid) {
     // We were unable to store an uniqid
     // We won't show the widget
@@ -25,6 +27,19 @@ define(function(require) {
     console.log('unable to generate uniqid');
     return;
   }
+
+  // Register unique user with session Id & ip
+  app.registerUser(config.sid, {
+    visitorIp: config.visitorIp
+  });
+
+  // Register session super properties
+  app.registerProperties({
+    client: config.licence,
+    visitorIp: config.visitorIp,
+    standalone: config.standaloneMode,
+    app: 'frontApp'
+  });
 
   app.wsConnect(function(result) {
     app.isConnectionActive = true;
@@ -38,16 +53,7 @@ define(function(require) {
   // On Dom loaded
   $(function() {
 
-    // App loading in an iframe (on the host website)
-    function appInIframe () {
-      try {
-        return window.self !== window.top;
-      } catch (e) {
-        return true;
-      }
-    }
-
-    if (appInIframe()) {
+    if (!config.standaloneMode) {
       // Remove reduce icon
       $('body').addClass('embedded');
     }

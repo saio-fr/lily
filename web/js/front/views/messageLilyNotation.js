@@ -42,9 +42,8 @@ MessageLilyNotation = MessageView.extend({
   },
 
   satisfaction: function(e) {
-
     var target = $(e.target),
-      satisfaction, msg;
+        satisfaction, msg;
 
     this.$el.find('.lily-notation-list').removeClass('active');
 
@@ -57,7 +56,6 @@ MessageLilyNotation = MessageView.extend({
     }
 
     msg = this.model.get('messageContent');
-
     if (!msg) { return; }
 
     app.trigger('avi:satisfaction', satisfaction, msg);

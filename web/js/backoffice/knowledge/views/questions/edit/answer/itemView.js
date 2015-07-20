@@ -10,6 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('backoffice/app'),
+    globals = require('globals'),
     Scribe = require('scribe'),
     scribePluginToolbar = require('scribe-plugin-toolbar'),
     scribePluginSanitizer = require('scribe-plugin-sanitizer'),
@@ -60,16 +61,7 @@ define(function(require) {
       });
       scribe.use(scribePluginToolbar(toolbar));
       scribe.use(scribePluginPromptLink());
-      scribe.use(scribePluginSanitizer({
-        tags: {
-          p: true,
-          b: true,
-          a: {
-            href: true,
-            target: '_blank'
-          }
-        }
-      }));
+      scribe.use(scribePluginSanitizer(globals.wysiSanitize));
       scribe.on('content-changed', this.makeLinksExternal.bind(this));
     },
 
@@ -100,19 +92,19 @@ define(function(require) {
       var that = this;
 
       $('body').on('click', function (e) {
-        
+
         // Ugly but we need such to prevent loosing focus
         // when click on modal etc
         var cond1 = !$(e.target).parents('.answer.editing').length,
             cond2 = !$(e.target).parents('.modal').length;
-        
+
         if (cond1 && cond2 && getSelection().toString() === '') {
             that.$('.editing').removeClass('editing');
             $('body').off('click');
         }
       });
     },
-    
+
     leaveEditAnswer: function () {
       var answer = this.$('.child .editor').first().html();
       this.model.set({answer: answer});

@@ -28,35 +28,42 @@ define(function(require) {
     },
 
     initialize: function() {
-      
+
       this.childViews = new Backbone.ChildViewContainer();
       this.listenTo(app, 'remove:alternativeView', this.removeChildView);
       this.render();
     },
 
     render: function() {
-      var that = this
+      var that = this;
       var alternatives = this.model.get('alternatives');
-      
+
       $.each(alternatives, function (index, alt) {
         that.add(alt);
       });
 
       return this;
     },
-    
+
     create: function () {
-      this.add();
+      var that = this;
+      that.add();
     },
-      
+
     add: function (alt) {
+      var that;
       var model = new Models.AlternativeQuestion();
       if (alt) {
         model.set(alt);
+        app.track.funnel('Add new alternative formulation for that question', {
+          question: that.model.get('title')
+        });
       }
+
       var altView = new AlternativeItemView({
         model: model
       });
+
       $('.js-alternatives-list').append(altView.render().el);
       this.childViews.add(altView);
     },
@@ -64,7 +71,7 @@ define(function(require) {
     update: function () {
       var that = this;
       var alternatives = [];
-      
+
       this.childViews.forEach(function(view) {
         alternatives.push(view.model.toJSON());
       });
@@ -72,25 +79,25 @@ define(function(require) {
       this.model.set({
         alternatives: alternatives
       });
-      
+
       return when(this.model.get('alternatives'));
     },
-    
+
     removeChildView: function (view) {
-      
+
       var childView = this.childViews.findByCid(view.cid);
-      
+
       if (typeof(childView) !== 'undefined') {
         this.childViews.remove(childView);
         childView.remove();
       }
     },
 
-    
+
     remove: function () {
-      
+
       var that = this;
-      
+
       this.childViews.forEach(function (view) {
         // delete index for that view
         that.childViews.remove(view);

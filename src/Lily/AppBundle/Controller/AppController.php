@@ -26,6 +26,7 @@ class AppController extends BaseController
         $chatAvailable = $this->isChatAvailable($licence);
         $synapsePassword = $this->getSynapsePassword($licence);
 
+        $ip = $this->container->get('request')->getClientIp();
         $session = $this->container->get('session');
         if (!$session->isStarted()) {
             $session->start();
@@ -35,6 +36,7 @@ class AppController extends BaseController
           array('licence' => $licence,
                 'synapsePassword' => $synapsePassword,
                 'config' => $config,
+                'visitorIp' => $ip,
                 'redirection' => $redirection,
                 'chatAvailable' => $chatAvailable
         ));
@@ -67,88 +69,6 @@ class AppController extends BaseController
     }
 
     /**
-     * @Get("/{licence}/faq/{id}")
-     * @View()
-     */
-    public function getFaqAction($licence, $id) {
-
-        // On initialise nos variables
-        $em = $this->getEntityManager($licence);
-        $session = $this->container->get('session');
-
-        if (strtolower($id) == 'null') { $id = NULL; }
-
-        // On récupère les catégories enfants
-        $faqs = $em->getRepository('LilyKnowledgeBundle:Faq')
-        ->findByParent($id);
-
-        if ($id) {
-
-            // On récupère l'id du parent
-            $faq = $em->getRepository('LilyKnowledgeBundle:Faq')
-            ->findOneById($id);
-
-            // On crée un log de requete
-            $request = new LogRequest();
-            $request->setSession($request->cookies->get('PHPSESSID'));
-
-            $this->setMedia($request);
-            $request->setFaq($faq);
-
-            $em->persist($request);
-            $em->flush();
-
-            $title = $faq->getTitle();
-
-            if ($faq->getParent()) { $parent = $faq->getParent()->getId(); }
-            else { $parent = 'NULL'; }
-
-        } else {
-            $id = 'NULL';
-            $parent = 'NULL';
-            $title = 'NULL';
-        }
-
-        return array(
-            'parent' => $parent,
-            'id' => $id,
-            'title' => $title,
-            'faqs' => $faqs
-        );
-    }
-
-    /**
-     * @Get("/{licence}/top-questions/{id}")
-     * @View()
-     */
-    public function getTopQuestionsAction($licence, $id) {
-
-        $em = $this->getEntityManager($licence);
-
-        $from = new \Datetime('-1 month');
-        $to = new \Datetime();
-
-        if (!$id) {
-            // On récupère le top des questions
-            $requests = $em->getRepository('LilyAppBundle:LogRequest')
-            ->topQuestions($from, $to, 10);
-
-            $questions = [];
-
-            foreach ($requests as $item) {
-                $question = $item[0];
-                $questions[] = $question;
-            }
-
-        } else {
-            $questions = $em->getRepository('LilyKnowledgeBundle:Question')
-            ->find($id);
-        }
-
-        return $questions;
-    }
-
-    /**
      * @Post("/{licence}/mail")
      */
     public function postEmailAction($licence, Request $request) {
@@ -172,7 +92,7 @@ class AppController extends BaseController
             $this->renderView(
                 '::mails/redirection.txt.twig',
                 array(
-                  'from' => $from, 
+                  'from' => $from,
                   'msg' => $msg,
                   'date' => $date,
                   'time' => $time,

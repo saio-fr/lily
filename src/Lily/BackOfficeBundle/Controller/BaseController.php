@@ -13,38 +13,38 @@ use \ZMQ;
 
 class BaseController extends FOSRestController implements ClassResourceInterface
 {
-    
+
     protected function getClient()
     {
-        $client = $this->getUser()->getClient();   		     
+        $client = $this->getUser()->getClient();
         return $client;
     }
-    
+
     protected function getLicence()
     {
-        $licence = $this->getClient()->getLicence();  		     
+        $licence = $this->getClient()->getLicence();
         return $licence;
     }
-    
+
     protected function getEntityManager()
-    {	   	  			  
+    {
         $connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', 'client'));
-	
+
         $refConn = new \ReflectionObject($connection);
         $refParams = $refConn->getProperty('_params');
         $refParams->setAccessible('public'); //we have to change it for a moment
-	
+
         $params = $refParams->getValue($connection);
         $params['dbname'] = $this->getLicence();
-	
+
         $refParams->setAccessible('private');
         $refParams->setValue($connection, $params);
-	    
+
         return $this->get('doctrine')->getManager('client');
     }
-    
-    protected function getForm($type, $entity, $request) 
-    {      
+
+    protected function getForm($type, $entity, $request)
+    {
         $request = json_decode($request->getContent(), true);
         $form = $this->createForm($type, $entity);
         $form->bind($request);
@@ -68,30 +68,63 @@ class BaseController extends FOSRestController implements ClassResourceInterface
 
         return $entity;
     }
-    
+
+    protected function getConfig($licence)
+    {
+  	    $cache = $this->get('aequasi_cache.instance.default');
+  	    $config = $cache->fetch($licence.'_config_app');
+
+        if (!$config) {
+            // App
+            $config = $this->getEntityManager($licence)
+            ->getRepository('LilyBackOfficeBundle:Config')
+            ->findOneById(1);
+
+            // Client Config
+      			$em = $this->getDoctrine()->getManager();
+      			$client = $em->getRepository('LilyUserBundle:Client')
+            ->findOneByLicence($licence)
+            ->getConfig();
+
+            $avi = $config->getAvi();
+            $redirections = $avi->getRedirections();
+            $chat = $config->getChat();
+
+            $avi->setActive($avi->getActive() && $client->getAvi());
+            $chat->setActive($chat->getActive() && $client->getChat());
+            // Little hack to persist entity into memcached
+            $redirections->setMail($redirections->getMail());
+
+            $config->setMaintenance($config->getMaintenance() && $client->getMaintenance());
+            $config->setAvi($avi);
+            $config->setChat($chat);
+
+            $cache->save( $licence.'_config_app', $config, 0);
+		    }
+        return $config;
+    }
+
     protected function publishConfig($config) {
 
         $licence = $this->getLicence();
         $cache = $this->get('aequasi_cache.instance.default');
-        
+
         // Client Config
   			$em = $this->getDoctrine()->getManager();
   			$client = $em->getRepository('LilyUserBundle:Client')
         ->findOneByLicence($licence)
         ->getConfig();
-                    
+
         $avi = $config->getAvi();
         $redirections = $avi->getRedirections();
         $chat = $config->getChat();
-        
-        $avi->setActive($avi->getActive() && $client->getAvi());  
+
+        $avi->setActive($avi->getActive() && $client->getAvi());
         $chat->setActive($chat->getActive() && $client->getChat());
         // Little hack to persist entity into memcached
         $redirections->setMail($redirections->getMail());
-        
+
         $config->setMaintenance($config->getMaintenance() || $client->getMaintenance());
-        $config->setTopquestions($config->getTopquestions() && $client->getTopquestions());
-        $config->setFaq($config->getFaq() && $client->getFaq());
         $config->setAvi($avi);
         $config->setChat($chat);
 

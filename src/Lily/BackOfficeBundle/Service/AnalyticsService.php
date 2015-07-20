@@ -23,7 +23,8 @@ class AnalyticsService {
 
             Segment::track(array(
                 'userId' => $id,
-                'event'  => $event
+                'event'  => $event,
+                'properties' => $properties
             ));
 
             Segment::flush();

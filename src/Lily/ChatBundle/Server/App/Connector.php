@@ -261,7 +261,9 @@ class Connector implements WampServerInterface, MessageComponentInterface {
                         if ($item->available) {
                             // Send information to mixpanel
                             $analytics = $this->container->get('analytics');
-                            $analytics->track($item->id, 'unavailable');
+                            $analytics->track($item->id, 'Operator is unavailable', array(
+                                'client' => $client->licence
+                            ));
                         }
 
                         $item->available = false;

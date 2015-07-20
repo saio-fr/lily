@@ -74,9 +74,8 @@ define(function(require) {
         });
       });
 
-      app.pageView("/profile");
+      app.trackPageView('Profile page');
       // TODO: route by tab and track different sections.
-
     },
 
     home: function() {}

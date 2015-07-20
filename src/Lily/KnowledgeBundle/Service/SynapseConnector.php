@@ -1,22 +1,22 @@
 <?php
-  
+
 namespace Lily\KnowledgeBundle\Service;
 
 use Lily\KnowledgeBundle\Service\SynapseClient;
 
 Class SynapseConnector {
-  
+
     public $client;
 
     public function __construct(SynapseClient $synapse)
-    {	
+    {
         $this->synapse = $synapse;
     }
-    
+
     public function addQuestionAnswer($client, $question) {
-      
+
         $licence = $client->getLicence();
-        
+
         $json = json_encode(array(
             "answer" => array(
                 "id" => "r_".$question->getId(),
@@ -28,17 +28,16 @@ Class SynapseConnector {
                 "id" => "q_".$question->getId()."_0",
                 "text" => strip_tags($question->getTitle()))
         ));
-        
+
         $res = $this->synapse->addquestionanswer([
-            "licence" => $licence,
             "request" => $json
         ]);
     }
-    
+
     public function updateQuestionAnswer($client, $question) {
-              
+
         $licence = $client->getLicence();
-        
+
         // Update Question
         $json = json_encode(array(
             "credentials" => array(
@@ -48,12 +47,12 @@ Class SynapseConnector {
                 "id" => "q_".$question->getId()."_0",
                 "text" => strip_tags($question->getTitle()))
         ));
-        
+
         $res = $this->synapse->updatequestion([
             "licence" => $licence,
             "request" => $json
         ]);
-        
+
         // Update answer
         $json = json_encode(array(
             "credentials" => array(
@@ -63,18 +62,17 @@ Class SynapseConnector {
                 "id" => "r_".$question->getId(),
                 "text" => strip_tags($question->getAnswer()))
         ));
-        
+
         $res = $this->synapse->updateanswer([
-            "licence" => $licence,
             "request" => $json
         ]);
-      
+
     }
-    
+
     public function removeAnswer($client, $question) {
-           
+
         $licence = $client->getLicence();
-        
+
         // Update answer
         $json = json_encode(array(
             "credentials" => array(
@@ -82,18 +80,17 @@ Class SynapseConnector {
                 "user" => $licence),
             "id" => "r_".$question->getId()
         ));
-        
+
         $res = $this->synapse->removeanswer([
-            "licence" => $licence,
             "request" => $json
         ]);
-      
+
     }
 
     public function addAdditionalQuestion($client, $alt) {
-              
+
         $licence = $client->getLicence();
-        
+
         // Update Question
         $json = json_encode(array(
             "credentials" => array(
@@ -105,17 +102,16 @@ Class SynapseConnector {
                 "answerId" => "r_".$alt->getQuestion()->getId()
             ),
         ));
-        
+
         $res = $this->synapse->addadditionalquestion([
-            "licence" => $licence,
             "request" => $json
         ]);
     }
-    
+
     public function updateQuestion($client, $alt) {
-      
+
         $licence = $client->getLicence();
-      
+
         // Update Question
         $json = json_encode(array(
             "credentials" => array(
@@ -125,17 +121,16 @@ Class SynapseConnector {
                 "id" => "q_".$alt->getQuestion()->getId()."_".$alt->getId(),
                 "text" => strip_tags($alt->getTitle()))
         ));
-        
+
         $res = $this->synapse->updatequestion([
-            "licence" => $licence,
             "request" => $json
         ]);
     }
 
     public function removeQuestion($client, $alt) {
-      
+
         $licence = $client->getLicence();
-      
+
         // Update Question
         $json = json_encode(array(
             "credentials" => array(
@@ -143,11 +138,39 @@ Class SynapseConnector {
                 "user" => $licence),
             "id" => "q_".$alt->getQuestion()->getId()."_".$alt->getId()
         ));
-        
+
         $res = $this->synapse->removequestion([
-            "licence" => $licence,
             "request" => $json
         ]);
     }
-  
+
+    public function resetData($client) {
+
+        $licence = $client->getLicence();
+
+        // Update Question
+        $json = json_encode(array(
+            "password" => $client->getSynapsePassword(),
+            "user" => $licence
+        ));
+
+        $res = $this->synapse->resetdata([
+            "request" => $json
+        ]);
+    }
+
+    public function buildIndex($client) {
+
+        $licence = $client->getLicence();
+
+        $json = json_encode(array(
+            "password" => $client->getSynapsePassword(),
+            "user" => $licence
+        ));
+
+        $res = $this->synapse->buildindex([
+            "request" => $json
+        ]);
+    }
+
 }

@@ -15,7 +15,6 @@ define(function(require) {
     AviView               = require('front/views/avi'),
     ChatView              = require('front/views/chat'),
     MailView              = require('front/views/mail'),
-    FaqView               = require('front/views/faq'),
     Models                = require('front/data/models'),
     Collections           = require('front/data/collections'),
     ContentView           = require('front/views/content'),
@@ -34,33 +33,23 @@ define(function(require) {
       'chat': 'chat',
       'welcome-screen': 'welcomeScreen',
       'avi': 'avi',
-      'mail': 'mail',
-      'faq': 'faq',
-      'faq/': 'faq',
-      'faq/:parent': 'faq',
-      'faq/:parent/content/:id': 'content'
+      'mail': 'mail'
     },
 
     home: function() {
-
       this.navigate('/');
+
       if (config.chat.active &&
         config.home === 'chat' &&
         config.chatAvailable ||
         !app.isConversationClosed) {
 
-        this.navigate('chat', {
-          trigger: true
-        });
+        this.navigate('chat', { trigger: true });
       } else if (config.avi && config.avi.active) {
-        this.navigate('avi', {
-          trigger: true
-        });
+        this.navigate('avi', { trigger: true });
       } else {
         app.mailOnly = true;
-        this.navigate('mail', {
-          trigger: true
-        });
+        this.navigate('mail', { trigger: true });
       }
     },
 
@@ -69,97 +58,34 @@ define(function(require) {
           view = new AviView({ model: model});
 
       utils.goTo(view);
-      app.pageView('/avi');
+      app.trackPageView('Visitor saw page: Avi');
     },
 
     chat: function() {
       var view, model;
 
       if (config.chat.contactForm && app.showContactForm) {
-        this.navigate('welcome-screen', {
-          trigger: true
-        });
+        this.navigate('welcome-screen', { trigger: true });
       } else {
         model = new Backbone.Model(config.chat);
         view = new ChatView({ model: model });
         utils.goTo(view);
-        app.pageView('/chat');
+        app.trackPageView('Visitor saw page: chat');
       }
     },
 
     welcomeScreen: function() {
       var view = new ChatWelcomeScreenView();
-
+      app.trackPageView('Visitor saw page: welcomeScreen');
       utils.goTo(view);
-      app.pageView('/welcomeScreen');
     },
 
     mail: function() {
       var view = new MailView();
-
+      app.trackPageView('Visitor saw page: mail');
       utils.goTo(view);
-      app.pageView('/mail');
-    },
-
-    faq: function(id) {
-
-      id = id || "NULL";
-      var router = this,
-        view;
-
-      app.faqCollection = app.faqCollection || new Collections.Faqs();
-      api.getFaqModel(id).then(function(model) {
-
-        app.faqCollection.add(model);
-
-        view = new FaqView({
-          model: model
-        });
-
-        utils.goTo(view);
-      }, function(err) {
-        console.log(err);
-
-        router.navigate('faq', {
-          trigger: true
-        });
-      });
-
-      app.pageView('/faq/' + id);
-    },
-
-    content: function(parent, id) {
-
-      var router = this,
-        faq, contentModel, view;
-
-      api.getFaqModel(parent).then(function(model) {
-
-        faq = _.find(model.get('faqs'), function(faq) {
-          return faq.id.toString() === id;
-        });
-
-        contentModel = new Models.Content({
-          parent: parent,
-          id: id,
-          title: faq.title,
-          content: faq.content
-        });
-
-        view = new ContentView({
-          model: contentModel
-        });
-
-        utils.goTo(view);
-
-      }, function(err) {
-        router.navigate('/', {
-          trigger: true
-        });
-      });
-
-      app.pageView('/faq/' + 'content/' + id);
     }
+
   });
 
   return Router;

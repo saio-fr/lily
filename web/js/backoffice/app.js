@@ -14,13 +14,37 @@ define(function(require) {
       $           = require('jquery'),
       Backbone    = require('backbone'),
       Moment      = require('moment'),
-      globals     = require('globals'),
       config      = require('globals'),
+      analytics   = require('utils/analytics'),
       ab          = require('autobahn'),
       createModal = require('components/modals/main'),
       timers      = require('components/chat/utils/timers'),
 
     app = {
+
+      init: function(callback) {
+        app.setAjaxConfig();
+
+        // Register unique user with session Id & ip
+        app.registerUser(config.userId, {
+          visitorIp: config.visitorIp,
+        });
+
+        // Register session super properties
+        app.registerProperties({
+          client: config.licence,
+          visitorIp: config.visitorIp,
+          app: 'backofficeApp'
+        });
+
+        // Connect to the real time server
+        app.wsConnect();
+
+        // Call the callback method (bootstrap the page)
+        if (_.isFunction(callback)) {
+          callback();
+        }
+      },
 
       ////////////////////
       // Modal component
@@ -107,14 +131,14 @@ define(function(require) {
         return app.ws.call('operator/connect');
       },
 
-      ajaxConfig: function() {
+      setAjaxConfig: function() {
         $.ajaxPrefilter(function(options) {
           if (options.external) {
-            options.url = globals.appRoot + options.url;
+            options.url = config.appRoot + options.url;
           } else if (options.url.match(/^(http|www)/)) {
             options.url = options.url;
           } else  {
-            options.url = globals.root + options.url;
+            options.url = config.root + options.url;
           }
         });
 
@@ -161,6 +185,7 @@ define(function(require) {
 
       showLiveChatModal: function() {
         app.trigger('chatWindow:open');
+        app.track.funnel('Show operator chat modal');
       },
 
       hideLiveChatModal: function() {
@@ -181,24 +206,12 @@ define(function(require) {
         app.ws.publish('visitor/' + config.licence + '/' + msg.id, msg.message);
       },
 
-      // onChatWriting: function(writing) {
-      //   app.ws.call('operator/writing', {
-      //     writing: writing
-      //   });
-      // },
-
       onConversationClose: function(id) {
-        app.ws.call('operator/close', {
-          sid: id
-        });
-        app.trigger('conversation:closed', id);
+        app.ws.call('operator/close', { sid: id });
       },
 
       onConversationBan: function(id) {
-        app.ws.call('operator/ban', {
-          sid: id
-        });
-        app.trigger('conversation:banned', id);
+        app.ws.call('operator/ban', { sid: id });
       },
 
       onConversationTransfer: function(sid, id) {
@@ -206,7 +219,6 @@ define(function(require) {
           sid: sid,
           operator: id
         });
-        app.trigger('conversation:transfered', sid);
       },
 
       onChangeName: function(sid, name) {
@@ -231,9 +243,7 @@ define(function(require) {
       },
 
       onSetOperator: function(id) {
-        return app.ws.call('operator/setOperator', {
-          sid: id
-        });
+        return app.ws.call('operator/setOperator', { sid: id });
       },
 
       setOperator: function(id) {
@@ -246,44 +256,13 @@ define(function(require) {
 
       onConnectionError: function() {
         if (!app.modalConnectionLost) {
-          app.modalConnectionLost = app.createModal.alert(globals.modalAlert.wsConnectionLost);
+          app.modalConnectionLost = app.createModal.alert(config.modalAlert.wsConnectionLost);
         }
+
         if (!app.modalConnectionLost.$el.is(':visible')) {
           app.modalConnectionLost.open();
+          app.track.error('Connection was lost with the real time server');
         }
-      },
-
-      ////////////////////
-      //    GA Utils
-      ////////////////////
-
-      pageView: function(page) {
-        var url = page || Backbone.history.fragment;
-        if (_.isFunction(window.ga)) {
-          window.ga('send', 'pageview', {
-            'page': url,
-            'title': config.licence
-          });
-        }
-      },
-
-      track: function(event, options, value) {
-        var category = config.licence,
-          action = event,
-          label = tostring(options);
-        if (_.isFunction(window.ga)) {
-          window.ga('send', 'event', category, action, label, value);
-        }
-
-        function tostring(obj) {
-          var str = '';
-          for (var p in obj) {
-            if (obj.hasOwnProperty(p)) {
-              str += p + '::' + obj[p] + '\n';
-            }
-          }
-        }
-
       },
 
       //////////////////////
@@ -312,13 +291,13 @@ define(function(require) {
 
     };
 
-  _.extend(app, Backbone.Events);
+  _.extend(app, Backbone.Events, analytics(config));
   _.extend(app.createModal, createModal);
 
   // Chat status events:
   app.on('chat:open',         app.onChatOpen);
   app.on('chat:send',         app.onChatSend);
-  app.on('chat:writing',      app.onChatWriting);
+  app.on('chat:isWriting',    app.onChatIsWriting);
   app.on('chat:satisfaction', app.onChatSatisfaction);
   // Operator actions events:
   app.on('operator:ban',             app.onConversationBan);

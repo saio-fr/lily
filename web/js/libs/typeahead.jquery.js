@@ -808,6 +808,7 @@
                     if (!canceled && rendered < that.limit) {
                         that.cancel = $.noop;
                         that._append(query, suggestions.slice(0, that.limit - rendered));
+                        rendered += suggestions.length;
                         that.async && that.trigger("asyncReceived", query);
                     }
                 }

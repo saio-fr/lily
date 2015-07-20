@@ -44,12 +44,11 @@ define(function(require) {
     },
 
     render: function() {
-
       this.$el.html(this.template(_.extend(this.model.toJSON(), {
         'prettifyUrl': this.prettifyUrl
       })));
-      this.$el.appendTo('.js-chat-container');
 
+      this.$el.appendTo('.js-chat-container');
       this.toggle(app.liveChatSkeleton.showInformations);
 
       return this;
@@ -79,7 +78,7 @@ define(function(require) {
       this.lastname = this.$el.find('input[name="lastname"]').val();
       this.email = this.$el.find('input[name="email"]').val();
 
-      app.trigger("operator:updateInfos", {
+      app.trigger('operator:updateInfos', {
         sid: this.model.get('id'),
         firstname: this.firstname,
         lastname: this.lastname,

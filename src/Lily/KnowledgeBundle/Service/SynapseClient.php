@@ -5,7 +5,7 @@ namespace Lily\KnowledgeBundle\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
-
+use GuzzleHttp\Subscriber\Log\LogSubscriber;
 
 class SynapseClient extends GuzzleClient
 {
@@ -23,6 +23,8 @@ class SynapseClient extends GuzzleClient
             ]
         ]);
 
+        $client->getEmitter()->attach(new LogSubscriber());
+
         // définition des requètes supportées par notre service
         $description = new Description([
             "name" => 'Synapse',
@@ -34,10 +36,6 @@ class SynapseClient extends GuzzleClient
                     "httpMethod" => "POST",
                     "uri" => "addquestionanswer",
                     "parameters" => [
-                        "licence" => [
-                            "type" => "string",
-                            "location" => "uri"
-                        ],
                         "request" => [
                             "type" => "string",
                             "location" => "body"
@@ -48,10 +46,6 @@ class SynapseClient extends GuzzleClient
                     "httpMethod" => "POST",
                     "uri" => "addadditionalquestion",
                     "parameters" => [
-                        "licence" => [
-                            "type" => "string",
-                            "location" => "uri"
-                        ],
                         "request" => [
                             "type" => "string",
                             "location" => "body"
@@ -62,10 +56,6 @@ class SynapseClient extends GuzzleClient
                     "httpMethod" => "POST",
                     "uri" => "updatequestion",
                     "parameters" => [
-                        "licence" => [
-                            "type" => "string",
-                            "location" => "uri"
-                        ],
                         "request" => [
                             "type" => "string",
                             "location" => "body"
@@ -76,10 +66,6 @@ class SynapseClient extends GuzzleClient
                     "httpMethod" => "POST",
                     "uri"=> "updateanswer",
                     "parameters" => [
-                        "licence" => [
-                            "type" => "string",
-                            "location" => "uri"
-                        ],
                         "request" => [
                             "type" => "string",
                             "location" => "body"
@@ -90,10 +76,6 @@ class SynapseClient extends GuzzleClient
                     "httpMethod" => "POST",
                     "uri"=> "removequestion",
                     "parameters" => [
-                        "licence" => [
-                            "type" => "string",
-                            "location" => "uri"
-                        ],
                         "request" => [
                             "type" => "string",
                             "location" => "body"
@@ -104,10 +86,6 @@ class SynapseClient extends GuzzleClient
                     "httpMethod" => "POST",
                     "uri"=> "removeanswer",
                     "parameters" => [
-                        "licence" => [
-                            "type" => "string",
-                            "location" => "uri"
-                        ],
                         "request" => [
                             "type" => "string",
                             "location" => "body"
@@ -118,10 +96,16 @@ class SynapseClient extends GuzzleClient
                     "httpMethod" => "POST",
                     "uri"=> "buildindex",
                     "parameters" => [
-                        "licence" => [
+                        "request" => [
                             "type" => "string",
-                            "location" => "uri"
-                        ],
+                            "location" => "body"
+                        ]
+                    ]
+                ],
+                "resetdata" => [
+                    "httpMethod" => "POST",
+                    "uri"=> "ResetData",
+                    "parameters" => [
                         "request" => [
                             "type" => "string",
                             "location" => "body"
