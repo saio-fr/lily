@@ -102,6 +102,16 @@ class SynapseClient extends GuzzleClient
                         ]
                     ]
                 ],
+                "indexstatus" => [
+                    "httpMethod" => "POST",
+                    "uri"=> "GetIndexStatus",
+                    "parameters" => [
+                        "request" => [
+                            "type" => "string",
+                            "location" => "body"
+                        ]
+                    ]
+                ],
                 "resetdata" => [
                     "httpMethod" => "POST",
                     "uri"=> "ResetData",

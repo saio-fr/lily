@@ -173,4 +173,18 @@ Class SynapseConnector {
         ]);
     }
 
+    public function getIndexStatus($client) {
+
+        $licence = $client->getLicence();
+
+        $json = json_encode(array(
+            "password" => $client->getSynapsePassword(),
+            "user" => $licence
+        ));
+
+        $res = $this->synapse->indexstatus([
+            "request" => $json
+        ]);
+    }
+
 }
