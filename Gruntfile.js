@@ -2,7 +2,6 @@
 'use strict';
 
 var config = require('./buildConfig');
-
 var _config =  {
   front:        config.mix('front'),
   common:       config.mix('common'),
@@ -17,6 +16,18 @@ var _config =  {
   statistics:   config.mix('statistics'),
   redirection:  config.mix('redirection')
 };
+
+var widgetFiles = [
+  'web/js/widget/utils.js',
+  'web/js/widget/Events.js',
+  'web/js/widget/xdm.js',
+  'web/js/widget/sdk.js',
+  'web/js/widget/saio.js',
+  'web/js/widget/Iframe.js',
+  'web/js/widget/lily.js',
+  'web/js/widget/widget.js',
+  'web/js/widget/main.js',
+];
 
 // Format for grunt task config.
 function getRequireConf() {
@@ -37,6 +48,8 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
+    tempDirWidget: 'web/js/widget',
+    buildDirWidget: 'src/Lily/AppBundle/Resources/views',
     requireMulti: requirejsConf,
 
     clean: {
@@ -62,6 +75,57 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: '<%= moduleConf %>'
+      }
+    },
+
+    concat: {
+      options: {
+        separator: ';',
+        banner: '(function (window, undefined) {' +
+                  '"use strict";',
+        footer: '})(this);'
+      },
+      dist: {
+        src: widgetFiles,
+        dest: '<%= buildDirWidget %>/loader.js',
+      },
+    },
+
+    uglify: {
+      widget: {
+        options: {
+          mangle: false,
+          beautify: true,
+          compress: false,
+        },
+        src: '<%= buildDirWidget %>/loader.js',
+        dest: '<%= buildDirWidget %>/loader.js'
+      },
+
+      widgetMin: {
+        options: {
+          mangle: true,
+          compress: {}
+        },
+        src: '<%= buildDirWidget %>/loader.js',
+        dest: '<%= buildDirWidget %>/loader.js.twig'
+      },
+
+    },
+
+    copy: {
+      widget: {
+        src: '<%= buildDirWidget %>/loader.js',
+        dest: '<%= buildDirWidget %>/loader.js.twig'
+      }
+    },
+
+    umd: {
+      widget: {
+        options: {
+          src: '<%= buildDirWidget %>/loader.js',
+          template: 'web/js/widget/umd.hbs'
+        }
       }
     },
 
@@ -170,7 +234,7 @@ module.exports = function(grunt) {
         ],
         // File that refers to above files and needs to be updated with the hashed name
         dest: [
-          'src/Lily/AppBundle/Resources/views/themes/Lily/index.html.twig', 
+          'src/Lily/AppBundle/Resources/views/themes/Lily/index.html.twig',
           'src/Lily/ChatBundle/Resources/views/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Config/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Dashboard/index.html.twig',
@@ -189,9 +253,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-hashres');
+  grunt.loadNpmTasks('grunt-umd');
 
   // requirejs is not a multi task. Emulate that by running requirejs task for each module in config
   // or one by one using multi task format (ex: grunt requireMulti:front)
@@ -222,5 +290,17 @@ module.exports = function(grunt) {
     'requireMulti:users',
     'requireMulti:faq',
     'cacheBust'
+  ]);
+
+  grunt.registerTask('buildWidget', [
+    'uglify:widget',
+    'umd:widget',
+    'uglify:widgetMin',
+  ]);
+
+  grunt.registerTask('devWidget', [
+    'concat',
+    'uglify:widget',
+    'copy:widget',
   ]);
 };

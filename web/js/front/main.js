@@ -48,7 +48,7 @@ define(function(require) {
     app.init();
   });
 
-  app.onLoadApp();
+  app.onAppLoad();
 
   // On Dom loaded
   $(function() {

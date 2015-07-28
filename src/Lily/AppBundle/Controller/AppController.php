@@ -42,7 +42,7 @@ class AppController extends BaseController
         ));
     }
 
-    public function trackingAction($licence) {
+    public function widgetAction($licence) {
 
         $config = $this->getAppConfig($licence);
 
@@ -53,7 +53,7 @@ class AppController extends BaseController
             );
         }
 
-        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', array(
+        $trackerJS = $this->render('LilyAppBundle::loader.js.twig', array(
           'licence' => $licence,
           'widget' => $config->getWidget()
           )

@@ -17,6 +17,7 @@ define(function(require) {
     isMobile  = require('isMobile'),
     when      = require('when'),
     analytics = require('utils/analytics'),
+    FrameBus  = require('front/FrameBus'),
     app;
 
   app = {
@@ -131,17 +132,9 @@ define(function(require) {
       if (config.chat.active && config.chatAvailable ||
         config.avi.active || app.chatting) {
 
-        if (info.appDisplay === true) {
-          app.sendToHost({
-            title: 'app:appDisplay',
-            callback: 'showIframe'
-          });
-        } else {
-          app.sendToHost({
-            title: 'ws:connect:success',
-            callback: 'showWidget'
-          });
-        }
+        app.sendHostMessage('lily.ready', {
+          displayApp: info.appDisplay,
+        });
       }
 
       // App openned in standalone mode (most probably on mobile)
@@ -392,18 +385,9 @@ define(function(require) {
     //    IO Iframe
     ////////////////////
 
-    onGetHostOptions: function(options) {
+    // From host
+    onHostSendInfo: function(options) {
       config.hostOptions = _.isObject(options) ? options : {};
-    },
-
-    onLoadApp: function() {
-      console.log('app load');
-      app.sendToHost({
-        title: 'app.load',
-        callback: 'onAppLoad'
-      });
-
-      app.track.funnel('Loaded the app on client website');
     },
 
     onWidgetClick: function(visible) {
@@ -414,18 +398,26 @@ define(function(require) {
       app.track.click('Widget was clicked on client website');
     },
 
-    onShowApp: function(firstOpen) {
+    onAppShown: function(firstOpen) {
       config.isShown = true;
       app.trigger('app:isShown');
 
       app.track.funnel('Showed the iframe', {
         firstTime: firstOpen
       });
+
+      app.trackPageView();
     },
 
-    onShowWidget: function() {
+    onWidgetShow: function() {
       app.track.funnel('Showed the widget on client website');
       app.call('visitor/widgetDisplayed');
+    },
+
+    // To Host
+    onAppLoad: function() {
+      app.sendHostMessage('lily.load');
+      app.track.funnel('Loaded the app on client website');
     },
 
     onReduceClick: function() {
@@ -433,76 +425,30 @@ define(function(require) {
         display: false
       });
 
-      app.sendToHost({
-        title: 'app:hide',
-        callback: 'hideIframe'
-      });
+      app.sendHostMessage('lily.shrink');
 
       config.isShown = false;
       app.track.click('Closed the iframe by clicking the minus button');
     },
 
-    receiveFromHost: function(message, response) {
-
-      if (message.data && message.data.title) {
-        console.log('saio:: ' + message.data.title);
-      }
-
-      // Call callback if exists, and apply eventual arguments:
-      if (message.data.callback) {
-        var callbackName = message.data.callback.toString(),
-            callbackArgs = message.data.args,
-            method       = _.isArray(message.data.args) ? 'apply' : 'call';
-
-        if (_.isFunction(this[callbackName])) {
-          this[callbackName][method](this, callbackArgs);
-        }
-      }
-
-      // Assuming you've verified the origin of the received message (which
-      // you must do in any case), a convenient idiom for replying to a
-      // message is to call postMessage on message.source and provide
-      // message.origin as the targetOrigin.
-      if (response) {
-        message.source.postMessage(response, message.origin);
-      }
-
-      // On first handshake, we store the host domain url:
-      if (!app.hostDomain) {
-        app.hostDomain = message.origin;
-      }
-    },
-
-    sendToHost: function(message) {
-      if (window.parent && document.referrer) {
-        window.parent.postMessage(message, document.referrer || app.hostDomain);
-      }
-    }
-
   };
 
-  _.extend(app, Backbone.Events, analytics(config));
+  _.extend(app, Backbone.Events, analytics(config), FrameBus);
 
   app.on('ws:connectionHangup',  app.onConnectionHangup);
   app.on('chat:start',           app.onChatStart);
   app.on('chat:send',            app.onChatSend);
-  app.on('app:isShown',          app.trackPageView);
   app.on('chat:isWriting',       app.onChatIsWriting);
   app.on('avi:newAviQuestion',   app.onNewAviQuestion);
   app.on('chat:reconnect',       app.onChatReconnect);
   app.on('chat:satisfaction',    app.onChatSatisfaction);
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
 
-  window.addEventListener('message', function() {
-    app.receiveFromHost.apply(app, arguments);
-  }, false);
-
-  // get parent href and pathnames hack:
-  var a = document.createElement('a');
-  a.href = document.referrer;
-
-  app.hostPathName = a.pathname + a.search;
-  app.hostHref = a.href;
+  // Events received from host website
+  FrameBus.on('host.sendInfo', app.onHostSendInfo);
+  FrameBus.on('lily.shown', app.onAppShown);
+  FrameBus.on('widget.click', app.onWidgetClick);
+  FrameBus.on('widget.show', app.onWidgetShow);
 
   return app;
 });
