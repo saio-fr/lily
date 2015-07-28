@@ -19,8 +19,9 @@ var toString = {}.toString;
 // in snippet on publisher's website
 var saioq = window.saio || [];
 
-var saio = new core();
 // Internal saio object
+var saio = new core();
+_.extend(saio, sdk);
 
 // IE version < 10 or unsupported features such as JSON or postMessage.
 // Stop here, not supported

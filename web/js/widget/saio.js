@@ -1,5 +1,15 @@
 /* jshint strict: false */
 /* globals _, window, Events, sdk, saio */
+
+/**
+ * The saio object will be used as a global event bus by a frame app
+ * like lily or widget, to communicate across apps without needing
+ * knowledge of the internals of the others
+ *
+ * It also has utility methods attatched to it, to set/get a registered app
+ * or manipulate urls.
+ *
+ */
 var core = function() {
 
   var stylesUrl = '{{ licence|customerDir|raw }}/css/lily-float.css';
@@ -15,13 +25,18 @@ var core = function() {
     host: window.location.host,
 
     events: {
+      // Comming from lily app
       'lily.onReady': 'onLilyReady',
-      'widget.click': 'onWidgetClick',
       'lily.onExpand': 'onLilyExpand',
-    },
 
-    config: {
+      // Comming from widget app
+      'widget.click': 'onWidgetClick',
 
+      // comming from sdk
+      'config.setOperatorGroup': 'setOperatorGroup',
+
+      // comming from third party frames
+      'lily.messageToOperator': 'onMessageToOperator'
     },
 
     initialize: function() {
@@ -42,6 +57,47 @@ var core = function() {
       _.addEvent(this.hostWindow, 'message', _.bind(this.onTargetMessage, this));
     },
 
+    /**
+     * Methods called from calls to sdk config triggered events
+     */
+
+    // Follow the information to lily that the operator group
+    // for this page should be groupId
+    setOperatorGroup: function(groupId) {
+      var lily = this.getRegisteredApp('lily');
+      lily.sendMessage('config.setOperatorGroup', groupId);
+    },
+
+    /**
+     * Methods called after a event from lilyEvents was fired
+     */
+
+    onLilyReady: function() {
+      this.isLilyReady = true;
+    },
+
+    /**
+     * Methods called after a event from widgetEvents was fired
+     */
+
+    onWidgetClick: function() {
+      this.trigger('lily.expand');
+    },
+
+    /**
+     * Methods called after a event from a third party app
+     * (lily for now) was fired
+     */
+
+    onMessageToOperator: function(message) {
+      // Comming from third party. Check param integrity
+      if (!_.isString(message)) return;
+      this.trigger('lily.onMessageToOperator', message);
+    },
+
+    /**
+     * Utility methods accessible on the saio object
+     */
     registerApp: function(frame, uid) {
       appsRegistry[uid] = frame;
     },
@@ -81,14 +137,11 @@ var core = function() {
       }
 
       if (hostLocation && this.getHost(event.origin) === hostLocation.host) {
-        if (event.origin === hostLocation.origin) {
-
-          // Scope should be saio (only scope for message comming from an saio iframe)
-          if (message.scope === 'saio') {
-            // Do something with received message
-            console.log(message.scope + ': ' + message.name);
-            saio.trigger(message.name, message.data);
-          }
+        // Scope should be saio (only scope for message comming from a saio iframe)
+        if (event.origin === hostLocation.origin && message.scope === 'saio') {
+          // Do something with received message
+          console.log(message.scope + ': ' + message.name);
+          saio.trigger(message.name, message.data);
         }
       }
 
@@ -107,22 +160,6 @@ var core = function() {
       entry.parentNode.insertBefore(link, entry);
     },
 
-    onLilyReady: function() {
-      this.isLilyReady = true;
-    },
-
-    onWidgetClick: function() {
-      this.trigger('lily.expand');
-    },
-
-    onLilyExpand: function() {
-      this.trigger('widget.hide');
-    },
-
-    shouldOpenStandalone: function() {
-      return false;
-    }
-
-  }, Events, sdk);
+  }, Events);
 
 };

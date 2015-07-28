@@ -194,6 +194,7 @@ define(function(require) {
       // If the chat is close we can send a msg
       if (app.getIsConversationClosed().toString() !== 'true') {
         app.publish('operator/' + config.licence, message);
+        app.sendHostMessage('lily.messageToOperator', message);
         return;
       }
 
@@ -416,7 +417,9 @@ define(function(require) {
 
     // To Host
     onAppLoad: function() {
-      app.sendHostMessage('lily.load');
+      app.sendHostMessage('lily.load', {
+        shouldOpenStandalone: isMobile.phone
+      });
       app.track.funnel('Loaded the app on client website');
     },
 
@@ -448,7 +451,7 @@ define(function(require) {
   FrameBus.on('host.sendInfo', app.onHostSendInfo);
   FrameBus.on('lily.shown', app.onAppShown);
   FrameBus.on('widget.click', app.onWidgetClick);
-  FrameBus.on('widget.show', app.onWidgetShow);
+  FrameBus.on('widget.shown', app.onWidgetShow);
 
   return app;
 });

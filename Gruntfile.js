@@ -21,8 +21,8 @@ var widgetFiles = [
   'web/js/widget/utils.js',
   'web/js/widget/Events.js',
   'web/js/widget/xdm.js',
-  'web/js/widget/sdk.js',
   'web/js/widget/saio.js',
+  'web/js/widget/sdk.js',
   'web/js/widget/Iframe.js',
   'web/js/widget/lily.js',
   'web/js/widget/widget.js',
@@ -92,15 +92,6 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      widget: {
-        options: {
-          mangle: false,
-          beautify: true,
-          compress: false,
-        },
-        src: '<%= buildDirWidget %>/loader.js',
-        dest: '<%= buildDirWidget %>/loader.js'
-      },
 
       widgetMin: {
         options: {
@@ -293,14 +284,12 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('buildWidget', [
-    'uglify:widget',
-    'umd:widget',
+    'concat',
     'uglify:widgetMin',
   ]);
 
   grunt.registerTask('devWidget', [
     'concat',
-    'uglify:widget',
-    'copy:widget',
+    'copy:widget'
   ]);
 };

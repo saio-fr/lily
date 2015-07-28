@@ -13,12 +13,6 @@ var WidgetIframe = function() {
 
     // Widget is not an iframe (for now. Could be in the future,
     // hence the structure mimicking the structure for creating lily)
-    // and has to communicate directly to the lily app. So this.window gets
-    // a reference to the lily frame window.
-    window: saio.getRegisteredApp('lily').window,
-
-    // Same here: use the lily iframe's origin
-    origin: saio.getRegisteredApp('lily').origin,
 
     // Will be set when creating the dom element
     el: undefined,
@@ -34,7 +28,7 @@ var WidgetIframe = function() {
     // Uses event delegation for efficiency.
     events: {
       'widget.show': 'showWidget',
-      'widget.hide': 'hide',
+      'widget.hide': 'hideWidget',
     },
 
     load: function() {
@@ -63,24 +57,51 @@ var WidgetIframe = function() {
       };
     },
 
+    // Not great. Widget shouldn't know lily, or it should be a part of lily.
+    // We'll settle with that for now
+    sendMessageToLily: function(name, obj) {
+      var lily = saio.getRegisteredApp('lily');
+      if (lily) {
+        lily.sendMessage(name, obj);
+      }
+    },
+
     onWidgetClick: function() {
       this.sendMessage('widget.click');
       saio.trigger('widget.click');
     },
 
     showWidget: function() {
+      if (saio.widgetIsShown || saio.lilyIsShown) {
+        return;
+      }
+
       if (saio.isLilyReady) {
         this.show();
       } else {
         return saio.once('lily.onReady', this.showWidget, this);
       }
 
-      this.sendMessage('widget.show', {
+      // Notify the lily app that the widget was shown
+      // on the host website
+      this.sendMessageToLily('widget.shown', {
         firstShow: this.firstShow
       });
 
       this.firstShow = false;
+      saio.widgetIsShown = true;
+
+      // Will be used for the api to add behaviour onShow
+      saio.trigger('widget.onShow');
     },
+
+    hideWidget: function() {
+      this.hide();
+      saio.widgetIsShown = false;
+
+      // Will be used for the api to add behaviour onHide
+      saio.trigger('widget.onHide');
+    }
 
   }, Iframe, Events);
 
