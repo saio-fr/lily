@@ -140,7 +140,7 @@ define(function(require) {
   };
 
   api.sendMail = function(data) {
-    app.track.submit('Successfuly sent a redirection Email');
+    app.track.submit('Successfully sent a redirection Email');
     return this.send('POST', '/api/' + config.licence + '/mail', data);
   };
 
@@ -151,46 +151,6 @@ define(function(require) {
 
   api.getTopQuestions = function(id) {
     return this.send('GET', '/api/' + config.licence + '/top-questions/' + id);
-  };
-
-  api.getFaq = function(parent) {
-    return this.send('GET', '/api/' + config.licence + '/faq/' + parent);
-  };
-
-  api.getFaqModel = function(id) {
-    var deferred = when.defer(),
-      faq;
-
-    if (app.faqCollection) {
-      faq = app.faqCollection.findWhere({
-        id: id
-      }) || null;
-    }
-
-    if (faq) {
-      deferred.resolve(faq);
-    } else {
-      api.getFaq(id).then(function(data) {
-        var sortedData, model;
-
-        sortedData = _.indexBy(data.faqs, 'position');
-
-        model = new Models.Faq({
-          id: data.id,
-          parent: data.parent,
-          title: data.title,
-          faqs: sortedData
-        });
-
-        deferred.resolve(model);
-      },
-
-      function(err) {
-        deferred.reject(err);
-      });
-    }
-
-    return deferred.promise;
   };
 
   return api;

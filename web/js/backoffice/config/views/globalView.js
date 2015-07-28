@@ -32,34 +32,22 @@ define(function (require) {
     },
 
     update: function () {
-		  
+
       // MAINTENANCE
       this.maintenance = !$('input[name="maintenance"]').is(':checked');
       this.model.set({'maintenance': this.maintenance});
-      
+
       // CHAT SERVICE
       if (g.client.chat) {
         this.chat = this.$el.find('input[name="chat"]').is(':checked');
         this.model.set({'chat.active': this.chat});
       }
-      
+
       // AVI SERVICE
       if (g.client.avi) {
         this.avi = this.$el.find('input[name="avi"]').is(':checked');
         this.model.set({'avi.active': this.avi});
       }
-      
-      // FAQ SERVICE
-      if (g.client.faq) {
-	      this.faq = this.$el.find('input[name="faq"]').is(':checked');
-        this.model.set({'faq': this.faq});
-      }      
-      
-      // TOP QUESTIONS SERVICE
-      if (g.client.topquestions && g.client.avi) {
-	      this.topquestions = this.$el.find('input[name="topquestions"]').is(':checked');
-        this.model.set({'topquestions': this.topquestions});
-	    }
 
       // APP HOME PAGE
       if (g.client.chat && g.client.avi) {
@@ -70,7 +58,7 @@ define(function (require) {
         if (g.client.chat) { this.home = 'chat'; }
       }
       this.model.set({'home': this.home});
-	    
+
     }
 
   });

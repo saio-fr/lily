@@ -60,7 +60,7 @@
    ============== */
 
 /*  Has to be positioned on the right hand of the header,
- *  Ancred to the right and positioned relatively to allow 
+ *  Ancred to the right and positioned relatively to allow
  *  absolutely positioned content inside (a.k.a dropdowns, ...) */
 .header-widget {
   float: left;
@@ -79,14 +79,11 @@
 /**
  *  Profile Menu Dropdown
  */
-.user-menu {
-  /*border-left: solid 1px rgba(255, 255, 255, 0.2);*/
-}
-.user-menu:before {
+.status-selector:before {
   content: '';
   display: block;
   position: absolute;
-  left: 0;
+  right: 0;
   top: 50%;
   height: 35px;
   width: 1px;

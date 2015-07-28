@@ -175,8 +175,8 @@ define(function(require) {
      * @return {undefined}
      */
     onSearchOpen: function() {
-      var overlayMsg = this.getOverlayMsg(),
-          showAvi = this.$suggestionsMenu ? !this.$suggestionsMenu.is(':visible') : true;
+      var overlayMsg = this.getOverlayMsg();
+      var showAvi = this.$suggestionsMenu ? !this.$suggestionsMenu.is(':visible') : true;
 
       // Increase focus on suggestions by partialy hiding the conversation
       this.isSearchOpen = true;
@@ -189,6 +189,17 @@ define(function(require) {
       }
 
       this.showAvi(showAvi);
+    },
+
+    // Async suggestions for some reason don't trigger autoselect.
+    // Do it manually
+    onAsyncReceived: function() {
+      var firstSuggestion = $('.tt-menu .tt-suggestion') ?
+        $('.tt-menu .tt-suggestion').eq(0) : null;
+
+      if (firstSuggestion) {
+        firstSuggestion.addClass('tt-cursor');
+      }
     },
 
     /**
@@ -217,17 +228,6 @@ define(function(require) {
       this.showAvi(this.isMsgListScrolled());
       this.hideMsgListOverlay();
       this.$avi.removeClass('lily-avi-show');
-    },
-
-    // Async suggestions for some reason don't trigger autoselect.
-    // Do it manually
-    onAsyncReceived: function() {
-      var firstSuggestion = $('.tt-menu .tt-suggestion') ?
-        $('.tt-menu .tt-suggestion').eq(0) : null;
-
-      if (firstSuggestion) {
-        firstSuggestion.addClass('tt-cursor');
-      }
     },
 
     onFocusInput: function() {

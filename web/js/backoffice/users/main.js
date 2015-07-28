@@ -21,7 +21,7 @@ define(['require', '../../common'], function(require) {
       app.router = new UserRouter();
       Backbone.history.start();
 
-      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+      if (globals.chat && globals.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
     }

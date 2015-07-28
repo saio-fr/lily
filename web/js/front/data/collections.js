@@ -17,9 +17,5 @@ define(function(require) {
     model: Models.ChatMessage
   });
 
-  Collections.Faqs = Backbone.Collection.extend({
-    model: Models.Faq
-  });
-
   return Collections;
 });

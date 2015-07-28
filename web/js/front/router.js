@@ -15,7 +15,6 @@ define(function(require) {
     AviView               = require('front/views/avi'),
     ChatView              = require('front/views/chat'),
     MailView              = require('front/views/mail'),
-    FaqView               = require('front/views/faq'),
     Models                = require('front/data/models'),
     Collections           = require('front/data/collections'),
     ContentView           = require('front/views/content'),
@@ -34,11 +33,7 @@ define(function(require) {
       'chat': 'chat',
       'welcome-screen': 'welcomeScreen',
       'avi': 'avi',
-      'mail': 'mail',
-      'faq': 'faq',
-      'faq/': 'faq',
-      'faq/:parent': 'faq',
-      'faq/:parent/content/:id': 'content'
+      'mail': 'mail'
     },
 
     home: function() {
@@ -89,71 +84,8 @@ define(function(require) {
       var view = new MailView();
       app.trackPageView('Visitor saw page: mail');
       utils.goTo(view);
-    },
-
-    faq: function(id) {
-      id = id || "NULL";
-      var router = this,
-          view;
-
-      app.faqCollection = app.faqCollection || new Collections.Faqs();
-      api.getFaqModel(id).then(function(model) {
-
-        app.faqCollection.add(model);
-
-        view = new FaqView({
-          model: model
-        });
-
-        utils.goTo(view);
-      }, function(err) {
-        console.log(err);
-
-        router.navigate('faq', {
-          trigger: true
-        });
-      });
-
-      app.trackPageView('Visitor saw page: faq', {
-        'id': id,
-        'content': false
-      });
-    },
-
-    content: function(parent, id) {
-      var router = this,
-        faq, contentModel, view;
-
-      api.getFaqModel(parent).then(function(model) {
-
-        faq = _.find(model.get('faqs'), function(faq) {
-          return faq.id.toString() === id;
-        });
-
-        contentModel = new Models.Content({
-          parent: parent,
-          id: id,
-          title: faq.title,
-          content: faq.content
-        });
-
-        view = new ContentView({
-          model: contentModel
-        });
-
-        utils.goTo(view);
-
-      }, function(err) {
-        router.navigate('/', {
-          trigger: true
-        });
-      });
-
-      app.trackPageView('Visitor saw page: faq', {
-        'id': id,
-        'content': false
-      });
     }
+
   });
 
   return Router;

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "devDependencies": {
     "almond": "^0.3.1",
+    "eslint": "^0.22.1",
     "grunt": "~0.4.2",
     "grunt-autoprefixer": "^3.0.3",
     "grunt-cli": "^0.1.13",

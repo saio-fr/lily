@@ -28,7 +28,7 @@ define(['require', '../../common'], function(require) {
     function bootstrap() {
       app.router = new ChatRouter();
 
-      if (globals.chat === 1 && globals.isChatOperator === 1 && !app.liveChat) {
+      if (globals.chat && globals.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
 

@@ -46,17 +46,15 @@ define(function(require) {
     },
 
     create: function () {
-      var that = this;
-      that.add();
+      this.add();
     },
 
     add: function (alt) {
-      var that;
       var model = new Models.AlternativeQuestion();
       if (alt) {
         model.set(alt);
         app.track.funnel('Add new alternative formulation for that question', {
-          question: that.model.get('title')
+          question: this.model.get('title')
         });
       }
 

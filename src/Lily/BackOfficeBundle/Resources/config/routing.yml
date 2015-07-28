@@ -1,19 +1,15 @@
 lily_dashboard:
     pattern:  /dashboard
     defaults: { _controller: LilyBackOfficeBundle:Index:dashboard }
-    
+
 lily_redirections:
     pattern:  /redirections
     defaults: { _controller: LilyBackOfficeBundle:Index:redirections }
 
-lily_faq:
-    pattern:  /faq
-    defaults: { _controller: LilyBackOfficeBundle:Index:faq }
-
 lily_config:
     pattern:  /config
     defaults: { _controller: LilyBackOfficeBundle:Index:config }
-    
+
 lily_config_api:
     resource: "@LilyBackOfficeBundle/Controller/ConfigController.php"
     type:     rest
@@ -23,20 +19,15 @@ lily_redirections_api:
     resource: "@LilyBackOfficeBundle/Controller/RedirectionsController.php"
     type:     rest
     prefix:   /api
-    
-lily_faq_api:
-    resource: "@LilyBackOfficeBundle/Controller/FaqController.php"
-    type:     rest
-    prefix:   /api
-    
+
 # lily_personnalisation:
 #     pattern:  /personnalisation
 #     defaults: { _controller: LilyBackOfficeBundle:Personnalisation:index }
-#     
+#
 # lily_personnalisation_temp:
 #     resource: "@LilyBackOfficeBundle/Controller/PersonnalisationController.php"
 #     type:     annotation
-#     
+#
 # lily_facturation:
 #     pattern:  /facturation
 #     defaults: { _controller: LilyBackOfficeBundle:Facturation:index }

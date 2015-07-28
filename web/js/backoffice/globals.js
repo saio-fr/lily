@@ -17,7 +17,7 @@ define(function(require) {
     cdn: "http://cdn-saio.fr",
     customer: "http://cdn-saio.fr/customer/",
     avatars: "http://cdn-saio.fr/customer/" + g.licence + "/images/avatars/",
-    defaultAvatar: "http://cdn-saio.fr/images/default-avatar.png",
+    defaultAvatar: "http://cdn-saio.fr/images/default-avatar.png"
   };
 
   g.synapse = {
@@ -144,7 +144,7 @@ define(function(require) {
   g.modalConfirm.shortcutTrash = {
     name: "modal-trash",
     title: "Etes-vous sur de vouloir supprimer ce message pré-enregistré ?",
-    body: "Une fois supprimée, vous ne pourrez plus y " +
+    body: "Une fois supprimé, vous ne pourrez plus y " +
       "avoir accès ",
     cancel: "Annuler",
     confirm: "Supprimer"
