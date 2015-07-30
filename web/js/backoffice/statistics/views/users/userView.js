@@ -28,7 +28,7 @@ define(function (require) {
     
     render: function () {
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('.users-list-wrapper ul');
+      this.$el.appendTo('.js-users-list');
       return this;
     },
     
