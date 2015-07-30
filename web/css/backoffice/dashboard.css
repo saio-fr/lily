@@ -29,3 +29,42 @@ DASHBOARD
 .panel-footer a.active {
 	color:#6eaee8;
 }
+
+.timeline {
+  list-style-type: none;
+}
+
+.timeline .timeline-icon {
+  left: 0;
+}
+
+.timeline:before {
+  content: "";
+  width: 1px;
+  margin-left: -4px;
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 30px;
+  background-color: #ddd;
+  z-index: 0;
+}
+
+.timeline .time-icon {
+  width: 23px;
+  height: 23px;
+  display: inline-block !important;
+  z-index: 10;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.timeline li {
+  position: relative;
+}
+
+.timeline .content {
+  margin-top: 7px;
+  margin-left: 30px;
+}

@@ -21,7 +21,7 @@ define(function(require) {
   SkeletonView = Backbone.View.extend({
 
     tagName: 'section',
-    className: 'js-dashboard-container vbox',
+    className: 'js-dashboard-container tab-content-wrapper scrollable',
     template: _.template($('#dashboardSkeletonTpl').html()),
 
     events: {},

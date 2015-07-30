@@ -41,7 +41,6 @@ define(function(require) {
     },
 
     usage: function() {
-      $('.tab-content-wrapper').addClass('scrollable');
       $('.tab-pane').removeClass('active');
       $('.usage-wrapper').addClass('active');
       $('.nav-tabs li').removeClass('active');
@@ -56,7 +55,6 @@ define(function(require) {
     },
 
     avi: function() {
-      $('.tab-content-wrapper').addClass('scrollable');
       $('.tab-pane').removeClass('active');
       $('.avi-wrapper').addClass('active');
       $('.nav-tabs li').removeClass('active');
@@ -71,7 +69,6 @@ define(function(require) {
     },
 
     chat: function() {
-      $('.tab-content-wrapper').addClass('scrollable');
       $('.tab-pane').removeClass('active');
       $('.chat-wrapper').addClass('active');
       $('.nav-tabs-wrapper li').removeClass('active');
@@ -86,7 +83,6 @@ define(function(require) {
     },
 
     users: function() {
-      $('.tab-content-wrapper').removeClass('scrollable');
       $('.tab-pane').removeClass('active');
       $('.users-wrapper').addClass('active');
       $('.nav-tabs li').removeClass('active');

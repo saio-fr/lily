@@ -1,69 +1,66 @@
-<div class="vbox">
+<section class="vbox">
   
-	<div class="wrapper">
-		<div class="clearfix m-b-xlg">
-			<div class="clear">
-				
-				<div class="user-info-wrapper clearfix">
-  				<div class="avatar-wrapper">
-            <input type="file" name="avatarFile" accept="image/*">
-            <img src="<%= converted.avatar %>" class="pull-left avatar">
-            <button class="btn btn-sm btn-white uploader">Modifier</button>
-  				</div>
-          <div class="user-info clear">
-            <h4>{{ app.user.lastname }} {{ app.user.firstname }}</h4>
-            <h5 class="m-n">{{ app.user.client.name }}</h5>
-            <small class="text-muted">
-              <% _.each(groups, function(group) { %>
-                <%= group.name %>
-              <% }); %>
-            </small>
-          </div>             
-        </div>
+	<section class="scrollable w-f">
+  	<div class="wrapper">
+  		<div class="user-info-wrapper">
+  			<div class="avatar-wrapper">
+          <input type="file" name="avatarFile" accept="image/*">
+          <img src="<%= converted.avatar %>" class="pull-left avatar">
+          <button class="btn btn-sm btn-white uploader">Modifier</button>
+  			</div>
+        <div class="user-info clear">
+          <h4>{{ app.user.lastname }} {{ app.user.firstname }}</h4>
+          <h5 class="m-n">{{ app.user.client.name }}</h5>
+          <small class="text-muted">
+            <% _.each(groups, function(group) { %>
+              <%= group.name %>
+            <% }); %>
+          </small>
+        </div>             
+      </div>
+      
+      <p class="has-errors upload-errors"></p>
+  
+  		<form class="user-editor m-t">
         
-        <p class="has-errors upload-errors"></p>
-
-				<form class="user-editor m-t">
-          
-          <div class="form-group">
-            <label>Poste</label>
-            <input type="text" name="post" class="form-control input-sm" value="<%= post %>">
-            <p class="help-block hidden"></p>
-					</div>
-					
-          <div class="form-group">
-            <label>Pays</label>
-            <input type="text" name="country" class="form-control input-sm" value="<%= country %>">
-            <p class="help-block hidden"></p>
-					</div>
-					
-          <div class="form-group">
-            <label>Téléphone</label>
-            <input type="phone" name="phone" class="form-control input-sm" value="<%= phone %>">
-            <p class="help-block hidden"></p>
-					</div>
-					
-          <div class="form-group col-xs-6 no-padder-l">
-            <label>Mot de passe</label>
-            <input type="password" name="plainPassword" class="form-control input-sm" value="">
-            <p class="help-block hidden"></p>
-					</div>
-					
-          <div class="form-group col-xs-6 no-padder-r">
-            <label>Confirmation</label>
-            <input type="password" name="plainPasswordRepeat" class="form-control input-sm" value="">
-            <p class="help-block hidden"></p>
-					</div>
-					
-        </form>
-			</div>
-		</div>
-	</div>
+        <div class="form-group">
+          <label>Poste</label>
+          <input type="text" name="post" class="form-control input-sm" value="<%= post %>">
+          <p class="help-block hidden"></p>
+  			</div>
+  			
+        <div class="form-group">
+          <label>Pays</label>
+          <input type="text" name="country" class="form-control input-sm" value="<%= country %>">
+          <p class="help-block hidden"></p>
+  			</div>
+  			
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="phone" name="phone" class="form-control input-sm" value="<%= phone %>">
+          <p class="help-block hidden"></p>
+  			</div>
+  			
+        <div class="form-group col-xs-6 no-padder-l">
+          <label>Mot de passe</label>
+          <input type="password" name="plainPassword" class="form-control input-sm" value="">
+          <p class="help-block hidden"></p>
+  			</div>
+  			
+        <div class="form-group col-xs-6 no-padder-r">
+          <label>Confirmation</label>
+          <input type="password" name="plainPasswordRepeat" class="form-control input-sm" value="">
+          <p class="help-block hidden"></p>
+  			</div>
+  			
+      </form>
+    </div>
+	</section>
 	
 	<footer class="dk footer text-center">
 		<button class="btn btn-sm btn-success button-update">Sauvegarder</button>
 		<button class="btn btn-sm btn-danger button-cancel m-l">Annuler</button>
 	</footer>
 	
-</div>
+</section>
 	

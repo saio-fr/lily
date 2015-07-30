@@ -80,7 +80,7 @@ define(function (require) {
     },
 
     close: function () {
-      $('.js-groups-container .list-group-item.active').removeClass('active');
+      $('.js-groups-list .active').removeClass('active');
       $('.group-edit').addClass('hide');
       Backbone.Validation.unbind(this);
       this.remove();

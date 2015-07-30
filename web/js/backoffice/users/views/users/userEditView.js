@@ -135,7 +135,7 @@ define(function (require) {
     },
 
     close: function () {
-      $('.js-users-container .list-group-item.active').removeClass('active');
+      $('.js-users-list .active').removeClass('active');
       $('.user-edit').addClass('hide');
       Backbone.Validation.unbind(this);
       this.remove();

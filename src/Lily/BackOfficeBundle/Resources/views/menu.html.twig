@@ -14,7 +14,7 @@
 
           {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
           <li>
-            <a href="{{ path('lily_knowledge') }}" class="{% if app.request.attributes.get('_route') == 'lily_questions' %}active{% endif %}">
+            <a href="{{ path('lily_knowledge') }}" class="{% if app.request.attributes.get('_route') == 'lily_knowledge' %}active{% endif %}">
               <i class="icon-book"></i>
               <span>Connaissances</span>
             </a>
@@ -60,7 +60,7 @@
           {% endif %}
           {% if is_granted('ROLE_ADMIN') %}
           <li>
-            <a href="{{ path('lily_users_admin') }}" class="{% if app.request.attributes.get('_route') == 'lily_user' %}active{% endif %}">
+            <a href="{{ path('lily_users_admin') }}" class="{% if app.request.attributes.get('_route') == 'lily_users_admin' %}active{% endif %}">
               <i class="icon-group"></i>
               <span>Utilisateurs</span>
             </a>
