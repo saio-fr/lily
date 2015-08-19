@@ -84,6 +84,9 @@ class AnalyticsCommand extends ContainerAwareCommand
                     $firstMsg = reset($conversation['messages']);
                     $totalTime = $endMsg['date'] - $firstMsg['date'];
 
+                    // Arbitrary high value
+                    $maxTimeToFirstAnswer = 99999;
+
                     foreach ($conversation['messages'] as $message) {
                         if (!$firstOperatorMsg && $message['from'] === 'operator') {
                             $firstOperatorMsg = $message;
@@ -94,8 +97,7 @@ class AnalyticsCommand extends ContainerAwareCommand
                     if ($firstOperatorMsg) {
                         $timeToFirstAnswer = ($firstOperatorMsg['date'] - reset($conversation['messages'])['date']);
                     } else {
-                        // Arbitrary high value
-                        $timeToFirstAnswer = 99999;
+                        $timeToFirstAnswer = $maxTimeToFirstAnswer;
                     }
 
                     $properties = array(
@@ -107,7 +109,7 @@ class AnalyticsCommand extends ContainerAwareCommand
                     );
 
                     // Now determinate if the conversation is completed, dropped, or missed
-                    if ($timeToFirstAnswer) {
+                    if ($timeToFirstAnswer <= $maxTimeToFirstAnswer) {
                         // completed or dropped ?
                         if (end($conversation['messages'])['from'] === 'server'
                             || end($conversation['messages'])['from'] === 'operator') {
