@@ -53,15 +53,37 @@ class AppController extends BaseController
             );
         }
 
-        $trackerJS = $this->render('LilyAppBundle::loader.js.twig', array(
+        $loaderJS = $this->render('LilyAppBundle::loader.js.twig', array(
           'licence' => $licence,
           'widget' => $config->getWidget()
           )
         );
 
         $response = new Response(
-          $trackerJS->getContent(), 200, array(
+          $loaderJS->getContent(), 200, array(
             'content-type' => 'text/javascript'
+          )
+        );
+
+        return $response;
+    }
+
+    public function snippetAction($licence) {
+
+        $config = $this->getAppConfig($licence);
+        $env = $this->get('kernel')->getEnvironment();
+        $path = $env == 'dev' ? '/app_dev.php' : '';
+        $widgetOrigin = $this->getRequest()->getHttpHost() . $path;
+
+        $snippetJS = $this->render('LilyAppBundle::snippet.js.twig', array(
+          'licence' => $licence,
+          'widgetOrigin' => $widgetOrigin,
+          )
+        );
+
+        $response = new Response(
+          $snippetJS->getContent(), 200, array(
+            'content-type' => 'text/javascript; charset=utf-8'
           )
         );
 

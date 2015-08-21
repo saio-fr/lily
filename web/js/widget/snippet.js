@@ -1,5 +1,5 @@
-/* jshint strict: false */
-;(function() {
+;(function (window, undefined) {
+  'use strict';
 
   // Create a queue, but don't obliterate an existing one!
   var saio = window.saio = window.saio || [];
@@ -29,8 +29,8 @@
   // for methods in widget.js so that you never have to wait
   // for it to load to actually record data. The `method` is
   // stored as the first argument, so we can replay the data.
-  saio.factory = function(method){
-    return function(){
+  saio.factory = function(method) {
+    return function() {
       var args = Array.prototype.slice.call(arguments);
       args.unshift(method);
       saio.push(args);
@@ -46,14 +46,13 @@
 
   // Define a method to load widget.js from our CDN,
   // and that will be sure to only ever load it once.
-  saio.load = function(key){
+  saio.load = function(key) {
     // Create an async script element based on your key.
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.src = ('https:' === document.location.protocol ?
-      'https://' : 'http://') +
-      '{{ host }}/saio.js/' + key;
+    'https://' : 'http://') + '{{ widgetOrigin|raw}}/app/widget/' + key;
 
     // Insert our script next to the first script element.
     var first = document.getElementsByTagName('script')[0];
@@ -63,10 +62,4 @@
   // Add a version to keep track of what's in the wild.
   saio.SNIPPET_VERSION = '1.0.0';
 
-  // Load widget.js with your key, which will automatically
-  // load the tools you've enabled for your account. Boosh!
-  saio.load('{{ licence }}');
-
-  // Call saio api methods from here
-  // ex: saio.config('widget.isVisible', false);
-})();
+})(this);

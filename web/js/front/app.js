@@ -415,6 +415,10 @@ define(function(require) {
       app.call('visitor/widgetDisplayed');
     },
 
+    sendMessageToVisitor: function(message) {
+      app.trigger('chat:sendMessage', message);
+    },
+
     // To Host
     onAppLoad: function() {
       app.sendHostMessage('lily.load', {
@@ -452,6 +456,7 @@ define(function(require) {
   FrameBus.on('lily.shown', app.onAppShown);
   FrameBus.on('widget.click', app.onWidgetClick);
   FrameBus.on('widget.shown', app.onWidgetShow);
+  FrameBus.on('lily.sendMessageToVisitor', app.sendMessageToVisitor);
 
   return app;
 });

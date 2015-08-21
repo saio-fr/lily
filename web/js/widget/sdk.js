@@ -1,116 +1,123 @@
 /* jshint strict: false */
-var sdk = (function() {
 
-  if (sdk) return sdk;
+var _    = require('./utils.js');
+var mediator = require('./mediator.js');
 
-  var configMap = {
-    'setOperatorGroup': 'setOperatorGroup'
-  };
-
-  // Can be triggered on the host website using the sdk
-  var apiMap = {
-    // Widget & iframe show/hide events
-    'api.widget.show':        'showWidget',
-    'api.widget.hide':        'hideWidget',
-    'api.widget.onShow':      'onWidgetShow',
-    'api.widget.onHide':      'onWidgetHide',
-    'api.box.expand':         'expandBox',
-    'api.box.shrink':         'shrinkBox',
-    'api.box.onExpand':       'onLilyExpand',
-    'api.box.onShrink':       'onLilyShrink',
-
-    //
-    'api.onReady':              'onReady',
-    'api.onChatSessionStart':   'onChatSessionStart',
-    'api.onAviSessionStart':    'onAviSessionStart',
-    'api.onMessageToOperator':  'onMessageToOperator',
-    'api.onQuestionAskedToAvi': 'onQuestionAskedToAvi'
-  };
+module.exports = (function() {
 
   var configMethods = {
-    setOperatorGroup: function(groupId) {
+    'setOperatorGroup': function(groupId) {
       if (!_.isString(groupId)) {
         console.error('groupId should be a string containing the operator group id');
       }
-      saio.trigger('config.setOperatorGroup', groupId);
+      mediator.trigger('config.setOperatorGroup', groupId);
+    },
+
+    'config.box.startExpanded': function() {
+      mediator.trigger('lily.expand');
     },
   };
 
+  // Can be triggered on the host website using the sdk
   var apiMethods = {
-    showWidget: function() {
-      saio.trigger('widget.show');
+    // Widget & iframe show/hide events
+    'api.widget.show': function() {
+      mediator.trigger('widget.show');
     },
 
-    hideWidget: function() {
-      saio.trigger('widget.hide');
+    'api.widget.hide': function() {
+      mediator.trigger('widget.hide');
     },
 
-    onWidgetShow: function(callback) {
-      saio.on('widget.onShow', function() {
+    'api.box.expand': function() {
+      mediator.trigger('lily.expand');
+    },
+
+    'api.box.shrink': function() {
+      mediator.trigger('lily.shrink');
+    },
+
+    'api.widget.onShow': function(callback) {
+      if (_.isFunction(callback)) {
+        mediator.on('widget.onShow', callback, {});
+      }
+    },
+
+    'api.widget.onHide': function(callback) {
+      if (_.isFunction(callback)) {
+        mediator.on('widget.onHide', callback, {});
+      }
+    },
+
+    'api.box.onExpand': function(callback) {
+      if (_.isFunction(callback)) {
+        mediator.on('lily.onExpand', callback, {});
+      }
+    },
+
+    'api.box.onShrink': function(callback) {
+      if (_.isFunction(callback)) {
+        mediator.on('lily.onShrink', callback, {});
+      }
+    },
+
+    // Should only be registered once. If it happens to be registered multiple time,
+    // return previous return value.
+    'api.onReady': function(callback) {
+      return _.once(function() {
+        var lily = mediator.getRegisteredApp('lily');
+
         if (_.isFunction(callback)) {
-          callback();
+          if (lily.getState('ready')) {
+            return callback();
+          }
+          mediator.once('lily.onReady', callback, {});
         }
       });
     },
 
-    onWidgetHide: function(callback) {
-      saio.on('widget.onHide', function() {
-        if (_.isFunction(callback)) {
-          callback();
-        }
+    'api.onChatSessionStart':   'onChatSessionStart',
+    'api.onAviSessionStart':    'onAviSessionStart',
+
+    // WIP, Do not use in production
+    'api.sendMessageToVisitor': function(message) {
+      if (!message || !(_.isObject(message) && _.isString(message.body))) {
+        console.warn('malformed message. See documentation at:');
+      }
+      mediator.trigger('lily.sendMessageToVisitor', {
+        body: message.body,
+        type: message.type || 'simple',
       });
     },
 
-    expandBox: function() {
-      saio.trigger('lily.expand');
-    },
-
-    shrinkBox: function() {
-      saio.trigger('lily.shrink');
-    },
-
-    onLilyExpand: function(callback) {
-      saio.on('lily.onExpand', function() {
-        if (_.isFunction(callback)) {
-          callback();
-        }
-      });
-    },
-
-    onLilyShrink: function(callback) {
-      saio.on('lily.onShrink', function() {
-        if (_.isFunction(callback)) {
-          callback();
-        }
-      });
-    },
-
-    onMessageToOperator: function(callback) {
-      saio.on('lily.onMessageToOperator', function(message) {
+    'api.onMessageToOperator': function(callback) {
+      mediator.on('lily.onMessageToOperator', function(message) {
         if (_.isFunction(callback)) {
           callback(message);
         }
       });
     },
+
+    'api.onQuestionAskedToAvi': 'onQuestionAskedToAvi'
   };
 
   function config(name, obj) {
     if (!_.isString(name)) {
-      throw new Error('first argument should be a string');
+      throw Error('first argument should be a string');
     }
 
-    if (configMap[name] && configMethods[configMap[name]]) {
-      configMethods[configMap[name]].call(this, obj);
+    if (configMethods[name]) {
+      configMethods[name].call(this, obj);
     }
   }
 
   function api(name, obj) {
     if (!_.isString(name)) {
-      throw new Error('first argument should be a string');
+      throw Error('first argument should be a string');
     }
 
-    if (apiMap[name] && apiMethods[apiMap[name]]) {
-      apiMethods[apiMap[name]].call(this, obj);
+    if (apiMethods[name]) {
+      apiMethods[name].call(this, obj);
     }
   }
 

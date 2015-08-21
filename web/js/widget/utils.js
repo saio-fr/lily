@@ -1,13 +1,15 @@
 /* jshint strict:false */
-var _ = (function () {
+module.exports = (function () {
 
-  if (_) return _;
+  // shorthand reference to native types prototype methods:
+  var slice = [].slice;
+  var toString = {}.toString;
 
   /*
    * isObject, extend, isFunction, throttle, debounce and each are taken from undescore/lodash in
    * order to remove the dependency
    */
-  return {
+  var _ = {
 
     isArray: function(arr) {
       return Object.prototype.toString.call(arr) === '[object Array]';
@@ -38,7 +40,7 @@ var _ = (function () {
       // Quick check to determine if target is callable, in the spec
       // this throws a TypeError, but we will just return undefined.
       if (!this.isFunction(fn)) {
-          return undefined;
+        return undefined;
       }
 
       var args = slice.call( arguments, 2 );
@@ -57,7 +59,7 @@ var _ = (function () {
       } else {
         for (var key in obj) {
           if (obj.hasOwnProperty(key)) {
-             iteratee(obj[key], key, obj);
+            iteratee(obj[key], key, obj);
           }
         }
       }
@@ -152,7 +154,7 @@ var _ = (function () {
 
       return function() {
         if (wasCalled)
-         return result;
+          return result;
         else {
           wasCalled = true;
           result = func.apply(this, arguments);
@@ -224,8 +226,26 @@ var _ = (function () {
       return false;
     },
 
+    // Empty link used to retrieve url parts in the
+    // `getHost` and `getOrigin` methods
+    emptyLink: window.document.createElement('a'),
+
+    getHost: function(href) {
+      this.emptyLink.href = href;
+      return this.emptyLink.hostname;
+    },
+
+    getOrigin: function(url) {
+      // Use the anchor tag to guarantee a fully formed URL.
+      this.emptyLink.href = url;
+      var parts = this.emptyLink.href.split('/');
+      return parts[0] + '//' + parts[2];
+    },
+
     now: Date.now,
   };
+
+  return _;
 
 })();
 

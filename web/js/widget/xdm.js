@@ -1,5 +1,5 @@
-/* jshint strict:false */
-var xdm = (function() {
+
+module.exports = (function() {
 
   return {
     sendMessage: function(name, data) {
@@ -23,11 +23,11 @@ var xdm = (function() {
 
       })(this, message);
 
-      // if (this.isReady()) {
+      if (this.getState('load')) {
         send();
-      // } else {
-      //   this.on('ready', send);
-      // }
+      } else {
+        this.on('change:load', send);
+      }
     }
   };
 

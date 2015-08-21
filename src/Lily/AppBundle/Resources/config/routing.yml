@@ -2,9 +2,13 @@ lily_app_index:
     pattern:  /{licence}
     defaults: { _controller: LilyAppBundle:App:index }
 
-lily_app_js_index:
+lily_app_widget_index:
     pattern:  /widget/{licence}
     defaults: { _controller: LilyAppBundle:App:widget }
+
+lily_app_snippet_index:
+    pattern:  /snippet/{licence}
+    defaults: { _controller: LilyAppBundle:App:snippet }
 
 lily_app_rest:
     resource: "@LilyAppBundle/Controller/AppController.php"
