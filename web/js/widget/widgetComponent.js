@@ -2,6 +2,17 @@ var mediator  = require('./mediator.js');
 var component = require('./component.js');
 var _         = require('./utils.js');
 
+var elOptions = {
+  tagName: 'div',
+  html: '{{ widget }}',
+  styles: {
+    'display': 'none',
+  },
+  attrs: {
+    'id': 'lily-widget-container'
+  }
+};
+
 module.exports = function() {
 
   var _widgetComponent = _.extend(component(), {
@@ -16,7 +27,7 @@ module.exports = function() {
     el: undefined,
 
     // Html id for the element
-    id: 'lily-widget-container',
+    id: elOptions.attrs.id,
 
     // A map of events for this object
     // Callbacks will be bound to the "view", with `this` set properly.
@@ -33,26 +44,12 @@ module.exports = function() {
     // Note: setState should not be called from another component. State changes
     // have to be made internally.
     state: {
-      'shown': false,
-      'firstShow': true,
-    },
-
-    // Not unit tested
-    getElOptions: function() {
-      return {
-        tagName: 'div',
-        html: '{{ widget }}',
-        styles: {
-          'display': 'none',
-        },
-        attrs: {
-          'id': this.id
-        }
-      };
+      shown: false,
+      firstShow: true,
     },
 
     initialize: function() {
-      this.el = this.render(this.getElOptions());
+      this.el = this.render(elOptions);
 
       // Create listeners for the events listed in the 'events' objects
       // on the eventBus
@@ -76,9 +73,8 @@ module.exports = function() {
       _.addEvent(this.el, 'click', _.bind(this.onWidgetClick, this));
     },
 
-    // Not unit tested
     onWidgetClick: function() {
-      mediator.trigger('widget.click');
+      mediator.trigger('lily.expand');
     },
 
     showWidget: function() {

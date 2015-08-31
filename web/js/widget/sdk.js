@@ -5,15 +5,19 @@ var mediator = require('./mediator.js');
 
 module.exports = (function() {
 
+  // Any sdk method was called using the saio public object
+  // before all the scripts were loaded
+  var calledBeforeLoad = false;
+
   var configMethods = {
-    'setOperatorGroup': function(groupId) {
+    'chat.setOperatorGroup': function(groupId) {
       if (!_.isString(groupId)) {
         console.error('groupId should be a string containing the operator group id');
       }
       mediator.trigger('config.setOperatorGroup', groupId);
     },
 
-    'config.box.startExpanded': function() {
+    'box.startExpanded': function() {
       mediator.trigger('lily.expand');
     },
   };
@@ -21,41 +25,41 @@ module.exports = (function() {
   // Can be triggered on the host website using the sdk
   var apiMethods = {
     // Widget & iframe show/hide events
-    'api.widget.show': function() {
+    'widget.show': function() {
       mediator.trigger('widget.show');
     },
 
-    'api.widget.hide': function() {
+    'widget.hide': function() {
       mediator.trigger('widget.hide');
     },
 
-    'api.box.expand': function() {
+    'box.expand': function() {
       mediator.trigger('lily.expand');
     },
 
-    'api.box.shrink': function() {
+    'box.shrink': function() {
       mediator.trigger('lily.shrink');
     },
 
-    'api.widget.onShow': function(callback) {
+    'widget.onShow': function(callback) {
       if (_.isFunction(callback)) {
         mediator.on('widget.onShow', callback, {});
       }
     },
 
-    'api.widget.onHide': function(callback) {
+    'widget.onHide': function(callback) {
       if (_.isFunction(callback)) {
         mediator.on('widget.onHide', callback, {});
       }
     },
 
-    'api.box.onExpand': function(callback) {
+    'box.onExpand': function(callback) {
       if (_.isFunction(callback)) {
         mediator.on('lily.onExpand', callback, {});
       }
     },
 
-    'api.box.onShrink': function(callback) {
+    'box.onShrink': function(callback) {
       if (_.isFunction(callback)) {
         mediator.on('lily.onShrink', callback, {});
       }
@@ -63,7 +67,7 @@ module.exports = (function() {
 
     // Should only be registered once. If it happens to be registered multiple time,
     // return previous return value.
-    'api.onReady': function(callback) {
+    'app.onReady': function(callback) {
       return _.once(function() {
         var lily = mediator.getRegisteredApp('lily');
 
@@ -80,7 +84,7 @@ module.exports = (function() {
     'api.onAviSessionStart':    'onAviSessionStart',
 
     // WIP, Do not use in production
-    'api.sendMessageToVisitor': function(message) {
+    'chat.sendMessageToVisitor': function(message) {
       if (!message || !(_.isObject(message) && _.isString(message.body))) {
         console.warn('malformed message. See documentation at:');
       }
@@ -90,7 +94,7 @@ module.exports = (function() {
       });
     },
 
-    'api.onMessageToOperator': function(callback) {
+    'chat.onMessageToOperator': function(callback) {
       mediator.on('lily.onMessageToOperator', function(message) {
         if (_.isFunction(callback)) {
           callback(message);
@@ -98,7 +102,7 @@ module.exports = (function() {
       });
     },
 
-    'api.onQuestionAskedToAvi': 'onQuestionAskedToAvi'
+    'avi.onAskedQuestion': 'onAskedQuestionToAvi'
   };
 
   function config(name, obj) {
@@ -108,6 +112,9 @@ module.exports = (function() {
 
     if (configMethods[name]) {
       configMethods[name].call(this, obj);
+    } else {
+      console.warn('unknown config name: "' + name.toString() +
+        '" see api documentation at');
     }
   }
 
@@ -118,12 +125,16 @@ module.exports = (function() {
 
     if (apiMethods[name]) {
       apiMethods[name].call(this, obj);
+    } else {
+      console.warn('unknown api method name: "' + name.toString() +
+        '" see api documentation at');
     }
   }
 
   return {
     config: config,
-    api: api
+    api: api,
+    calledBeforeLoad: calledBeforeLoad
   };
 
 })();

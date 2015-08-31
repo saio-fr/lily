@@ -154,7 +154,6 @@ define(function(require) {
             if (index === length - 1) {
               app.setIsConversationClosed(true);
             }
-
             break;
           case 'inactivity':
             app.isConnectionActive = false;
@@ -164,7 +163,6 @@ define(function(require) {
           case 'ban':
             break;
           case undefined:
-
             break;
         }
       });

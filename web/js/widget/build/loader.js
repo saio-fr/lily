@@ -78,8 +78,7 @@
 	var snippetVersion = saioq && saioq.SNIPPET_VERSION ?
 	  parseFloat(saioq.SNIPPET_VERSION, 10) : 0;
 
-	// Initialize host (mediator + keep ref to the host window),
-	// and other apps (lily and widget for now)
+	// Initialize host and other apps (lily and widget for now)
 	var host   = hostComponent().initialize();
 	var lily   = lilyComponent().initialize();
 	var widget = widgetComponent().initialize();
@@ -95,7 +94,9 @@
 	  var method = args.shift();
 
 	  if (saio[method]) {
+	    // call the method on sdk
 	    sdk[method].apply(saio, args);
+	    sdk.calledBeforeLoad = true;
 	  }
 	}
 
@@ -113,6 +114,31 @@
 	var xdm       = __webpack_require__(6);
 	var _         = __webpack_require__(3);
 
+	var iframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
+
+	var elOptions = {
+	  tagName: 'iframe',
+	  attrs: {
+	    id: 'lilyApp',
+	    allowTransparency: 'true',
+	    frameBorder: '0',
+	    scrolling: 'yes',
+	    name: 'saio_lily_app',
+	    role: 'dialog',
+	    src: iframeSrc
+	  },
+
+	  container: {
+	    tagName: 'div',
+	    attrs: {
+	      id: 'lilyAppContainer',
+	    },
+	    styles: {
+	      display: 'none',
+	    }
+	  },
+	};
+
 	module.exports = function() {
 
 	  var lilyComponent = _.extend(component(), {
@@ -124,22 +150,27 @@
 	    uid: 'lily',
 
 	    // Will be used as src for the iframe
-	    target: '{{ url("lily_app_index", { licence: licence }) }}',
+	    target: iframeSrc,
 
 	    // Origin part of the target url
-	    origin: _.getOrigin('{{ url("lily_app_index", { licence: licence }) }}'),
+	    origin: _.getOrigin(iframeSrc),
 
 	    // Host part of the target url
-	    host: _.getHost('{{ url("lily_app_index", { licence: licence }) }}'),
+	    host: _.getHost(iframeSrc),
 
-	    // Frame window will be given the iframe window when inserted in the dom
+	    // Component frame will be given the iframe window when inserted in the dom
 	    frame: undefined,
 
 	    // Will be set when creating the dom element
 	    el: undefined,
 
+	    elOptions: elOptions,
+
 	    // Html id for the element
-	    id: 'lilyApp',
+	    id: elOptions.container.attrs.id,
+
+	    // HTML id for the iframe
+	    frameId: elOptions.attrs.id,
 
 	    // Internal flags and config variables
 	    shouldOpenStandalone: false,
@@ -150,8 +181,8 @@
 	    events: {
 	      'lily.load': 'onLoad',
 	      'lily.ready': 'onReady',
-	      'lily.expand': 'showApp',
-	      'lily.shrink': 'hideApp',
+	      'lily.expand': 'onExpand',
+	      'lily.shrink': 'onShrink',
 	      'lily.onWidgetShow': 'onWidgetShow',
 
 	      // Triggered by api
@@ -167,44 +198,19 @@
 	    // Note: setState should not be called from another component. State changes
 	    // have to be made internally.
 	    state: {
-	      'load': false,
-	      'ready': false,
-	      'shown': false,
-	      'firstOpen': true,
-	    },
-
-	    getElOptions: function() {
-	      return {
-	        tagName: 'iframe',
-	        attrs: {
-	          'id': this.id,
-	          'allowTransparency': 'true',
-	          'frameBorder': '0',
-	          'scrolling': 'yes',
-	          'name': 'saio_lily_app',
-	          'role': 'dialog',
-	          'src': this.target
-	        },
-
-	        container: {
-	          tagName: 'div',
-	          attrs: {
-	            'id': 'lilyAppContainer',
-	          },
-	          styles: {
-	            'display': 'none',
-	          }
-	        },
-	      };
+	      load: false,
+	      ready: false,
+	      shown: false,
+	      firstOpen: true,
 	    },
 
 	    initialize: function() {
-	      this.el = this.render(this.getElOptions());
+	      this.el = this.render(this.elOptions);
 
 	      // Keep a reference to the iframe window object.
 	      // Will be used later to send messages using postMessage.
 	      // Child iframe window object can also be found in the "frame" array
-	      this.frame = document.getElementById(this.id).contentWindow;
+	      this.frame = document.getElementById(this.frameId).contentWindow;
 
 	      // Create listeners for the events listed in the 'events' objects
 	      this.delegateEvents(mediator, this.events, this);
@@ -252,7 +258,7 @@
 	      this.setState('ready', true);
 
 	      if (options && options.displayApp) {
-	        this.showApp();
+	        this.onExpand();
 	      } else {
 	        mediator.trigger('widget.show');
 	      }
@@ -278,23 +284,7 @@
 	      this.sendMessage('config.setOperatorGroup', groupId);
 	    },
 
-	    hideApp: function() {
-	      // Go no further if app is in standalone mode.
-	      if (this.shouldOpenStandalone) return;
-
-	      // Hide \o/
-	      this.hide();
-
-	      this.setState('shown', false);
-
-	      // Widget should be shown after the app was hidden
-	      mediator.trigger('widget.show');
-
-	      // Will be used for the api to add behaviour onShrink
-	      mediator.trigger('lily.onShrink');
-	    },
-
-	    showApp: function() {
+	    onExpand: function() {
 	      var firstOpen = this.getState('firstOpen');
 
 	      // If the app should be opened in standalone mode (new tab,
@@ -307,7 +297,7 @@
 	      if (this.getState('ready')) {
 	        this.show();
 	      } else {
-	        return mediator.once('lily.onReady', this.showApp, this);
+	        return mediator.once('lily.onReady', this.onExpand, this);
 	      }
 
 	      this.setState('shown', true);
@@ -327,6 +317,22 @@
 
 	      // Will be used for the api to add behaviour onExpand
 	      mediator.trigger('lily.onExpand');
+	    },
+
+	    onShrink: function() {
+	      // Go no further if app is in standalone mode.
+	      if (this.shouldOpenStandalone) return;
+
+	      // Hide \o/
+	      this.hide();
+
+	      this.setState('shown', false);
+
+	      // Widget should be shown after the app was hidden
+	      mediator.trigger('widget.show');
+
+	      // Will be used for the api to add behaviour onShrink
+	      mediator.trigger('lily.onShrink');
 	    },
 
 	    sendMessageToVisitor: function(message) {
@@ -383,7 +389,7 @@
 
 	    // Get the value of a state set in the state map
 	    getState: function(state) {
-	      return this.state[state] || undefined;
+	      return this.state[state];
 	    },
 
 	    // Set the value of a state in the state map.
@@ -986,13 +992,12 @@
 	 */
 	module.exports = (function() {
 
-	  var appsRegistry = {};
+	  var _appsRegistry = {};
 
 	  var mediator = _.extend(component(), {
 
 	    events: {
 	      // Comming from widget app
-	      'widget.click': 'onWidgetClick',
 	      'widget.onShow': 'onWidgetShow',
 
 	      // Change events
@@ -1007,8 +1012,9 @@
 	      return this;
 	    },
 
+
 	    /**
-	     * Methods called after a event from lily was fired
+	     * Event listeners
 	     */
 
 	    onLilyReadyChange: function(ready) {
@@ -1017,32 +1023,26 @@
 	      }
 	    },
 
-	    /**
-	     * Methods called after a event from widget was fired
-	     */
-
-	    onWidgetClick: function() {
-	      this.trigger('lily.expand');
-	    },
-
 	    onWidgetShow: function(firstShow) {
 	      this.trigger('lily.onWidgetShow');
 	    },
 
+
 	    /**
 	     * Access and store the components in a central registory
 	     */
+
 	    registerApp: function(frame, uid) {
-	      appsRegistry[uid] = frame;
+	      _appsRegistry[uid] = frame;
 	      return frame;
 	    },
 
-	    unRegisterApp: function(uid) {
-	      delete appsRegistry[uid];
+	    getRegisteredApp: function(uid) {
+	      return _appsRegistry[uid] || undefined;
 	    },
 
-	    getRegisteredApp: function(uid) {
-	      return appsRegistry[uid] || undefined;
+	    unRegisterApp: function(uid) {
+	      delete _appsRegistry[uid];
 	    },
 
 	  }, Events);
@@ -1050,6 +1050,7 @@
 	  mediator.initialize();
 
 	  return mediator;
+
 	})();
 
 
@@ -1072,7 +1073,7 @@
 
 	      var send = (function(target, message) {
 	        return function() {
-	          var targetWindow = target.window;
+	          var targetWindow = target.frame;
 	          if (targetWindow) {
 	            targetWindow.postMessage(message, target.origin);
 	          } else {
@@ -1186,6 +1187,17 @@
 	var component = __webpack_require__(2);
 	var _         = __webpack_require__(3);
 
+	var elOptions = {
+	  tagName: 'div',
+	  html: '{{ widget }}',
+	  styles: {
+	    'display': 'none',
+	  },
+	  attrs: {
+	    'id': 'lily-widget-container'
+	  }
+	};
+
 	module.exports = function() {
 
 	  var _widgetComponent = _.extend(component(), {
@@ -1200,7 +1212,7 @@
 	    el: undefined,
 
 	    // Html id for the element
-	    id: 'lily-widget-container',
+	    id: elOptions.attrs.id,
 
 	    // A map of events for this object
 	    // Callbacks will be bound to the "view", with `this` set properly.
@@ -1217,26 +1229,12 @@
 	    // Note: setState should not be called from another component. State changes
 	    // have to be made internally.
 	    state: {
-	      'shown': false,
-	      'firstShow': true,
-	    },
-
-	    // Not unit tested
-	    getElOptions: function() {
-	      return {
-	        tagName: 'div',
-	        html: '{{ widget }}',
-	        styles: {
-	          'display': 'none',
-	        },
-	        attrs: {
-	          'id': this.id
-	        }
-	      };
+	      shown: false,
+	      firstShow: true,
 	    },
 
 	    initialize: function() {
-	      this.el = this.render(this.getElOptions());
+	      this.el = this.render(elOptions);
 
 	      // Create listeners for the events listed in the 'events' objects
 	      // on the eventBus
@@ -1260,9 +1258,8 @@
 	      _.addEvent(this.el, 'click', _.bind(this.onWidgetClick, this));
 	    },
 
-	    // Not unit tested
 	    onWidgetClick: function() {
-	      mediator.trigger('widget.click');
+	      mediator.trigger('lily.expand');
 	    },
 
 	    showWidget: function() {
@@ -1310,15 +1307,19 @@
 
 	module.exports = (function() {
 
+	  // Any sdk method was called using the saio public object
+	  // before all the scripts were loaded
+	  var calledBeforeLoad = false;
+
 	  var configMethods = {
-	    'setOperatorGroup': function(groupId) {
+	    'chat.setOperatorGroup': function(groupId) {
 	      if (!_.isString(groupId)) {
 	        console.error('groupId should be a string containing the operator group id');
 	      }
 	      mediator.trigger('config.setOperatorGroup', groupId);
 	    },
 
-	    'config.box.startExpanded': function() {
+	    'box.startExpanded': function() {
 	      mediator.trigger('lily.expand');
 	    },
 	  };
@@ -1326,41 +1327,41 @@
 	  // Can be triggered on the host website using the sdk
 	  var apiMethods = {
 	    // Widget & iframe show/hide events
-	    'api.widget.show': function() {
+	    'widget.show': function() {
 	      mediator.trigger('widget.show');
 	    },
 
-	    'api.widget.hide': function() {
+	    'widget.hide': function() {
 	      mediator.trigger('widget.hide');
 	    },
 
-	    'api.box.expand': function() {
+	    'box.expand': function() {
 	      mediator.trigger('lily.expand');
 	    },
 
-	    'api.box.shrink': function() {
+	    'box.shrink': function() {
 	      mediator.trigger('lily.shrink');
 	    },
 
-	    'api.widget.onShow': function(callback) {
+	    'widget.onShow': function(callback) {
 	      if (_.isFunction(callback)) {
 	        mediator.on('widget.onShow', callback, {});
 	      }
 	    },
 
-	    'api.widget.onHide': function(callback) {
+	    'widget.onHide': function(callback) {
 	      if (_.isFunction(callback)) {
 	        mediator.on('widget.onHide', callback, {});
 	      }
 	    },
 
-	    'api.box.onExpand': function(callback) {
+	    'box.onExpand': function(callback) {
 	      if (_.isFunction(callback)) {
 	        mediator.on('lily.onExpand', callback, {});
 	      }
 	    },
 
-	    'api.box.onShrink': function(callback) {
+	    'box.onShrink': function(callback) {
 	      if (_.isFunction(callback)) {
 	        mediator.on('lily.onShrink', callback, {});
 	      }
@@ -1368,7 +1369,7 @@
 
 	    // Should only be registered once. If it happens to be registered multiple time,
 	    // return previous return value.
-	    'api.onReady': function(callback) {
+	    'app.onReady': function(callback) {
 	      return _.once(function() {
 	        var lily = mediator.getRegisteredApp('lily');
 
@@ -1385,7 +1386,7 @@
 	    'api.onAviSessionStart':    'onAviSessionStart',
 
 	    // WIP, Do not use in production
-	    'api.sendMessageToVisitor': function(message) {
+	    'chat.sendMessageToVisitor': function(message) {
 	      if (!message || !(_.isObject(message) && _.isString(message.body))) {
 	        console.warn('malformed message. See documentation at:');
 	      }
@@ -1395,7 +1396,7 @@
 	      });
 	    },
 
-	    'api.onMessageToOperator': function(callback) {
+	    'chat.onMessageToOperator': function(callback) {
 	      mediator.on('lily.onMessageToOperator', function(message) {
 	        if (_.isFunction(callback)) {
 	          callback(message);
@@ -1403,7 +1404,7 @@
 	      });
 	    },
 
-	    'api.onQuestionAskedToAvi': 'onQuestionAskedToAvi'
+	    'avi.onAskedQuestion': 'onAskedQuestionToAvi'
 	  };
 
 	  function config(name, obj) {
@@ -1413,6 +1414,9 @@
 
 	    if (configMethods[name]) {
 	      configMethods[name].call(this, obj);
+	    } else {
+	      console.warn('unknown config name: "' + name.toString() +
+	        '" see api documentation at');
 	    }
 	  }
 
@@ -1423,12 +1427,16 @@
 
 	    if (apiMethods[name]) {
 	      apiMethods[name].call(this, obj);
+	    } else {
+	      console.warn('unknown api method name: "' + name.toString() +
+	        '" see api documentation at');
 	    }
 	  }
 
 	  return {
 	    config: config,
-	    api: api
+	    api: api,
+	    calledBeforeLoad: calledBeforeLoad
 	  };
 
 	})();

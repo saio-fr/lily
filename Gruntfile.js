@@ -17,19 +17,6 @@ var _config =  {
   redirection:  config.mix('redirection')
 };
 
-var widgetFiles = [
-  'web/js/widget/utils.js',
-  'web/js/widget/Events.js',
-  'web/js/widget/xdm.js',
-  'web/js/widget/mediator.js',
-  'web/js/widget/component.js',
-  'web/js/widget/sdk.js',
-  'web/js/widget/hostComponent.js',
-  'web/js/widget/lilyComponent.js',
-  'web/js/widget/widgetComponent.js',
-  'web/js/widget/main.js',
-];
-
 // Format for grunt task config.
 function getRequireConf() {
   var returnObj = {};
@@ -57,7 +44,8 @@ module.exports = function(grunt) {
     requireMulti: requirejsConf,
 
     clean: {
-      release: 'web/js-build'
+      app: 'web/js-build',
+      widget: 'web/js/widget/build',
     },
 
     jshint: {
@@ -315,6 +303,12 @@ module.exports = function(grunt) {
     karma: {
       test: {
         configFile: 'karma.conf.js',
+      },
+
+      build: {
+        configFile: 'karma.conf.js',
+        singleRun: true,
+        browsers: ['PhantomJS'],
       }
     },
 
@@ -325,11 +319,14 @@ module.exports = function(grunt) {
           path: '<%= tempDirWidget %>/build/',
           filename: 'loader.js',
         },
+        resolve: {
+          modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
+        }
       }
     },
 
     watch: {
-      dafault: {
+      default: {
         files: ['web/js/widget/**.js'],
         tasks: [
           'webpack:widget',
@@ -370,10 +367,12 @@ module.exports = function(grunt) {
   grunt.registerTask('cacheBust', ['hashres:prod']);
   grunt.registerTask('cleanDevRefs', ['hashres:dev']);
 
-  grunt.registerTask('dev', ['clean', 'cleanDevRefs']);
+  grunt.registerTask('devFront', [
+    'clean:app',
+    'cleanDevRefs'
+  ]);
 
   // Default task. Compile all modules
-  grunt.registerTask('build', ['clean', 'requireMulti', 'cacheBust']);
   grunt.registerTask('buildFront', ['requireMulti:front', 'cacheBust']);
   grunt.registerTask('buildChat', ['requireMulti:chatComp', 'cacheBust']);
   grunt.registerTask('buildLibs', ['requireMulti:common', 'cacheBust']);
@@ -401,11 +400,6 @@ module.exports = function(grunt) {
     'copy:snippetMin',
   ]);
 
-  grunt.registerTask('buildWidget', [
-    'webpack:widget',
-    'uglify:widgetMin',
-  ]);
-
   grunt.registerTask('devWidget', [
     'jshint:widget',
     'webpack:widget',
@@ -413,7 +407,21 @@ module.exports = function(grunt) {
     'watch',
   ]);
 
+  grunt.registerTask('buildWidget', [
+    'webpack:widget',
+    'uglify:widgetMin',
+  ]);
+
   grunt.registerTask('test', [
     'karma:test'
+  ]);
+
+  grunt.registerTask('build', [
+    'clean',
+    'karma:build',
+    'requireMulti',
+    'cacheBust',
+    'buildSnippet',
+    'buildWidget',
   ]);
 };

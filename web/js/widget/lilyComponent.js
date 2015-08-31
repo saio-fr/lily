@@ -4,6 +4,31 @@ var mediator  = require('./mediator.js');
 var xdm       = require('./xdm.js');
 var _         = require('./utils.js');
 
+var iframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
+
+var elOptions = {
+  tagName: 'iframe',
+  attrs: {
+    id: 'lilyApp',
+    allowTransparency: 'true',
+    frameBorder: '0',
+    scrolling: 'yes',
+    name: 'saio_lily_app',
+    role: 'dialog',
+    src: iframeSrc
+  },
+
+  container: {
+    tagName: 'div',
+    attrs: {
+      id: 'lilyAppContainer',
+    },
+    styles: {
+      display: 'none',
+    }
+  },
+};
+
 module.exports = function() {
 
   var lilyComponent = _.extend(component(), {
@@ -15,22 +40,27 @@ module.exports = function() {
     uid: 'lily',
 
     // Will be used as src for the iframe
-    target: '{{ url("lily_app_index", { licence: licence }) }}',
+    target: iframeSrc,
 
     // Origin part of the target url
-    origin: _.getOrigin('{{ url("lily_app_index", { licence: licence }) }}'),
+    origin: _.getOrigin(iframeSrc),
 
     // Host part of the target url
-    host: _.getHost('{{ url("lily_app_index", { licence: licence }) }}'),
+    host: _.getHost(iframeSrc),
 
-    // Frame window will be given the iframe window when inserted in the dom
+    // Component frame will be given the iframe window when inserted in the dom
     frame: undefined,
 
     // Will be set when creating the dom element
     el: undefined,
 
+    elOptions: elOptions,
+
     // Html id for the element
-    id: 'lilyApp',
+    id: elOptions.container.attrs.id,
+
+    // HTML id for the iframe
+    frameId: elOptions.attrs.id,
 
     // Internal flags and config variables
     shouldOpenStandalone: false,
@@ -41,8 +71,8 @@ module.exports = function() {
     events: {
       'lily.load': 'onLoad',
       'lily.ready': 'onReady',
-      'lily.expand': 'showApp',
-      'lily.shrink': 'hideApp',
+      'lily.expand': 'onExpand',
+      'lily.shrink': 'onShrink',
       'lily.onWidgetShow': 'onWidgetShow',
 
       // Triggered by api
@@ -58,44 +88,19 @@ module.exports = function() {
     // Note: setState should not be called from another component. State changes
     // have to be made internally.
     state: {
-      'load': false,
-      'ready': false,
-      'shown': false,
-      'firstOpen': true,
-    },
-
-    getElOptions: function() {
-      return {
-        tagName: 'iframe',
-        attrs: {
-          'id': this.id,
-          'allowTransparency': 'true',
-          'frameBorder': '0',
-          'scrolling': 'yes',
-          'name': 'saio_lily_app',
-          'role': 'dialog',
-          'src': this.target
-        },
-
-        container: {
-          tagName: 'div',
-          attrs: {
-            'id': 'lilyAppContainer',
-          },
-          styles: {
-            'display': 'none',
-          }
-        },
-      };
+      load: false,
+      ready: false,
+      shown: false,
+      firstOpen: true,
     },
 
     initialize: function() {
-      this.el = this.render(this.getElOptions());
+      this.el = this.render(this.elOptions);
 
       // Keep a reference to the iframe window object.
       // Will be used later to send messages using postMessage.
       // Child iframe window object can also be found in the "frame" array
-      this.frame = document.getElementById(this.id).contentWindow;
+      this.frame = document.getElementById(this.frameId).contentWindow;
 
       // Create listeners for the events listed in the 'events' objects
       this.delegateEvents(mediator, this.events, this);
@@ -143,7 +148,7 @@ module.exports = function() {
       this.setState('ready', true);
 
       if (options && options.displayApp) {
-        this.showApp();
+        this.onExpand();
       } else {
         mediator.trigger('widget.show');
       }
@@ -169,23 +174,7 @@ module.exports = function() {
       this.sendMessage('config.setOperatorGroup', groupId);
     },
 
-    hideApp: function() {
-      // Go no further if app is in standalone mode.
-      if (this.shouldOpenStandalone) return;
-
-      // Hide \o/
-      this.hide();
-
-      this.setState('shown', false);
-
-      // Widget should be shown after the app was hidden
-      mediator.trigger('widget.show');
-
-      // Will be used for the api to add behaviour onShrink
-      mediator.trigger('lily.onShrink');
-    },
-
-    showApp: function() {
+    onExpand: function() {
       var firstOpen = this.getState('firstOpen');
 
       // If the app should be opened in standalone mode (new tab,
@@ -198,7 +187,7 @@ module.exports = function() {
       if (this.getState('ready')) {
         this.show();
       } else {
-        return mediator.once('lily.onReady', this.showApp, this);
+        return mediator.once('lily.onReady', this.onExpand, this);
       }
 
       this.setState('shown', true);
@@ -218,6 +207,22 @@ module.exports = function() {
 
       // Will be used for the api to add behaviour onExpand
       mediator.trigger('lily.onExpand');
+    },
+
+    onShrink: function() {
+      // Go no further if app is in standalone mode.
+      if (this.shouldOpenStandalone) return;
+
+      // Hide \o/
+      this.hide();
+
+      this.setState('shown', false);
+
+      // Widget should be shown after the app was hidden
+      mediator.trigger('widget.show');
+
+      // Will be used for the api to add behaviour onShrink
+      mediator.trigger('lily.onShrink');
     },
 
     sendMessageToVisitor: function(message) {

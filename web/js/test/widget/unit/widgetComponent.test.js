@@ -30,6 +30,23 @@ function lilyMock() {
   return mediator.registerApp(lily, 'lily');
 }
 
+// Universal `click` event creation and dispatch
+// phantomJs doesn't support `el.click()`
+// (see http://stackoverflow.com/questions/15739263/phantomjs-click-an-element)
+function click(el){
+  var ev = document.createEvent('MouseEvent');
+  ev.initMouseEvent(
+    'click',
+    true /* bubble */,
+    true /* cancelable */,
+    window, null,
+    0, 0, 0, 0, /* coordinates */
+    false, false, false, false, /* modifier keys */
+    0 /*left*/, null
+  );
+  el.dispatchEvent(ev);
+}
+
 test('initialize calls render and sets `this.el`', function(assert) {
   var widget = widgetComponent();
 
@@ -40,13 +57,11 @@ test('initialize calls render and sets `this.el`', function(assert) {
   widget.initialize();
 
   assert.ok(renderSpy.calledOnce, 'should call render method once');
-  widget.render.restore();
-
   assert.ok(widget.el, '`this.el` should have been set to the return value of render');
 
   // clean up
   widget.remove();
-
+  widget.render.restore();
   assert.end();
 });
 
@@ -67,7 +82,6 @@ test('initialize calls delegate on the events map', function(assert) {
 
   // clean up
   widget.remove();
-
   assert.end();
 });
 
@@ -86,34 +100,14 @@ test('initialize calls delegate even when `this.events` map is empty', function(
 
   // clean up
   widget.remove();
-
-  assert.end();
-});
-
-test('initialize calls registerDomEvents', function(assert) {
-  var widget = widgetComponent();
-
-  // Create a spy for render
-  var registerDomEventsSpy = sinon.spy(widget, 'registerDomEvents');
-
-  // Initialize widget
-  widget.initialize();
-
-  assert.ok(registerDomEventsSpy.calledOnce,
-    'should call registerDomEvents method once');
-
-  // clean up
-  widget.registerDomEvents.restore();
-  widget.remove();
-
   assert.end();
 });
 
 test('render', function(assert) {
   var widget = widgetComponent();
 
-  // Initialize widget
-  var el = widget.render({
+  // render widget
+  widget.el = widget.render({
     tagName: 'div',
     styles: {
       'display': 'none',
@@ -124,15 +118,15 @@ test('render', function(assert) {
   });
 
   // Element created
-  assert.equal(el.tagName, 'DIV');
-  assert.equal(el.style.display, 'none');
-  assert.equal(el.id, widget.id);
+  assert.equal(widget.el.tagName, 'DIV');
+  assert.equal(widget.el.style.display, 'none');
+  assert.equal(widget.el.id, widget.id);
 
   // And inserted in the dom
-  assert.equal(document.getElementById(widget.id), el);
+  assert.equal(document.getElementById(widget.id), widget.el);
 
   // clean up
-  el.parentNode.removeChild(el);
+  widget.remove();
   assert.end();
 });
 
@@ -146,13 +140,14 @@ test('calling registerDomEvents should bind `onWidgetClick` on click on `this.el
   widget.initialize();
 
   // Emulate user click on `this.el`
-  widget.el.click();
+  click(widget.el);
 
   assert.ok(onWidgetClickSpy.calledOnce,
     'should have been called once');
 
   // clean up
   widget.remove();
+  widget.onWidgetClick.restore();
   assert.end();
 });
 
@@ -193,10 +188,39 @@ test('showWidget calls `show` on widget el when a state change passed `ready` to
   widget.showWidget();
   assert.notOk(showStub.called,
     'widget still hidden until lily is said to be ready');
+  assert.equal(widget.getState('shown'), false);
 
   // lily is ready
   lily.setState('ready', true); // Will trigger a change event and `lily.onReady` will be fired by the mediator
   assert.ok(showStub.called, 'widget should now be shown');
+  assert.equal(widget.getState('shown'), true, 'state should have changed accordingly');
+
+  // clean up
+  widget.show.restore();
+  widget.remove();
+  assert.end();
+});
+
+test('hideWidget', function(assert) {
+
+  var widget = widgetComponent();
+  var lily = lilyMock();
+
+  // lily is ready
+  lily.setState('ready', true);
+
+  // Initialize (will call render and create the element in the dom)
+  widget.initialize();
+
+  // Call showWidget()
+  widget.showWidget();
+  assert.equal(widget.el.style.display, '', 'widget is shown');
+
+  // Hide Widget
+  widget.hideWidget();
+  assert.equal(widget.el.style.display, 'none');
+
+  assert.equal(widget.getState('shown'), false);
 
   // clean up
   widget.remove();

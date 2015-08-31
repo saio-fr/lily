@@ -13,7 +13,7 @@ module.exports = (function() {
 
       var send = (function(target, message) {
         return function() {
-          var targetWindow = target.window;
+          var targetWindow = target.frame;
           if (targetWindow) {
             targetWindow.postMessage(message, target.origin);
           } else {

@@ -32,8 +32,7 @@ if (_.isUnsuported()) {
 var snippetVersion = saioq && saioq.SNIPPET_VERSION ?
   parseFloat(saioq.SNIPPET_VERSION, 10) : 0;
 
-// Initialize host (mediator + keep ref to the host window),
-// and other apps (lily and widget for now)
+// Initialize host and other apps (lily and widget for now)
 var host   = hostComponent().initialize();
 var lily   = lilyComponent().initialize();
 var widget = widgetComponent().initialize();
@@ -49,7 +48,9 @@ while (saioq && saioq.length > 0) {
   var method = args.shift();
 
   if (saio[method]) {
+    // call the method on sdk
     sdk[method].apply(saio, args);
+    sdk.calledBeforeLoad = true;
   }
 }
 

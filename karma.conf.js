@@ -16,42 +16,40 @@ module.exports = function(config) {
       'karma-sinon',
       'karma-chrome-launcher',
       'karma-webpack',
+      'karma-sourcemap-loader',
       // 'karma-firefox-launcher',
-      // 'karma-phantomjs-launcher',
+      'karma-phantomjs-launcher',
     ],
 
     files: [
-      'web/js/test/widget/**/*.js'
-    ],
-
-    // list of files to exclude
-    exclude: [
-      'web/js/test/widget/integration/**/*.js',
-      'web/js/widget/main.js',
+      // 'web/js/test/widget/**/*.js'
+      'web/js/test/widget/test_index.js'
     ],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'web/js/test/widget/**/*.js': ['webpack']
+      // 'web/js/test/widget/**/*.js': ['webpack']
+      'web/js/test/widget/test_index.js': ['webpack', 'sourcemap']
     },
 
     webpack: {
       node: {
         fs:'empty'
-      }
+      },
+
+      devtool: 'inline-source-map'
     },
 
     webpackMiddleware: {
       // webpack-dev-middleware configuration
-      // i. e.
-      noInfo: true
+      // noInfo: true
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots' ],
+    reporters: ['dots'],
 
     // web server port
     port: 9876,

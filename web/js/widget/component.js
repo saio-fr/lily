@@ -33,7 +33,7 @@ module.exports = function() {
 
     // Get the value of a state set in the state map
     getState: function(state) {
-      return this.state[state] || undefined;
+      return this.state[state];
     },
 
     // Set the value of a state in the state map.

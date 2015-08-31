@@ -13,13 +13,12 @@ var component = require('./component.js');
  */
 module.exports = (function() {
 
-  var appsRegistry = {};
+  var _appsRegistry = {};
 
   var mediator = _.extend(component(), {
 
     events: {
       // Comming from widget app
-      'widget.click': 'onWidgetClick',
       'widget.onShow': 'onWidgetShow',
 
       // Change events
@@ -34,8 +33,9 @@ module.exports = (function() {
       return this;
     },
 
+
     /**
-     * Methods called after a event from lily was fired
+     * Event listeners
      */
 
     onLilyReadyChange: function(ready) {
@@ -44,32 +44,26 @@ module.exports = (function() {
       }
     },
 
-    /**
-     * Methods called after a event from widget was fired
-     */
-
-    onWidgetClick: function() {
-      this.trigger('lily.expand');
-    },
-
     onWidgetShow: function(firstShow) {
       this.trigger('lily.onWidgetShow');
     },
 
+
     /**
      * Access and store the components in a central registory
      */
+
     registerApp: function(frame, uid) {
-      appsRegistry[uid] = frame;
+      _appsRegistry[uid] = frame;
       return frame;
     },
 
-    unRegisterApp: function(uid) {
-      delete appsRegistry[uid];
+    getRegisteredApp: function(uid) {
+      return _appsRegistry[uid] || undefined;
     },
 
-    getRegisteredApp: function(uid) {
-      return appsRegistry[uid] || undefined;
+    unRegisterApp: function(uid) {
+      delete _appsRegistry[uid];
     },
 
   }, Events);
@@ -77,4 +71,5 @@ module.exports = (function() {
   mediator.initialize();
 
   return mediator;
+
 })();
