@@ -34,6 +34,7 @@ class UserRedirection implements AuthenticationSuccessHandlerInterface
             "aud" => $user->getUsername(),
             "iat" => time(),
             "jti" => uniqid(),
+            "licence" => $user->getClient()->getLicence(),
             "firstname" => $user->getFirstname(),
             "lastname" => $user->getLastname(),
             "email" => $user->getEmail(),
