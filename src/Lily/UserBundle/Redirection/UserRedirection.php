@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Cookie;
+
+use \Firebase\JWT\JWT;
 
 class UserRedirection implements AuthenticationSuccessHandlerInterface
 {
@@ -21,18 +24,35 @@ class UserRedirection implements AuthenticationSuccessHandlerInterface
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token){
+
+        $user = $this->security->getToken()->getUser();
+        $session = $request->getSession();
+
+        // Create a jwt token to authentificate for our next nodejs Project
+        $jwtToken = array(
+            "iss" => "saio.fr",
+            "aud" => $user->getUsername(),
+            "iat" => time(),
+            "jti" => uniqid(),
+            "firstname" => $user->getFirstname(),
+            "lastname" => $user->getLastname(),
+            "email" => $user->getEmail(),
+            "roles" => $user->getRoles()
+        );
+
+        $jwt = JWT::encode($jwtToken, "C1F164C84C89C51E57A7BD8FBDA36");
+
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             $redirection = new RedirectResponse($this->router->generate('lily_admin'));
         } else {
             $redirection = new RedirectResponse($this->router->generate('lily_dashboard'));
-
-            $user = $this->security->getToken()->getUser();
 
             // identify user to analytics
             $analytics = $this->container->get('analytics');
             $analytics->identify($user);
         }
 
-        return $redirection;
+        $redirection->headers->setCookie(new Cookie('_saio', $jwt));
+        $redirection->send();
     }
 }
