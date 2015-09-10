@@ -22,6 +22,7 @@ define(function(require) {
   SkeletonView = Backbone.View.extend({
     
     tagName: 'section',
+    className: 'tab-content-wrapper',
     
     template: _.template($('#shortcutsSkeletonTpl').html()),
 

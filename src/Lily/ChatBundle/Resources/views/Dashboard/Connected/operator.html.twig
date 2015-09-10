@@ -1,12 +1,10 @@
 <div class="media operator-connected-list">
-  <span class="pull-left thumb-sm img-circle">
-    <img src="<%= converted.avatar %>" alt="avatar" class="avatar-thumb">
-  </span>
   <div class="pull-right <% if (available) { %>text-success <% } else { %> text-danger <% } %> m-t-sm">
     <i class="icon-circle"></i>
   </div>
+  <img src="<%= converted.avatar %>" alt="avatar" class="avatar">
   <div class="media-body">
-    <div><a href="#"><%= firstname %> <%= lastname %></a></div>
+    <a href="#"><%= firstname %> <%= lastname %></a>
     <small class="text-muted">
       <% _.each(groups, function(group) { %>
         <%= group %>
