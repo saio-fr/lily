@@ -1,4 +1,7 @@
-.header .nav-tabs > li.active a, .header .nav-tabs > li.active a:hover, .footer .nav-tabs > li.active a, .footer .nav-tabs > li.active a:hover {
+.header .nav-tabs > li.active a, 
+.header .nav-tabs > li.active a:hover, 
+.footer .nav-tabs > li.active a, 
+.footer .nav-tabs > li.active a:hover {
   background-color: white;
   box-shadow: none;
   font-size: 13px;
@@ -19,8 +22,16 @@
   font-size: 12px;
 }
 
+.list-group-item.active .user-name {
+  color: white;
+}
+
 .group-name {
   font-size: 12px;
+}
+
+.list-group-item.active .group-name {
+  color: white;
 }
 
 .user-info-left {
@@ -208,6 +219,10 @@
   top: 50px;
   left: 25px;
   opacity: 0;
+}
+
+.avatar-wrapper {
+  padding-left: 0;
 }
 
 .avatar-wrapper:hover .uploader {

@@ -70,7 +70,7 @@ define(function (require) {
     hide: function () {
 
       this.$el.addClass('hide');
-      $('js-redirections-list .active').removeClass('active');
+      $('.js-redirections-list .active').removeClass('active');
     },
 
     cancel: function () {
