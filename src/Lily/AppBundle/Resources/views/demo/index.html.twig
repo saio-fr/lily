@@ -20,7 +20,7 @@
 
 {% endblock %}
 
-<script src='http://bruno.saio.fr/app_dev.php/app/snippet/{{licence}}'></script>
+<script src='{{ app.request.getBaseURL() }}/app/snippet/{{licence}}'></script>
 
 </head>
 <body>
