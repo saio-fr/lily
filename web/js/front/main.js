@@ -12,9 +12,9 @@ define(function(require) {
     config.isMobile = isMobile;
     app.skeleton = new SkeletonView();
 
-    if (config.standaloneMode) {
-      app.onShowApp();
-    }
+    // if (config.standaloneMode) {
+    //   app.onAppShown();
+    // }
   };
 
   config.sid = app.getSessionId();

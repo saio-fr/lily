@@ -146,7 +146,7 @@ define(function(require) {
 
       // App openned in standalone mode (most probably on mobile)
       if (config.standaloneMode) {
-        app.onShowApp();
+        app.onAppShown();
       }
     },
 
