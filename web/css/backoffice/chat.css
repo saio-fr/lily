@@ -38,9 +38,19 @@
 }
 
 .js-dashboard-loading-chart canvas {
-  position: absolute;
-  top: 0;
-  margin-left: -85px;
+  margin: auto;
+}
+
+.operator-connected-list img {
+  width: 35px;
+  height: 35px;
+  margin-left: 10px;
+  border: solid 1px #E0E4E8;
+  float: left;
+}
+
+.media-body {
+  padding-left: 15px;
 }
 
 /* ========= Shortcuts ========== */

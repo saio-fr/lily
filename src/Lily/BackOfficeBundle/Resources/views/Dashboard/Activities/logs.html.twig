@@ -11,10 +11,12 @@
   
       _.each(collection, function(item, index) { %>
         
-        <li class="m-t">
+        <li>
           <span class="timeline-icon"><i class="time-icon bg-primary lt"></i></span>
-          <h6 class="m-n m-l-xlg"><b><%= item.type %></b>, <%= item.action %> le <%= moment(item.loggedAt).format('DD MMMM') %> à <%= moment(item.loggedAt).format('HH:mm') %></h6>
-          <small class="m-l-xlg"><%= item.title %></small>
+          <div class="content">
+            <h6 class="m-n"><b><%= item.type %></b>, <%= item.action %> le <%= moment(item.loggedAt).format('DD MMMM') %> à <%= moment(item.loggedAt).format('HH:mm') %></h6>
+            <small><%= item.title %></small>
+          </div>
         </li>
         
     <% }); } %>

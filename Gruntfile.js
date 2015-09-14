@@ -1,8 +1,7 @@
-/*global module:false*/
+/*global module:false, require:true*/
 'use strict';
 
 var config = require('./buildConfig');
-
 var _config =  {
   front:        config.mix('front'),
   common:       config.mix('common'),
@@ -23,7 +22,7 @@ function getRequireConf() {
   var returnObj = {};
   Object.keys(_config).forEach(function(key) {
     returnObj[key] = {
-       compile: {
+      compile: {
         options: _config[key]
       }
     };
@@ -37,10 +36,16 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
+    tempDirWidget: 'web/js/widget',
+    buildDirWidget: 'src/Lily/AppBundle/Resources/views',
+
+    snippetFooter: grunt.file.read('web/js/widget/snippet.footer.js'),
+
     requireMulti: requirejsConf,
 
     clean: {
-      release: 'web/js-build'
+      app: 'web/js-build',
+      widget: 'web/js/widget/build',
     },
 
     jshint: {
@@ -53,15 +58,126 @@ module.exports = function(grunt) {
         '!web/js/ie/**/*.js',
         '!web/js/facebook/**/*.js'
       ],
-      options: {
-        // options here to override JSHint defaults
-        jshintrc: '.jshintrc',
-      }
+      widget: [
+        'web/js/widget/*.js',
+        '!web/js/widget/build/*.js',
+        '!web/js/widget/snippet*.js'
+      ]
     },
 
     requirejs: {
       compile: {
         options: '<%= moduleConf %>'
+      }
+    },
+
+    concat: {
+      snippet: {
+        banner: '(function (window, document, undefined) {' +
+          '"use strict";',
+        footer: '})(this, document);',
+        src: ['<%= tempDirWidget %>/build/snippet.js', '<%= tempDirWidget %>/snippet.footer.js'],
+        dest: '<%= tempDirWidget %>/build/snippet.js',
+      },
+    },
+
+    uglify: {
+
+      widget: {
+        options: {
+          beautify: true,
+          mangle: false,
+          compress: false,
+          banner: '(function (window, document, undefined) {' +
+            '"use strict";',
+          footer: '})(this, document);',
+        },
+        src: '<%= tempDirWidget %>/build/loader.js',
+        dest: '<%= buildDirWidget %>/loader.js.twig',
+      },
+
+      widgetMin: {
+        options: {
+          mangle: true,
+          compress: {},
+          banner: '(function (window, document, undefined) {' +
+            '"use strict";',
+          footer: '})(this, document);',
+        },
+        src: '<%= tempDirWidget %>/build/loader.js',
+        dest: '<%= buildDirWidget %>/loader.js.twig',
+      },
+
+      snippet: {
+        options: {
+          beautify: true,
+          mangle: true,
+          compress: false,
+          footer: '<%= snippetFooter %>',
+        },
+        src: '<%= tempDirWidget %>/snippet.js',
+        dest: '<%= tempDirWidget %>/build/snippet.js',
+      },
+
+      snippetMin: {
+        options: {
+          mangle: {
+            except: ['undefined']
+          },
+          compress: {},
+          footer: '<%= snippetFooter %>',
+        },
+        src: '<%= tempDirWidget %>/snippet.js',
+        dest: '<%= tempDirWidget %>/build/snippet.min.js'
+      }
+
+    },
+
+    replace: {
+      snippet: {
+        options: {
+          patterns: [
+            {
+              match: 'snippetFooter',
+              replacement: '<%= snippetFooter %>'
+            }
+          ]
+        },
+        files: [
+          {
+            src: ['<%= tempDirWidget %>/build/snippet.js'],
+            dest: '<%= tempDirWidget %>/build/snippet.js'
+          }
+        ]
+      },
+
+      snippetMin: {
+        options: {
+          patterns: [
+            {
+              match: 'snippetFooter',
+              replacement: '<%= snippetFooter %>'
+            }
+          ]
+        },
+        files: [
+          {
+            src: ['<%= tempDirWidget %>/build/snippet.min.js'],
+            dest: '<%= tempDirWidget %>/build/snippet.min.js'
+          }
+        ]
+      }
+    },
+
+    copy: {
+      snippet: {
+        src: '<%= tempDirWidget %>/build/snippet.js',
+        dest: '<%= buildDirWidget %>/snippet.js.twig'
+      },
+
+      snippetMin: {
+        src: '<%= tempDirWidget %>/build/snippet.min.js',
+        dest: '<%= buildDirWidget %>/snippet.js.twig'
       }
     },
 
@@ -170,7 +286,7 @@ module.exports = function(grunt) {
         ],
         // File that refers to above files and needs to be updated with the hashed name
         dest: [
-          'src/Lily/AppBundle/Resources/views/themes/Lily/index.html.twig', 
+          'src/Lily/AppBundle/Resources/views/themes/Lily/index.html.twig',
           'src/Lily/ChatBundle/Resources/views/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Config/index.html.twig',
           'src/Lily/BackOfficeBundle/Resources/views/Dashboard/index.html.twig',
@@ -182,16 +298,62 @@ module.exports = function(grunt) {
           'src/Lily/UserBundle/Resources/views/Admin/index.html.twig'
         ]
       },
-    }
+    },
+
+    karma: {
+      test: {
+        configFile: 'karma.conf.js',
+      },
+
+      build: {
+        configFile: 'karma.conf.js',
+        singleRun: true,
+        browsers: ['PhantomJS'],
+      }
+    },
+
+    webpack: {
+      widget: {
+        entry: './<%= tempDirWidget %>/main.js',
+        output: {
+          path: '<%= tempDirWidget %>/build/',
+          filename: 'loader.js',
+        },
+        resolve: {
+          modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
+        }
+      }
+    },
+
+    watch: {
+      default: {
+        files: ['web/js/widget/**.js'],
+        tasks: [
+          'webpack:widget',
+          'uglify:widget'
+        ],
+        options: {
+          spawn: false,
+        },
+      },
+    },
+
   });
 
   // Load tasks from NPM
-  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-webpack');
+  grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-hashres');
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-umd');
 
   // requirejs is not a multi task. Emulate that by running requirejs task for each module in config
   // or one by one using multi task format (ex: grunt requireMulti:front)
@@ -205,10 +367,12 @@ module.exports = function(grunt) {
   grunt.registerTask('cacheBust', ['hashres:prod']);
   grunt.registerTask('cleanDevRefs', ['hashres:dev']);
 
-  grunt.registerTask('dev', ['clean', 'cleanDevRefs']);
+  grunt.registerTask('devFront', [
+    'clean:app',
+    'cleanDevRefs'
+  ]);
 
   // Default task. Compile all modules
-  grunt.registerTask('build', ['clean', 'requireMulti', 'cacheBust']);
   grunt.registerTask('buildFront', ['requireMulti:front', 'cacheBust']);
   grunt.registerTask('buildChat', ['requireMulti:chatComp', 'cacheBust']);
   grunt.registerTask('buildLibs', ['requireMulti:common', 'cacheBust']);
@@ -222,5 +386,42 @@ module.exports = function(grunt) {
     'requireMulti:users',
     'requireMulti:faq',
     'cacheBust'
+  ]);
+
+  grunt.registerTask('devSnippet', [
+    'uglify:snippet',
+    'replace:snippet',
+    'copy:snippet',
+  ]);
+
+  grunt.registerTask('buildSnippet', [
+    'uglify:snippetMin',
+    'replace:snippetMin',
+    'copy:snippetMin',
+  ]);
+
+  grunt.registerTask('devWidget', [
+    'jshint:widget',
+    'webpack:widget',
+    'uglify:widget',
+    'watch',
+  ]);
+
+  grunt.registerTask('buildWidget', [
+    'webpack:widget',
+    'uglify:widgetMin',
+  ]);
+
+  grunt.registerTask('test', [
+    'karma:test'
+  ]);
+
+  grunt.registerTask('build', [
+    'clean',
+    'karma:build',
+    'requireMulti',
+    'cacheBust',
+    'buildSnippet',
+    'buildWidget',
   ]);
 };

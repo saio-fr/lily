@@ -15,6 +15,7 @@ define(function (require) {
   DetailsView = Backbone.View.extend({
 
     className: 'vbox',
+    tagName: 'section',
     template: _.template($('#activitiesChatsDetailsTpl').html()),
 
     events: {

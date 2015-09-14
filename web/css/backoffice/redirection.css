@@ -22,6 +22,9 @@ h5 {
 .redirection-action .icon-sign-blank:hover {
   color: #63a5e1;
 }
+.active .redirection-action .icon-check-sign.default {
+  color: white;
+}
 .aside-redirection {
   border-left: 1px solid #D5D5D5;
 }
@@ -45,6 +48,9 @@ h5 {
 }
 .js-redirection-new {
   margin: 20px;
+}
+.aside-redirection {
+ width: 300px;
 }
 
 @media (max-width: 767px) {

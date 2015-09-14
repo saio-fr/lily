@@ -11,7 +11,7 @@
 {% block stylesheets %}
 
 <link rel="stylesheet" href="{{ asset('css/app/demo.css') }}" type="text/css" />
-  
+
   <!--[if lt IE 9]>
     <script src="{{ asset('js/ie/respond.js') }}" cache="false"></script>
     <script src="{{ asset('js/ie/html5.js') }}" cache="false"></script>
@@ -20,21 +20,14 @@
 
 {% endblock %}
 
-<script type="text/javascript">
-  (function() {
-    var licence = '{{ licence }}';
-    var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
-    lily.src = '{{ app.request.getBaseURL() }}/app/tracking/' + licence;
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);
- })();
-</script>
-  
+<script src='http://bruno.saio.fr/app_dev.php/app/snippet/{{licence}}'></script>
+
 </head>
 <body>
 
   <div class="wrapper-site">
     <iframe src="http://{{ url }}"></iframe>
   </div>
-  
+
 </body>
 </html>

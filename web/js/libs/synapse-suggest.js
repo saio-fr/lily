@@ -11,6 +11,7 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
       console.error('No credentials set for synapse');
       return;
     }
+
     that.credentials = credentials;
 
     // PRIVATE
@@ -62,29 +63,29 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
 
     var preparePrefetch = function() {
       return {
-          url: restRoot + 'GetListQuestions',
-          type: 'POST',
-          dataType: 'json',
-          contentType: 'application/json; charset=utf-8',
-          data: JSON.stringify(that.credentials),
-        };
+        url: restRoot + 'GetListQuestions',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(that.credentials),
+      };
     };
 
     var prepareRemote = function(query) {
       return {
-          url: restRoot + 'DoSmartSearch?query=%QUERY'.replace(wildcard, query),
-          type: 'POST',
-          dataType: 'json',
-          contentType: 'application/json',
-          data: JSON.stringify({
-            credentials: that.credentials,
-            searchRequest: {
-              index: 'Saio',
-              lang: 'fr',
-              request: '%QUERY'
-            }
-          }).replace(wildcard, query)
-        };
+        url: restRoot + 'DoSmartSearch?query=%QUERY'.replace(wildcard, query),
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          credentials: that.credentials,
+          searchRequest: {
+            index: 'Saio',
+            lang: 'fr',
+            request: '%QUERY'
+          }
+        }).replace(wildcard, query)
+      };
     };
 
     var transformPrefetch = function(response) {
@@ -107,7 +108,7 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
     };
 
     var dupDetector = function(remoteMatch, localMatch) {
-     return remoteMatch.answerId === localMatch.answerId;
+      return remoteMatch.answerId === localMatch.answerId;
     };
 
     var sortSuggestionsByScore = function(a, b) {
@@ -119,15 +120,11 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
     // A function that allows you to transform the remote response
     // before the Bloodhound instance operates on it.
     var transformRemote = function(response) {
-
       var rawResults = response.searchResults.searchResults !== '' ?
         response.searchResults.searchResults : '{}';
-
       var resultsJson = JSON.parse(rawResults);
       var results = [];
       var textResults = [];
-
-      console.log(resultsJson);
 
       // A table containing only the text of the matched question
       // to efficiently test duplicates in following loops
@@ -202,30 +199,24 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
         // time (in milliseconds) the prefetched data should be cached
         // in local storage; default is one day
         ttl: 86400000, // (One day)
-
         prepare: preparePrefetch,
-
         transform: transformPrefetch
       },
 
       remote: {
         url: restRoot + 'DoSmartSearch?query=%QUERY',
-
         prepare: prepareRemote,
-
         rateLimitBy: 'debounce',
 
         // The time interval in milliseconds that will be used by rateLimitBy.
         // Defaults to 300
         rateLimitWait: 300,
-
         transform: transformRemote
       }
     };
 
     // PUBLIC:
     this.setUpBloodhound = function() {
-
       var params = _.extend(settings, options);
 
       // if strategy is set to words, then switching to semantic search
@@ -245,7 +236,6 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
     };
 
     this.refresh = function() {
-
       console.log('clear prefetching cache');
       this.bloodhound.clear();
       this.bloodhound.initialize();
@@ -256,9 +246,6 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
     };
 
     this.addSuggestionsToInput = function(selector, strategy, semanticOffset) {
-
-      console.log('init synapse suggest input with selector= ' + selector);
-
       this.strategy = strategy;
       this.semanticOffset = semanticOffset;
       this.selector = selector;
