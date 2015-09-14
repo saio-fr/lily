@@ -39,7 +39,8 @@
     "guzzlehttp/guzzle": "~5.0",
     "guzzlehttp/guzzle-services": "0.5.*",
     "segmentio/analytics-php" : "1.2.*",
-    "guzzlehttp/log-subscriber": "~1.0"
+    "guzzlehttp/log-subscriber": "~1.0",
+    "firebase/php-jwt": "*"
   },
   "scripts": {
     "post-install-cmd": [

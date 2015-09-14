@@ -2,6 +2,10 @@
 GLOBAL
 =======================================================================================================*/
 
+.aside-profil {
+  width: 300px;
+}
+
 input[type="file"] {
   display: none;
 }
@@ -209,22 +213,22 @@ CONVERSATIONS
 LOGS
 =======================================================================================================*/
 
-.faq {
+.label.faq {
   background: #509add;
   color: white;
 }
 
-.redirection {
+.label.redirection {
   background: #59cc4d;
   color: white;
 }
 
-.question {
+.label.question {
   background: #eda418;
   color: white;
 }
 
-.chat {
+.label.chat {
   background: #35acc5;
   color: white;
 }

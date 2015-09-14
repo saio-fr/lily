@@ -16,7 +16,8 @@ define(function (require) {
 
   StatisticsView = Backbone.View.extend({
 
-    el: '#statistics',
+    tagName: 'section',
+    className: 'scrollable',
     template: _.template($('#activitiesStatisticsGraphTpl').html()),
     templateFooter: _.template($('#activitiesStatisticsFooterTpl').html()),
 
@@ -32,7 +33,7 @@ define(function (require) {
     },
     
     render: function () {
-      this.$el.html(this.template());
+      $('#statistics').append(this.$el.html(this.template()));
       return this;
     },
     

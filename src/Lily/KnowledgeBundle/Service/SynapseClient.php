@@ -5,7 +5,6 @@ namespace Lily\KnowledgeBundle\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
-use GuzzleHttp\Subscriber\Log\LogSubscriber;
 
 class SynapseClient extends GuzzleClient
 {
@@ -22,8 +21,6 @@ class SynapseClient extends GuzzleClient
                 ],
             ]
         ]);
-
-        $client->getEmitter()->attach(new LogSubscriber());
 
         // définition des requètes supportées par notre service
         $description = new Description([

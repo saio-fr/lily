@@ -80,9 +80,9 @@ ul {
   font-size: 50px;
 }
 
-.header .nav-tabs > li.active a, 
-.header .nav-tabs > li.active a:hover, 
-.footer .nav-tabs > li.active a, 
+.header .nav-tabs > li.active a,
+.header .nav-tabs > li.active a:hover,
+.footer .nav-tabs > li.active a,
 .footer .nav-tabs > li.active a:hover {
   box-shadow: none;
   background: white;
@@ -307,6 +307,10 @@ ul {
     QUESTIONS
 ****************************************************************************************/
 
+#answer-edit {
+  height: 100%;
+}
+
 .aside-edit {
   width: 60%;
 }
@@ -329,7 +333,7 @@ ul {
 }
 
 .questions-wrapper {
-  top: 51px !important; 
+  top: 51px !important;
 }
 
 .questions {
