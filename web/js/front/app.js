@@ -132,8 +132,15 @@ define(function(require) {
       if (config.chat.active && config.chatAvailable ||
         config.avi.active || app.chatting) {
 
+        var activeRoute = (config.chat.active &&
+          config.home === 'chat' &&
+          config.chatAvailable ||
+          !app.isConversationClosed) ?
+        'chat' : 'avi';
+
         app.sendHostMessage('lily.ready', {
           displayApp: info.appDisplay,
+          activeRoute: activeRoute
         });
       }
 
@@ -417,6 +424,10 @@ define(function(require) {
       app.trigger('chat:sendMessage', message);
     },
 
+    addAviMessage: function(question) {
+      app.trigger('avi:addMessage', question);
+    },
+
     // To Host
     onAppLoad: function() {
       app.sendHostMessage('lily.load', {
@@ -455,6 +466,7 @@ define(function(require) {
   FrameBus.on('widget.click', app.onWidgetClick);
   FrameBus.on('widget.shown', app.onWidgetShow);
   FrameBus.on('lily.sendMessageToVisitor', app.sendMessageToVisitor);
+  FrameBus.on('lily.addAviMessage', app.addAviMessage);
 
   return app;
 });

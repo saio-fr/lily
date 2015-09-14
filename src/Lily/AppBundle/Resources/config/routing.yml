@@ -23,3 +23,7 @@ lily_app_avi_rest:
 lily_demo_index:
     pattern:  /demo/{licence}/{url}
     defaults: { _controller: LilyAppBundle:Demo:index }
+
+lily_api_demo_index:
+    pattern: /apidemo/{licence}
+    defaults: { _controller: LilyAppBundle:Demo:api }

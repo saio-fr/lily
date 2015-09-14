@@ -80,13 +80,19 @@ module.exports = (function() {
       });
     },
 
+    'app.isChatReady': function() {
+      var lily = mediator.getRegisteredApp('lily');
+      var chatReady = lily.getState('activeRoute') === 'chat';
+      return chatReady;
+    },
+
     'api.onChatSessionStart':   'onChatSessionStart',
     'api.onAviSessionStart':    'onAviSessionStart',
 
     // WIP, Do not use in production
     'chat.sendMessageToVisitor': function(message) {
       if (!message || !(_.isObject(message) && _.isString(message.body))) {
-        console.warn('malformed message. See documentation at:');
+        return console.warn('malformed message. See documentation at:');
       }
       mediator.trigger('lily.sendMessageToVisitor', {
         body: message.body,
@@ -102,6 +108,13 @@ module.exports = (function() {
       });
     },
 
+    'avi.addMessage': function(question) {
+      if (!question || !(_.isString(question))) {
+        return console.warn('malformed message. See documentation at:');
+      }
+      mediator.trigger('lily.addAviMessage', question);
+    },
+
     'avi.onAskedQuestion': 'onAskedQuestionToAvi'
   };
 
@@ -111,7 +124,7 @@ module.exports = (function() {
     }
 
     if (configMethods[name]) {
-      configMethods[name].call(this, obj);
+      return configMethods[name].call(this, obj);
     } else {
       console.warn('unknown config name: "' + name.toString() +
         '" see api documentation at');
@@ -124,7 +137,7 @@ module.exports = (function() {
     }
 
     if (apiMethods[name]) {
-      apiMethods[name].call(this, obj);
+      return apiMethods[name].call(this, obj);
     } else {
       console.warn('unknown api method name: "' + name.toString() +
         '" see api documentation at');

@@ -77,6 +77,7 @@ module.exports = function() {
 
       // Triggered by api
       'lily.sendMessageToVisitor': 'sendMessageToVisitor',
+      'lily.addAviMessage': 'addAviMessage',
       'lily.setOperatorGroup': 'setOperatorGroup',
       'lily.messageToOperator': 'onMessageToOperator',
     },
@@ -147,7 +148,11 @@ module.exports = function() {
     onReady: function(options) {
       this.setState('ready', true);
 
-      if (options && options.displayApp) {
+      if (!options) { return; }
+
+      this.setState('activeRoute', options.activeRoute);
+
+      if (options.displayApp) {
         this.onExpand();
       } else {
         mediator.trigger('widget.show');
@@ -227,6 +232,10 @@ module.exports = function() {
 
     sendMessageToVisitor: function(message) {
       this.sendMessage('lily.sendMessageToVisitor', message);
+    },
+
+    addAviMessage: function(question) {
+      this.sendMessage('lily.addAviMessage', question);
     },
 
     standaloneOpen: function() {

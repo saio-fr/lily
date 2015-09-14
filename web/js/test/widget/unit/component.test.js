@@ -74,7 +74,7 @@ test('createEl', function(assert) {
   assert.equal(el.tagName, 'ARTICLE');
   assert.equal(el.className,'test');
   assert.equal(el.attributes.length, 2); // class + styles
-  assert.equal(el.style.background, 'black');
+  assert.equal(el.style.backgroundColor, 'black');
   assert.equal(el.innerHTML, '<p>I\'m an article with a paragraph inside</p>');
 
   assert.end();

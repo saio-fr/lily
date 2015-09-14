@@ -12,4 +12,10 @@ class DemoController extends Controller
           'licence' => $licence)
         );
     }
+
+    public function apiAction($licence) {
+        return $this->render('LilyAppBundle:demo:api.html.twig', array(
+          'licence' => $licence)
+        );
+    }
 }
