@@ -20,7 +20,16 @@
 
 {% endblock %}
 
-<script src='{{ app.request.getBaseURL() }}/app/snippet/{{licence}}'></script>
+<!-- <script src='{{ app.request.getBaseURL() }}/app/snippet/{{licence}}'></script> -->
+
+<script>
+  (function() {
+    var licence = '{{ licence }}';
+    var lily = document.createElement('script'); lily.type = 'text/javascript'; lily.async = true;
+    lily.src = '{{ app.request.getBaseURL() }}/app/tracking/' + licence;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lily, s);
+ })();
+</script>
 
 </head>
 <body>
