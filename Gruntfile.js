@@ -1,7 +1,9 @@
 /*global module:false, require:true*/
 'use strict';
 
-var config = require('./buildConfig');
+// var config = require('./buildConfig');
+var config = require('./buildConfig.v1');
+
 var _config =  {
   front:        config.mix('front'),
   common:       config.mix('common'),

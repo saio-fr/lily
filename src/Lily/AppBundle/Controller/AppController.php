@@ -42,6 +42,53 @@ class AppController extends BaseController
         ));
     }
 
+    public function indexv1Action($licence) {
+
+        // Services
+        $em = $this->getEntityManager($licence);
+        $config = $this->getAppConfig($licence);
+        $redirection = $this->getDefaultRedirection($licence);
+        $chatAvailable = $this->isChatAvailable($licence);
+        $synapsePassword = $this->getSynapsePassword($licence);
+
+        $ip = $this->container->get('request')->getClientIp();
+        $session = $this->container->get('session');
+        if (!$session->isStarted()) {
+            $session->start();
+        }
+
+        return $this->render('LilyAppBundle:themes:lily/index.v1.html.twig',
+          array('licence' => $licence,
+                'synapsePassword' => $synapsePassword,
+                'config' => $config,
+                'visitorIp' => $ip,
+                'redirection' => $redirection,
+                'chatAvailable' => $chatAvailable
+        ));
+    }
+
+    public function trackingAction($licence) {
+        $config = $this->getAppConfig($licence);
+        // Return if Maintenance is On
+        if ( $config->getMaintenance() ) {
+            return new Response(null, 200, array(
+              'content-type'=> 'text/javascript')
+            );
+        }
+        $trackerJS = $this->render('LilyAppBundle::tracker.js.twig', array(
+          'licence' => $licence,
+          'widget' => $config->getWidget()
+          )
+        );
+        $response = new Response(
+          $trackerJS->getContent(), 200, array(
+            'content-type' => 'text/javascript'
+          )
+        );
+        return $response;
+    }
+
+
     public function widgetAction($licence) {
 
         $config = $this->getAppConfig($licence);
