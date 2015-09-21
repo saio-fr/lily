@@ -1,6 +1,6 @@
-.header .nav-tabs > li.active a, 
-.header .nav-tabs > li.active a:hover, 
-.footer .nav-tabs > li.active a, 
+.header .nav-tabs > li.active a,
+.header .nav-tabs > li.active a:hover,
+.footer .nav-tabs > li.active a,
 .footer .nav-tabs > li.active a:hover {
   background-color: white;
   box-shadow: none;
@@ -28,6 +28,8 @@
 
 .group-name {
   font-size: 12px;
+  display: inline-block;
+  margin-left: 20px;
 }
 
 .list-group-item.active .group-name {
