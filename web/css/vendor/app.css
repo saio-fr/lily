@@ -219,6 +219,9 @@ a:hover .caret-white {
 }
 .nav > li > a .avatar {
   width: 30px;
+  height: 30px;
+  overflow: hidden;
+  text-align: center;
 }
 .panel {
   border-radius: 2px;
@@ -2707,6 +2710,7 @@ fieldset[disabled] .btn-gplus.active {
 .thumb-lg img {
   height: auto;
   max-width: 100%;
+  max-height: 100%;
   vertical-align: middle;
 }
 .img-full {
