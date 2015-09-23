@@ -382,6 +382,12 @@ module.exports = function(grunt) {
     grunt.task.run('requirejs');
   });
 
+  grunt.registerMultiTask('requireMultiV1', 'Run require optimizer across the project', function() {
+    grunt.log.write('\nCompiling ' + this.target + '\n');
+    grunt.config.set('moduleConf', this.data.compile.options);
+    grunt.task.run('requirejs');
+  });
+
   grunt.registerTask('check', ['jshint']);
   grunt.registerTask('cacheBust', ['hashres:prod']);
   grunt.registerTask('cleanDevRefs', ['hashres:dev']);
