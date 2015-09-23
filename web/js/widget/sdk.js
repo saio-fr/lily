@@ -10,11 +10,15 @@ module.exports = (function() {
   var calledBeforeLoad = false;
 
   var configMethods = {
-    'chat.setOperatorGroup': function(groupId) {
-      if (!_.isString(groupId)) {
-        console.error('groupId should be a string containing the operator group id');
+    'chat.setOperatorGroup': function(groupIds) {
+      if (_.isString(groupId)) {
+        mediator.trigger('config.setOperatorGroup', groupId);
+      } else if (groupIds && groupIds.length) {
+        var args = ['config.setOperatorGroup'].concat([].slice.call(groupIds));
+        mediator.trigger.call({}, args);
+      } else {
+        console.error('groupId should be a string containing the operator group id or a table containing group ids strings');
       }
-      mediator.trigger('config.setOperatorGroup', groupId);
     },
 
     'box.startExpanded': function() {
@@ -115,7 +119,9 @@ module.exports = (function() {
       mediator.trigger('lily.addAviMessage', question);
     },
 
-    'avi.onAskedQuestion': 'onAskedQuestionToAvi'
+    'avi.onAskedQuestion': 'onAskedQuestionToAvi',
+
+    'user.identify': function() {}
   };
 
   function config(name, obj) {
