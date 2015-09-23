@@ -28,7 +28,7 @@ GLOBAL
 
 .sort-menu-btn {
   color: #717171;
-  font-weight: bold;
+  font-weight: 700;
   margin: -6px 5px 0;
   border: #efefef solid 1px;
   background: #f8f8f8;
@@ -54,6 +54,7 @@ GLOBAL
 
 .panel-heading {
   padding: 15px;
+  font-size: 15px;
 }
 
 .list-group-item p {
@@ -121,6 +122,7 @@ ul.avi-top-list {
 
 .avi-top-item-title span {
 	line-height:1.2;
+  font-size: 14px;
 	vertical-align:middle;
 	display:inline-block;
 }
@@ -208,7 +210,7 @@ CONVERSATIONS
   padding-right: 15px;
   text-align: right;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: #6075a4;
   border-right: 2px solid #6075a4;
   min-height: 35px;

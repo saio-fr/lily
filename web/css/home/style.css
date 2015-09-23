@@ -1,6 +1,4 @@
 @charset "UTF-8";
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
-@import url(http://fonts.googleapis.com/css?family=Merriweather+Sans:300,400,700);
 
 /**************
 Général
@@ -15,7 +13,6 @@ Général
 
 	body{
 		height: auto !important;
-		font-family: 'Open Sans', sans-serif;
 		line-height: 30px;
 		font-size: 14px;
 		font-weight: 300;
@@ -74,7 +71,6 @@ Général
 		line-height:35px;
 		color:#424242;
 		text-transform: uppercase;
-		font-family: 'Merriweather Sans', sans-serif;
 		font-weight: 400;
 		margin-bottom: 10px;
 	}
@@ -82,7 +78,7 @@ Général
 	h2 {
 		font-size: 20px;
 		line-height: 25px;
-		font-family: 'Open Sans', sans-serif;
+
 		font-weight: 400;
 	}
 
@@ -273,7 +269,7 @@ HOME
 		font-size: 40px;
 		line-height: 60px;
 		color: #ffffff;
-		font-family: 'Open Sans', sans-serif;
+
 		font-weight: 300;
 		text-transform: none;
 		word-break: break-word;
@@ -428,7 +424,6 @@ HOME
 
 	#fonction .steps .number {
 		font-size: 45px;
-		font-family: 'Merriweather Sans', sans-serif;
 		color: #595959;
 	}
 
@@ -729,7 +724,7 @@ HOME
 	}
 
 	#actualites h1 {
-		font-family: 'Open sans', sans-serif;
+
 		font-weight: 400;
 		margin-top: 18px;
 		margin-bottom: 17px;
@@ -2235,7 +2230,7 @@ ACTUALITES
 		text-align: center;
 		width: 600px;
 		text-transform: none;
-		font-family: 'Open sans', sans-serif;
+
 		font-weight: 300;
 		line-height: 45px;
 		margin: 63px auto 20px auto;
@@ -2451,7 +2446,7 @@ EQUIPE
 		font-size: 24px;
 		font-weight: 300;
 		text-transform: none;
-		font-family: 'Open sans', sans-serif;
+
 		width: 720px;
 		text-align: center;
 		line-height: 45px;
@@ -2760,7 +2755,7 @@ CONTACT
 	}
 
 	#contact h1 {
-		font-family: 'Open sans', sans-serif;
+
 		font-weight: 300;
 		color: #ffffff;
 		text-align: center;
@@ -2812,7 +2807,6 @@ CONTACT
 		font-size: 14px;
 		line-height: 30px;
 		text-transform: uppercase;
-		font-family: "Open Sans", sans-serif;
 		font-weight: 600;
 		color: #6c6c6c;
 	}
@@ -2822,7 +2816,6 @@ CONTACT
 		vertical-align: top;
 		font-size: 14px;
 		line-height: 30px;
-		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
 	}
 
@@ -3167,7 +3160,6 @@ ARTICLE
 
 #article h1 {
 	text-transform: none;
-	font-family: 'Open Sans', sans-serif;
 	font-size: 30px;
 	line-height: 45px;
 	font-weight: 300;
@@ -3434,7 +3426,7 @@ RECRUTEMENT
 	}
 
 	#recruitment h1 {
-		font-family: 'Open sans', sans-serif;
+
 		font-weight: 300;
 		color: #ffffff;
 		text-align: center;
@@ -3464,8 +3456,7 @@ RECRUTEMENT
 	#dev_back h2 {
 		font-size: 14px;
 		line-height: 30px;
-		text-transform: none
-		font-family: "Open Sans", sans-serif;
+		text-transform: none;
 		font-weight: 600;
 		color: black;
 		margin-bottom: 8px;

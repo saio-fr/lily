@@ -193,16 +193,16 @@ define(function (require) {
           }
         },
         points: {
-          radius: 5,
+          radius: 3,
           show: true
         },
-        shadowSize: 2
+        shadowSize: 0
       },
       grid: {
         color: "#fff",
         hoverable: true,
         clickable: true,
-        tickColor: "#fafafa",
+        tickColor: "#f1f1f1",
         borderWidth: 0
       },
       colors: ["#6eaee8", "#92d050"],
@@ -224,7 +224,7 @@ define(function (require) {
       tooltip: true,
       tooltipOpts: {
         content: getTooltip,
-        defaultTheme: false,
+        defaultTheme: true,
         shifts: {
           x: 0,
           y: 20

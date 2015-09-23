@@ -298,7 +298,7 @@ LIVE CHAT
   display: inline-block;
   margin: 0;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 40px;
   text-transform: uppercase;
   color: #67686b;
@@ -542,7 +542,7 @@ LIVE CHAT
 .conversation-header-control {
   margin-top: 10px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: #6e7d83;
 }
 
@@ -568,6 +568,7 @@ LIVE CHAT
   cursor: pointer;
   border: solid 1px rgba(206, 206, 206, 1);
   border-radius: 3px;
+  background-color: rgb(249, 250, 252);
 }
 
 .conversation-footer {
@@ -586,7 +587,7 @@ LIVE CHAT
   top: -25px;
   right: 25px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: #747474;
 }
 
@@ -650,8 +651,8 @@ LIVE CHAT
   max-width: 85%;
   min-height: 1em;
   padding: 7px 8px;
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   text-align: left;
   word-wrap: break-word;
   border-radius: 5px;
@@ -714,7 +715,7 @@ LIVE CHAT
 }
 
 .conversation-section-item div.msg-visitor .date {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 300;
   color: #a0a0a0;
 }
@@ -724,7 +725,7 @@ LIVE CHAT
   max-width: 85%;
   min-height: 1em;
   padding: 7px 8px;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
   border-radius: 5px;
   background-color: rgba(158, 209, 255, .3);
@@ -745,8 +746,8 @@ LIVE CHAT
 
 .conversation-section-item span {
   display: block;
-  font-size: 9px;
-  font-weight: 300;
+  font-size: 12px;
+  font-weight: 400;
   color: rgba(160, 160, 160, 0.8);
 }
 
@@ -866,7 +867,7 @@ LIVE CHAT
 .btn-copy-msg span {
   display: inline-block;
   padding: 5px 8px 5px 5px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   color: #757576;
   border: solid 1px rgba(182, 182, 182, 1);
@@ -1076,6 +1077,24 @@ Typeahead Styles
   color: #888888;
 }
 
+.answer-empty {
+  padding: 7px 8px;
+  background-color: #D9EAFB;
+  border-radius: 5px;
+  color: #3C3C3C;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.answer-empty p {
+  margin-bottom: 0px;
+}
+
+.on-boarding-feature-search {
+  color: rgba(41, 158, 41, 0.8);
+  margin-top: 25px;
+}
+
 /************************/
 
 .informations-section p {
@@ -1092,7 +1111,7 @@ Typeahead Styles
 
 .name-form-control {
   width: 100%;
-  font-weight: 600;
+  font-weight: 700;
   overflow: hidden;
      text-overflow: ellipsis;
   color: #6e7d83;
@@ -1121,7 +1140,7 @@ Typeahead Styles
 
 .informations-list-header {
   margin: 10px auto 5px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
   color: #717171;
 }
