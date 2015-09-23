@@ -1,5 +1,5 @@
 /* ===========================
-    		Faq Page
+        Faq Page
    ========================== */
 
 define(function(require) {
@@ -47,7 +47,6 @@ define(function(require) {
 
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
       this.listenTo(app, 'chat:connected', this.onReconnected, this);
-      this.listenTo(app, 'chat:sendMessage', this.receiveMsgFromSdk);
 
       this.reconnectionMsgVisible = false;
       this.visitorMsgSent = 0;
@@ -127,9 +126,6 @@ define(function(require) {
         case 'operator':
           messageView = new MessageChatOperator({ model: message }).render();
           break;
-        case 'sdk':
-          messageView = new MessageChatOperator({ model: message }).render();
-          break;
         case 'server':
 
           switch (message.get('action')) {
@@ -172,17 +168,6 @@ define(function(require) {
     sendMessage: function(message) {
       app.trigger('chat:send', message);
       this.trackMessage(message);
-    },
-
-    receiveMsgFromSdk: function(message) {
-      var msg = message.body;
-      var type = message.type;
-
-      this.collection.add({
-        from: 'sdk',
-        msg: msg,
-        operator: null,
-      });
     },
 
     isWriting: function() {

@@ -1,21 +1,37 @@
 lily_app_index:
     pattern:  /{licence}
     defaults: { _controller: LilyAppBundle:App:index }
-    
+
+lily_appv1_index:
+    pattern:  /v1/{licence}
+    defaults: { _controller: LilyAppBundle:App:indexv1 }
+
 lily_app_js_index:
     pattern:  /tracking/{licence}
-    defaults: { _controller: LilyAppBundle:App:tracking }    
-    
+    defaults: { _controller: LilyAppBundle:App:tracking }
+
+lily_app_widget_index:
+    pattern:  /widget/{licence}
+    defaults: { _controller: LilyAppBundle:App:widget }
+
+lily_app_snippet_index:
+    pattern:  /snippet/{licence}
+    defaults: { _controller: LilyAppBundle:App:snippet }
+
 lily_app_rest:
     resource: "@LilyAppBundle/Controller/AppController.php"
     type:     rest
     prefix:   /api
-    
+
 lily_app_avi_rest:
     resource: "@LilyAppBundle/Controller/AviController.php"
     type:     rest
     prefix:   /api
-    
+
 lily_demo_index:
     pattern:  /demo/{licence}/{url}
     defaults: { _controller: LilyAppBundle:Demo:index }
+
+lily_api_demo_index:
+    pattern: /apidemo/{licence}
+    defaults: { _controller: LilyAppBundle:Demo:api }

@@ -46,7 +46,6 @@ define(function(require) {
       this.listenTo(app, 'avi:satisfaction',       this.onSatisfaction);
       this.listenTo(app, 'avi:choicesViewDismiss', this.onDismissChoicesView);
       this.listenTo(app, 'avi:chooseRedirection',  this.chooseRedirection);
-      this.listenTo(app, 'avi:addMessage',         this.printAviMsg);
 
       // Search ev listeners
       this.listenTo(this, 'search:asyncrequest', this.indicateLoading);
