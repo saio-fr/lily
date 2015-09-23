@@ -1,8 +1,8 @@
 /*global module:false, require:true*/
 'use strict';
 
-// var config = require('./buildConfig');
-var config = require('./buildConfig.v1');
+var config = require('./buildConfig');
+var configV1 = require('./buildConfig.v1');
 
 var _config =  {
   front:        config.mix('front'),
@@ -19,20 +19,36 @@ var _config =  {
   redirection:  config.mix('redirection')
 };
 
+var _configV1 =  {
+  front:        configV1.mix('front'),
+  common:       configV1.mix('common'),
+  chatComp:     configV1.mix('chatComp'),
+  dashboard:    configV1.mix('dashboard'),
+  config:       configV1.mix('config'),
+  chat:         configV1.mix('chat'),
+  faq:          configV1.mix('faq'),
+  knowledge:    configV1.mix('knowledge'),
+  profile:      configV1.mix('profile'),
+  users:        configV1.mix('users'),
+  statistics:   configV1.mix('statistics'),
+  redirection:  configV1.mix('redirection')
+};
+
 // Format for grunt task config.
-function getRequireConf() {
+function getRequireConf(conf) {
   var returnObj = {};
-  Object.keys(_config).forEach(function(key) {
+  Object.keys(conf).forEach(function(key) {
     returnObj[key] = {
       compile: {
-        options: _config[key]
+        options: conf[key]
       }
     };
   });
   return returnObj;
 }
 
-var requirejsConf = getRequireConf();
+var requirejsConf = getRequireConf(_config);
+var requirejsConfV1 = getRequireConf(_configV1);
 
 module.exports = function(grunt) {
   // Project configuration.
@@ -44,6 +60,7 @@ module.exports = function(grunt) {
     snippetFooter: grunt.file.read('web/js/widget/snippet.footer.js'),
 
     requireMulti: requirejsConf,
+    requireMultiV1: requirejsConfV1,
 
     clean: {
       app: 'web/js-build',
@@ -421,6 +438,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean',
     'karma:build',
+    'requireMultiV1',
     'requireMulti',
     'cacheBust',
     'buildSnippet',
