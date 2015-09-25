@@ -59,9 +59,13 @@ config.configs = {
 
   front: {
     name: '../../node_modules/almond/almond',
-    include: ['front/config', './front/main.v1'],
-    insertRequire: ['./front/main.v1'],
-    out: 'web/js-build/front/main.v1.js'
+    include: ['front/config', 'front/main.v1'],
+    insertRequire: ['front/main.v1'],
+    out: 'web/js-build/front/main.v1.js',
+    // Don't include 'front/main', but keep its dependancies.
+    // Will result in a transparent error in production for v1
+    // since 'front/main' is required in config.js, and never resolved in the build.
+    excludeShallow: ['front/main']
   },
 
   common: {
