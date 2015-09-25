@@ -11,8 +11,8 @@ lily_app_js_index:
     defaults: { _controller: LilyAppBundle:App:tracking }
 
 lily_app_widget_index:
-    pattern:  /widget/{licence}
-    defaults: { _controller: LilyAppBundle:App:widget }
+    pattern:  /loader/{licence}
+    defaults: { _controller: LilyAppBundle:App:loader }
 
 lily_app_snippet_index:
     pattern:  /snippet/{licence}
