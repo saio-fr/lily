@@ -89,7 +89,7 @@ class AppController extends BaseController
     }
 
 
-    public function widgetAction($licence) {
+    public function loaderAction($licence) {
 
         $config = $this->getAppConfig($licence);
 
