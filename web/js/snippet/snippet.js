@@ -52,7 +52,7 @@
     script.type = 'text/javascript';
     script.async = true;
     script.src = ('https:' === document.location.protocol ?
-    'https://' : 'http://') + '{{ widgetOrigin|raw}}/app/widget/' + key;
+    'https://' : 'http://') + '{{ widgetOrigin|raw}}/app/loader/' + key;
 
     // Insert our script next to the first script element.
     var first = document.getElementsByTagName('script')[0];

@@ -1,7 +1,7 @@
 
 var test     = require('tape');
-var sdk      = require('../../../widget/sdk.js');
-var mediator = require('../../../widget/mediator.js');
+var sdk      = require('../../../js/loader/sdk.js');
+var mediator = require('../../../js/loader/mediator.js');
 var utils    = require('underscore');
 
 test('sdk exposes two public methods: `api` and `config`', function(assert) {

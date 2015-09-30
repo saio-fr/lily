@@ -1,7 +1,7 @@
 
 var test      = require('tape');
-var component = require('../../../widget/component.js');
-var Events    = require('../../../widget/Events.js');
+var component = require('../../../js/loader/component.js');
+var Events    = require('../../../js/loader/Events.js');
 var utils     = require('underscore');
 
 var frameOptions = {
@@ -124,9 +124,11 @@ test('hide', function(assert) {
 
   // Assign myComponent.el to component:
   myComponent.el = myComponent.createEl(frameOptions);
+  myComponent.show();
   myComponent.hide();
 
-  assert.equal(myComponent.el.style.display, 'none');
+  assert.notOk(myComponent.el.classList.contains('openned-animation-state'),
+    'component element should be hidden now');
 
   // window should be focused
   assert.equal(document.activeElement, document.body);
@@ -148,7 +150,6 @@ test('show', function(assert) {
   myComponent.show();
 
   assert.equal(myComponent.el.style.display, '');
-
   assert.end();
 });
 

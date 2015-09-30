@@ -22,15 +22,13 @@ module.exports = function(config) {
     ],
 
     files: [
-      // 'web/js/test/widget/**/*.js'
-      'web/js/test/widget/test_index.js'
+      'web/test/loader/test_index.js'
     ],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      // 'web/js/test/widget/**/*.js': ['webpack']
-      'web/js/test/widget/test_index.js': ['webpack', 'sourcemap']
+      'web/test/loader/test_index.js': ['webpack', 'sourcemap']
     },
 
     webpack: {

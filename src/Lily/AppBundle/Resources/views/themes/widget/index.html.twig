@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/widget/main.css', version=getAppVersion()) }}" type="text/css" />
+  <link rel="stylesheet" href="http://cdn-saio.fr/customer/{{ licence }}/css/lily-custom.css?{{ getAppVersion() }}" type="text/css" />
+{% endblock %}
+
+</head>
+<body>
+
+{% block body %}
+
+  <div class="widget-wrapper"></div>
+
+  {% block templates %}
+  <!-- L'appel des différents scripts de vue -->
+  <script type="text/template" id="widget-button-template">
+    {% include 'LilyAppBundle:themes/widget/templates:button.html.twig' %}
+  </script>
+  <script type="text/template" id="widget-attGrabber-template">
+    {% include 'LilyAppBundle:themes/widget/templates:attGrabber.html.twig' %}
+  </script>
+  {% endblock %}
+
+  {% block bootstrap %}
+  {% autoescape false %}
+  <script type="text/javascript">
+    var config = {{ config|serialize('json') }};
+    config.version = "{{ getAppVersion() }}";
+    config.root = '{{ app.request.getBaseURL() }}';
+    config.licence = "{{ licence }}";
+    config.chatAvailable = "{{ chatAvailable }}";
+  </script>
+
+  <!-- Load Bugsnag -->
+  <script
+    src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js"
+    data-apikey="38313d808c52c00caa38aeed097efd1d">
+  </script>
+
+  <!-- Bugsnag Config -->
+  <script>
+    Bugsnag.releaseStage = '{{ app.environment }}';
+    Bugsnag.notifyReleaseStages = ['prod'];
+  </script>
+
+  <script
+    src="{{ asset('js-build/widget/main.js') }}">
+  </script>
+
+  {% endautoescape %}
+  {% endblock %}
+{% endblock %}
+
+</body>
+</html>

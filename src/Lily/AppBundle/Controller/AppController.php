@@ -67,6 +67,27 @@ class AppController extends BaseController
         ));
     }
 
+    public function widgetAction($licence) {
+
+        // Services
+        $em = $this->getEntityManager($licence);
+        $config = $this->getAppConfig($licence);
+        $redirection = $this->getDefaultRedirection($licence);
+        $chatAvailable = $this->isChatAvailable($licence);
+
+        $session = $this->container->get('session');
+
+        if (!$session->isStarted()) {
+            $session->start();
+        }
+
+        return $this->render('LilyAppBundle:themes:widget/index.html.twig',
+          array('licence' => $licence,
+                'config' => $config,
+                'chatAvailable' => $chatAvailable
+        ));
+    }
+
     public function trackingAction($licence) {
         $config = $this->getAppConfig($licence);
         // Return if Maintenance is On
@@ -88,8 +109,7 @@ class AppController extends BaseController
         return $response;
     }
 
-
-    public function widgetAction($licence) {
+    public function loaderAction($licence) {
 
         $config = $this->getAppConfig($licence);
 

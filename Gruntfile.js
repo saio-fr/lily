@@ -54,17 +54,19 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
-    tempDirWidget: 'web/js/widget',
-    buildDirWidget: 'src/Lily/AppBundle/Resources/views',
+    iniDirJs: 'web/js/',
+    buildDirJs: 'web/js-build',
 
-    snippetFooter: grunt.file.read('web/js/widget/snippet.footer.js'),
+    destDirLoader: 'src/Lily/AppBundle/Resources/views',
+
+    snippetFooter: grunt.file.read('web/js/snippet/snippet.footer.js'),
 
     requireMulti: requirejsConf,
     requireMultiV1: requirejsConfV1,
 
     clean: {
       app: 'web/js-build',
-      widget: 'web/js/widget/build',
+      loader: 'web/js-build/loader',
     },
 
     jshint: {
@@ -77,11 +79,8 @@ module.exports = function(grunt) {
         '!web/js/ie/**/*.js',
         '!web/js/facebook/**/*.js'
       ],
-      widget: [
-        'web/js/widget/*.js',
-        '!web/js/widget/build/*.js',
-        '!web/js/widget/snippet*.js'
-      ]
+      loader: ['web/js/loader/*.js'],
+      widget: ['web/js/widget/*.js'],
     },
 
     requirejs: {
@@ -95,14 +94,14 @@ module.exports = function(grunt) {
         banner: '(function (window, document, undefined) {' +
           '"use strict";',
         footer: '})(this, document);',
-        src: ['<%= tempDirWidget %>/build/snippet.js', '<%= tempDirWidget %>/snippet.footer.js'],
-        dest: '<%= tempDirWidget %>/build/snippet.js',
+        src: ['<%= buildDirJs %>/snippet/snippet.js', '<%= iniDirJs %>/snippet/snippet.footer.js'],
+        dest: '<%= buildDirJs %>/snippet/snippet.js',
       },
     },
 
     uglify: {
 
-      widget: {
+      loader: {
         options: {
           beautify: true,
           mangle: false,
@@ -111,11 +110,11 @@ module.exports = function(grunt) {
             '"use strict";',
           footer: '})(this, document);',
         },
-        src: '<%= tempDirWidget %>/build/loader.js',
-        dest: '<%= buildDirWidget %>/loader.js.twig',
+        src: '<%= buildDirJs %>/loader/loader.js',
+        dest: '<%= destDirLoader %>/loader.js.twig',
       },
 
-      widgetMin: {
+      loaderMin: {
         options: {
           mangle: true,
           compress: {},
@@ -123,8 +122,8 @@ module.exports = function(grunt) {
             '"use strict";',
           footer: '})(this, document);',
         },
-        src: '<%= tempDirWidget %>/build/loader.js',
-        dest: '<%= buildDirWidget %>/loader.js.twig',
+        src: '<%= buildDirJs %>/loader/loader.js',
+        dest: '<%= destDirLoader %>/loader.js.twig',
       },
 
       snippet: {
@@ -134,8 +133,8 @@ module.exports = function(grunt) {
           compress: false,
           footer: '<%= snippetFooter %>',
         },
-        src: '<%= tempDirWidget %>/snippet.js',
-        dest: '<%= tempDirWidget %>/build/snippet.js',
+        src: '<%= iniDirJs %>/snippet/snippet.js',
+        dest: '<%= buildDirJs %>/snippet/snippet.js',
       },
 
       snippetMin: {
@@ -146,8 +145,8 @@ module.exports = function(grunt) {
           compress: {},
           footer: '<%= snippetFooter %>',
         },
-        src: '<%= tempDirWidget %>/snippet.js',
-        dest: '<%= tempDirWidget %>/build/snippet.min.js'
+        src: '<%= iniDirJs %>/snippet/snippet.js',
+        dest: '<%= buildDirJs %>/snippet/snippet.min.js'
       }
 
     },
@@ -164,8 +163,8 @@ module.exports = function(grunt) {
         },
         files: [
           {
-            src: ['<%= tempDirWidget %>/build/snippet.js'],
-            dest: '<%= tempDirWidget %>/build/snippet.js'
+            src: ['<%= buildDirJs %>snippet/snippet.js'],
+            dest: '<%= buildDirJs %>snippet/snippet.js'
           }
         ]
       },
@@ -181,8 +180,8 @@ module.exports = function(grunt) {
         },
         files: [
           {
-            src: ['<%= tempDirWidget %>/build/snippet.min.js'],
-            dest: '<%= tempDirWidget %>/build/snippet.min.js'
+            src: ['<%= buildDirJs %>/snippet/snippet.min.js'],
+            dest: '<%= buildDirJs %>/snippet/snippet.min.js'
           }
         ]
       }
@@ -190,13 +189,13 @@ module.exports = function(grunt) {
 
     copy: {
       snippet: {
-        src: '<%= tempDirWidget %>/build/snippet.js',
-        dest: '<%= buildDirWidget %>/snippet.js.twig'
+        src: '<%= buildDirJs %>/snippet/snippet.js',
+        dest: '<%= destDirLoader %>/snippet.js.twig'
       },
 
       snippetMin: {
-        src: '<%= tempDirWidget %>/build/snippet.min.js',
-        dest: '<%= buildDirWidget %>/snippet.js.twig'
+        src: '<%= buildDirJs %>/snippet/snippet.min.js',
+        dest: '<%= destDirLoader %>/snippet.js.twig'
       }
     },
 
@@ -332,11 +331,22 @@ module.exports = function(grunt) {
     },
 
     webpack: {
-      widget: {
-        entry: './<%= tempDirWidget %>/main.js',
+      loader: {
+        entry: './<%= iniDirJs %>/loader/main.js',
         output: {
-          path: '<%= tempDirWidget %>/build/',
+          path: '<%= buildDirJs %>/loader/',
           filename: 'loader.js',
+        },
+        resolve: {
+          modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
+        }
+      },
+
+      widget: {
+        entry: './<%= iniDirJs %>/widget/main.js',
+        output: {
+          path: '<%= buildDirJs %>/widget/',
+          filename: 'main.js',
         },
         resolve: {
           modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
@@ -346,10 +356,14 @@ module.exports = function(grunt) {
 
     watch: {
       default: {
-        files: ['web/js/widget/**.js'],
+        files: [
+          'web/js/loader/**/*.js',
+          'web/js/widget/**/*.js'
+        ],
         tasks: [
+          'webpack:loader',
           'webpack:widget',
-          'uglify:widget'
+          'uglify:loader',
         ],
         options: {
           spawn: false,
@@ -392,11 +406,6 @@ module.exports = function(grunt) {
   grunt.registerTask('cacheBust', ['hashres:prod']);
   grunt.registerTask('cleanDevRefs', ['hashres:dev']);
 
-  grunt.registerTask('devFront', [
-    'clean:app',
-    'cleanDevRefs'
-  ]);
-
   // Default task. Compile all modules
   grunt.registerTask('buildFront', ['requireMulti:front', 'cacheBust']);
   grunt.registerTask('buildChat', ['requireMulti:chatComp', 'cacheBust']);
@@ -413,6 +422,11 @@ module.exports = function(grunt) {
     'cacheBust'
   ]);
 
+  grunt.registerTask('devFront', [
+    'clean:app',
+    'cleanDevRefs'
+  ]);
+
   grunt.registerTask('devSnippet', [
     'uglify:snippet',
     'replace:snippet',
@@ -425,16 +439,27 @@ module.exports = function(grunt) {
     'copy:snippetMin',
   ]);
 
+  grunt.registerTask('devLoader', [
+    'jshint:loader',
+    'webpack:loader',
+    'uglify:loader',
+    'watch',
+  ]);
+
+  grunt.registerTask('buildLoader', [
+    'webpack:loader',
+    'uglify:loaderMin',
+  ]);
+
   grunt.registerTask('devWidget', [
-    'jshint:widget',
+    'jshint:loader',
     'webpack:widget',
-    'uglify:widget',
     'watch',
   ]);
 
   grunt.registerTask('buildWidget', [
     'webpack:widget',
-    'uglify:widgetMin',
+    'watch'
   ]);
 
   grunt.registerTask('test', [
@@ -448,6 +473,6 @@ module.exports = function(grunt) {
     'requireMulti',
     'cacheBust',
     'buildSnippet',
-    'buildWidget',
+    'buildLoader',
   ]);
 };

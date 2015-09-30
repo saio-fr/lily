@@ -21,8 +21,13 @@ module.exports = (function() {
       }
     },
 
-    'box.startExpanded': function() {
-      mediator.trigger('lily.expand');
+    'widget.attentionGrabberEnabled': function(enabled) {
+      // `enabled` should be a boolean
+      if (enabled !== true && enabled !== false) {
+        console.error('enabled should be a boolean');
+      }
+
+      mediator.trigger('widget.attentionGrabberEnabled', enabled);
     },
   };
 

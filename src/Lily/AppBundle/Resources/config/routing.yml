@@ -6,11 +6,15 @@ lily_appv1_index:
     pattern:  /v1/{licence}
     defaults: { _controller: LilyAppBundle:App:indexv1 }
 
-lily_app_js_index:
+lily_app_loaderv1_index:
     pattern:  /tracking/{licence}
     defaults: { _controller: LilyAppBundle:App:tracking }
 
-lily_app_widget_index:
+lily_app_loader_index:
+    pattern:  /loader/{licence}
+    defaults: { _controller: LilyAppBundle:App:loader }
+
+lily_widget_index:
     pattern:  /widget/{licence}
     defaults: { _controller: LilyAppBundle:App:widget }
 

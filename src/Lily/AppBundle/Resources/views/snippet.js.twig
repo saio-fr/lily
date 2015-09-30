@@ -1,7 +1,8 @@
-!function(a,undefined){"use strict";var b=a.saio=a.saio||[];if(!b.initialize){if(b.invoked)return void(a.console&&console.error&&console.error("Saio snippet included twice."));b.invoked=!0,b.methods=["config","api"],b.factory=function(a){return function(){var c=Array.prototype.slice.call(arguments);return c.unshift(a),b.push(c),b}};for(var c=0;c<b.methods.length;c++){var d=b.methods[c];b[d]=b.factory(d)}b.load=function(a){var b=document.createElement("script");b.type="text/javascript",b.async=!0,b.src=("https:"===document.location.protocol?"https://":"http://")+"{{ widgetOrigin|raw}}/app/widget/"+a;var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)},b.SNIPPET_VERSION="1.0.0"}}(this);
+!function(a,undefined){"use strict";var b=a.saio=a.saio||[];if(!b.initialize){if(b.invoked)return void(a.console&&console.error&&console.error("Saio snippet included twice."));b.invoked=!0,b.methods=["config","api"],b.factory=function(a){return function(){var c=Array.prototype.slice.call(arguments);return c.unshift(a),b.push(c),b}};for(var c=0;c<b.methods.length;c++){var d=b.methods[c];b[d]=b.factory(d)}b.load=function(a){var b=document.createElement("script");b.type="text/javascript",b.async=!0,b.src=("https:"===document.location.protocol?"https://":"http://")+"{{ widgetOrigin|raw}}/app/loader/"+a;var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)},b.SNIPPET_VERSION="1.0.0"}}(this);
 // Load saio with your key, which will automatically
 // load the tools you've enabled for your account.
 saio.load('{{ licence }}');
 
 // Call saio api methods from here
 // ex: saio.config('widget.isVisible', false);
+

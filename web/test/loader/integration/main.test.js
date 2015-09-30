@@ -1,5 +1,5 @@
-var sdk      = require('../../../widget/sdk.js');
-var mediator = require('../../../widget/mediator.js');
+var sdk      = require('../../../js/loader/sdk.js');
+var mediator = require('../../../js/loader/mediator.js');
 var test     = require('tape');
 
 /**
@@ -51,7 +51,7 @@ test('calls to the public saio api made before the widget script was loaded get 
     // webpack require is synchronous. requiring `main.js` will instanciate
     // all modules, and calls to `config` and `api` that were made
     // before the require will get dequeued only then.
-    var main = require('../../../widget/main.js');
+    var main = require('../../../js/loader/main.js');
 
     // refs to the modules instanciated in `main.js` that created elements in the dom.
     // Used to clean up after the tests

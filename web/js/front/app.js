@@ -136,7 +136,7 @@ define(function(require) {
           config.home === 'chat' &&
           config.chatAvailable ||
           !app.isConversationClosed) ?
-        'chat' : 'avi';
+        'chat' : 'self-service';
 
         app.sendHostMessage('lily.ready', {
           displayApp: info.appDisplay,

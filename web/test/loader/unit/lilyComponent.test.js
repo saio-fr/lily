@@ -1,7 +1,7 @@
 
 var test          = require('tape');
-var mediator      = require('../../../widget/mediator.js');
-var lilyComponent = require('../../../widget/lilyComponent.js');
+var mediator      = require('../../../js/loader/mediator.js');
+var lilyComponent = require('../../../js/loader/lilyComponent.js');
 
 test('initialize calls render and sets `this.el`', function(assert) {
   var lily = lilyComponent();
@@ -90,26 +90,29 @@ test('render', function(assert) {
 
 test('onExpand', function(assert) {
   var lily = lilyComponent();
+  var showSpy = sinon.spy(lily, 'show');
 
   lily.initialize();
 
   // `ready` state is `false`
   lily.onExpand();
-  assert.equal(lily.el.style.display, 'none', 'lily should not be shown yet');
+  assert.notOk(showSpy.called, 'lily should not be shown yet');
 
   // lily is ready
   lily.setState('ready', true);
-  assert.equal(lily.el.style.display, '', 'lily should now be shown');
+  assert.ok(showSpy.called, 'lily should now be shown');
   assert.equal(lily.getState('shown'), true, 'state should have changed accordingly');
 
   //clean up
   lily.remove();
+  lily.show.restore();
   assert.end();
 });
 
 test('onShrink', function(assert) {
 
   var lily = lilyComponent();
+  var hideSpy = sinon.spy(lily, 'hide');
 
   // lily is ready
   lily.setState('ready', true);
@@ -117,17 +120,17 @@ test('onShrink', function(assert) {
   // Initialize (will call render and create the element in the dom)
   lily.initialize();
 
-  // Call showWidget()
+  // Show App
   lily.onExpand();
-  assert.equal(lily.el.style.display, '', 'lily is shown');
 
-  // Hide Widget
+  // Hide App
   lily.onShrink();
-  assert.equal(lily.el.style.display, 'none');
 
+  assert.ok(hideSpy.called, 'lily is hidden');
   assert.equal(lily.getState('shown'), false);
 
   // clean up
   lily.remove();
+  lily.hide.restore();
   assert.end();
 });

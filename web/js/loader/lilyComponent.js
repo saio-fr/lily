@@ -9,7 +9,7 @@ var iframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
 var elOptions = {
   tagName: 'iframe',
   attrs: {
-    id: 'lilyApp',
+    id: 'lily-app',
     allowTransparency: 'true',
     frameBorder: '0',
     scrolling: 'yes',
@@ -21,7 +21,8 @@ var elOptions = {
   container: {
     tagName: 'div',
     attrs: {
-      id: 'lilyAppContainer',
+      id: 'lily-app-container',
+      class: 'hidden-animation-state'
     },
     styles: {
       display: 'none',
@@ -120,8 +121,7 @@ module.exports = function() {
       var $lilyIframe    = options ? this.createEl(options) : null;
 
       // Insert dom elements in the host site dom
-      var body = document.body;
-      this.insertInContainer($lilyContainer, body);
+      this.insertInContainer($lilyContainer, document.body);
       this.insertInContainer($lilyIframe, $lilyContainer);
 
       return $lilyContainer;
@@ -148,6 +148,8 @@ module.exports = function() {
     onReady: function(options) {
       this.setState('ready', true);
 
+      mediator.trigger('lily.sendOptions', options);
+
       if (!options) { return; }
 
       this.setState('activeRoute', options.activeRoute);
@@ -155,7 +157,7 @@ module.exports = function() {
       if (options.displayApp) {
         this.onExpand();
       } else {
-        mediator.trigger('widget.show');
+        mediator.trigger('widget.show', options);
       }
     },
 
@@ -189,7 +191,8 @@ module.exports = function() {
         return this.standaloneOpen();
       }
 
-      if (this.getState('ready')) {
+      if (this.getState('ready') && !this.getState('shown')) {
+        // Show \o/
         this.show();
       } else {
         return mediator.once('lily.onReady', this.onExpand, this);
@@ -197,11 +200,8 @@ module.exports = function() {
 
       this.setState('shown', true);
 
-      // Widget should hide before the app is shown
-      mediator.trigger('widget.hide');
-
-      // Show \o/
-      this.show();
+      // Set the focus on the iframe
+      var that = this;
 
       // Notify the lily app that it's been shown
       this.sendMessage('lily.shown', {
@@ -224,7 +224,7 @@ module.exports = function() {
       this.setState('shown', false);
 
       // Widget should be shown after the app was hidden
-      mediator.trigger('widget.show');
+      // mediator.trigger('widget.show');
 
       // Will be used for the api to add behaviour onShrink
       mediator.trigger('lily.onShrink');
