@@ -37,6 +37,7 @@
     config.root = '{{ app.request.getBaseURL() }}';
     config.licence = "{{ licence }}";
     config.chatAvailable = "{{ chatAvailable }}";
+    var clientConfig = {{ clientConfig|serialize('json') }};
   </script>
 
   <!-- Load Bugsnag -->

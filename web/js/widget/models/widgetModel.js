@@ -23,21 +23,33 @@ var widgetModel = Backbone.Model.extend({
     isAttentionGrabberEnabled: true,
     isAttentionGrabberClosed: true,
     wasAttentionGrabberDismissed: false,
-    attentionGrabberDelay: config.attentionGrabberDelay || 3000,
-    attGrabberTitle: config.defaultAttGrabberTitle || 'Besoin d\'aide ?',
-    attGrabberContent: config.defaultAttGrabberContent || '',
-    attGrabberCta: config.defaultAttGrabberCta || 'Trouver des réponses'
+    attentionGrabberDelay: 3000,
+    attGrabberTitle: 'Besoin d\'aide ?',
+    attGrabberCta: 'Trouver des réponses',
+    attGrabberContent: '',
   },
 
   initialize: function() {
     // Fetch previous value that could have been saved in local storage
     this.fetch();
+    this.calculateProperties(false);
 
     // When they change, store the new preperties in localStorage
-    this.on('change', function(){
+    this.on('change', function() {
+      this.calculateProperties(true);
       this.save();
     });
   },
+
+  calculateProperties: function(silent) {
+    var activeRoute = this.get('activeRoute');
+    var computedValues = {
+      attGrabberTitle: activeRoute === 'chat' ? this.get('attGrabberTitleChat') : this.get('attGrabberTitleSelfService'),
+      attGrabberCta: activeRoute === 'chat' ? this.get('attGrabberCtaChat') : this.get('attGrabberCtaSelfService'),
+    };
+
+    this.set(computedValues, { silent: silent });
+  }
 });
 
 module.exports = widgetModel;

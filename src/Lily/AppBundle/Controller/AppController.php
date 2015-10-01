@@ -68,6 +68,15 @@ class AppController extends BaseController
     }
 
     public function widgetAction($licence) {
+        $path = $this->get('kernel')->getRootDir() . '/../web' .
+            $this->getRequest()->getBasePath() . '/clientConfig/config.json';
+        $configs = file_get_contents($path);
+
+        if ( !json_decode($configs)->$licence ) {
+            $clientConfig = json_decode($configs, true)['default'];
+        } else {
+            $clientConfig = json_decode($configs, true)[$licence];
+        }
 
         // Services
         $em = $this->getEntityManager($licence);
@@ -84,6 +93,7 @@ class AppController extends BaseController
         return $this->render('LilyAppBundle:themes:widget/index.html.twig',
           array('licence' => $licence,
                 'config' => $config,
+                'clientConfig' => $clientConfig,
                 'chatAvailable' => $chatAvailable
         ));
     }
