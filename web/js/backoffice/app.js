@@ -153,7 +153,6 @@ define(function(require) {
       ping: function() {
         window.setInterval(function() {
           app.ws.call('operator/ping').then(app.isConnectionAlive);
-          console.log('ping');
         }, 25000);
       },
 

@@ -240,7 +240,7 @@ module.exports = function() {
 
     standaloneOpen: function() {
       var win = window.open(this.target, '_blank');
-      win.focus();
+      if (win) win.focus();
     },
 
   }, xdm);

@@ -27,7 +27,6 @@ define(function (require) {
   SkeletonView = Backbone.View.extend({
 
     initialize: function () {
-      console.log(g.client);
       this.usage();
       if (g.client.chat) {
         this.chat();
@@ -37,7 +36,7 @@ define(function (require) {
       }
       this.logs();
     },
-    
+
     usage: function () {
       var usageGraphModel = new UsageGraphModel();
       var usageFooterModel = new UsageFooterModel();
@@ -48,7 +47,7 @@ define(function (require) {
         }
       });
     },
-    
+
     chat: function () {
       var chatGraphModel = new ChatGraphModel();
       var chatFooterModel = new ChatFooterModel();
@@ -59,11 +58,11 @@ define(function (require) {
         }
       });
     },
-    
+
     avi: function () {
       var aviFrameView = new AviFrameView();
     },
-    
+
     logs: function () {
       var userLogCollection = new UserLogCollection();
       userLogCollection.fetch().success(function () {

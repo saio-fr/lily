@@ -10,6 +10,7 @@ var widgetModel = Backbone.Model.extend({
 
   defaults: {
     // General rules
+    shouldOpenStandalone: false,
     activeRoute: 'self-service', // Can either be 'self-service' or 'chat' at this point
 
     // Button rules

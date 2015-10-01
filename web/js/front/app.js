@@ -140,7 +140,8 @@ define(function(require) {
 
         app.sendHostMessage('lily.ready', {
           displayApp: info.appDisplay,
-          activeRoute: activeRoute
+          activeRoute: activeRoute,
+          shouldOpenStandalone: isMobile.phone,
         });
       }
 

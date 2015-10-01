@@ -9,8 +9,6 @@ module.exports = (function() {
         data: data
       });
 
-      console.log('client' + ': ' + name);
-
       var send = (function(target, message) {
         return function() {
           var targetWindow = target.frame;

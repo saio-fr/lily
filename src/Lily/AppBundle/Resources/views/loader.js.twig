@@ -184,7 +184,7 @@
             },
             standaloneOpen: function() {
                 var win = window.open(this.target, "_blank");
-                win.focus();
+                if (win) win.focus();
             }
         }, xdm);
         return lilyComponent;
@@ -792,7 +792,6 @@
                     name: name,
                     data: data
                 });
-                console.log("client" + ": " + name);
                 var send = function(target, message) {
                     return function() {
                         var targetWindow = target.frame;
