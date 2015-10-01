@@ -3,18 +3,15 @@
 require.config({
 
   baseUrl: '/js',
-  // urlArgs: 'v' + config.version,
   waitSeconds: 20,
 
   paths: {
-    // 'main':          'front/main',
-    // 'front/app':           'front/app',
     'FastClick':     'bower_components/fastclick/lib/fastclick',
     'Modernizr':     'libs/modernizr-custom',
     'Snap':          'bower_components/snapjs/snap',
     'autobahn':      'libs/autobahn-v1',
     'backbone':      'bower_components/backbone/backbone',
-    'front/globals':       'front/globals',
+    'front/globals': 'front/globals',
     'isMobile':      'bower_components/isMobile/isMobile',
     'jquery':        'bower_components/jquery/dist/jquery',
     'moment':        'bower_components/moment/moment',

@@ -396,7 +396,7 @@ define(function(require) {
       config.hostOptions = _.isObject(options) ? options : {};
     },
 
-    onLoadApp: function() {
+    onAppLoad: function() {
       console.log('app load');
       app.sendToHost({
         title: 'app.load',

@@ -4,4 +4,4 @@
 saio.load('{{ licence }}');
 
 // Call saio api methods from here
-// ex: saio.config('widget.isVisible', false);
+// ex: saio.api('widget.show');

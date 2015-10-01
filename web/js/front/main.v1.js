@@ -3,10 +3,10 @@ define(function(require) {
   'use strict';
 
   var $            = require('jquery'),
-      isMobile     = require('isMobile'),
-      app          = require('front/app'),
-      config       = require('front/globals'),
-      SkeletonView = require('front/views/skeleton');
+    isMobile     = require('isMobile'),
+    app          = require('front/app'),
+    config       = require('front/globals'),
+    SkeletonView = require('front/views/skeleton');
 
   app.init = function() {
     config.isMobile = isMobile;
@@ -48,7 +48,7 @@ define(function(require) {
     app.init();
   });
 
-  app.onLoadApp();
+  app.onAppLoad();
 
   // On Dom loaded
   $(function() {
