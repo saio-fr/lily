@@ -181,11 +181,11 @@ module.exports = function() {
           this.show();
         } else {
           // Call again with the same arguments
-          return mediator.once('widget.ready', this.showWidget.bind(this, options), this);
+          return mediator.once('widget.ready', _.bind(this.showWidget, this, options));
         }
       } else {
         // Call again with the same arguments
-        return mediator.once('lily.onReady', this.showWidget.bind(this, options), this);
+        return mediator.once('lily.onReady', _.bind(this.showWidget, this, options));
       }
 
       // Will be used for the api to add behaviour onShow
