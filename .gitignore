@@ -9,10 +9,12 @@
 /web/js/bower_components
 /web/js/compiled
 /web/js/build
+/web/build
+/web/build/*
 /web/css/compiled
 node_modules
 node_modules/*/node_modules
-web/js-build/
+web/build/js/
 /build/
 compiled
 tmp

@@ -55,18 +55,18 @@ config.configs = {
     name: '../../node_modules/almond/almond',
     include: ['front/config', './front/main'],
     insertRequire: ['./front/main'],
-    out: 'web/js-build/front/main.js'
+    out: 'web/build/js/front/main.js'
   },
 
   common: {
     name: '../../node_modules/almond/almond',
-    out: 'web/js-build/common.js',
+    out: 'web/build/js/common.js',
     include: config.commonIncludes
   },
 
   chatComp: {
     name: 'components/chat/main',
-    out: 'web/js-build/chatComp.js',
+    out: 'web/build/js/chatComp.js',
     include: config.chatIncludes,
     exclude: config.commonIncludes
   },
@@ -74,63 +74,63 @@ config.configs = {
   chat: {
     name: 'backoffice/chat/main',
     insertRequire:['backoffice/chat/main'],
-    out: 'web/js-build/chat/main.js',
+    out: 'web/build/js/chat/main.js',
     exclude: config.excludeAll
   },
 
   config: {
     name: 'backoffice/config/main',
     insertRequire:['backoffice/config/main'],
-    out: 'web/js-build/config/main.js',
+    out: 'web/build/js/config/main.js',
     exclude: config.excludeAll
   },
 
   dashboard: {
     name: 'backoffice/dashboard/main',
     insertRequire:['backoffice/dashboard/main'],
-    out: 'web/js-build/dashboard/main.js',
+    out: 'web/build/js/dashboard/main.js',
     exclude: config.excludeAll
   },
 
   knowledge: {
     name: 'backoffice/knowledge/main',
     insertRequire:['backoffice/knowledge/main'],
-    out: 'web/js-build/knowledge/main.js',
+    out: 'web/build/js/knowledge/main.js',
     exclude: config.excludeAll
   },
 
   profile: {
     name: 'backoffice/profile/main',
     insertRequire:['backoffice/profile/main'],
-    out: 'web/js-build/profile/main.js',
+    out: 'web/build/js/profile/main.js',
     exclude: config.excludeAll
   },
 
   users: {
     name: 'backoffice/users/main',
     insertRequire:['backoffice/users/main'],
-    out: 'web/js-build/users/main.js',
+    out: 'web/build/js/users/main.js',
     exclude: config.excludeAll
   },
 
   redirection: {
     name: 'backoffice/redirection/main',
     insertRequire:['backoffice/redirection/main'],
-    out: 'web/js-build/redirection/main.js',
+    out: 'web/build/js/redirection/main.js',
     exclude: config.excludeAll
   },
 
   statistics: {
     name: 'backoffice/statistics/main',
     insertRequire:['backoffice/statistics/main'],
-    out: 'web/js-build/statistics/main.js',
+    out: 'web/build/js/statistics/main.js',
     exclude: config.excludeAll
   },
 
   faq: {
     name: 'backoffice/faq/main',
     insertRequire:['backoffice/faq/main'],
-    out: 'web/js-build/faq/main.js',
+    out: 'web/build/js/faq/main.js',
     exclude: config.excludeAll
   }
 };

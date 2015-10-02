@@ -10,7 +10,7 @@
 
 {% endstylesheets %}
 
-  <link rel="stylesheet" href="{{ asset('css/backoffice/statistics.css', version=getAppVersion()) }}" type="text/css"/>
+  <link rel="stylesheet" href="{{ asset('build/css/backoffice/statistics.css', version=getAppVersion()) }}" type="text/css"/>
 
 {% endblock %}
 
@@ -149,9 +149,9 @@
   data-main="{{ asset('js/backoffice/statistics/main.js')}}">
 </script>
 {% else %}
-<script src="{{ asset('js-build/common.js')}}"></script>
-<script src="{{ asset('js-build/chatComp.js')}}"></script>
-<script src="{{ asset('js-build/statistics/main.js')}}"></script>
+<script src="{{ asset('build/js/common.js')}}"></script>
+<script src="{{ asset('build/js/chatComp.js')}}"></script>
+<script src="{{ asset('build/js/statistics/main.js')}}"></script>
 {% endif %}
 
 {% endblock %}

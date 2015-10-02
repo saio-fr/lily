@@ -205,11 +205,11 @@ FONTS
   font-weight: normal;
   font-style: normal;
 
-  src: url("../../font/api/lily.eot?-75mdob");
-  src: url("../../font/api/lily.eot?#iefix-75mdob") format("embedded-opentype"),
-  url("../../font/api/lily.woff?-75mdob") format("woff"),
-  url("../../font/api/lily.ttf?-75mdob") format("truetype"),
-  url("../../font/api/lily.svg?-75mdob#lily") format("svg");
+  src: url("../font/api/lily.eot?-75mdob");
+  src: url("../font/api/lily.eot?#iefix-75mdob") format("embedded-opentype"),
+  url("../font/api/lily.woff?-75mdob") format("woff"),
+  url("../font/api/lily.ttf?-75mdob") format("truetype"),
+  url("../font/api/lily.svg?-75mdob#lily") format("svg");
 }
 
 .lily-icon {

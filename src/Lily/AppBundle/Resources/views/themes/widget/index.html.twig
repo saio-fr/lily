@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/widget/main.css', version=getAppVersion()) }}" type="text/css" />
+  <link rel="stylesheet" href="{{ asset('build/css/widget/main.css', version=getAppVersion()) }}" type="text/css" />
   <link rel="stylesheet" href="http://cdn-saio.fr/customer/{{ licence }}/css/lily-custom.css?{{ getAppVersion() }}" type="text/css" />
 {% endblock %}
 
@@ -54,7 +54,7 @@
   </script>
 
   <script
-    src="{{ asset('js-build/widget/main.js') }}">
+    src="{{ asset('build/js/widget/main.js') }}">
   </script>
 
   {% endautoescape %}
