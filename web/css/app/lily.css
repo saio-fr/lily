@@ -205,11 +205,11 @@ FONTS
   font-weight: normal;
   font-style: normal;
 
-  src: url("../../font/api/lily.eot?-75mdob");
-  src: url("../../font/api/lily.eot?#iefix-75mdob") format("embedded-opentype"),
-  url("../../font/api/lily.woff?-75mdob") format("woff"),
-  url("../../font/api/lily.ttf?-75mdob") format("truetype"),
-  url("../../font/api/lily.svg?-75mdob#lily") format("svg");
+  src: url("../font/api/lily.eot?-75mdob");
+  src: url("../font/api/lily.eot?#iefix-75mdob") format("embedded-opentype"),
+  url("../font/api/lily.woff?-75mdob") format("woff"),
+  url("../font/api/lily.ttf?-75mdob") format("truetype"),
+  url("../font/api/lily.svg?-75mdob#lily") format("svg");
 }
 
 .lily-icon {
@@ -543,7 +543,6 @@ body {
   overflow: hidden;
   -webkit-user-select: none;
   color: #282828;
-  background: #ffffff;
 }
 
 input,
@@ -558,6 +557,16 @@ textarea,
 .app-wrapper {
   width: 100%;
   height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#lily-wrapper-page {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #fff;
 }
 
 h1,
@@ -587,13 +596,13 @@ a {
   bottom: 0;
   left: 0;
   visibility: hidden;
-  box-sizing: border-box;
   width: 100%;
   height: 100%;
   padding-top: 40px !important;
   overflow-x: hidden;
   opacity: .8;
   background: #ffffff;
+  border-radius: 10px;
 
   -webkit-backface-visibility: hidden;
      -moz-backface-visibility: hidden;
@@ -608,23 +617,6 @@ a {
   opacity: 1;
 }
 
-#lily-wrapper-page {
-  /*
-  -webkit-box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
-  -moz-box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
-  box-shadow: -1px 0px 26px 0px rgba(71, 71, 71, 0.61);
-  */
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  background: #ffffff;
-
-  -webkit-backface-visibility: hidden;
-     -moz-backface-visibility: hidden;
-      -ms-backface-visibility: hidden;
-}
-
 #lily-home,
 #lily-chat {
   overflow: hidden;
@@ -632,11 +624,6 @@ a {
 
 .lily-main-content-home {
   position: static;
-  /*
-  padding-bottom: 90px;
-  padding-top: 60px;
-  */
-  box-sizing: border-box;
   height: 100%;
   overflow: hidden;
 }
@@ -644,7 +631,6 @@ a {
 .lily-main-content {
   position: relative;
   clear: both;
-  box-sizing: border-box;
   width: 100%;
   height: 325px; /* fallback for navigators who don't support the calc function */
   height: calc(100% - 55px);
@@ -672,7 +658,7 @@ a {
   font-size: 12px;
   text-align: center;
   color: #ffffff;
-  border-radius: 2px 2px 0 0;
+  border-radius: 3px 3px 0 0;
   box-shadow: 1px 3px 12px 0px rgba(98, 98, 98, .54);
 }
 
@@ -1684,14 +1670,17 @@ MESSAGES
   border-radius: 10px;
   background: rgba(255, 255, 255, 1);
 }
+
 .lily-loading span:nth-of-type(2) {
   -webkit-animation-delay: .25s;
      -moz-animation-delay: .25s;
 }
+
 .lily-loading span:nth-of-type(3) {
   -webkit-animation-delay: .5s;
      -moz-animation-delay: .5s;
 }
+
 @-webkit-keyframes loader {
   0% {
     width: 7px;
@@ -1723,6 +1712,7 @@ MESSAGES
     opacity: .7;
   }
 }
+
 /*******************
 THEMATIQUE
 *******************/
@@ -1798,6 +1788,8 @@ MENU
   box-sizing: border-box;
   padding-top: 40px !important;
   border-right: solid 1px rgba(205, 205, 205, .4);
+  border-radius: 10px 0 0 10px;
+  background-color: #fff;
 }
 
 #lily-menu footer {
@@ -1877,7 +1869,7 @@ MENU
 }
 
 .embedded #lily-toolbar {
-  border-radius: 3px 3px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 
 #lily-toolbar-name {
@@ -1938,14 +1930,11 @@ SNAP.JS
   height: auto;
   overflow: auto;
   overflow-x: hidden;
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-  border-radius: 4px 4px 0 0;
-  background: #ffffff;
+  border-radius: 10px;
 
-  -webkit-backface-visibility: hidden;
+/*  -webkit-backface-visibility: hidden;
      -moz-backface-visibility: hidden;
-      -ms-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;*/
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1958,10 +1947,10 @@ SNAP.JS
   width: 230px;
   height: auto;
   overflow: auto;
-  -webkit-transition: width .3s ease;
-          transition: width .3s ease;
+/*  -webkit-transition: width .3s ease;
+          transition: width .3s ease;*/
 
-  -webkit-overflow-scrolling: touch;
+  /*-webkit-overflow-scrolling: touch;*/
 }
 
 .snap-drawer-left {

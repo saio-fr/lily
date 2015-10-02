@@ -1,0 +1,31 @@
+{
+  "default": {
+    "attGrabberTitleSelfService": "Un problème ? Une question ?",
+    "attGrabberTitleChat": "Un conseiller est disponible pour vous aider",
+    "attGrabberCtaSelfService": "Trouver une réponse",
+    "attGrabberCtaChat": "Parler avec un conseiller",
+    "attentionGrabberDelay": "3000"
+  },
+  "548053c9a18e2": {
+    "attGrabberTitleSelfService": "Un problème ? Une question sur SAIO ?",
+    "attGrabberTitleChat": "Un conseiller SAIO est disponible pour vous aider",
+    "attGrabberCtaSelfService": "Trouver une réponse",
+    "attGrabberCtaChat": "Parler avec un conseiller",
+    "attentionGrabberDelay": "3000",
+    "hasCustomBrandAvatar": "true",
+    "brandAvatarSrc": "http://cdn-saio.fr/customer/548053c9a18e2/images/avatars/avatar2x.png",
+    "hasCustomOperatorFigure": "false",
+    "operatorFigureSrc": ""
+  },
+  "54a54d4123c99": {
+    "attGrabberTitleSelfService": "Un problème ? Une question sur SOS Malus ?",
+    "attGrabberTitleChat": "Un conseiller SOS Malus est disponible pour vous aider",
+    "attGrabberCtaSelfService": "Trouver une réponse",
+    "attGrabberCtaChat": "Parler avec un conseiller",
+    "attentionGrabberDelay": "3000",
+    "hasCustomBrandAvatar": "true",
+    "brandAvatarSrc": "http://cdn-saio.fr/customer/54a54d4123c99/images/avatars/avatar2x.png",
+    "hasCustomOperatorFigure": "false",
+    "operatorFigureSrc": ""
+  }
+}

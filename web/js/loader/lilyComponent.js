@@ -9,7 +9,7 @@ var iframeSrc = '{{ url("lily_app_index", { licence: licence }) }}';
 var elOptions = {
   tagName: 'iframe',
   attrs: {
-    id: 'lilyApp',
+    id: 'lily-app',
     allowTransparency: 'true',
     frameBorder: '0',
     scrolling: 'yes',
@@ -21,7 +21,8 @@ var elOptions = {
   container: {
     tagName: 'div',
     attrs: {
-      id: 'lilyAppContainer',
+      id: 'lily-app-container',
+      class: 'hidden-animation-state'
     },
     styles: {
       display: 'none',
@@ -63,7 +64,7 @@ module.exports = function() {
     frameId: elOptions.attrs.id,
 
     // Internal flags and config variables
-    shouldOpenStandalone: false,
+    shouldOpenStandalone: window.matchMedia("(max-device-width: 800px)").matches,
 
     // A map of events for this object
     // Callbacks will be bound to the "view", with `this` set properly.
@@ -120,8 +121,7 @@ module.exports = function() {
       var $lilyIframe    = options ? this.createEl(options) : null;
 
       // Insert dom elements in the host site dom
-      var body = document.body;
-      this.insertInContainer($lilyContainer, body);
+      this.insertInContainer($lilyContainer, document.body);
       this.insertInContainer($lilyIframe, $lilyContainer);
 
       return $lilyContainer;
@@ -149,13 +149,16 @@ module.exports = function() {
       this.setState('ready', true);
 
       if (!options) { return; }
+      options.shouldOpenStandalone = this.shouldOpenStandalone;
+
+      mediator.trigger('lily.sendOptions', options);
 
       this.setState('activeRoute', options.activeRoute);
 
       if (options.displayApp) {
         this.onExpand();
       } else {
-        mediator.trigger('widget.show');
+        mediator.trigger('widget.show', options);
       }
     },
 
@@ -179,17 +182,21 @@ module.exports = function() {
       this.sendMessage('config.setOperatorGroup', groupId);
     },
 
-    onExpand: function() {
+    onExpand: function(options) {
       var firstOpen = this.getState('firstOpen');
 
       // If the app should be opened in standalone mode (new tab,
       // currently only for mobile devices), do so and return here.
-      // Widget should remain visible.
+      // Widget should remain visible. If this was api triggered, do nothing,
+      // as the openning of the app in a new tab will be taken as a malicious pop-up
+      // by most browsers
       if (this.shouldOpenStandalone) {
+        if (options && options.apiTriggered) return;
         return this.standaloneOpen();
       }
 
-      if (this.getState('ready')) {
+      if (this.getState('ready') && !this.getState('shown')) {
+        // Show \o/
         this.show();
       } else {
         return mediator.once('lily.onReady', this.onExpand, this);
@@ -197,11 +204,8 @@ module.exports = function() {
 
       this.setState('shown', true);
 
-      // Widget should hide before the app is shown
-      mediator.trigger('widget.hide');
-
-      // Show \o/
-      this.show();
+      // Set the focus on the iframe
+      var that = this;
 
       // Notify the lily app that it's been shown
       this.sendMessage('lily.shown', {
@@ -224,7 +228,7 @@ module.exports = function() {
       this.setState('shown', false);
 
       // Widget should be shown after the app was hidden
-      mediator.trigger('widget.show');
+      // mediator.trigger('widget.show');
 
       // Will be used for the api to add behaviour onShrink
       mediator.trigger('lily.onShrink');
@@ -240,7 +244,7 @@ module.exports = function() {
 
     standaloneOpen: function() {
       var win = window.open(this.target, '_blank');
-      win.focus();
+      if (win) win.focus();
     },
 
   }, xdm);

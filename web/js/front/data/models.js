@@ -11,6 +11,7 @@ define(function(require) {
     // Object wrapper returned as a module
     Models = {};
 
+  Models.Chat = Backbone.Model.extend({});
   Models.Faq = Backbone.Model.extend({});
   Models.Mail = Backbone.Model.extend({});
   Models.Content = Backbone.Model.extend({});

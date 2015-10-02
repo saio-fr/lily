@@ -7,7 +7,7 @@ var config = {
 
   baseUrl: 'web/js',
   mainConfigFile: 'web/js/common.js',
-  dir:'web/js-build',
+  dir:'web/build/js',
 
   modules: [
 

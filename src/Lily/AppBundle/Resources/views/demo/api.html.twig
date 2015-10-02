@@ -83,8 +83,23 @@
         </label>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+      <!-- Working link on mobile devices -->
+      <a class="saio-click-to-open" href="http://bruno.saio.fr/app_dev.php/app/{{licence}}" target="_blank">
+        Open help center
+      </a>
     </form>
 
+    <script>
+    // Large-enough screen detected
+    if (window.matchMedia("(min-device-width: 800px)").matches) {
+      $('.saio-click-to-open').on('click', function(ev) {
+        // Prevent the link to be followed. Open the app directly on my website instead
+        ev.preventDefault();
+        saio.api('box.expand');
+      });
+    }
+    </script>
   </div> <!-- /container -->
 
   <script>
