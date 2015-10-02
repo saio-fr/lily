@@ -16,6 +16,7 @@ var widgetModel = Backbone.Model.extend({
     // Button rules
     hasCustomOperatorFigure: false,
     operatorFigureSrc: '',
+    operatorName: '',
     hasCustomBrandAvatar: false,
     brandAvatarSrc: '',
     notifCount: 0,

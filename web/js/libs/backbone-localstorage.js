@@ -134,7 +134,7 @@ extend(Backbone.LocalStorage.prototype, {
   },
 
   localStorage: function() {
-    return localStorage;
+    return window.sessionStorage;
   },
 
   // Clear localStorage for specific collection.

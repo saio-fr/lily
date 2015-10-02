@@ -20,6 +20,7 @@ var ButtonView = Backbone.View.extend({
     this.render();
     // bind model's changes to the render() method to mantain interface up to date.
     this.model.on('change', this.render, this);
+    this.listenTo(app, 'chat.operatorChange', this.onOperatorChange);
   },
 
   render: function() {
@@ -38,6 +39,14 @@ var ButtonView = Backbone.View.extend({
     // triggered when we set the focus on the app iframe.
     // Hence the programmatic blur
     this.$el.blur();
+  },
+
+  onOperatorChange: function(operator) {
+    this.model.set({
+      hasCustomOperatorFigure: operator.avatar ? "true" : "false",
+      operatorFigureSrc: operator.avatar || '',
+      operatorName: operator.firstname || '',
+    });
   },
 
   transitionInButton: function(callback) {

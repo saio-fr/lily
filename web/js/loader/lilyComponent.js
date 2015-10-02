@@ -64,7 +64,7 @@ module.exports = function() {
     frameId: elOptions.attrs.id,
 
     // Internal flags and config variables
-    shouldOpenStandalone: false,
+    shouldOpenStandalone: window.matchMedia("(max-device-width: 800px)").matches,
 
     // A map of events for this object
     // Callbacks will be bound to the "view", with `this` set properly.
@@ -148,9 +148,10 @@ module.exports = function() {
     onReady: function(options) {
       this.setState('ready', true);
 
-      mediator.trigger('lily.sendOptions', options);
-
       if (!options) { return; }
+      options.shouldOpenStandalone = this.shouldOpenStandalone;
+
+      mediator.trigger('lily.sendOptions', options);
 
       this.setState('activeRoute', options.activeRoute);
 
@@ -181,13 +182,16 @@ module.exports = function() {
       this.sendMessage('config.setOperatorGroup', groupId);
     },
 
-    onExpand: function() {
+    onExpand: function(options) {
       var firstOpen = this.getState('firstOpen');
 
       // If the app should be opened in standalone mode (new tab,
       // currently only for mobile devices), do so and return here.
-      // Widget should remain visible.
+      // Widget should remain visible. If this was api triggered, do nothing,
+      // as the openning of the app in a new tab will be taken as a malicious pop-up
+      // by most browsers
       if (this.shouldOpenStandalone) {
+        if (options && options.apiTriggered) return;
         return this.standaloneOpen();
       }
 

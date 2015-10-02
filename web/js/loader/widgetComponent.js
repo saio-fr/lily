@@ -79,7 +79,8 @@ module.exports = function() {
       'widget.attentionGrabberEnabled': 'onAttentionGraberEnable',
 
       'lily.onExpand': 'onLilyExpand',
-      'lily.sendOptions': 'onSendOptions'
+      'lily.sendOptions': 'onSendOptions',
+      'lily.chatOperatorChange': 'onOperatorChange',
     },
 
     // A map of states for the component.
@@ -154,6 +155,10 @@ module.exports = function() {
       this.options.isAttentionGrabberEnabled = enabled;
     },
 
+    onOperatorChange: function(operator) {
+      this.sendMessage('lily.onOperatorChange', operator);
+    },
+
     onWidgetClick: function() {
       var lily = mediator.getRegisteredApp('lily');
 
@@ -167,7 +172,7 @@ module.exports = function() {
     showWidget: function(options) {
       var lily = mediator.getRegisteredApp('lily');
 
-      if (this.getState('shown') || lily.getState('shown')) {
+      if (this.getState('shown')) {
         return;
       }
 

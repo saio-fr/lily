@@ -45,6 +45,8 @@ define(function(require) {
 
       this.listenTo(this.collection, 'add', this.onCollectionAdd);
 
+      this.listenTo(this.model, 'change:operator', this.onOperatorChange);
+
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
       this.listenTo(app, 'chat:connected', this.onReconnected, this);
       this.listenTo(app, 'chat:sendMessage', this.receiveMsgFromSdk);
@@ -126,6 +128,7 @@ define(function(require) {
           break;
         case 'operator':
           messageView = new MessageChatOperator({ model: message }).render();
+          this.getOperatorInfos(message);
           break;
         case 'sdk':
           messageView = new MessageChatOperator({ model: message }).render();
@@ -183,6 +186,14 @@ define(function(require) {
         msg: msg,
         operator: null,
       });
+    },
+
+    getOperatorInfos: function(message) {
+      this.model.set('operator', message.get('operator'));
+    },
+
+    onOperatorChange: function(model, operator) {
+      app.trigger('chat.operatorChange', operator);
     },
 
     isWriting: function() {

@@ -35,19 +35,19 @@ module.exports = (function() {
   var apiMethods = {
     // Widget & iframe show/hide events
     'widget.show': function() {
-      mediator.trigger('widget.show');
+      mediator.trigger('widget.show', { apiTriggered: true });
     },
 
     'widget.hide': function() {
-      mediator.trigger('widget.hide');
+      mediator.trigger('widget.hide', { apiTriggered: true });
     },
 
     'box.expand': function() {
-      mediator.trigger('lily.expand');
+      mediator.trigger('lily.expand', { apiTriggered: true });
     },
 
     'box.shrink': function() {
-      mediator.trigger('lily.shrink');
+      mediator.trigger('lily.shrink', { apiTriggered: true });
     },
 
     'widget.onShow': function(callback) {

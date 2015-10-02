@@ -81,7 +81,7 @@
             elOptions: elOptions,
             id: elOptions.container.attrs.id,
             frameId: elOptions.attrs.id,
-            shouldOpenStandalone: false,
+            shouldOpenStandalone: window.matchMedia("(max-device-width: 800px)").matches,
             events: {
                 "lily.load": "onLoad",
                 "lily.ready": "onReady",
@@ -129,10 +129,11 @@
             },
             onReady: function(options) {
                 this.setState("ready", true);
-                mediator.trigger("lily.sendOptions", options);
                 if (!options) {
                     return;
                 }
+                options.shouldOpenStandalone = this.shouldOpenStandalone;
+                mediator.trigger("lily.sendOptions", options);
                 this.setState("activeRoute", options.activeRoute);
                 if (options.displayApp) {
                     this.onExpand();
@@ -152,9 +153,10 @@
             setOperatorGroup: function(groupId) {
                 this.sendMessage("config.setOperatorGroup", groupId);
             },
-            onExpand: function() {
+            onExpand: function(options) {
                 var firstOpen = this.getState("firstOpen");
                 if (this.shouldOpenStandalone) {
+                    if (options && options.apiTriggered) return;
                     return this.standaloneOpen();
                 }
                 if (this.getState("ready") && !this.getState("shown")) {
@@ -900,7 +902,8 @@
                 "widget.ready": "onReady",
                 "widget.attentionGrabberEnabled": "onAttentionGraberEnable",
                 "lily.onExpand": "onLilyExpand",
-                "lily.sendOptions": "onSendOptions"
+                "lily.sendOptions": "onSendOptions",
+                "lily.chatOperatorChange": "onOperatorChange"
             },
             state: {
                 load: false,
@@ -943,6 +946,9 @@
             onAttentionGraberEnable: function(enabled) {
                 this.options.isAttentionGrabberEnabled = enabled;
             },
+            onOperatorChange: function(operator) {
+                this.sendMessage("lily.onOperatorChange", operator);
+            },
             onWidgetClick: function() {
                 var lily = mediator.getRegisteredApp("lily");
                 if (lily.getState("shown")) {
@@ -953,7 +959,7 @@
             },
             showWidget: function(options) {
                 var lily = mediator.getRegisteredApp("lily");
-                if (this.getState("shown") || lily.getState("shown")) {
+                if (this.getState("shown")) {
                     return;
                 }
                 if (lily.getState("ready")) {
@@ -1002,16 +1008,24 @@
         };
         var apiMethods = {
             "widget.show": function() {
-                mediator.trigger("widget.show");
+                mediator.trigger("widget.show", {
+                    apiTriggered: true
+                });
             },
             "widget.hide": function() {
-                mediator.trigger("widget.hide");
+                mediator.trigger("widget.hide", {
+                    apiTriggered: true
+                });
             },
             "box.expand": function() {
-                mediator.trigger("lily.expand");
+                mediator.trigger("lily.expand", {
+                    apiTriggered: true
+                });
             },
             "box.shrink": function() {
-                mediator.trigger("lily.shrink");
+                mediator.trigger("lily.shrink", {
+                    apiTriggered: true
+                });
             },
             "widget.onShow": function(callback) {
                 if (_.isFunction(callback)) {

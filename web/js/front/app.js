@@ -141,7 +141,6 @@ define(function(require) {
         app.sendHostMessage('lily.ready', {
           displayApp: info.appDisplay,
           activeRoute: activeRoute,
-          shouldOpenStandalone: isMobile.phone,
         });
       }
 
@@ -217,6 +216,10 @@ define(function(require) {
         sid: config.sid,
         writing: isWriting
       });
+    },
+
+    onOperatorChange: function(operator) {
+      app.sendHostMessage('lily.chatOperatorChange', operator);
     },
 
     onChatSatisfaction: function(satisfied) {
@@ -431,9 +434,7 @@ define(function(require) {
 
     // To Host
     onAppLoad: function() {
-      app.sendHostMessage('lily.load', {
-        shouldOpenStandalone: isMobile.phone
-      });
+      app.sendHostMessage('lily.load');
       app.track.funnel('Loaded the app on client website');
     },
 
@@ -456,6 +457,7 @@ define(function(require) {
   app.on('chat:start',           app.onChatStart);
   app.on('chat:send',            app.onChatSend);
   app.on('chat:isWriting',       app.onChatIsWriting);
+  app.on('chat.operatorChange',  app.onOperatorChange);
   app.on('avi:newAviQuestion',   app.onNewAviQuestion);
   app.on('chat:reconnect',       app.onChatReconnect);
   app.on('chat:satisfaction',    app.onChatSatisfaction);

@@ -34,13 +34,9 @@ var attentionGrabberView = Backbone.View.extend({
       return;
     }
 
-    var renderTimeout = window.setTimeout(function() {
-      that.$el.html(that.template(that.model.toJSON()));
-      that.$el.appendTo('.widget-wrapper');
-      that.transitionInAttentionGrabber();
-
-      window.clearTimeout(renderTimeout);
-    }, that.model.get('attentionGrabberDelay'));
+    that.$el.html(that.template(that.model.toJSON()));
+    that.$el.appendTo('.widget-wrapper');
+    that.transitionInAttentionGrabber();
 
     return this;
   },

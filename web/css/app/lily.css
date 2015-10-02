@@ -557,6 +557,9 @@ textarea,
 .app-wrapper {
   width: 100%;
   height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 #lily-wrapper-page {
@@ -1785,6 +1788,8 @@ MENU
   box-sizing: border-box;
   padding-top: 40px !important;
   border-right: solid 1px rgba(205, 205, 205, .4);
+  border-radius: 10px 0 0 10px;
+  background-color: #fff;
 }
 
 #lily-menu footer {

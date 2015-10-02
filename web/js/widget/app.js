@@ -41,6 +41,10 @@ var app = {
   onWidgetClick: function() {
     app.sendHostMessage('widget.click');
   },
+
+  onOperatorChange: function(operator) {
+    app.trigger('chat.operatorChange', operator);
+  },
 };
 
 _.extend(app, Backbone.Events, FrameBus);
@@ -53,6 +57,7 @@ FrameBus.on('widget.click', app.onWidgetClick);
 FrameBus.on('widget.show', app.onWidgetShow);
 FrameBus.on('widget.sendsOptions', app.onGetOptions);
 FrameBus.on('widget.onLilyExpand', app.onLilyExpand);
+FrameBus.on('lily.onOperatorChange', app.onOperatorChange);
 
 app.onWidgetLoad();
 
