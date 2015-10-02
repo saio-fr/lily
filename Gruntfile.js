@@ -495,6 +495,7 @@ module.exports = function(grunt) {
     'cssmin:compile',
     'cacheBust',
     'buildSnippet',
+    'buildWidget',
     'buildLoader',
   ]);
 };
