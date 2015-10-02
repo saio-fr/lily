@@ -11,8 +11,8 @@ module.exports = (function() {
 
   var configMethods = {
     'chat.setOperatorGroup': function(groupIds) {
-      if (_.isString(groupId)) {
-        mediator.trigger('config.setOperatorGroup', groupId);
+      if (_.isString(groupIds)) {
+        mediator.trigger('config.setOperatorGroup', groupIds);
       } else if (groupIds && groupIds.length) {
         var args = ['config.setOperatorGroup'].concat([].slice.call(groupIds));
         mediator.trigger.call({}, args);
