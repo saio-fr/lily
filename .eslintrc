@@ -11,7 +11,7 @@
   "rules": {
     // Code style
     "indent": [2, 2],
-    "quotes": [2, "single"],
-    "dot-notation": 0
+    "quotes": [1, "single"],
+    "dot-notation": [1, true],
   }
 }

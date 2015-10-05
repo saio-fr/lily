@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <meta charset="utf-8">
+  <base target="_blank">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/app/lily.css', version=getAppVersion()) }}" type="text/css" />
+  <link rel="stylesheet" href="{{ asset('build/css/app/lily.css', version=getAppVersion()) }}" type="text/css" />
   <link rel="stylesheet" href="http://cdn-saio.fr/customer/{{ licence }}/css/lily-custom.css?{{ getAppVersion() }}" type="text/css" />
 {% endblock %}
 
@@ -32,7 +33,7 @@
         <ul>
             {% if config.avi.active %}
             <li>
-              <a href="#/avi">
+              <a href="#/avi" target="_self">
                 <span class='lily-icon lily-icon-avatar'></span>Agent virtuel
               </a>
             </li>
@@ -40,7 +41,7 @@
 
             {% if config.chat.active and chatAvailable %}
             <li>
-              <a href="#/chat" data-reverse="true">
+              <a href="#/chat" data-reverse="true" target="_self">
                 <span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller
               </a>
             </li>
@@ -48,7 +49,7 @@
 
             {% if config.avi.redirections.mail %}
             <li>
-              <a href="#/mail" data-reverse="true">
+              <a href="#/mail" data-reverse="true" target="_self">
                 <span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail
               </a>
             </li>
@@ -56,7 +57,7 @@
 
             {% if config.avi.redirections.phone and redirection is not null  %}
             <li>
-              <a href="tel:{{ redirection.phone }}">
+              <a href="tel:{{ redirection.phone }}" target="_blank">
                 <span class='lily-icon lily-icon-phone'></span>Nous téléphoner
               </a>
             </li>
@@ -176,7 +177,7 @@
     </script>
     {% else %}
     <script
-      src="{{ asset('js-build/front/main.js')}}">
+      src="{{ asset('build/js/front/main.js')}}">
     </script>
     {% endif %}
 

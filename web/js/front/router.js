@@ -67,7 +67,7 @@ define(function(require) {
       if (config.chat.contactForm && app.showContactForm) {
         this.navigate('welcome-screen', { trigger: true });
       } else {
-        model = new Backbone.Model(config.chat);
+        model = new Models.Chat(config.chat);
         view = new ChatView({ model: model });
         utils.goTo(view);
         app.trackPageView('Visitor saw page: chat');

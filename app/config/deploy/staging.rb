@@ -39,8 +39,8 @@ after "deploy" do
   # update bower components
   run "cd #{deploy_to}/current && bower update"
 
-  # build project
-  run "cd #{deploy_to}/current && ./node_modules/.bin/grunt build"
+  # build project (use force due to cssmin and remote fonts @import directives)
+  run "cd #{deploy_to}/current && ./node_modules/.bin/grunt build --force"
 
   # clear the cache
   run "cd #{deploy_to}/current && php app/console cache:clear --env=staging"

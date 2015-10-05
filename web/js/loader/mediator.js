@@ -22,7 +22,9 @@ module.exports = (function() {
       'widget.onShow': 'onWidgetShow',
 
       // Change events
-      'lily.change:ready': 'onLilyReadyChange'
+      'lily.change:ready': 'onLilyReadyChange',
+      'widget.change:ready': 'onWidgetReadyChange',
+      'widget.change:load': 'onWidgetReadyChange',
     },
 
     initialize: function() {
@@ -37,10 +39,21 @@ module.exports = (function() {
     /**
      * Event listeners
      */
-
     onLilyReadyChange: function(ready) {
       if (ready) {
         this.trigger('lily.onReady');
+      }
+    },
+
+    onWidgetReadyChange: function(ready) {
+      if (ready) {
+        this.trigger('widget.onReady');
+      }
+    },
+
+    onWidgetLoadChange: function(load) {
+      if (load) {
+        this.trigger('widget.onLoad');
       }
     },
 

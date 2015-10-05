@@ -11,8 +11,8 @@ module.exports = (function() {
 
   var configMethods = {
     'chat.setOperatorGroup': function(groupIds) {
-      if (_.isString(groupId)) {
-        mediator.trigger('config.setOperatorGroup', groupId);
+      if (_.isString(groupIds)) {
+        mediator.trigger('config.setOperatorGroup', groupIds);
       } else if (groupIds && groupIds.length) {
         var args = ['config.setOperatorGroup'].concat([].slice.call(groupIds));
         mediator.trigger.call({}, args);
@@ -21,8 +21,13 @@ module.exports = (function() {
       }
     },
 
-    'box.startExpanded': function() {
-      mediator.trigger('lily.expand');
+    'widget.attentionGrabberEnabled': function(enabled) {
+      // `enabled` should be a boolean
+      if (enabled !== true && enabled !== false) {
+        console.error('enabled should be a boolean');
+      }
+
+      mediator.trigger('widget.attentionGrabberEnabled', enabled);
     },
   };
 
@@ -30,19 +35,19 @@ module.exports = (function() {
   var apiMethods = {
     // Widget & iframe show/hide events
     'widget.show': function() {
-      mediator.trigger('widget.show');
+      mediator.trigger('widget.show', { apiTriggered: true });
     },
 
     'widget.hide': function() {
-      mediator.trigger('widget.hide');
+      mediator.trigger('widget.hide', { apiTriggered: true });
     },
 
     'box.expand': function() {
-      mediator.trigger('lily.expand');
+      mediator.trigger('lily.expand', { apiTriggered: true });
     },
 
     'box.shrink': function() {
-      mediator.trigger('lily.shrink');
+      mediator.trigger('lily.shrink', { apiTriggered: true });
     },
 
     'widget.onShow': function(callback) {

@@ -1,5 +1,5 @@
-var sdk      = require('../../../widget/sdk.js');
-var mediator = require('../../../widget/mediator.js');
+var sdk      = require('../../../js/loader/sdk.js');
+var mediator = require('../../../js/loader/mediator.js');
 var test     = require('tape');
 
 /**
@@ -51,7 +51,19 @@ test('calls to the public saio api made before the widget script was loaded get 
     // webpack require is synchronous. requiring `main.js` will instanciate
     // all modules, and calls to `config` and `api` that were made
     // before the require will get dequeued only then.
-    var main = require('../../../widget/main.js');
+    try {
+      var main = require('../../../js/loader/main.js');
+    } catch (e) {
+      // Doesn't work with PhantomJS
+
+      // Clean up
+      sdk.calledBeforeLoad = false;
+      sdk.config.restore();
+      sdk.api.restore();
+
+      assert.end();
+      return;
+    }
 
     // refs to the modules instanciated in `main.js` that created elements in the dom.
     // Used to clean up after the tests
@@ -69,32 +81,32 @@ test('calls to the public saio api made before the widget script was loaded get 
     sdk.config.restore();
     sdk.api.restore();
 
+    test('Both the widget and the lily app now exist in the dom', function(assert) {
+
+      // refs to the modules instanciated in `main.js` that created elements in the dom.
+      // Used to clean up after the tests
+      var lily   = mediator.getRegisteredApp('lily');
+      var widget = mediator.getRegisteredApp('widget');
+
+      assert.equal(document.getElementById(lily.id), lily.el);
+      assert.equal(document.getElementById(widget.id), widget.el);
+
+      // Injecting main means that lily and widget were instanciated
+      // and initialized. Render was called on initialize and elements were created.
+      // we remove them now
+      widget.remove();
+      lily.remove();
+      assert.end();
+    });
+
+    test('global saio object exposes the sdk interface', function(assert) {
+
+      assert.ok(window.saio.hasOwnProperty('api'));
+      assert.ok(window.saio.hasOwnProperty('config'));
+
+      assert.end();
+    });
+
     assert.end();
   }, 0);
-});
-
-test('Both the widget and the lily app now exist in the dom', function(assert) {
-
-  // refs to the modules instanciated in `main.js` that created elements in the dom.
-  // Used to clean up after the tests
-  var lily   = mediator.getRegisteredApp('lily');
-  var widget = mediator.getRegisteredApp('widget');
-
-  assert.equal(document.getElementById(lily.id), lily.el);
-  assert.equal(document.getElementById(widget.id), widget.el);
-
-  // Injecting main means that lily and widget were instanciated
-  // and initialized. Render was called on initialize and elements were created.
-  // we remove them now
-  widget.remove();
-  lily.remove();
-  assert.end();
-});
-
-test('global saio object exposes the sdk interface', function(assert) {
-
-  assert.ok(window.saio.hasOwnProperty('api'));
-  assert.ok(window.saio.hasOwnProperty('config'));
-
-  assert.end();
 });

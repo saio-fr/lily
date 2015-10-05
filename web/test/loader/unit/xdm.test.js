@@ -1,8 +1,8 @@
 
 var test = require('tape');
-var mediator = require('../../../widget/mediator.js');
-var component = require('../../../widget/component.js');
-var xdm = require('../../../widget/xdm.js');
+var mediator = require('../../../js/loader/mediator.js');
+var component = require('../../../js/loader/component.js');
+var xdm = require('../../../js/loader/xdm.js');
 var utils = require('underscore');
 
 test('xdm.sendMessage sends a message via postMessage to another frame', function(assert) {

@@ -1,7 +1,7 @@
 
 var test = require('tape');
-var mediator = require('../../../widget/mediator.js');
-var widgetComponent = require('../../../widget/widgetComponent.js');
+var mediator = require('../../../js/loader/mediator.js');
+var widgetComponent = require('../../../js/loader/widgetComponent.js');
 
 function lilyMock() {
   var lily = {
@@ -28,23 +28,6 @@ function lilyMock() {
   };
 
   return mediator.registerApp(lily, 'lily');
-}
-
-// Universal `click` event creation and dispatch
-// phantomJs doesn't support `el.click()`
-// (see http://stackoverflow.com/questions/15739263/phantomjs-click-an-element)
-function click(el){
-  var ev = document.createEvent('MouseEvent');
-  ev.initMouseEvent(
-    'click',
-    true /* bubble */,
-    true /* cancelable */,
-    window, null,
-    0, 0, 0, 0, /* coordinates */
-    false, false, false, false, /* modifier keys */
-    0 /*left*/, null
-  );
-  el.dispatchEvent(ev);
 }
 
 test('initialize calls render and sets `this.el`', function(assert) {
@@ -108,64 +91,52 @@ test('render', function(assert) {
 
   // render widget
   widget.el = widget.render({
-    tagName: 'div',
-    styles: {
-      'display': 'none',
-    },
+    tagName: 'iframe',
     attrs: {
-      'id': widget.id
+      'id': 'iframe'
+    },
+    container: {
+      tagName: 'div',
+      attrs: {
+        id: 'lily-widget-container',
+      },
+      styles: {
+        display: 'none',
+      }
     }
   });
 
-  // Element created
-  assert.equal(widget.el.tagName, 'DIV');
-  assert.equal(widget.el.style.display, 'none');
-  assert.equal(widget.el.id, widget.id);
+  // El created. Should return the container element
+  assert.equal(document.getElementById('lily-widget-container'), widget.el);
 
-  // And inserted in the dom
-  assert.equal(document.getElementById(widget.id), widget.el);
+  // actual element created, inserted in the container
+  assert.equal(document.getElementById('iframe').parentNode, widget.el);
 
   // clean up
   widget.remove();
   assert.end();
 });
 
-test('calling registerDomEvents should bind `onWidgetClick` on click on `this.el`', function(assert) {
-  var widget = widgetComponent();
-
-  // Spy on `onWidgetClick`
-  var onWidgetClickSpy = sinon.spy(widget, 'onWidgetClick');
-
-  // Create `this.el` and call `this.registerDomEvents`
-  widget.initialize();
-
-  // Emulate user click on `this.el`
-  click(widget.el);
-
-  assert.ok(onWidgetClickSpy.calledOnce,
-    'should have been called once');
-
-  // clean up
-  widget.remove();
-  widget.onWidgetClick.restore();
-  assert.end();
-});
-
-test('show Widget when lily app is ready', function(assert) {
+test('show Widget when lily app is ready and widget app is ready', function(assert) {
 
   var widget = widgetComponent();
   var lily = lilyMock();
+  var showSpy = sinon.spy(widget, 'show');
 
   // Initialize (will call render and create the element in the dom)
   widget.initialize();
-  assert.equal(widget.el.style.display, 'none',
+  assert.notOk(showSpy.called,
     'widget is hidden on initialization');
 
-  // lily is ready
+  // Widget is ready
+  widget.setState('ready', true);
+  // Lily is ready
   lily.setState('ready', true);
-  widget.showWidget();
 
-  assert.equal(widget.el.style.display, '', 'widget should now be shown');
+  // lily is ready
+  mediator.trigger('widget.show');
+
+  assert.ok(showSpy.called, 'widget should now be shown');
 
   // clean up
   mediator.unRegisterApp('lily');
@@ -173,31 +144,33 @@ test('show Widget when lily app is ready', function(assert) {
   assert.end();
 });
 
-test('showWidget calls `show` on widget el when a state change passed `ready` to `true`', function(assert) {
+test('`widget.click calls `show` on widget el when a state change passed `ready` to `true`', function(assert) {
 
   var widget = widgetComponent();
   var lily = lilyMock();
-  var showStub = sinon.stub(widget, 'show');
+  var showSpy = sinon.spy(widget, 'show');
 
   // Initialize (will call render and create the element in the dom)
   widget.initialize();
-  assert.notOk(showStub.called,
-    'widget remains hidden on initialization');
+  widget.setState('ready', true);
+  assert.notOk(showSpy.called,
+    'widget is hidden on initialization');
 
-  // Call showWidget()
-  widget.showWidget();
-  assert.notOk(showStub.called,
+  mediator.trigger('widget.show');
+  assert.notOk(showSpy.called,
     'widget still hidden until lily is said to be ready');
   assert.equal(widget.getState('shown'), false);
 
   // lily is ready
-  lily.setState('ready', true); // Will trigger a change event and `lily.onReady` will be fired by the mediator
-  assert.ok(showStub.called, 'widget should now be shown');
+  // Will trigger a change event and `lily.onReady` will be fired by the mediator
+  lily.setState('ready', true);
+
+  assert.ok(showSpy.called, 'widget should now be shown');
   assert.equal(widget.getState('shown'), true, 'state should have changed accordingly');
 
   // clean up
-  widget.show.restore();
   widget.remove();
+  widget.show.restore();
   assert.end();
 });
 
@@ -212,9 +185,10 @@ test('hideWidget', function(assert) {
   // Initialize (will call render and create the element in the dom)
   widget.initialize();
 
-  // Call showWidget()
-  widget.showWidget();
-  assert.equal(widget.el.style.display, '', 'widget is shown');
+  mediator.trigger('widget.click');
+  setTimeout(function() {
+    assert.equal(widget.el.style.display, '', 'widget is shown');
+  }, 250);
 
   // Hide Widget
   widget.hideWidget();

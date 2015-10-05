@@ -1,8 +1,8 @@
 
 var test          = require('tape');
-var mediator      = require('../../../widget/mediator.js');
-var hostComponent = require('../../../widget/hostComponent.js');
-var _             = require('../../../widget/utils.js');
+var mediator      = require('../../../js/loader/mediator.js');
+var hostComponent = require('../../../js/loader/hostComponent.js');
+var _             = require('../../../js/loader/utils.js');
 
 function messageSender() {
 

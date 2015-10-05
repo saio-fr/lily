@@ -397,7 +397,6 @@ define(function(require) {
     },
 
     onAppLoad: function() {
-      console.log('app load');
       app.sendToHost({
         title: 'app.load',
         callback: 'onAppLoad'
@@ -443,10 +442,6 @@ define(function(require) {
     },
 
     receiveFromHost: function(message, response) {
-
-      if (message.data && message.data.title) {
-        console.log('saio:: ' + message.data.title);
-      }
 
       // Call callback if exists, and apply eventual arguments:
       if (message.data.callback) {

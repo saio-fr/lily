@@ -30,11 +30,6 @@ define(function (require) {
     sync: function (method, model, options) {
         options = options  || {};
 
-        if (method && model && model.attributes) {
-          console.log("method: " + method);
-          console.log(JSON.parse(JSON.stringify(model.attributes)));
-        }
-
         if (!options.url) {
           // Let Backbone.sync handle model.url fallback value
           options.url = _.result(model, method + 'Url');

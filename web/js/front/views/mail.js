@@ -126,8 +126,8 @@ define(function(require) {
       }
 
 
-      if (this.errors.from || 
-          this.errors.msg || 
+      if (this.errors.from ||
+          this.errors.msg ||
           this.errors.object ||
           this.errors.date ||
           this.errors.time ||
@@ -150,8 +150,6 @@ define(function(require) {
           app.router.navigate('home', {
             trigger: true
           });
-          console.log(that.day + ' ' + that.month);
-          console.log(that.time);
         }
       }, function(err) {
         app.showInfo("error", config.mailSentError);

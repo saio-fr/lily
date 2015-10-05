@@ -24,7 +24,7 @@ define(function(require) {
     // We were unable to store an uniqid
     // We won't show the widget
     // To do: track this event;
-    console.log('unable to generate uniqid');
+    console.error('unable to generate uniqid for saio');
     return;
   }
 

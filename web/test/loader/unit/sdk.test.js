@@ -1,7 +1,7 @@
 
 var test     = require('tape');
-var sdk      = require('../../../widget/sdk.js');
-var mediator = require('../../../widget/mediator.js');
+var sdk      = require('../../../js/loader/sdk.js');
+var mediator = require('../../../js/loader/mediator.js');
 var utils    = require('underscore');
 
 test('sdk exposes two public methods: `api` and `config`', function(assert) {
@@ -18,10 +18,10 @@ test('calling the `config` method on sdk with a known method name as argument', 
   var configMethodStub = sinon.spy(mediator, 'trigger');
 
   // Call config
-  sdk.config('box.startExpanded');
+  sdk.config('chat.setOperatorGroup', '1');
 
   // the resulting method called should call trigger on the mediator
-  assert.ok(configMethodStub.calledWith('lily.expand'), 'should call the so-called method');
+  assert.ok(configMethodStub.calledWith('config.setOperatorGroup'), 'should call the so-called method');
 
   mediator.trigger.restore();
   assert.end();

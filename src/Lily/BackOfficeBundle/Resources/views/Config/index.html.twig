@@ -4,7 +4,7 @@
 
 {{ parent() }}
 
-  <link rel="stylesheet" href="{{ asset('css/backoffice/config.css', version=getAppVersion()) }}" type="text/css" />
+  <link rel="stylesheet" href="{{ asset('build/css/backoffice/config.css', version=getAppVersion()) }}" type="text/css" />
 
 {% endblock %}
 
@@ -66,9 +66,9 @@
   data-main="{{ asset('js/backoffice/config/main.js')}}">
 </script>
 {% else %}
-<script src="{{ asset('js-build/common.js')}}"></script>
-<script src="{{ asset('js-build/chatComp.js')}}"></script>
-<script src="{{ asset('js-build/config/main.js')}}"></script>
+<script src="{{ asset('build/js/common.js')}}"></script>
+<script src="{{ asset('build/js/chatComp.js')}}"></script>
+<script src="{{ asset('build/js/config/main.js')}}"></script>
 {% endif %}
 
 {% endblock %}

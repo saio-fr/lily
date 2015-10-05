@@ -297,7 +297,6 @@ define(function(require) {
     // ==============================================
 
     welcomeVisitor: function() {
-      console.log(config.avi.welcomeMsg);
       return this.printAviMsg(config.avi.welcomeMsg);
     },
 
@@ -311,8 +310,8 @@ define(function(require) {
       that.printAviMsg(redirectionMsg);
       var model = new Models.Message({
         config: {
-          hasTel:        config.avi.redirections.mail,
-          hasMail:       config.avi.redirections.phone,
+          hasMail:       config.avi.redirections.mail,
+          hasTel:        config.avi.redirections.phone,
           hasChat:       config.avi.redirections.chat,
           chatAvailable: config.chatAvailable
         },

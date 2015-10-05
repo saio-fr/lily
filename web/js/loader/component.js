@@ -66,12 +66,30 @@ module.exports = function() {
     },
 
     hide: function() {
-      this.setInlineStyle(this.el, 'display', 'none');
+      var that = this;
+
+      _.onTransEnd(this.el, function() {
+        that.setInlineStyle(that.el, 'display', 'none');
+      });
+
+      that.el.classList.remove('open-animation-state');
+
       window.focus();
     },
 
     show: function() {
+      var that = this;
+
       this.removeInlineStyle(this.el, 'display');
+
+      window.requestAnimationFrame(function() {
+        that.el.classList.add('open-animation-state');
+        _.onTransEnd(that.el, function() {
+          // In case of (very) fast double clicking, cancelling the animation,
+          // we don't want to stay trapped in the hide transEnd callback
+          that.removeInlineStyle(that.el, 'display');
+        });
+      }, 1);
     },
 
     setAttributes: function(element, attributes) {
