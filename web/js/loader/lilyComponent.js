@@ -198,6 +198,8 @@ module.exports = function() {
       if (this.getState('ready') && !this.getState('shown')) {
         // Show \o/
         this.show();
+        this.frame.focus();
+
       } else {
         return mediator.once('lily.onReady', this.onExpand, this);
       }

@@ -237,6 +237,9 @@
             show: function() {
                 var that = this;
                 this.removeInlineStyle(this.el, "display");
+                if (that.frame) {
+                    that.frame.focus();
+                }
                 window.requestAnimationFrame(function() {
                     that.el.classList.add("open-animation-state");
                     _.onTransEnd(that.el, function() {
@@ -592,6 +595,26 @@
         };
         _.transEndEventName = _.transEndEventNames[_.cssPrefix("transition")];
         _.animEndEventName = _.animEndEventNames[_.cssPrefix("animation")];
+        (function() {
+            var lastTime = 0;
+            var vendors = [ "ms", "moz", "webkit", "o" ];
+            for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x] + "RequestAnimationFrame"];
+                window.cancelAnimationFrame = window[vendors[x] + "CancelAnimationFrame"] || window[vendors[x] + "CancelRequestAnimationFrame"];
+            }
+            if (!window.requestAnimationFrame) window.requestAnimationFrame = function(callback, element) {
+                var currTime = new Date().getTime();
+                var timeToCall = Math.max(0, 16 - Math.abs(currTime - lastTime));
+                var id = window.setTimeout(function() {
+                    callback(currTime + timeToCall);
+                }, timeToCall);
+                lastTime = currTime + timeToCall;
+                return id;
+            };
+            if (!window.cancelAnimationFrame) window.cancelAnimationFrame = function(id) {
+                clearTimeout(id);
+            };
+        })();
         return _;
     }();
 }, function(module, exports, __webpack_require__) {
@@ -966,10 +989,10 @@
                     if (this.getState("ready")) {
                         this.show();
                     } else {
-                        return mediator.once("widget.ready", this.showWidget.bind(this, options), this);
+                        return mediator.once("widget.ready", _.bind(this.showWidget, this, options));
                     }
                 } else {
-                    return mediator.once("lily.onReady", this.showWidget.bind(this, options), this);
+                    return mediator.once("lily.onReady", _.bind(this.showWidget, this, options));
                 }
                 mediator.trigger("widget.onShow", this.firstShow);
                 this.setState("firstShow", false);
@@ -990,8 +1013,8 @@
         var calledBeforeLoad = false;
         var configMethods = {
             "chat.setOperatorGroup": function(groupIds) {
-                if (_.isString(groupId)) {
-                    mediator.trigger("config.setOperatorGroup", groupId);
+                if (_.isString(groupIds)) {
+                    mediator.trigger("config.setOperatorGroup", groupIds);
                 } else if (groupIds && groupIds.length) {
                     var args = [ "config.setOperatorGroup" ].concat([].slice.call(groupIds));
                     mediator.trigger.call({}, args);

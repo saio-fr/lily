@@ -478,10 +478,13 @@ button {
   width: 55px;
   height: 55px;
   overflow: hidden;
-  border: solid 1px #cecece;
-  box-shadow: 1px 3px 10px rgba(49, 49, 49, 0.5);
+  box-shadow: 1px 2px 10px rgba(49, 49, 49, 0.7);
   pointer-events: initial;
   outline: none;
+}
+
+.widget-wrapper .widget-button-inner.image-button {
+  background-color: #ffffff;
 }
 
 .hidden-animation-state {

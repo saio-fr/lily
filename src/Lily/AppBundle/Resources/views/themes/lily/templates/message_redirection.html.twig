@@ -2,7 +2,7 @@
 
 <% if (config.hasChat && config.chatAvailable)  { %>
 	<li class="lily-redirection-item lily-redirection-chat">
-		<a href="#/chat">
+		<a href="#/chat" target="_self">
 			<span class="lily-icon lily-icon-conversation"></span>
 			<%= copy.chat %>
 			<span class="lily-icon lily-icon-arrow-right"></span>
@@ -12,7 +12,7 @@
 
 <% if (config.hasTel) { %>
 	<li class="lily-redirection-item lily-redirection-mail">
-		<a href="#/mail">
+		<a href="#/mail" target="_self">
 			<span class="lily-icon lily-icon-mail"></span>
 			<%= copy.mail %>
 			<span class="lily-icon lily-icon-arrow-right"></span>

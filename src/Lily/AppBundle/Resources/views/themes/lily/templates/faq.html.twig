@@ -2,7 +2,7 @@
 	<section class="lily-main-content">
 {%verbatim%}
 				<% if ( id !== 'NULL' ) { %>
-					<div class="lily-faq-link lily-cst-faq-title-link lily-back-link"><a href="#/faq/<%=parent%>" data-reverse="true"><%=title%><p><i class="lily-icon lily-icon-arrow-left"></i>Retour</p></a></div>
+					<div class="lily-faq-link lily-cst-faq-title-link lily-back-link"><a href="#/faq/<%=parent%>" data-reverse="true" target="_self"><%=title%><p><i class="lily-icon lily-icon-arrow-left"></i>Retour</p></a></div>
 				<% } %>
 		<ul>
 		<% _.each(faqs, function(faq) { %>

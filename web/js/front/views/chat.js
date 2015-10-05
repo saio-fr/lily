@@ -50,6 +50,7 @@ define(function(require) {
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
       this.listenTo(app, 'chat:connected', this.onReconnected, this);
       this.listenTo(app, 'chat:sendMessage', this.receiveMsgFromSdk);
+      this.listenTo(app, 'app:isShown', this.onAppShown);
 
       this.reconnectionMsgVisible = false;
       this.visitorMsgSent = 0;
@@ -76,6 +77,10 @@ define(function(require) {
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       return PageView.prototype.render.apply(this, arguments);
+    },
+
+    onAppShown: function() {
+      this.$input.focus();
     },
 
     onSubscribedChat: function(payload) {

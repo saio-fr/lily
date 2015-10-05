@@ -560,6 +560,9 @@ textarea,
   background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
+
+  /* Fix for page wrapper overflowing the border-radius when transitionned */
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==);
 }
 
 #lily-wrapper-page {

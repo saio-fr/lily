@@ -84,13 +84,11 @@ module.exports = function() {
 
       window.requestAnimationFrame(function() {
         that.el.classList.add('open-animation-state');
-
         _.onTransEnd(that.el, function() {
           // In case of (very) fast double clicking, cancelling the animation,
           // we don't want to stay trapped in the hide transEnd callback
           that.removeInlineStyle(that.el, 'display');
         });
-
       }, 1);
     },
 

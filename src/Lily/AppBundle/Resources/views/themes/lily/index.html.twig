@@ -33,7 +33,7 @@
         <ul>
             {% if config.avi.active %}
             <li>
-              <a href="#/avi">
+              <a href="#/avi" target="_self">
                 <span class='lily-icon lily-icon-avatar'></span>Agent virtuel
               </a>
             </li>
@@ -41,7 +41,7 @@
 
             {% if config.chat.active and chatAvailable %}
             <li>
-              <a href="#/chat" data-reverse="true">
+              <a href="#/chat" data-reverse="true" target="_self">
                 <span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller
               </a>
             </li>
@@ -49,7 +49,7 @@
 
             {% if config.avi.redirections.mail %}
             <li>
-              <a href="#/mail" data-reverse="true">
+              <a href="#/mail" data-reverse="true" target="_self">
                 <span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail
               </a>
             </li>
@@ -57,7 +57,7 @@
 
             {% if config.avi.redirections.phone and redirection is not null  %}
             <li>
-              <a href="tel:{{ redirection.phone }}">
+              <a href="tel:{{ redirection.phone }}" target="_self">
                 <span class='lily-icon lily-icon-phone'></span>Nous téléphoner
               </a>
             </li>
