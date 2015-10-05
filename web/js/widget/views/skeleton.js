@@ -13,6 +13,7 @@ var skeletonView = Backbone.View.extend({
     var config = _.extend(window.config, window.clientConfig);
     // Create model using the config present in the template
     app.widgetModel = new WidgetModel(config);
+    app.onWidgetReady();
 
     this.listenTo(app, 'widget.gotConfig', this.render);
   },
@@ -25,8 +26,6 @@ var skeletonView = Backbone.View.extend({
       app.attGrabber = new AttGrabber({ model: app.widgetModel });
       window.clearTimeout(renderTimeout);
     }, app.widgetModel.get('attentionGrabberDelay'));
-
-    app.onWidgetReady();
   },
 
 });

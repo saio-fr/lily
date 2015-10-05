@@ -20,7 +20,7 @@
 {% endblock %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.js"></script> -->
-<script src='http://bruno.saio.fr/app_dev.php/app/snippet/{{licence}}'></script>
+<script src='{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/app/snippet/{{licence}}'></script>
 <script>
 // SAIO api example usage
 </script>
