@@ -72,7 +72,7 @@ class AppController extends BaseController
             $this->getRequest()->getBasePath() . '/clientConfig/config.json';
         $configs = file_get_contents($path);
 
-        if ( !json_decode($configs)->$licence ) {
+        if ( !isset(json_decode($configs, true)[$licence]) ) {
             $clientConfig = json_decode($configs, true)['default'];
         } else {
             $clientConfig = json_decode($configs, true)[$licence];

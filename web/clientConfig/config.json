@@ -12,7 +12,7 @@
     "attGrabberCtaSelfService": "Trouver une réponse",
     "attGrabberCtaChat": "Parler avec un conseiller",
     "attentionGrabberDelay": "2500",
-    "hasCustomBrandAvatar": "true",
+    "hasCustomBrandAvatar": "false",
     "brandAvatarSrc": "http://cdn-saio.fr/customer/548053c9a18e2/images/avatars/avatar2x.png",
     "hasCustomOperatorFigure": "false",
     "operatorFigureSrc": ""
@@ -23,7 +23,7 @@
     "attGrabberCtaSelfService": "Trouver une réponse",
     "attGrabberCtaChat": "Parler avec un conseiller",
     "attentionGrabberDelay": "2500",
-    "hasCustomBrandAvatar": "true",
+    "hasCustomBrandAvatar": "false",
     "brandAvatarSrc": "http://cdn-saio.fr/customer/54a54d4123c99/images/avatars/avatar2x.png",
     "hasCustomOperatorFigure": "false",
     "operatorFigureSrc": ""

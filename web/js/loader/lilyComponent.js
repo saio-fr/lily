@@ -242,11 +242,6 @@ module.exports = function() {
       this.sendMessage('lily.addAviMessage', question);
     },
 
-    standaloneOpen: function() {
-      var win = window.open(this.target, '_blank');
-      if (win) win.focus();
-    },
-
   }, xdm);
 
   return lilyComponent;
