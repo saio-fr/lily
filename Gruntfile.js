@@ -137,6 +137,15 @@ module.exports = function(grunt) {
         dest: '<%= buildDirJs %>/snippet/snippet.js',
       },
 
+      widget: {
+        options: {
+          mangle: true,
+          compress: {},
+        },
+        src: '<%= buildDirJs %>/widget/main.js',
+        dest: '<%= buildDirJs %>/widget/main.js',
+      },
+
       snippetMin: {
         options: {
           mangle: {
@@ -479,6 +488,7 @@ module.exports = function(grunt) {
   grunt.registerTask('buildWidget', [
     'webpack:widget',
     'cssmin:compile',
+    'uglify:widget',
     'copy:fonts',
   ]);
 

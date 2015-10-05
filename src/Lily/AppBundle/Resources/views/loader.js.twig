@@ -128,6 +128,9 @@
                 });
             },
             onReady: function(options) {
+                if (this.getState("ready") === "true") {
+                    return;
+                }
                 this.setState("ready", true);
                 if (!options) {
                     return;
@@ -155,14 +158,13 @@
             },
             onExpand: function(options) {
                 var firstOpen = this.getState("firstOpen");
-                if (this.shouldOpenStandalone) {
-                    if (options && options.apiTriggered) return;
-                    return this.standaloneOpen();
-                }
-                if (this.getState("ready") && !this.getState("shown")) {
-                    this.show();
-                } else {
-                    return mediator.once("lily.onReady", this.onExpand, this);
+                if (!this.shouldOpenStandalone) {
+                    if (this.getState("ready") && !this.getState("shown")) {
+                        this.show();
+                        this.frame.focus();
+                    } else {
+                        return mediator.once("lily.onReady", this.onExpand, this);
+                    }
                 }
                 this.setState("shown", true);
                 var that = this;
@@ -237,9 +239,6 @@
             show: function() {
                 var that = this;
                 this.removeInlineStyle(this.el, "display");
-                if (that.frame) {
-                    that.frame.focus();
-                }
                 window.requestAnimationFrame(function() {
                     that.el.classList.add("open-animation-state");
                     _.onTransEnd(that.el, function() {

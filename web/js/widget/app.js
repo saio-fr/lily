@@ -40,6 +40,9 @@ var app = {
 
   onWidgetClick: function() {
     app.sendHostMessage('widget.click');
+    if (app.attGrabberRenderTimeout) {
+      window.clearTimeout(app.attGrabberRenderTimeout);
+    }
   },
 
   onOperatorChange: function(operator) {

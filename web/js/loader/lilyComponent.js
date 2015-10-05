@@ -146,6 +146,10 @@ module.exports = function() {
     },
 
     onReady: function(options) {
+      if (this.getState('ready') === 'true') {
+        return;
+      }
+
       this.setState('ready', true);
 
       if (!options) { return; }
@@ -186,22 +190,16 @@ module.exports = function() {
       var firstOpen = this.getState('firstOpen');
 
       // If the app should be opened in standalone mode (new tab,
-      // currently only for mobile devices), do so and return here.
-      // Widget should remain visible. If this was api triggered, do nothing,
-      // as the openning of the app in a new tab will be taken as a malicious pop-up
-      // by most browsers
-      if (this.shouldOpenStandalone) {
-        if (options && options.apiTriggered) return;
-        return this.standaloneOpen();
-      }
+      // currently only for mobile devices), don't show the app in this window
+      if (!this.shouldOpenStandalone) {
+        if (this.getState('ready') && !this.getState('shown')) {
+          // Show \o/
+          this.show();
+          this.frame.focus();
 
-      if (this.getState('ready') && !this.getState('shown')) {
-        // Show \o/
-        this.show();
-        this.frame.focus();
-
-      } else {
-        return mediator.once('lily.onReady', this.onExpand, this);
+        } else {
+          return mediator.once('lily.onReady', this.onExpand, this);
+        }
       }
 
       this.setState('shown', true);
