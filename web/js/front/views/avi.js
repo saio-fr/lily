@@ -298,7 +298,6 @@ define(function(require) {
     // ==============================================
 
     welcomeVisitor: function() {
-      console.log(config.avi.welcomeMsg);
       return this.printAviMsg(config.avi.welcomeMsg);
     },
 

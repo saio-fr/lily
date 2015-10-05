@@ -173,7 +173,6 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
         });
       }
 
-      // console.log(results);
       return results;
     };
 
@@ -236,7 +235,6 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
     };
 
     this.refresh = function() {
-      console.log('clear prefetching cache');
       this.bloodhound.clear();
       this.bloodhound.initialize();
     };

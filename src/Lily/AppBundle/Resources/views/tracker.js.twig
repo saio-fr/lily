@@ -381,9 +381,6 @@
 
     this.receiveFromIframe = function(message, response) {
 
-      if (message.data && message.data.title) {
-        console.log("host:: " + message.data.title);
-      }
       // Call callback if exists, and apply eventual arguments:
       if (message.data.callback) {
         var callbackName = message.data.callback.toString(),

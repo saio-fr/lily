@@ -73,7 +73,7 @@ define(function(require) {
       this.childViews.forEach(function(view) {
         alternatives.push(view.model.toJSON());
       });
-      console.log(alternatives);
+
       this.model.set({
         alternatives: alternatives
       });
