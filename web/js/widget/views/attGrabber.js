@@ -36,6 +36,12 @@ var attentionGrabberView = Backbone.View.extend({
 
     that.$el.html(that.template(that.model.toJSON()));
     that.$el.appendTo('.widget-wrapper');
+
+    app.trigger('attGrabber:getSize', {
+      width: this.$el.width(),
+      height: this.$el.height()
+    });
+
     that.transitionInAttentionGrabber();
 
     return this;
@@ -53,16 +59,16 @@ var attentionGrabberView = Backbone.View.extend({
     this.$el.blur();
 
     this.model.set('isAttentionGrabberClosed', true);
-    this.remove();
+    this.close();
   },
 
   attGrabberHide: function() {
     this.model.set('isAttentionGrabberClosed', true);
-    this.remove();
+    this.close();
   },
 
   onCloseIconClick: function(ev) {
-    this.$el.removeClass('open-animation-state');
+    this.close();
     this.model.set('wasAttentionGrabberDismissed', true);
   },
 
@@ -73,6 +79,15 @@ var attentionGrabberView = Backbone.View.extend({
     window.requestAnimationFrame(function() {
       that.$el.addClass('open-animation-state');
     }, 1);
+  },
+
+  close: function() {
+    app.trigger('attGrabber:getSize', {
+      width: 0, // Account for the box shadow
+      height: 0,
+    });
+
+    Backbone.View.prototype.remove.call(this);
   }
 
 });

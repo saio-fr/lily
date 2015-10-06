@@ -75,8 +75,10 @@ module.exports = function() {
       'widget.hide': 'hideWidget',
       'widget.load': 'onLoad',
       'widget.ready': 'onReady',
+      'widget.changeDimensions': 'onChangeDimensions',
 
       'widget.attentionGrabberEnabled': 'onAttentionGraberEnable',
+      'app.position': 'onSetPosition',
 
       'lily.onExpand': 'onLilyExpand',
       'lily.sendOptions': 'onSendOptions',
@@ -140,6 +142,23 @@ module.exports = function() {
 
     onReady: function() {
       this.setState('ready', true);
+    },
+
+    onChangeDimensions: function(size) {
+      this.setInlineStyle(this.el, {
+        height: size.height,
+        width: size.width
+      });
+    },
+
+    onSetPosition: function(position) {
+      if (position === 'left') {
+        this.el.classList.add('left');
+      } else {
+        this.el.classList.remove('left');
+      }
+
+      this.sendMessage('app.setPosition', position);
     },
 
     onLilyExpand: function() {
