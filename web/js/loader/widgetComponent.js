@@ -75,7 +75,7 @@ module.exports = function() {
       'widget.hide': 'hideWidget',
       'widget.load': 'onLoad',
       'widget.ready': 'onReady',
-      'widget.changeDimentions': 'onChangeDimentions',
+      'widget.changeDimensions': 'onChangeDimensions',
 
       'widget.attentionGrabberEnabled': 'onAttentionGraberEnable',
       'app.position': 'onSetPosition',
@@ -144,7 +144,7 @@ module.exports = function() {
       this.setState('ready', true);
     },
 
-    onChangeDimentions: function(size) {
+    onChangeDimensions: function(size) {
       this.setInlineStyle(this.el, {
         height: size.height,
         width: size.width

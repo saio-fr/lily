@@ -107,7 +107,7 @@ var app = {
     if (this.widgetHeight !== prevWidgetHeight ||
         this.widgetWidth !== prevWidgetWidth) {
 
-      app.sendHostMessage('widget.changeDimentions', {
+      app.sendHostMessage('widget.changeDimensions', {
         height: that.widgetHeight + 'px', // Include units
         width: that.widgetWidth + 'px'
       });
