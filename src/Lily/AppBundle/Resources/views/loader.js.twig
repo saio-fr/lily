@@ -91,7 +91,8 @@
                 "lily.sendMessageToVisitor": "sendMessageToVisitor",
                 "lily.addAviMessage": "addAviMessage",
                 "lily.setOperatorGroup": "setOperatorGroup",
-                "lily.messageToOperator": "onMessageToOperator"
+                "lily.messageToOperator": "onMessageToOperator",
+                "app.position": "onSetPosition"
             },
             state: {
                 load: false,
@@ -144,6 +145,13 @@
                     mediator.trigger("widget.show", options);
                 }
             },
+            onSetPosition: function(position) {
+                if (position === "left") {
+                    this.el.classList.add("left");
+                } else {
+                    this.el.classList.remove("left");
+                }
+            },
             onWidgetShow: function() {
                 this.sendMessage("widget.shown", {
                     firstShow: this.getState("firstShow")
@@ -185,10 +193,6 @@
             },
             addAviMessage: function(question) {
                 this.sendMessage("lily.addAviMessage", question);
-            },
-            standaloneOpen: function() {
-                var win = window.open(this.target, "_blank");
-                if (win) win.focus();
             }
         }, xdm);
         return lilyComponent;
@@ -922,7 +926,9 @@
                 "widget.hide": "hideWidget",
                 "widget.load": "onLoad",
                 "widget.ready": "onReady",
+                "widget.changeDimentions": "onChangeDimentions",
                 "widget.attentionGrabberEnabled": "onAttentionGraberEnable",
+                "app.position": "onSetPosition",
                 "lily.onExpand": "onLilyExpand",
                 "lily.sendOptions": "onSendOptions",
                 "lily.chatOperatorChange": "onOperatorChange"
@@ -957,6 +963,20 @@
             },
             onReady: function() {
                 this.setState("ready", true);
+            },
+            onChangeDimentions: function(size) {
+                this.setInlineStyle(this.el, {
+                    height: size.height,
+                    width: size.width
+                });
+            },
+            onSetPosition: function(position) {
+                if (position === "left") {
+                    this.el.classList.add("left");
+                } else {
+                    this.el.classList.remove("left");
+                }
+                this.sendMessage("app.setPosition", position);
             },
             onLilyExpand: function() {
                 this.sendMessage("widget.onLilyExpand");
@@ -1026,6 +1046,13 @@
                     console.error("enabled should be a boolean");
                 }
                 mediator.trigger("widget.attentionGrabberEnabled", enabled);
+            },
+            "widget.position": function(position) {
+                if (position !== "left" && position !== "right") {
+                    console.error("position should be either `left` or `right`.");
+                } else {
+                    mediator.trigger("app.position", position);
+                }
             }
         };
         var apiMethods = {

@@ -383,7 +383,8 @@ module.exports = function(grunt) {
       default: {
         files: [
           'web/js/loader/**/*.js',
-          'web/js/widget/**/*.js'
+          'web/js/widget/**/*.js',
+          'web/css/**/*.css',
         ],
         tasks: [
           'webpack:loader',

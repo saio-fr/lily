@@ -26,6 +26,12 @@ var ButtonView = Backbone.View.extend({
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     this.$el.appendTo('.widget-wrapper');
+
+    app.trigger('button:getSize', {
+      width: this.$el.width(),
+      height: this.$el.height()
+    });
+
     this.transitionInButton();
 
     return this;
