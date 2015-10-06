@@ -29,6 +29,14 @@ module.exports = (function() {
 
       mediator.trigger('widget.attentionGrabberEnabled', enabled);
     },
+
+    'widget.position': function(position) {
+      if (position !== 'left' && position !== 'right') {
+        console.error('position should be either `left` or `right`.');
+      } else {
+        mediator.trigger('app.position', position);
+      }
+    }
   };
 
   // Can be triggered on the host website using the sdk

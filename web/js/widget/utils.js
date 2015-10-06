@@ -49,5 +49,5 @@ module.exports = {
         //cause saio compatible browsers all support css animations/transitions
       }
     }
-  },
+  }
 };

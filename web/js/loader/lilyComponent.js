@@ -81,6 +81,7 @@ module.exports = function() {
       'lily.addAviMessage': 'addAviMessage',
       'lily.setOperatorGroup': 'setOperatorGroup',
       'lily.messageToOperator': 'onMessageToOperator',
+      'app.position': 'onSetPosition',
     },
 
     // A map of states for the component.
@@ -163,6 +164,14 @@ module.exports = function() {
         this.onExpand();
       } else {
         mediator.trigger('widget.show', options);
+      }
+    },
+
+    onSetPosition: function(position) {
+      if (position === 'left') {
+        this.el.classList.add('left');
+      } else {
+        this.el.classList.remove('left');
       }
     },
 

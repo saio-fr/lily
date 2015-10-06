@@ -483,47 +483,13 @@ button {
   outline: none;
 }
 
+.widget-wrapper.left .widget-button {
+  right: auto;
+  left: 20px;
+}
+
 .widget-wrapper .widget-button-inner.image-button {
   background-color: #ffffff;
-}
-
-.hidden-animation-state {
-  opacity: 0;
-  -ms-filter: "alpha(opacity=0)";
-  -webkit-filter: alpha(opacity=0);
-  -moz-filter: alpha(opacity=0);
-  -ms-filter: alpha(opacity=0);
-  -o-filter: alpha(opacity=0);
-  filter: alpha(opacity=0);
-  -webkit-transform: scale(0);
-  -moz-transform: scale(0);
-  -o-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
-  -webkit-transform-origin: 100% 100%;
-  -moz-transform-origin: 100% 100%;
-  -o-transform-origin: 100% 100%;
-  -ms-transform-origin: 100% 100%;
-  transform-origin: 100% 100%;
-  -webkit-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
-  -moz-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
-  -o-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
-  -ms-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
-  transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
-  -webkit-filter: none;
-  -moz-filter: none;
-  -ms-filter: none;
-  -o-filter: none;
-  filter: none;
-}
-
-.open-animation-state {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -o-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
 }
 
 .button-figure {
@@ -540,7 +506,8 @@ button {
   position: absolute;
   right: 90px;
   bottom: 20px;
-  max-width: 250px;
+  max-width: 300px;
+  min-width: 200px;
   margin-left: 10px;
   max-height: 180px;
   background: #ffffff;
@@ -552,16 +519,29 @@ button {
   pointer-events: initial;
 }
 
+.left .widget-attGrabber-wrapper {
+  left: 90px;
+  right: auto;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
 .widget-attGrabber-wrapper:after {
   content: '';
   position: absolute;
-  right: -15.4px;
+  right: -6.4px;
   bottom: 15px;
-  width: 25px;
-  height: 25px;
-  background: url('http://cdn-saio.fr/images/bubble-arrow-right-plain.png') no-repeat;
-  background-size: 30px 30px;
-  opacity: .8;
+  width: 7px;
+  height: 17px;
+  background: url(http://cdn-saio.fr/images/bubble-arrow-right-plain.png) no-repeat;
+  background-size: 7px 17px;
+  opacity: 1;
+}
+
+.left .widget-attGrabber-wrapper:after {
+  left: -6.4px;
+  right: auto;
+  background: url('http://cdn-saio.fr/images/bubble-arrow-left-plain.png') no-repeat;
 }
 
 .attention-grabber-title {
@@ -604,8 +584,8 @@ button {
 .attention-grabber-close {
   display: none;
   position: absolute;
-  top: -12px;
-  left: -12px;
+  top: -9px;
+  left: -9px;
   width: 25px;
   height: 25px;
   background: rgba(50,50,50,.9);
@@ -620,6 +600,11 @@ button {
   pointer-events: initial;
 }
 
+.left .attention-grabber-close {
+  right: -9px;
+  left: auto;
+}
+
 .widget-attGrabber-wrapper:hover .attention-grabber-close {
   display: block;
 }
@@ -628,12 +613,10 @@ button {
 
   .widget-attGrabber-wrapper .attention-grabber-close {
     display: block;
-    width: 25px;
-    height: 25px;
-    top: -10px;
-    left: -10px;
+    width: 28px;
+    height: 28px;
     font-size: 17px;
-    line-height: 1.5;
+    line-height: 1.58;
   }
 }
 
@@ -642,4 +625,43 @@ button {
   position: absolute;
   right: 3px;
   top: 6px;
+}
+
+.hidden-animation-state {
+  opacity: 0;
+  -ms-filter: "alpha(opacity=0)";
+  -webkit-filter: alpha(opacity=0);
+  -moz-filter: alpha(opacity=0);
+  -ms-filter: alpha(opacity=0);
+  -o-filter: alpha(opacity=0);
+  filter: alpha(opacity=0);
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -o-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  -webkit-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
+  -moz-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
+  -o-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
+  -ms-transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
+  transition: transform 200ms cubic-bezier(0.13, 1.06, 0.4, 1), opacity 250ms ease;
+  -webkit-filter: none;
+  -moz-filter: none;
+  -ms-filter: none;
+  -o-filter: none;
+  filter: none;
+}
+
+.open-animation-state {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
 }
