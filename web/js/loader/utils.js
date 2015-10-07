@@ -238,10 +238,7 @@ module.exports = (function () {
     },
 
     getOrigin: function(url) {
-      // Use the anchor tag to guarantee a fully formed URL.
-      this.emptyLink.href = url;
-      var parts = this.emptyLink.href.split('/');
-      return parts[0] + '//' + parts[2];
+      return url.replace(/([^:]+:\/\/[^\/]+).*/, '$1');
     },
 
     now: Date.now,
