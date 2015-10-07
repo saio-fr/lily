@@ -73,7 +73,7 @@ var app = {
     var prevButtonHeight = this.buttonHeight || 0;
 
     // Take the widget position and spacing between the widget and attention grabber into account
-    this.buttonWidth = size.width + this.positionRight + this.boxShadowRadius;
+    this.buttonWidth = size.width + this.positionSide + this.boxShadowRadius;
     this.buttonHeight = size.height + this.positionBottom + this.boxShadowRadius;
 
     app.onGetSize({
