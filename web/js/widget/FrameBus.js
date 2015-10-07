@@ -24,8 +24,7 @@ define(function (require) {
 
   // TODO: Cannot rely on referrer
   var origins = {};
-  origins.client = getOrigin(document.location.href);
-  origins.host = referrer ? getOrigin(referrer) : origins.client;
+  origins.client = getOrigin(referrer);
 
   var FrameBus = {
 
