@@ -12,11 +12,7 @@ define(function (require) {
   var Backbone = require('backbone');
 
   function getOrigin(url) {
-    // Use the anchor tag to guarantee a fully formed URL.
-    var emptyLink = window.document.createElement('a');
-    emptyLink.href = url;
-    var parts = emptyLink.href.split('/');
-    return parts[0] + '//' + parts[2];
+    return url.replace(/([^:]+:\/\/[^\/]+).*/, '$1');
   }
 
   // `channel is the host's global object window
