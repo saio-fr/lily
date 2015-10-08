@@ -3,6 +3,7 @@ define(function(require) {
   'use strict';
 
   var $            = require('jquery'),
+      Backbone     = require('backbone'),
       isMobile     = require('isMobile'),
       app          = require('front/app'),
       config       = require('front/globals'),
@@ -10,11 +11,8 @@ define(function(require) {
 
   app.init = function() {
     config.isMobile = isMobile;
-    app.skeleton = new SkeletonView();
-
-    // if (config.standaloneMode) {
-    //   app.onAppShown();
-    // }
+    var configModel = new Backbone.Model(config);
+    app.skeleton = new SkeletonView({ model: configModel });
   };
 
   config.sid = app.getSessionId();

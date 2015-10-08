@@ -28,25 +28,14 @@ define(function(require) {
 
   g.avi = g.avi || {};
 
-  g.avi.onBoardingMsg = g.avi.onBoardingMsg ? g.avi.onBoardingMsg[0]:
-    'Posez vos questions à notre assistant virtuel';
-  g.avi.welcomeMsg = g.avi.welcomeMsg ? g.avi.welcomeMsg[0] :
-    'Bonjour ! En quoi puis-je vous aider ?';
-
-  g.avi.overlay = {
-    onboardingMsg: 'Demandez moi par exemple "Comment vous contacter ?"',
-    lastQuestionReceivedBadFeedBack: 'J\'espère avoir l\'information que vous cherchez cette fois !',
-    lastQuestionUnanswered: 'Si vous ne trouvez pas votre question dans les suggestions, essayez de la reformuler',
-    defaultMsg: 'Que voulez vous savoir ? N\'hésitez pas à me poser une autre question',
-  };
+  g.avi.onBoardingMessage = 'Vous pouvez demander par exemple:';
 
   g.avi.messages = {
-    welcomeMsg: 'Enchanté ! Je m\'appelle Labelette. En quoi puis-je vous aider ?',
-    satisfiedFeedback: 'Merci pour votre appréciation! N\'hésitez pas à me poser d\'autres questions!',
-    unSatisfiedRedirection: 'J\'ai dû faire une erreur dans la réponse que je vous ai donnée.' +
-      '<p><b>Souhaitez vous que je vous mette en relation avec un conseiller ?</b></p>',
-    noAnswerRedirection: '<b>Voulez-vous que je vous mette en relation avec un conseiller ?</b>',
-    apologize: 'Malheureusement, je ne sais pas répondre à cette question pour le moment',
+    satisfiedFeedback: 'Merci pour votre appréciation! N\'hésitez pas à poser d\'autres questions.',
+    unSatisfiedRedirection: 'Nous sommes désolé que cette réponse ne vous ait pas convenu.' +
+      '<p class="message-content"><b>Souhaitez vous être mis en relation avec un conseiller ?</b></p>',
+    noAnswerRedirection: '<b>Voulez-vous que être mis en relation avec un conseiller ?</b>',
+    apologize: 'Malheureusement, nous ne pouvons pas répondre à cette question pour le moment',
     askForedirection: 'Souhaitez vous être redirigé vers un de nos conseillers ?',
     askForFeedback: ''
   };

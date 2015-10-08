@@ -20,7 +20,11 @@ define(function(require) {
 
   Skeleton = PageView.extend({
 
+    className: 'app-wrapper',
+    template: _.template($('#lily-base-template').html()),
+
     initialize: function() {
+      this.render();
 
       if (config.isMobile) {
         this.initRouter();
@@ -77,6 +81,12 @@ define(function(require) {
 
         $('#icon-iframe-fullscreen').css('display', 'none');
       }
+    },
+
+    render: function() {
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.appendTo('body');
+      return this;
     },
 
     initRouter: function() {

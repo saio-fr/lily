@@ -19,6 +19,8 @@ var skeletonView = Backbone.View.extend({
   },
 
   render: function() {
+    if (this.rendered) return;
+
     app.buttonView = new ButtonWiew({ model: app.widgetModel });
 
     // Show attention graber after a certain delay
@@ -26,6 +28,8 @@ var skeletonView = Backbone.View.extend({
       app.attGrabber = new AttGrabber({ model: app.widgetModel });
       window.clearTimeout(app.attGrabberRenderTimeout);
     }, app.widgetModel.get('attentionGrabberDelay'));
+
+    this.rendered = true;
   },
 
 });

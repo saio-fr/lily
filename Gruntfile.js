@@ -449,15 +449,21 @@ module.exports = function(grunt) {
     'cacheBust'
   ]);
 
-  grunt.registerTask('devFront', [
+  grunt.registerTask('clean', [
     'clean:app',
     'cleanDevRefs'
+  ]);
+
+  grunt.registerTask('devFront', [
+    'cssmin:compile',
+    'watch'
   ]);
 
   grunt.registerTask('devSnippet', [
     'uglify:snippet',
     'replace:snippet',
     'copy:snippet',
+    'watch'
   ]);
 
   grunt.registerTask('buildSnippet', [

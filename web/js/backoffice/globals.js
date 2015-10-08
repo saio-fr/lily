@@ -16,8 +16,6 @@ define(function(require) {
   g.path = {
     cdn: "http://cdn-saio.fr",
     customer: "http://cdn-saio.fr/customer/",
-    avatars: "http://cdn-saio.fr/customer/" + g.licence + "/images/avatars/",
-    defaultAvatar: "http://cdn-saio.fr/images/default-avatar.png"
   };
 
   g.synapse = {
@@ -74,7 +72,7 @@ define(function(require) {
   };
   g.modalAlert.configSucess = {
     name: "modal-config-saved",
-    body: "Vos informations <strong>ont bien</strong> été sauvegardé."
+    body: "Vos informations <strong>ont bien</strong> été sauvegardées."
   };
   g.modalAlert.wsConnectionLost = {
     name: "modal-connection-lost",

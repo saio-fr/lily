@@ -520,9 +520,7 @@
                 return this.emptyLink.hostname;
             },
             getOrigin: function(url) {
-                this.emptyLink.href = url;
-                var parts = this.emptyLink.href.split("/");
-                return parts[0] + "//" + parts[2];
+                return url.replace(/([^:]+:\/\/[^\/]+).*/, "$1");
             },
             now: Date.now,
             onTransEnd: function(el, callback, args, context) {
@@ -926,7 +924,7 @@
                 "widget.hide": "hideWidget",
                 "widget.load": "onLoad",
                 "widget.ready": "onReady",
-                "widget.changeDimentions": "onChangeDimentions",
+                "widget.changeDimensions": "onChangeDimensions",
                 "widget.attentionGrabberEnabled": "onAttentionGraberEnable",
                 "app.position": "onSetPosition",
                 "lily.onExpand": "onLilyExpand",
@@ -964,7 +962,7 @@
             onReady: function() {
                 this.setState("ready", true);
             },
-            onChangeDimentions: function(size) {
+            onChangeDimensions: function(size) {
                 this.setInlineStyle(this.el, {
                     height: size.height,
                     width: size.width

@@ -18,14 +18,14 @@ var Backbone    = require('backbone'),
 
 MessageLilyNotation = MessageView.extend({
 
-  className: 'lily-msg lily-msg-avatar lily-message-show lily-msg-reporting',
+  className: 'lily-notation-wrapper',
 
   model: Models.LilyNotation,
 
   template: _.template($('#lily-message-notation').html()),
   events: {
-    'click .lily-icon-thumb-up': 'satisfaction',
-    'click .lily-icon-thumb-down': 'satisfaction'
+    'click .notation-positive': 'satisfaction',
+    'click .notation-negative': 'satisfaction'
   },
 
   initialize: function() {
@@ -34,10 +34,12 @@ MessageLilyNotation = MessageView.extend({
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
-    this.$el.insertAfter('.lily-box-messages .lily-msg-avatar:last');
-    $('.lily-box-messages .lily-msg-avatar:last')
-      .addClass('lily-notation-wrapper');
-    this.transitionInMessage();
+    this.$el.appendTo('.lily-box-messages .lily-msg-avatar:last .msg-wrapper');
+
+    // Scroll all the way down
+    var objDiv = document.getElementsByClassName('lily-box-messages')[0];
+    objDiv.scrollTop = objDiv.scrollHeight + this.$el.height();
+
     return this;
   },
 
@@ -45,13 +47,13 @@ MessageLilyNotation = MessageView.extend({
     var target = $(e.target),
         satisfaction, msg;
 
-    this.$el.find('.lily-notation-list').removeClass('active');
+    this.$el.find('.lily-notation-list-item').removeClass('active');
 
-    if (target.hasClass('lily-icon-thumb-up')) {
-      this.$el.find('.lily-icon-thumb-up').addClass('active');
+    if (target.hasClass('notation-positive')) {
+      this.$el.find('.notation-positive').addClass('active');
       satisfaction = true;
     } else {
-      this.$el.find('.lily-icon-thumb-down').addClass('active');
+      this.$el.find('.notation-negative').addClass('active');
       satisfaction = false;
     }
 
