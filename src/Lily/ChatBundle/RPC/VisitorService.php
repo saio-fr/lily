@@ -5,7 +5,7 @@ namespace Lily\ChatBundle\RPC;
 use Ratchet\ConnectionInterface as Conn;
 
 class VisitorService {
-  
+
     protected $container;
 
     public function setContainer($container) {
@@ -20,21 +20,50 @@ class VisitorService {
      * When connect on ws, set current page + check if the visitor is already chatting
      */
     public function connect(Conn $conn, $params, \StdClass $client) {
-      
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
-              
+
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
                 $item->media = $params['media'];
-                
+
                 $result = array(
                     'appDisplay' => $item->appDisplay,
-                    'isConversationClosed' => $item->closed, 
+                    'isConversationClosed' => $item->closed,
                     'showContactForm' => $item->showContactForm,
                     'time' => time()
-                ); 
-                
+                );
+
                 return $result;
+            }
+        }
+    }
+
+    /**
+     * Identify visitor through front api
+     */
+    public function identify(Conn $conn, $params, \StdClass $client) {
+
+        foreach ($client->users as $item) {
+            if ($item->id === $conn->Session->getId()) {
+
+                if (isset($params['firstname'])) {
+                  $item->firstname = $params['firstname'];
+                }
+
+                if (isset($params['lastname'])) {
+                  $item->firstname = $params['lastname'];
+                }
+
+                if (isset($params['email'])) {
+                  $item->firstname = $params['email'];
+                }
+
+                if (isset($params['customFields'])) {
+                  $item->firstname = $params['customFields'];
+                }
+
+                return array('result' => true);
             }
         }
     }
@@ -43,10 +72,10 @@ class VisitorService {
      * Set that visitors used the app (used in logConnection)
      */
     public function appDisplay(Conn $conn, $params, \StdClass $client) {
-      
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
-              
+
                 // Set displayed to true for usage statistics
                 if ($params['display']) {
                   $item->widgetUsed = true;
@@ -76,7 +105,7 @@ class VisitorService {
      * Set visitors' contact informations from contact from
      */
     public function contactForm(Conn $conn, $params, \StdClass $client) {
-      
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->firstname = $params['firstname'];
@@ -92,7 +121,7 @@ class VisitorService {
      * Set asked question to the avatar
      */
     public function newAviQuestion(Conn $conn, $params, \StdClass $client) {
-      
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->questions[] = $params['question'];
@@ -106,13 +135,13 @@ class VisitorService {
      * Start the conversation with the visitor
      */
     public function startChat(Conn $conn, $params, \StdClass $client) {
-      
+
         foreach ($client->users as $item) {
 
-            if ($item->type === 'operator' && 
-                $item->available && 
+            if ($item->type === 'operator' &&
+                $item->available &&
                 $item->chats < $client->config->getMax()) {
-                  
+
                 $availables[] = $item;
 
             }
@@ -121,16 +150,16 @@ class VisitorService {
         foreach ($client->users as $item) {
 
             if ($item->id === $conn->Session->getId()) {
-                
+
                 if ($item->closed) {
                     // Start chat
                     $item->messages[] = array(
-                      'id' => uniqid(), 
-                      'from' => 'server', 
-                      'date' => time(), 
+                      'id' => uniqid(),
+                      'from' => 'server',
+                      'date' => time(),
                       'action' => 'startChat'
                     );
-                } 
+                }
 
                 if ($item->operator) {
                     return;
@@ -161,7 +190,7 @@ class VisitorService {
      * Is the visitor writing ?
      */
     public function writing(Conn $conn, $params, \StdClass $client) {
-      
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->writing = $params['writing'];
@@ -174,7 +203,7 @@ class VisitorService {
      * Set chat satisfaction
      */
     public function satisfaction(Conn $conn, $params, \StdClass $client) {
-      
+
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
                 $item->satisfaction = $params['satisfaction'];

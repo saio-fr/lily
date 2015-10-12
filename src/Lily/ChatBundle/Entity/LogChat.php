@@ -20,21 +20,21 @@ class LogChat
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=150, nullable=true)
      */
     private $name;
-    
+
     /**
      * @var array $operators
      *
      * @ORM\Column(type="array", nullable=true)
      */
     private $operators;
-    
+
     /**
      * @var boolean
      *
@@ -48,21 +48,21 @@ class LogChat
      * @ORM\Column(name="session", type="string", length=50, nullable=true)
      */
     private $session;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=50, nullable=true)
      */
     private $firstname;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=50, nullable=true)
      */
     private $lastname;
-    
+
     /**
      * @var string
      *
@@ -97,14 +97,14 @@ class LogChat
      * @ORM\Column(name="satisfaction", type="boolean", nullable=true)
      */
     private $satisfaction;
-    
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="banned", type="boolean", nullable=true)
      */
     private $banned;
-    
+
     /**
      * @var array $messages
      *
@@ -116,7 +116,7 @@ class LogChat
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -139,7 +139,7 @@ class LogChat
     /**
      * Get session
      *
-     * @return string 
+     * @return string
      */
     public function getSession()
     {
@@ -149,7 +149,7 @@ class LogChat
     /**
      * Get start
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStart()
     {
@@ -165,14 +165,14 @@ class LogChat
     public function setEndTime($end)
     {
         $this->end = $end;
-    
+
         return $this;
     }
 
     /**
      * Get end
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEnd()
     {
@@ -188,14 +188,14 @@ class LogChat
     public function setWaited($waited)
     {
         $this->waited = $waited;
-    
+
         return $this;
     }
 
     /**
      * Get waited
      *
-     * @return integer 
+     * @return integer
      */
     public function getWaited()
     {
@@ -218,7 +218,7 @@ class LogChat
     /**
      * Get satisfaction
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSatisfaction()
     {
@@ -241,7 +241,7 @@ class LogChat
     /**
      * Get firstname
      *
-     * @return string 
+     * @return string
      */
     public function getFirstname()
     {
@@ -264,7 +264,7 @@ class LogChat
     /**
      * Get lastname
      *
-     * @return string 
+     * @return string
      */
     public function getLastname()
     {
@@ -287,7 +287,7 @@ class LogChat
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -310,7 +310,7 @@ class LogChat
     /**
      * Get messages
      *
-     * @return array 
+     * @return array
      */
     public function getMessages()
     {
@@ -333,7 +333,7 @@ class LogChat
     /**
      * Get banned
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getBanned()
     {
@@ -356,7 +356,7 @@ class LogChat
     /**
      * Get transfered
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getTransfered()
     {
@@ -405,7 +405,7 @@ class LogChat
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -428,7 +428,7 @@ class LogChat
     /**
      * Get operators
      *
-     * @return array 
+     * @return array
      */
     public function getOperators()
     {

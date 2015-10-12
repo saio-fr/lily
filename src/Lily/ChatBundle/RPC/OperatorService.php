@@ -78,9 +78,23 @@ class OperatorService {
 
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
+
+              if (isset($params['firstname'])) {
                 $item->firstname = $params['firstname'];
-                $item->lastname = $params['lastname'];
-                $item->email = $params['email'];
+              }
+
+              if (isset($params['lastname'])) {
+                $item->firstname = $params['lastname'];
+              }
+
+              if (isset($params['email'])) {
+                $item->firstname = $params['email'];
+              }
+
+              if (isset($params['customFields'])) {
+                $item->firstname = $params['customFields'];
+              }
+
             }
         }
         return array('result' => true);
