@@ -60,6 +60,7 @@ class OperatorService {
 
                 $item->topic->broadcast($item->messages);
             }
+
             // Decrease the operator' active chats
             if ($item->id === $conn->User->getId()) {
                 $item->chats -= 1;
@@ -79,24 +80,29 @@ class OperatorService {
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
 
-              if (isset($params['firstname'])) {
+            if (isset($params['externalId'])) {
+                $item->externalId = $params['externalId'];
+            }
+
+            if (isset($params['firstname'])) {
                 $item->firstname = $params['firstname'];
-              }
+            }
 
-              if (isset($params['lastname'])) {
-                $item->firstname = $params['lastname'];
-              }
+            if (isset($params['lastname'])) {
+                $item->lastname = $params['lastname'];
+            }
 
-              if (isset($params['email'])) {
-                $item->firstname = $params['email'];
-              }
+            if (isset($params['email'])) {
+                $item->email = $params['email'];
+            }
 
-              if (isset($params['customFields'])) {
-                $item->firstname = $params['customFields'];
-              }
+            if (isset($params['customFields'])) {
+                $item->customFields = $params['customFields'];
+            }
 
             }
         }
+
         return array('result' => true);
     }
 

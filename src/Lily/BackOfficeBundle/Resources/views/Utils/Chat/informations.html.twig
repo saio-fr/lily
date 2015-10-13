@@ -28,6 +28,13 @@
           <b>Email :</b>
           <input class="informations-form-control" name="email" value="<% if (email !== null) { %><%= email %> <% } else { %> Inconnu <% } %>">
         </p>
+        <% if (customFields && customFields !== {}) { %>
+        <div class="informations-personal-custom informations-list">
+          <% _.each(customFields, function(item, index) { %>
+          <p class="informations-list-item"><b><%= index %>: </b><%= item %></p>
+          <% }); %>
+        </div>
+        <% } %>
       </div>
 
       <% if (questions.length) { %>

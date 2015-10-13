@@ -109,7 +109,7 @@ module.exports = (function() {
     // WIP, Do not use in production
     'chat.sendMessageToVisitor': function(message) {
       if (!message || !(_.isObject(message) && _.isString(message.body))) {
-        return console.warn('malformed message. See documentation at:');
+        return console.warn('malformed message. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
       }
       mediator.trigger('lily.sendMessageToVisitor', {
         body: message.body,
@@ -127,14 +127,24 @@ module.exports = (function() {
 
     'avi.addMessage': function(question) {
       if (!question || !(_.isString(question))) {
-        return console.warn('malformed message. See documentation at:');
+        return console.warn('malformed message. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
       }
       mediator.trigger('lily.addAviMessage', question);
     },
 
     'avi.onAskedQuestion': 'onAskedQuestionToAvi',
 
-    'user.identify': function() {}
+    'user.identify': function(infos) {
+      if (!infos || !_.isObject(infos) || infos === {}) {
+        return console.warn('malformed infos object. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
+      }
+
+      if (!infos.email) {
+        return console.warn('infos must contain an email. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
+      }
+
+      mediator.trigger('user.identify', infos);
+    }
   };
 
   function config(name, obj) {
@@ -146,7 +156,7 @@ module.exports = (function() {
       return configMethods[name].call(this, obj);
     } else {
       console.warn('unknown config name: "' + name.toString() +
-        '" see api documentation at');
+        '" see api documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
     }
   }
 
@@ -159,7 +169,7 @@ module.exports = (function() {
       return apiMethods[name].call(this, obj);
     } else {
       console.warn('unknown api method name: "' + name.toString() +
-        '" see api documentation at');
+        '" see api documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
     }
   }
 

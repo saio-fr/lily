@@ -44,15 +44,15 @@ class VisitorTopic implements TopicInterface
         foreach ($users as $item) {
             if ($item->id === $sid && $item->type === 'visitor') {
 
-				        $item->topic = $topic;
-				        $item->conn = $conn;
+				$item->topic = $topic;
+				$item->conn = $conn;
                 $item->lastConn = time();
 
                 // We send back the logged messages list
                 $topic->broadcast($item->messages);
                 return;
-			      }
-		    }
+			}
+		}
 
         // Else we create a new visitor class
         $visitor = new \StdClass;
@@ -63,10 +63,11 @@ class VisitorTopic implements TopicInterface
         // PERSONAL INFOS
         $visitor->name = 'ID'.substr($sid, 0, 9);
         $visitor->type = 'visitor';
+        $visitor->externalId = null;
         $visitor->firstname = null;
         $visitor->lastname = null;
         $visitor->email = null;
-				$visitor->customFields = [];
+		$visitor->customFields = [];
 
         // APP INFOS
         $visitor->appDisplay = false; // Display the app ?
@@ -137,7 +138,7 @@ class VisitorTopic implements TopicInterface
 
                 if (count($item->messages) > 0 && end($item->messages)['from'] == 'visitor') {
                     $item->waited += time() - $item->lastMsgTime;
-				        }
+				}
 
                 $item->lastMsgTime = time();
                 $item->messages[] = array(
@@ -148,7 +149,7 @@ class VisitorTopic implements TopicInterface
                 );
 
                 $topic->broadcast($item->messages);
-			      }
-		    }
+			}
+		}
     }
 }

@@ -40,35 +40,6 @@ class VisitorService {
     }
 
     /**
-     * Identify visitor through front api
-     */
-    public function identify(Conn $conn, $params, \StdClass $client) {
-
-        foreach ($client->users as $item) {
-            if ($item->id === $conn->Session->getId()) {
-
-                if (isset($params['firstname'])) {
-                  $item->firstname = $params['firstname'];
-                }
-
-                if (isset($params['lastname'])) {
-                  $item->firstname = $params['lastname'];
-                }
-
-                if (isset($params['email'])) {
-                  $item->firstname = $params['email'];
-                }
-
-                if (isset($params['customFields'])) {
-                  $item->firstname = $params['customFields'];
-                }
-
-                return array('result' => true);
-            }
-        }
-    }
-
-    /**
      * Set that visitors used the app (used in logConnection)
      */
     public function appDisplay(Conn $conn, $params, \StdClass $client) {
@@ -85,6 +56,40 @@ class VisitorService {
             }
         }
         return array('result' => true);
+    }
+
+
+    /**
+     * Identify visitor through front api
+     */
+    public function identify(Conn $conn, $params, \StdClass $client) {
+
+        foreach ($client->users as $item) {
+            if ($item->id === $conn->Session->getId()) {
+
+                if (isset($params['externalId'])) {
+                    $item->externalId = $params['externalId'];
+                }
+
+                if (isset($params['firstname'])) {
+                    $item->firstname = $params['firstname'];
+                }
+
+                if (isset($params['lastname'])) {
+                    $item->lastname = $params['lastname'];
+                }
+
+                if (isset($params['email'])) {
+                    $item->email = $params['email'];
+                }
+
+                if (isset($params['customFields'])) {
+                    $item->customFields = $params['customFields'];
+                }
+
+                return array('result' => true);
+            }
+        }
     }
 
     /**

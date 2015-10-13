@@ -32,11 +32,8 @@ define(function(require) {
       this.$informationsPanel = this.$('.informations-panel');
       this.$searchPanel       = this.$('.search-panel');
 
-      this.searchView = new SearchView();
-
       // Change the informations view if pages or questions changed
-      this.listenTo(this.model,      'change:pages', this.render);
-      this.listenTo(this.model,      'change:questions', this.render);
+      this.listenTo(this.model,      'change', this.render);
       this.listenTo(this.searchView, 'search:resize', this.adjustPanelHeight.bind(this));
 
       this.adjustPanelHeight();
@@ -49,6 +46,8 @@ define(function(require) {
       })));
 
       this.$el.appendTo('.js-chat-container');
+      this.searchView = new SearchView();
+
       this.toggle(app.liveChatSkeleton.showInformations);
 
       return this;

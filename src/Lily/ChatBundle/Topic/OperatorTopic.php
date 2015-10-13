@@ -41,11 +41,11 @@ class OperatorTopic implements TopicInterface
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
                 $item->lastPing = time();
                 $item->conn = $conn;
-				        return;
-			      }
-		    }
+				return;
+			}
+		}
 
-    	  $operator = new \StdClass;
+    	$operator = new \StdClass;
         $operator->id = $conn->User->getId();
         $operator->conn = $conn;
         $operator->lastPing = time();
@@ -76,11 +76,11 @@ class OperatorTopic implements TopicInterface
         // Security check
         if (!isset($conn->User)) { return; }
 
-    	  foreach ($users as $item) {
+    	foreach ($users as $item) {
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
-				        $users->detach($item);
-			      }
-		    }
+			    $users->detach($item);
+            }
+	    }
     }
 
 
