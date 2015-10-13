@@ -71,6 +71,7 @@
   </div>
 </div>
 
+{% if app.user.client.config.avi %}
 <div class="search-panel">
   <div class="header-search header-collapsible">
     <h5>BASE DE CONNAISSANCE</h5>
@@ -80,3 +81,4 @@
 
   <!-- Here go the search view -->
 </div>
+{% endif %}
