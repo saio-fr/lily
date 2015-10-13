@@ -497,6 +497,17 @@ module.exports = function(grunt) {
     'karma:test'
   ]);
 
+  grunt.registerTask('dev', [
+    'clean',
+    'karma:build',
+    'cssmin:compile',
+    'cacheBust',
+    'devSnippet',
+    'webpack:widget',
+    'webpack:loader',
+    'copy:fonts',
+  ]);
+
   grunt.registerTask('build', [
     'clean',
     'karma:build',

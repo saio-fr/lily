@@ -60,6 +60,7 @@ class OperatorService {
 
                 $item->topic->broadcast($item->messages);
             }
+
             // Decrease the operator' active chats
             if ($item->id === $conn->User->getId()) {
                 $item->chats -= 1;
@@ -78,13 +79,33 @@ class OperatorService {
 
         foreach ($client->users as $item) {
             if ($item->id === $params['sid']) {
-                $item->firstname = $params['firstname'];
-                $item->lastname = $params['lastname'];
-                $item->email = $params['email'];
+
+                if (isset($params['externalId'])) {
+                    $item->externalId = $params['externalId'];
+                }
+
+                if (isset($params['firstname'])) {
+                    $item->firstname = $params['firstname'];
+                }
+
+                if (isset($params['lastname'])) {
+                    $item->lastname = $params['lastname'];
+                }
+
+                if (isset($params['email'])) {
+                    $item->email = $params['email'];
+                }
+
+                if (isset($params['customFields'])) {
+                    $item->customFields = $params['customFields'];
+                }
+
+                return array('result' => true);
             }
         }
-        return array('result' => true);
+
     }
+
 
     /**
      * Change chat's name
