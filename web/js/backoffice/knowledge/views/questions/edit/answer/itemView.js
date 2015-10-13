@@ -43,6 +43,11 @@ define(function(require) {
     initialize: function() {
       this.childViews = new Backbone.ChildViewContainer();
       this.listenTo(app, 'remove:childView', this.removeChildView);
+      // To remove for multiple precision question
+      this.model.setAnswerType('answer');
+      // To remove for multiple precision question
+      this.model.setQuestionType('question');
+      this.render();
     },
 
     render: function() {
