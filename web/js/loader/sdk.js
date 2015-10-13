@@ -139,10 +139,6 @@ module.exports = (function() {
         return console.warn('malformed infos object. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
       }
 
-      if (!infos.email) {
-        return console.warn('infos must contain an email. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/');
-      }
-
       mediator.trigger('user.identify', infos);
     }
   };

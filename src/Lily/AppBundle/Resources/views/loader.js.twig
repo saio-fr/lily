@@ -836,10 +836,10 @@
                         }
                     };
                 }(this, message);
-                if (this.getState("load")) {
+                if (this.getState("ready")) {
                     send();
                 } else {
-                    this.on("change:load", send);
+                    this.on("change:ready", send);
                 }
             }
         };
@@ -1146,9 +1146,6 @@
             "user.identify": function(infos) {
                 if (!infos || !_.isObject(infos) || infos === {}) {
                     return console.warn("malformed infos object. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/");
-                }
-                if (!infos.email) {
-                    return console.warn("infos must contain an email. See documentation at: http://saiodocs.readthedocs.org/en/latest/javascript-api/");
                 }
                 mediator.trigger("user.identify", infos);
             }
