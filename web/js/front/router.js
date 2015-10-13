@@ -17,7 +17,6 @@ define(function(require) {
     MailView              = require('front/views/mail'),
     Models                = require('front/data/models'),
     Collections           = require('front/data/collections'),
-    ContentView           = require('front/views/content'),
     ChatWelcomeScreenView = require('front/views/welcomeScreen'),
 
     // Object wrapper returned as a module
