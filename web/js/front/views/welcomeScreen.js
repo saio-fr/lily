@@ -55,8 +55,8 @@ define(function(require) {
         lastName = $inputLast.val() || null,
         email = $inputMail.val() || null;
 
-      if (!config.chatContactFormAvoidable) {
-        if (config.chatContactFirstNameField) {
+      if (!config.chat.contactFormAvoidable) {
+        if (config.chat.contactFirstNameField) {
           if (firstName === null) {
             $labeFirst.show();
             $inputFirst.addClass('warning');
@@ -67,7 +67,7 @@ define(function(require) {
             this.errors.firstname = false;
           }
         }
-        if (config.chatContactLastNameField) {
+        if (config.chat.contactLastNameField) {
           if (lastName === null) {
             $labeLast.show();
             $inputLast.addClass('warning');
@@ -78,7 +78,7 @@ define(function(require) {
             this.errors.lastname = false;
           }
         }
-        if (config.chatContactEmailField) {
+        if (config.chat.contactEmailField) {
           if (email === null) {
             $labeMail.show();
             $inputMail.addClass('warning');
@@ -95,11 +95,23 @@ define(function(require) {
         return;
       }
 
-      app.trigger('welcomeScreen:submit', {
-        firstName: firstName,
-        lastName: lastName,
-        email: email
-      });
+      var returnValues = {};
+      if (firstName) returnValue.firstName = firstName;
+      if (lastName) returnValue.lastName = lastName;
+      if (email) returnValue.email = email;
+
+      if (email || firstName || lastName) {
+        app.trigger('welcomeScreen:submit', {
+          firstName: firstName,
+          lastName: lastName,
+          email: email
+        });
+      } else if (config.chat.contactFormAvoidable) {
+        app.showContactForm = false;
+        app.router.navigate('chat', {
+          trigger: true
+        });
+      }
     }
 
   });

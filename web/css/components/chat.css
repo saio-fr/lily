@@ -474,14 +474,13 @@ LIVE CHAT
 .modal-close-button {
   position: absolute;
   z-index: 10002;
-  top: 10px;
-  right: 10px;
+  top: 3px;
+  right: 3px;
   font-size: 20px;
   opacity: 1;
-  color: #ffffff;
+  color: #fff;
   border: none;
-  background: transparent;
-
+  background: 0 0;
   -webkit-appearance: none;
 }
 
