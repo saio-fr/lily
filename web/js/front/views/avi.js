@@ -106,7 +106,8 @@ define(function(require) {
 
         var emptyViewModel = new Models.AviEmptyView({
           questions: topQuestions,
-          onBoardingMessage: config.avi.onBoardingMessage
+          onBoardingMessage: config.avi.onBoardingMessage,
+          onBoardingMessageEmpty: config.avi.onBoardingMessageEmpty
         });
 
         that.emptyView = new AviEmptyView({

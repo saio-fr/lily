@@ -29,6 +29,7 @@ define(function(require) {
   g.avi = g.avi || {};
 
   g.avi.onBoardingMessage = 'Vous pouvez demander par exemple:';
+  g.avi.onBoardingMessageEmpty = 'Posez votre question. Nous vous répondons au plus vite';
 
   g.avi.messages = {
     satisfiedFeedback: 'Merci pour votre appréciation! N\'hésitez pas à poser d\'autres questions.',
