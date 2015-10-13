@@ -400,6 +400,10 @@ define(function(require) {
       config.hostOptions = _.isObject(options) ? options : {};
     },
 
+    onIdentifyUser: function(infos) {
+      app.call('visitor/identify', infos);
+    },
+
     onWidgetClick: function(visible) {
       app.call('visitor/appDisplay', {
         display: visible
@@ -470,6 +474,7 @@ define(function(require) {
   FrameBus.on('widget.shown', app.onWidgetShow);
   FrameBus.on('lily.sendMessageToVisitor', app.sendMessageToVisitor);
   FrameBus.on('lily.addAviMessage', app.addAviMessage);
+  FrameBus.on('user.indentify', app.onIdentifyUser);
 
   return app;
 });

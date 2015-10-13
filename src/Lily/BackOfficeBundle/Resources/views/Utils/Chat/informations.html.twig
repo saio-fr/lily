@@ -18,16 +18,23 @@
       <div class="informations-personal">
         <p>
           <b>Nom :</b>
-          <input class="informations-form-control" name="lastname" value="<% if (lastname !== null) { %><%= lastname %> <% } else { %> Inconnu <% } %>">
+          <input class="informations-form-control" name="lastname" value="<% if (lastname) { %><%= lastname %> <% } else { %> Inconnu <% } %>">
         </p>
         <p>
           <b>Prenom :</b>
-          <input class="informations-form-control" name="firstname" value="<% if (firstname !== null) { %><%= firstname %> <% } else { %> Inconnu <% } %>">
+          <input class="informations-form-control" name="firstname" value="<% if (firstname) { %><%= firstname %> <% } else { %> Inconnu <% } %>">
         </p>
         <p>
           <b>Email :</b>
-          <input class="informations-form-control" name="email" value="<% if (email !== null) { %><%= email %> <% } else { %> Inconnu <% } %>">
+          <input class="informations-form-control" name="email" value="<% if (email) { %><%= email %> <% } else { %> Inconnu <% } %>">
         </p>
+        <% if (customFields && customFields !== {}) { %>
+        <div class="informations-personal-custom informations-list">
+          <% _.each(customFields, function(item, index) { %>
+          <p class="informations-list-item"><b><%= index %>: </b><%= item %></p>
+          <% }); %>
+        </div>
+        <% } %>
       </div>
 
       <% if (questions.length) { %>
