@@ -992,6 +992,17 @@ Typeahead Styles
   line-height: 1.3;
 }
 
+.tt-search-loader {
+  position: absolute;
+  right: 15px;
+  top: 11px;
+  fill: #494949;
+}
+
+.tt-pending {
+  padding-right: 15px;
+}
+
 .tt-highlight {
   font-size: 15.5px;
   font-weight: 700;

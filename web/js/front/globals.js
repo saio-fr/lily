@@ -23,7 +23,21 @@ define(function(require) {
 
   g.typeahead = {
     autoSelect: true,
-    highlight: true
+    highlight: true,
+    pendingTemplate:
+      _.template('<div class="tt-suggestion tt-pending">Cherche une réponse pour: "<%= query %>...' +
+        '<svg class="tt-search-loader" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" ' +
+        'preserveAspectRatio="xMidYMid" class="uil-ring">' +
+          '<path fill="none" class="bk" d="M0 0h100v100H0z"></path>' +
+          '<circle cx="50" cy="50" r="40" stroke-dasharray="163.36281798666926 87.9645943005142" stroke="#949494" ' +
+          'fill="none" stroke-width="20" transform="rotate(51.3325 50 50)">' +
+            '<animateTransform attributeName="transform" type="rotate" values="0 50 50;180 50 50;360 50 50;" ' +
+            'keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" begin="0s"></animateTransform>' +
+          '</circle>' +
+        '</svg>' +
+      '</div>'),
+    notFoundTemplate:
+      _.template('<div class="tt-suggestion">Nous ne trouvons pas de réponses pour cette question</div>')
   };
 
   g.avi = g.avi || {};

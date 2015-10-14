@@ -256,6 +256,10 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
         // display: parentSuggestion.bind(this),
         displayKey: 'text',
         limit: 3,
+        templates: {
+          pending: options.pendingTemplate || '',
+          notFound: options.notFoundTemplate || '',
+        }
       };
 
       if (this.strategy === 'suggestions') {
