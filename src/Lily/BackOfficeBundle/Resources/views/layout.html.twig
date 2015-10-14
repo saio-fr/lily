@@ -122,12 +122,11 @@ filter='cssrewrite' %}
 
   <!-- custom config -->
   <script>
-    window.config.chat = {{ app.user.client.config.chat }};
+    window.config.chat = {% if app.user.client.config.chat is sameas(false) %}false{% else %}true{% endif %};
+    window.config.knowledge = {% if app.user.client.config.avi is sameas(false) %}false{% else %}true{% endif %};
     window.config.isChatOperator = {{ is_granted('ROLE_CHAT_OPERATOR')|serialize('json') }};
     window.config.userId = '{{ app.user.id }}';
   </script>
-
-
 
   <!-- Load Google Analytics -->
   <script>

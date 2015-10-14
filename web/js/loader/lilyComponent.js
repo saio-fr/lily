@@ -81,6 +81,7 @@ module.exports = function() {
       'lily.addAviMessage': 'addAviMessage',
       'lily.setOperatorGroup': 'setOperatorGroup',
       'lily.messageToOperator': 'onMessageToOperator',
+      'user.identify': 'onIdentifyUser',
       'app.position': 'onSetPosition',
     },
 
@@ -173,6 +174,10 @@ module.exports = function() {
       } else {
         this.el.classList.remove('left');
       }
+    },
+
+    onIdentifyUser: function(infos) {
+      this.sendMessage('user.indentify', infos);
     },
 
     onWidgetShow: function() {

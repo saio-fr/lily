@@ -12,6 +12,7 @@
             </a>
           </li>
 
+          {% if app.user.client.config.avi %}
           {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
           <li>
             <a href="{{ path('lily_knowledge') }}" class="{% if app.request.attributes.get('_route') == 'lily_knowledge' %}active{% endif %}">
@@ -19,6 +20,7 @@
               <span>Connaissances</span>
             </a>
           </li>
+          {% endif %}
           {% endif %}
 
           {% if app.user.client.config.chat %}
@@ -32,6 +34,7 @@
             {% endif %}
           {% endif %}
 
+          {% if app.user.client.config.avi %}
           {% if is_granted('ROLE_KNOWLEDGE_OPERATOR') %}
           <li>
             <a href="{{ path('lily_redirections') }}" class="{% if app.request.attributes.get('_route') == 'lily_redirections' %}active{% endif %}">
@@ -39,6 +42,7 @@
               <span>Redirections</span>
             </a>
           </li>
+          {% endif %}
           {% endif %}
 
           {% if is_granted('ROLE_ADMIN') %}
@@ -49,7 +53,7 @@
             </a>
           </li>
           {% endif %}
-          
+
           {% if is_granted('ROLE_ADMIN') %}
           <li>
             <a href="{{ path('lily_config') }}" class="{% if app.request.attributes.get('_route') == 'lily_config' %}active{% endif %}">
