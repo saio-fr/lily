@@ -209,7 +209,7 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
 
         // The time interval in milliseconds that will be used by rateLimitBy.
         // Defaults to 300
-        rateLimitWait: 300,
+        rateLimitWait: 450,
         transform: transformRemote
       }
     };
