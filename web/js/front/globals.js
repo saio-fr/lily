@@ -52,8 +52,8 @@ define(function(require) {
     satisfiedFeedback: 'Merci pour votre appréciation! N\'hésitez pas à poser d\'autres questions.',
     unSatisfiedRedirection: 'Nous sommes désolé que cette réponse ne vous ait pas convenu.' +
       '<p><b>Souhaitez vous être mis en relation avec un conseiller ?</b></p>',
-    noAnswerRedirection: '<b>Voulez-vous que être mis en relation avec un conseiller ?</b>',
-    apologize: 'Malheureusement, nous ne pouvons pas répondre à cette question pour le moment',
+    noAnswerRedirection: '<b>Voulez-vous être mis en relation avec un conseiller ?</b>',
+    apologize: 'Nous n\'avons pas trouvé de réponse à votre question',
     askForedirection: 'Souhaitez vous être redirigé vers un de nos conseillers ?',
     askForFeedback: ''
   };
