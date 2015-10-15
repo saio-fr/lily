@@ -21,12 +21,12 @@ use Lily\AppBundle\Controller\BaseController;
 
 class AviController extends BaseController
 {
-  
+
     /**
      * @Get("/{licence}/question/{id}")
      */
     public function getQuestionAction($licence, $id) {
-      
+
         // Initialisation des variables
         $em = $this->getEntityManager($licence);
         $question = $em->getRepository('LilyKnowledgeBundle:Question')
@@ -40,24 +40,40 @@ class AviController extends BaseController
 
         $context->setGroups(array('app'));
         $view = $this->view($question)->setSerializationContext($context);
-        
+
         return $this->handleView($view);
     }
-    
-    
+
+    /**
+     * @Get("/{licence}/topquestions")
+     */
+    public function getTopQuestionsAction($licence) {
+
+        $em = $this->getEntityManager($licence);
+
+        $from = new \Datetime('-1 month');
+        $to = new \Datetime();
+
+        $questions = $em->getRepository('LilyAppBundle:LogRequest')
+        ->getTopQuestions($from, $to, 5);
+
+        return $questions;
+    }
+
+
     /**
      * @Post("/{licence}/log/request/{id}")
      */
     public function postLogRequestAction($licence, $id, Request $request) {
-      
+
         $em = $this->getEntityManager($licence);
         $log = $this->deserialize('Lily\AppBundle\Entity\LogRequest', $request);
-        
+
         if ($log instanceof LogRequest === false) {
             $view = $this->view($log, 400);
             return $this->handleView($view);
         }
-        
+
         if ($id) {
             $question = $em->getRepository('LilyKnowledgeBundle:Question')
             ->find($id);
@@ -72,34 +88,34 @@ class AviController extends BaseController
         $log->setSession($request->cookies->get('PHPSESSID'));
         $log->setDate(new \Datetime());
         $this->setMedia($log);
-        
+
         $em->persist($log);
         $em->flush();
-        
+
         return true;
     }
-    
-    
+
+
     /**
      * @Post("/{licence}/log/unanswered")
      */
     public function postLogUnansweredAction($licence, Request $request) {
-      
+
         $em = $this->getEntityManager($licence);
         $unanswered = $this->deserialize('Lily\AppBundle\Entity\LogUnanswered', $request);
-        
+
         if ($unanswered instanceof LogUnanswered === false) {
             $view = $this->view($unanswered, 400);
             return $this->handleView($view);
         }
-        
+
         $this->setMedia($unanswered);
         $unanswered->setSession($request->cookies->get('PHPSESSID'));
         $unanswered->setDate(new \Datetime());
-        
+
         $em->persist($unanswered);
         $em->flush();
-      
+
         return true;
     }
 
@@ -126,10 +142,10 @@ class AviController extends BaseController
 
         $em->persist($notation);
         $em->flush();
-        
+
         return true;
     }
-    
+
 
     /**
      * @Post("/{licence}/log/redirection")
@@ -143,15 +159,15 @@ class AviController extends BaseController
             $view = $this->view($logRedirection, 400);
             return $this->handleView($view);
         }
-        
+
         $this->setMedia($logRedirection);
         $logRedirection->setSession($request->cookies->get('PHPSESSID'));
         $logRedirection->setDate(new \Datetime());
 
         $em->persist($logRedirection);
         $em->flush();
-        
+
         return true;
     }
-  
+
 }

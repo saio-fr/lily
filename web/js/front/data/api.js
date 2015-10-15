@@ -86,6 +86,19 @@ define(function(require) {
   };
 
   /**
+   * Gets the 4 more frequent questions asked in the preceding month
+   * @return [] questions:
+   *
+   *  id int
+   *  title string
+   *  answer string
+   *  nbs: int
+   */
+  api.getTopQuestions = function() {
+    return this.send('GET', '/api/' + config.licence + '/topquestions');
+  };
+
+  /**
    * Log any question asked via the automatic chat that we didn't find an answer for
    * @param  string question
    * @return boolean success
@@ -144,10 +157,6 @@ define(function(require) {
   api.redirectionMail = function(data, id) {
     return this.send('POST', '/api/' + config.licence + '/avi/redirection/' +
       id + '/mail', data);
-  };
-
-  api.getTopQuestions = function(id) {
-    return this.send('GET', '/api/' + config.licence + '/top-questions/' + id);
   };
 
   return api;
