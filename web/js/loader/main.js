@@ -32,25 +32,29 @@ if (_.isUnsuported()) {
 var snippetVersion = saioq && saioq.SNIPPET_VERSION ?
   parseFloat(saioq.SNIPPET_VERSION, 10) : 0;
 
-// Initialize host and other apps (lily and widget for now)
-var host   = hostComponent().initialize();
-var lily   = lilyComponent().initialize();
-var widget = widgetComponent().initialize();
+_.contentLoaded(window, initialize);
 
-// Register the different component instances with a unique id
-mediator.registerApp(host, 'host');
-mediator.registerApp(lily, 'lily');
-mediator.registerApp(widget, 'widget');
+function initialize() {
+  // Initialize host and other apps (lily and widget for now)
+  var host   = hostComponent().initialize();
+  var lily   = lilyComponent().initialize();
+  var widget = widgetComponent().initialize();
 
-// Before swapping the global, replay an existing global `saio` queue.
-while (saioq && saioq.length > 0) {
-  var args = saioq.shift();
-  var method = args.shift();
+  // Register the different component instances with a unique id
+  mediator.registerApp(host, 'host');
+  mediator.registerApp(lily, 'lily');
+  mediator.registerApp(widget, 'widget');
 
-  if (saio[method]) {
-    // call the method on sdk
-    sdk[method].apply(saio, args);
-    sdk.calledBeforeLoad = true;
+  // Before swapping the global, replay an existing global `saio` queue.
+  while (saioq && saioq.length > 0) {
+    var args = saioq.shift();
+    var method = args.shift();
+
+    if (saio[method]) {
+      // call the method on sdk
+      sdk[method].apply(saio, args);
+      sdk.calledBeforeLoad = true;
+    }
   }
 }
 
