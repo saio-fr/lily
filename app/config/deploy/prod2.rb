@@ -35,7 +35,7 @@ after "deploy" do
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && bower update"
 
   # build project (use force due to cssmin and remote fonts @import directives)
-  run "cd /var/www/vhosts/saio.fr/httpdocs/current && ./node_modules/.bin/grunt build --force"
+  run "cd /var/www/vhosts/saio.fr/httpdocs/current && ./node_modules/.bin/grunt build"
 
   # clear the cache
   run "cd /var/www/vhosts/saio.fr/httpdocs/current && php app/console cache:clear --env=prod"
