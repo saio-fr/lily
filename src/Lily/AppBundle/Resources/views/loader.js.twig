@@ -91,6 +91,7 @@
                 "lily.expand": "onExpand",
                 "lily.shrink": "onShrink",
                 "lily.onWidgetShow": "onWidgetShow",
+                "lily.onWidgetClick": "onWidgetClick",
                 "lily.sendMessageToVisitor": "sendMessageToVisitor",
                 "lily.addAviMessage": "addAviMessage",
                 "lily.setOperatorGroup": "setOperatorGroup",
@@ -163,6 +164,9 @@
                 this.sendMessage("widget.shown", {
                     firstShow: this.getState("firstShow")
                 });
+            },
+            onWidgetClick: function(options) {
+                this.sendMessage("widget.click", options);
             },
             onMessageToOperator: function(message) {
                 if (!_.isString(message)) return;
@@ -1028,6 +1032,9 @@
             },
             onWidgetClick: function() {
                 var lily = mediator.getRegisteredApp("lily");
+                mediator.trigger("lily.onWidgetClick", {
+                    expand: !lily.getState("shown")
+                });
                 if (lily.getState("shown")) {
                     mediator.trigger("lily.shrink");
                 } else {
