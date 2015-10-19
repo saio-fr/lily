@@ -27,18 +27,21 @@
         throw Error("Navigator unsupported");
     }
     var snippetVersion = saioq && saioq.SNIPPET_VERSION ? parseFloat(saioq.SNIPPET_VERSION, 10) : 0;
-    var host = hostComponent().initialize();
-    var lily = lilyComponent().initialize();
-    var widget = widgetComponent().initialize();
-    mediator.registerApp(host, "host");
-    mediator.registerApp(lily, "lily");
-    mediator.registerApp(widget, "widget");
-    while (saioq && saioq.length > 0) {
-        var args = saioq.shift();
-        var method = args.shift();
-        if (saio[method]) {
-            sdk[method].apply(saio, args);
-            sdk.calledBeforeLoad = true;
+    _.contentLoaded(window, initialize);
+    function initialize() {
+        var host = hostComponent().initialize();
+        var lily = lilyComponent().initialize();
+        var widget = widgetComponent().initialize();
+        mediator.registerApp(host, "host");
+        mediator.registerApp(lily, "lily");
+        mediator.registerApp(widget, "widget");
+        while (saioq && saioq.length > 0) {
+            var args = saioq.shift();
+            var method = args.shift();
+            if (saio[method]) {
+                sdk[method].apply(saio, args);
+                sdk.calledBeforeLoad = true;
+            }
         }
     }
     window.saio = sdk;
@@ -88,6 +91,7 @@
                 "lily.expand": "onExpand",
                 "lily.shrink": "onShrink",
                 "lily.onWidgetShow": "onWidgetShow",
+                "lily.onWidgetClick": "onWidgetClick",
                 "lily.sendMessageToVisitor": "sendMessageToVisitor",
                 "lily.addAviMessage": "addAviMessage",
                 "lily.setOperatorGroup": "setOperatorGroup",
@@ -160,6 +164,9 @@
                 this.sendMessage("widget.shown", {
                     firstShow: this.getState("firstShow")
                 });
+            },
+            onWidgetClick: function(options) {
+                this.sendMessage("widget.click", options);
             },
             onMessageToOperator: function(message) {
                 if (!_.isString(message)) return;
@@ -529,6 +536,8 @@
             now: Date.now,
             onTransEnd: function(el, callback, args, context) {
                 var cont = context || window;
+                _.transEndEventName = _.transEndEventNames[_.cssPrefix("transition")];
+                _.animEndEventName = _.animEndEventNames[_.cssPrefix("animation")];
                 var cb = function(ev) {
                     ev.stopPropagation();
                     if (_.isFunction(callback)) {
@@ -596,10 +605,34 @@
                 WebkitTransition: "webkitTransitionEnd",
                 MozTransition: "transitionend",
                 transition: "transitionend"
+            },
+            contentLoaded: function(win, fn) {
+                var done = false, top = true, doc = win.document, root = doc.documentElement, modern = doc.addEventListener, add = modern ? "addEventListener" : "attachEvent", rem = modern ? "removeEventListener" : "detachEvent", pre = modern ? "" : "on", init = function(e) {
+                    if (e.type == "readystatechange" && doc.readyState != "complete") return;
+                    (e.type == "load" ? win : doc)[rem](pre + e.type, init, false);
+                    if (!done && (done = true)) fn.call(win, e.type || e);
+                }, poll = function() {
+                    try {
+                        root.doScroll("left");
+                    } catch (e) {
+                        setTimeout(poll, 50);
+                        return;
+                    }
+                    init("poll");
+                };
+                if (doc.readyState == "complete") fn.call(win, "lazy"); else {
+                    if (!modern && root.doScroll) {
+                        try {
+                            top = !win.frameElement;
+                        } catch (e) {}
+                        if (top) poll();
+                    }
+                    doc[add](pre + "DOMContentLoaded", init, false);
+                    doc[add](pre + "readystatechange", init, false);
+                    win[add](pre + "load", init, false);
+                }
             }
         };
-        _.transEndEventName = _.transEndEventNames[_.cssPrefix("transition")];
-        _.animEndEventName = _.animEndEventNames[_.cssPrefix("animation")];
         (function() {
             var lastTime = 0;
             var vendors = [ "ms", "moz", "webkit", "o" ];
@@ -999,6 +1032,9 @@
             },
             onWidgetClick: function() {
                 var lily = mediator.getRegisteredApp("lily");
+                mediator.trigger("lily.onWidgetClick", {
+                    expand: !lily.getState("shown")
+                });
                 if (lily.getState("shown")) {
                     mediator.trigger("lily.shrink");
                 } else {

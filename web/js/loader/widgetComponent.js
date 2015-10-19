@@ -181,6 +181,10 @@ module.exports = function() {
     onWidgetClick: function() {
       var lily = mediator.getRegisteredApp('lily');
 
+      mediator.trigger('lily.onWidgetClick', {
+        expand: !lily.getState('shown')
+      });
+
       if (lily.getState('shown')) {
         mediator.trigger('lily.shrink');
       } else {

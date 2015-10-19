@@ -219,10 +219,13 @@ module.exports = function(grunt) {
     // a proper build folder for assets (images, fonts, css && js)
     cssmin: {
       compile: {
+        options: {
+          processImport: false,
+          rebase: false,
+          processImportFrom: ['!http://fonts.googleapis.com'],
+        },
         files: [{
           expand: true,
-          processImportFrom: ['!fonts.googleapis.com'],
-          processImport: false,
           cwd: 'web/css',
           src: ['*/**.css', '!*.min.css'],
           dest: 'web/build/css',
@@ -236,7 +239,7 @@ module.exports = function(grunt) {
         browsers: ['last 2 versions', '> 5%', 'IE 10', 'ChromeAndroid > 1', 'iOS > 6', 'Android >  4'],
         expand: true,
         flatten: true,
-        src: 'web/css/**/*.css',
+        src: 'web/build/css/**/*.css',
       }
     },
 
@@ -521,6 +524,7 @@ module.exports = function(grunt) {
     'requireMulti',
     'copy:fonts',
     'cssmin:compile',
+    'autoprefixer',
     'cacheBust',
     'buildSnippet',
     'buildWidget',

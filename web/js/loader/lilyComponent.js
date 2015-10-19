@@ -75,6 +75,7 @@ module.exports = function() {
       'lily.expand': 'onExpand',
       'lily.shrink': 'onShrink',
       'lily.onWidgetShow': 'onWidgetShow',
+      'lily.onWidgetClick': 'onWidgetClick',
 
       // Triggered by api
       'lily.sendMessageToVisitor': 'sendMessageToVisitor',
@@ -186,6 +187,10 @@ module.exports = function() {
       this.sendMessage('widget.shown', {
         firstShow: this.getState('firstShow')
       });
+    },
+
+    onWidgetClick: function(options) {
+      this.sendMessage('widget.click', options);
     },
 
     onMessageToOperator: function(message) {

@@ -404,12 +404,16 @@ define(function(require) {
       app.call('visitor/identify', infos);
     },
 
-    onWidgetClick: function(visible) {
+    onWidgetClick: function(options) {
+      var display = options ? options.expand : false;
+
       app.call('visitor/appDisplay', {
-        display: visible
+        display: display
       });
 
-      app.track.click('Widget was clicked on client website');
+      app.track.click('Widget was clicked on client website', {
+        expand: options.expand
+      });
     },
 
     onAppShown: function(firstOpen) {
