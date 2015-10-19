@@ -2,7 +2,6 @@
 'use strict';
 
 var config = require('./buildConfig');
-var configV1 = require('./buildConfig.v1');
 
 var _config =  {
   front:        config.mix('front'),
@@ -19,28 +18,13 @@ var _config =  {
   redirection:  config.mix('redirection')
 };
 
-var _configV1 =  {
-  front:        configV1.mix('front'),
-  common:       configV1.mix('common'),
-  chatComp:     configV1.mix('chatComp'),
-  dashboard:    configV1.mix('dashboard'),
-  config:       configV1.mix('config'),
-  chat:         configV1.mix('chat'),
-  faq:          configV1.mix('faq'),
-  knowledge:    configV1.mix('knowledge'),
-  profile:      configV1.mix('profile'),
-  users:        configV1.mix('users'),
-  statistics:   configV1.mix('statistics'),
-  redirection:  configV1.mix('redirection')
-};
-
 // Format for grunt task config.
-function getRequireConf(conf) {
+function getRequireConf() {
   var returnObj = {};
-  Object.keys(conf).forEach(function(key) {
+  Object.keys(_config).forEach(function(key) {
     returnObj[key] = {
       compile: {
-        options: conf[key]
+        options: _config[key]
       }
     };
   });
@@ -48,7 +32,6 @@ function getRequireConf(conf) {
 }
 
 var requirejsConf = getRequireConf(_config);
-var requirejsConfV1 = getRequireConf(_configV1);
 
 module.exports = function(grunt) {
   // Project configuration.
@@ -62,7 +45,6 @@ module.exports = function(grunt) {
     snippetFooter: grunt.file.read('web/js/snippet/snippet.footer.js'),
 
     requireMulti: requirejsConf,
-    requireMultiV1: requirejsConfV1,
 
     clean: {
       app: 'web/build/js',
@@ -426,12 +408,6 @@ module.exports = function(grunt) {
     grunt.task.run('requirejs');
   });
 
-  grunt.registerMultiTask('requireMultiV1', 'Run require optimizer across the project', function() {
-    grunt.log.write('\nCompiling ' + this.target + '\n');
-    grunt.config.set('moduleConf', this.data.compile.options);
-    grunt.task.run('requirejs');
-  });
-
   grunt.registerTask('check', ['jshint']);
   grunt.registerTask('cacheBust', ['hashres:prod']);
   grunt.registerTask('cleanDevRefs', ['hashres:dev']);
@@ -520,7 +496,6 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean',
     'karma:build',
-    'requireMultiV1',
     'requireMulti',
     'copy:fonts',
     'cssmin:compile',
