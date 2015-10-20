@@ -162,10 +162,10 @@ module.exports = function() {
 
       this.setState('activeRoute', options.activeRoute);
 
+      mediator.trigger('widget.show', options);
+
       if (options.displayApp) {
         this.onExpand();
-      } else {
-        mediator.trigger('widget.show', options);
       }
     },
 
