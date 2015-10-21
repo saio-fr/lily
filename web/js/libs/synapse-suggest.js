@@ -209,7 +209,7 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
 
         // The time interval in milliseconds that will be used by rateLimitBy.
         // Defaults to 300
-        rateLimitWait: 300,
+        rateLimitWait: 450,
         transform: transformRemote
       }
     };
@@ -256,6 +256,10 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
         // display: parentSuggestion.bind(this),
         displayKey: 'text',
         limit: 3,
+        templates: {
+          pending: options.pendingTemplate || '',
+          notFound: options.notFoundTemplate || '',
+        }
       };
 
       if (this.strategy === 'suggestions') {
