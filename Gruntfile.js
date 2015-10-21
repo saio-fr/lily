@@ -515,7 +515,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'clean',
+    // 'clean',
     'karma:build',
     'requireMultiV1',
     'requireMulti',
