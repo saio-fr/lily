@@ -494,7 +494,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'clean',
+    // 'clean',
     'karma:build',
     'requireMulti',
     'copy:fonts',

@@ -41,11 +41,7 @@ MessageLilyRedirection = Backbone.View.extend({
   },
 
   dismiss: function() {
-    this.$el.addClass('component-hide');
-
-    app.onAnimEnd(this.$el, function() {
-      app.trigger('avi:choicesViewDismiss', 'redirectionView');
-    });
+    app.trigger('avi:choicesViewDismiss', 'redirectionView');
   },
 
   transitionInMessage: function(callback) {

@@ -455,7 +455,6 @@ define(function(require) {
 
     onSatisfaction: function(satisfaction, answer) {
       var that = this;
-      this.removeNotationView();
       api.logSatisfaction(answer.id, satisfaction);
       app.track.click('Visitor was ' +
         (satisfaction ? '' : 'not ') + 'satisfied by the avi Answer', {
@@ -464,16 +463,18 @@ define(function(require) {
 
       if (satisfaction) {
         that.asyncWithoutLoading(function() {
-          return that.sayThanks();
-        }, 300);
+          that.sayThanks();
+          this.removeNotationView();
+        }, 500);
         this.lastQuestionReceivedBadFeedBack = false;
       } else {
         this.lastQuestionReceivedBadFeedBack = true;
         // For later:
         // Ask for precision on bad answer
         that.asyncWithoutLoading(function() {
-          return that.offerRedirection('unSatisfied');
-        }, 300);
+          that.offerRedirection('unSatisfied');
+          this.removeNotationView();
+        }, 500);
       }
     },
 
