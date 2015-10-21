@@ -1,99 +1,102 @@
 
-var test = require('tape');
-var mediator = require('../../../js/loader/mediator.js');
+var test      = require('tape');
+var mediator  = require('../../../js/loader/mediator.js');
 var component = require('../../../js/loader/component.js');
-var xdm = require('../../../js/loader/xdm.js');
-var utils = require('underscore');
+var xdm       = require('../../../js/loader/xdm.js');
+var utils     = require('../../utils.js');
 
-test('xdm.sendMessage sends a message via postMessage to another frame', function(assert) {
+utils.contentLoaded(window, function() {
 
-  // Another frame extends component and xdm,
-  // because xdm will always be used by an instance of component
-  var anotherFrame = utils.extend(component(), {
-    origin: '*',
+  test('xdm.sendMessage sends a message via postMessage to another frame', function(assert) {
 
-    state: {
-      // Init to true for the purpose of this test
-      load: true
-    },
+    // Another frame extends component and xdm,
+    // because xdm will always be used by an instance of component
+    var anotherFrame = utils.extend(component(), {
+      origin: '*',
 
-    initialize: function() {
+      state: {
+        // Init to true for the purpose of this test
+        ready: true
+      },
 
-      // create an iframe and store its contentWindow in `this.frame`
-      var iframe = this.createEl({
-        tagName: 'iframe',
-      });
+      initialize: function() {
 
-      this.el = this.insertInContainer(iframe, document.body);
-      this.frame = iframe.contentWindow;
-    }
-  }, xdm);
+        // create an iframe and store its contentWindow in `this.frame`
+        var iframe = this.createEl({
+          tagName: 'iframe',
+        });
 
-  // Initialize the component
-  anotherFrame.initialize();
+        this.el = this.insertInContainer(iframe, document.body);
+        this.frame = iframe.contentWindow;
+      }
+    }, xdm);
 
-  var origPostMessage = anotherFrame.frame.postMessage;
-  var postMessageSpy = sinon.spy(anotherFrame.frame, 'postMessage');
+    // Initialize the component
+    anotherFrame.initialize();
 
-  // Send a message to the Iframe
-  anotherFrame.sendMessage('coucou');
+    var origPostMessage = anotherFrame.frame.postMessage;
+    var postMessageSpy = sinon.spy(anotherFrame.frame, 'postMessage');
 
-  var expectedSentMessage = JSON.stringify({
-    'scope': 'client',
-    'name': 'coucou'
+    // Send a message to the Iframe
+    anotherFrame.sendMessage('coucou');
+
+    var expectedSentMessage = JSON.stringify({
+      'scope': 'client',
+      'name': 'coucou'
+    });
+
+    // postMessga was used to send the message to `anotherFrame`
+    assert.ok(postMessageSpy.calledWith(expectedSentMessage, '*'));
+
+    //Clean up
+    anotherFrame.remove();
+    anotherFrame.frame.postMessage = origPostMessage;
+    assert.end();
   });
 
-  // postMessga was used to send the message to `anotherFrame`
-  assert.ok(postMessageSpy.calledWith(expectedSentMessage, '*'));
+  test('xdm.sendMessage sends a message when frame has loaded', function(assert) {
 
-  //Clean up
-  anotherFrame.remove();
-  anotherFrame.frame.postMessage = origPostMessage;
-  assert.end();
-});
+    // Another frame extends component and xdm,
+    // because xdm will always be used by an instance of component
+    var anotherFrame = utils.extend(component(), {
+      origin: '*',
 
-test('xdm.sendMessage sends a message when frame has loaded', function(assert) {
+      state: {
+        // Init to false this time
+        ready: false
+      },
 
-  // Another frame extends component and xdm,
-  // because xdm will always be used by an instance of component
-  var anotherFrame = utils.extend(component(), {
-    origin: '*',
+      initialize: function() {
 
-    state: {
-      // Init to false this time
-      load: false
-    },
+        // create an iframe and store its contentWindow in `this.frame`
+        var iframe = this.createEl({
+          tagName: 'iframe',
+        });
 
-    initialize: function() {
+        this.el = this.insertInContainer(iframe, document.body);
+        this.frame = iframe.contentWindow;
+      }
+    }, xdm);
 
-      // create an iframe and store its contentWindow in `this.frame`
-      var iframe = this.createEl({
-        tagName: 'iframe',
-      });
+    // Initialize the component
+    anotherFrame.initialize();
 
-      this.el = this.insertInContainer(iframe, document.body);
-      this.frame = iframe.contentWindow;
-    }
-  }, xdm);
+    var origPostMessage = anotherFrame.frame.postMessage;
+    var postMessageSpy = sinon.spy(anotherFrame.frame, 'postMessage');
 
-  // Initialize the component
-  anotherFrame.initialize();
+    // Send a message to the Iframe
+    anotherFrame.sendMessage('coucou');
 
-  var origPostMessage = anotherFrame.frame.postMessage;
-  var postMessageSpy = sinon.spy(anotherFrame.frame, 'postMessage');
+    // postMessga was used to send the message to `anotherFrame`
+    assert.notOk(postMessageSpy.called, 'the message should be on hold');
 
-  // Send a message to the Iframe
-  anotherFrame.sendMessage('coucou');
+    // Change state
+    anotherFrame.setState('ready', true);
+    assert.ok(postMessageSpy.called, 'the message should now have been sent');
 
-  // postMessga was used to send the message to `anotherFrame`
-  assert.notOk(postMessageSpy.called, 'the message should be on hold');
-
-  // Change state
-  anotherFrame.setState('load', true);
-  assert.ok(postMessageSpy.called, 'the message should now have been sent');
-
-  //Clean up
-  anotherFrame.remove();
-  anotherFrame.frame.postMessage = origPostMessage;
-  assert.end();
+    //Clean up
+    anotherFrame.remove();
+    anotherFrame.frame.postMessage = origPostMessage;
+    assert.end();
+  });
 });

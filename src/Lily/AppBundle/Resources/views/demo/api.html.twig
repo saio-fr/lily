@@ -3,6 +3,22 @@
 <head>
 <meta charset="utf-8">
 
+<script>
+  !function(t){"use strict";var e=t.saio=t.saio||[];if(!e.initialize){if(e.invoked)return void(t.console&&console.error&&console.error("Saio snippet included twice."));
+e.invoked=!0,e.methods=["config","api"],e.factory=function(t){return function(){var o=Array.prototype.slice.call(arguments);
+return o.unshift(t),e.push(o),e}};for(var o=0;o<e.methods.length;o++){var r=e.methods[o];
+e[r]=e.factory(r)}e.load=function(t){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"===document.location.protocol?"https://":"http://")+"{{ app.request.getHttpHost() ~ app.request.getBaseURL() }}/app/loader/"+t;
+var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(e,o)},e.SNIPPET_VERSION="1.0.0"
+}}(this);
+
+// Load saio with your key, which will automatically
+// load the tools you've enabled for your account.
+saio.load('548053c9a18e2');
+
+// Call saio api methods from here
+// ex: saio.api('widget.show', false);
+</script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
@@ -19,25 +35,6 @@
 
 {% endblock %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-
-<script>
-  !function(t){"use strict";var e=t.saio=t.saio||[];if(!e.initialize){if(e.invoked)return void(t.console&&console.error&&console.error("Saio snippet included twice."));
-e.invoked=!0,e.methods=["config","api"],e.factory=function(t){return function(){var o=Array.prototype.slice.call(arguments);
-return o.unshift(t),e.push(o),e}};for(var o=0;o<e.methods.length;o++){var r=e.methods[o];
-e[r]=e.factory(r)}e.load=function(t){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"===document.location.protocol?"https://":"http://")+"{{ app.request.getHttpHost() ~ app.request.getBaseURL() }}/app/loader/"+t;
-var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(e,o)},e.SNIPPET_VERSION="1.0.0"
-}}(this);
-
-// Load saio with your key, which will automatically
-// load the tools you've enabled for your account.
-saio.load('{{licence}}');
-
-// Call saio api methods from here
-// ex: saio.api('widget.show', false);
-</script>
-<script>
-// SAIO api example usage
-</script>
 
 <style>
   body {
