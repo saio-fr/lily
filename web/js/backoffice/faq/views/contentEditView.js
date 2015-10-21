@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('backoffice/app'),
-    globals = require('globals'),
+    config = require('config'),
 
     // Object wrapper returned as a module
     ContentEditView;
@@ -43,7 +43,7 @@ define(function(require) {
 
       $('.js-main-container').append(this.$el);
       // init wysiwig on content editor using wysihtml5 lib.
-      // $('.js-editor-input').wysihtml5(globals.faqWysiConfig);
+      // $('.js-editor-input').wysihtml5(config.faqWysiConfig);
 
       this.editor = new window.wysihtml5.Editor(that.$el.find(
         '.js-editor-input').get(

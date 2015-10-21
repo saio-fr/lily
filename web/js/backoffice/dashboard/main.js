@@ -6,7 +6,7 @@ define(['require', '../../common'], function(require) {
     'jquery',
     'underscore',
     'backbone',
-    'globals',
+    'config',
     'backoffice/app',
     'moment',
     'backoffice/dashboard/views/skeletonView',
@@ -15,7 +15,7 @@ define(['require', '../../common'], function(require) {
     'bootstrap',
     'todoTpl',
     'moment-fr'
-  ], function($, _, Backbone, globals, app, moment, SkeletonView, LiveChat) {
+  ], function($, _, Backbone, config, app, moment, SkeletonView, LiveChat) {
 
     // Set locale in moment JS
     moment.locale('fr');
@@ -25,7 +25,7 @@ define(['require', '../../common'], function(require) {
       Backbone.history.start();
       app.trackPageView('Dashboard page');
 
-      if (globals.chat && globals.isChatOperator && !app.liveChat) {
+      if (config.chat && config.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
     }

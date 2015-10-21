@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('backoffice/app'),
-      globals = require('globals'),
+      config = require('config'),
       UserEditView = require('backoffice/users/views/users/userEditView'),
 
       // Object wrapper returned as a module
@@ -43,7 +43,7 @@ define(function (require) {
       e.stopPropagation();
       var that = this;
       
-      var modal = app.createModal.confirm(globals.modalConfirm.userTrash);
+      var modal = app.createModal.confirm(config.modalConfirm.userTrash);
       modal.promise.then(function (res) {
         if (res) {
           this.model.destroy();          

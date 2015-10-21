@@ -1,105 +1,34 @@
 <div class="lily-page-cont"> <!--wrapper page les différentes pages-->
 	<section class="lily-main-content">
 
-    <button class="btn btn--nostyle btn-close"><span class="lily-icon lily-icon-cross"></span></button>
+    <button class="btn btn--nostyle btn-close">&#10005;</button>
 
-	  <div class="lily-contact-form">
+	  <form class="lily-contact-form" name="contact_form">
 
-      <h4 class="form-section-title">Renseignez les informations ci-dessous afin qu'un conseiller puisse traiter votre demande</h4>
-
-      <p class="lily-contact-form-label">
-  			Adresse e-mail *
-  			<label class="from" style="display:none">Ce champ ne peut pas être vide.</label>
+      <p class="form-micro-copy">
+        <%= onBoardingMessage %>
       </p>
-      <input id="from" class="lily-cst-form-color" type="email" name="from" placeholder="Votre adresse e-mail" size="30"/>
 
-  		<p class="lily-contact-form-label">
-        Objet *
-        <label class="object" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-  		<input id="object" class="lily-cst-form-color" type="text" name="object" placeholder="L'objet de votre demande" size="30"/>
+      <% if (isRedirectionTel) { %>
+      <h4 class="form-section-title">
+        <%= callbackFormTitle %>
+      </h4>
 
-      <p class="lily-contact-form-label">
-        Message *
-        <label class="msg" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-		  <textarea id="msg" class="lily-cst-form-color" type="text" name="msg" placeholder="Votre message" size="30"/>
+      <ul class="contact-form-list form-web-callback">
+        <li class="contact-form-item">
+          <%= formTelLabel %>
+          <input class="form-input form-tel" type="tel" name="tel" placeholder="<%= formTelPlaceholder %>" size="30"/>
+        </li>
 
+      <li class="contact-form-item">
+        <%= formDateLabel %>
+        <input id="callback_date" class="form-input form-date" name="date" placeholder="<%= formDatePlaceholder %>">
+      </li>
 
-
-      <h4 class="form-section-title">Je souhaite être rappelé</h4>
-
-      <p class="lily-contact-form-label">
-        Téléphone *
-        <label class="tel" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-      <input class="lily-cst-form-color form-tel" type="tel" pattern="[0-9]{10}" name="tel" 
-             placeholder="Numéro sur lequel vous joindre" size="30"/>
-
-      <p class="lily-contact-form-label">
-        Date à laquelle vous souhaitez être rappelé(e) *
-        <label class="day" style="display:none">Ces champs ne peuvent pas être vides.</label>
-      </p>
-      <div class="form-inline-group">
-        <select class="form-select form-day">
-          <option value="" selected="selected">Jour</option>
-          <option value="01">1</option>
-          <option value="02">2</option>
-          <option value="03">3</option>
-          <option value="04">4</option>
-          <option value="05">5</option>
-          <option value="06">6</option>
-          <option value="07">7</option>
-          <option value="08">8</option>
-          <option value="09">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-          <option value="19">19</option>
-          <option value="20">20</option>
-          <option value="21">21</option>
-          <option value="22">22</option>
-          <option value="23">23</option>
-          <option value="24">24</option>
-          <option value="25">25</option>
-          <option value="26">26</option>
-          <option value="27">27</option>
-          <option value="28">28</option>
-          <option value="29">29</option>
-          <option value="30">30</option>
-          <option value="31">31</option>
-        </select>
-
-        <select class="form-select form-month">
-          <option value selected="selected">Mois</option>
-          <option value="jan">jan</option>
-          <option value="fév">fév</option>
-          <option value="mar">mar</option>
-          <option value="avr">avr</option>
-          <option value="mai">mai</option>
-          <option value="jun">jun</option>
-          <option value="jui">jui</option>
-          <option value="aoû">aoû</option>
-          <option value="sep">sep</option>
-          <option value="oct">oct</option>
-          <option value="nov">nov</option>
-          <option value="déc">déc</option>
-        </select>
-      </div>
-
-      <p class="lily-contact-form-label">
-        Horaire souhaité *
-        <label class="time" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-      <div class="form-inline-group">
-        <select class="form-select form-time">
-          <option value="" selected="selected">- Sélectionner -</option>
+      <li class="contact-form-item">
+        <%= formTimeLabel %>
+        <select class="form-input form-time" name="callback_time">
+          <option value="" selected="selected"><%= formTimePlaceholder %></option>
           <option value="9h_10h">entre 09h et 10h</option>
           <option value="10h_11h">entre 10h et 11h</option>
           <option value="11h_12h">entre 11h et 12h</option>
@@ -111,9 +40,40 @@
           <option value="17h_18h">entre 17h et 18h</option>
           <option value="18h_19h">entre 18h et 19h</option>
         </select>
-      </div>
+      </li>
 
-		<button class="lily-btn-submit-color">Envoyer ma demande</button>
-	  </div>
+      <hr/>
+
+      <p class="form-micro-copy">
+        <%= contactFormTitle %>
+      </p>
+
+      <% } %>
+
+      <ul class="contact-form-list form-simple-ticket">
+        <li class="contact-form-item">
+    			<%= formEmailLabel %>
+          <input id="email" class="form-input form-email" type="email" name="visitor_email" placeholder="<%= formEmailPlaceholder %>" size="30"/>
+        </li>
+
+    		<li class="contact-form-item">
+          <%= formObjectLabel %>
+    		  <input id="object" class="form-input form-object" type="text" name="message_object" placeholder="<%= formObjectPlaceholder %>" size="30"/>
+        </li>
+
+        <li class="contact-form-item">
+          <%= formMsgLabel %>
+          <textarea id="msg" class="form-input form-msg" type="text" name="message_content" placeholder="<%= formMsgPlaceholder %>" size="30"/>
+        </li>
+      </ul>
+
+		  <button class="btn btn-submit btn--nostyle progress-button lily-btn-submit-color">
+        <% if (isRedirectionTel) { %>
+          <%= buttonCtaCallBack %>
+        <% } else { %>
+          <%= buttonCtaContact %>
+        <% } %>
+      </button>
+	  </form>
 	</section>
 </div>

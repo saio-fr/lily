@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var _               = require('underscore'),
-      config          = require('front/globals'),
+      config          = require('front/config'),
       Models          = require('front/data/models'),
       MessageChatView = require('front/views/messageChat'),
       // Object wrapper returned as a module
@@ -25,9 +25,9 @@ define(function(require) {
       if (this.model && this.model.get('operator')) {
         var operator = _.clone(this.model.get('operator'));
         if (operator.avatar) {
-          operator.avatar = config.baseAvatarUrl + operator.avatar;
+          operator.avatar = config.BASE_AVATAR_URL + operator.avatar;
         } else {
-          operator.avatar = config.unknownAvatarUrl || '';
+          operator.avatar = config.UNKNOWN_AVATAR_URL || '';
         }
         this.model.set('operator', operator);
       }

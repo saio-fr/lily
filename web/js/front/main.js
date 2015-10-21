@@ -6,7 +6,7 @@ define(function(require) {
       Backbone     = require('backbone'),
       isMobile     = require('isMobile'),
       app          = require('front/app'),
-      config       = require('front/globals'),
+      config       = require('front/config'),
       SkeletonView = require('front/views/skeleton');
 
   app.init = function() {

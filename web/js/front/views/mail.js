@@ -9,155 +9,227 @@ define(function(require) {
   // Require CommonJS like includes
   var _        = require('underscore'),
       app      = require('front/app'),
-      config   = require('front/globals'),
+      config   = require('front/config'),
       Models   = require('front/data/models'),
       api      = require('front/data/api'),
       PageView = require('front/views/page'),
+      moment   = require('moment'),
+      momentFr = require('moment-fr'),
+      Pikaday  = require('pikaday'),
+      Validate = require('validate'),
 
     // Object wrapper returned as a module
     MailPage;
 
   MailPage = PageView.extend({
 
+    submitStatusTime : 1500,
+    submitionStatus: 0,
+
     events: {
-      'click button': 'send'
+      'click .btn-close': 'goBack',
+      'click .btn-submit': 'onFormSubmit',
+      'focus .form-date': 'onFocusDate',
     },
 
     model: Models.Mail,
     template: _.template($('#lily-page-mail-template').html()),
 
     initialize: function() {
-      $(this.render({
-        page: true
-      }).el).appendTo('#lily-wrapper-page');
+      var that = this;
+
+      $(this.render({ page: true }).el).appendTo('#lily-wrapper-page');
       this.errors = {};
 
-      this.$('.btn-close').on('click', this.goBack);
+      this.$submitButton = $('.btn-submit');
+      this.$inputDate = $('.form-date');
+
+      this.setupForm();
+      this.prepareSendingButton();
     },
 
     render: function() {
-      this.$el.html(this.template());
+      this.$el.html(this.template(this.model.toJSON()));
       return PageView.prototype.render.apply(this, arguments);
     },
 
-    send: function() {
+    setupForm: function() {
+      var that = this;
 
-      this.from = this.$el.find('#from').val() || null;
-      this.object = this.$el.find('#object').val() || null;
-      this.msg = this.$el.find('#msg').val() || null;
-      this.day = this.$el.find('.form-day').val() || null;
-      this.month = this.$el.find('.form-month').val() || null;
-      this.time = this.$el.find('.form-time').val() || null;
-      this.tel = this.$el.find('.form-tel').val() || null;
-
-      var $labeFrom = this.$el.find('label.from'),
-          $inputFrom = this.$el.find('input#from'),
-          $labeObj = this.$el.find('label.object'),
-          $inputObj = this.$el.find('input#object'),
-          $labeMsg = this.$el.find('label.msg'),
-          $inputMsg = this.$el.find('textarea#msg'),
-          $labelDay = this.$el.find('label.day'),
-          $labelTime = this.$el.find('label.time'),
-          $inputDay = this.$el.find('label.form-day'),
-          $inputTime = this.$el.find('label.form-time'),
-          $inputTel = this.$el.find('input.tel'),
-          $labelTel = this.$el.find('label.form-tel'),
-
-          that = this;
-
-      if (!this.from) {
-        $labeFrom.show();
-        $inputFrom.addClass('warning');
-        this.errors.from = true;
-      } else {
-        $inputFrom.removeClass('warning');
-        $labeFrom.hide();
-        this.errors.from = false;
-      }
-
-      if (!this.object) {
-        $labeObj.show();
-        $inputObj.addClass('warning');
-        this.errors.object = true;
-      } else {
-        $inputObj.removeClass('warning');
-        $labeObj.hide();
-        this.errors.object = false;
-      }
-
-      if (!this.msg) {
-        $labeMsg.show();
-        $inputMsg.addClass('warning');
-        this.errors.msg = true;
-      } else {
-        $inputMsg.removeClass('warning');
-        $labeMsg.hide();
-        this.errors.msg = false;
-      }
-
-      if (!(this.day && this.month)) {
-        $labelDay.show();
-        $inputDay.addClass('warning');
-        this.errors.date = true;
-      } else {
-        $inputDay.removeClass('warning');
-        $labelDay.hide();
-        this.errors.date = false;
-      }
-
-      if (!this.time) {
-        $labelTime.show();
-        $inputDay.addClass('warning');
-        this.errors.time = true;
-      } else {
-        $inputTime.removeClass('warning');
-        $labelTime.hide();
-        this.errors.time = false;
-      }
-
-      if (!this.tel) {
-        $labelTel.show();
-        $inputTel.addClass('warning');
-        this.errors.tel = true;
-      } else {
-        $inputTel.removeClass('warning');
-        $labelTel.hide();
-        this.errors.tel = false;
-      }
-
-
-      if (this.errors.from ||
-          this.errors.msg ||
-          this.errors.object ||
-          this.errors.date ||
-          this.errors.time ||
-          this.errors.tel) {
-        return;
-      }
-
-      api.sendMail({
-        from: that.from,
-        object: that.object,
-        msg: that.msg,
-        date: that.day + ' ' + that.month,
-        time: that.time,
-        tel: that.tel
-      }).then(function(res) {
-        app.showInfo("success", config.mailSentMsg);
-        if (app.mailOnly) {
-          return;
-        } else {
-          app.router.navigate('home', {
-            trigger: true
+      // Validate doesn't support AMD. Get it from the window object
+      this.validator = new window.FormValidator('contact_form', [{
+        name: 'visitor_email',
+        rules: 'valid_email|required'
+      }, {
+        name: 'message_object',
+        rules: 'alpha_numeric|required'
+      }, {
+        name: 'message_content',
+        rules: 'alpha_numeric|required'
+      }], function(errors, event) {
+        if (errors.length > 0) {
+          // Show the errors
+          var errorMsg = '';
+          _.forEach(errors, function(error) {
+            errorMsg += (error.message + '\n');
           });
+          app.showInfo("error", errorMsg);
         }
-      }, function(err) {
-        app.showInfo("error", config.mailSentError);
       });
     },
 
+    onFocusDate: function() {
+      if (this.datePicker) {
+        return;
+      }
+
+      this.datePicker = new Pikaday({
+        field: this.$inputDate[0],
+        onSelect: this.onDateSelect.bind(this)
+      });
+    },
+
+    onDateSelect: function(date) {
+      this.$inputDate.val(moment(date).format('Do MMMM YYYY'));
+    },
+
+    onFormSubmit: function(ev) {
+      this.startSubmitButtonProgress();
+      this.send({
+        'mail': 'coucou@coucou.com'
+      });
+    },
+
+    send: function(fields) {
+      var that = this;
+
+      api.sendMail(fields).then(function(res) {
+        // app.showInfo("success", config.mail.mailSentMsg);
+        that.submitionStatus = 1;
+        that.isSubmitionComplete = true;
+
+        setTimeout(function() {
+          app.router.navigate('home', {
+            trigger: true
+          });
+        }, 800);
+      }, function(err) {
+        that.submitionStatus = -1;
+        that.isSubmitionComplete = true;
+        app.showInfo("error", config.mail.mailSentError);
+      });
+    },
+
+    showErrors: function(errors) {
+
+    },
+
+    startSubmitButtonProgress: function() {
+      var that = this;
+      this.$submitButton.attr('disabled', '');
+      this.$progressInnerEl.removeClass('notransition');
+      this.$submitButton.addClass('state-loading');
+
+      setTimeout(function() {
+        var progress = 0;
+        var interval = setInterval(function() {
+          progress = Math.min( progress + Math.random() * 0.1, 1 );
+          _setProgress( progress );
+
+          if (progress === 1 || that.isSubmitionComplete) {
+            that.stopSubmitButtonProgress(that.submitionStatus || 1);
+            clearInterval(interval);
+          }
+        }, 200);
+      }, 0);
+
+      function _setProgress(progress) {
+        that.$progressInnerEl.css('width', 100 * progress + '%');
+      }
+    },
+
+    stopSubmitButtonProgress: function(status) {
+      var that = this;
+
+      setTimeout(function() {
+        // fade out progress bar
+        that.$progressInnerEl.css('opacity', '0');
+
+        var onEndTransFn = function(ev) {
+          if (config.supportTransitions && ev.propertyName !== 'opacity' ) return;
+          that.$progressInnerEl
+            .off(config.transEndEventName, onEndTransFn);
+          that.$progressInnerEl
+            .addClass('notransition')
+            .css({
+              'width': '0%',
+              'opacity': '0'
+            });
+        };
+
+        if (config.supportTransitions) {
+          that.$progressInnerEl
+            .on(config.transEndEventName, onEndTransFn);
+        } else {
+          onEndTransFn.call();
+        }
+
+        // add class state-success to the button
+        if (typeof status === 'number') {
+          var statusClass = status >= 0 ?
+            'state-success' : 'state-error';
+          that.$submitButton.addClass(statusClass);
+
+          // after options.statusTime remove status
+          setTimeout( function() {
+            that.$submitButton.removeClass(statusClass);
+            that.$submitButton.removeAttr('disabled');
+          }, that.submitStatusTime);
+        } else {
+          this.$submitButton.removeAttr('disabled');
+        }
+
+        // remove class state-loading from the button
+        that.$submitButton.removeClass('state-loading');
+      }, 100);
+    },
+
+    prepareSendingButton: function() {
+      var content = this.$submitButton.html();
+
+      var $textEl = $('<span></span>')
+        .addClass('content')
+        .html(content);
+
+      var $progressEl = $('<span></span>')
+        .addClass('progress');
+
+      var $progressInnerEl = $('<span></span>')
+        .addClass('progress-inner')
+        .appendTo($progressEl);
+
+      // clear content
+      this.$submitButton.html('');
+      this.$submitButton
+        .append($textEl)
+        .append($progressEl);
+
+      // the element that serves as the progress bar
+      this.$progressInnerEl = $progressInnerEl;
+
+      this.$submitButton.removeAttr('disabled');
+    },
+
     goBack: function() {
-      window.history.back();
+      return window.history.back();
+    },
+
+    remove: function() {
+      if (this.datePicker && this.datePicker.destroy) {
+        this.datePicker.destroy();
+      }
+
+      Backbone.View.prototype.remove.apply(this);
     }
 
   });

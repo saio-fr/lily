@@ -9,7 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     NestedModel = require('backbone-nested'),
-    g = require('globals'),
+    g = require('config'),
     // Object wrapper returned as a module
     Models = {};
 
@@ -32,25 +32,25 @@ define(function(require) {
       });
     }
   });
-  
+
   Models.Shortcut = Backbone.Model.extend({
-    
+
     defaults: {
       title: "commande",
       description: "Nouveau message pré-enregistré",
       message: "Le message affiché au visiteur"
     },
-    
+
     validation: {
       'title': {
         fn: function(value, attr, computedState) {
-          
+
           var re = /\W/;
-          
+
           if (re.exec(value)) {
             return "Votre commande ne doit pas contenir d'espaces ou de caractères spéciaux"
           }
-          
+
           if (!value) {
             return "Veuillez renseigner une commande d'appel";
           }
@@ -60,7 +60,7 @@ define(function(require) {
         required: true,
         msg: "Veuillez renseigner un message"
       }
-    } 
+    }
   });
 
   return Models;

@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var _               = require('underscore'),
-      config          = require('front/globals'),
+      config          = require('front/config'),
       app             = require('front/app'),
       Models          = require('front/data/models'),
       MessageChatView = require('front/views/messageChat'),

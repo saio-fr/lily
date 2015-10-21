@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var statistics = require('statistics-flot'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       FooterModel;
@@ -18,10 +18,10 @@ define(function (require) {
 
     id: '',
     url: function(start, end) {
-      return '/statistics/user/' + 
-      this.userId + 
-      '/chat/footer/' + 
-      this.start + '/' + 
+      return '/statistics/user/' +
+      this.userId +
+      '/chat/footer/' +
+      this.start + '/' +
       this.end;
     },
 

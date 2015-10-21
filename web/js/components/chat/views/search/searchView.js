@@ -8,7 +8,7 @@ define(function(require) {
     app              = require('backoffice/app'),
     search           = require('components/search/search'),
     when             = require('when'),
-    config           = require('globals'),
+    config           = require('config'),
 
     SearchAnswerView    = require('components/chat/views/search/searchAnswerView'),
 
@@ -68,11 +68,11 @@ define(function(require) {
     setupSearch: function() {
       var options = {
         credentials: {
-          'user': config.synapse.user,
-          'password': config.synapse.password
+          'user': config.SYNAPSE_USER,
+          'password': config.SYNAPSE_PASSWORD
         },
         typeahead: config.typeahead,
-        url: config.synapse.restRoot
+        url: config.SYNAPSE_REST_ROOT
       };
 
       this.setupSynapse(options);

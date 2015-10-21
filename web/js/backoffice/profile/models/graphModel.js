@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var NestedModel = require('backbone-nested'),
-      g = require('globals'),
+      g = require('config'),
       statistics = require('statistics'),
 
       // Object wrapper returned as a module
@@ -19,10 +19,10 @@ define(function (require) {
 
     id: '',
     url: function() {
-      return '/statistics/user/' + 
-        this.id + '/chat/' + 
-        this.type + '/' + 
-        this.start + '/' + 
+      return '/statistics/user/' +
+        this.id + '/chat/' +
+        this.type + '/' +
+        this.start + '/' +
         this.end;
     },
 

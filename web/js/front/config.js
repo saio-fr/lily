@@ -1,66 +1,44 @@
-'use strict';
+/*========================================
+      config / i18 ?
+=========================================*/
 
-require.config({
+define(function(require) {
 
-  baseUrl: '/js',
-  waitSeconds: 20,
+  'use strict';
 
-  paths: {
-    'FastClick':     'bower_components/fastclick/lib/fastclick',
-    'Modernizr':     'libs/modernizr-custom',
-    'Snap':          'bower_components/snapjs/snap',
-    'autobahn':      'libs/autobahn-v1',
-    'backbone':      'bower_components/backbone/backbone',
-    'front/globals': 'front/globals',
-    'isMobile':      'bower_components/isMobile/isMobile',
-    'jquery':        'bower_components/jquery/dist/jquery',
-    'moment':        'bower_components/moment/moment',
-    'moment-fr':     'bower_components/moment/locale/fr',
-    'polyfils':      'utils/polyfils',
-    'underscore':    'bower_components/underscore/underscore',
-    'when':          'libs/when',
-    'synapse':       'libs/synapse-suggest',
-    'typeahead':     'libs/typeahead.jquery',
-    'bloodhound':    'libs/bloodhound',
-  },
+  var _         = require('underscore');
 
-  shim: {
+  var sharedConfig = require('sharedConfig');
+  var aviConfig    = require('front/config/avi');
+  var chatConfig   = require('front/config/chat');
+  var mailConfig   = require('front/config/mail');
 
-    'moment-fr': ['moment'],
-    'Modernizr': {
-      'exports': 'Modernizr'
-    },
-    'autobahn': {
-      'deps': ['when'],
-      'exports': 'ab'
-    },
-    'backbone': {
-      'deps': ['underscore', 'jquery'],
-      'exports': 'Backbone'
-    },
-    'underscore': {
-      'exports': '_'
-    },
-    'typeahead': {
-      deps: ['jquery'],
-      exports: 'typeahead'
-    },
-    'bloodhound': {
-      deps: ['jquery'],
-      exports: 'Bloodhound'
-    },
-    'Snap': {
-      exports: 'Snap'
-    },
-    'isMobile': {
-      exports: 'isMobile'
-    },
-    'synapse': {
-      deps: ['jquery', 'typeahead', 'bloodhound'],
-      exports: 'SynapseSuggest'
-    }
+  var config = _.extend({}, sharedConfig);
+  config.avi = _.extend(config.avi || {}, aviConfig);
+  config.mail = _.extend(config.mail || {}, mailConfig);
+  config.chat = _.extend(config.chat || {}, chatConfig);
 
-  }
+  _.extend(config, {
+
+    APP_NAME: 'frontApp',
+
+    loadingTpl:
+      '<div class="lily-msg-avatar lily-cst-msg-avatar lily-msg-loading">' +
+      '<div class="msg-wrapper">' +
+      '<p class="lily-loading">' +
+      '<span></span>' +
+      '<span></span>' +
+      '<span></span>' +
+      '</p>' +
+      '</div>' +
+      '</div>',
+
+    connexionIssue:
+    'Un problème est survenu. Nous tentons de vous reconnecter avec votre interlocuteur',
+
+    unableToConnectError: 'La connexion a été interrompue',
+
+  });
+
+  return config;
 });
-
-require(['front/main']);

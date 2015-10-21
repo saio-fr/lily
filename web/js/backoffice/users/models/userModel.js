@@ -9,14 +9,14 @@ define(function (require) {
   // Require CommonJS like includes
   var NestedModel = require('backbone-nested'),
       moment = require('moment'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       UserModel;
 
 
   UserModel = Backbone.NestedModel.extend({
-    
+
     defaults: {
       'firstname': '',
       'lastname': '',
@@ -29,7 +29,7 @@ define(function (require) {
       'roles': ['ROLE_USER'],
       'converted.avatar': g.path.defaultAvatar
     },
-    
+
     validation: {
       'firstname': {
         required: true,
@@ -63,19 +63,19 @@ define(function (require) {
         msg: 'Les mots de passes ne sont pas identiques'
       }
     },
-    
+
     initialize: function () {
       this.urlRoot = "/users";
       // If the model isnt new, convert server's attributes
       if (!this.isNew()) {
         this.convert();
       }
-      
+
       this.listenTo(this, 'change', this.convert);
     },
-    
+
     convert: function () {
-      this.converted = {};          
+      this.converted = {};
       this.convertRoles();
       this.convertLastlogin();
       this.convertAvatar();
@@ -84,8 +84,8 @@ define(function (require) {
     convertRoles: function () {
       var roles = this.get('roles');
       this.convertedRoles = '';
-      
-      if (roles.indexOf('ROLE_ADMIN') !== -1) { 
+
+      if (roles.indexOf('ROLE_ADMIN') !== -1) {
         this.convertedRoles = 'Administrateur';
       }
       else {
@@ -97,7 +97,7 @@ define(function (require) {
           this.convertedRoles += 'base de connaissance';
         }
       }
-      
+
       this.set({'converted.roles': this.convertedRoles});
     },
 
@@ -108,17 +108,17 @@ define(function (require) {
         var d = moment(lastLogin);
         this.convertedLastlogin = 'Dernière connexion le ' + d.format('DD/MM/YY');
       } else this.convertedLastlogin = 'Jamais connecté';
-      
+
       this.set({'converted.last_login': this.convertedLastlogin});
     },
-    
+
     convertAvatar: function () {
       if (this.get('config.avatar')) {
-        var avatar = g.path.avatars + this.get('config.avatar'); 
+        var avatar = g.path.avatars + this.get('config.avatar');
       } else {
         var avatar = g.path.defaultAvatar;
       }
-      this.set({'converted.avatar': avatar});   
+      this.set({'converted.avatar': avatar});
     }
 
   });

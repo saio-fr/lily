@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       statistics = require('statistics-flot'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       LogCollection;
@@ -20,7 +20,7 @@ define(function (require) {
     url: function () {
       return '/statistics/user/'+this.userId+'/history/logs/'+this.start+'/'+this.end;
     },
-    
+
     initialize: function () {
       this.start = statistics.date.start;
       this.end = statistics.date.end;

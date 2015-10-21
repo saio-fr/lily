@@ -11,7 +11,7 @@ define(function(require) {
     _ = require('underscore'),
     app = require('backoffice/app'),
     interact = require('interact'),
-    globals = require('globals'),
+    config = require('config'),
 
     // Object wrapper returned as a module
     CategoryView;
@@ -118,7 +118,7 @@ define(function(require) {
     trash: function(e) {
       var that = this;
 
-      var modal = app.createModal.confirm(globals.modalConfirm.categoryTrash);
+      var modal = app.createModal.confirm(config.modalConfirm.categoryTrash);
       modal.promise.then(function (res) {
         if (res) {
           app.track.click('Delete kb category', {

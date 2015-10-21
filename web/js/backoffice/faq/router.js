@@ -9,7 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     app = require('backoffice/app'),
-    globals = require('globals'),
+    config = require('config'),
     SkeletonView = require('backoffice/faq/views/skeletonView'),
     FaqCollectionView = require('backoffice/faq/views/faqCollectionView'),
     BreadcrumbCollectionView = require('backoffice/faq/views/breadcrumbCollectionView'),
@@ -97,7 +97,7 @@ define(function(require) {
 
     notFound: function() {
       // Show modal with error:
-      var modal = app.createModal.alert(globals.modalAlert.faq);
+      var modal = app.createModal.alert(config.modalAlert.faq);
     }
 
   });

@@ -13,7 +13,7 @@ define(function(require) {
   var _       = require('underscore'),
     ab        = require('autobahn'),
     Backbone  = require('backbone'),
-    config    = require('front/globals'),
+    config    = require('front/config'),
     isMobile  = require('isMobile'),
     when      = require('when'),
     analytics = require('utils/analytics'),
