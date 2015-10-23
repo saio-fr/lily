@@ -56,6 +56,5 @@
     "jquery": "^2.1.4",
     "normalize.css": "^3.0.3",
     "underscore": "^1.8.3",
-    "validate-js": "^2.0.0"
   }
 }

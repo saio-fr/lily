@@ -788,6 +788,7 @@ define(function(require) {
 
     remove: function() {
       this.closeChildren();
+      this.removeEmptyView();
 
       // Destroy typeahead (will unbind any typeahead event bound to the input)
       this.suggest.destroy();

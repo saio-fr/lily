@@ -23,7 +23,7 @@ require.config({
     'typeahead':     'libs/typeahead.jquery',
     'bloodhound':    'libs/bloodhound',
     'pikaday':       'bower_components/pikaday/pikaday',
-    'validate':      'bower_components/validatejs/validate'
+    'backbone-validation': 'bower_components/backbone-validation/dist/backbone-validation-amd',
   },
 
   shim: {
@@ -40,6 +40,7 @@ require.config({
       'deps': ['underscore', 'jquery'],
       'exports': 'Backbone'
     },
+    'backbone-validation': ['backbone'],
     'underscore': {
       'exports': '_'
     },

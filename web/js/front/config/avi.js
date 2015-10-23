@@ -14,8 +14,8 @@ define(function(require) {
       askForedirection: 'Souhaitez vous être redirigé vers un de nos conseillers ?',
       askForFeedback: '',
       redirection: {
-        tel: 'Nous téléphoner',
-        mail: 'Nous envoyer un mail',
+        tel: 'Etre rappelé par un conseiller',
+        mail: 'Etre recontacté par mail',
         chat: 'Discuter en ligne avec un de nos conseillers',
         none: 'Je ne veux pas être redirigé'
       },

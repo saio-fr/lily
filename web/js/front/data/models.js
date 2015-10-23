@@ -23,7 +23,7 @@ define(function(require) {
   Models.Mail = Backbone.Model.extend({
     defaults: {
       isRedirectionTel: false
-    }
+    },
   });
 
   return Models;

@@ -77,10 +77,6 @@ define(function(require) {
         data.callback();
       }
 
-      if (data.$currPage) {
-        data.previous.remove();
-      }
-
       if (data.$nextPage) {
         data.$nextPage.removeClass(data.inClass);
       }

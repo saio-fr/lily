@@ -38,6 +38,14 @@ define(function(require) {
 
     unableToConnectError: 'La connexion a été interrompue',
 
+    dateFr: {
+      previousMonth: 'Mois précédent',
+      nextMonth: 'Mois suivant',
+      months: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre'],
+      weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+      weekdaysShort : ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam']
+    }
+
   });
 
   return config;
