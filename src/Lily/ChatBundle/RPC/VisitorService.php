@@ -27,6 +27,17 @@ class VisitorService {
                 $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
                 $item->media = $params['media'];
 
+                var $options = $params['apiOptions'];
+
+                if ($options) {
+                    if ($options['operatorsGroupWanted']) {
+                        $item->operatorsGroupWanted = $options['operatorsGroupWanted'];
+                    }
+                    if ($options['operatorsGroupWantedFallback']) {
+                        $item->operatorsGroupWanted = $options['operatorsGroupWantedFallback'];
+                    }
+                }
+
                 $result = array(
                     'appDisplay' => $item->appDisplay,
                     'isConversationClosed' => $item->closed,
@@ -149,7 +160,6 @@ class VisitorService {
                 $item->chats < $client->config->getMax()) {
 
                 $availables[] = $item;
-
             }
         }
 
@@ -172,6 +182,20 @@ class VisitorService {
                 }
 
                 if (!empty($availables) && $client->config->getAutoSetOperator()) {
+
+                    // If operatorsGroupsWanted is set throught the front api
+                    if ($item->operatorsGroupWanted) {
+                        // Filter our availables operators by group
+                        $availablesInGroup = array_filter($availables, function($operator) {
+                            return !empty(array_filter($operator->getGroups(), function($group) {
+                              return $group->id === $item->operatorsGroupWanted;
+                            });
+                        }));
+
+                        if (!empty($availablesInGroup) || !$item->operatorsGroupWantedFallback) {
+                            $availables = $availablesInGroup;
+                        }
+                    }
 
                     $key = array_rand($availables, 1);
                     $availables[$key]->chats += 1;
