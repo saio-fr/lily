@@ -23,6 +23,8 @@ define(function(require) {
     MessageChatBan        = require('front/views/messageChatBan'),
     MessageChatClose      = require('front/views/messageChatClose'),
     ChildViewContainer    = require('utils/backbone-childviewcontainer'),
+    ChatEmptyView         = require('front/views/chatEmpty'),
+
     // Object wrapper returned as a module
     ChatView;
 
@@ -58,6 +60,8 @@ define(function(require) {
       $(this.render().el).appendTo('#lily-wrapper-page');
 
       // Post-render
+      this.setupEmptyView();
+
       this.$input = this.$el.find('.chat-input').myedit();
 
       // fix bug where [contenteditable="true"] elements would not
@@ -77,6 +81,17 @@ define(function(require) {
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       return PageView.prototype.render.apply(this, arguments);
+    },
+
+    setupEmptyView: function() {
+      var emptyViewModel = new Models.ChatEmpty({
+        onBoardingTitle: config.chat.onBoardingTitle,
+        onBoardingCopy: config.chat.onBoardingCopy
+      });
+
+      this.emptyView = new ChatEmptyView({
+        model: emptyViewModel
+      });
     },
 
     onAppShown: function() {
@@ -165,6 +180,7 @@ define(function(require) {
 
       if (messageView) {
         this.childViews.add(messageView);
+        this.removeEmptyView();
       }
     },
 
@@ -319,8 +335,16 @@ define(function(require) {
       });
     },
 
+    removeEmptyView: function() {
+      if (this.emptyView) {
+        this.emptyView.remove();
+        this.emptyView = undefined;
+      }
+    },
+
     remove: function() {
       this.closeChildren();
+      this.removeEmptyView();
 
       // destroy models in collection, reset collection and delete reference;
       this.collection.reset();

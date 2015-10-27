@@ -104,7 +104,7 @@ define(function(require) {
           return question && question.title.trim().toLowerCase() !== 'bonjour';
         });
 
-        var emptyViewModel = new Models.AviEmptyView({
+        var emptyViewModel = new Models.AviEmpty({
           questions: topQuestions,
           onBoarding: config.avi.onBoarding
         });

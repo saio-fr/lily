@@ -1139,11 +1139,6 @@ MESSAGES
   text-align: center;
 }
 
-.lily-msg-user .msg-wrapper,
-.lily-msg-chat-visitor .msg-wrapper {
-  background: #e5e5e5;
-}
-
 .lily-msg-precision {
   background: #ffffff;
 }
@@ -1169,8 +1164,12 @@ MESSAGES
 .lily-on-boarding-title {
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 15px;
-  color: #989898;
+  font-size: 16.5px;
+  color: #5D5D5D;
+}
+
+.on-boarding-copy {
+  color: #8E8E8E;
 }
 
 .lily-top-question-link {
@@ -1491,6 +1490,11 @@ MESSAGES
   max-width: 100%;
   background: #fff;
   border: solid 1px rgba(95, 95, 95, 0.2);
+}
+
+.lily-msg-chat-operator .msg-wrapper {
+  overflow: visible;
+  background: #e5e5e5;
 }
 
 .lily-msg {
