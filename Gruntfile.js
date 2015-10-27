@@ -489,7 +489,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('dev', [
-    'clean',
     'karma:build',
     'cssmin:compile',
     'cacheBust',
