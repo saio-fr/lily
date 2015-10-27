@@ -2,7 +2,8 @@ define(function(require) {
 
   return {
     onBoarding: {
-      title: 'n\'hesitez pas à poser une question, un de nos conseillers va vous répondre',
+      title: 'Vous avez une question ?',
+      microCopy: 'Envoyez nous un message. Un de nos conseillers est disponible pour vous répondre';
     },
     messages: {
       inactivityAction: 'Relancer une discussion',

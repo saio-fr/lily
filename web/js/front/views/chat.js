@@ -85,8 +85,8 @@ define(function(require) {
 
     setupEmptyView: function() {
       var emptyViewModel = new Models.ChatEmpty({
-        onBoardingTitle: config.chat.onBoardingTitle,
-        onBoardingCopy: config.chat.onBoardingCopy
+        onBoardingTitle: this.model.get('onBoarding.title'),
+        onBoardingCopy: this.model.get('onBoarding.microCopy')
       });
 
       this.emptyView = new ChatEmptyView({
