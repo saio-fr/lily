@@ -12,7 +12,7 @@ define(function (require) {
       GroupModel = require('backoffice/users/models/groupModel'),
       GroupsView = require('backoffice/users/views/groups/groupsView'),
       GroupEditView = require('backoffice/users/views/groups/groupEditView'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -31,15 +31,15 @@ define(function (require) {
       this.childViews = new Backbone.ChildViewContainer();
       this.render();
     },
-    
+
     render: function () {
       $('.js-skeleton-container').append(this.$el.html(this.template()));
-      
+
       var view = new GroupsView({
         collection: this.collection
       });
       this.childViews.add(view);
-      
+
       $('.nav-tabs li').removeClass('active');
       $('.groups-nav').addClass('active');
 
@@ -47,15 +47,15 @@ define(function (require) {
     },
 
     create: function () {
-      
+
       app.trigger('closeEditView', this);
       var model = this.collection.create({}, { wait:true });
       $('#group-list .active').removeClass('active');
     },
-    
+
     remove: function () {
       var that = this;
-      
+
       this.childViews.forEach(function (view){
         // delete index for that view
         that.childViews.remove(view);
@@ -63,8 +63,8 @@ define(function (require) {
         view.remove();
       });
       Backbone.View.prototype.remove.apply(this, arguments);
-    }    
-    
+    }
+
   });
 
   return SkeletonView;

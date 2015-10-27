@@ -19,14 +19,14 @@ define(function(require) {
     other: 'Other Events',
   };
 
-  return function(globals) {
+  return function(config) {
 
     var defaults;
 
-    if (globals.app === 'frontApp') {
+    if (config.APP_NAME === 'frontApp') {
       defaults = _.defaults({
         page: window.location.hash || '/',
-      }, globals.hostOptions);
+      }, config.hostOptions);
     } else {
       defaults = {
         page: window.location.pathname,
@@ -69,7 +69,7 @@ define(function(require) {
     }, {});
 
     analytics.trackPageView = function(title) {
-      if (globals.app === 'frontApp' && !globals.isShown) {
+      if (config.APP_NAME === 'frontApp' && !config.isShown) {
         this.pageViewDelayed = title;
         return;
       }

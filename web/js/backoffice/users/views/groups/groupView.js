@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var app = require('backoffice/app'),
-      globals = require('globals'),
+      config = require('config'),
       GroupEditView = require('backoffice/users/views/groups/groupEditView'),
 
       // Object wrapper returned as a module
@@ -24,11 +24,11 @@ define(function (require) {
       'click .destroy' : 'destroy',
       'click' : 'edit'
     },
-    
+
     initialize: function () {
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'destroy', this.remove);
-      this.render();    
+      this.render();
     },
 
     render: function () {
@@ -39,14 +39,14 @@ define(function (require) {
     destroy: function (e) {
 
       e.stopPropagation();
-      
+
       var that = this;
-      
-      var modal = app.createModal.confirm(globals.modalConfirm.groupTrash);
+
+      var modal = app.createModal.confirm(config.modalConfirm.groupTrash);
       modal.promise.then(function (res) {
         if (res) {
           this.model.destroy();
-          this.remove();          
+          this.remove();
         }
       }.bind(this));
     },
@@ -61,7 +61,7 @@ define(function (require) {
       this.$el.addClass('active');
       return this;
     }
-    
+
   });
 
   return GroupView;

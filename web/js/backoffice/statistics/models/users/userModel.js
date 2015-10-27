@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var NestedModel = require('backbone-nested'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       UserModel;
@@ -18,24 +18,24 @@ define(function (require) {
 
     id: '',
 
-    initialize: function () {        
+    initialize: function () {
       this.convertAvatar();
       this.convertRoles();
     },
-    
+
     convertAvatar: function () {
       if (this.get('config.avatar')) {
-        var avatar = g.path.avatars + this.get('config.avatar'); 
+        var avatar = g.path.avatars + this.get('config.avatar');
       } else {
         var avatar = g.path.defaultAvatar;
       }
-      this.set({'converted.avatar': avatar}); 
+      this.set({'converted.avatar': avatar});
     },
-    
+
     convertRoles: function () {
       var roles = this.get('roles');
-      
-      if (roles.indexOf('ROLE_ADMIN') !== -1) { 
+
+      if (roles.indexOf('ROLE_ADMIN') !== -1) {
         this.convertedRoles = 'Administrateur';
       }
       else {
@@ -47,7 +47,7 @@ define(function (require) {
           this.convertedRoles += 'Base de connaissance';
         }
       }
-      
+
       this.set({'converted.roles': this.convertedRoles});
     }
 

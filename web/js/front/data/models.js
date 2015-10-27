@@ -13,7 +13,6 @@ define(function(require) {
 
   Models.Chat = Backbone.Model.extend({});
   Models.Faq = Backbone.Model.extend({});
-  Models.Mail = Backbone.Model.extend({});
   Models.Content = Backbone.Model.extend({});
   Models.AviEmpty = Backbone.Model.extend({});
   Models.ChatEmpty = Backbone.Model.extend({});
@@ -21,6 +20,11 @@ define(function(require) {
   Models.Message = Backbone.Model.extend({});
   Models.ChatMessage = Backbone.Model.extend({});
   Models.ServerMessage = Backbone.Model.extend({});
+  Models.Mail = Backbone.Model.extend({
+    defaults: {
+      isRedirectionTel: false
+    },
+  });
 
   return Models;
 });

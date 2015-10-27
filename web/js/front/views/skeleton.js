@@ -9,7 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone  = require('backbone'),
     Router      = require('front/router'),
-    config      = require('front/globals'),
+    config      = require('front/config'),
     Snap        = require('Snap'),
     app         = require('front/app'),
     Collections = require('front/data/collections'),

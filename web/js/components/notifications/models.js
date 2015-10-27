@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-    globals = require('globals'),
+    config = require('config'),
 
     // Object wrapper returned as a module
     Models = {};
@@ -17,7 +17,7 @@ define(function(require) {
   Models.NotifsModel = Backbone.Model.extend({
     defaults: {
       count: 0,
-      countTitle: globals.notifications.countTitle(0)
+      countTitle: config.notifications.countTitle(0)
     },
     initialize: function() {
       this.listenTo(this, 'change:count', this.uptateTitle);
@@ -25,7 +25,7 @@ define(function(require) {
 
     uptateTitle: function() {
       this.set({
-        countTitle: globals.notifications.countTitle(this.get('count'))
+        countTitle: config.notifications.countTitle(this.get('count'))
       });
     }
   });

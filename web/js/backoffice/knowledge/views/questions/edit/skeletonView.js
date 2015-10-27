@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('backoffice/app'),
-    globals = require('globals'),
+    config = require('config'),
     when = require('when'),
     Counters = require('backoffice/knowledge/utils/counters'),
     Models = require('backoffice/knowledge/data/models'),

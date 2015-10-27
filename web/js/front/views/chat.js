@@ -11,7 +11,7 @@ define(function(require) {
     Backbone              = require('backbone'),
     isMobile              = require('isMobile'),
     app                   = require('front/app'),
-    config                = require('front/globals'),
+    config                = require('front/config'),
     Models                = require('front/data/models'),
     Collections           = require('front/data/collections'),
     PageView              = require('front/views/page'),
@@ -106,8 +106,8 @@ define(function(require) {
       switch (message.get('action')) {
         case 'inactivity':
           message.set({
-            'msg': config.chat.inactivityMsg,
-            'userAction': config.chat.inactivityAction,
+            'msg': this.model.get('messages').inactivity,
+            'userAction': this.model.get('messages').inactivityAction,
             'info': ''
           });
 
@@ -118,18 +118,18 @@ define(function(require) {
           this.visitorMsgSent = 0;
           break;
         case 'transfer':
-          message.set('msg', config.chat.transferMsg);
+          message.set('msg', this.model.get('messages').transfer);
           break;
         case 'ban':
           message.set({
-            'msg': config.chat.banMsg,
+            'msg': this.model.get('messages').ban,
             'info': ''
           });
 
           break;
         case 'close':
-          this.onConversationClose(config.chat.notationMsg);
-          message.set('msg', config.chat.closeMsg);
+          this.onConversationClose(this.model.get('messages').notation);
+          message.set('msg', this.model.get('messages').close);
           break;
         case undefined:
           break;

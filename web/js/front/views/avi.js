@@ -10,7 +10,7 @@ define(function(require) {
   var _              = require('underscore'),
     Backbone         = require('backbone'),
     app              = require('front/app'),
-    config           = require('front/globals'),
+    config           = require('front/config'),
     Models           = require('front/data/models'),
     api              = require('front/data/api'),
     PageView         = require('front/views/page'),
@@ -106,8 +106,7 @@ define(function(require) {
 
         var emptyViewModel = new Models.AviEmpty({
           questions: topQuestions,
-          onBoardingMessage: config.avi.onBoardingMessage,
-          onBoardingMessageEmpty: config.avi.onBoardingMessageEmpty
+          onBoarding: config.avi.onBoarding
         });
 
         that.emptyView = new AviEmptyView({
@@ -127,11 +126,15 @@ define(function(require) {
     setupSearch: function() {
       var options = {
         credentials: {
-          'user': config.synapse.user,
-          'password': config.synapse.password
+          'user': config.SYNAPSE_USER,
+          'password': config.SYNAPSE_PASSWORD
         },
-        typeahead: config.typeahead,
-        url: config.synapse.restRoot
+        typeahead: _.extend(config.typeahead, {
+          pendingTemplate: this.model.get('pendingTemplate'),
+          notFoundTemplate: this.model.get('notFoundTemplate'),
+        }),
+
+        url: config.SYNAPSE_REST_ROOT
       };
 
       this.setupSynapse(options);

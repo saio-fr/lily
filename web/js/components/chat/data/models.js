@@ -9,7 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
     NestedModel = require('backbone-nested'),
-    g = require('globals'),
+    g = require('config'),
     // Object wrapper returned as a module
     Models = {};
 

@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var NestedModel = require('backbone-nested'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       UserModel;
@@ -20,7 +20,7 @@ define(function (require) {
     url: function() {
       return '/users/' + g.userId;
     },
-    
+
     validation: {
       'firstname': {
         required: true,
@@ -50,7 +50,7 @@ define(function (require) {
         msg: 'Les mots de passes ne sont pas identiques'
       }
     },
-    
+
     initialize: function () {
       this.listenTo(this, 'change', this.convert);
       // If the model isnt new, convert server's attributes
@@ -58,15 +58,15 @@ define(function (require) {
         this.convert();
       }
     },
-    
+
     convert: function () {
-      this.converted = {};          
+      this.converted = {};
       this.convertAvatar();
     },
-    
+
     convertAvatar: function () {
-      var avatar = g.path.avatars + this.get('config.avatar'); 
-      this.set({'converted.avatar': avatar});   
+      var avatar = g.path.avatars + this.get('config.avatar');
+      this.set({'converted.avatar': avatar});
     }
 
   });

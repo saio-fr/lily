@@ -122,7 +122,7 @@
   {% if app.environment == 'dev' %}
   <script
     src="{{ asset('js/bower_components/requirejs/require.js')}}"
-    data-main="{{ asset('js/front/config.js')}}">
+    data-main="{{ asset('js/front/requireConfig.js')}}">
   </script>
   {% else %}
   <script

@@ -7,7 +7,7 @@ define(['require', '../../common'], function(require) {
   'underscore',
   'backbone',
   'backoffice/app',
-  'globals',
+  'config',
   'backoffice/knowledge/router',
   'backoffice/knowledge/utils/counters',
   'utils/interact',
@@ -17,14 +17,14 @@ define(['require', '../../common'], function(require) {
   'moment',
   'bootstrap',
   'todoTpl'
-], function($, _, Backbone, app, globals, Router, Counters, Interact, LiveChat) {
+], function($, _, Backbone, app, config, Router, Counters, Interact, LiveChat) {
 
   function bootstrap() {
     app.router = new Router();
     Backbone.history.start();
     Interact.resizeNavigator();
 
-    if (globals.chat && globals.isChatOperator && !app.liveChat) {
+    if (config.chat && config.isChatOperator && !app.liveChat) {
       app.liveChat = new LiveChat();
     }
   }

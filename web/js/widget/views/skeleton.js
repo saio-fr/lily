@@ -3,7 +3,7 @@ var _           = require('underscore');
 var app         = require('../app');
 var ButtonWiew  = require('./button');
 var AttGrabber  = require('./attGrabber');
-var WidgetModel  = require('../models/widgetModel');
+var WidgetModel = require('../models/widgetModel');
 
 // Object wrapper returned as a module
 var skeletonView = Backbone.View.extend({

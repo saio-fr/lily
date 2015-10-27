@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var app = require('backoffice/app'),
       utils = require('utils/default'),
-      validation = require('utils/backbone-validation'),
+      validation = require('utils/backbone-validation-backoffice'),
 
       // Object wrapper returned as a module
       UserEditView;
