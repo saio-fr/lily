@@ -6,7 +6,6 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _        = require('underscore'),
-      app      = require('front/app'),
 
       // Object wrapper returned as a module
       ChatEmptyView;
@@ -14,7 +13,7 @@ define(function(require) {
   ChatEmptyView = Backbone.View.extend({
 
     className: 'lily-empty-wrapper lily-chat-empty-wrapper',
-    template: _.template($('#avi-empty').html()),
+    template: _.template($('#chat-empty').html()),
 
     initialize: function() {
       this.render();
@@ -22,7 +21,7 @@ define(function(require) {
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('.lily-box-messages');
+      this.$el.appendTo('#chat-box-messages');
       return this;
     },
   });

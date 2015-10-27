@@ -104,7 +104,7 @@ define(function(require) {
           return question && question.title.trim().toLowerCase() !== 'bonjour';
         });
 
-        var emptyViewModel = new Models.AviEmptyView({
+        var emptyViewModel = new Models.AviEmpty({
           questions: topQuestions,
           onBoardingMessage: config.avi.onBoardingMessage,
           onBoardingMessageEmpty: config.avi.onBoardingMessageEmpty
@@ -785,6 +785,7 @@ define(function(require) {
 
     remove: function() {
       this.closeChildren();
+      this.removeEmptyView();
 
       // Destroy typeahead (will unbind any typeahead event bound to the input)
       this.suggest.destroy();

@@ -122,6 +122,9 @@ define(function(require) {
   g.chat.onBoardingMsg = g.chat.onBoardingMsg ? g.chat.onBoardingMsg[0] :
     'n\'hesitez pas à poser une question, un de nos conseillers va vous répondre';
 
+  g.chat.onBoardingTitle = 'Vous avez une question ?';
+  g.chat.onBoardingCopy = 'Envoyez nous un message. Un de nos conseillers est disponible pour vous répondre';
+
   _.extend(g.chat, {
     inactivityAction: 'Relancer une discussion',
     inactivityMsg: 'Votre conversation a été coupée pour cause d\'inactivité',
