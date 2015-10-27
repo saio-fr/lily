@@ -49,6 +49,7 @@ require.config({
     'synapse':                        'libs/synapse-suggest',
     'typeahead':                      'libs/typeahead.jquery',
     'bloodhound':                     'libs/bloodhound',
+    'pikaday':                        'bower_components/pikaday/pikaday',
   },
 
   shim: {
