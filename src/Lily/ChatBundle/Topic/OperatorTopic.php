@@ -45,9 +45,7 @@ class OperatorTopic implements TopicInterface
 						}
 				}
 
-        var_dump(json_encode($conn->User->getGroups()));
-
-          $operator = new \StdClass;
+        $operator = new \StdClass;
 	      $operator->id = $conn->User->getId();
 	      $operator->conn = $conn;
 	      $operator->lastPing = time();
@@ -60,7 +58,7 @@ class OperatorTopic implements TopicInterface
 	      $operator->messages = array();
 	      $operator->available = false;
 	      $operator->chats = 0;
-
+	      
 	      $users->attach($operator);
     }
 

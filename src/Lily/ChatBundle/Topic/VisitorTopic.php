@@ -67,7 +67,7 @@ class VisitorTopic implements TopicInterface
         $visitor->firstname = null;
         $visitor->lastname = null;
         $visitor->email = null;
-        $visitor->customFields = [];
+				$visitor->customFields = [];
 
         // APP INFOS
         $visitor->appDisplay = false; // Display the app ?
@@ -94,9 +94,9 @@ class VisitorTopic implements TopicInterface
         $visitor->messages = array(); // Messages sent
         $visitor->showContactForm = true; // Did the visitor auth on contact form screen ?
 
-		// API OPTIONS
-		$visitor->operatorsGroupWanted = null; // Operators' group to give the conversation
-		$visitor->operatorsGroupWantedShouldFallback = true; // If no operator available, fallback to normal behaviour
+				// API OPTIONS
+				$visitor->operatorsGroupWanted = null; // Operators' group to give the conversation
+				$visitor->operatorsGroupWantedShouldFallback = true; // If no operator available, fallback to normal behaviour
 
         $users->attach($visitor);
     }

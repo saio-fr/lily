@@ -33,15 +33,19 @@ class VisitorService {
 
                 if ($options) {
 
-                    echo 'options found';
-
                     if ($options['operatorsGroupWanted']) {
-                        var_dump($options['operatorsGroupWanted']);
-                        $item->operatorsGroupWanted = $options['operatorsGroupWanted'];
+                        $item->operatorsGroupWanted = intval($options['operatorsGroupWanted']);
                     }
+
                     if ($options['operatorsGroupWantedShouldFallback']) {
-                        var_dump($options['operatorsGroupWantedShouldFallback']);
-                        $item->operatorsGroupWanted = $options['operatorsGroupWantedShouldFallback'];
+
+                        if (is_string($options['operatorsGroupWantedShouldFallback'])) {
+                            $item->operatorsGroupWantedShouldFallback = $options['operatorsGroupWantedShouldFallback'] ? true : false;
+                        }
+
+                        if (is_bool($options['operatorsGroupWantedShouldFallback'])) {
+                            $item->operatorsGroupWantedShouldFallback = $options['operatorsGroupWantedShouldFallback'];
+                        }
                     }
                 }
 
@@ -189,33 +193,28 @@ class VisitorService {
                 }
 
                 if (!empty($availables) && $client->config->getAutoSetOperator()) {
+                  
+                    $groupWanted = $item->operatorsGroupWanted;
 
-                    // If operatorsGroupsWanted is set throught the front api
-                    if ($item->operatorsGroupWanted) {
+                    if ($groupWanted) {
+                        $availablesInGroup = array_filter($availables, function($operator) use($groupWanted) {
 
-                        echo 'operatorsGroup is wanted';
-
-                        // Filter our availables operators by group
-                        $availablesInGroup = array_filter($availables, function($operator) {
-                            echo 'in first boucle';
-                            var_dump(json_encode($operator));
-                            var_dump(json_encode($operator->groups));
-                            return !empty(array_filter($operator->groups, function($group) {
-                                var_dump(json_encode($group));
-                                echo 'in second boucle';
-                                return $group->id == $item->operatorsGroupWanted;
-                            }));
+                            foreach($operator->groups as $group) {
+                                if ($group->getId() === $groupWanted) {
+                                    return true;
+                                }
+                            }
+                            return false;
                         });
 
-                        echo 'will show availables in group';
-                        var_dump(json_encode($availablesInGroup));
-
-                        if (!empty($availablesInGroup) || !$item->operatorsGroupWantedShouldFallback) {
-                            echo 'operatorsGroup is set';
+                        if (!empty($availablesInGroup)) {
                             $availables = $availablesInGroup;
+                        } else {
+                            $item->closed = false;
+                            return array('result' => true);
                         }
                     }
-
+                  
                     $key = array_rand($availables, 1);
                     $availables[$key]->chats += 1;
 
