@@ -1166,8 +1166,12 @@ MESSAGES
 .lily-on-boarding-title {
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 15px;
-  color: #989898;
+  font-size: 16.5px;
+  color: #5D5D5D;
+}
+
+.on-boarding-copy {
+  color: #8E8E8E;
 }
 
 .lily-top-question-link {

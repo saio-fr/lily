@@ -1,10 +1,6 @@
-<h3 class="avi-on-boarding-title">
-  <% onBoardingMessage %>
+<h3 class="lily-on-boarding-title chat-on-boarding-title">
+  <%= onBoardingTitle %>
 </h3>
-<ul class="lily-top-questions-list">
-<% _.each(questions, function(questions) { %>
-  <li class="lily-top-question-item">
-    <a class="lily-top-question-link" href="javascript:;" data-id="<%= question.id %>"><%= question.title %>
-  </li>
-<% }) %>
-</ul>
+<p class="on-boarding-copy">
+  <%= onBoardingCopy %>
+</p>

@@ -23,6 +23,8 @@ define(function(require) {
     MessageChatBan        = require('front/views/messageChatBan'),
     MessageChatClose      = require('front/views/messageChatClose'),
     ChildViewContainer    = require('utils/backbone-childviewcontainer'),
+    ChatEmptyView         = require('front/views/chatEmpty'),
+
     // Object wrapper returned as a module
     ChatView;
 
@@ -72,11 +74,24 @@ define(function(require) {
       if (app.isConnectionActive && app.payload) {
         this.onSubscribedChat(app.payload);
       }
+
+      this.setupEmptyView();
     },
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       return PageView.prototype.render.apply(this, arguments);
+    },
+
+    setupEmptyView: function() {
+      var emptyViewModel = new Models.ChatEmpty({
+        onBoardingTitle: config.chat.onBoardingTitle,
+        onBoardingCopy: config.chat.onBoardingCopy
+      });
+
+      this.emptyView = new ChatEmptyView({
+        model: emptyViewModel
+      });
     },
 
     onAppShown: function() {
@@ -165,6 +180,7 @@ define(function(require) {
 
       if (messageView) {
         this.childViews.add(messageView);
+        this.removeEmptyView();
       }
     },
 
@@ -319,8 +335,16 @@ define(function(require) {
       });
     },
 
+    removeEmptyView: function() {
+      if (this.emptyView) {
+        this.emptyView.remove();
+        this.emptyView = undefined;
+      }
+    },
+
     remove: function() {
       this.closeChildren();
+      this.removeEmptyView();
 
       // destroy models in collection, reset collection and delete reference;
       this.collection.reset();
