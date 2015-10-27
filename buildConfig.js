@@ -34,7 +34,6 @@ config.commonIncludes = [
   'moment-fr',
   'Modernizr',
   'backoffice/app',
-  'globals',
   'utils/backbone-childviewcontainer',
   'polyfils'
 ];
