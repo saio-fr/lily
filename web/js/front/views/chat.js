@@ -48,7 +48,7 @@ define(function(require) {
       this.listenTo(this.model, 'change:operator', this.onOperatorChange);
 
       this.listenTo(app, 'ws:subscribedToChat', this.onSubscribedChat, this);
-      this.listenTo(app, 'chat:connected', this.onReconnected, this);
+      this.listenTo(app, 'ws:connected', this.onReconnected, this);
       this.listenTo(app, 'chat:sendMessage', this.receiveMsgFromSdk);
       this.listenTo(app, 'app:isShown', this.onAppShown);
 
