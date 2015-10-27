@@ -60,6 +60,8 @@ define(function(require) {
       $(this.render().el).appendTo('#lily-wrapper-page');
 
       // Post-render
+      this.setupEmptyView();
+
       this.$input = this.$el.find('.chat-input').myedit();
 
       // fix bug where [contenteditable="true"] elements would not
@@ -74,8 +76,6 @@ define(function(require) {
       if (app.isConnectionActive && app.payload) {
         this.onSubscribedChat(app.payload);
       }
-
-      this.setupEmptyView();
     },
 
     render: function() {
