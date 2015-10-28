@@ -125,7 +125,9 @@ define(function(require) {
         case 'operator':
           msg.convertAvatar();
           view = new MessagesView.Operator({
-            model: msg
+            model: _.extend(msg, {
+              userId: config.userId
+            })
           }).render(conversations);
           break;
 
