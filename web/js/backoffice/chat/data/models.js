@@ -23,9 +23,9 @@ define(function(require) {
     convertAvatar: function() {
       var avatar;
       if (this.get('avatar')) {
-        avatar = g.BASE_AVATAR_URL + this.get('avatar');
+        avatar = g.path.avatars + this.get('avatar');
       } else {
-        avatar = g.UNKNOWN_AVATAR_URL;
+        avatar = g.path.defaultAvatar;
       }
       this.set({
         'converted.avatar': avatar

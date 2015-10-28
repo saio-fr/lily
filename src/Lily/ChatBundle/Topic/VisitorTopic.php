@@ -67,7 +67,7 @@ class VisitorTopic implements TopicInterface
         $visitor->firstname = null;
         $visitor->lastname = null;
         $visitor->email = null;
-				$visitor->customFields = [];
+		$visitor->customFields = [];
 
         // APP INFOS
         $visitor->appDisplay = false; // Display the app ?
@@ -75,7 +75,7 @@ class VisitorTopic implements TopicInterface
         $visitor->widgetDisplayed = false; // Is the widget been displayed ?
         $visitor->questions = array(); // Questions asked to the avatar
         $visitor->pages = array(); // Pages seen by the visitor
-        $visitor->media = ''; // On which media the visitor navigate
+        $visitor->media = 'pc';
 
         // CHAT INFOS
         $visitor->operator = null;
@@ -93,10 +93,6 @@ class VisitorTopic implements TopicInterface
         $visitor->writing = false; // Is the visitor writing ?
         $visitor->messages = array(); // Messages sent
         $visitor->showContactForm = true; // Did the visitor auth on contact form screen ?
-
-				// API OPTIONS
-				$visitor->operatorsGroupWanted = null; // Operators' group to give the conversation
-				$visitor->operatorsGroupWantedShouldFallback = true; // If no operator available, fallback to normal behaviour
 
         $users->attach($visitor);
     }

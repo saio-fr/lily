@@ -24,30 +24,8 @@ class VisitorService {
         foreach ($client->users as $item) {
             if ($item->id === $conn->Session->getId()) {
 
-                $item->pages[] = array(
-                    'href' => $params['href'],
-                    'pathname' => $params['pathname']);
-
+                $item->pages[] = array('href' => $params['href'], 'pathname' => $params['pathname']);
                 $item->media = $params['media'];
-                $options = $params['apiOptions'];
-
-                if ($options) {
-
-                    if ($options['operatorsGroupWanted']) {
-                        $item->operatorsGroupWanted = intval($options['operatorsGroupWanted']);
-                    }
-
-                    if ($options['operatorsGroupWantedShouldFallback']) {
-
-                        if (is_string($options['operatorsGroupWantedShouldFallback'])) {
-                            $item->operatorsGroupWantedShouldFallback = $options['operatorsGroupWantedShouldFallback'] ? true : false;
-                        }
-
-                        if (is_bool($options['operatorsGroupWantedShouldFallback'])) {
-                            $item->operatorsGroupWantedShouldFallback = $options['operatorsGroupWantedShouldFallback'];
-                        }
-                    }
-                }
 
                 $result = array(
                     'appDisplay' => $item->appDisplay,
@@ -171,6 +149,7 @@ class VisitorService {
                 $item->chats < $client->config->getMax()) {
 
                 $availables[] = $item;
+
             }
         }
 
@@ -193,28 +172,7 @@ class VisitorService {
                 }
 
                 if (!empty($availables) && $client->config->getAutoSetOperator()) {
-                  
-                    $groupWanted = $item->operatorsGroupWanted;
 
-                    if ($groupWanted) {
-                        $availablesInGroup = array_filter($availables, function($operator) use($groupWanted) {
-
-                            foreach($operator->groups as $group) {
-                                if ($group->getId() === $groupWanted) {
-                                    return true;
-                                }
-                            }
-                            return false;
-                        });
-
-                        if (!empty($availablesInGroup)) {
-                            $availables = $availablesInGroup;
-                        } else {
-                            $item->closed = false;
-                            return array('result' => true);
-                        }
-                    }
-                  
                     $key = array_rand($availables, 1);
                     $availables[$key]->chats += 1;
 

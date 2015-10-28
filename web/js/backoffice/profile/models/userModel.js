@@ -65,7 +65,7 @@ define(function (require) {
     },
 
     convertAvatar: function () {
-      var avatar = g.BASE_AVATAR_URL + this.get('config.avatar');
+      var avatar = g.path.avatars + this.get('config.avatar');
       this.set({'converted.avatar': avatar});
     }
 

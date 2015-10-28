@@ -61,7 +61,7 @@ define(function(require) {
 
       app.groupCollection.fetch();
 
-      app.trackPageView('Users page, groups tab');
+      app.pageView('Users page, groups tab');
     }
 
   });

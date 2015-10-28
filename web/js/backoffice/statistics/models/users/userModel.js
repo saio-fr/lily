@@ -24,11 +24,10 @@ define(function (require) {
     },
 
     convertAvatar: function () {
-      var avatar;
       if (this.get('config.avatar')) {
-        avatar = g.BASE_AVATAR_URL + this.get('config.avatar');
+        var avatar = g.path.avatars + this.get('config.avatar');
       } else {
-        avatar = g.UNKNOWN_AVATAR_URL;
+        var avatar = g.path.defaultAvatar;
       }
       this.set({'converted.avatar': avatar});
     },

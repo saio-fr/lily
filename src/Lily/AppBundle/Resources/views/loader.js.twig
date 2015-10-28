@@ -130,8 +130,7 @@
                     path: window.location.pathname || null,
                     href: window.location.href || null,
                     protocol: window.location.protocol || null,
-                    referrer: document.referrer || null,
-                    apiOptions: this.apiOptions || null
+                    referrer: document.referrer || null
                 });
             },
             onReady: function(options) {
@@ -172,11 +171,8 @@
                 if (!_.isString(message)) return;
                 this.trigger("lily.onMessageToOperator", message);
             },
-            setOperatorGroup: function(groupId, shouldFallback) {
-                this.apiOptions = {
-                    operatorsGroupWanted: groupId,
-                    operatorsGroupWantedShouldFallback: shouldFallback
-                };
+            setOperatorGroup: function(groupId) {
+                this.sendMessage("config.setOperatorGroup", groupId);
             },
             onExpand: function(options) {
                 var firstOpen = this.getState("firstOpen");
@@ -872,10 +868,10 @@
                         }
                     };
                 }(this, message);
-                if (this.getState("load")) {
+                if (this.getState("ready")) {
                     send();
                 } else {
-                    this.on("change:load", send);
+                    this.on("change:ready", send);
                 }
             }
         };
@@ -1076,12 +1072,14 @@
     module.exports = function() {
         var calledBeforeLoad = false;
         var configMethods = {
-            "chat.setOperatorGroup": function(groupId, shouldFallback) {
-                if (!_.isString(groupId)) {
-                    console.error("groupId should be a string containing the operator group id");
+            "chat.setOperatorGroup": function(groupIds) {
+                if (_.isString(groupIds)) {
+                    mediator.trigger("config.setOperatorGroup", groupIds);
+                } else if (groupIds && groupIds.length) {
+                    var args = [ "config.setOperatorGroup" ].concat([].slice.call(groupIds));
+                    mediator.trigger.call({}, args);
                 } else {
-                    shouldFallback = typeof shouldFallback === "undefined" ? true : shouldFallback;
-                    mediator.trigger("lily.setOperatorGroup", groupId, shouldFallback);
+                    console.error("groupId should be a string containing the operator group id or a table containing group ids strings");
                 }
             },
             "widget.attentionGrabberEnabled": function(enabled) {
