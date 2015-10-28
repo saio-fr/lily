@@ -15,9 +15,8 @@ define(function(require) {
       PageView = require('front/views/page'),
       moment   = require('moment'),
       momentFr = require('moment-fr'),
-      Pikaday  = require('pikaday');
-
-  Backbone.Validation = require('backbone-validation');
+      Pikaday  = require('pikaday'),
+      Validation = require('backbone-validation');
 
   // Object wrapper returned as a module
   var MailPage = PageView.extend({
@@ -134,7 +133,6 @@ define(function(require) {
         }, 800);
       }, function(err) {
         that.isSubmitionComplete = true;
-        app.showInfo("error", config.mail.mailSentError);
       });
     },
 
