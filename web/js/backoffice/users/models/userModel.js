@@ -27,7 +27,7 @@ define(function (require) {
       'email': '',
       'groups': [],
       'roles': ['ROLE_USER'],
-      'converted.avatar': g.path.defaultAvatar
+      'converted.avatar': g.UNKNOWN_AVATAR_URL
     },
 
     validation: {
@@ -113,10 +113,11 @@ define(function (require) {
     },
 
     convertAvatar: function () {
+      var avatar;
       if (this.get('config.avatar')) {
-        var avatar = g.path.avatars + this.get('config.avatar');
+        avatar = g.BASE_AVATAR_URL + this.get('config.avatar');
       } else {
-        var avatar = g.path.defaultAvatar;
+        avatar = g.UNKNOWN_AVATAR_URL;
       }
       this.set({'converted.avatar': avatar});
     }

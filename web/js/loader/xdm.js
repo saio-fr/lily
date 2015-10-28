@@ -21,10 +21,10 @@ module.exports = (function() {
 
       })(this, message);
 
-      if (this.getState('ready')) {
+      if (this.getState('load')) {
         send();
       } else {
-        this.on('change:ready', send);
+        this.on('change:load', send);
       }
     }
   };
