@@ -23,7 +23,7 @@ utils.contentLoaded(window, function() {
     sdk.config('chat.setOperatorGroup', '1');
 
     // the resulting method called should call trigger on the mediator
-    assert.ok(configMethodStub.calledWith('config.setOperatorGroup'), 'should call the so-called method');
+    assert.ok(configMethodStub.calledWith('lily.setOperatorGroup', '1'), 'should call the so-called method');
 
     mediator.trigger.restore();
     assert.end();
