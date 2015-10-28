@@ -99,6 +99,8 @@ define(function(require) {
         var extend = function (i, element) {
           var node = result[element.name];
 
+          if (element.value === '') return;
+
           // If node with same name exists already, need to convert it to an array as it
           // is a multi-value field (i.e., checkboxes)
           if ('undefined' !== typeof node && node !== null) {

@@ -2007,7 +2007,7 @@ CONTACT FORM
 .lily-contact-form .btn-close {
   position: absolute;
   top: 8px;
-  right: 12px;
+  left: 12px;
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -2028,7 +2028,7 @@ CONTACT FORM
 
 .lily-contact-form .copy-onboarding {
   font-size: 13px;
-  padding: 0 45px 0 12px;
+  padding: 0 12px 0 52px;
   margin-left: -12px;
   margin-right: -12px;
   font-style: normal;

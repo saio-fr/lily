@@ -119,7 +119,6 @@ define(function(require) {
     send: function(fields) {
       var that = this;
 
-      that.submitionStatus = -1;
       that.isSubmitionComplete = false;
 
       api.sendMail(fields).then(function(res) {
@@ -132,6 +131,7 @@ define(function(require) {
           });
         }, 800);
       }, function(err) {
+        that.submitionStatus = -1;
         that.isSubmitionComplete = true;
       });
     },
@@ -166,7 +166,8 @@ define(function(require) {
       this.datePicker = new Pikaday({
         field: this.$inputDate[0],
         onSelect: this.onDateSelect.bind(this),
-        i18n: config.dateFr
+        i18n: config.dateFr,
+        minDate: moment().toDate()
       });
     },
 
