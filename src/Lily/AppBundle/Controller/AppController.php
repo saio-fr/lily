@@ -172,9 +172,8 @@ class AppController extends BaseController
      */
     public function postEmailAction($licence, Request $request) {
 
-        $from = $request->get('from');
-        $object = $request->get('object');
-        $msg = $request->get('msg');
+        $email = $request->get('email');
+        $msg = $request->get('message');
         $date = $request->get('date');
         $time = $request->get('time');
         $tel = $request->get('tel');
@@ -183,19 +182,23 @@ class AppController extends BaseController
         ->getRepository('LilyKnowledgeBundle:Redirection')
         ->findOneByBydefault(true);
 
+        $fromEmail = $email ? $email : 'noreply@saio';
+        $subject = '[SAIO] Ticket : Message reçu depuis l\'application';
+
         $message = \Swift_Message::newInstance()
-        ->setSubject($object)
-        ->setFrom('noreply@saio.fr')
+        ->setSubject($subject)
+        ->setFrom($fromEmail)
         ->setTo($redirection->getMail())
+        ->setContentType("text/html")
         ->setBody(
             $this->renderView(
-                '::mails/redirection.txt.twig',
+                '::mails/redirection.html.twig',
                 array(
-                  'from' => $from,
-                  'msg' => $msg,
-                  'date' => $date,
-                  'time' => $time,
-                  'tel' => $tel
+                  'email' => $email ? $email : null,
+                  'message' => $msg ? $msg : null,
+                  'date' => $date ? $date : null,
+                  'time' => $time ? $time : null,
+                  'tel' => $tel ? $tel : null
                 )
             )
         );

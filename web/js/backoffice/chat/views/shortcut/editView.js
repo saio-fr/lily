@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _ = require('underscore'),
-      validation = require('utils/backbone-validation'),
+      validation = require('utils/backbone-validation-backoffice'),
 
       // Object wrapper returned as a module
       EditView;
@@ -45,7 +45,7 @@ define(function (require) {
         .toLowerCase();
       var description = this.$('textarea[name="description"]').val();
       var message = this.$('textarea[name="message"]').val();
-      
+
       this.model.set({
         'title': title,
         'description': description,
@@ -53,28 +53,28 @@ define(function (require) {
       }, {
         silent:true
       });
-      
+
       if (this.model.isValid(true)) {
-        
+
         this.model.trigger('renderView');
         this.model.save();
         this.remove();
       }
     },
-    
+
     updateOnEnter: function (e) {
       if (e.keyCode === 13) {
         e.preventDefault();
         this.update();
       }
     },
-    
+
     remove: function () {
-      
+
       $('.js-shortcuts-list')
         .find('.active')
         .removeClass('active');
-        
+
       Backbone.Validation.unbind(this);
       Backbone.View.prototype.remove.apply(this, arguments);
     }

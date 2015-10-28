@@ -12,7 +12,7 @@ define(function(require) {
       app    = require('front/app'),
       when   = require('when'),
       Models = require('front/data/models'),
-      config = require('front/globals'),
+      config = require('front/config'),
 
     // Object wrapper returned as a module
     api = {};
@@ -43,15 +43,15 @@ define(function(require) {
     var deferred = when.defer();
 
     var credentialsJson = {
-      'password': config.synapse.password,
-      'user': config.synapse.user
+      'password': config.SYNAPSE_PASSWORD,
+      'user': config.SYNAPSE_USER
     },
     input = _.extend(data, { credentials: credentialsJson });
 
     if (method && url) {
       $.ajax({
         type: method,
-        url: config.synapse.restRoot + url,
+        url: config.SYNAPSE_REST_ROOT + url,
         data: JSON.stringify(input),
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',

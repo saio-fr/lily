@@ -10,7 +10,7 @@ define(function(require) {
   var _      = require('underscore'),
     Models   = require('front/data/models'),
     PageView = require('front/views/page'),
-    config   = require('front/globals'),
+    config   = require('front/config'),
     app      = require('front/app'),
     // Object wrapper returned as a module
     ChatWelcomeScreen;

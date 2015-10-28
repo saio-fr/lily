@@ -8,20 +8,20 @@ define(['require', '../../common'], function(require) {
   'underscore',
   'backbone',
   'backoffice/users/router',
-  'globals',
+  'config',
   'backoffice/app',
   'components/chat/main',
 
   // Libraries required at bootstrap for the UI.
   'todoTpl',
   'bootstrap'
-], function($, _, Backbone, UserRouter, globals, app, LiveChat) {
+], function($, _, Backbone, UserRouter, config, app, LiveChat) {
 
     function bootstrap() {
       app.router = new UserRouter();
       Backbone.history.start();
 
-      if (globals.chat && globals.isChatOperator && !app.liveChat) {
+      if (config.chat && config.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
     }

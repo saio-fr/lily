@@ -7,7 +7,7 @@ define(['require', '../../common'], function(require) {
   'underscore',
   'backbone',
   'backoffice/config/router',
-  'globals',
+  'config',
   'backoffice/app',
   'components/chat/main',
 
@@ -15,13 +15,13 @@ define(['require', '../../common'], function(require) {
   'bootstrap',
   'todoTpl'
 
-], function($, _, Backbone, ConfigRouter, globals, app, LiveChat) {
+], function($, _, Backbone, ConfigRouter, config, app, LiveChat) {
 
     function bootstrap() {
       app.router = new ConfigRouter();
       Backbone.history.start();
 
-      if (globals.chat && globals.isChatOperator && !app.liveChat) {
+      if (config.chat && config.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
     }

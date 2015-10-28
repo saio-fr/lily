@@ -22,7 +22,7 @@ require.config({
     'flot-resize':                    'bower_components/flot/jquery.flot.resize',
     'flot-time':                      'bower_components/flot/jquery.flot.time',
     'flot-tooltip':                   'bower_components/flot.tooltip/js/jquery.flot.tooltip',
-    'globals':                        'backoffice/globals',
+    'config':                         'backoffice/config',
     'isMobile':                       'bower_components/isMobile/isMobile',
     'jquery':                         'bower_components/jquery/dist/jquery',
     'moment':                         'bower_components/moment/moment',
@@ -49,6 +49,7 @@ require.config({
     'synapse':                        'libs/synapse-suggest',
     'typeahead':                      'libs/typeahead.jquery',
     'bloodhound':                     'libs/bloodhound',
+    'pikaday':                        'bower_components/pikaday/pikaday',
   },
 
   shim: {

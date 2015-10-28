@@ -9,7 +9,7 @@ define(function(require) {
   // Require CommonJS like includes
   var Backbone = require('backbone'),
       _        = require('underscore'),
-      config   = require('front/globals'),
+      config   = require('front/config'),
       app      = require('front/app'),
 
       // Object wrapper returned as a module

@@ -10,7 +10,7 @@ define(function(require) {
 var _           = require('underscore'),
     Backbone    = require('backbone'),
     app         = require('front/app'),
-    config      = require('front/globals'),
+    config      = require('front/config'),
     api         = require('front/data/api'),
     MessageView = require('front/views/message'),
 

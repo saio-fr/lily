@@ -6,7 +6,7 @@ define(function(require) {
       Backbone     = require('backbone'),
       isMobile     = require('isMobile'),
       app          = require('front/app'),
-      config       = require('front/globals'),
+      config       = require('front/config'),
       SkeletonView = require('front/views/skeleton');
 
   app.bootstrap = function() {
@@ -60,6 +60,33 @@ define(function(require) {
         this.removeAttribute('data-div-placeholder-content');
       }
     });
+
+    (function($){
+      $.fn.serializeObject = function () {
+
+        var result = {};
+        var extend = function (i, element) {
+          var node = result[element.name];
+
+          if (element.value === '') return;
+
+          // If node with same name exists already, need to convert it to an array as it
+          // is a multi-value field (i.e., checkboxes)
+          if ('undefined' !== typeof node && node !== null) {
+            if ($.isArray(node)) {
+              node.push(element.value);
+            } else {
+              result[element.name] = [node, element.value];
+            }
+          } else {
+            result[element.name] = element.value;
+          }
+        };
+
+        $.each(this.serializeArray(), extend);
+        return result;
+      };
+    })(jQuery);
   });
 
   return {};

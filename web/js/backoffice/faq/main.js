@@ -7,7 +7,7 @@ define(['require', '../../common'], function(require) {
   'jquery',
   'underscore',
   'backbone',
-  'globals',
+  'config',
   'backoffice/app',
   'backoffice/faq/router',
   'components/chat/main',
@@ -19,13 +19,13 @@ define(['require', '../../common'], function(require) {
   'wysihtml5',
   'wysihtml5-parser'
 
-], function($, _, Backbone, globals, app, Router, LiveChat) {
+], function($, _, Backbone, config, app, Router, LiveChat) {
 
     function bootstrap() {
       app.router = new Router();
       Backbone.history.start();
 
-      if (globals.chat && globals.isChatOperator && !app.liveChat) {
+      if (config.chat && config.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
     }

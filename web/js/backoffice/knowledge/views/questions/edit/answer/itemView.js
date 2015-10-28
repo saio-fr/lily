@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('backoffice/app'),
-    globals = require('globals'),
+    config = require('config'),
     Scribe = require('scribe'),
     scribePluginToolbar = require('scribe-plugin-toolbar'),
     scribePluginSanitizer = require('scribe-plugin-sanitizer'),
@@ -66,7 +66,7 @@ define(function(require) {
       });
       scribe.use(scribePluginToolbar(toolbar));
       scribe.use(scribePluginPromptLink());
-      scribe.use(scribePluginSanitizer(globals.wysiSanitize));
+      scribe.use(scribePluginSanitizer(config.wysiSanitize));
       scribe.on('content-changed', this.makeLinksExternal.bind(this));
     },
 

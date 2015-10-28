@@ -10,7 +10,7 @@ define(function (require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('backoffice/app'),
-    g = require('globals'),
+    g = require('config'),
 
     // Object wrapper returned as a module
     GlobalView;

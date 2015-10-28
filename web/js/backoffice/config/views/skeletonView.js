@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('backoffice/app'),
-    globals = require('globals'),
+    config = require('config'),
 
     // Object wrapper returned as a module
     Skeleton;
@@ -39,12 +39,12 @@ define(function(require) {
       // Call the children view to set new model attributes
       this.globalView.update();
 
-      if (globals.client.avi) this.aviView.update();
-      if (globals.client.chat) this.chatView.update();
+      if (config.client.avi) this.aviView.update();
+      if (config.client.chat) this.chatView.update();
 
       this.model.save(null, {
         success: function() {
-          app.createModal.alert(globals.modalAlert.configSucess, 3000);
+          app.createModal.alert(config.modalAlert.configSucess, 3000);
         }
       });
     }

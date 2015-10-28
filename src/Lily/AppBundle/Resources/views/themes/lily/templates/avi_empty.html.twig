@@ -1,6 +1,6 @@
 <% if (questions && !_.isEmpty(questions)) { %>
 <h3 class="lily-on-boarding-title on-boarding-title-avi">
-  <%= onBoardingMessage %>
+  <%= onBoarding.title %>
 </h3>
 <ul class="lily-top-questions-list">
   <% _.each(questions, function(question) { %>
@@ -11,6 +11,6 @@
 </ul>
 <% } else { %>
 <h3 class="lily-on-boarding-title on-boarding-title-avi">
-  <%= onBoardingMessageEmpty %>
+  <%= onBoarding.empty %>
 </h3>
 <% } %>

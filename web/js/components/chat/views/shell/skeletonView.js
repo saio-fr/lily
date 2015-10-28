@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     app = require('backoffice/app'),
     _ = require('underscore'),
-    globals = require('globals'),
+    config = require('config'),
     SuggestionsListView = require('components/chat/views/shell/suggestionsListView'),
     AlertView = require('components/chat/views/shell/alertView'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
@@ -79,7 +79,7 @@ define(function(require) {
       this.editor.use(scribePluginToolbar(toolbarEl));
       this.editor.use(scribePluginPromptLink());
       this.editor.use(scribePluginShellCommand());
-      this.editor.use(scribePluginSanitizer(globals.wysiSanitize));
+      this.editor.use(scribePluginSanitizer(config.wysiSanitize));
       this.editor.on('content-changed', this.makeLinksExternal.bind(this));
     },
 

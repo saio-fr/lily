@@ -11,7 +11,7 @@ define(function(require) {
     app                   = require('front/app'),
     api                   = require('front/data/api'),
     utils                 = require('utils/pages'),
-    config                = require('front/globals'),
+    config                = require('front/config'),
     AviView               = require('front/views/avi'),
     ChatView              = require('front/views/chat'),
     MailView              = require('front/views/mail'),
@@ -32,7 +32,8 @@ define(function(require) {
       'chat': 'chat',
       'welcome-screen': 'welcomeScreen',
       'avi': 'avi',
-      'mail': 'mail'
+      'mail': 'mail',
+      'tel': 'tel'
     },
 
     home: function() {
@@ -80,8 +81,19 @@ define(function(require) {
     },
 
     mail: function() {
-      var view = new MailView();
+      var model = new Models.Mail(config.mail);
+
+      var view = new MailView({ model: model });
       app.trackPageView('Visitor saw page: mail');
+      utils.goTo(view);
+    },
+
+    tel: function() {
+      var model = new Models.Mail(config.mail);
+      model.set('isRedirectionTel', true);
+
+      var view = new MailView({ model: model });
+      app.trackPageView('Visitor saw page: phone callback');
       utils.goTo(view);
     }
 

@@ -10,7 +10,7 @@ define(function(require) {
   var _ = require('underscore'),
     Backbone = require('backbone'),
     app = require('backoffice/app'),
-    globals = require('globals'),
+    config = require('config'),
     ConfigModel = require('backoffice/config/models/configModel'),
     SkeletonView = require('backoffice/config/views/skeletonView'),
     GlobalView = require('backoffice/config/views/globalView'),
@@ -42,12 +42,12 @@ define(function(require) {
           model: configModel
         });
 
-        if (globals.client.avi)
+        if (config.client.avi)
           skeleton.aviView = new AviView({
             model: configModel
           });
 
-        if (globals.client.chat)
+        if (config.client.chat)
           skeleton.chatView = new ChatView({
             model: configModel
           });

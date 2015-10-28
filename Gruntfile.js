@@ -37,7 +37,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
-    iniDirJs: 'web/js/',
+    iniDirJs: 'web/js',
     buildDirJs: 'web/build/js',
 
     destDirLoader: 'src/Lily/AppBundle/Resources/views',
@@ -204,6 +204,7 @@ module.exports = function(grunt) {
         options: {
           processImport: false,
           rebase: false,
+          restructuring: false,
           processImportFrom: ['!http://fonts.googleapis.com'],
         },
         files: [{
@@ -478,12 +479,16 @@ module.exports = function(grunt) {
     'copy:fonts',
   ]);
 
+  grunt.registerTask('devCss', [
+    'cssmin:compile',
+    'watch',
+  ]);
+
   grunt.registerTask('test', [
     'karma:test'
   ]);
 
   grunt.registerTask('dev', [
-    'clean',
     'karma:build',
     'cssmin:compile',
     'cacheBust',

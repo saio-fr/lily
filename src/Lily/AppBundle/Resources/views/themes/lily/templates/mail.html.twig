@@ -1,119 +1,102 @@
 <div class="lily-page-cont"> <!--wrapper page les différentes pages-->
 	<section class="lily-main-content">
 
-    <button class="btn btn--nostyle btn-close"><span class="lily-icon lily-icon-cross"></span></button>
+	  <form class="lily-contact-form" name="contact_form" novalidate role="form">
 
-	  <div class="lily-contact-form">
+      <div class="form-header-wrapper">
+        <button class="btn btn--nostyle btn-close">&#8592;</button>
 
-      <h4 class="form-section-title">Renseignez les informations ci-dessous afin qu'un conseiller puisse traiter votre demande</h4>
-
-      <p class="lily-contact-form-label">
-  			Adresse e-mail *
-  			<label class="from" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-      <input id="from" class="lily-cst-form-color" type="email" name="from" placeholder="Votre adresse e-mail" size="30"/>
-
-  		<p class="lily-contact-form-label">
-        Objet *
-        <label class="object" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-  		<input id="object" class="lily-cst-form-color" type="text" name="object" placeholder="L'objet de votre demande" size="30"/>
-
-      <p class="lily-contact-form-label">
-        Message *
-        <label class="msg" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-		  <textarea id="msg" class="lily-cst-form-color" type="text" name="msg" placeholder="Votre message" size="30"/>
-
-
-
-      <h4 class="form-section-title">Je souhaite être rappelé</h4>
-
-      <p class="lily-contact-form-label">
-        Téléphone *
-        <label class="tel" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-      <input class="lily-cst-form-color form-tel" type="tel" pattern="[0-9]{10}" name="tel" 
-             placeholder="Numéro sur lequel vous joindre" size="30"/>
-
-      <p class="lily-contact-form-label">
-        Date à laquelle vous souhaitez être rappelé(e) *
-        <label class="day" style="display:none">Ces champs ne peuvent pas être vides.</label>
-      </p>
-      <div class="form-inline-group">
-        <select class="form-select form-day">
-          <option value="" selected="selected">Jour</option>
-          <option value="01">1</option>
-          <option value="02">2</option>
-          <option value="03">3</option>
-          <option value="04">4</option>
-          <option value="05">5</option>
-          <option value="06">6</option>
-          <option value="07">7</option>
-          <option value="08">8</option>
-          <option value="09">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-          <option value="19">19</option>
-          <option value="20">20</option>
-          <option value="21">21</option>
-          <option value="22">22</option>
-          <option value="23">23</option>
-          <option value="24">24</option>
-          <option value="25">25</option>
-          <option value="26">26</option>
-          <option value="27">27</option>
-          <option value="28">28</option>
-          <option value="29">29</option>
-          <option value="30">30</option>
-          <option value="31">31</option>
-        </select>
-
-        <select class="form-select form-month">
-          <option value selected="selected">Mois</option>
-          <option value="jan">jan</option>
-          <option value="fév">fév</option>
-          <option value="mar">mar</option>
-          <option value="avr">avr</option>
-          <option value="mai">mai</option>
-          <option value="jun">jun</option>
-          <option value="jui">jui</option>
-          <option value="aoû">aoû</option>
-          <option value="sep">sep</option>
-          <option value="oct">oct</option>
-          <option value="nov">nov</option>
-          <option value="déc">déc</option>
-        </select>
+        <p class="copy-onboarding">
+          <%= onBoardingMessage %>
+        </p>
       </div>
 
-      <p class="lily-contact-form-label">
-        Horaire souhaité *
-        <label class="time" style="display:none">Ce champ ne peut pas être vide.</label>
-      </p>
-      <div class="form-inline-group">
-        <select class="form-select form-time">
-          <option value="" selected="selected">- Sélectionner -</option>
-          <option value="9h_10h">entre 09h et 10h</option>
-          <option value="10h_11h">entre 10h et 11h</option>
-          <option value="11h_12h">entre 11h et 12h</option>
-          <option value="12h_13h">entre 12h et 13h</option>
-          <option value="13h_14h">entre 13h et 14h</option>
-          <option value="14h_15h">entre 14h et 15h</option>
-          <option value="15h_16h">entre 15h et 16h</option>
-          <option value="16h_17h">entre 16h et 17h</option>
-          <option value="17h_18h">entre 17h et 18h</option>
-          <option value="18h_19h">entre 18h et 19h</option>
-        </select>
-      </div>
+      <ul class="contact-form-list form-simple-ticket">
 
-		<button class="lily-btn-submit-color">Envoyer ma demande</button>
-	  </div>
+<!--         <div class="redirection-type-switch-wrapper">
+          <label>
+            <input type="checkbox" name="redirectionType" <% if (isRedirectionTel) { %>checked<% } %>>
+            <%= redirectionTypeSwitchLabel %>
+          </label>
+        </div> -->
+
+        <% if (!isRedirectionTel) { %>
+        <li class="contact-form-item">
+          <p class="validation-error-inline"></p>
+          <div class="input-wrapper">
+            <input id="email" class="form-input form-email" type="email" name="email" placeholder="<%= formEmailPlaceholder %>" size="30"/>
+            <div class="svg-icon-wrapper">
+              <svg class="svg-icon email-icon" viewBox="0 0 30 30" width="30" height="30"><path d="M9.87 11H20.13L15 15l-5.13-4zm-.82.67c-.03.1-.05.2-.05.33v7c0 .55.46 1 1 1h10c.55 0 1-.45 1-1v-7c0-.12-.02-.22-.05-.32L15 16.3l-5.95-4.63zM10 10c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-7c0-1.1-.9-2-2-2H10zm0 0" fill-rule="evenodd"></path></svg>
+            </div>
+          </div>
+        </li>
+        <% } %>
+
+        <li class="contact-form-item">
+          <p class="validation-error-inline"></p>
+          <div class="input-wrapper">
+            <textarea id="msg" class="form-input form-msg" type="text" name="message" placeholder="<%= formMsgPlaceholder %>" size="30"/>
+            <div class="svg-icon-wrapper">
+              <svg class="svg-icon msg-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 612 612"><path d="M604 282.4l-46-45.8c-6.3-6.3-13.5-9.3-21.6-9.3-7.2 0-13.2 2.4-18.2 7.5L482 271.3l-147.8 147c-2 2.2-3.4 5-4.2 7.7l-24.5 86.7c-1.8 6.4-1 11.7 3.6 16 4 3.5 8 5 12 5 1 0 4-.7 5-.7l86-25c4-.7 6-2.2 8-4.3l148-147.2 36-36.8c5-5 8-11 8.6-17.6 0-7-2.7-14-8-19zm-204.7 195L345 493.2l15.7-54.4 132.5-132.5 39.2 38.6-133 132zm156.5-155.8L516.6 283l20.6-20.7 38.6 38.6-20 20z"/><path d="M264 401.4c3.4 3.3 7.3 4.8 11.8 4.8h.6c5 0 9-1.5 12.3-4.8l230.3-236v39.2h33V115c0-20.2-15.7-36.6-36-36.6H36.2C26 78.4 17.4 82 10.5 89 3.5 96.4 0 105 0 115v382.4c0 10 3.5 18.7 10.5 25.8 6.8 7 15.5 10.4 25.7 10.4h251.3v-33.2H36.2c-2 0-3-1-3-3v-332l231 236zM33.3 115c0-2.2 1-3.4 3-3.4H516c2 0 3 1.2 3 3.5v3L276.4 367 33.2 118v-3z"/></svg>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <% if (isRedirectionTel) { %>
+      <ul class="contact-form-list form-web-callback">
+
+        <li class="contact-form-item">
+          <p class="validation-error-inline"></p>
+          <div class="input-wrapper">
+            <input class="form-input form-tel" type="tel" name="tel" placeholder="<%= formTelPlaceholder %>" size="30"/>
+            <div class="svg-icon-wrapper">
+              <svg class="svg-icon tel-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 611.999 611.999"><path d="M370.5 202.7c-20.2-8.6-41.5-13-64-13h-.7c-65.3 0-120.3 35.3-159 101.7-16.3 27.8-28.4 57.5-36 89C103.5 412 99.6 441 99.6 467c0 57.6 18.3 91.8 48.7 91.8h316.4c30 0 48.6-34.2 48.7-91 .2-56-16-125.2-50.8-180.6-23.3-37.2-51.5-67.3-92-84.5zm109 265c-.3 38.2-10 59.5-15 57.8H148.3c-5.4 1.4-15.6-19-15.6-58.4 0-23 3.5-49 10.5-78 7.2-29 18.3-56 33-81 12.4-21 26.8-39 48-56 21.5-17 50.2-28 81.8-28h.6c31.6 0 60.4 11 81.8 29 21.6 18 36 36 48.7 57 15 25 26 53 33 81 7 29 10 55 10 78z"/><path d="M306.4 297.7c-27.7 0-51 9.6-70.7 29.2-19.5 19-29.2 43-29.2 70s9.7 51 29.2 70c19.6 19 43 29 70.7 29 27.4 0 50.8-10 70.4-29 19.5-20 29.5-44 29.5-71s-10-51-29.5-70c-19.6-20-43-30-70.4-30zm47 146.8c-13 13-28.6 19.5-47 19.5-18.3 0-34.4-6.5-47.2-19.5-13-13-19.3-28.8-19.3-47.2 0-18.3 6-34 19-47s29-19.5 47-19.5 34 6.6 47 19.6c13 13 19 28.6 19 47 0 18.3-7 34-20 47zm230.6-311c-18.3-19-42.5-34-72.8-45.4C450.7 66 376.8 54 299 54c-61 0-115 6.6-162.5 19.5C89.2 85.8 54 104 31 127.5c-21 21-30.8 44-30.3 70 0 2.3-.5 8.6-.6 11V232c1 6 2 13 5 22s7 15.6 13 21c11 11.4 27 17 49 17 7 0 12 0 15-.5 45-5.8 65-17.7 74-37 6-14 7-24 7-42.4v-7c0-2 1-4 4-7 9-9 26-15 53-21 26.7-5 56-8 88.6-8 28.7 0 54.5 2 77.7 6 23 4 40.4 9 52 15 11 6 17 11 17 17v6c0 19 0 29 6 44 3 7 7 13 13 18 11 9 31.8 17 61.6 20 28 3.5 49-2 62.5-15.5 11-11 16-31.3 16.7-43.6l.5-24v-10c0-24-9.4-45.6-28-64.5zm-5.4 75c0 23-1.4 37.6-7.2 43.5-4.5 4.6-13 7-24.7 7-4.5 0-8-.4-10.5-.7-25-2.4-40.8-7.7-47-16.2-3-4-3.5-14-3.5-31v-6c0-18-12.7-33-30.4-43-17.2-9-44.5-16-66.5-20-10.8-2-22.6-3-35-4-12.2-1-22-2-29-2h-19.6c-11 0-22.6 1-34.3 2-12 1-27 2-45 5-36 5-69 17-86 34-10 10-13 20-13 31v7c0 13 0 16-2 24-1 4-2 7-5 9-7 6-19 12-44 14-19 2-31 0-37-6-4-5-6-13-7-21.3v-34c-1-17 6-32 20-46 20-20.4 52-36 96-47.4 45-14 95-20 151-20C377 87 443 98 495 119c20.7 8 38 17 55 30s28 31 28 50v10z"/></svg>
+            </div>
+          </div>
+        </li>
+
+        <li class="contact-form-item">
+          <p class="validation-error-inline"></p>
+          <div class="input-wrapper">
+            <input id="callback_date" class="form-input form-date" name="date" placeholder="<%= formDatePlaceholder %>">
+            <div class="svg-icon-wrapper">
+              <svg class="svg-icon date-icon" viewBox="0 0 30 30" width="30" height="30"><path d="M10 10c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-7c0-1.1-.9-2-2-2h-8zm0 3c-.55 0-1 .44-1 1v5c0 .55.46 1 1 1h8c.55 0 1-.44 1-1v-5c0-.55-.46-1-1-1h-8zm1-3v1h1v-1h-1zm5 0v1h1v-1h-1zm-5-1v1h1V9h-1zm5 0v1h1V9h-1zm0 0" fill-rule="evenodd"/></svg>
+            </div>
+          </div>
+        </li>
+
+        <li class="contact-form-item">
+          <p class="validation-error-inline"></p>
+          <div class="input-wrapper">
+            <select class="form-input form-time" name="time">
+              <option value="" selected="selected"><%= formTimePlaceholder %></option>
+              <option value="entre 09h et 10h">entre 09h et 10h</option>
+              <option value="entre 09h et 10h">entre 09h et 10h</option>
+              <option value="entre 11h et 12h">entre 11h et 12h</option>
+              <option value="entre 12h et 13h">entre 12h et 13h</option>
+              <option value="entre 13h et 14h">entre 13h et 14h</option>
+              <option value="entre 14h et 15h">entre 14h et 15h</option>
+              <option value="entre 15h et 16h">entre 15h et 16h</option>
+              <option value="entre 16h et 17h">entre 16h et 17h</option>
+              <option value="entre 17h et 18h">entre 17h et 18h</option>
+              <option value="entre 18h et 19h">entre 18h et 19h</option>
+            </select>
+            <div class="svg-icon-wrapper">
+              <svg class="svg-icon time-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 612 612"><path d="M587.6 187c-32.3-75.3-87-130-163-162.4C386.6 8.4 347 .2 305.6.2c-41.6 0-81 8-119 24.4C111.6 57 56.4 111.6 24 187 8 224.4 0 264 0 305.5s8 81.3 24 119C56.4 500 111.5 555 186.7 587.3c38 16.3 77.3 24.4 118.8 24.4s81.2-8.2 119-24.4c76-32.3 130.8-87.4 163-162.6 16.3-38 24.5-77.6 24.5-119 0-41.6-8.2-81-24.4-119zm-49 254c-24 41-56.8 73.7-98.3 98-41 24-86.3 36-134.8 36-36.5 0-71.3-7-104.4-21.4-33-14.4-61-33.3-85-57.2-24-24-43-52.8-57-86-14-33-21-68.3-21-104.7-1-48.7 11-93.5 35-134.5 24-41.3 57-74 98-98C212 49 257 37 305.8 37S399 49 440.3 73c41.5 24.3 74.3 57 98.4 98.2 24 41 36.2 86 36.2 134.5s-12 93.7-37 135.3z"/><path d="M325 303V129.7c0-10.4-9-18.8-19.5-18.8-9.7 0-18.4 8-18.4 18v176s1 1.3 1 2.3c0 6 1 11 5 15l100 100c7 7 19 7 26 0 8-7.5 7-18.7 0-26l-94-94z"/></svg>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <% } %>
+
+		  <button type="button" class="btn btn-submit btn--nostyle progress-button lily-btn-submit-color">
+        <% if (isRedirectionTel) { %>
+          <%= buttonCtaCallBack %>
+        <% } else { %>
+          <%= buttonCtaContact %>
+        <% } %>
+      </button>
+	  </form>
 	</section>
 </div>

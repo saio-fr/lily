@@ -10,7 +10,7 @@ define(function (require) {
   var _                  = require('underscore'),
       Backbone           = require('backbone'),
       app                = require('backoffice/app'),
-      globals            = require('globals'),
+      config            = require('config'),
       Interact           = require('utils/interact'),
       ChildViewContainer = require('utils/backbone-childviewcontainer'),
       Models             = require('backoffice/knowledge/data/models'),
@@ -163,9 +163,9 @@ define(function (require) {
 
       if (!categoryModel) {
         categoryModel = new Models.Category();
-        modalView = app.createModal.app(globals.modalApp.newCategory);
+        modalView = app.createModal.app(config.modalApp.newCategory);
       } else {
-        modalView = app.createModal.app(globals.modalApp.updateCategory);
+        modalView = app.createModal.app(config.modalApp.updateCategory);
       }
 
       var editView = new EditView({

@@ -11,7 +11,7 @@ define(function(require) {
     Backbone              = require('backbone'),
     isMobile              = require('isMobile'),
     app                   = require('front/app'),
-    config                = require('front/globals'),
+    config                = require('front/config'),
     Models                = require('front/data/models'),
     Collections           = require('front/data/collections'),
     PageView              = require('front/views/page'),
@@ -23,6 +23,8 @@ define(function(require) {
     MessageChatBan        = require('front/views/messageChatBan'),
     MessageChatClose      = require('front/views/messageChatClose'),
     ChildViewContainer    = require('utils/backbone-childviewcontainer'),
+    ChatEmptyView         = require('front/views/chatEmpty'),
+
     // Object wrapper returned as a module
     ChatView;
 
@@ -58,6 +60,8 @@ define(function(require) {
       $(this.render().el).appendTo('#lily-wrapper-page');
 
       // Post-render
+      this.setupEmptyView();
+
       this.$input = this.$el.find('.chat-input').myedit();
 
       // fix bug where [contenteditable="true"] elements would not
@@ -79,6 +83,17 @@ define(function(require) {
       return PageView.prototype.render.apply(this, arguments);
     },
 
+    setupEmptyView: function() {
+      var emptyViewModel = new Models.ChatEmpty({
+        onBoardingTitle: this.model.get('onBoarding').title,
+        onBoardingCopy: this.model.get('onBoarding').microCopy
+      });
+
+      this.emptyView = new ChatEmptyView({
+        model: emptyViewModel
+      });
+    },
+
     onAppShown: function() {
       this.$input.focus();
     },
@@ -91,8 +106,8 @@ define(function(require) {
       switch (message.get('action')) {
         case 'inactivity':
           message.set({
-            'msg': config.chat.inactivityMsg,
-            'userAction': config.chat.inactivityAction,
+            'msg': this.model.get('messages').inactivity,
+            'userAction': this.model.get('messages').inactivityAction,
             'info': ''
           });
 
@@ -103,18 +118,18 @@ define(function(require) {
           this.visitorMsgSent = 0;
           break;
         case 'transfer':
-          message.set('msg', config.chat.transferMsg);
+          message.set('msg', this.model.get('messages').transfer);
           break;
         case 'ban':
           message.set({
-            'msg': config.chat.banMsg,
+            'msg': this.model.get('messages').ban,
             'info': ''
           });
 
           break;
         case 'close':
-          this.onConversationClose(config.chat.notationMsg);
-          message.set('msg', config.chat.closeMsg);
+          this.onConversationClose(this.model.get('messages').notation);
+          message.set('msg', this.model.get('messages').close);
           break;
         case undefined:
           break;
@@ -165,6 +180,7 @@ define(function(require) {
 
       if (messageView) {
         this.childViews.add(messageView);
+        this.removeEmptyView();
       }
     },
 
@@ -319,8 +335,16 @@ define(function(require) {
       });
     },
 
+    removeEmptyView: function() {
+      if (this.emptyView) {
+        this.emptyView.remove();
+        this.emptyView = undefined;
+      }
+    },
+
     remove: function() {
       this.closeChildren();
+      this.removeEmptyView();
 
       // destroy models in collection, reset collection and delete reference;
       this.collection.reset();

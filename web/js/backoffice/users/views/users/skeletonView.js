@@ -13,7 +13,7 @@ define(function (require) {
       UsersView = require('backoffice/users/views/users/usersView'),
       UserEditView = require('backoffice/users/views/users/userEditView'),
       GroupsButtonView = require('backoffice/users/views/users/groupsButtonView'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       SkeletonView;
@@ -35,26 +35,26 @@ define(function (require) {
       this.childViews = new Backbone.ChildViewContainer();
       this.render();
       this.checkMaxUsers();
-      
+
       this.listenTo(this.collection, 'add remove', this.checkMaxUsers);
     },
-    
+
     render: function () {
       $('.js-skeleton-container').append(this.$el.html(this.template()));
-    
+
       $('.nav-tabs li').removeClass('active');
       $('.users-nav').addClass('active');
-      
+
       var groupsButtonView = new GroupsButtonView({
         collection: app.groupCollection
       });
       this.childViews.add(groupsButtonView);
-      
+
       var usersView = new UsersView({
         collection: this.collection
       });
       this.childViews.add(usersView);
-      
+
       return this;
     },
 
@@ -67,56 +67,56 @@ define(function (require) {
       $('#user-list .active').removeClass('active');
     },
 
-    sort: function(e) { 
+    sort: function(e) {
       var target = $(e.target);
 
       target.parent().find('.active').removeClass('active');
       target.addClass('active');
-      
+
       // Listen in userCollection
       app.trigger("users:sort", target.data('criteria'));
     },
-    
+
     closeGroupsWidget: function () {
       // Close the dropdown
       $('.groups-widget').removeClass('open');
       $('body').unbind('click');
     },
-    
+
     openGroupsWidget: function (e) {
-      
+
       var that = this;
       var btn = this.$el.find('.groups-widget');
       btn.addClass('open');
-    
+
       // Listen to click outside of the .groups-widget dropdown
       $('body').off().on('click', function (e) {
-        
+
         if ($(e.target).hasClass('btn-update')) {
-          
+
           var groups = [];
-          
+
           $('.groups-widget .checkbox input').each(function (key, item) {
             if ($(item).is(':checked')) {
               groups.push($(item).data('id'));
               $(item).prop('checked', false);
             }
           });
-          
+
           app.trigger('users:groups:update', groups);
           that.closeGroupsWidget();
         }
-        
+
         if (!$(e.target).parents('.groups-widget').length) {
           that.closeGroupsWidget();
         }
       });
     },
-    
+
     checkMaxUsers: function () {
 
       if (this.collection.length >= g.maxusers) {
-        
+
         $('.max-users-reached-alert').show();
         $('.users-counter').addClass('with-alert');
         $('.groups-widget').addClass('with-alert');
@@ -137,11 +137,11 @@ define(function (require) {
       $('.users-counter').text(this.counter);
 
     },
-    
+
     remove: function () {
 
       var that = this;
-      
+
       this.childViews.forEach(function (view){
         // delete index for that view
         that.childViews.remove(view);
