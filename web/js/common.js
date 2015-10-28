@@ -39,7 +39,7 @@ require.config({
     'when':                           'libs/when',
     'wysihtml5':                      'bower_components/wysihtml5/dist/wysihtml5-0.3.0',
     'wysihtml5-parser':               'bower_components/wysihtml5/parser_rules/advanced',
-    'scribe':                         'bower_components/scribe/scribe',
+    'scribe':                         'libs/scribe',
     'scribe-plugin-toolbar' :         'bower_components/scribe-plugin-toolbar/scribe-plugin-toolbar',
     'scribe-plugin-smart-lists':      'bower_components/scribe-plugin-smart-lists/scribe-plugin-smart-lists',
     'scribe-plugin-heading-command':  'bower_components/scribe-plugin-heading-command/scribe-plugin-heading-command',
