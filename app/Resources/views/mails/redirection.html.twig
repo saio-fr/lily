@@ -562,7 +562,7 @@
                 <!-- BEGIN HEADER // -->
 
 
-                <table border="0" cellpadding="0" cellspacing="0" id="templateHeader" width="600">
+                <table border="0" cellpadding="0" cellspacing="0" id="templateHeader" width="600" style="border-top:solid 1px #eeeeee;border-left:solid 1px #eeeeee;border-right:solid 1px #eeeeee;border-bottom:solid 1px transparent;">
                   <tr>
                     <td class="headerContainer" valign="top">
                       <table border="0" cellpadding="0" cellspacing="0" class="mcnCodeBlock" width=
@@ -595,7 +595,7 @@
                 <!-- BEGIN BODY // -->
 
 
-                <table border="0" cellpadding="0" cellspacing="0" id="templateBody" width="600">
+                <table border="0" cellpadding="0" cellspacing="0" id="templateBody" width="600" style="border-top:solid 1px transparent;border-left:solid 1px #eeeeee;border-right:solid 1px #eeeeee;border-bottom:solid 1px #eeeeee;">
                   <tr>
                     <td class="bodyContainer" valign="top">
 
@@ -613,13 +613,15 @@
                                     valign="top">
                                       <div style="text-align: left;">
                                         <br />
+                                        Bonjour,
+                                        <br>
                                         <span style="font-size:14px">
                                           <p style="font-family:arial,helvetica neue,helvetica,sans-serif;color:#555555;margin:0;">
 
                                           {% if email is not null %}
-                                          Bonjour, Vous avez reçu un nouveau message de la part de <strong>{{email}}</strong>:
+                                          Vous avez reçu un nouveau message de la part de <strong>{{email}}</strong> depuis votre site web:
                                           {% else %}
-                                          Bonjour, un visiteur vous a envoyé un message depuis votre application SAIO:
+                                          Un visiteur vous a envoyé un message depuis votre site web:
                                           {% endif %}
                                           </p>
 
@@ -684,11 +686,9 @@
               </td>
             </tr>
 
-
             <tr>
               <td align="center" valign="top">
                 <!-- BEGIN FOOTER // -->
-
 
                 <table border="0" cellpadding="0" cellspacing="0" id="templateFooter" width="600">
                   <tr>
@@ -707,8 +707,8 @@
                                     valign="top">
                                       <div style="text-align: center;">
                                         Cet e-mail provient de SAIO SUPPORT
-                                        <br><br>
-                                        <br />
+                                        <br>
+                                        <br>
                                         <strong>Contact:</strong><br />
                                         SAIO SAS<br>
                                         44, rue Cauchy<br>
