@@ -16,7 +16,7 @@ utils.contentLoaded(window, function() {
 
       state: {
         // Init to true for the purpose of this test
-        ready: true
+        load: true
       },
 
       initialize: function() {
@@ -63,7 +63,7 @@ utils.contentLoaded(window, function() {
 
       state: {
         // Init to false this time
-        ready: false
+        load: false
       },
 
       initialize: function() {
@@ -91,7 +91,7 @@ utils.contentLoaded(window, function() {
     assert.notOk(postMessageSpy.called, 'the message should be on hold');
 
     // Change state
-    anotherFrame.setState('ready', true);
+    anotherFrame.setState('load', true);
     assert.ok(postMessageSpy.called, 'the message should now have been sent');
 
     //Clean up

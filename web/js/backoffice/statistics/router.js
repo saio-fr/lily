@@ -79,7 +79,7 @@ define(function(require) {
         app.skeleton.chat = chatView;
       }
 
-      app.pageView('Statistics page, chat tab');
+      app.trackPageView('Statistics page, chat tab');
     },
 
     users: function() {
@@ -95,7 +95,7 @@ define(function(require) {
         app.skeleton.users = users;
       }
 
-      app.pageView('Statistics page, users tab');
+      app.trackPageView('Statistics page, users tab');
     }
 
   });

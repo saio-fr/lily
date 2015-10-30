@@ -8,7 +8,7 @@ define(function(require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      config   = require('front/globals'),
+      config   = require('front/config'),
 
       // Object wrapper returned as a module
       MessageChatView;

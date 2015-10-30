@@ -26,3 +26,5 @@ sftp-config.json
 npm-debug.log
 composer.phar
 composer.lock
+app/SymfonyRequirements.php
+app/check.php

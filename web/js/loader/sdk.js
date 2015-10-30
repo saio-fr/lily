@@ -10,14 +10,12 @@ module.exports = (function() {
   var calledBeforeLoad = false;
 
   var configMethods = {
-    'chat.setOperatorGroup': function(groupIds) {
-      if (_.isString(groupIds)) {
-        mediator.trigger('config.setOperatorGroup', groupIds);
-      } else if (groupIds && groupIds.length) {
-        var args = ['config.setOperatorGroup'].concat([].slice.call(groupIds));
-        mediator.trigger.call({}, args);
+    'chat.setOperatorGroup': function(groupId, shouldFallback) {
+      if (!_.isString(groupId)) {
+        console.error('groupId should be a string containing the operator group id');
       } else {
-        console.error('groupId should be a string containing the operator group id or a table containing group ids strings');
+        shouldFallback = typeof shouldFallback === 'undefined' ? true : shouldFallback;
+        mediator.trigger('lily.setOperatorGroup', groupId, shouldFallback);
       }
     },
 

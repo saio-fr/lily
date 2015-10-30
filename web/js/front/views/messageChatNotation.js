@@ -8,14 +8,14 @@ define(function(require) {
 
   // Require CommonJS like includes
   var _               = require('underscore'),
-      config          = require('front/globals'),
+      config          = require('front/config'),
       app             = require('front/app'),
       Models          = require('front/data/models'),
       MessageChatView = require('front/views/messageChat'),
       // Object wrapper returned as a module
       MessageChatOperator;
 
-  MessageChatOperator = MessageChatView.extend({
+  MessageChatOperator = Backbone.View.extend({
 
     className: 'lily-msg lily-msg-chat-notation lily-msg-server',
     model: Models.ChatMessage,
@@ -27,7 +27,15 @@ define(function(require) {
     },
 
     initialize: function() {
+      this.render();
+    },
 
+    render: function() {
+
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.appendTo('.lily-box-messages');
+      this.trigger('render');
+      return this;
     },
 
     satisfaction: function(ev) {

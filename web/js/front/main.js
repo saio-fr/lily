@@ -3,52 +3,19 @@ define(function(require) {
   'use strict';
 
   var $            = require('jquery'),
+      Backbone     = require('backbone'),
       isMobile     = require('isMobile'),
       app          = require('front/app'),
-      config       = require('front/globals'),
+      config       = require('front/config'),
       SkeletonView = require('front/views/skeleton');
 
-  app.init = function() {
+  app.bootstrap = function() {
     config.isMobile = isMobile;
-    app.skeleton = new SkeletonView();
-
-    // if (config.standaloneMode) {
-    //   app.onAppShown();
-    // }
+    var configModel = new Backbone.Model(config);
+    app.skeleton = new SkeletonView({ model: configModel });
   };
 
-  config.sid = app.getSessionId();
-  config.standaloneMode = !app.appInIframe();
-
-  if (!config.sid) {
-    // We were unable to store an uniqid
-    // We won't show the widget
-    // To do: track this event;
-    console.error('unable to generate uniqid for saio');
-    return;
-  }
-
-  // Register unique user with session Id & ip
-  app.registerUser(config.sid, {
-    visitorIp: config.visitorIp
-  });
-
-  // Register session super properties
-  app.registerProperties({
-    client: config.licence,
-    visitorIp: config.visitorIp,
-    standalone: config.standaloneMode,
-    app: 'frontApp'
-  });
-
-  app.wsConnect(function(result) {
-    app.isConnectionActive = true;
-    app.showContactForm = result.showContactForm;
-    app.setIsConversationClosed(result.isConversationClosed);
-    app.init();
-  });
-
-  app.onAppLoad();
+  app.init();
 
   // On Dom loaded
   $(function() {
@@ -93,6 +60,33 @@ define(function(require) {
         this.removeAttribute('data-div-placeholder-content');
       }
     });
+
+    (function($){
+      $.fn.serializeObject = function () {
+
+        var result = {};
+        var extend = function (i, element) {
+          var node = result[element.name];
+
+          if (element.value === '') return;
+
+          // If node with same name exists already, need to convert it to an array as it
+          // is a multi-value field (i.e., checkboxes)
+          if ('undefined' !== typeof node && node !== null) {
+            if ($.isArray(node)) {
+              node.push(element.value);
+            } else {
+              result[element.name] = [node, element.value];
+            }
+          } else {
+            result[element.name] = element.value;
+          }
+        };
+
+        $.each(this.serializeArray(), extend);
+        return result;
+      };
+    })(jQuery);
   });
 
   return {};

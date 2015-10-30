@@ -12,7 +12,7 @@ define(['require', '../../common'], function(require) {
   'backoffice/chat/router',
   'components/chat/main',
   'moment',
-  'globals',
+  'config',
 
   // Libraries required at bootstrap for the UI.
   'moment-fr',
@@ -20,7 +20,7 @@ define(['require', '../../common'], function(require) {
   'todoTpl',
   'polyfils',
   // Autobahn V1 AMD broken.
-], function($, _, Backbone, ab, when, app, ChatRouter, LiveChat, moment, globals) {
+], function($, _, Backbone, ab, when, app, ChatRouter, LiveChat, moment, config) {
 
     // Set locale in moment JS
     moment.locale('fr');
@@ -28,7 +28,7 @@ define(['require', '../../common'], function(require) {
     function bootstrap() {
       app.router = new ChatRouter();
 
-      if (globals.chat && globals.isChatOperator && !app.liveChat) {
+      if (config.chat && config.isChatOperator && !app.liveChat) {
         app.liveChat = new LiveChat();
       }
 

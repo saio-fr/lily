@@ -13,7 +13,7 @@ define(function(require) {
   var _       = require('underscore'),
     ab        = require('autobahn'),
     Backbone  = require('backbone'),
-    config    = require('front/globals'),
+    config    = require('front/config'),
     isMobile  = require('isMobile'),
     when      = require('when'),
     analytics = require('utils/analytics'),
@@ -33,6 +33,34 @@ define(function(require) {
     hostPathName: '',
     hostDomain: '',
 
+    init: function() {
+      config.sid = app.getSessionId();
+      config.standaloneMode = !app.appInIframe();
+
+      if (!config.sid) {
+        // We were unable to store an uniqid
+        // We won't show the widget
+        // To do: track this event;
+        return console.error('unable to generate uniqid for saio');
+      }
+
+      app.onAppLoad();
+
+      if (config.standaloneMode) {
+        app.wsConnect(function(result) {
+          app.bootstrap();
+        });
+      } else {
+        app.once('hostSiteReady', function() {
+          app.wsConnect(function(result) {
+            app.bootstrap();
+          });
+        });
+      }
+
+      app.registerVisitorProperties();
+    },
+
     wsConnect: function(callback) {
 
       return when(ab.connect(
@@ -50,7 +78,11 @@ define(function(require) {
             // Successfully connected to ws server;
             // Show widget on host site:
             app.onConnect(result);
-            app.trigger('chat:connected');
+            app.trigger('ws:connected');
+
+            app.isConnectionActive = true;
+            app.showContactForm = result.showContactForm;
+            app.setIsConversationClosed(result.isConversationClosed);
 
             callback(result);
           },
@@ -58,7 +90,7 @@ define(function(require) {
           function(err) {
             console.warn(err);
             app.trigger('status:connectionError');
-            app.init();
+            app.bootstrap();
           });
 
         },
@@ -75,15 +107,16 @@ define(function(require) {
       ));
     },
 
-    connect: function() {
+    connect: function(apiOptions) {
       var media = isMobile.phone ? 'phone' : (isMobile.tablet ? 'tablet' : 'pc');
       app.subscribe();
       return app.ws.call('visitor/connect', {
         // top.location.href can't be accessed from iframe
         // with a domain that differs from the host@
-        'href': app.hostHref,
-        'pathname': app.hostPathName,
-        'media': media
+        href: app.hostHref,
+        pathname: app.hostPathName,
+        media: media,
+        apiOptions: config.apiOptions || {}
       });
     },
 
@@ -99,8 +132,16 @@ define(function(require) {
     call: function() {
       var args = arguments;
 
-      if (!app.isConnectionActive) {
+      // First connection to the ws server didn't happen yet
+      // Delay calls to the ws server
+      if (!app.ws) {
+        return app.listenTo('ws:connected', function() {
+          // Call again
+          app.call.apply(app, args);
+        });
+      }
 
+      if (!app.isConnectionActive) {
         return app.wsConnect(function() {
           // brackets notation to avoid confusion with Javascript call method;
           return app.ws['call'].apply(app.ws, args);
@@ -176,6 +217,21 @@ define(function(require) {
 
       app.payload = payload;
       app.trigger('ws:subscribedToChat', payload);
+    },
+
+    registerVisitorProperties: function() {
+      // Register unique user with session Id & ip
+      app.registerUser(config.sid, {
+        visitorIp: config.visitorIp
+      });
+
+      // Register session super properties
+      app.registerProperties({
+        client: config.licence,
+        visitorIp: config.visitorIp,
+        standalone: config.standaloneMode,
+        app: 'frontApp'
+      });
     },
 
     ////////////////////
@@ -396,8 +452,14 @@ define(function(require) {
     ////////////////////
 
     // From host
-    onHostSendInfo: function(options) {
+    onHostSendsInfo: function(options) {
       config.hostOptions = _.isObject(options) ? options : {};
+
+      if (options.apiOptions) {
+        config.apiOptions = options.apiOptions;
+      }
+
+      app.trigger('hostSiteReady');
     },
 
     onIdentifyUser: function(infos) {
@@ -472,7 +534,7 @@ define(function(require) {
   app.on('welcomeScreen:submit', app.onSubmitInfos, this);
 
   // Events received from host website
-  FrameBus.on('host.sendInfo', app.onHostSendInfo);
+  FrameBus.on('host.sendInfo', app.onHostSendsInfo);
   FrameBus.on('lily.shown', app.onAppShown);
   FrameBus.on('widget.click', app.onWidgetClick);
   FrameBus.on('widget.shown', app.onWidgetShow);

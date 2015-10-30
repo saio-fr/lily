@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     _ = require('underscore'),
     app = require('backoffice/app'),
-    globals = require('globals'),
+    config = require('config'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     NotifsCollection = require('components/notifications/notifsCollection'),
     NotifView = require('components/notifications/notifView'),
@@ -58,7 +58,7 @@ define(function(require) {
     render: function() {
       var container = $('.js-navbar');
       var that = this;
-      
+
       // Remove any existing child view first:
       this.childViews.call("remove");
 
@@ -77,15 +77,15 @@ define(function(require) {
       return this;
     },
 
-    // Here the "magic" happens: called when a state change was detected 
+    // Here the "magic" happens: called when a state change was detected
     // in a conversation. check for existing notifications and cases for
-    // which there shouldn't be any new notification added, 
+    // which there shouldn't be any new notification added,
     // and add a new one otherwise:
     onConversationStateChange: function(notif) {
 
       var model;
       var relatedNotification = this.notifs.get(notif.id);
-      var title = notif.state === "urgent" ? 
+      var title = notif.state === "urgent" ?
         "messageUrgent" : "messageUnAnswered";
 
       if (!notif) { return; }
@@ -98,7 +98,7 @@ define(function(require) {
       }
 
       model = {
-        title: globals.notifications[title],
+        title: config.notifications[title],
         state: notif.state,
         msg: notif.msg,
         id: notif.id,
@@ -106,16 +106,16 @@ define(function(require) {
         name: notif.name,
       };
 
-      // If state and msg are the same as a precedent notification, 
+      // If state and msg are the same as a precedent notification,
       // don't create a new one:
       if (this.isSeen(model)) {
         return;
       }
 
-      // If a notification already exists for the same conversation, 
+      // If a notification already exists for the same conversation,
       // merge the new one with the old one, update existing sessionStorage
       // for that notification:
-      if (relatedNotification) { 
+      if (relatedNotification) {
         relatedNotification.set(model);
         this.setNewState(relatedNotification);
         return;
@@ -131,24 +131,24 @@ define(function(require) {
       if (!model) { return; }
       var view = new NotifView({model: model}).render();
 
-      this.childViews.add(view);     
+      this.childViews.add(view);
       return view;
     },
 
     // remove an existing notification child view,
     // update the notification count:
     removeChildView: function(view) {
-  
+
       if (view) {
         view.remove();
         this.stopListening(view);
-        this.childViews.remove(view); 
+        this.childViews.remove(view);
       }
-  
+
       return view;
     },
 
-    // Update the notification count in the parent model 
+    // Update the notification count in the parent model
     // (triggers a re-render of the parent view), and the children views as a result
     // Could be improved with a subview containing the count label,
     // and another for the count sign, to prevent child views from being re-rendered.
@@ -211,14 +211,14 @@ define(function(require) {
       this.model.set('count', this.notifs.length);
     },
 
-    // Check if a similar (same id, state and msg) notification 
+    // Check if a similar (same id, state and msg) notification
     // was already seen:
     isSeen: function(notif) {
       var id = notif.id;
       var prev = this.getPreviousState(id);
 
-      return (prev && 
-              prev.state === notif.state && 
+      return (prev &&
+              prev.state === notif.state &&
               prev.msg   === notif.msg &&
               prev.seen);
     },

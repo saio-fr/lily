@@ -8,7 +8,7 @@ define(function (require) {
 
   // Require CommonJS like includes
   var Backbone = require('backbone'),
-      g = require('globals'),
+      g = require('config'),
       statistics = require('statistics'),
 
       // Object wrapper returned as a module
@@ -20,7 +20,7 @@ define(function (require) {
     url: function () {
       return '/statistics/user/'+g.userId+'/history/chats/'+this.start+'/'+this.end;
     },
-    
+
     initialize: function () {
       this.start = statistics.date.start;
       this.end = statistics.date.end;
@@ -34,7 +34,7 @@ define(function (require) {
           return moment(item.get('start')).unix()-moment(item.get('end')).unix();
         default:
           return -item.get(this.sortCriteria);
-  		}	
+  		}
 		}
   });
 

@@ -22,7 +22,7 @@ require.config({
     'flot-resize':                    'bower_components/flot/jquery.flot.resize',
     'flot-time':                      'bower_components/flot/jquery.flot.time',
     'flot-tooltip':                   'bower_components/flot.tooltip/js/jquery.flot.tooltip',
-    'globals':                        'backoffice/globals',
+    'config':                         'backoffice/config',
     'isMobile':                       'bower_components/isMobile/isMobile',
     'jquery':                         'bower_components/jquery/dist/jquery',
     'moment':                         'bower_components/moment/moment',
@@ -39,7 +39,7 @@ require.config({
     'when':                           'libs/when',
     'wysihtml5':                      'bower_components/wysihtml5/dist/wysihtml5-0.3.0',
     'wysihtml5-parser':               'bower_components/wysihtml5/parser_rules/advanced',
-    'scribe':                         'bower_components/scribe/scribe',
+    'scribe':                         'libs/scribe',
     'scribe-plugin-toolbar' :         'bower_components/scribe-plugin-toolbar/scribe-plugin-toolbar',
     'scribe-plugin-smart-lists':      'bower_components/scribe-plugin-smart-lists/scribe-plugin-smart-lists',
     'scribe-plugin-heading-command':  'bower_components/scribe-plugin-heading-command/scribe-plugin-heading-command',
@@ -49,6 +49,7 @@ require.config({
     'synapse':                        'libs/synapse-suggest',
     'typeahead':                      'libs/typeahead.jquery',
     'bloodhound':                     'libs/bloodhound',
+    'pikaday':                        'bower_components/pikaday/pikaday',
   },
 
   shim: {

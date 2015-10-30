@@ -1,7 +1,7 @@
 define(function (require) {
 
   var app     = require('backoffice/app'),
-      globals = require('globals');
+      config = require('config');
 
   /**
    * This plugin adds a command for creating links, including a basic prompt.
@@ -32,7 +32,7 @@ define(function (require) {
 
         var initialLink = anchorNode ? anchorNode.href : '';
         
-        var modal = app.createModal.prompt(globals.modalPrompt.insertLink, initialLink);
+        var modal = app.createModal.prompt(config.modalPrompt.insertLink, initialLink);
         
         modal.promise.then(function (link) {
           if (link) {

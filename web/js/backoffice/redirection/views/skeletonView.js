@@ -13,7 +13,7 @@ define(function(require) {
     RedirectionCollectionView = require('backoffice/redirection/views/redirectionCollectionView'),
     RedirectionEditView = require('backoffice/redirection/views/redirectionEditView'),
     RedirectionCollection = require('backoffice/redirection/collections/redirectionCollection'),
-    globals = require('globals'),
+    config = require('config'),
 
     // Object wrapper returned as a module
     SkeletonView;
@@ -54,7 +54,7 @@ define(function(require) {
     },
 
     onDeletePrevented: function() {
-      app.createModal.alert(globals.modalAlert.redirection);
+      app.createModal.alert(config.modalAlert.redirection);
     },
 
     getActiveItem: function() {

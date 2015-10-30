@@ -209,7 +209,7 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
 
         // The time interval in milliseconds that will be used by rateLimitBy.
         // Defaults to 300
-        rateLimitWait: 300,
+        rateLimitWait: 450,
         transform: transformRemote
       }
     };
@@ -256,6 +256,10 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
         // display: parentSuggestion.bind(this),
         displayKey: 'text',
         limit: 3,
+        templates: {
+          pending: options.pendingTemplate || '',
+          notFound: options.notFoundTemplate || '',
+        }
       };
 
       if (this.strategy === 'suggestions') {
@@ -265,10 +269,10 @@ define(['underscore', 'jquery', 'bloodhound', 'typeahead'], function(_, $, Blood
       }
 
       $(selector).typeahead({
-        hint: options.hint || false,
-        autoSelect: options.autoSelect || false,
-        highlight: options.highlight || false,
-        minLength: options.minLenght || 2,
+        hint: options.HAS_HINT || false,
+        autoSelect: options.HAS_AUTOSELECT || false,
+        highlight: options.HAS_HIGHLIGHT || false,
+        minLength: options.MIN_LENGTH || 2,
       }, params);
     };
   };

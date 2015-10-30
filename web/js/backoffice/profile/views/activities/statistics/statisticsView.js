@@ -9,7 +9,7 @@ define(function (require) {
   // Require CommonJS like includes
   var app = require('backoffice/app'),
       Utils = require('statistics'),
-      g = require('globals'),
+      g = require('config'),
 
       // Object wrapper returned as a module
       StatisticsView;
@@ -31,19 +31,19 @@ define(function (require) {
       this.plot();
       Utils.daterangepicker(this);
     },
-    
+
     render: function () {
       $('#statistics').append(this.$el.html(this.template()));
       return this;
     },
-    
-    select: function (e) {  
+
+    select: function (e) {
       this.$el.find('footer .active').removeClass('active');
       $(e.currentTarget).addClass('active');
       this.model.graph.type = $(e.currentTarget).data('type');
       Utils.renderGraph(this, $('.icon-spinner'));
     },
-    
+
     plot: function () {
       Utils.renderFooter(this);
       Utils.renderGraph(this, $('.icon-spinner'));

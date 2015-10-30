@@ -10,7 +10,7 @@ define(function (require) {
   var _                  = require('underscore'),
       Backbone           = require('backbone'),
       app                = require('backoffice/app'),
-      globals            = require('globals'),
+      config            = require('config'),
       Interact           = require('utils/interact'),
       Counters           = require('backoffice/knowledge/utils/counters'),
       Models             = require('backoffice/knowledge/data/models'),
@@ -62,7 +62,7 @@ define(function (require) {
         }
       };
 
-      app.postUrl = globals.knowledge.questionsSortUrl;
+      app.postUrl = config.knowledge.questionsSortUrl;
 
       app.postCallback = function (data) {
         that.collection.set(data.questions);
@@ -105,7 +105,7 @@ define(function (require) {
           $('.js-questions-list').append(view.render().el);
         });
       } else {
-        $('.js-questions-list').html(globals.knowledge.noQuestions);
+        $('.js-questions-list').html(config.knowledge.noQuestions);
       }
     },
 
@@ -133,7 +133,7 @@ define(function (require) {
       var that = this;
 
       if (!$('.btn-group-trash button').attr('disabled')) {
-        var modal = app.createModal.confirm(globals.modalConfirm.questionsTrash);
+        var modal = app.createModal.confirm(config.modalConfirm.questionsTrash);
         modal.promise.then(function (res) {
           if (res) {
             app.trigger('questions:toTrash');

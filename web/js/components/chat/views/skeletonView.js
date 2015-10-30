@@ -10,7 +10,7 @@ define(function(require) {
   var app = require('backoffice/app'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    globals = require('globals'),
+    config = require('config'),
     RecordCurrent = require('components/chat/views/records/currentView'),
     RecordWaiting = require('components/chat/views/records/waitingView'),
     InformationsView =   require('components/chat/views/informationsView'),
@@ -85,7 +85,7 @@ define(function(require) {
         return;
       }
 
-      if (user.get('operator') === parseInt(globals.userId, 10)) {
+      if (user.get('operator') === parseInt(config.userId, 10)) {
         recordView = new RecordCurrent({ model: user }).render();
       }
 

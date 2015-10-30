@@ -1,19 +1,19 @@
 <header class="panel-heading font-bold">Questions les plus fréquentes</header>
 <div class="panel-body no-padder">
   <ul class="avi-top-list">
-    
+
     <% if (!questions.length) { %>
       <h6 class="text-center">Nous n'avons pas assez de statistiques pour générer une liste de questions les plus fréquentes</h6>
     <% } else {
-    
+
       _.each(questions, function(item, index) { %>
-      
+
       <li class="avi-top-item">
         <div class="avi-top-item-position"><%= index+1 %></div>
         <h6 class="avi-top-item-title"><span><%= item.title %></span></h6>
       </li>
-      
+
     <% }); } %>
-    
+
   </ul>
 </div>

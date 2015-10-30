@@ -14,7 +14,7 @@ define(function(require) {
       $           = require('jquery'),
       Backbone    = require('backbone'),
       Moment      = require('moment'),
-      config      = require('globals'),
+      config      = require('config'),
       analytics   = require('utils/analytics'),
       ab          = require('autobahn'),
       createModal = require('components/modals/main'),

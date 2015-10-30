@@ -36,6 +36,10 @@ var app = {
 
   onLilyExpand: function() {
     app.trigger('attGrabber.hide');
+
+    if (app.attGrabberRenderTimeout) {
+      window.clearTimeout(app.attGrabberRenderTimeout);
+    }
   },
 
   // To Host

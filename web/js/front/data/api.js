@@ -12,7 +12,7 @@ define(function(require) {
       app    = require('front/app'),
       when   = require('when'),
       Models = require('front/data/models'),
-      config = require('front/globals'),
+      config = require('front/config'),
 
     // Object wrapper returned as a module
     api = {};
@@ -43,15 +43,15 @@ define(function(require) {
     var deferred = when.defer();
 
     var credentialsJson = {
-      'password': config.synapse.password,
-      'user': config.synapse.user
+      'password': config.SYNAPSE_PASSWORD,
+      'user': config.SYNAPSE_USER
     },
     input = _.extend(data, { credentials: credentialsJson });
 
     if (method && url) {
       $.ajax({
         type: method,
-        url: config.synapse.restRoot + url,
+        url: config.SYNAPSE_REST_ROOT + url,
         data: JSON.stringify(input),
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -83,6 +83,19 @@ define(function(require) {
    */
   api.getAnswerFromId = function(id) {
     return this.send('GET', '/api/' + config.licence + '/question/' + id);
+  };
+
+  /**
+   * Gets the 4 more frequent questions asked in the preceding month
+   * @return [] questions:
+   *
+   *  id int
+   *  title string
+   *  answer string
+   *  nbs: int
+   */
+  api.getTopQuestions = function() {
+    return this.send('GET', '/api/' + config.licence + '/topquestions');
   };
 
   /**
@@ -144,10 +157,6 @@ define(function(require) {
   api.redirectionMail = function(data, id) {
     return this.send('POST', '/api/' + config.licence + '/avi/redirection/' +
       id + '/mail', data);
-  };
-
-  api.getTopQuestions = function(id) {
-    return this.send('GET', '/api/' + config.licence + '/top-questions/' + id);
   };
 
   return api;

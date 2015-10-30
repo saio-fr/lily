@@ -145,6 +145,7 @@ module.exports = function() {
         href: window.location.href || null,
         protocol: window.location.protocol || null,
         referrer: document.referrer || null,
+        apiOptions: this.apiOptions || null
       });
     },
 
@@ -201,8 +202,11 @@ module.exports = function() {
 
     // Follow the information to lily that the operator group
     // for this page should be groupId
-    setOperatorGroup: function(groupId) {
-      this.sendMessage('config.setOperatorGroup', groupId);
+    setOperatorGroup: function(groupId, shouldFallback) {
+      this.apiOptions = {
+        operatorsGroupWanted: groupId,
+        operatorsGroupWantedShouldFallback: shouldFallback
+      };
     },
 
     onExpand: function(options) {

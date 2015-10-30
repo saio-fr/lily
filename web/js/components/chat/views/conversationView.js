@@ -10,7 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     app = require('backoffice/app'),
     _ = require('underscore'),
-    globals = require('globals'),
+    config = require('config'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     Collections =        require('components/chat/data/collections'),
     MessagesView =       require('components/chat/views/messagesView'),
@@ -124,6 +124,7 @@ define(function(require) {
 
         case 'operator':
           msg.convertAvatar();
+          msg.set('userId', config.userId);
           view = new MessagesView.Operator({
             model: msg
           }).render(conversations);
@@ -200,7 +201,7 @@ define(function(require) {
     },
 
     close: function() {
-      var modal = app.createModal.confirm(globals.modalConfirm.chatClose);
+      var modal = app.createModal.confirm(config.modalConfirm.chatClose);
       modal.promise.then(function (res) {
         if (res) {
           app.trigger('operator:close', this.id);
@@ -214,7 +215,7 @@ define(function(require) {
     },
 
     ban: function() {
-      var modal = app.createModal.confirm(globals.modalConfirm.chatBan);
+      var modal = app.createModal.confirm(config.modalConfirm.chatBan);
       modal.promise.then(function (res) {
         if (res) {
           app.trigger('operator:ban', this.id);
@@ -230,10 +231,10 @@ define(function(require) {
       var operators = app.chatUsers.filter(function(model) {
         return model.get('type') === 'operator' &&
           model.get('available') &&
-          model.get('id') !== parseInt(globals.userId, 10);
+          model.get('id') !== parseInt(config.userId, 10);
       });
 
-      var transferModalView = app.createModal.app(globals.modalApp.chatTransfer);
+      var transferModalView = app.createModal.app(config.modalApp.chatTransfer);
 
       if (_.isEmpty(operators)) {
         transferModalView.$el.find('.modal-body').html('Aucun opérateur disponible.');

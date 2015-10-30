@@ -3,7 +3,7 @@ var _           = require('underscore');
 var app         = require('../app');
 var ButtonWiew  = require('./button');
 var AttGrabber  = require('./attGrabber');
-var WidgetModel  = require('../models/widgetModel');
+var WidgetModel = require('../models/widgetModel');
 
 // Object wrapper returned as a module
 var skeletonView = Backbone.View.extend({
@@ -19,6 +19,8 @@ var skeletonView = Backbone.View.extend({
   },
 
   render: function() {
+    if (this.rendered) return;
+
     app.buttonView = new ButtonWiew({ model: app.widgetModel });
 
     // Show attention graber after a certain delay
@@ -26,6 +28,8 @@ var skeletonView = Backbone.View.extend({
       app.attGrabber = new AttGrabber({ model: app.widgetModel });
       window.clearTimeout(app.attGrabberRenderTimeout);
     }, app.widgetModel.get('attentionGrabberDelay'));
+
+    this.rendered = true;
   },
 
 });

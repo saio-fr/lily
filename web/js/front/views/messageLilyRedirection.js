@@ -10,7 +10,7 @@ define(function(require) {
 var _           = require('underscore'),
     Backbone    = require('backbone'),
     app         = require('front/app'),
-    config      = require('front/globals'),
+    config      = require('front/config'),
     api         = require('front/data/api'),
     MessageView = require('front/views/message'),
 
@@ -41,11 +41,7 @@ MessageLilyRedirection = Backbone.View.extend({
   },
 
   dismiss: function() {
-    this.$el.addClass('component-hide');
-
-    app.onAnimEnd(this.$el, function() {
-      app.trigger('avi:choicesViewDismiss', 'redirectionView');
-    });
+    app.trigger('avi:choicesViewDismiss', 'redirectionView');
   },
 
   transitionInMessage: function(callback) {

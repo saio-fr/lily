@@ -41,25 +41,25 @@ class OperatorTopic implements TopicInterface
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
                 $item->lastPing = time();
                 $item->conn = $conn;
-				return;
-			}
-		}
+								return;
+						}
+				}
 
-    	$operator = new \StdClass;
-        $operator->id = $conn->User->getId();
-        $operator->conn = $conn;
-        $operator->lastPing = time();
-        $operator->type = 'operator';
-        $operator->welcome = $conn->User->getConfig()->getWelcomeMsg();
-        $operator->avatar = $conn->User->getConfig()->getAvatar();
-        $operator->firstname = $conn->User->getFirstname();
-        $operator->lastname = $conn->User->getLastname();
-        $operator->groups = $conn->User->getGroupNames();
-        $operator->messages = array();
-        $operator->available = false;
-        $operator->chats = 0;
-
-        $users->attach($operator);
+        $operator = new \StdClass;
+	      $operator->id = $conn->User->getId();
+	      $operator->conn = $conn;
+	      $operator->lastPing = time();
+	      $operator->type = 'operator';
+	      $operator->welcome = $conn->User->getConfig()->getWelcomeMsg();
+	      $operator->avatar = $conn->User->getConfig()->getAvatar();
+	      $operator->firstname = $conn->User->getFirstname();
+	      $operator->lastname = $conn->User->getLastname();
+	      $operator->groups = $conn->User->getGroups();
+	      $operator->messages = array();
+	      $operator->available = false;
+	      $operator->chats = 0;
+	      
+	      $users->attach($operator);
     }
 
     /**
@@ -76,11 +76,11 @@ class OperatorTopic implements TopicInterface
         // Security check
         if (!isset($conn->User)) { return; }
 
-    	foreach ($users as $item) {
+    		foreach ($users as $item) {
             if ($item->id === $conn->User->getId() && $item->type === 'operator') {
-			    $users->detach($item);
+			    			$users->detach($item);
             }
-	    }
+	    	}
     }
 
 
@@ -97,7 +97,7 @@ class OperatorTopic implements TopicInterface
      */
     public function onPublish(Conn $conn, $topic, $event, array $exclude, array $eligible, $users)
     {
-		foreach ($users as $item) {
+				foreach ($users as $item) {
 
             if ($item->id === $conn->Session->getId()) {
 
@@ -110,7 +110,7 @@ class OperatorTopic implements TopicInterface
                     'msg' => $event);
                 $item->topic->broadcast($item->messages);
 
-        	}
+        		}
         }
     }
 }
