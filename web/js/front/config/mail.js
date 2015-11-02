@@ -4,7 +4,7 @@ define(function(require) {
     mailSentMsg: 'Votre mail a bien été envoyé',
     mailSentError: 'Votre mail n\'a pas pu être envoyé',
 
-    onBoardingMessage: 'Veuillez renseigner ces informations afin qu\'un de nos conseiller puisse traiter votre demande',
+    onBoardingMessage: 'Veuillez renseigner ces informations afin qu\'un de nos conseillers puisse traiter votre demande',
     contactFormTitle: 'Ces informations nous permettront de répondre à votre requête dans les meilleurs délais',
     callbackFormTitle: 'Je souhaite être rappelé(e)',
 

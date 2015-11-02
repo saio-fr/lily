@@ -7,7 +7,7 @@ define(function(require) {
     },
     messages: {
       satisfiedFeedback: 'Merci pour votre appréciation! N\'hésitez pas à poser d\'autres questions.',
-      unSatisfiedRedirection: 'Nous sommes désolé que cette réponse ne vous ait pas convenu.' +
+      unSatisfiedRedirection: 'Nous sommes désolés que cette réponse ne vous ait pas convenu.' +
         '<p><b>Souhaitez vous être mis en relation avec un conseiller ?</b></p>',
       noAnswerRedirection: '<b>Voulez-vous être mis en relation avec un conseiller ?</b>',
       apologize: 'Nous n\'avons pas trouvé de réponse à votre question',
