@@ -30,7 +30,7 @@ define(function(require) {
 
   ChatView = PageView.extend({
 
-    template: _.template($('#lily-page-chat-template').html()),
+    template: _.template($('#page-chat-template').html()),
 
     events: {
       'keyup   .chat-input-component': 'isWriting',
@@ -57,7 +57,7 @@ define(function(require) {
       this.reconnectionMsgVisible = false;
       this.visitorMsgSent = 0;
 
-      $(this.render().el).appendTo('#lily-wrapper-page');
+      $(this.render().el).appendTo('#wrapper-page');
 
       // Post-render
       this.setupEmptyView();
@@ -284,13 +284,11 @@ define(function(require) {
       var target = $(e.target),
         satisfaction;
 
-      this.$el.find('#lily-chat-notation-wrapper i').removeClass('active');
-
-      if (target.hasClass('lily-icon-thumb-up')) {
-        this.$el.find('.lily-icon-thumb-up').addClass('active');
+      if (target.hasClass('icon-thumb-up')) {
+        this.$el.find('.icon-thumb-up').addClass('active');
         satisfaction = true;
       } else {
-        this.$el.find('.lily-icon-thumb-down').addClass('active');
+        this.$el.find('.icon-thumb-down').addClass('active');
         satisfaction = false;
       }
 
@@ -298,7 +296,7 @@ define(function(require) {
     },
 
     reconnect: function() {
-      this.$el.find('.lily-msg-reconnect').addClass('lily-async-action');
+      this.$el.find('.msg-reconnect').addClass('async-animation');
       app.trigger('chat:reconnect');
     },
 
@@ -307,7 +305,7 @@ define(function(require) {
 
       // Add a 500ms delay to show user something has happenned.
       window.setTimeout(function() {
-        that.$el.find('.lily-msg-reconnect').hide();
+        that.$el.find('.msg-reconnect').hide();
         that.reconnectionMsgVisible = false;
       }, 400);
     },

@@ -27,14 +27,14 @@ define(function(require) {
     events: {
       'click .btn-close': 'goBack',
       'click .btn-submit': 'onSubmitButtonClick',
-      'submit .lily-contact-form': 'onSubmitEvent',
+      'submit .contact-form': 'onSubmitEvent',
       'keypress input.form-input': 'onSubmitEvent',
       'focus .form-date': 'onFocusDate',
       'click .redirection-type-switch-wrapper input': 'onRedirectionTypeChange'
     },
 
     model: Models.Mail,
-    template: _.template($('#lily-page-mail-template').html()),
+    template: _.template($('#page-mail-template').html()),
 
     initialize: function() {
       var that = this;
@@ -42,7 +42,7 @@ define(function(require) {
       this.listenTo(this, 'page:transitionnedIn', this.setupForm);
       this.listenTo(this.model, 'change:isRedirectionTel', this.onRedirectionTypeChanged);
 
-      $(this.render({ page: true }).el).appendTo('#lily-wrapper-page');
+      $(this.render({ page: true }).el).appendTo('#wrapper-page');
     },
 
     render: function() {
@@ -54,7 +54,7 @@ define(function(require) {
       var that = this;
 
       this.$submitButton = this.$('.btn-submit');
-      this.$form = this.$('.lily-contact-form');
+      this.$form = this.$('.contact-form');
       this.$inputDate = this.$('.form-date');
 
       this.$redirectionTypeSwitch = $('.redirection-type-switch-wrapper input');
@@ -112,7 +112,7 @@ define(function(require) {
         this.hasValidationError = true;
         this.stopSubmitButtonProgress(-1);
 
-        $('.lily-page').scrollTop(this.$form[0].scrollHeight);
+        $('.page').scrollTop(this.$form[0].scrollHeight);
       }
     },
 

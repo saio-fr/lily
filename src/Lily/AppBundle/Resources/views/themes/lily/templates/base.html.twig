@@ -1,19 +1,19 @@
-<div id="lily-toolbar" class="lily-cst-toolbar">
-  <span class="lily-icon lily-left lily-bt-menu lily-icon-menu"></span>
-  <div id="lily-toolbar-name" class="lily-cst-toolbar-name"><%= avi.name %></div>
-  <div id="lily-toolbar-icons" class="lily-cst-toolbar-icons">
-    <div class="lily-icon-reduce"></div>
+<div class="toolbar cst-toolbar">
+  <span class="icon btn-menu icon-menu"></span>
+  <div class="toolbar-name cst-toolbar-name"><%= avi.name %></div>
+  <div class="toolbar-icons cst-toolbar-icons">
+    <div class="icon-reduce"></div>
   </div>
 </div>
 
 <!-- wrapper pour menu -->
-<div id='lily-menu' class="snap-drawer snapdrawer-left scrollable lily-cts-menu">
-  <div class="lily-menu-body">
+<div id='menu' class="snap-drawer snapdrawer-left scrollable cts-menu">
+  <div class="menu-body">
     <ul>
         <% if (avi.active) { %>
         <li>
           <a href="#/avi" target="_self">
-            <span class='lily-icon lily-icon-avatar'></span>Poser une question
+            <span class='icon icon-avatar'></span>Poser une question
           </a>
         </li>
         <% } %>
@@ -21,7 +21,7 @@
         <% if (chat.active && chatAvailable) { %>
         <li>
           <a href="#/chat" data-reverse="true" target="_self">
-            <span class='lily-icon lily-icon-conversation'></span>Parler à un conseiller
+            <span class='icon icon-conversation'></span>Parler à un conseiller
           </a>
         </li>
         <% } %>
@@ -29,7 +29,7 @@
         <% if (avi.redirections.mail) { %>
         <li>
           <a href="#/mail" data-reverse="true" target="_self">
-            <span class='lily-icon lily-icon-mail'></span>Nous envoyer un mail
+            <span class='icon icon-mail'></span>Nous envoyer un mail
           </a>
         </li>
         <% } %>
@@ -37,7 +37,7 @@
         <% if (avi.redirections.phone) { %>
         <li>
           <a href="#/tel" data-reverse="true" target="_self">
-            <span class='lily-icon lily-icon-phone'></span>Se faire rappeler
+            <span class='icon icon-phone'></span>Se faire rappeler
           </a>
         </li>
         <% } %>
@@ -54,5 +54,5 @@
 </div>
 
 <!-- wrapper page pour menu -->
-<div id="lily-wrapper-page" class="snap-content">
+<div id="wrapper-page" class="snap-content">
 </div>

@@ -21,7 +21,7 @@ define(function(require) {
   Skeleton = PageView.extend({
 
     className: 'app-wrapper',
-    template: _.template($('#lily-base-template').html()),
+    template: _.template($('#base-template').html()),
 
     initialize: function() {
       this.render();
@@ -39,7 +39,7 @@ define(function(require) {
 
       // Snap is global on the window object
       var snapper = new window.Snap({
-        element: document.getElementById('lily-wrapper-page'),
+        element: document.getElementById('wrapper-page'),
         disable: 'right',
         slideIntent: 30,
         minDragDistance: 50,
@@ -50,7 +50,7 @@ define(function(require) {
         easing: 'cubic-bezier(0.28, 0.33, 0, 1.41)'
       });
 
-      $('.app-wrapper').on('click', '.lily-bt-menu', function() {
+      $('.app-wrapper').on('click', '.btn-menu', function() {
         if (snapper.state().state === 'left') {
           snapper.close();
         } else {
@@ -59,17 +59,17 @@ define(function(require) {
         }
       });
 
-      $('#lily-wrapper-page').on('click', function() {
+      $('#wrapper-page').on('click', function() {
         if (snapper.state().state === 'left') {
           snapper.close();
         }
       });
 
-      $('.lily-menu-body li a').click(function() {
+      $('.menu-body li a').click(function() {
         snapper.close();
       });
 
-      $('#lily-toolbar-icons').click(function() {
+      $('.toolbar-icons').click(function() {
         app.onReduceClick();
       });
 

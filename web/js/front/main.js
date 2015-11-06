@@ -20,7 +20,7 @@ define(function(require) {
   // On Dom loaded
   $(function() {
 
-    if (!config.standaloneMode) {
+    if (!config.standaloneMode || app.appInIframe()) {
       // Remove reduce icon
       $('body').addClass('embedded');
     }

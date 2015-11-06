@@ -1,0 +1,61 @@
+
+// Global app styles
+// ----------------------------------------------------
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font: $fontSize--base $font;
+  line-height: $lineHeight--base;
+}
+
+a {
+  color: $color--link;
+  font-weight: $weight--link;
+}
+
+::-webkit-input-placeholder {
+   color: $color--placeholder;
+   font-weight: $weight--normal;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   font-weight: $weight--normal;
+   color: $color--placeholder;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   font-weight: $weight--normal;
+   color: $color--placeholder;
+}
+
+:-ms-input-placeholder {
+   font-weight: $weight--normal;
+   color: $color--placeholder;
+}
+
+::input-placeholder {
+   font-weight: $weight--normal;
+   color: $color--placeholder;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #929292;
+  border-radius: 5px;
+}

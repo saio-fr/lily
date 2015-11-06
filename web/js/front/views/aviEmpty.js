@@ -13,11 +13,11 @@ define(function(require) {
 
   AviEmptyView = Backbone.View.extend({
 
-    className: 'lily-empty-wrapper lily-avi-empty-wrapper',
+    className: 'empty-wrapper avi-empty-wrapper',
     template: _.template($('#avi-empty').html()),
 
     events: {
-      'click .lily-top-question-link': 'onTopQuestionClick'
+      'click .top-question-link': 'onTopQuestionClick'
     },
 
     initialize: function() {
@@ -26,7 +26,7 @@ define(function(require) {
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('.lily-box-messages');
+      this.$el.appendTo('.box-messages');
       return this;
     },
 

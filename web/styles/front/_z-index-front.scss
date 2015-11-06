@@ -1,0 +1,21 @@
+@import "z-index-scale";
+
+// Z-Index Applications
+// --------------------------------------------------
+$zIndex-1--screenForeground:        $zIndex-1;
+
+$zIndex-5--redirectionComponent:    $zIndex-5;
+
+$zIndex-7--nav:                     $zIndex-7;
+
+$zIndex-8--transitioningContainer:  $zIndex-8;
+$zIndex-8--panel:                   $zIndex-8;
+$zIndex-8--loadingBar:              $zIndex-8;
+$zIndex-8--zoomOverlay:             $zIndex-8;
+
+$zIndex-9--overlay:                 $zIndex-9;
+$zIndex-9--dialog:                  $zIndex-9;
+$zIndex-9--tooltip:                 $zIndex-9;
+
+$zIndex-10--dev:                    $zIndex-10;
+

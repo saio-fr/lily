@@ -15,9 +15,10 @@ define(['require', '../../common'], function(require) {
   'config',
 
   // Libraries required at bootstrap for the UI.
+  'bootstrap',
   'moment-fr',
   'Modernizr',
-  'todoTpl',
+  'jquery-placeholder',
   'polyfils',
   // Autobahn V1 AMD broken.
 ], function($, _, Backbone, ab, when, app, ChatRouter, LiveChat, moment, config) {

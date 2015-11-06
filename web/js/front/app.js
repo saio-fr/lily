@@ -348,7 +348,7 @@ define(function(require) {
     showInfo: function(type, info) {
       var typeClass = type + '-info';
 
-      $('#lily-wrapper-page').append(
+      $('#wrapper-page').append(
         '<div class="info-popup animated fadeInUp ' + typeClass + '">' + info + '</div>'
       );
 

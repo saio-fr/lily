@@ -1,0 +1,226 @@
+/*******************
+CONTACT FORM
+*******************/
+
+.form-header-wrapper {
+  margin: -15px -12px 0 -12px;
+  padding: 10px 12px 0;
+}
+
+.form-header-wrapper .form-section-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 1em 0;
+  padding: 0 35px;
+  line-height: 1.1;
+  border-bottom: none;
+}
+
+.contact-form .btn-close {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 100%;
+  border: 1px solid rgb(208, 208, 208);
+  color: #505050;
+  margin-top: 3px;
+  z-index: 3;
+  background: #fff;
+  font-size: 15px;
+}
+
+.contact-form .form-micro-copy {
+  font-size: 13.5px;
+  line-height: 1.2;
+  color: rgb(123, 123, 123);
+}
+
+.contact-form .copy-onboarding {
+  font-size: 13px;
+  padding: 0 12px 0 52px;
+  margin-left: -12px;
+  margin-right: -12px;
+  font-style: normal;
+}
+
+.contact-form {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 15px 12px 0;
+  color: #404040;
+}
+
+.validation-error-inline {
+  display: none;
+  color: #373a3c;
+  font-size: 13.5px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  margin-top: 6px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  background: rgba(217, 83, 79, 0.35);
+  position: relative;
+}
+
+.validation-error-inline:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 16px;
+  border-width: 5px 6px 0;
+  border-style: solid;
+  border-color: rgba(217, 83, 79, 0.35) transparent;
+  display: block;
+  width: 0;
+  margin-left: -5px;
+}
+
+.contact-form-item.is-invalid .validation-error-inline {
+  display: inline-block;
+}
+
+.contact-form-item.is-invalid .form-input {
+  border: solid 1px #D9534F;
+}
+
+.contact-form-item.is-valid .form-input {
+  border: solid 1px #5CB85C;
+}
+
+.contact-form-list {
+  margin-top: 12px;
+}
+
+.redirection-type-switch-wrapper {
+  margin-top: 10px;
+  color: #797979;
+  line-height: 1.2;
+}
+
+.contact-form .contact-form-item:first-child {
+  margin-top: 12px;
+}
+
+.contact-form-item {
+  margin-top: 7px;
+  font-weight: 700;
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.contact-form-item .svg-icon-wrapper {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 4px;
+  left: 3px;
+}
+
+.contact-form-item .svg-icon {
+  fill: #5A5A5A;
+  padding: 7.5px;
+}
+
+.contact-form-item .svg-icon.date-icon,
+.contact-form-item .svg-icon.email-icon {
+  padding: 0;
+}
+
+.contact-form-item .form-input {
+  display: block;
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding-left: 32px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 3px;
+  outline: 0;
+  background: transparent;
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: solid 1px rgba(121, 121, 121, 0.35);
+  color: #515151;
+  background: #F8F8F8;;
+}
+
+.contact-form .form-input.valid {
+  color: #5CB85C;
+}
+
+.contact-form .form-input.invalid {
+  color: #D9534F;
+}
+
+.contact-form .form-time {
+  color: rgba(64, 64, 64, 0.7);
+}
+
+.form-section-title {
+  border-bottom: solid 1px #cecece;
+}
+
+.contact-form hr {
+  width: 31%;
+  margin: 25px auto 15px;
+}
+
+.contact-form textarea {
+  min-height: 80px;
+  padding-top: 9px;
+  line-height: 25px;
+}
+
+.contact-form .btn-submit {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-top: 5px;
+  line-height: 20px;
+  font-size: 16px;
+  padding: 0;
+  text-align: center;
+  border: none;
+  border-radius: 3px;
+  outline: 0;
+}
+
+// Used in pre-chat survey
+.skip-link {
+  display: block;
+  margin-top: -5px;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+  text-decoration: underline;
+  opacity: .7;
+}
+
+.info-popup {
+  position: fixed;
+  z-index: 99999;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  margin: auto;
+  padding: 5px;
+  font-size: 12px;
+  text-align: center;
+  color: #ffffff;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 1px 3px 12px 0px rgba(98, 98, 98, .54);
+}

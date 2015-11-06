@@ -23,9 +23,9 @@ define(function(require) {
     render: function() {
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('#chat-box-messages');
+      this.$el.appendTo('.box-messages');
       this.transitionInMessage();
-      $('#chat-box-messages:last-child').scrollTop(10000);
+      $('.box-messages:last-child').scrollTop(10000);
 
       return this;
     },
@@ -33,8 +33,8 @@ define(function(require) {
     transitionInMessage: function(callback) {
 
       var $message = this.$el,
-        $messageBox = $('.lily-box-messages'),
-        inClass = 'lily-message-show';
+        $messageBox = $('.box-messages'),
+        inClass = 'message-show';
 
       $message.addClass(inClass).on(config.animEndEventName, function() {
 

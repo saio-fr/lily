@@ -18,11 +18,11 @@ var Backbone    = require('backbone'),
 
 MessageLilyNotation = MessageView.extend({
 
-  className: 'lily-notation-wrapper',
+  className: 'notation-wrapper',
 
   model: Models.LilyNotation,
 
-  template: _.template($('#lily-message-notation').html()),
+  template: _.template($('#message-notation').html()),
   events: {
     'click .notation-positive': 'satisfaction',
     'click .notation-negative': 'satisfaction'
@@ -34,10 +34,10 @@ MessageLilyNotation = MessageView.extend({
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
-    this.$el.appendTo('.lily-box-messages .lily-msg-avatar:last .msg-wrapper');
+    this.$el.appendTo('.box-messages .msg-avatar:last .msg-wrapper');
 
     // Scroll all the way down
-    var objDiv = document.getElementsByClassName('lily-box-messages')[0];
+    var objDiv = document.getElementsByClassName('box-messages')[0];
     objDiv.scrollTop = objDiv.scrollHeight + this.$el.height();
 
     return this;
@@ -47,7 +47,7 @@ MessageLilyNotation = MessageView.extend({
     var target = $(e.target),
         satisfaction, msg;
 
-    this.$el.find('.lily-notation-list-item').removeClass('active');
+    this.$el.find('.notation-list-item').removeClass('active');
 
     if (target.hasClass('notation-positive')) {
       this.$el.find('.notation-positive').addClass('active');

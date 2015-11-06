@@ -23,7 +23,7 @@ define(function(require) {
   SkeletonView = ModalLayoutView.extend({
 
     tagName: 'section',
-    id: 'chatModal',
+    className: 'chatModal',
     template: _.template($('#liveSkeletonTpl').html()),
     events: {
       'click .windows-selector': 'setMaxWindows',

@@ -25,7 +25,7 @@ define(function(require) {
     render: function() {
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('.lily-box-messages');
+      this.$el.appendTo('.box-messages');
       this.transitionInMessage();
       this.trigger('render');
       return this;
@@ -34,10 +34,10 @@ define(function(require) {
     transitionInMessage: function(callback) {
 
       var $message = this.$el,
-          inClass = 'lily-message-show';
+          inClass = 'message-show';
 
       // Scroll all the way down
-      var objDiv = document.getElementsByClassName('lily-box-messages')[0];
+      var objDiv = document.getElementsByClassName('box-messages')[0];
       objDiv.scrollTop = objDiv.scrollHeight + $message.height();
 
       // Show the message w/ animation

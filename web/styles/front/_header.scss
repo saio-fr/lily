@@ -1,0 +1,135 @@
+
+/*********************
+HEADER
+*********************/
+
+.page .cst-header {
+  position: relative;
+  z-index: 4;
+  left: 0;
+  width: 100%;
+  height: 56px;
+  margin: 0;
+  padding: 0 13px;
+  line-height: 40px;
+  text-align: center;
+  background: #ffffff;
+  box-shadow: 0px 1px 0px rgba(206, 206, 206, .46);
+}
+
+.cst-header a {
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 9px;
+  line-height: 1;
+  -webkit-transition: all .3s;
+          transition: all .3s;
+  border: solid 1px #a8a8a8;
+  border-radius: 5px;
+  background: rgb(255, 255, 255);
+}
+
+.cst-header a:hover {
+  background: rgba(169, 8, 19, .08);
+}
+
+.cst-header a:active {
+  background: rgba(169, 8, 19, .2);
+}
+
+.cst-header p {
+  display: inline-block;
+  height: auto;
+  margin-right: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.cst-header .icon-arrow-right:before,
+.box-messages .icon-arrow-right:before {
+  line-height: 1;
+}
+
+#header i {
+  margin-left: 18px;
+}
+
+.header-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-left: 90px;
+  font-size: 1.2em;
+  font-weight: 400;
+  line-height: 40px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+
+.toolbar {
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  padding: 0;
+  line-height: 38px;
+  -webkit-transition: all .3s;
+          transition: all .3s;
+  color: #ffffff;
+  border-radius: 0;
+}
+
+.embedded .toolbar {
+  border-radius: 10px 10px 0 0;
+}
+
+.toolbar-name {
+  position: absolute;
+  left: 0;
+  display: inline-block;
+  width: 100%;
+  margin-left: 0;
+  padding: 0 40px;
+  font-size: 18px;
+  overflow: hidden;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.toolbar-icons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  display: none;
+}
+
+.embedded .toolbar-icons {
+  display: block;
+}
+
+.icon-reduce {
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  margin: -4px auto 0;
+  vertical-align: middle;
+  border-radius: 1px;
+  background: #ffffff;
+}

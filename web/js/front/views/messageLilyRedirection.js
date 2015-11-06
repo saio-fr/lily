@@ -20,9 +20,8 @@ var _           = require('underscore'),
 // MessageLilyRedirection = MessageView.extend({
 MessageLilyRedirection = Backbone.View.extend({
 
-  // className: 'lily-msg-avatar lily-msg lily-msg-redirection',
-  className: 'lily-redirection',
-  template: _.template($('#lily-message-redirection').html()),
+  className: 'redirection-component',
+  template: _.template($('#message-redirection').html()),
 
   events: {
     'click': 'dismiss'
@@ -57,13 +56,13 @@ MessageLilyRedirection = Backbone.View.extend({
 
   // Useless for now
   bindRedirections: function() {
-    this.$('.lily-redirection-tel')
+    this.$('.redirection-tel')
       .on('click', null, 'phone', this.triggerRedirection.bind(this));
-    this.$('.lily-redirection-mail')
+    this.$('.redirection-mail')
       .on('click', null, 'mail', this.triggerRedirection.bind(this));
-    this.$('.lily-redirection-chat')
+    this.$('.redirection-chat')
       .on('click', null, 'chat', this.triggerRedirection.bind(this));
-    this.$('.lily-redirection-none')
+    this.$('.redirection-none')
       .on('click', null, 'none', this.triggerRedirection.bind(this));
   },
 

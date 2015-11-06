@@ -1,0 +1,150 @@
+
+/*  Has to be positioned on the right hand of the header,
+ *  Ancred to the right and positioned relatively to allow
+ *  absolutely positioned content inside (a.k.a dropdowns, ...) */
+.header-widget {
+  float: left;
+  position: relative;
+  display: block;
+}
+
+.header-widget-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.header-widget-link:hover,
+.header-widget-link:active {
+  background: #3D434F; /* darker shade of the header background */
+  color: #fff;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background: #3B404A;
+}
+
+.header .nav-tabs > li.active a,
+.header .nav-tabs > li.active a:hover,
+.footer .nav-tabs > li.active a,
+.footer .nav-tabs > li.active a:hover {
+  box-shadow: 0px 6px 0px 0 rgba(237, 239, 244, 1);
+  background-color: #EDEFF4;
+  font-weight: 600;
+  font-size: 13px;
+  color: #444C5C;
+}
+
+.btn-toolbar {
+  margin-left: 0;
+}
+
+/**
+ *  Notifications button
+ */
+.notifications-menu {}
+.notifications-menu-link {
+
+}
+
+.notifications-icon {
+  font-size: 20px;
+}
+
+.notifications-count {
+  margin-left: -12px;
+  top: -11px;
+  font-size: 11px;
+  padding: 2.5px 5px;
+  line-height: 10px;
+  vertical-align: middle;
+  background-color: #fb6b5b;
+  color: #ffffff;
+  display: inline-block;
+  min-width: 10px;
+}
+
+.alert-badge {
+  position: relative;
+  display: inline-block;
+  min-width: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-align: center;
+  border-radius: 50%
+}
+
+// todo override
+.nav li.chat-notification > a:hover {
+  background-color: rgba(226, 226, 226, 0.2);
+}
+
+.notifications-list {
+  max-height: 300px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chat-notification .conversation-name {
+  font-size: 11px;
+  font-style: italic;
+  opacity: 0.6;
+  line-height: 19px;
+  vertical-align: bottom;
+  max-width: 80px;
+  text-overflow: ellipsis;
+  float: right;
+}
+
+/**
+ *  Status Button
+ */
+.nav .header-widget.status-selector {
+  padding: 0 15px;
+  display: none;
+  height: 50px;
+  line-height: 50px;
+  margin-left: 0;
+}
+
+.status-selector.show {
+  display: block;
+}
+
+.status-selector .btn.status-button {
+  display: inline-block;
+  float: none;
+  margin-top: -4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  background: transparent;
+}
+
+.status-selector .btn.status-button:hover,
+.status-selector .btn.status-button:active {
+  background: #3D434F; /* darker shade of the header background */
+  color: #fff;
+}
+
+/**
+ *  Profile Menu Dropdown
+ */
+.status-selector:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  height: 35px;
+  width: 1px;
+  background: rgba(206, 206, 206, 0.38);
+  margin-top: -17.5px;
+}
+.user-menu-link {
+  height: 50px;
+}
+
+/* override dirty todo (app.css) */
+.bg-dark .nav li > a:hover {
+  background-color: transparent;
+}

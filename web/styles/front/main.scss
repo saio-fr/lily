@@ -1,0 +1,37 @@
+// CSS Reset (Normalize.css)
+@import "reset";
+
+// Google fonts and local fonts include (font icons)
+@import "fonts";
+@import "icons";
+
+// Helper classes and general tag and wrappers styling
+@import "helpers";
+@import "html5boilerplate";
+@import "general";
+
+// Top level elements
+@import "menu";
+@import "header";
+@import "footer";
+
+// App components
+@import "on-boarding";
+@import "forms";
+@import "messages";
+@import "msg-notation";
+@import "chat-notation";
+@import "redirection";
+
+// Util elements
+@import "components/buttons";
+@import "components/button-progress";
+@import "components/loader";
+@import "components/placeholder";
+@import "scrollbar";
+@import "animations";
+
+// External Libraries and associated CSS
+@import "pickaday";
+@import "snap";
+@import "typeahead";

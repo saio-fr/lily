@@ -1,0 +1,95 @@
+
+.progress-button .content:before {
+  content: "\02714"; /* Checkmark for success */
+}
+
+.progress-button .content:after {
+  content: "\02715"; /* Cross for error */
+}
+
+.progress-button.state-success .content:before,
+.progress-button.state-error .content:after {
+  opacity: 1;
+}
+
+.notransition {
+  transition: none !important;
+}
+
+.progress-button .progress {
+  background: rgba(0, 0, 0, .2);
+}
+
+.progress-button {
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border: none;
+  background: #1d9650;
+  color: #fff;
+  letter-spacing: 1px;
+  font-size: 1em;
+  line-height: 4;
+  overflow: hidden;
+  height: 42px;
+}
+
+.progress-button .progress-inner {
+  position: absolute;
+  left: 0;
+  background: #A5A5A5;
+  top: 0;
+  width: 0;
+  height: 100%;
+  -webkit-transition: width 0.3s, opacity 0.3s;
+  transition: width 0.3s, opacity 0.3s;
+}
+
+.progress-button .content {
+  position: relative;
+  display: block;
+  z-index: 10;
+  line-height: 1.1;
+  padding: 13px 0;
+  height: 100%;
+  vertical-align: middle;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+.progress-button[disabled],
+.progress-button[disabled].state-loading {
+  cursor: default;
+}
+
+.progress-button .content:before,
+.progress-button .content:after {
+  position: absolute;
+  top: 100%;
+  right: auto;
+  left: 50%;
+  opacity: 0;
+  padding: 12px 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.progress-button.state-success .content,
+.progress-button.state-error .content {
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+
+.progress-button.state-loading {
+  background: #cecece;
+}
+
+.progress-button.state-success {
+  background: #5cb85c;
+}
+
+.progress-button.state-error {
+  background: #d9534f;
+}

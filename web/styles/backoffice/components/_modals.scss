@@ -1,0 +1,58 @@
+
+.modal-dialog {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.modal-header {
+  border-bottom: 0;
+}
+
+.modal-dialog.chat-modal-container {
+  width: calc(100% - 60px);
+  height: calc(100% - 60px);
+  background: #F3F5F9;
+  top: 30px;
+  left: 30px;
+  bottom: 30px;
+  right: 30px;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.navigation-container {
+  margin-top: 50px;
+}
+.nav-vertical .navigation-container {
+  margin-top: 90px;
+}
+
+.navbar-nav > li > a {
+  padding-top: 13px;
+  padding-bottom: 12px;
+}
+
+.bg-dark .nav li > ul.dropdown-menu > li > a:hover {
+  color: #6A92E4;
+}
+
+#chatModal {
+  display: none;
+}
+
+.modal.fade .modal-dialog {
+/*  -webkit-transform: translate3d(0, -25%, 0);
+  -ms-transform: translate3d(0, -25%, 0);
+  transform: translate3d(0, -25%, 0);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -moz-transition: -moz-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;*/
+}
+
+.modal.in .modal-dialog {
+  -webkit-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}

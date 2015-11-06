@@ -16,9 +16,9 @@ var _           = require('underscore'),
 
 MessageLilySimpleView = MessageView.extend({
 
-	className: 'lily-msg lily-msg-avatar lily-cst-msg-avatar',
+	className: 'msg msg-avatar cst-msg-avatar',
 	model: Models.MessageLilySimple,
-	template: _.template( $('#lily-message-simple').html() )
+	template: _.template( $('#message-simple').html() )
 });
 
 return MessageLilySimpleView;

@@ -13,8 +13,7 @@ define(['require', '../../common'], function(require) {
 
   // Libraries required at bootstrap for the UI.
   'bootstrap',
-  'todoTpl'
-
+  'jquery-placeholder'
 ], function($, _, Backbone, ConfigRouter, config, app, LiveChat) {
 
     function bootstrap() {

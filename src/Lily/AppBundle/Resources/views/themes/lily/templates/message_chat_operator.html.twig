@@ -1,8 +1,8 @@
 <div class="msg-wrapper">
 	<% if (operator !== null) { %>
 	<% date = new Date(date*1000) %>
-	<div class="lily-msg-chat-operator-info" data-tooltip="<%= operator.firstname %> à <%= date.getHours() %>h<%= (date.getMinutes()<10?'0':'') + date.getMinutes() %>">
-		<img src="<%=operator.avatar%>" class="thumb-sm avatar" width="45" height="45">
+	<div class="msg-chat-operator-info" data-tooltip="<%= operator.firstname %> à <%= date.getHours() %>h<%= (date.getMinutes()<10?'0':'') + date.getMinutes() %>">
+		<img src="<%=operator.avatar%>" class="avatar" width="45" height="45">
 	</div>
 	<% } %>
 

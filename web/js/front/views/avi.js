@@ -30,7 +30,7 @@ define(function(require) {
 
   var AviView = PageView.extend({
 
-    template: _.template($('#lily-page-avi-template').html()),
+    template: _.template($('#page-avi-template').html()),
 
     events: {
       'submit  .avi-input-component': 'getAviToAnswer',
@@ -67,13 +67,13 @@ define(function(require) {
       this.countQuestionsAsked = 0;
 
       // Render \o/
-      this.render().$el.appendTo('#lily-wrapper-page');
+      this.render().$el.appendTo('#wrapper-page');
 
       // OnAfterRender
       this.$input   =   this.$('.avi-input');
       this.$choices =   this.$('.avi-input-component');
-      this.$msgBox  =   $('.lily-box-messages');
-      this.$header  =   $('#lily-toolbar');
+      this.$msgBox  =   $('.box-messages');
+      this.$header  =   $('.toolbar');
 
       // Handles bahaviours related to showing/hiding the avi,
       // or showing/hihing the suggestions overlay
@@ -355,7 +355,7 @@ define(function(require) {
 
     askForFeedback: function(msg) {
       if (!app.showAviAnswerNotation) { return; }
-      return this.addMessage(msg, 'lily-notation');
+      return this.addMessage(msg, 'notation');
     },
 
     // ==============================================
@@ -566,11 +566,11 @@ define(function(require) {
 
       var msgViews = {
         'user-simple': MessageUserSimple,
-        'lily-simple': MessageLilySimple,
-        'lily-redirection': MessageLilyRedirection,
-        'lily-precision': MessageLilyPrecision,
-        'lily-notation': MessageLilyNotation,
-        'lily-completion': MessageLilyCompletion,
+        'simple': MessageLilySimple,
+        'redirection': MessageLilyRedirection,
+        'precision': MessageLilyPrecision,
+        'notation': MessageLilyNotation,
+        'completion': MessageLilyCompletion,
       };
 
       if (!msgViews[messageType]) { return; }
@@ -581,7 +581,7 @@ define(function(require) {
 
       // if message is notation, keep an index of the view
       // to be able to remove it when needed
-      if (messageType === 'lily-notation') {
+      if (messageType === 'notation') {
         indexer = 'notationView';
       } else {
         // If message is not notation, trigger the onNewMessage method
@@ -600,7 +600,7 @@ define(function(require) {
     },
 
     printAviMsg: function(msg) {
-      this.addMessage(msg, 'lily-simple');
+      this.addMessage(msg, 'simple');
       return msg;
     },
 
@@ -672,8 +672,8 @@ define(function(require) {
       var defer = when.defer(),
           that = this;
 
-      if (this.$('.lily-msg-loading').length) {
-        this.$('.lily-msg-loading')
+      if (this.$('.msg-loading').length) {
+        this.$('.msg-loading')
           .fadeOut(function() {
             $(this).remove();
             that.isLoadingShown = false;

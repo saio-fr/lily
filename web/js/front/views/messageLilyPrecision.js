@@ -17,9 +17,9 @@ var _           = require('underscore'),
 
 MessageLilyPrecision = MessageView.extend({
 
-  className: 'lily-msg-avatar lily-msg lily-msg-precision lily-cst-msg-precision',
+  className: 'msg-avatar msg msg-precision cst-msg-precision',
   model: Models.LilyPrecision,
-  template: _.template($('#lily-message-precision').html()),
+  template: _.template($('#message-precision').html()),
 
   initialize: function() {
     this.listenTo(this, 'render', this.triggerPrecision);
@@ -28,9 +28,9 @@ MessageLilyPrecision = MessageView.extend({
   triggerPrecision: function() {
 
     var message = this;
-    this.$('.lily-precision-list').on('click', function() {
+    this.$('.precision-list').on('click', function() {
 
-      var listIndex = message.$('li.lily-precision-list').index($(this)),
+      var listIndex = message.$('li.precision-list').index($(this)),
       /* on récupère l'index de la question dans la liste (non, c'est pas très propre...) */
       id = message.model.get('actions')[listIndex].id,
       idParent = message.model.get('idparent');

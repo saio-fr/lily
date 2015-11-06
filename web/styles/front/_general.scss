@@ -1,0 +1,121 @@
+
+/*********************
+GENERAL
+*********************/
+
+html {
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", "helvetica", "roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  overflow: hidden;
+  -webkit-user-select: none;
+  color: #282828;
+}
+
+input,
+textarea,
+[contenteditable] {
+  -webkit-user-select: text;
+     -moz-user-select: text;
+      -ms-user-select: text;
+          user-select: text;
+}
+
+.app-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+
+  /* Fix for page wrapper overflowing the border-radius when transitionned */
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==);
+}
+
+#wrapper-page {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #fff;
+  /* Shadow on the left when menu open */
+  box-shadow: -2px 0 15px 0 rgba(113, 113, 113, 0.2);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+a {
+  font-style: normal;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  visibility: hidden;
+  width: 100%;
+  height: 100%;
+  padding-top: 40px !important;
+  overflow-x: hidden;
+  opacity: .8;
+  background: #ffffff;
+  border-radius: 10px;
+
+  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;
+}
+
+.page-visible {
+  z-index: 9999;
+  visibility: visible;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+#home,
+#chat {
+  overflow: hidden;
+}
+
+.main-content-home {
+  position: static;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-content {
+  position: relative;
+  clear: both;
+  width: 100%;
+  height: 325px; /* fallback for navigators who don't support the calc function */
+  height: calc(100% - 55px);
+  height: 100%;
+}

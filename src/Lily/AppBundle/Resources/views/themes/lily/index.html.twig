@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('build/css/front/lily.css', version=getAppVersion()) }}" type="text/css" />
+  <link rel="stylesheet" href="{{ asset('build/css/front/main.css', version=getAppVersion()) }}" type="text/css" />
   <link rel="stylesheet" href="http://cdn-saio.fr/customer/{{ licence }}/css/lily-custom.css?{{ getAppVersion() }}" type="text/css" />
 {% endblock %}
 
@@ -20,46 +20,46 @@
 
   {% block templates %}
   <!-- L'appel des différents scripts de vue -->
-  <script type="text/template" id="lily-base-template">
+  <script type="text/template" id="base-template">
     {% include 'LilyAppBundle:themes/lily/templates:base.html.twig' with {'config': config,'chatAvailable': chatAvailable } %}
   </script>
-  <script type="text/template" id="lily-page-avi-template">
+  <script type="text/template" id="page-avi-template">
     {% include 'LilyAppBundle:themes/lily/templates:avi.html.twig' with {'config': config,'chatAvailable': chatAvailable } %}
   </script>
-  <script type="text/template" id="lily-page-chat-template">
+  <script type="text/template" id="page-chat-template">
     {% include 'LilyAppBundle:themes/lily/templates:chat.html.twig' with {'config': config } %}
   </script>
-  <script type="text/template" id="lily-page-chat-welcome-screen">
+  <script type="text/template" id="page-chat-welcome-screen">
     {% include 'LilyAppBundle:themes/lily/templates:chat_welcome_screen.html.twig' with {'config': config} %}
   </script>
-  <script type="text/template" id="lily-page-faq-template">
+  <script type="text/template" id="page-faq-template">
     {% include 'LilyAppBundle:themes/lily/templates:faq.html.twig' %}
   </script>
-  <script type="text/template" id="lily-page-mail-template">
+  <script type="text/template" id="page-mail-template">
     {% include 'LilyAppBundle:themes/lily/templates:mail.html.twig' %}
   </script>
-  <script type="text/template" id="lily-page-top-questions-template">
+  <script type="text/template" id="page-top-questions-template">
     {% include 'LilyAppBundle:themes/lily/templates:top_questions.html.twig' %}
   </script>
-      <script type="text/template" id="lily-page-content-template">
+      <script type="text/template" id="page-content-template">
     {% include 'LilyAppBundle:themes/lily/templates:content.html.twig' %}
   </script>
-  <script type="text/template" id="lily-message-user">
+  <script type="text/template" id="message-user">
     {% include 'LilyAppBundle:themes/lily/templates:message_user.html.twig' %}
   </script>
-  <script type="text/template" id="lily-message-simple">
+  <script type="text/template" id="message-simple">
     {% include 'LilyAppBundle:themes:lily/templates/message_simple.html.twig' %}
   </script>
-  <script type="text/template" id="lily-message-precision">
+  <script type="text/template" id="message-precision">
     {% include 'LilyAppBundle:themes/lily/templates:message_precision.html.twig' %}
   </script>
-      <script type="text/template" id="lily-message-redirection">
+      <script type="text/template" id="message-redirection">
     {% include 'LilyAppBundle:themes/lily/templates:message_redirection.html.twig' %}
   </script>
-      <script type="text/template" id="lily-message-notation">
+      <script type="text/template" id="message-notation">
     {% include 'LilyAppBundle:themes/lily/templates:message_notation.html.twig' %}
   </script>
-      <script type="text/template" id="lily-message-completion">
+      <script type="text/template" id="message-completion">
     {% include 'LilyAppBundle:themes/lily/templates:message_completion.html.twig' %}
   </script>
   <script type="text/template" id="chat-message-visitor">

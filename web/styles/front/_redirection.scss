@@ -1,0 +1,90 @@
+@import "z-index-front";
+
+.redirection-component {
+  position: absolute;
+  z-index: $zIndex-5--redirectionComponent;
+  bottom: 22px;
+  display: none;
+  width: 100%;
+  padding: 0 13px;
+  line-height: 1.3;
+  text-align: left;
+  text-indent: inherit;
+  border-radius: 10px;
+}
+
+.choices-container {
+  display: block;
+  margin-top: 0px;
+  padding: 0;
+  border: solid 1px #888888;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.redirection-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  transition: all .3s;
+  border-bottom: solid 1px #888888;
+  background: transparent;
+}
+
+.redirection-item .icon-mail,
+.redirection-item .icon-phone,
+.redirection-item .icon-conversation,
+.redirection-item .icon-cross {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.redirection-item .icon-mail:before,
+.redirection-item .icon-phone:before,
+.redirection-item .icon-conversation:before,
+.redirection-item .icon-cross:before {
+  position: relative;
+  top: 2px;
+  line-height: 1;
+}
+
+.redirection-item:first-child {
+  border-radius: 10px 10px 0 0;
+}
+
+.redirection-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 10px 10px;
+}
+
+.redirection-item:hover,
+.redirection-item.redirection-none:active {
+  background: rgba(169, 8, 19, .08);
+}
+
+.redirection-item:active,
+.redirection-item.redirection-none:active {
+  background: rgba(169, 8, 19, .2);
+}
+.redirection-item:active a,
+.redirection-item.redirection-none:active {
+  padding-left: 15px;
+}
+
+.redirection-item .icon-arrow-right {
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  bottom: 0;
+  margin-top: -9px;
+}
+
+.redirection-item a,
+.redirection-item.redirection-none {
+  display: inline-block;
+  width: 100%;
+  padding: 7px 30px 8px 8px;
+  transition: all .15s cubic-bezier(.16, .74, .57, 1.29);
+  text-decoration: none;
+}

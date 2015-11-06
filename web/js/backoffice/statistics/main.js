@@ -14,9 +14,9 @@ define(['require', '../../common'], function(require) {
   'moment',
 
   // Libraries required at bootstrap for the UI.
-  'todoTpl',
   'bootstrap',
   'moment-fr',
+  'jquery-placeholder'
 
 ], function($, _, Backbone, StatisticsRouter, config, app, LiveChat, moment) {
 

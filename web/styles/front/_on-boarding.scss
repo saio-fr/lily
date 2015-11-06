@@ -1,0 +1,24 @@
+
+.empty-wrapper {
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  font-size: 15px;
+  margin-top: -50px;
+  width: calc(100% - 26px);
+}
+
+.on-boarding-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16.5px;
+  color: #5D5D5D;
+}
+
+.on-boarding-copy {
+  color: #8E8E8E;
+}
+
+.top-question-link {
+  color: rgba(89,168,191,1);
+}

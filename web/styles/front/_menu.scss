@@ -1,0 +1,70 @@
+/*********************
+MENU
+*********************/
+
+#menu {
+  padding-top: 40px !important;
+  border-right: solid 1px rgba(205, 205, 205, .4);
+  border-radius: 10px 0 0 10px;
+  background-color: #fff;
+}
+
+#menu footer {
+  position: absolute;
+  right: 17px;
+  bottom: 17px;
+  font-size: 11px;
+}
+
+#menu footer a {
+  color: #6cc0f5;
+}
+
+.menu-body {
+  width: 100%;
+}
+
+.menu-body ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-body li {
+  display: block;
+  width: 100%;
+  height: 3.2em; /*48px*/
+  line-height: 3.2em; /*vertical centering*/
+}
+
+.menu-body li:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  display: block;
+  width: 180px;
+  height: 1px;
+  background: rgba(136, 136, 136, .22);
+}
+
+.menu-body li a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.menu-body li a span {
+  display: inline-block;
+  width: 50px;
+  height: 3.2em;
+  line-height: 3.2em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.menu-separator {
+  width: 100%;
+  height: 1px;
+}

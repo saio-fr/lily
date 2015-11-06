@@ -935,7 +935,7 @@ LIVE CHAT
 Typeahead Styles
 ******************/
 
-.lily-search-input,
+.search-input,
 .tt-suggestion {
   position: relative;
 }

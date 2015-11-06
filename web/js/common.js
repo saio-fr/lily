@@ -14,7 +14,6 @@ require.config({
     'backbone-localStorage':          'bower_components/backbone.localStorage/backbone.localStorage',
     'backbone-validation':            'bower_components/backbone-validation/dist/backbone-validation',
     'bootstrap':                      'bower_components/bootstrap/dist/js/bootstrap',
-    'bootstrap-wysihtml5':            'wysiwyg/bootstrap-wysihtml5',
     'daterangepicker':                'bower_components/bootstrap-daterangepicker/daterangepicker',
     'easypiechart':                   'bower_components/easypie/dist/jquery.easypiechart',
     'flot':                           'bower_components/flot.tooltip/js/jquery.flot',
@@ -25,6 +24,7 @@ require.config({
     'config':                         'backoffice/config',
     'isMobile':                       'bower_components/isMobile/isMobile',
     'jquery':                         'bower_components/jquery/dist/jquery',
+    'jquery-placeholder':             'bower_components/jquery-placeholder/jquery-placeholder',
     'moment':                         'bower_components/moment/moment',
     'moment-fr':                      'bower_components/moment/locale/fr',
     'morris':                         'bower_components/morrisjs/morris',
@@ -34,7 +34,6 @@ require.config({
     'statistics':                     'utils/statistics-flot',
     'statistics-flot':                'utils/statistics-flot',
     'statistics-morris':              'utils/statistics-morris',
-    'todoTpl':                        'libs/todo',
     'underscore':                     'bower_components/underscore/underscore',
     'when':                           'libs/when',
     'wysihtml5':                      'bower_components/wysihtml5/dist/wysihtml5-0.3.0',
@@ -53,10 +52,8 @@ require.config({
   },
 
   shim: {
-
     'backbone-validation': ['backbone'],
     'bootstrap': ['jquery'],
-    'bootstrap-wysihtml5': ['wysihtml5', 'bootstrap'],
     'daterangepicker': ['jquery', 'bootstrap', 'moment'],
     'easypiechart': ['jquery'],
     'flot': ['jquery'],
@@ -67,9 +64,9 @@ require.config({
     'moment-fr': ['moment'],
     'morris': ['raphael'],
     'sortable': ['jquery'],
-    'todoTpl': ['jquery', 'bootstrap'],
     'validator': ['jquery'],
     'backbone-localStorage': ['backbone'],
+    'jquery-placeholder': ['jquery'],
 
     'Modernizr': {
       'exports': 'Modernizr'

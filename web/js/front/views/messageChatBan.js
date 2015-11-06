@@ -15,7 +15,7 @@ define(function(require) {
 
   MessageChatServer = MessageChatView.extend({
 
-    className: 'lily-msg-server lily-cst-msg-server lily-msg-ban',
+    className: 'msg-server cst-msg-server msg-ban',
     model: Models.ServerMessages,
     template: _.template($('#chat-message-ban').html()),
 

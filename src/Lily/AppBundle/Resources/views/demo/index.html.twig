@@ -10,8 +10,6 @@
 
 {% block stylesheets %}
 
-<link rel="stylesheet" href="{{ asset('build/css/app/demo.css') }}" type="text/css" />
-
   <!--[if lt IE 9]>
     <script src="{{ asset('js/ie/respond.js') }}" cache="false"></script>
     <script src="{{ asset('js/ie/html5.js') }}" cache="false"></script>
@@ -21,6 +19,31 @@
 {% endblock %}
 
 <script src='{{ app.request.getBaseURL() }}/app/snippet/{{licence}}'></script>
+
+<style>
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+    overflow: hidden;
+  }
+
+  .wrapper-site {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding:0;
+    border:0
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    padding:0;
+    border:0
+  }
+</style>
 
 </head>
 <body>

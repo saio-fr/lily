@@ -28,3 +28,4 @@ composer.phar
 composer.lock
 app/SymfonyRequirements.php
 app/check.php
+.sass-cache/*

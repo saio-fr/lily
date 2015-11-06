@@ -29,7 +29,7 @@ config.commonIncludes = [
   'autobahn',
   'when',
   'moment',
-  'todoTpl',
+  'jquery-placeholder',
   'bootstrap',
   'moment-fr',
   'Modernizr',

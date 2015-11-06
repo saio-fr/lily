@@ -1,0 +1,141 @@
+/*******************
+ANIMATIONS
+*******************/
+
+.page-moveToLeft {
+  animation: moveToLeft .6s ease both;
+}
+
+.page-moveFromLeft {
+  animation: moveFromLeft .6s ease both;
+}
+
+.page-moveToRight {
+  animation: moveToRight .6s ease both;
+}
+
+.page-moveFromRight {
+  animation: moveFromRight .6s ease both;
+}
+
+.async-animation {
+  animation: halfFade .3s ease both;
+}
+
+@keyframes halfFade {
+  to {
+    opacity: .5;
+  }
+}
+
+@keyframes showFromBottom {
+  from {
+    transform: translateY(15px);
+    opacity: .5;
+  }
+}
+
+@keyframes bubbleIn {
+  from {
+    transform: scale(.8);
+    opacity: .5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bubbleInSoft {
+  from {
+    transform: scale(.9);
+    opacity: .5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bubbleOutSoft {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(.9);
+    opacity: .5;
+  }
+}
+
+@keyframes bubbleOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(.7);
+    opacity: 0;
+  }
+}
+
+@keyframes moveToLeft {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes moveFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes moveToRight {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes moveFromRight {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animated {
+  animation-duration: .45s;
+  animation-fill-mode: both;
+}
+
+.animated.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+.message-show,
+.msg.message-show {
+  display: block;
+  animation: showFromBottom .3s cubic-bezier(.18, .68, .55, 1.25) both;
+  opacity: 1;
+}
+
+.component-show {
+  display: block;
+  animation: bubbleInSoft .2s cubic-bezier(.32, .87, .58, 1.21) both;
+}
+
+.component-hide {
+  animation: bubbleOutSoft .15s cubic-bezier(0, 1.19, .49, 1.35) both;
+}

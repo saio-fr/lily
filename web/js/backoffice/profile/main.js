@@ -14,10 +14,10 @@ define(['require', '../../common'], function(require) {
   'moment',
 
   // Libraries required at bootstrap for the UI.
-  'todoTpl',
   'bootstrap',
   'moment-fr',
-  'statistics'
+  'statistics',
+  'jquery-placeholder'
 ], function($, _, Backbone, Router, config, app, LiveChat, moment) {
 
     // Set locale in moment JS

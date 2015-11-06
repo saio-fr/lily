@@ -1,0 +1,26 @@
+.btn-menu {
+  position: relative;
+  z-index: 5;
+  display: block;
+  margin-left: 2px;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-sendmsg {
+  position: absolute;
+  right: 5px;
+  bottom: 3px;
+  padding: 8px 7px;
+  color: #545454;
+  border-radius: 2px;
+}
+
+.btn-sendmsg:active,
+.btn-sendmsg:focus {
+  background: white;
+}
+
+.btn-sendmsg:hover {
+  color: #464646;
+}

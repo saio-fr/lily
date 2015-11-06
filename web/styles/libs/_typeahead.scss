@@ -1,0 +1,110 @@
+
+/******************
+Typeahead Styles
+******************/
+
+.lily-search-input,
+.tt-suggestion {
+  position: relative;
+}
+
+.lily-box-messages.tt-overlay {
+  opacity: .2;
+}
+
+.tt-suggestion,
+.empty-suggestion {
+  /*padding: 11px 9px;*/
+  padding: 10px 15px;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.tt-search-loader {
+  position: absolute;
+  right: 15px;
+  top: 11px;
+  fill: #494949;
+}
+
+.tt-pending {
+  padding: 10px 15px;
+  padding-right: 30px;
+  font-size: 15px;
+  line-height: 1.3;
+  position: relative;
+}
+
+.tt-not-found {
+  padding: 10px 15px;
+  font-size: 15px;
+  line-height: 1.3;
+  position: relative;
+  background-color: #F3F3F3;
+}
+
+.tt-not-found-note {
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: solid 1px #D2D2D2;
+  color: #6B6B6B;
+}
+
+.tt-highlight {
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+.tt-suggestion {
+  cursor: pointer;
+  color: #494949;
+}
+
+.tt-suggestion:hover {
+  color: #000000;
+}
+
+.tt-suggestion:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: calc(100% - 30px);
+  height: 1px;
+  margin-right: 15px;
+  background: rgba(136, 136, 136, .3);
+}
+
+.tt-dataset-questions .tt-suggestion:last-child:after {
+  display: none;
+}
+
+.empty-suggestion {
+  cursor: default;
+  color: #a1a1a1;
+  border-top: solid 1px #cecece;
+  border-bottom: none;
+}
+
+.tt-cursor {
+  background-color: rgba(165, 165, 165, .4);
+}
+.twitter-typeahead {
+  width: 100%;
+}
+
+/* Ugliest thing I ever had to write in css... :'( */
+.twitter-typeahead .tt-menu {
+  z-index: 100;
+  top: auto !important;
+  right: -5px;
+  bottom: calc(100% + 8px);
+  left: -13px!important;
+  min-width: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  text-align: left;
+  background: #ffffff;
+  box-shadow: 0 -5px 15px -4px rgba(73, 73, 73, 0.45);
+  border-bottom: solid 1px #DBDBDB;
+}

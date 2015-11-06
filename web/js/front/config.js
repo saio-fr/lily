@@ -23,9 +23,9 @@ define(function(require) {
     APP_NAME: 'frontApp',
 
     loadingTpl:
-      '<div class="lily-msg-avatar lily-cst-msg-avatar lily-msg-loading">' +
+      '<div class="msg-avatar cst-msg-avatar msg-loading">' +
       '<div class="msg-wrapper">' +
-      '<p class="lily-loading">' +
+      '<p class="loading">' +
       '<span></span>' +
       '<span></span>' +
       '<span></span>' +

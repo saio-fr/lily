@@ -1,0 +1,225 @@
+@font-face {
+  font-family: "lily";
+  font-weight: normal;
+  font-style: normal;
+
+  src: url("../font/api/lily.eot?-75mdob");
+  src: url("../font/api/lily.eot?#iefix-75mdob") format("embedded-opentype"),
+  url("../font/api/lily.woff?-75mdob") format("woff"),
+  url("../font/api/lily.ttf?-75mdob") format("truetype"),
+  url("../font/api/lily.svg?-75mdob#lily") format("svg");
+}
+
+.icon {
+  font-family: "lily";
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  speak: none;
+}
+
+.icon-refresh {
+  height: 1em;
+  margin-right: 3px;
+  vertical-align: text-top;
+  opacity: .94;
+  stroke: rgba(206, 206, 206, .28);
+}
+
+/*Avatar icons*/
+.icon-search:before {
+  content: "\e616";
+  display: inline-block;
+  height: 40px;
+  font-size: 22px;
+  line-height: 55px;
+  text-align: center;
+  vertical-align: middle;
+}
+.icon-avatar:before {
+  content: "\e61c";
+  line-height: 45px;
+}
+.icon-conversation:before {
+  content: "\e607";
+  line-height: 45px;
+}
+.icon-faq:before {
+  content: "\e615";
+  line-height: 45px;
+}
+.icon-menu:before {
+  content: "\e618";
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  font-size: 26px;
+  line-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+}
+.icon-chat:before {
+  content: "\e608";
+  font-size: 14px;
+  line-height: 45px;
+}
+.icon-arrow-right:before {
+  content: "\e602";
+  font-size: 12px;
+  line-height: 1;
+}
+.icon-arrow-left:before {
+  content: "\e60b";
+  font-size: 12px;
+}
+.icon-thumb-down:before {
+  content: "\e61d";
+  font-size: 22px;
+}
+.icon-thumb-up:before {
+  content: "\e61e";
+  font-size: 22px;
+}
+
+.icon-arrow-down:before {
+  content: "\e600";
+}
+
+.icon-arrow-left:before {
+  content: "\e601";
+}
+
+.icon-arrow-right:before {
+  content: "\e602";
+}
+
+.icon-arrow-up:before {
+  content: "\e603";
+}
+
+.icon-emoji-flirt:before {
+  content: "\e604";
+}
+
+.icon-attachment:before {
+  content: "\e605";
+}
+
+.icon-bar-graph:before {
+  content: "\e606";
+}
+
+.icon-conversation:before {
+  content: "\e607";
+}
+
+.icon-check:before {
+  content: "\e608";
+}
+
+.icon-parameters:before {
+  content: "\e609";
+}
+
+.icon-cross:before {
+  content: "\e60a";
+}
+
+.icon-refresh:before {
+  content: "\e60b";
+}
+
+.icon-emoji-happy:before {
+  content: "\e60c";
+}
+
+.icon-emoji-neutral:before {
+  content: "\e60d";
+}
+
+.icon-emoji-sad:before {
+  content: "\e60e";
+}
+
+.icon-flash:before {
+  content: "\e60f";
+}
+
+.icon-heart-outlined:before {
+  content: "\e610";
+}
+
+.icon-heart:before {
+  content: "\e611";
+}
+
+.icon-help:before {
+  content: "\e612";
+}
+
+.icon-home:before {
+  content: "\e613";
+}
+
+.icon-light-bulb:before {
+  content: "\e614";
+}
+
+.icon-list:before {
+  content: "\e615";
+}
+
+.icon-search:before {
+  content: "\e616";
+}
+
+.icon-mail:before {
+  content: "\e617";
+}
+
+.icon-menu:before {
+  content: "\e618";
+}
+
+.icon-message:before {
+  content: "\e619";
+}
+
+.icon-minus:before {
+  content: "\e61a";
+}
+
+.icon-phone:before {
+  content: "\e61b";
+}
+
+.icon-thumb-down:before {
+  content: "\e61d";
+}
+
+.icon-thumb-up:before {
+  content: "\e61e";
+}
+
+.icon-typing:before {
+  content: "\e61f";
+}
+
+.icon-unread:before {
+  content: "\e620";
+}
+
+.icon-radio-checked:before {
+  content: "\ea54";
+}
+
+.icon-radio-unchecked:before {
+  content: "\ea56";
+}

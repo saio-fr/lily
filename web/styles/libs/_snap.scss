@@ -1,0 +1,46 @@
+/*********************
+SNAP.JS
+*********************/
+
+.snap-content {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  overflow: auto;
+  overflow-x: hidden;
+  border-radius: 10px;
+/*  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+      -ms-backface-visibility: hidden;*/
+// Seems to be causing a bug when transitioning iframe wrapper
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-drawer {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: auto;
+  width: 230px;
+  height: auto;
+  overflow: auto;
+}
+
+.snap-drawer-left {
+  z-index: 1;
+  left: 0;
+}
+
+.snapjs-left .snap-drawer-right {
+  display: none;
+}
+
+.snapjs-expand-left .snap-drawer-left {
+  width: 100%;
+}

@@ -1,22 +1,22 @@
-<div class="lily-page-cont"> <!--wrapper page les différentes pages-->
-	<section class="lily-main-content">
-	  <div class="lily-contact-form lily-cst-contact-form">
-	    <h5 class="lily-contact-form-title">{{ config.chat.contactFormMsg }}</h5>
+<div class="page-cont"> <!--wrapper page les différentes pages-->
+	<section class="main-content">
+	  <div class="contact-form cst-contact-form">
+	    <h5 class="contact-form-title">{{ config.chat.contactFormMsg }}</h5>
 	    {% if config.chat.contactLastNameField %}
-		<p class="lily-contact-form-label">Nom: <label class="lastname" style="display:none">Ce champ ne peut pas être vide.</label></p>
-		<input id="lastname" class="lily-cst-form-color" type="text" name="lastname" placeholder="Votre Nom" size="30"/>
+		<p class="contact-form-label">Nom: <label class="lastname" style="display:none">Ce champ ne peut pas être vide.</label></p>
+		<input id="lastname" class="cst-form-color" type="text" name="lastname" placeholder="Votre Nom" size="30"/>
 		{% endif %}
 		{% if config.chat.contactFirstNameField %}
-		<p class="lily-contact-form-label">Prénom: <label class="firstname" style="display:none">Ce champ ne peut pas être vide.</label></p>
-		<input id="firstname" class="lily-cst-form-color" type="text" name="firstname" placeholder="Votre Prénom" size="30"/>
+		<p class="contact-form-label">Prénom: <label class="firstname" style="display:none">Ce champ ne peut pas être vide.</label></p>
+		<input id="firstname" class="cst-form-color" type="text" name="firstname" placeholder="Votre Prénom" size="30"/>
 		{% endif %}
 		{% if config.chat.contactEmailField %}
-		<p class="lily-contact-form-label">Email: <label class="email" style="display:none">Ce champ ne peut pas être vide.</label></p>
-	    <input id="email" class="lily-cst-form-color" type="text" name="email" placeholder="Votre Email" size="30"/>
+		<p class="contact-form-label">Email: <label class="email" style="display:none">Ce champ ne peut pas être vide.</label></p>
+	    <input id="email" class="cst-form-color" type="text" name="email" placeholder="Votre Email" size="30"/>
 	    {% endif %}
-		<button class="js-submit-welcome-form lily-btn-submit-color" class="button">Commencer la discussion</button>
+		<button class="js-submit-welcome-form btn-submit-color" class="button">Commencer la discussion</button>
 		{% if config.chat.contactFormAvoidable %}
-			<a href="javascript:;" class="lily-skip-link">Aller directement au chat</a>
+			<a href="javascript:;" class="skip-link">Aller directement au chat</a>
 	  {% endif %}
 	  </div>
 	</section>

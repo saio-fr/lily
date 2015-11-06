@@ -23,6 +23,8 @@ define(function(require) {
     app = {
 
       init: function(callback) {
+        app.setupDom();
+
         app.setAjaxConfig();
 
         // Register unique user with session Id & ip
@@ -267,6 +269,14 @@ define(function(require) {
       //////////////////////
       // DOM Event Handlers
       //////////////////////
+
+      setupDom: function() {
+
+        // placeholders use jquery-placeholder
+        $('input[placeholder], textarea[placeholder]')
+          .placeholder();
+
+      },
 
       onSetAvailability: function(availability) {
         var status = _.isObject(availability) ? availability.data.status : availability;

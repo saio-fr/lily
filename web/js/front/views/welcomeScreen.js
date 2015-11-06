@@ -19,11 +19,11 @@ define(function(require) {
 
     events: {
       'click .js-submit-welcome-form': 'chat',
-      'click .lily-skip-link': 'chat',
+      'click .skip-link': 'chat',
     },
 
     model: Models.Mail,
-    template: _.template($('#lily-page-chat-welcome-screen').html()),
+    template: _.template($('#page-chat-welcome-screen').html()),
 
     initialize: function() {
 
@@ -33,7 +33,7 @@ define(function(require) {
       this.errors.email = false;
       $(this.render({
         page: true
-      }).el).appendTo('#lily-wrapper-page');
+      }).el).appendTo('#wrapper-page');
     },
 
     render: function() {

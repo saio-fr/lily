@@ -30,8 +30,8 @@ define(function(require) {
       var that = this;
 
       this.$el
-        .find('.lily-page-cont')
-        .addClass('lily-page')
+        .find('.page-cont')
+        .addClass('page')
         .find('a')
         .on('touch click', function(ev) {
           /* On regarde data-transition et data-reverse sur le lien cliqué*/
@@ -48,12 +48,12 @@ define(function(require) {
 
     transitionIn: function(previous, transition, reverse, callback) {
       var that = this,
-        $nextPage = that.$el.find('.lily-page-cont'),
-        $currPage = (previous) ? previous.$el.find('.lily-page-cont') : null,
+        $nextPage = that.$el.find('.page-cont'),
+        $currPage = (previous) ? previous.$el.find('.page-cont') : null,
 
-        // inClass = reverse !== 'true' ? 'lily-page-moveFromRight ' : 'lily-page-moveFromLeft ',
+        // inClass = reverse !== 'true' ? 'page-moveFromRight ' : 'page-moveFromLeft ',
         inClass = reverse !== 'true' ? 'fadeInUp ' : 'fadeInUp ',
-        visible = 'lily-page-visible',
+        visible = 'page-visible',
         data = {
           $currPage: $currPage,
           $nextPage: $nextPage,
@@ -88,8 +88,8 @@ define(function(require) {
 
     transitionOut: function(transition, reverse, callback) {
       var that = this,
-        $currPage = that.$el.find('.lily-page-cont'),
-        outClass = reverse !== 'true' ? 'lily-page-moveToLeft' : 'lily-page-moveToRight',
+        $currPage = that.$el.find('.page-cont'),
+        outClass = reverse !== 'true' ? 'page-moveToLeft' : 'page-moveToRight',
         data = {
           $currPage: $currPage,
           outClass: outClass,
@@ -109,8 +109,8 @@ define(function(require) {
       }
 
       data.previous.$el
-        .find('.lily-page-cont')
-        .removeClass('lily-page-visible');
+        .find('.page-cont')
+        .removeClass('page-visible');
 
       data.previous.remove();
 
@@ -118,7 +118,7 @@ define(function(require) {
     },
 
     whileTransitioning: function() {
-      $('.lily-page a').on('click', this.preventLinkClicks);
+      $('.page a').on('click', this.preventLinkClicks);
     },
 
     preventLinkClicks: function(event) {
@@ -126,7 +126,7 @@ define(function(require) {
     },
 
     stopLinksClickPreventing: function() {
-      $('.lily-page a').off('click', this.preventLinkClicks);
+      $('.page a').off('click', this.preventLinkClicks);
     }
 
   });

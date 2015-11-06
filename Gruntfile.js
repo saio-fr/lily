@@ -197,6 +197,42 @@ module.exports = function(grunt) {
       }
     },
 
+    sass: {
+      dev: {
+        options: {
+          style: 'expanded',
+          cacheLocation: '.sass-cache',
+          loadPath: [
+            'web/styles',
+            'web/styles/libs',
+            'web/styles/utils',
+            'web/styles/backoffice',
+            'web/styles/backoffice/components',
+            'web/styles/front',
+          ]
+        },
+        files: {
+          'web/build/css/front/main.css': 'web/styles/front/main.scss',
+        }
+      },
+      build: {
+        options: {
+          noCache: true,
+          loadPath: [
+            'web/styles',
+            'web/styles/libs',
+            'web/styles/utils',
+            'web/styles/backoffice',
+            'web/styles/backoffice/components',
+            'web/styles/front',
+          ]
+        },
+        files: {
+          'web/build/css/front/main.css': 'web/styles/front/main.scss',
+        }
+      }
+    },
+
     // Let's not use css tasks for now, until we have
     // a proper build folder for assets (images, fonts, css && js)
     cssmin: {
@@ -371,12 +407,14 @@ module.exports = function(grunt) {
           'web/js/loader/**/*.js',
           'web/js/widget/**/*.js',
           'web/css/**/*.css',
+          'web/styles/**/*.scss',
         ],
         tasks: [
           'webpack:loader',
           'webpack:widget',
           'uglify:loader',
           'cssmin:compile',
+          'sass:dev',
         ],
         options: {
           spawn: false,
@@ -393,6 +431,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-webpack');
@@ -468,7 +507,6 @@ module.exports = function(grunt) {
     'jshint:loader',
     'webpack:widget',
     'cssmin:compile',
-    'copy:fonts',
     'watch',
   ]);
 
@@ -480,7 +518,8 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('devCss', [
-    'cssmin:compile',
+    'sass:dev',
+    'autoprefixer',
     'watch',
   ]);
 
@@ -491,6 +530,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', [
     'karma:build',
     'cssmin:compile',
+    'sass:dev',
     'cacheBust',
     'devSnippet',
     'webpack:widget',
@@ -504,6 +544,7 @@ module.exports = function(grunt) {
     'requireMulti',
     'copy:fonts',
     'cssmin:compile',
+    'sass:build',
     'autoprefixer',
     'cacheBust',
     'buildSnippet',

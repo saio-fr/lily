@@ -17,9 +17,9 @@ var _ = require('underscore'),
 
 MessageLilyCompletion = MessageView.extend({
 
-	className: 'lily-msg lily-msg-avatar lily-msg-reporting lily-cst-msg-reporting',
+	className: 'msg msg-avatar msg-reporting cst-msg-reporting',
 	model: Models.LilyCompletion,
-	template: _.template($('#lily-message-completion').html()),
+	template: _.template($('#message-completion').html()),
 
 	initialize: function () {
 		this.listenTo(this, 'render', this.triggerCompletion);
@@ -28,13 +28,13 @@ MessageLilyCompletion = MessageView.extend({
 	triggerCompletion: function () {
 
 		var view = this;
-		this.$('.lily-precision-list').on( 'click', function() {
+		this.$('.precision-list').on( 'click', function() {
 			var id = view.model.get('id');
 
-			if ( $(this).hasClass('lily-completion-incomplete') ) {
+			if ( $(this).hasClass('completion-incomplete') ) {
 				app.trigger('satisfied', id, 'false', 'incomplete', view);
 			}
-			if ( $(this).hasClass('lily-completion-incorrect') ) {
+			if ( $(this).hasClass('completion-incorrect') ) {
 				app.trigger('satisfied', id, 'false', 'incorrect', view);
 			}
 			else  {

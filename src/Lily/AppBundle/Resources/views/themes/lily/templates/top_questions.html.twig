@@ -1,12 +1,12 @@
-<div class="lily-page-cont"> <!--wrapper page les différentes pages-->
-				<section class="lily-main-content">
+<div class="page-cont"> <!--wrapper page les différentes pages-->
+				<section class="main-content">
 				<ul>
 				{%verbatim%}
 				<% if ( data !== 'NULL' ) {
 					_.each(data, function(question) { %>{%endverbatim%}
-						<li class="lily-faq-link lily-cst-faq-link">
+						<li class="faq-link cst-faq-link">
 							<a href="#/top-questions/<%=question.question.id%>" target="_self"><%=question.question.title%></a>
-							<span class="lily-icon lily-icon-arrow-right"></span>
+							<span class="icon icon-arrow-right"></span>
 						</li>
 						{%verbatim%}
 					<% }); %>

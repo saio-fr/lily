@@ -17,13 +17,13 @@ define(function(require) {
 
   MessageChatOperator = Backbone.View.extend({
 
-    className: 'lily-msg lily-msg-chat-notation lily-msg-server',
+    className: 'msg msg-chat-notation msg-server',
     model: Models.ChatMessage,
     template: _.template($('#chat-message-notation').html()),
 
     events: {
-      'click .lily-icon-thumb-up': 'satisfaction',
-      'click .lily-icon-thumb-down': 'satisfaction'
+      'click .icon-thumb-up': 'satisfaction',
+      'click .icon-thumb-down': 'satisfaction'
     },
 
     initialize: function() {
@@ -33,7 +33,7 @@ define(function(require) {
     render: function() {
 
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('.lily-box-messages');
+      this.$el.appendTo('.box-messages');
       this.trigger('render');
       return this;
     },
@@ -43,13 +43,13 @@ define(function(require) {
       var target = $(ev.target),
         satisfaction;
 
-      $('.lily-msg-chat-notation i').removeClass('active');
+      $('.msg-chat-notation i').removeClass('active');
 
-      if (target.hasClass('lily-icon-thumb-up')) {
-        this.$el.find('.lily-icon-thumb-up').addClass('active');
+      if (target.hasClass('icon-thumb-up')) {
+        this.$el.find('.icon-thumb-up').addClass('active');
         satisfaction = true;
       } else {
-        this.$el.find('.lily-icon-thumb-down').addClass('active');
+        this.$el.find('.icon-thumb-down').addClass('active');
         satisfaction = false;
       }
 

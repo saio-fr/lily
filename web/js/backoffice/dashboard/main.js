@@ -13,8 +13,8 @@ define(['require', '../../common'], function(require) {
     'components/chat/main',
 
     'bootstrap',
-    'todoTpl',
-    'moment-fr'
+    'moment-fr',
+    'jquery-placeholder'
   ], function($, _, Backbone, config, app, moment, SkeletonView, LiveChat) {
 
     // Set locale in moment JS

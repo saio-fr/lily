@@ -12,7 +12,7 @@ define(function(require) {
 
   ChatEmptyView = Backbone.View.extend({
 
-    className: 'lily-empty-wrapper lily-chat-empty-wrapper',
+    className: 'empty-wrapper chat-empty-wrapper',
     template: _.template($('#chat-empty').html()),
 
     initialize: function() {
@@ -21,7 +21,7 @@ define(function(require) {
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
-      this.$el.appendTo('#chat-box-messages');
+      this.$el.appendTo('.box-messages');
       return this;
     },
   });

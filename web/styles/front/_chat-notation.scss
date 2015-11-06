@@ -1,0 +1,36 @@
+
+.chat-notation {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 11px;
+  font-style: normal;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+.msg-chat-notation {
+  text-align: center;
+}
+
+.msg-chat-notation .chat-notation:first-child {
+  margin-left: 0;
+}
+
+.icon-thumb-up,
+.icon-thumb-down {
+  color: #9b9b9b;
+}
+
+.icon-thumb-down {
+  margin-left: 3px;
+}
+
+.icon-thumb-up.active,
+.icon-thumb-down.active {
+  color: #333333;
+}
