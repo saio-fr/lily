@@ -95,10 +95,10 @@ module.exports = (function() {
       });
     },
 
-    'app.isChatReady': function() {
+    'app.isChatAvailable': function() {
       var lily = mediator.getRegisteredApp('lily');
-      var chatReady = lily.getState('activeRoute') === 'chat';
-      return chatReady;
+      var chatAvailable = lily.getState('activeRoute') === 'chat';
+      return chatAvailable;
     },
 
     'api.onChatSessionStart':   'onChatSessionStart',
