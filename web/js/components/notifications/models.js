@@ -19,6 +19,7 @@ define(function(require) {
       count: 0,
       countTitle: config.notifications.countTitle(0)
     },
+
     initialize: function() {
       this.listenTo(this, 'change:count', this.uptateTitle);
     },

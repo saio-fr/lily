@@ -1,35 +1,36 @@
 
 	<section class="scrollable wrapper">
 		<ul class="conversation-section-list">
-			
+
 			<% _.each(messages, function(item) {
-				
-					switch(item.from) { 
+
+					switch(item.from) {
 						case 'server': %>
-						
+
 						  <li class="conversation-section-item">
-						
+
 							<% switch(item.action) {
 								case 'startChat': %>
-								
-									<p class="msg-server">Conversation commencée le 
-										<%= moment(item.date*1000).format('DD MMMM') %> à 
+
+									<p class="msg-server">Conversation commencée le
+										<%= moment(item.date*1000).format('DD MMMM') %> à
 										<%= moment(item.date*1000).format('HH:mm') %>
 								  </p>
                   <% break;
-                  
-								case 'transfered': %>
-									<p class="msg-server">Conversation transférée le 
-                    <%= moment(item.date*1000).format('DD MMMM') %> à 
-                    <%= moment(item.date*1000).format('HH:mm') %>
+
+								case 'transfer': %>
+									<p class="msg-server">Conversation transférée le
+                    <%= moment(item.date*1000).format('DD MMMM') %> à
+                    <%= moment(item.date*1000).format('HH:mm') %> par
+                    <%= item.transfer_from.firstname || '' %> <%= item.transfer_from.lastname || '' %>
                   </p>
                   <% break; %>
-                  
-                </li>  
-                
+
+                </li>
+
 							<% }
 							break;
-							
+
 						case 'operator': %>
 						  <li class="conversation-section-item item-operator">
   							<div class="msg-operator">
@@ -40,7 +41,7 @@
   						  </div>
   						</li>
 						  <% break;
-							
+
 						case 'visitor': %>
 						  <li class="conversation-section-item item-visitor">
   							<div class="msg-visitor">
@@ -51,11 +52,11 @@
                 </div>
               </div>
               <% break;
-						
+
 					} %>
 				</li>
-				
+
 			<% }); %>
-			
+
 		</ul>
 	</section>

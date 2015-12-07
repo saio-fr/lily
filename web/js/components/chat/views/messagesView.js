@@ -69,6 +69,6 @@ define(function(require) {
       });
     }
   });
-  
+
   return Messages;
 });

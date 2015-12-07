@@ -7,7 +7,13 @@ LIVE CHAT
 }
 
 .conversation-section-item .avatar-thumb {
-  height: 36px;
+  height: 22px;
+  border-radius: 100%;
+  border: solid 1px rgba(206, 206, 206, .4);
+  overflow: hidden;
+  width: 22px;
+  max-height: 100%;
+  background: #fff;
 }
 
 .operator-connected-list .thumb-sm {
@@ -712,7 +718,7 @@ LIVE CHAT
   display: block;
 }
 
-.conversation-section-item div.msg-visitor .date {
+.conversation-section-item .date {
   font-size: 9px;
   font-weight: 300;
   color: #a0a0a0;
@@ -738,7 +744,7 @@ LIVE CHAT
 }
 
 .msg-with-avatar {
-  margin-right: 30px;
+  margin-right: 5px;
   border-right: 0 !important;
 }
 

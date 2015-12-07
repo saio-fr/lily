@@ -1,5 +1,5 @@
 //Load common code that includes config, then load the app logic for this page.
-define(['require', '../../common'], function(require) {
+define(['require', '../../common.js'], function(require) {
 
   'use strict';
 
