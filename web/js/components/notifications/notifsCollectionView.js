@@ -47,7 +47,7 @@ define(function(require) {
       this.listenTo(app, 'conversation:stateChange', this.onConversationStateChange);
       this.listenTo(app, 'conversation:stopFollow',  this.onConversationStopFollow);
       this.listenTo(app, 'conversation:selected',    this.onConversationSelected);
-      this.listenTo(app, 'notification:click',       this.onNotificationClicked);
+      this.listenTo(app, 'conversation:transfered',  this.onConversationTransfered);
 
       // Create a child view container
       this.childViews = new Backbone.ChildViewContainer();
@@ -66,14 +66,6 @@ define(function(require) {
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.prependTo(container);
 
-      // Create and render children views (notification views):
-      if (this.notifs && this.notifs.length > 0) {
-
-        this.notifs.each(function(item) {
-          that.addChildView(item);
-        });
-      }
-
       return this;
     },
 
@@ -84,7 +76,6 @@ define(function(require) {
     onConversationStateChange: function(notif) {
 
       var model;
-      var relatedNotification = this.notifs.get(notif.id);
       var title = notif.state === "urgent" ?
         "messageUrgent" : "messageUnAnswered";
 
@@ -106,6 +97,16 @@ define(function(require) {
         name: notif.name,
       };
 
+      this.saveNotification(model);
+    },
+
+    onConversationTransfered: function(model) {
+      this.saveNotification(model);
+    },
+
+    saveNotification: function(model) {
+      var relatedNotification = this.notifs.get(model.id);
+
       // If state and msg are the same as a precedent notification,
       // don't create a new one:
       if (this.isSeen(model)) {
@@ -123,29 +124,6 @@ define(function(require) {
 
       // Create a new notification:
       this.notifs.add(model, {merge: true});
-    },
-
-    // Create a new notification child view:
-    addChildView: function(model) {
-
-      if (!model) { return; }
-      var view = new NotifView({model: model}).render();
-
-      this.childViews.add(view);
-      return view;
-    },
-
-    // remove an existing notification child view,
-    // update the notification count:
-    removeChildView: function(view) {
-
-      if (view) {
-        view.remove();
-        this.stopListening(view);
-        this.childViews.remove(view);
-      }
-
-      return view;
     },
 
     // Update the notification count in the parent model
@@ -173,26 +151,10 @@ define(function(require) {
       }
     },
 
-    // Remove the notification view when the model is removed
+    // Update nofis count when the model is removed
     // from the notifs collection
     onCollectionRemove: function(model) {
-      var view = this.childViews.findByModel(model);
-      this.removeChildView(view);
       this.model.set('count', this.notifs.length);
-    },
-
-    // NOT USED FOR NOW:
-    // When a notification was clicked, show the relevant conversation
-    // and set the notification as seen:
-    onNotificationClicked: function(id) {
-      var model = this.notifs.get(id);
-
-      if (model.get('type') === "queued") {
-        app.trigger('conversation:setCurrent', id, model);
-      } else {
-        app.trigger('conversation:select', id, model);
-      }
-      this.processSeen(model);
     },
 
     // When a conversation was seen, set the relevant notification
@@ -218,8 +180,9 @@ define(function(require) {
       var prev = this.getPreviousState(id);
 
       return (prev &&
-              prev.state === notif.state &&
-              prev.msg   === notif.msg &&
+              prev.state         === notif.state &&
+              prev.msg           === notif.msg &&
+              prev.wasTransfered === notif.wasTransfered &&
               prev.seen);
     },
 

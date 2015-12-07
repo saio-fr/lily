@@ -18,7 +18,7 @@ define(function (require) {
 
     sortCriteria : 'start',
     url: function () {
-      return '/statistics/user/'+g.userId+'/history/chats/'+this.start+'/'+this.end;
+      return '/statistics/user/' + g.userId + '/history/chats/' + this.start + '/' + this.end;
     },
 
     initialize: function () {
@@ -31,7 +31,7 @@ define(function (require) {
   			case 'start':
   			  return -moment(item.get('start')).unix();
         case 'duration':
-          return moment(item.get('start')).unix()-moment(item.get('end')).unix();
+          return moment(item.get('start')).unix() - moment(item.get('end')).unix();
         default:
           return -item.get(this.sortCriteria);
   		}
