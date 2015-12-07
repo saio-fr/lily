@@ -9,27 +9,29 @@ define(function(require) {
   // Require CommonJS like includes
   var app = require('backoffice/app'),
       _ = require('underscore');
-    
+
   return {
 
     status: function() {
       var messages = this.model.get('messages'),
           msgLength = messages.length,
-          lastMsg = messages[msgLength - 1];  
+          lastMsg = messages[msgLength - 1];
 
       var visitorMsgCount = _.filter(messages, function(msg) {
         return msg.from === 'visitor';
       }).length;
 
       // Test if status is unanswered
-      if (visitorMsgCount > 0 && lastMsg.from === 'visitor' && 
+      if (visitorMsgCount > 0 && lastMsg.from === 'visitor' &&
         this.model.get("status") !== 'urgent') {
-        
+
         this.changeStatus(this.model, 'unanswered');
-      } else if (lastMsg.from === 'operator' || lastMsg.from === 'server') {
+      } else if (lastMsg.from === 'operator' || (lastMsg.from === 'server' && lastMsg.action !== 'transfer')) {
         this.changeStatus(this.model, 'answered');
       } else if (this.model.get("status") === 'urgent') {
         this.changeStatus(this.model, 'urgent');
+      } else if (lastMsg.from === 'server' && lastMsg.action === 'transfer') {
+        this.onConversationTranfered(lastMsg);
       }
     },
 
@@ -37,7 +39,7 @@ define(function(require) {
       var $stateSign = this.$el.find('.status');
 
       switch (status) {
-        case "answered": 
+        case "answered":
           $stateSign
             .removeClass('urgent')
             .removeClass('unanswered')
@@ -56,7 +58,7 @@ define(function(require) {
             .addClass('urgent');
           break;
 
-        default: 
+        default:
           return;
       }
     },
@@ -66,7 +68,7 @@ define(function(require) {
 
       this.changeStatusSign(status);
       this.model.set('status', status);
-      
+
       this.onStatusChange(status);
     },
 
@@ -87,10 +89,24 @@ define(function(require) {
       function truncate(string) {
         if (string.length > 60) {
           return string.substring(0, 60) + '...';
-        } 
+        }
         return string;
       }
 
+    },
+
+    onConversationTranfered: function(transferMsg) {
+      if (transferMsg.transfer_to.id !== this.model.get('operator')) {
+        return;
+      }
+
+      app.trigger('conversation:transfered', {
+        id: this.model.get('id'),
+        date: this.model.get('lastMsgTime'),
+        type: this.model.get('operator') ? 'current' : 'queued',
+        name: this.model.get('name'),
+        wasTransfered: true
+      });
     },
 
   };

@@ -10,6 +10,7 @@ define(function(require) {
   var Backbone = require('backbone'),
     app = require('backoffice/app'),
     _ = require('underscore'),
+    moment = require('moment'),
     config = require('config'),
     ChildViewContainer = require('utils/backbone-childviewcontainer'),
     Collections =        require('components/chat/data/collections'),
@@ -137,6 +138,24 @@ define(function(require) {
           break;
 
         case 'server':
+          var date = moment(msg.get('date') * 1000);
+          var action = msg.get('action');
+          var message = '';
+
+          if (action === 'startChat') {
+            message = 'Conversation commencée le ' + date.format('DD MMMM') + ' à ' + date.format('HH:mm');
+          } else if (action === 'transfer') {
+            var firstName = msg.get('transfer_from').firstname;
+            var lastName = msg.get('transfer_from').lastName;
+
+            message = 'Conversation transférée le ' + date.format('DD MMMM') + ' à ' + date.format('HH:mm') +
+            (firstName ? ' par ' + firstName : '') + (lastName ? ' ' + lastName : '');
+          } else {
+            return;
+          }
+
+          msg.set('msg', message);
+
           view = new MessagesView.Server({
             model: msg
           }).render(conversations);

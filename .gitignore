@@ -14,6 +14,7 @@
 /web/css/compiled
 node_modules
 node_modules/*/node_modules
+bower_components
 web/build/js/
 /build/
 compiled

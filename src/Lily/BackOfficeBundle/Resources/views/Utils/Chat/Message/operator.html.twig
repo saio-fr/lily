@@ -1,14 +1,9 @@
-<% if (operator && operator.id != userId) { %>
-    <span class="pull-left thumb-sm img-circle">
+
+    <span class="pull-right img-circle">
       <img src="<%= operator.avatar %>" alt="avatar" class="avatar-thumb">
     </span>
     <div class="msg-operator msg-with-avatar">
       <%= msg %>
-      <span class="date"><%= moment(date*1000).format('HH:mm') %></span>
+      <div class="date"><%= moment(date*1000).format('HH:mm') %></div>
     </div>
-<% } else { %>
-    <div class="msg-operator">
-      <%= msg %>
-      <span class="date"><%= moment(date*1000).format('HH:mm') %></span>
-    </div>
-<% } %>
+
