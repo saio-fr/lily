@@ -1,4 +1,4 @@
-define(['require', '../../common.js'], function(require) {
+define(['require', '../../common'], function(require) {
 
   'use strict';
 
