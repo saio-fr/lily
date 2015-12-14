@@ -66,7 +66,7 @@ define(function(require) {
       return when(ab.connect(
 
         // The host
-        'ws://' + config.ws.host + '/chat/' + config.licence,
+        config.ws.protocol + config.ws.host + '/chat/' + config.licence,
 
         function onconnect(session) { // Once the connection has been established
 
