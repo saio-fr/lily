@@ -44,8 +44,6 @@ define(function(require) {
         return console.error('unable to generate uniqid for saio');
       }
 
-      app.onAppLoad();
-
       if (config.standaloneMode) {
         app.wsConnect(function(result) {
           app.bootstrap();
@@ -57,6 +55,8 @@ define(function(require) {
           });
         });
       }
+
+      app.onAppLoad();
 
       app.registerVisitorProperties();
     },
@@ -135,7 +135,7 @@ define(function(require) {
       // First connection to the ws server didn't happen yet
       // Delay calls to the ws server
       if (!app.ws) {
-        return app.listenTo('ws:connected', function() {
+        return app.once('ws:connected', function() {
           // Call again
           app.call.apply(app, args);
         });
