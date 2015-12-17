@@ -1,12 +1,12 @@
 var _        = require('underscore');
 var Backbone = require('backbone');
-Backbone.LocalStorage = require("../../libs/backbone-localstorage");
+Backbone.LocalStorage = require('../../libs/backbone-localstorage');
 
 var config = window.config;
 
 var widgetModel = Backbone.Model.extend({
 
-  localStorage: new Backbone.LocalStorage("widgetModel"),
+  localStorage: new Backbone.LocalStorage('widgetModel-' + config.licence),
 
   defaults: {
     // General rules
