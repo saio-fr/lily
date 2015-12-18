@@ -1046,7 +1046,7 @@
             },
             showWidget: function(options) {
                 var lily = mediator.getRegisteredApp("lily");
-                if (this.getState("shown")) {
+                if (this.getState("shown") || mediator.widgetHiddenFromApi && !mediator.widgetShownFromApi) {
                     return;
                 }
                 if (lily.getState("ready")) {
@@ -1103,21 +1103,25 @@
                 mediator.trigger("widget.show", {
                     apiTriggered: true
                 });
+                mediator.widgetShownFromApi = true;
             },
             "widget.hide": function() {
                 mediator.trigger("widget.hide", {
                     apiTriggered: true
                 });
+                mediator.widgetHiddenFromApi = true;
             },
             "box.expand": function() {
                 mediator.trigger("lily.expand", {
                     apiTriggered: true
                 });
+                mediator.boxShownFromApi = true;
             },
             "box.shrink": function() {
                 mediator.trigger("lily.shrink", {
                     apiTriggered: true
                 });
+                mediator.boxHiddenFromApi = true;
             },
             "widget.onShow": function(callback) {
                 if (_.isFunction(callback)) {
@@ -1150,10 +1154,10 @@
                     }
                 });
             },
-            "app.isChatReady": function() {
+            "app.isChatAvailable": function() {
                 var lily = mediator.getRegisteredApp("lily");
-                var chatReady = lily.getState("activeRoute") === "chat";
-                return chatReady;
+                var chatAvailable = lily.getState("activeRoute") === "chat";
+                return chatAvailable;
             },
             "api.onChatSessionStart": "onChatSessionStart",
             "api.onAviSessionStart": "onAviSessionStart",

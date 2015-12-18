@@ -42,18 +42,22 @@ module.exports = (function() {
     // Widget & iframe show/hide events
     'widget.show': function() {
       mediator.trigger('widget.show', { apiTriggered: true });
+      mediator.widgetShownFromApi = true;
     },
 
     'widget.hide': function() {
       mediator.trigger('widget.hide', { apiTriggered: true });
+      mediator.widgetHiddenFromApi = true;
     },
 
     'box.expand': function() {
       mediator.trigger('lily.expand', { apiTriggered: true });
+      mediator.boxShownFromApi = true;
     },
 
     'box.shrink': function() {
       mediator.trigger('lily.shrink', { apiTriggered: true });
+      mediator.boxHiddenFromApi = true;
     },
 
     'widget.onShow': function(callback) {
