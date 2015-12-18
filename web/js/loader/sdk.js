@@ -41,23 +41,23 @@ module.exports = (function() {
   var apiMethods = {
     // Widget & iframe show/hide events
     'widget.show': function() {
-      mediator.trigger('widget.show', { apiTriggered: true });
       mediator.widgetShownFromApi = true;
+      mediator.trigger('widget.show', { apiTriggered: true });
     },
 
     'widget.hide': function() {
-      mediator.trigger('widget.hide', { apiTriggered: true });
       mediator.widgetHiddenFromApi = true;
+      mediator.trigger('widget.hide', { apiTriggered: true });
     },
 
     'box.expand': function() {
-      mediator.trigger('lily.expand', { apiTriggered: true });
       mediator.boxShownFromApi = true;
+      mediator.trigger('lily.expand', { apiTriggered: true });
     },
 
     'box.shrink': function() {
-      mediator.trigger('lily.shrink', { apiTriggered: true });
       mediator.boxHiddenFromApi = true;
+      mediator.trigger('lily.shrink', { apiTriggered: true });
     },
 
     'widget.onShow': function(callback) {
