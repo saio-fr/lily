@@ -212,6 +212,8 @@ module.exports = function() {
     onExpand: function(options) {
       var firstOpen = this.getState('firstOpen');
 
+      if (mediator.boxHiddenFromApi && !mediator.boxShownFromApi) { return; }
+
       // If the app should be opened in standalone mode (new tab,
       // currently only for mobile devices), don't show the app in this window
       if (!this.shouldOpenStandalone) {

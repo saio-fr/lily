@@ -195,7 +195,7 @@ module.exports = function() {
     showWidget: function(options) {
       var lily = mediator.getRegisteredApp('lily');
 
-      if (this.getState('shown')) {
+      if (this.getState('shown') || mediator.widgetHiddenFromApi && !mediator.widgetShownFromApi) {
         return;
       }
 
